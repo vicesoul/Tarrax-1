@@ -775,4 +775,19 @@ module ApplicationHelper
     uri = 'http://' + uri if noSchemeName
     uri
   end
+
+  def include_kaltura_html5_player_js
+    config = Kaltura::ClientV3.config
+    return nil unless config
+
+    javascript_include_tag("http://#{config['domain']}/p/#{config['partner_id']}/sp/#{config['partner_id']}00/embedIframeJs/uiconf_id/#{config['player_ui_conf']}/partner_id/#{config['partner_id']}")
+  end
+
+  def kaltura_info_tag
+    config = Kaltura::ClientV3.config
+    return nil unless config
+
+    content_tag(:div, '', :id => 'kaltura-info', 'data-domain' => config['domain'], 'data-partner_id' => config['partner_id'],
+      'data-player_ui_conf' => config['player_ui_conf'], 'style' => 'display: none;')
+  end
 end
