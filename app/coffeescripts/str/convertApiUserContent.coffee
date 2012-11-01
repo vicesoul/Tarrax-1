@@ -11,9 +11,12 @@ define [
     $dummy.find('video.instructure_inline_media_comment,audio.instructure_inline_media_comment').replaceWith ->
       $node = $("<a id='media_comment_#{$(this).data('media_comment_id')}'
             data-media_comment_type='#{$(this).data('media_comment_type')}'
+            href='/media_objects/#{$(this).data('media_comment_id')}'
             class='instructure_inline_media_comment' />")
+      # add 'href' attr to A tag  2012-10-31 rupert
       $node.html $(this).html()
       $node
+
 
     # remove any embed tags inside an object tag, to avoid repeated translations
     $dummy.find('object.instructure_user_content embed').remove()

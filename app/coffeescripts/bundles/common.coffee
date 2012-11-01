@@ -26,6 +26,8 @@ require [
 
   # other stuff several bundles use
   'media_comments'
+  # add mwEmbedLoader 2012-11-01 rupert
+  'mwEmbedLoader'
   'order'
   'jqueryui/effects/drop'
   'jqueryui/progressbar'
@@ -37,7 +39,6 @@ require [
   'jquery.fancyplaceholder'
   'jqueryui/autocomplete'
   'link_enrollment'
-  'media_comments'
   'vendor/jquery.pageless'
   'vendor/jquery.scrollTo'
 ], (courseList, helpDialog) ->
