@@ -565,7 +565,6 @@ function kRunMwDomReady(event) {
     while (kReadyHookSet.length) {
         kReadyHookSet.shift()();
     }
-    console.log("kOverideJsFlashEmbed");
     kOverideJsFlashEmbed();
     if (mw.getConfig('EmbedPlayer.IsIframeServer') && event !== 'endOfIframeJs') {
         return;
