@@ -28,6 +28,7 @@ define([
 ], function(I18n, $, htmlEscape) {
 
   (function($, INST){
+      console.log("media_comments");
     var yourVersion = null;
     try {
       yourVersion = swfobject.getFlashPlayerVersion().major + "." + swfobject.getFlashPlayerVersion().minor;
@@ -85,14 +86,29 @@ define([
             bgcolor: "#000000",
             wmode: 'opaque'
           };
-          var url = "/media_objects/" + id + "/redirect";
+
+          //var url = "/media_objects/" + id + "/redirect";
+          var url = "http://"+INST.kalturaSettings.domain+"/kwidget/wid/_"+INST.kalturaSettings.partner_id+"/uiconf_id/"+INST.kalturaSettings.player_ui_conf + "/entry_id/" + id;
+
           var width = Math.min($holder.closest("div,p,table").width() || 550, 550);
           var height = width / 550 * 448;
           if(mediaType == 'audio') {
             height = 125;
             width = Math.min(width, 350);
           }
-          swfobject.embedSWF(url, $div.attr('id'), width.toString(), height.toString(), "9.0.0", false, flashVars, params);
+
+        // 2012-10-31 rupert
+
+            hasFlash = swfobject.hasFlashPlayerVersion("9") && navigator.userAgent.match(/iPad/i) == null;
+            if(hasFlash){
+                swfobject.embedSWF(url, $div.attr('id'), width.toString(), height.toString(), "9.0.0", false, flashVars, params);
+            }else if(navigator.userAgent.match(/iPad/i) !== null){
+                swfobject.embedSWF(url, $div.attr('id'), width.toString(), height.toString(), "0.0.0", false, flashVars, params);
+            }else{
+                alert("pls install flash")
+            }
+
+          //end
         }
         if(id == 'maybe') {
           var detailsUrl = downloadUrl.replace(/\/download.*/, "");
@@ -197,13 +213,15 @@ define([
           if(only_show_icon) {
             $img.attr('src', '/images/media_comment.png');
           } else {
-            $img.attr('src', '/images/blank.png');
+            //2012-10-30 rupert
+            $img.attr('src', '/images/play_overlay.png');
             $(this).addClass('no-hover').addClass('no-underline');
-            $img.hover(function() {
+            /*$img.hover(function() {
               $img.attr('src', '/images/play_overlay.png');
             }, function() {
               $img.attr('src', '/images/blank.png');
-            });
+            });*/
+              //end
           }
           $img.css('backgroundImage', 'url(' + url + ')');
           $img.attr('title', I18n.t('titles.click_to_view', 'Click to View'));
@@ -465,6 +483,7 @@ define([
           var recordVars = {
             host:location.protocol + "//" + INST.kalturaSettings.domain,
             rtmpHost:"rtmp://" + (INST.kalturaSettings.rtmp_domain || INST.kalturaSettings.domain),
+            //rtmpHost:"rtmp://www.kaltura.com",
             kshowId:"-1",
             pid:INST.kalturaSettings.partner_id,
             subpid:INST.kalturaSettings.subpartner_id,
@@ -475,13 +494,17 @@ define([
             thumbOffset:"1",
             licenseType:"CC-0.1",
             showUi:"true",
-            useCamera:"0",
+            // 2012-11-01 rupert add autopreview
+            usecamera:"0",
+            autopreview:0,
+            // end
             maxFileSize: INST.kalturaSettings.max_file_size_bytes / 1048576,
             maxUploads: 1,
             partnerData: $.mediaComment.partnerData(),
             partner_data: $.mediaComment.partnerData(),
             entryName:temporaryName
           }
+          console.log(recordVars.rtmpHost)
           var params = {
             "align": "middle",
             "quality": "high",
@@ -496,7 +519,7 @@ define([
           swfobject.embedSWF("/media_record/KRecord.swf", "audio_record", "400", "300", "9.0.0", false, recordVars, params);
 
           var params = $.extend({}, params, {name: 'KRecordVideo'});
-          var recordVars = $.extend({}, recordVars, {useCamera: '1'});
+          var recordVars = $.extend({}, recordVars, {usecamera: '1'});
           $("#video_record").html("Flash required for recording video.")
           swfobject.embedSWF("/media_record/KRecord.swf", "video_record", "400", "300", "9.0.0", false, recordVars, params);
 

@@ -1,4 +1,9 @@
-window['SCRIPT_LOADER_URL'] = 'http://192.168.0.108/html5/html5lib/v1.5.9/ResourceLoader.php';
+// 2012-11-01 rupert
+var kdomain = INST.kalturaSettings.domain;
+window['SCRIPT_LOADER_URL'] = 'http://' + kdomain +'/html5/html5lib/v1.5.9/ResourceLoader.php';
+
+// end
+
 KALTURA_LOADER_VERSION = '1.5.9';
 if (typeof console != 'undefined' && console.log) {
     console.log('Kaltura HTML5 Version: ' + KALTURA_LOADER_VERSION);
@@ -52,6 +57,20 @@ if (!mw.getConfig('EmbedPlayer.IsIframeServer')) {
     mw.setConfig('EmbedPlayer.IframeParentTitle', document.title);
     mw.setConfig('EmbedPlayer.IframeParentReferrer', document.referrer);
 }
+window.restoreKalturaKDPCallback = function() {
+
+    if (window.KalturaKDPCallbackReady) {
+        window.jsCallbackReady = window.KalturaKDPCallbackReady;
+        window.KalturaKDPCallbackReady = null;
+        if (window.KalturaKDPCallbackAlreadyCalled.length) {
+            for (var i = 0; i < window.KalturaKDPCallbackAlreadyCalled.length; i++) {
+                var playerId = window.KalturaKDPCallbackAlreadyCalled[i];
+                window.jsCallbackReady(playerId);
+                window.KWidget.globalJsReadyCallback(playerId);
+            }
+        }
+    }
+};
 function kDoIframeRewriteList(rewriteObjects) {
     for (var i = 0; i < rewriteObjects.length; i++) {
         var options = {
@@ -208,7 +227,7 @@ function kDirectDownloadFallback(replaceTargetId, kEmbedSettings, options) {
         parentNode.insertBefore(div, targetNode);
     }
 }
-kalturaDynamicEmbed = false;
+kalturaDynamicEmbed = true;//change it to true
 function kOverideJsFlashEmbed() {
     var doEmbedSettingsWrite = function(kEmbedSettings, replaceTargetId, widthStr, heightStr) {
         var embedPlayerAttributes = {
@@ -379,7 +398,12 @@ function kCheckAddScript() {
         return;
     }
     if (!kalturaDynamicEmbed) {
-        window.restoreKalturaKDPCallback();
+        if( window.restoreKalturaKDPCallback() == undefined){
+            window.restoreKalturaKDPCallback();
+        }else{
+
+        }
+
     }
 }
 function kIsIOS() {
@@ -504,6 +528,7 @@ function kLoadJsRequestSet(jsRequestSet, callback) {
     if (typeof $ != 'undefined' && !$.jquery) {
         window['pre$Lib'] = $;
     }
+
     kAppendScriptUrl(url,
         function() {
             if (window['pre$Lib']) {
@@ -524,11 +549,16 @@ function kPageHasAudioOrVideoTags() {
 }
 var kReadyHookSet = [];
 function kAddReadyHook(callback) {
-    if (kAlreadyRunDomReadyFlag) {
+    callback(); //delete the judgement 2012-11-01 rupert
+
+    /**
+     if (kAlreadyRunDomReadyFlag) {
         callback();
     } else {
         kReadyHookSet.push(callback);
-    }
+    }**/
+
+    // end
 }
 function kRunMwDomReady(event) {
     kAlreadyRunDomReadyFlag = true;
@@ -663,6 +693,7 @@ function kFlashVarsToUrl(flashVarsObject) {
     for (var i in flashVarsObject) {
         params += '&' + 'flashvars[' + encodeURIComponent(i) + ']=' + encodeURIComponent(flashVarsObject[i]);
     }
+    console.log("params" + params);
     return params;
 }
 function kGetEntryThumbUrl(entry) {
@@ -762,19 +793,7 @@ window.checkForKDPCallback = function() {
         };
     }
 };
-window.restoreKalturaKDPCallback = function() {
-    if (window.KalturaKDPCallbackReady) {
-        window.jsCallbackReady = window.KalturaKDPCallbackReady;
-        window.KalturaKDPCallbackReady = null;
-        if (window.KalturaKDPCallbackAlreadyCalled.length) {
-            for (var i = 0; i < window.KalturaKDPCallbackAlreadyCalled.length; i++) {
-                var playerId = window.KalturaKDPCallbackAlreadyCalled[i];
-                window.jsCallbackReady(playerId);
-                window.KWidget.globalJsReadyCallback(playerId);
-            }
-        }
-    }
-};
+
 checkForKDPCallback();
 kAddReadyHook(checkForKDPCallback);
 window.getUserAgentPlayerRulesMsg = function(ruleSet) {
@@ -803,15 +822,15 @@ window.checkUserAgentPlayerRules = function(ruleSet, getMsg) {
 };
 mw.setConfig('debug', false);
 mw.setConfig('Kaltura.UseManifestUrls', true);
-mw.setConfig('Kaltura.ServiceUrl', 'http://192.168.0.108');
+mw.setConfig('Kaltura.ServiceUrl', 'http://' + kdomain);
 mw.setConfig('Kaltura.ServiceBase', '/api_v3/index.php?service=');
-mw.setConfig('Kaltura.CdnUrl', 'http://192.168.0.108');
-mw.setConfig('Kaltura.StatsServiceUrl', 'http://cdnapi.kaltura.com');
-mw.setConfig('Kaltura.IframeRewrite', true);
+mw.setConfig('Kaltura.CdnUrl', 'http://' + kdomain);
+//mw.setConfig('Kaltura.StatsServiceUrl', 'http://cdnapi.kaltura.com'); // 2012-11-01 rupert
+mw.setConfig('Kaltura.IframeRewrite', false);
 mw.setConfig('EmbedPlayer.EnableIframeApi', true);
 mw.setConfig('EmbedPlayer.EnableIpadHTMLControls', true);
 mw.setConfig('EmbedPlayer.UseFlashOnAndroid', true);
-mw.setConfig('Kaltura.LoadScriptForVideoTags', true);
+mw.setConfig('Kaltura.LoadScriptForVideoTags', false);
 mw.setConfig('Kaltura.AllowIframeRemoteService', true);
 mw.setConfig('Kaltura.UseAppleAdaptive', true);
 mw.setConfig('Kaltura.EnableEmbedUiConfJs', false);

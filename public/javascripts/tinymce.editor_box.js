@@ -112,7 +112,11 @@ define([
     if(width == 0) {
       width = $textarea.closest(":visible").width();
     }
-    var instructure_buttons = ",instructure_embed,instructure_equation";
+
+      // add instructure_drawing 2012-11-01 rupert
+    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing";
+      // end
+
     for(var idx in INST.editorButtons) {
       // maxVisibleEditorButtons should be the max number of external tool buttons
       // that are visible, INCLUDING the catchall "more external tools" button that
@@ -149,7 +153,11 @@ define([
       mode : "exact",
       elements: id,
       theme : "advanced",
-      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_equella,media,paste,table,inlinepopups",
+
+      // add instructure_drawing 2012-11-01 rupert
+      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_equella,media,paste,table,inlinepopups",
+      // end
+
       dialog_type: 'modal',
       language_load: false,
       relative_urls: false,

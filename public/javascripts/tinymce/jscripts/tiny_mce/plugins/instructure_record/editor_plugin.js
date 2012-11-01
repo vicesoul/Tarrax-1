@@ -20,7 +20,6 @@ define([
   'jquery',
   'media_comments'
 ], function($) {
-
   tinymce.create('tinymce.plugins.InstructureRecord', {
     init : function(ed, url) {
       ed.addCommand('instructureRecord', function() {
@@ -50,6 +49,7 @@ define([
   });
 
   // Register plugin
-  tinymce.PluginManager.add('instructure_record', tinymce.plugins.InstructureRecord);
+
+tinymce.PluginManager.add('instructure_record', tinymce.plugins.InstructureRecord);
 });
 

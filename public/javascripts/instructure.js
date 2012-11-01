@@ -266,8 +266,12 @@ define([
       }
     });
 
+     // 2012-10-31 rupert start
+
+    //$(".user_content").delegate(".instructure_inline_media_comment","click",function(event){
     $("a.instructure_inline_media_comment").live('click', function(event) {
-      event.preventDefault();
+
+    // end
       if(INST.kalturaSettings) {
         var $link = $(this),
             $div = $("<span><span></span></span>"),
@@ -293,6 +297,7 @@ define([
       } else {
         alert(I18n.t('alerts.kaltura_disabled', "Kaltura has been disabled for this Canvas site"));
       }
+        event.preventDefault();
     });
 
     $("a.equella_content_link").live('click', function(event) {

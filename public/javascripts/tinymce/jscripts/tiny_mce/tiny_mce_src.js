@@ -11555,7 +11555,7 @@ tinymce.create('tinymce.ui.Toolbar:tinymce.ui.Container', {
 
 			h = (o.iframeHeight || h) + (typeof(h) == 'number' ? (o.deltaHeight || 0) : '');
 			if (h < 100)
-				h = 100;
+				h = 1000;//editor content height 2012-11-01 rupert
 
 			t.iframeHTML = s.doctype + '<html><head xmlns="http://www.w3.org/1999/xhtml">';
 
