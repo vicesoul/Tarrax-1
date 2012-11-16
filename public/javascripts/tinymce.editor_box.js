@@ -47,6 +47,7 @@ define([
   var enableBookmarking = $("body").hasClass('ie');
   $(document).ready(function() {
     enableBookmarking = $("body").hasClass('ie');
+
   });
 
   function EditorBoxList() {
@@ -114,8 +115,8 @@ define([
     }
 
       // add instructure_drawing 2012-11-01 rupert
-    //var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing";
-    var instructure_buttons = ",instructure_embed,instructure_equation";
+    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing";
+    //var instructure_buttons = ",instructure_embed,instructure_equation";
       // end
 
     for(var idx in INST.editorButtons) {
@@ -156,8 +157,8 @@ define([
       theme : "advanced",
 
       // add instructure_drawing 2012-11-01 rupert
-      //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_equella,media,paste,table,inlinepopups",
-      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_equella,media,paste,table,inlinepopups",
+      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_equella,media,paste,table,inlinepopups",
+      //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_equella,media,paste,table,inlinepopups",
       // end
 
       dialog_type: 'modal',
@@ -291,6 +292,36 @@ define([
                 iframe.height(ui.offset.top - iframeOffsetTop);
               }
             });
+
+
+        // 2012-11-13 rupert
+              var $essay_question = $(".essay_question");
+              var $lastSaving = $("#" + id);
+              var $editorBody = iframe.contents().find("body#tinymce");
+
+              if($essay_question.length != 0) {
+                  if($lastSaving.html().indexOf("drawingImg") == -1 || ( $lastSaving.html().indexOf("img") == -1 && $lastSaving.html().indexOf("src=") == -1 ) ){
+                      var imgSrc = $essay_question.find(".question_text p img")[0].src;
+                      $("<img/>").attr("src",imgSrc).addClass("drawingImg").prependTo($editorBody);
+                  }
+              }
+
+
+              //  img:focus addClass "focused"
+              $editorBody.mousedown(function(){
+                  $editorBody.find(".focused").removeClass("focused");
+              });
+
+              $editorBody.delegate( "img", "mousedown", function( e ) {
+                  $editorBody.find(".focused").removeClass("focused");
+                  $(this).addClass("focused");
+                  e.stopPropagation($(this));
+              });
+
+
+              // end
+
+
           }
         });
       }
@@ -707,6 +738,8 @@ define([
       $(e).indicate({offset: offset, singleFlash: true, scroll: true, container: $(box).find('iframe')});
     }
   };
+
+
 
 });
 

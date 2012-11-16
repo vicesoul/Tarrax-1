@@ -1,5 +1,5 @@
-// 2012-11-01 rupert
-var kdomain = INST.kalturaSettings.domain;
+// 2012-11-12 rupert
+var kdomain = INST.kalturaSettings ? INST.kalturaSettings.domain : "";
 window['SCRIPT_LOADER_URL'] = 'http://' + kdomain +'/html5/html5lib/v1.5.9/ResourceLoader.php';
 
 // end
