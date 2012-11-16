@@ -151,8 +151,8 @@ class Account < ActiveRecord::Base
   add_setting :enable_eportfolios, :boolean => true, :root_only => true
   add_setting :users_can_edit_name, :boolean => true, :root_only => true
   add_setting :open_registration, :boolean => true, :root_only => true
-  add_setting :enable_scheduler, :boolean => true, :root_only => true, :default => false
-  add_setting :calendar2_only, :boolean => true, :root_only => true, :default => false
+  add_setting :enable_scheduler, :boolean => true, :root_only => true, :default => true
+  add_setting :calendar2_only, :boolean => true, :root_only => true, :default => true
   add_setting :enable_profiles, :boolean => true, :root_only => true, :default => false
   add_setting :mfa_settings, :root_only => true
   add_setting :canvas_authentication, :boolean => true, :root_only => true
@@ -537,7 +537,7 @@ class Account < ActiveRecord::Base
   end
   
   def default_time_zone
-    read_attribute(:default_time_zone) || "Mountain Time (US & Canada)"
+    read_attribute(:default_time_zone) || "Beijing"
   end
   
   workflow do
