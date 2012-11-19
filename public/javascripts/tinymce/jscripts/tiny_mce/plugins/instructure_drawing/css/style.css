@@ -1,6 +1,7 @@
 .mceIframeContainer{position: relative;}
 .drawing_canvas{border:1px solid #666;position: absolute;left:0;top:0;}
-.container{border: 1px solid #ccc;position: relative;width:600px;overflow: hidden;}
+.container{border: 1px solid #ccc;position: relative;overflow: hidden;}
+.container .img_background{position: absolute;z-index:-1;}
 .containerDraft canvas {display: none;}
 .setLineSize,.setBrushSize{margin: 20px;display: none;}
 .setLineSize > label,.setBrushSize > label{float: left;}

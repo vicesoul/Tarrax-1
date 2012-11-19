@@ -60,7 +60,7 @@ Sketcher.prototype.generalHTML = function(){
     canvasHtml += '</div>';
     canvasHtml += '<div class="setLineSize"><label>Line</label><div></div><input type="text"></div>';
     canvasHtml += '<div class="setBrushSize"><label>Brush</label><div></div><input type="text"></div>';
-    canvasHtml += ' <div class="container"><div class="img_background" style="position: absolute;z-index:-1;" width="600" height="400"></div><div id="' + self.defaultSetting.stageId +'"></div></div>';
+    canvasHtml += ' <div class="container"><div class="img_background"></div><div id="' + self.defaultSetting.stageId +'"></div></div>';
     canvasHtml += '<div class="containerDraft"><canvas class="canvasDraft" width="39" height="39"></canvas></div>';
     canvasHtml += '</div>';
 
