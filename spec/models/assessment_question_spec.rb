@@ -197,5 +197,18 @@ describe AssessmentQuestion do
     question.question_data[:name].should == "new name"
     data.object_id.should == question.question_data.object_id
   end
+
+  it "should allow img tag with src contain data source" do
+    html = "<p>foo</p>\n<p><img title=\"bar\" src=\"data:image/png;base64\" /></p>"
+    expected = "<p>foo</p>\n<p><img title=\"bar\" src=\"data:image/png;base64\"></p>"
+    AssessmentQuestion.sanitize(html).should == expected
+  end
+
+  it "should allow html style attribute contain background infos" do
+    html1 = "<p style=\"background-image: url('foo');\">foo</p>"
+    AssessmentQuestion.sanitize(html1).should == html1
+    html = "<p style=\"background-image: url('https://farm6.static.flickr.com/5254/5566459337_abc140b4cb.jpg');\">foo</p>"
+    AssessmentQuestion.sanitize(html).should == html
+  end
   
 end

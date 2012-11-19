@@ -235,7 +235,7 @@ class AssessmentQuestion < ActiveRecord::Base
     question[:question_name] = qdata[:question_name] || qdata[:name] || previous_data[:question_name] || t(:default_question_name, "Question")
     question[:question_name] = t(:default_question_name, "Question") if question[:question_name].strip.blank?
     question[:name] = question[:question_name]
-    question[:question_text] = sanitize(check_length(qdata[:question_text] || previous_data[:question_text] || t(:default_question_text, "Question text"), 'question text'))
+    question[:question_text] = sanitize(check_length(qdata[:question_text] || previous_data[:question_text] || t(:default_question_text, "Question text"), 'question text', 500.kilobyte))
     min_size = 1.kilobyte
     question[:answers] = []
     reset_local_ids
