@@ -46,7 +46,7 @@ define([
       if ( elem.nodeType === 3 || elem.nodeType === 4 ) {
         ret += elem.nodeValue;
       // Get alt attributes from IMG nodes
-      } else if ( elem.nodeName == 'IMG' && elem.className == 'equation_image' ) {
+      } else if ( elem.nodeName == 'IMG' && $(elem).has('.equation_image') ) {
         ret += $(elem).attr('alt');
       // Traverse everything else, except comment nodes
       } else if ( elem.nodeType !== 8 ) {
@@ -115,7 +115,7 @@ define([
         image: url + '/img/button.gif'
       });
       ed.onNodeChange.add(function(ed, cm, e) {
-        if(e.nodeName == 'IMG' && e.className == 'equation_image') {
+        if(e.nodeName == 'IMG' && $(e).has('.equation_image')) {
           cm.setActive('instructure_equation', true);
         } else {
           cm.setActive('instructure_equation', false);

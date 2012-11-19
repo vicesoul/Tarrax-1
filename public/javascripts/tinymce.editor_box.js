@@ -114,8 +114,8 @@ define([
     }
 
       // add instructure_drawing 2012-11-01 rupert
-    //var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing";
-    var instructure_buttons = ",instructure_embed,instructure_equation";
+    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing";
+    //var instructure_buttons = ",instructure_embed,instructure_equation";
       // end
 
     for(var idx in INST.editorButtons) {
@@ -156,8 +156,8 @@ define([
       theme : "advanced",
 
       // add instructure_drawing 2012-11-01 rupert
-      //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_equella,media,paste,table,inlinepopups",
-      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_equella,media,paste,table,inlinepopups",
+      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_equella,media,paste,table,inlinepopups",
+      //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_equella,media,paste,table,inlinepopups",
       // end
 
       dialog_type: 'modal',
@@ -200,6 +200,18 @@ define([
         $("#" + id).trigger('change');
       },
       setup : function(ed) {
+
+          // 2012-11-16 rupert    if the question is essay question && editor is empty , put the content into textarea
+          var $lastSaving = $("#" + id);
+          var $essay_question = $lastSaving.closest(".essay_question");
+          var questionHtml = $essay_question.find(".question_text").html();
+          if($essay_question.length != 0) {
+              if($lastSaving.html() == "" ){
+                  $lastSaving.html(questionHtml);
+              }
+          }
+        // end
+
         var $editor = $("#" + ed.editorId);
         var focus = function() {
           $(document).triggerHandler('editor_box_focus', $editor);
@@ -256,8 +268,8 @@ define([
               .remove();
           });
           if (!options.unresizable) {
-            var iframe = $("#"+id+"_ifr"),
-                $containerSpan = iframe.closest('.mceEditor'),
+              var iframe = $("#"+id+"_ifr");
+            var $containerSpan = iframe.closest('.mceEditor'),
                 iframeOffsetTop,
                 keepMeFromMousingOverIframe,
                 oldOverflow,
@@ -291,6 +303,31 @@ define([
                 iframe.height(ui.offset.top - iframeOffsetTop);
               }
             });
+
+
+        // 2012-11-13 rupert
+
+
+              var $editorBody = iframe.contents().find("body#tinymce");
+
+
+
+
+              //  img:focus addClass "focused"
+              $editorBody.mousedown(function(){
+                  $editorBody.find(".focused").removeClass("focused");
+              });
+
+              $editorBody.delegate( "img", "mousedown", function( e ) {
+                  $editorBody.find(".focused").removeClass("focused");
+                  $(this).addClass("focused");
+                  e.stopPropagation($(this));
+              });
+
+
+              // end
+
+
           }
         });
       }
