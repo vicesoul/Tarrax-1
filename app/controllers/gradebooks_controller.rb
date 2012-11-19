@@ -374,13 +374,19 @@ class GradebooksController < ApplicationController
   end
 
   def redirect_to_appropriate_gradebook_version
-    if @current_user.preferences[:use_gradebook2].nil?
-      gradebook_version = :gradebook2
-    else
-      gradebook_version = @current_user.preferences[:use_gradebook2] ? :gradebook2 : :gradebook
+    #if @current_user.preferences[:use_gradebook2].nil?
+    #  gradebook_version = :gradebook2
+    #else
+    #  gradebook_version = @current_user.preferences[:use_gradebook2] ? :gradebook2 : :gradebook
+    #end
+
+    #redirect_to named_context_url(@context, "context_#{gradebook_version}_url")
+    unless @current_user.preferences[:use_gradebook2]
+      @current_user.preferences[:use_gradebook2] = true
+      @current_user.save!
     end
 
-    redirect_to named_context_url(@context, "context_#{gradebook_version}_url")
+    redirect_to named_context_url(@context, 'context_gradebook2_url')
   end
   protected :redirect_to_appropriate_gradebook_version
 
