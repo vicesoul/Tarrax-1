@@ -9295,11 +9295,11 @@ zh-CN:
         modules: "模块"
     invitation: 
       accept_or_reject: "当您准备好了，您可以接受或拒绝邀请。"
-      body_designer: "您已经被邀请作为设计者加入%{course}，用户账户邮箱%{EMAIL_ADDRESS}。"
-      body_observer: "您已经被邀请加入%{course}**观察员**的用户帐户**%{EMAIL_ADDRESS}。**"
-      body_student: "您已经被邀作为学生请加入%{course用户帐户**%{EMAIL_ADDRESS}。**"
-      body_ta: "您已经被邀作为助教请加入%{course用户帐户**%{EMAIL_ADDRESS}。**"
-      body_teacher: "您已经被邀作为助教师加入%{course用户帐户**%{EMAIL_ADDRESS}。**"
+      body_designer: "您已经被邀请作为 **设计者** 加入%{course}，用户账户邮箱 **%{EMAIL_ADDRESS}** 。"
+      body_observer: "您已经被邀请 **观察员** 加入%{course}，用户帐户**%{EMAIL_ADDRESS}**。"
+      body_student: "您已经被邀作为 **学生** 加入%{course}，用户帐户**%{email_address}**。"
+      body_ta: "您已经被邀作为 **助教** 加入%{course}，用户帐户**%{EMAIL_ADDRESS}**。"
+      body_teacher: "您已经被邀作为 **教师** 加入%{course}，用户帐户**%{EMAIL_ADDRESS}**。"
       buttons: 
         accept: "接受邀请"
         reject: "拒绝邀请"
