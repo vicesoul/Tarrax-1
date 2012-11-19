@@ -735,7 +735,10 @@
 			// Create iframe container
 			if (!s.theme_advanced_toolbar_container) {
 				n = DOM.add(tb, 'tr');
-				n = ic = DOM.add(n, 'td', {'class' : 'mceIframeContainer'});
+                // 2012-11-05 rupert add a div in td
+				n = DOM.add(n, 'td');
+				n = ic = DOM.add(n, 'div', {'class' : 'mceIframeContainer'});
+                // end
 			}
 
 			// Create toolbar container at bottom

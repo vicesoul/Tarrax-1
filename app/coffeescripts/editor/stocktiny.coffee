@@ -5,7 +5,10 @@ define [
   'order!tinymce/jscripts/tiny_mce/tiny_mce_src'
   'order!tinymce/jscripts/tiny_mce/langs/en'
   'order!tinymce/jscripts/tiny_mce/themes/advanced/langs/en'
-  'order!tinymce/jscripts/tiny_mce/themes/advanced/editor_template'
+  #  2012-11-05 rupert
+  'order!tinymce/jscripts/tiny_mce/themes/advanced/editor_template_src'
+  #'order!tinymce/jscripts/tiny_mce/themes/advanced/editor_template'
+  # end
   'order!tinymce/jscripts/tiny_mce/plugins/media/editor_plugin_src'
   'order!tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin_src'
   'order!tinymce/jscripts/tiny_mce/plugins/paste/langs/en_dlg'

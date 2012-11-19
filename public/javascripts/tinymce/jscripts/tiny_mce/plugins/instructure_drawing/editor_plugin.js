@@ -46,6 +46,7 @@ define([
 
 
 
+
           sketcher.clear();    // reset canvas
 
           var backgroundContainer = $(".img_background");
@@ -59,9 +60,11 @@ define([
                   var patt=/\"|\'|\)|\(|url/g;
                   originImgSrc = originImgSrc.replace(patt,'');
                   var newImg = $("<img/>").attr("src",originImgSrc);
+
                   backgroundContainer
                       .html("")
                       .append(newImg);
+
 
                   //*********** add drawing img
                   var drawingData = $chosen.attr("src");
@@ -80,6 +83,7 @@ define([
                   backgroundContainer.html(""); // **** empty bg img
 
               }
+
 
 
 
@@ -143,6 +147,7 @@ define([
               target_context.putImageData(imageData, 0, 0);
 
           }
+
           var removeBlanks = function (imgWidth, imgHeight) {
               console.log("remooveBlank");
               var canvas = $("canvas." + sketcher.defaultSetting.canvasClass)[0];
@@ -224,8 +229,10 @@ define([
 
               $chosen
                   .attr({
+
                       "src":dataURL,
                       "data-mce-src":dataURL
+
                   })
                   .css({
                       "background":"url(" + originImgSrc + ") no-repeat",
@@ -235,6 +242,7 @@ define([
                       "min-height":defaultSetting.canvasH
                   })
                   .addClass("editted");
+
 
                   // clone style to data-mce-style
                   var style = $chosen.attr("style");
@@ -250,6 +258,7 @@ define([
                   $editor.editorBox('insert_code', $div.html());
               }
               removeBlanks(600,400);
+
 
 
               Dialog.dialog( "close" );
