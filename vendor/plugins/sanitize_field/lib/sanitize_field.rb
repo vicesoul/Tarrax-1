@@ -34,7 +34,8 @@ module Instructure #:nodoc:
       style = node['style'] || ""
       # taken from https://github.com/flavorjones/loofah/blob/master/lib/loofah/html5/scrub.rb
       # the gauntlet
-      style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
+      #style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
+      style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!]|\w-\w|\'[\s:\/.\w]+\'|\"[\s:\/.\w]+\"|\([\d,\s]+\))*\z/
       style = '' unless style =~ /\A\s*([-\w]+\s*:[^\;]*(\;\s*|$))*\z/
 
       config = env[:config]
@@ -106,7 +107,7 @@ module Instructure #:nodoc:
         'a'          => {'href' => ['ftp', 'http', 'https', 'mailto',
                                     :relative]},
         'blockquote' => {'cite' => ['http', 'https', :relative]},
-        'img'        => {'src'  => ['http', 'https', :relative]},
+        'img'        => {'src'  => ['http', 'https', 'data', :relative]},
         'q'          => {'cite' => ['http', 'https', :relative]},
         'object'     => {'data' => ['http', 'https', :relative]},
         'embed'      => {'src'  => ['http', 'https', :relative]},
