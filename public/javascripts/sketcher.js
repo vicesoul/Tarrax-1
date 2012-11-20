@@ -45,7 +45,7 @@ Sketcher.prototype.generalHTML = function(){
         layer,
     canvasHtml  = '<div class="drawing_app">';
     canvasHtml += '<input type="button" value="清空" class="clear_all" />';
-    canvasHtml += '<input type="button" value="铅笔" class="line" />';
+    canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
     canvasHtml += '<input type="button" value="墨水" class="ink" />';
     canvasHtml += '<input type="button" value="刷子" class="big_brush" />';
     canvasHtml += '<input type="button" value="橡皮擦" class="eraser" />';
