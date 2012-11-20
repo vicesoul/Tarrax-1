@@ -285,7 +285,7 @@ define([
 
                   })
                   .css({
-                      "background":"url(" + originImgSrc + ") no-repeat",
+                      "background":"url('" + originImgSrc + "') no-repeat",
                       "max-width":getData.width,
                       "min-width":getData.width,
                       "max-height":getData.height,
