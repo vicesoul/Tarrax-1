@@ -7,7 +7,7 @@ function Sketcher(setting) {
 
 
 	this.lastMousePoint = {x:0, y:0};
-    this.brushSize = {width:15,height:15,step:.3};
+    this.brushSize = {width:8,height:8,step:.3};
 
 	if (this.touchSupported) {
 
@@ -89,13 +89,13 @@ Sketcher.prototype.generalHTML = function(){
 
     $(".line").click(function(){
         self.defaultSetting.tools.type = "line";
-        $(".color_setting input:gt(1)").hide();
+        $(".color_setting").find("input").show().end().find("input:gt(1)").hide();
         $(".color_setting input[type=button]:first").trigger("click");
     });
 
     $(".ink").click(function(){
-        self.defaultSetting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush7.png"};
-        $(".color_setting input:gt(1)").hide();
+        self.defaultSetting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/ink_s.png"};
+        $(".color_setting").find("input").show().end().find("input:gt(1)").hide();
         $(".color_setting input[type=button]:first").trigger("click");
     });
 
@@ -108,7 +108,7 @@ Sketcher.prototype.generalHTML = function(){
     $(".eraser").click(function(){
         self.defaultSetting.tools.type = "eraser";
         $(".color_setting input").hide();
-        $(".color_setting input[type=button]:first").trigger("click");
+        self.setTools();
     });
 
     $(".color_setting input[type=button]").click(function(){
@@ -201,11 +201,12 @@ Sketcher.prototype.onCanvasMouseDown = function () {
 		self.mouseMoveHandler = self.onCanvasMouseMove()
 		self.mouseUpHandler = self.onCanvasMouseUp()
 
-		$(document).bind( self.mouseMoveEvent, self.mouseMoveHandler );
-		$(document).bind( self.mouseUpEvent, self.mouseUpHandler );
+        self.canvas.bind( self.mouseMoveEvent, self.mouseMoveHandler );
+        self.canvas.bind( self.mouseUpEvent, self.mouseUpHandler );
 
 		self.updateMousePosition( event );
 		//self.renderFunction( event );           // click drawing
+        event.stopPropagation($(this));
 	}
 }
 
@@ -215,6 +216,7 @@ Sketcher.prototype.onCanvasMouseMove = function () {
 
 		self.renderFunction( event );
      	event.preventDefault();
+        event.stopPropagation($(this));
     	return false;
 	}
 }
@@ -222,8 +224,9 @@ Sketcher.prototype.onCanvasMouseMove = function () {
 Sketcher.prototype.onCanvasMouseUp = function (event) {
 	var self = this;
 	return function(event) {
-		$(document).unbind( self.mouseMoveEvent, self.mouseMoveHandler );
-		$(document).unbind( self.mouseUpEvent, self.mouseUpHandler );
+        self.canvas.unbind( self.mouseMoveEvent, self.mouseMoveHandler );
+        self.canvas.unbind( self.mouseUpEvent, self.mouseUpHandler );
+        event.stopPropagation($(this));
 	}
 }
 

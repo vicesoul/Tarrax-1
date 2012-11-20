@@ -20,7 +20,7 @@ define([
             container: "",
             canvasClass:"sketch",
             stageId:"",
-            lineW : 2,
+            lineW : 1,
             canvasW : 600,
             canvasH : 400,
             color : {hex:"000000",rgb:[0,0,0]},
