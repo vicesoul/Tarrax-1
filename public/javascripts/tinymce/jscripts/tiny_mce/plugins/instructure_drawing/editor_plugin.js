@@ -6,8 +6,6 @@ define([
   'jqueryui/dialog',
   'jqueryui/slider',
   'jquery.instructure_misc_helpers',
-  "underscore",
-   "backbone",
    "kinetic-v4.0.1",
    "modernizr.custom.34982",
    "sketcher",
@@ -90,13 +88,15 @@ define([
                   insertType = "blank";
                   backgroundContainer.html(""); // **** empty bg img
 
-                  //*********** add drawing img
+              if (!!$chosen.length){
+              //*********** add drawing img
                   var drawingData = $chosen.attr("src");
                   var imageObj = new Image();
                   imageObj.src = drawingData;
                   imageObj.onload = function() {
                       drawImage(this,sketcher.defaultSetting.canvasClass);
                   };
+              }
 
               }
 

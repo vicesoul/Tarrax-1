@@ -7,7 +7,7 @@ function Sketcher(setting) {
 
 
 	this.lastMousePoint = {x:0, y:0};
-    this.brushSize = {width:8,height:8,step:.3};
+    this.brushSize = {width:15,height:15,step:.3};
 
 	if (this.touchSupported) {
 
@@ -51,7 +51,7 @@ Sketcher.prototype.generalHTML = function(){
     canvasHtml += '<input type="button" value="橡皮擦" class="eraser" />';
     canvasHtml += '<div class="color_setting">';
     canvasHtml += '<input type="button" class="black" value="black" style="background:#000000;" data-color=' + '{hex:"000000",rgb:[0,0,0]} ' + '  />';
-    canvasHtml += '<input type="button" class="blue" value="blue" style="background:#336699;" data-color=' + '{hex:"336699",rgb:[51,102,153]} ' + '  />';
+    canvasHtml += '<input type="button" class="blue" value="blue" style="background:#336699;" data-color=' + '{hex:"88C5FC",rgb:[136,197,252]} ' + '  />';
     canvasHtml += '<input type="button" class="red" value="red" style="background:#ff0000;" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
     canvasHtml += '<input type="button" class="green" value="green" style="background:#7cfc00;" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
     canvasHtml += '<input type="button" class="orange" value="orange" style="background:#FF7940;" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
