@@ -276,27 +276,29 @@ define([
 
               var originImgSrc = backgroundContainer.find("img")[0].src;
 
+              var style ="";
+                  style += "background:url('" + originImgSrc + "') no-repeat;";
+                  style += "max-width:" + getData.width + "px;";
+                  style += "min-width:" + getData.width + "px;";
+                  style += "max-height:" + getData.height + "px;";
+                  style += "min-height:" + getData.height + "px;";
 
-              $chosen
+
+                  $chosen
                   .attr({
 
                       "src":dataURL,
-                      "data-mce-src":dataURL
+                      "data-mce-src":dataURL,
+                      "style":style,
+                      "data-mce-style":style
 
-                  })
-                  .css({
-                      "background":"url('" + originImgSrc + "') no-repeat",
-                      "max-width":getData.width,
-                      "min-width":getData.width,
-                      "max-height":getData.height,
-                      "min-height":getData.height
                   })
                   .addClass("editted");
 
 
                   // clone style to data-mce-style
-                  var style = $chosen.attr("style");
-                  $chosen.attr("data-mce-style",style)
+//                  var style = $chosen.attr("style");
+//                  $chosen.attr("data-mce-style",style)
 
               }else if(insertType == "blank"){
 
