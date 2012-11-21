@@ -28,7 +28,6 @@ define([
 ], function(I18n, $, htmlEscape) {
 
   (function($, INST){
-      console.log("media_comments");
     var yourVersion = null;
     try {
       yourVersion = swfobject.getFlashPlayerVersion().major + "." + swfobject.getFlashPlayerVersion().minor;
