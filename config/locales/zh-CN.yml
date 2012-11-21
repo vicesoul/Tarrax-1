@@ -1900,7 +1900,7 @@ zh-CN:
       crumbs: 
         copy_from_course: "复制%{course}"
       descriptions: 
-        copy_succeeded: "课程内容成功导入！您可以查看以下导入的成果。您可以很容易地[更改他们的课程表上拖拽（%{URL}）对计分作业或活动的日期。"
+        copy_succeeded: "课程内容成功导入！您可以查看以下导入的成果。您可以很容易地[更改他们的课程表上拖拽（%{url}）对计分作业或活动的日期。"
       labels: 
         assignment: "计分作业%{course}"
         discussions: "讨论%{course}"
@@ -2276,7 +2276,7 @@ zh-CN:
       read_more: "更多"
       titles: 
         author_name: "作者姓名"
-      topic_for_assignment: "此主题用于计分作业 %{assignment_name_link}。"
+      topic_for_assignment: "此主题用于*计分作业*，会根据讨论下面提交的回复计算得分。"
       total_messages: 
         one: "1条消息"
         other: "%{count}条消息"
