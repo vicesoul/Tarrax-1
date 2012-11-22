@@ -307,16 +307,7 @@ define([
 
 
         // 2012-11-13 rupert
-              var $essay_question = $(".essay_question");
-              var $lastSaving = $("#" + id);
               var $editorBody = iframe.contents().find("body#tinymce");
-
-              if($essay_question.length != 0) {
-                  if($lastSaving.html().indexOf("drawingImg") == -1 || ( $lastSaving.html().indexOf("img") == -1 && $lastSaving.html().indexOf("src=") == -1 ) ){
-                      var imgSrc = $essay_question.find(".question_text p img")[0].src;
-                      $("<img/>").attr("src",imgSrc).addClass("drawingImg").prependTo($editorBody);
-                  }
-              }
 
               //  img:focus addClass "focused"
               $editorBody.mousedown(function(){

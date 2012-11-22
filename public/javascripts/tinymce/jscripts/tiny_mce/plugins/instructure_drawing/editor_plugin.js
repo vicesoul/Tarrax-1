@@ -59,7 +59,10 @@ define([
                                   if(originImgSrc != "none"){
                                   var patt=/\"|\'|\)|\(|url/g;
                                   originImgSrc = originImgSrc.replace(patt,'');
-                                  var newImg = $("<img/>").attr("src",originImgSrc);
+                                  var newImg = $("<img/>").attr({
+                                      "src":originImgSrc,
+                                      "data-mce-src":originImgSrc
+                                  });
 
                                   backgroundContainer
                                       .html("")
@@ -206,9 +209,10 @@ define([
               if(insertType == "switch"){
               var  $bgimg = backgroundContainer.find("img"),
                    getData = removeBlanks($bgimg[0].width,$bgimg[0].height),
-                   originImgSrc = backgroundContainer.find("img")[0].src,
+                   originImgSrc = backgroundContainer.find("img").attr("data-mce-src") || backgroundContainer.find("img").attr("src"),
+                   havePreview = originImgSrc.indexOf("preview") != -1,
                    style ="";
-                      style += "background:url('" + originImgSrc + "') no-repeat;";
+                      style += havePreview ?  "background:url( " + originImgSrc + " ) no-repeat;" : "background:url(" + originImgSrc + ") no-repeat;";
                       style += "max-width:" + getData.width + "px;";
                       style += "min-width:" + getData.width + "px;";
                       style += "max-height:" + getData.height + "px;";
