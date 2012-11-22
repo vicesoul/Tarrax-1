@@ -205,9 +205,9 @@ describe AssessmentQuestion do
   end
 
   it "should allow html style attribute contain background infos" do
-    html1 = "<p style=\"background-image: url('foo');\">foo</p>"
+    html1 = "<p style=\"background-image: url(foo);\">foo</p>"
     AssessmentQuestion.sanitize(html1).should == html1
-    html = "<p style=\"background-image: url('https://farm6.static.flickr.com/5254/5566459337_abc140b4cb.jpg');\">foo</p>"
+    html = "<p style=\"background-image: url(https://farm6.static.flickr.com/5254/5566459337_abc140b4cb.jpg);\">foo</p>"
     AssessmentQuestion.sanitize(html).should == html
   end
   
