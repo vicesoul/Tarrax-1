@@ -1,45 +1,40 @@
 function Sketcher(setting) {
-
     this.defaultSetting = setting;
     this.brushImg = new Image();
 	this.renderFunction = this.updateCanvasByLine;
 	this.touchSupported = Modernizr.touch;
 
-
 	this.lastMousePoint = {x:0, y:0};
     this.brushSize = {width:15,height:15,step:.3};
 
 	if (this.touchSupported) {
-
 		this.mouseDownEvent = "touchstart";
 		this.mouseMoveEvent = "touchmove";
 		this.mouseUpEvent = "touchend";
 	}
 	else {
-
-
 		this.mouseDownEvent = "mousedown";
 		this.mouseMoveEvent = "mousemove";
 		this.mouseUpEvent = "mouseup";
 	}
-
-
-
     this.initial();
 }
 
 Sketcher.prototype.initial = function(){
     this.generalHTML();
+
     this.canvas = $(".container canvas." + this.defaultSetting.canvasClass);
     this.context = this.canvas.get(0).getContext("2d");
+
+    //set color and line width
     this.context.strokeStyle = "#" + this.defaultSetting.color.hex;
     this.context.lineWidth = this.defaultSetting.lineW;
-    this.canvas.bind( this.mouseDownEvent, this.onCanvasMouseDown() );
 
+    // bind mouseDown event
+    this.canvas.bind( this.mouseDownEvent, this.onCanvasMouseDown() );
 }
 
 Sketcher.prototype.generalHTML = function(){
-
     var self = this,
         stage,
         layer,
@@ -84,7 +79,12 @@ Sketcher.prototype.generalHTML = function(){
     $(".color_setting input:gt(1)").hide();
 
     $(".clear_all").click(function(){
-        self.clear();
+        var response = confirm('你确定要清空画布?');
+        if (response){
+            self.clear();
+        }else {}
+
+
     });
 
     $(".line").click(function(){
@@ -202,11 +202,10 @@ Sketcher.prototype.onCanvasMouseDown = function () {
 		self.mouseUpHandler = self.onCanvasMouseUp()
 
         self.canvas.bind( self.mouseMoveEvent, self.mouseMoveHandler );
-        self.canvas.bind( self.mouseUpEvent, self.mouseUpHandler );
+        $(document).bind(self.mouseUpEvent,self.mouseUpHandler)
 
 		self.updateMousePosition( event );
 		//self.renderFunction( event );           // click drawing
-        event.stopPropagation($(this));
 	}
 }
 
@@ -225,8 +224,8 @@ Sketcher.prototype.onCanvasMouseUp = function (event) {
 	var self = this;
 	return function(event) {
         self.canvas.unbind( self.mouseMoveEvent, self.mouseMoveHandler );
-        self.canvas.unbind( self.mouseUpEvent, self.mouseUpHandler );
-        event.stopPropagation($(this));
+        $(document).unbind(self.mouseUpEvent,self.mouseUpHandler);
+
 	}
 }
 
@@ -257,8 +256,6 @@ Sketcher.prototype.updateCanvasByLine = function (event) {
 }
 
 Sketcher.prototype.updateCanvasByBrush = function (event) {
-	//var halfBrushW = this.brush.width/2;
-	//var halfBrushH = this.brush.height/2;
     var self = this;
 	var start = { x:this.lastMousePoint.x, y: this.lastMousePoint.y };
 	this.updateMousePosition( event );
@@ -274,19 +271,13 @@ Sketcher.prototype.updateCanvasByBrush = function (event) {
 	{
 		x = start.x + (Math.sin(angle) * z) - self.brushSize.width/2;
 		y = start.y + (Math.cos(angle) * z) - self.brushSize.height/2;
-        		//console.log( x, y, angle, z );
-
-
-                self.context.drawImage(self.brushImg, x, y,self.brushSize.width,self.brushSize.height);
+        self.context.drawImage(self.brushImg, x, y,self.brushSize.width,self.brushSize.height);
 
 
 	}
 }
 
 Sketcher.prototype.updateCanvasByEraser = function (event) {
-    //var halfBrushW = this.brush.width/2;
-    //var halfBrushH = this.brush.height/2;
-
     var start = { x:this.lastMousePoint.x, y: this.lastMousePoint.y };
     this.updateMousePosition( event );
     var end = { x:this.lastMousePoint.x, y: this.lastMousePoint.y };
