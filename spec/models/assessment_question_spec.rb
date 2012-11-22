@@ -209,6 +209,8 @@ describe AssessmentQuestion do
     AssessmentQuestion.sanitize(html1).should == html1
     html = "<p style=\"background-image: url(https://farm6.static.flickr.com/5254/5566459337_abc140b4cb.jpg);\">foo</p>"
     AssessmentQuestion.sanitize(html).should == html
+    html2 = "<p style=\"background: url(https://192.168.1.101:3000/5254/5566459337_abc140b4cb.jpg) no-repeat;\">foo</p>"
+    AssessmentQuestion.sanitize(html2).should == html2
   end
   
 end

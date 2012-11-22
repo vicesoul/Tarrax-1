@@ -24,7 +24,7 @@ module Instructure #:nodoc:
     end
 
     # modified from sanitize.rb to support mid-value matching
-    REGEX_STYLE_PROTOCOL = /([A-Za-z0-9\+\-\.\&\;\#\s]*?)(?:\:|&#0*58|&#x0*3a)/i
+    REGEX_STYLE_PROTOCOL = /([A-Za-z0-9\+\-\.\&\;\#\s]*?)(?:\:|&#0*58|&#x0*3a)\/\//i
     REGEX_STYLE_METHOD = /([A-Za-z0-9\+\-\.\&\;\#\s]*?)(?:\(|&#0*40|&#x0*28)/i
 
     # used as a sanitize.rb transformer, below
@@ -37,7 +37,7 @@ module Instructure #:nodoc:
       #style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
       style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!?=&_-]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
       style = '' unless style =~ /\A\s*([-\w]+\s*:[^\;]*(\;\s*|$))*\z/
-
+      
       config = env[:config]
 
       style.scan(/([-\w]+)\s*:\s*([^;]*)/) do |property, value|
