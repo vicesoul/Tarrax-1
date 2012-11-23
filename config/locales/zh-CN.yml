@@ -365,7 +365,7 @@ zh-CN:
         default_time_zone: "默认时区"
         enable_alerts: "警报"
         enable_eportfolios: "电子文档s"
-        enable_scheduler: "启动日历"2
+        enable_scheduler: "启动日历2"
         enable_user_notes: "教师日志"
         end_at: "结束"
         equella: "Equella"
@@ -8713,7 +8713,7 @@ zh-CN:
     reupload_submission_files: "重新上传提交文件"
     upload_info: "如果您对此前下载的学生提交文件作出了更改，只需压缩其备份并使用以下表单上传该压缩文件。学生将在其提交评论中看到修改的文件。"
     upload_warning: "确保不要更改提交文件的名称，以便我们组织。"
-  retrieve_timeout: "无法检索配置，服务器响应超时"
+  registration: 
     get_started: "开始"
     parent_dialog: 
       buttons: 
