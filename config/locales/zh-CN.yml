@@ -497,7 +497,7 @@ zh-CN:
       group_enrollments: 组注册
       groups: 组
       imported_items_title: 导入的项目
-      sections_label: 学群（班级）
+      sections_label: 学群(班级)
       terms_label: 学期
       users_label: 用户
     sis_batch_messages: 
@@ -523,7 +523,7 @@ zh-CN:
           groups: 
             check_box: 组
           sections: 
-            check_box: 学群
+            check_box: 学群(班级)
           terms: 
             check_box: 学期
           users: 
@@ -532,7 +532,7 @@ zh-CN:
             check_box: "X 清单"
         sis_default: 
           parameters: 
-            note: "*学期设置只影响：课程，学群，参课和X 清单 CSV 文件"
+            note: "*学期设置只影响：课程，学群(班级)，参课和X 清单 CSV 文件"
     sis_import: 
       add_sis_stickiness_instructions: "选择此选项后，通过此 SIS 导入所执行的更改将被处理为 UI 更改，以防止后续的非覆盖 SIS 导入改变这里更改的字段。"
       add_sis_stickiness_label: "处理为 UI 更改"
@@ -762,7 +762,7 @@ zh-CN:
       overlapping_appointments: 预约重叠
   appointment_group_sub_context: 
     errors: 
-      invalid_course_section: 无效课程学群
+      invalid_course_section: 无效课程学群(班级)
       invalid_group_category: 无效的组类别
       missing_group_category: 组预约必须有一组类别
   appt_calendar_event_dialog: 
@@ -1128,7 +1128,7 @@ zh-CN:
       messages: 
         google_docs_auth_required: "必须授权教学邦访问您的 Google Docs 帐户，然后才可直接从 Google Docs 提交考评作业:"
         media_recording_ready: 可以提交!单击"提交考评作业"按钮以完成。
-        media_recordings_disabled: 没有为此教学邦网站启用媒体记录，您无法提交这些类型的计分作业。请联系教师更改此考评作业的设置，或者要求教学邦管理员启用媒体记录。
+        media_recordings_disabled: 没有为此教学邦网站启用媒体记录，您无法提交这些类型的考评作业。请联系教师更改此考评作业的设置，或者要求教学邦管理员启用媒体记录。
         submitting: 正在提交...
         uploading: "检索要为此考评作业提交的 Google Doc 副本。这可能需要一段时间，具体取决于文件大小..."
       no_files: 无文件
@@ -1137,10 +1137,10 @@ zh-CN:
         view_in_separate_window: 在单独的窗口中查看
       upload_or_choose_file: 上传文件，或选择您已上传的文件。
     syllabus: 
-      page_title: "%{course} 的提纲"
+      page_title: "%{course} 的纲要"
     syllabus_content: 
       buttons: 
-        update_syllabus: 更新提纲
+        update_syllabus: 更新纲要
       headers: 
         date: 日期
         day: 日
@@ -1149,14 +1149,14 @@ zh-CN:
         syllabus: "教学大纲页面显示了一个表为导向的课程进度及评分。您可以添加有关课程设计，政策等评论，或有关课程的想法\n\
             要添加一些评论，请单击右侧 “编辑课程纲要”  "
       labels: 
-        syllabus_body: 提纲说明
+        syllabus_body: 纲要说明
       links: 
         jump_to_today: 跳至今天
       titles: 
-        course_syllabus: 课程提纲
+        course_syllabus: 课程纲要
     syllabus_right_side: 
       links: 
-        edit_syllabus_description: 编辑提纲说明
+        edit_syllabus_description: 编辑纲要说明
     syllabus_row: 
       syllabus: 
         other_day: 其他
@@ -1173,12 +1173,12 @@ zh-CN:
         no_assignment_group: 噢。您需要先添加考评作业组。单击"创建考评作业组"以查看方法。
       instructions: 
         wizard: 
-          details: "在到期日期和获得所需分数之前，还有许多计分作业要计分作业。如果要键入计分作业说明、允许文件上传、更改评分类型或多项其他设置，请单击考评作业名称或单击 %{edit_icon} 图标，然后单击\"更多选项\"。"
+          details: "在到期日期和获得所需分数之前，还有许多考评作业要考评作业。如果要键入考评作业说明、允许文件上传、更改评分类型或多项其他设置，请单击考评作业名称或单击 %{edit_icon} 图标，然后单击\"更多选项\"。"
           group: 
-            step1: 考评作业组用于组织计分作业。可为每个组提供名称。如果选择根据组加权最终评分（*哪里?*），则亦可为每个组设置比例分数。单击"添加考评作业组创建组."
+            step1: 考评作业组用于组织考评作业。可为每个组提供名称。如果选择根据组加权最终评分（*哪里?*），则亦可为每个组设置比例分数。单击"添加考评作业组创建组."
           overview: 此页面用于在高级别设置课程。可以添加考评作业、组织考评作业，然后加权这些组。方法是先组织，然后再研究细节。即使这样，在这里也可以执行许多操作。
           quizzes: 测试是特殊类型的考评作业。可以单击左侧栏中的"测试"链接来创建或导入测试。
-          step1: "考评作业始终要计分作业到组中，因此要添加考评作业，必须先知道要将其加入哪个组。选择该组，然后单击\"添加考评作业到\"或单击 %{add_icon} 图标，开始为组计分作业新计分作业。"
+          step1: "考评作业始终要考评作业到组中，因此要添加考评作业，必须先知道要将其加入哪个组。选择该组，然后单击\"添加考评作业到\"或单击 %{add_icon} 图标，开始为组考评作业新考评作业。"
           step2: 很好！现在输入详细信息。可以输入考评作业的标题、到期日期以及最高分数。如果还要执行其他操作，只有等到考评作业创建后。
           step3: "完成！考评作业已添加到组中！如果将鼠标放在考评作业上，将会看到许多选项。其含义如下:"
       links: 
@@ -1212,22 +1212,22 @@ zh-CN:
   attendance: 
     default_attendance_title: "参与 %{date}"
     errors: 
-      could_not_add_assignment: 添加计分作业失败
+      could_not_add_assignment: 添加考评作业失败
     options: 
       clear_attendance_marks: 清除参与标记
-      edit_assignment: 编辑计分作业
+      edit_assignment: 编辑考评作业
       mark_all_as_absent: 标记每个人缺席
       mark_all_as_present: 标记每个人出席
     status: 
-      added_assignment: 添加的计分作业
-      adding_assignment: 正在添加计分作业...
+      added_assignment: 添加的考评作业
+      adding_assignment: 正在添加考评作业...
     titles: 
       attendance_help: 参与帮助
       new_attendance_column: 新参与列
   bookmark_service: 
     default_title: 无标题
   button: 
-    submit_assignment: 提交计分作业
+    submit_assignment: 提交考评作业
   buttons: 
     add: 添加
     add_external_tool: 添加外部工具
@@ -1353,10 +1353,10 @@ zh-CN:
       my_appointment_groups: 我的预约组
       scheduler_explanation_student_header: 您没有需要注册的预约组
       scheduler_explanation_student_paragraph_1: 教师可以利用这一调度工具，安排学生注册。比如："上班时间"，"组演示时间"或"与聚会午餐"。
-      scheduler_explanation_student_paragraph_2: 您的老师都没有布置任何计分作业，您可以注册，但目前没有任何计分作业。如果有人发布东西，您将会收到通知。
+      scheduler_explanation_student_paragraph_2: 您的老师都没有布置任何考评作业，您可以注册，但目前没有任何考评作业。如果有人发布东西，您将会收到通知。
       scheduler_explanation_teacher_header: 您还没有创建任何预约组，没有可以签入
       scheduler_explanation_teacher_paragraph_1: 这是调度工具。您可以使用它为您的学生创建预约组。
-      scheduler_explanation_teacher_paragraph_2: 例如，如果您要跟每个学生过期中计分作业。您将创建一个新的预约组，您指定可以的日期和时间，每15分为一时间段，每一个学生可以选择这个时间。
+      scheduler_explanation_teacher_paragraph_2: 例如，如果您要跟每个学生过期中考评作业。您将创建一个新的预约组，您指定可以的日期和时间，每15分为一时间段，每一个学生可以选择这个时间。
       scheduler_explanation_teacher_paragraph_3: 学生将得到通知，看到他们需要签入的指定的时间段。他们可以在其它日历上看到有空的时间段。
       scheduler_explanation_teacher_paragraph_4: "* 点击右边 \"创建预约组\" 按钮开始 *"
       x_groups_have_signed_up: "%{signed_up}组已登记"
@@ -1418,14 +1418,14 @@ zh-CN:
         update: 更新活动
       date: 日期
       delete: 删除
-      different_date_for_each_section: 每个群体使用不同的日期
+      different_date_for_each_section: 每个学群(班级)使用不同的日期
       end_time: 结束时间
       event_title: 活动名称
       start_time: 开始时间
       to: 至
     edit_event: 
       tabs: 
-        assignment: 计分作业
+        assignment: 考评作业
         event: 活动
     end_before_start_error: 开始时间一定要在结束时间之前
     ends_in_past_error: 您不能在过去的时间段创建预约
@@ -1461,7 +1461,7 @@ zh-CN:
     ok: 确定
     open_appointment_on_this_day: 在这一日有一个开放的预约
     prompts: 
-      delete_assignment: 您确定要删除这项计分作业吗？
+      delete_assignment: 您确定要删除这项考评作业吗？
       delete_event: 您确定要删除此活动吗？
       unreserve_event: 你确定要删除这个事项的预约
     reschedule: 改期
@@ -1480,7 +1480,7 @@ zh-CN:
     time_block_row: 
       remove_row: 删除行
     titles: 
-      edit_appointment_group: 编辑计分作业组
+      edit_appointment_group: 编辑考评作业组
       edit_event: 编辑活动
     today: 今日
   calendar_event: 
@@ -1528,7 +1528,7 @@ zh-CN:
     ics_description_user: "%{user_name} 用户日历事项"
     ics_title: "%{course_or_group_name} 日历 （教学邦）"
   calendars: 
-    assignment_details: 计分作业详细信息
+    assignment_details: 考评作业详细信息
     calendar: 
       alts: 
         next: 下一个
@@ -1563,7 +1563,7 @@ zh-CN:
       options: 
         new_group: "[新组]"
       tabs: 
-        assignment: 计分作业
+        assignment: 考评作业
         event: 活动
       timespan: "%{start_time} *到* %{end_time}"
     default_title: 活动
@@ -1587,7 +1587,7 @@ zh-CN:
     notices: 
       event_moved: "%{event} 已移至 %{day}"
     prompts: 
-      delete_assignment: 是否确定要删除此计分作业?
+      delete_assignment: 是否确定要删除此考评作业?
       delete_event: 是否确定要删除此活动?
     show: 
       crumbs: 
@@ -1626,30 +1626,30 @@ zh-CN:
       links: 
         feed: 点击这里查看订阅
     titles: 
-      add_new_assignment: 添加新计分作业
+      add_new_assignment: 添加新考评作业
       add_new_event: 添加新活动
-      edit_assignment: 编辑计分作业
+      edit_assignment: 编辑考评作业
       edit_event: 编辑活动
     use_new_calendar: 尝试新的日历
     wizard_box: 
       descriptions: 
-        assignment: 很好。现在单击会话框中的"计分作业"选项卡以创建计分作业而非日历活动。
-        assignment_done: 完成！计分作业现已创建！可以单击它查看详细信息、编辑和删除活动，或者拖放至新的一天以更改其日期。
+        assignment: 很好。现在单击会话框中的"考评作业"选项卡以创建考评作业而非日历活动。
+        assignment_done: 完成！考评作业现已创建！可以单击它查看详细信息、编辑和删除活动，或者拖放至新的一天以更改其日期。
         change_date: 非常简单。只需将活动拖至新日期即可。也可以单击活动，然后单击"编辑"获取更具体的信息。
         create: 要开始创建日历活动，只需单击日历中您要安排该活动的日期。
-        create_assignment: 就像日历活动一样，单击要添加计分作业至其中的日期。或者单击"无日期的活动"框（*位置?*）以创建没有到期日期的计分作业。
-        delete: 单击日历中您要删除的活动或计分作业。
+        create_assignment: 就像日历活动一样，单击要添加考评作业至其中的日期。或者单击"无日期的活动"框（*位置?*）以创建没有到期日期的考评作业。
+        delete: 单击日历中您要删除的活动或考评作业。
         delete2: 现在单击"删除"（*位置?*），您的活动将被删除。
         delete_done: 完成。您刚才展示了一些重要的删除技巧。
         done: 完成！活动现已创建！可以单击它查看详细信息、编辑和删除活动，或者拖放至新的一天以更改其日期。
         edit: 很好！现在只需输入活动的名称（*位置?*）。可以为活动指定所需的开始和结束时间。或者只指定开始时间，还可以不指定时间。单击"提交"完成。
-        edit_assignment: 现在只需输入计分作业名称（*位置?*）及其所属的计分作业组。如果需要，也可以指定到期日期。单击"提交"完成。
+        edit_assignment: 现在只需输入考评作业名称（*位置?*）及其所属的考评作业组。如果需要，也可以指定到期日期。单击"提交"完成。
       labels: 
         i_would_like_to: 我要
       links: 
-        change_date: 更改活动/计分作业的日期
-        create_assignment: 创建新计分作业
-        delete: 删除活动/计分作业
+        change_date: 更改活动/考评作业的日期
+        create_assignment: 创建新考评作业
+        delete: 删除活动/考评作业
         new: 创建新活动
   canvas: 
     migration: 
@@ -1671,7 +1671,7 @@ zh-CN:
     public_domain: 公共域
   change_points_possible_to_match_rubric_dialog: 
     prompts: 
-      update_assignment_points: "这项计分作业可获 %{assignmentPoints}点，您想改变它为 %{rubricPoints}分数吗？"
+      update_assignment_points: "这项考评作业可获 %{assignmentPoints}点，您想改变它为 %{rubricPoints}分数吗？"
     titles: 
       update_assignment_points: 改变分数以匹配评分标准？
   collaboration: 
@@ -1896,13 +1896,13 @@ zh-CN:
   content_imports: 
     assignment: 
       links: 
-        delete_assignment: 删除计分作业
-        edit_assignment: 编辑计分作业
+        delete_assignment: 删除考评作业
+        edit_assignment: 编辑考评作业
     assignment_form: 
       buttons: 
-        save_assignment: 保存计分作业
+        save_assignment: 保存考评作业
       options: 
-        assignment: 计分作业
+        assignment: 考评作业
         discussion: 讨论
         file_upload: 文件上传
         new_group: "[新组]"
@@ -1913,11 +1913,11 @@ zh-CN:
         total: 总计
         weight_groups: 按组加权最终评分
       links: 
-        add_group: 添加计分作业组
+        add_group: 添加考评作业组
         delete_group: 删除组
         edit_group: 编辑组名称
       titles: 
-        assignment_groups: 计分作业组
+        assignment_groups: 考评作业组
     buttons: 
       import: 导入课程
     choose_content: 
@@ -1955,7 +1955,7 @@ zh-CN:
       crumbs: 
         copy_from_course: "复制%{course}"
       descriptions: 
-        copy_succeeded: "课程内容成功导入！您可以查看以下导入的成果。如果您对计分作业或事项的日期不满，您可以很容易在课程日历 (%{url} 上 [拖拽] 到不同日期。"
+        copy_succeeded: "课程内容成功导入！您可以查看以下导入的成果。如果您对考评作业或事项的日期不满，您可以很容易在课程日历 (%{url} 上 [拖拽] 到不同日期。"
       labels: 
         assignment: "考评作业%{course}"
         discussions: "讨论%{course}"
@@ -2035,7 +2035,7 @@ zh-CN:
         migrations_needing_action: 迁移需要操作
         successful_migrations: 成功的迁移
     intro: 
-      description: "如果从其他课程管理教学邦转换到 教学邦，则可能还有文件、测试、计分作业和事项需要移动。此向导应可轻松地完成此过程。"
+      description: "如果从其他课程管理教学邦转换到 教学邦，则可能还有文件、测试、考评作业和事项需要移动。此向导应可轻松地完成此过程。"
       if_any: （如有）
       links: 
         copy_course: 从**其它系统课程**复制内容
@@ -2085,7 +2085,7 @@ zh-CN:
       from_to: "*从* %{start_date} **到** %{end_date}"
       instructions: 选择要复制到此课程的内容。如果您已转入新学期，在底部还可以选择调整已迁移项目的所有日期。
       labels: 
-        assignment_groups: 计分作业组
+        assignment_groups: 考评作业组
         content_folders: 内容文件夹
         copy_all_question_banks: 复制所有题库
         copy_everything: 复制所有内容
@@ -2182,10 +2182,10 @@ zh-CN:
     buttons: 
       ok_thanks: 好，谢谢
     messages: 
-      assignment_locked_at: "此计分作业锁定于 %{at}。"
-      assignment_locked_module: "此计分作业是模块 *%{module}* 的一部分，尚未解锁。"
-      assignment_locked_no_reason: 此计分作业已锁定。尚未提供其他原因。
-      assignment_locked_until: "此计分作业锁定至 %{date}。"
+      assignment_locked_at: "此考评作业锁定于 %{at}。"
+      assignment_locked_module: "此考评作业是模块 *%{module}* 的一部分，尚未解锁。"
+      assignment_locked_no_reason: 此考评作业已锁定。尚未提供其他原因。
+      assignment_locked_until: "此考评作业锁定至 %{date}。"
       content_locked_at: "此内容锁定于 %{at}。"
       content_locked_module: "此内容是模块 *%{module}* 的一部分，尚未解锁。"
       content_locked_no_reason: 此内容已锁定。尚未提供其他原因。
@@ -2275,7 +2275,7 @@ zh-CN:
           one: "显示 %{count} 条评论"
           other: "显示 %{count} 更多评论"
         title: 
-          assignment_name: 计分作业名称
+          assignment_name: 考评作业名称
           author_name: 作者的名字
           submitter_name: 提交者的名字
       not_scored: 没有评分
@@ -2295,7 +2295,7 @@ zh-CN:
         alt: 
           submission: 提交
         title: 
-          submission: 计分作业提交
+          submission: 考评作业提交
       links: 
         add_comment: 添加评论...
         show_more_comments: 
@@ -2314,10 +2314,10 @@ zh-CN:
       delayed_posting: "此主题在 *%{date_time}* 之前对用户不可见"
       images: 
         alt: 
-          announcement: 通知
+          announcement: 公告
           topic: 主题
         title: 
-          announcement: 通知
+          announcement: 公告
           topic: 讨论
       initial_post_required: 只有在您回复一次才可看见其它人回复信息
       labels: 
@@ -2403,11 +2403,11 @@ zh-CN:
           enrollment_sis_defined: 这个参课是被其他人确定的，无法删除
         user_account_details: 用户账户明细
         user_grades: " %{user} 评分"
-        user_only_view_section: 限制这个用户只能看到以下学群信息
+        user_only_view_section: 限制这个用户只能看到以下学群(班级)信息
         user_outcomes: "%{user} 成绩"
         user_view_all_sections: 允许这个用户看到所有课程用户
-      user_only_view_section: 这个用户只能看到已分配的课程学群中的学生信息
-      user_view_all_sections: 这个用户可以看到任意课程的学群学生信息
+      user_only_view_section: 这个用户只能看到已分配的课程学群(班级)中的学生信息
+      user_view_all_sections: 这个用户可以看到任意课程的学群(班级)学生信息
     no_user: 
       course: 该用户不存在，或者目前不是此课程的成员
       group: 该用户不存在，或者目前不是此组的成员
@@ -2474,14 +2474,14 @@ zh-CN:
           enrollment_sis_defined: 此注册已被大学定义，无法删除
         user_account_details: 用户帐户详细信息
         user_grades: "%{user} 的评分"
-        user_only_view_section: 将此用户限于只能查看群体同学用户
+        user_only_view_section: 将此用户限于只能查看学群(班级)同学用户
         user_outcomes: "%{user} 的成果"
         user_view_all_sections: 让此用户查看所有课程用户
       no_messages: 无消息
       no_services: "%{user} 尚未将任何外部服务链接至其帐户。"
       services_not_visible: "您目前无法看见 %{user} 的注册服务。"
-      user_only_view_section: 此用户只能在其被计分作业的课程群体中查看学生
-      user_view_all_sections: 此用户可在任何课程群体查看学生
+      user_only_view_section: 此用户只能在其被考评作业的课程学群(班级)中查看学生
+      user_view_all_sections: 此用户可在任何课程学群(班级)查看学生
     roster_user_services: 
       headings: 
         registered_services: 注册的服务
@@ -2529,7 +2529,7 @@ zh-CN:
       max_score: "得分不得超过 %{score}"
       min_score: "得分至少为 %{score}"
       must_contribute: 必须参与页面
-      must_submit: 必须提交计分作业
+      must_submit: 必须提交考评作业
       must_view: 必须查看页面
   context_modules: 
     buttons: 
@@ -2556,7 +2556,7 @@ zh-CN:
         students_locked: 未解锁模块的学生
         students_unlocked: 已解锁（但未启动）模块的学生
       help: 
-        create: "课程模块可让您将计分作业、页面、文件等组织为更小的群体或模块。模块可围绕主题组织，集中于具体的课题，或只是按时间顺序组织。 您也可以定义每个模块的标准和先修课程，以此安排模块的顺序。学生在其解锁所有先修课程之前无法访问模块。这样可以防止学生在评审测试中获得一定分数（例如 75%）之前访问特定内容或文件。要开始将课程组织为模块，请单击右边的 %{button} 按钮。"
+        create: "课程模块可让您将考评作业、页面、文件等组织为更小的学群(班级)或模块。模块可围绕主题组织，集中于具体的课题，或只是按时间顺序组织。 您也可以定义每个模块的标准和先修课程，以此安排模块的顺序。学生在其解锁所有先修课程之前无法访问模块。这样可以防止学生在评审测试中获得一定分数（例如 75%）之前访问特定内容或文件。要开始将课程组织为模块，请单击右边的 %{button} 按钮。"
         no_modules: 没有为此课程定义模块。
       images: 
         alt: 
@@ -2567,7 +2567,7 @@ zh-CN:
         title: 
           min_score: "在模块被视为完成之前，学生必须在此项目上获得 %{min_score}"
           must_contribute: 在模块被视为完成之前，学生必须参与此项目
-          must_submit: 在模块被视为完成之前，学生必须提交此计分作业
+          must_submit: 在模块被视为完成之前，学生必须提交此考评作业
           must_view: 在模块被视为完成之前，学生必须查看此项目
       indent: 
         ? "n"
@@ -2623,7 +2623,7 @@ zh-CN:
       requirements: 
         must_contribute: 参与页面
         must_score_at_least: 至少得分
-        must_submit: 提交计分作业
+        must_submit: 提交考评作业
         must_view: 查看项目
       select_module: 
         instructions: 选择模块
@@ -2691,7 +2691,7 @@ zh-CN:
           max_score: 在模块被视为完成之前，学生不得超过此项目的最高分数
           min_score: 在模块被视为完成之前，学生必须达到此项目的最低分数
           must_contribute: 在模块被视为完成之前，学生必须参与此项目
-          must_submit: 在模块被视为完成之前，学生必须提交此计分作业
+          must_submit: 在模块被视为完成之前，学生必须提交此考评作业
           must_view: 在模块被视为完成之前，学生必须查看此项目
       links: 
         edit_item: 编辑项目详细信息
@@ -2708,8 +2708,8 @@ zh-CN:
         fulfilled: 已参与页面的内容
         unfulfilled: 必须参与页面的内容
       must_submit: 
-        fulfilled: 已提交计分作业
-        unfulfilled: 必须提交计分作业
+        fulfilled: 已提交考评作业
+        unfulfilled: 必须提交考评作业
       must_view: 
         fulfilled: 已查看页面
         unfulfilled: 必须查看页面
@@ -2921,7 +2921,7 @@ zh-CN:
       id: ID
       points_possible: 最高分
       read_only_field: （只读）
-      section: 学群
+      section: 学群(班级)
       sis_login_id: "SIS 登录 ID"
       sis_user_id: "SIS 用户 ID"
       student: 学生
@@ -2955,10 +2955,10 @@ zh-CN:
       teachers_students: 教师和学生
   course_exports: 
     errors: 
-      assignment: "计分作业 \"%{title}\"无法导出"
-      assignment_groups: 无法导出计分作业组
-      assignment_is_locked: "计分作业 \"%{title}\" 因已锁定不能拷贝"
-      assignments: 无法导出某些计分作业
+      assignment: "考评作业 \"%{title}\"无法导出"
+      assignment_groups: 无法导出考评作业组
+      assignment_is_locked: "考评作业 \"%{title}\" 因已锁定不能拷贝"
+      assignments: 无法导出某些考评作业
       canvas_meta: 无法导出教学邦特定元数据
       course_export: 运行课程导出时出错。
       course_settings: 无法导出课程设置
@@ -2988,7 +2988,7 @@ zh-CN:
       wiki_pages: 无法导出维基页面
     errors_list_message: "导出 %{export_id} 出错:"
     unknown_titles: 
-      assignment: 未知计分作业
+      assignment: 未知考评作业
       file: 未知文件
       topic: 未知主题
       wiki_page: 未知维基页面
@@ -3000,32 +3000,32 @@ zh-CN:
     sis_id_taken: "SIS ID \"%{sis_id}\" 已在使用中"
   course_settings: 
     buttons: 
-      add_section: 添加群体
-      adding_section: 正在添加群体...
+      add_section: 添加学群(班级)
+      adding_section: 正在添加学群(班级)...
       re_sending_all: 正在重新发送未接受的邀请...
       re_sent_all: 重新发送所有未接受的邀请！
     cancel: 取消
     confirm: 
-      delete_section: 是否确定要删除此群体?
+      delete_section: 是否确定要删除此学群(班级)?
       publish_grades: 是否确定要发布这些评分到学生信息教学邦?如果所有评分都已确定，应只执行此操作
       re_publish_grades: 是否确定要重新发布这些评分到学生信息教学邦?
     course_dates_enforced: 用户只能参与这些日期之间的课程
     course_dates_unenforced: 这些日期不会影响课程可用性
     delete_confirm: 确认要删除这个用户？
-    edit_sections_placeholder: 输入学群名称
+    edit_sections_placeholder: 输入学群(班级)名称
     errors: 
       invalid_sis_status: "无效的 SIS 发布状态"
       invitation: 邀请失败。请重试。
       publish_grades: 在尝试发布评分到学生信息教学邦时出错。请稍后重试。
       re_send_all: 发送失败，请重试
-      section: 添加群体失败，请重试
+      section: 添加学群(班级)失败，请重试
     flash: 
       linkError: 更新学生链接时出错，请稍后再试
       links: 学生链接更新成功
       removeError: 不能删除用户，请稍后再试
       removed: 用户已被删除
-      sectionError: 更新学生学群时出错，请稍后再试
-      sections: 学群参课更新成功
+      sectionError: 更新学生学群(班级)时出错，请稍后再试
+      sections: 学群(班级)参课更新成功
     grading_standard_set: 现已设置
     grading_standard_unset: 未设置
     indexed_course: 包含在公共课程索引中
@@ -3049,7 +3049,7 @@ zh-CN:
       link_to_students: 链接到学生
       move_course: 移动课程
       reset_course_content_dialog_help: 重置课程内容
-      section_enrollments: 学群参课
+      section_enrollments: 学群(班级)参课
     updating: 正更新
   course_statistics: 
     unknown: 未命名
@@ -3065,7 +3065,7 @@ zh-CN:
       links: 
         show_more: "%{count}更多..."
         title: 
-          ignore: 忽略此计分作业
+          ignore: 忽略此考评作业
       need_grading_count: 
         one: 1个需要评分
         other: "%{count}个需要评分"
@@ -3104,9 +3104,9 @@ zh-CN:
       buttons: 
         publish: 发布课程
       details: 
-        assignments: "添加计分作业。您可以只添加一个较长的计分作业列表，或对计分作业进行分组 – 还可以指定每个计分作业组的权重。"
-        available: 现在，您的课程已经设置就绪，您可能不再需要这份清单。但我们会保存它，以便您在今后想尝试一些新计分作业或对课程内容进行更改时，能够为您提供帮助。
-        calendar: 日历功能对于了解日历以及向课程添加任何非计分作业活动都大有裨益。不用担心，我们会帮助您使用它。
+        assignments: "添加考评作业。您可以只添加一个较长的考评作业列表，或对考评作业进行分组 – 还可以指定每个考评作业组的权重。"
+        available: 现在，您的课程已经设置就绪，您可能不再需要这份清单。但我们会保存它，以便您在今后想尝试一些新考评作业或对课程内容进行更改时，能够为您提供帮助。
+        calendar: 日历功能对于了解日历以及向课程添加任何非考评作业活动都大有裨益。不用担心，我们会帮助您使用它。
         claimed: 
           not_saved: 好，您的课程已经设置完毕...接下来该干什么呢?在您发布课程之前，可能需要检查课程，确保您了解基本框架。逐步检查左侧的列表，确保您的课程可以使用。*本课程在发布之前只有教师可以查看*
           saved: "完成！您已正式创建课程 %{course}。该课程在发布之前只有您本人才能查看 – 但在发布之前，您应该认真查看左侧的列表，以熟悉教学邦的使用方法并确保您做好了授课准备。"
@@ -3114,14 +3114,14 @@ zh-CN:
           not_saved: "本课程已创建，但未被领受。在一周内未被领受的课程将被删除。在此期间，请勾选左侧的列表，确保您已经做好准备。 如果您暂时需要离开，只需保存*此链接*以便在有效满之前返回此处。 请**登录**或***注册***以领受本课程。"
           saved: "完成！您已正式创建课程 %{course}。该课程在发布之前只有您本人才能查看– 但在发布之前，您应该认真查看左侧的列表，以熟悉教学邦的使用方法并确保您做好了授课准备。 如果您暂时需要离开，只需保存*此链接*以便在有效满之前返回此处。 请**登录**或***注册***以领受本课程。"
         files: "文件选项卡是用来分享讲义的区域，例如文档、学习帮助等 – 学生需要下载的任何文件。在教学邦中，上传和组织文件是轻而易举的事情。我们会告诉您如何操作"
-        home: "此页面是用户访问本课程时看到的页面。您可以设置它显示活动流、课程模块列表、提纲或自己编写的自定义页面。默认显示为课程活动流。要自定义此显示，只需单击 %{change_layout}。"
+        home: "此页面是用户访问本课程时看到的页面。您可以设置它显示活动流、课程模块列表、纲要或自己编写的自定义页面。默认显示为课程活动流。要自定义此显示，只需单击 %{change_layout}。"
         import: "如果您曾使用其他课程管理教学邦，您可能需要将其中的材料转移到教学邦中。我们可以引导您轻松将内容迁移到 教学邦。"
         navigation: 默认情况下会启用课程的所有相关链接。对于没有内容的部分，学生将无法看到其链接。例如，如果您尚未创建任何测试，学生将无法看到测试链接。对于您不希望学生访问的课程部分，您可以归类并明确禁用这些链接。
         publish: 
           form: "全部完成了吗?可以发布您的课程了！单击下面的按钮，正式发布课程！ 发布课程时会向所有课程用户发送电子邮件邀请，以便他们能够注册并开始学习该课程"
           not_registered: 本课程已被领受并准备就绪，但需要完成注册过程后才能发布。您应该收到了来自教学邦的电子邮件，其中包含完成该过程的链接。确保检查您的垃圾邮件箱。
         students: 您肯定对学生感兴趣。试想，没有学生参与的课程有什么趣味呢?
-        tas: 您可能要指定一些助教帮助您教授课程。助教可以帮助您批改学生计分作业、引导讨论以及更新到期日期和计分作业详细信息。
+        tas: 您可能要指定一些助教帮助您教授课程。助教可以帮助您批改学生考评作业、引导讨论以及更新到期日期和考评作业详细信息。
       headings: 
         next_steps: 后续步骤
       links: 
@@ -3170,7 +3170,7 @@ zh-CN:
       titles: 
         courses: 课程
         rss: 
-          course_announcements: "课程通知 Atom 订阅"
+          course_announcements: "课程公告 Atom 订阅"
     link_enrollment: 
       buttons: 
         link: 链接至学生
@@ -3216,8 +3216,8 @@ zh-CN:
     recent_event: 
       all_graded: 所有已评分
       needs_grading: 需要评分
-      no_new_submissions: 无新计分作业
-      no_submissions: 新计分作业
+      no_new_submissions: 无新考评作业
+      no_submissions: 新考评作业
       not_submitted: 未提交
       submission_score: "%{score} *超出 %{points_possible}*"
     recent_feedback: 
@@ -3238,7 +3238,7 @@ zh-CN:
     settings: 
       alerts_title: 警报
       buttons: 
-        add_section: 添加群体
+        add_section: 添加学群(班级)
         add_users: 看起来不错，添加这些用户
         continue: 继续...
         kthxbai: 好，谢谢
@@ -3253,7 +3253,7 @@ zh-CN:
       drag_details: 禁用大部分页面会导致访问这些页面的学生被重定向至课程主页。
       drag_to_hide: 拖动项目到此处可对学生隐藏它们。
       edit_sections_view: 
-        edit_sections_desc: "学群是用来把参课学生进行分群，这样您可以同时在一个课程中让多个学群的学生参课。比如 中小学网校：班级 其它网校：地区或部门等。 你可以把学生从一个学群移到另一个学群，也可以按学群加入或退出参课。 用户必须至少属于一个学群。"
+        edit_sections_desc: "学群(班级)是用来把参课学生进行分群，这样您可以同时在一个课程中让多个学群(班级)的学生参课。比如 中小学网校：班级 其它网校：地区或部门等。 你可以把学生从一个学群(班级)移到另一个学群(班级)，也可以按学群(班级)加入或退出参课。 用户必须至少属于一个学群(班级)。"
       enrollment_count: 
         one: 1用户
         other: "%{count}个用户"
@@ -3270,7 +3270,7 @@ zh-CN:
         grade_publishing: 评分发布
         move_course: 将课程移动到其他顶级账户
         observers: 观察员
-        sections: 课程群体
+        sections: 课程学群(班级)
         students: 学生
         tas: 助教
         teachers: 教师
@@ -3293,14 +3293,14 @@ zh-CN:
       invite_to_unpublished_course: 由于课程尚未发布，虽然可添加学生和助教，但不会发送参与课程的邀请。邀请将在课程发布时发送。
       labels: 
         account_id: 部门
-        allow_student_assignment_edits: 允许学生编辑计分作业说明
+        allow_student_assignment_edits: 允许学生编辑考评作业说明
         allow_student_forum_attachments: 允许学生附加文件到讨论贴
         allow_student_organized_groups: 允许学生组织自己的组
         conclude_at: 结束
         course_code: 课程代码
         course_name: 名称
-        course_section_id: 群体
-        course_section_name: 新增群体
+        course_section_id: 学群(班级)
+        course_section_name: 新增学群(班级)
         course_visibility: 可见性
         enrollment_term_id: 学期
         enrollment_type: 添加更多
@@ -3315,7 +3315,7 @@ zh-CN:
         is_public: 使此课程公开可见
         language: 语言
         license: 许可证
-        limit_privileges_to_course_section: 这些管理员只能在其负责的群体中为学生评分
+        limit_privileges_to_course_section: 这些管理员只能在其负责的学群(班级)中为学生评分
         open_enrollment: "添加 \"参与此课程\" 链接到课程主页"
         restrict_enrollments_to_course_dates: 用户只能参与这些日期之间的课程
         root_account_id: 顶级账户
@@ -3340,9 +3340,9 @@ zh-CN:
         more_options: 更多选项
         move_course: 移动到其他帐户
         title: 
-          cant_delete: 无法删除用户已注册的群体
-          delete_section: 删除群体
-          edit_section: 编辑群体
+          cant_delete: 无法删除用户已注册的学群(班级)
+          delete_section: 删除学群(班级)
+          edit_section: 编辑学群(班级)
       megabytes: MB
       no_date: 未设置日期
       no_language_preference: "未设置（用户可配置，默认使用 %{language}）"
@@ -3369,12 +3369,12 @@ zh-CN:
         details: 课程详细信息
         grade_publishing: 评分发布
         navigation: 导航
-        sections: 学群
+        sections: 学群(班级)
         tools: 外部工具
         users: 用户
       teacherless_invite_details: 如果您邀请了教师并且被其接受，您将放弃对此课程的管理权限。
       titles: 
-        course_section: 课程群体
+        course_section: 课程学群(班级)
         edit_navigation: 编辑课程导航
         enrollment_type: 注册类型
       too_general_twitter_hashtag: 
@@ -3385,7 +3385,7 @@ zh-CN:
       unaccepted_invitations: "%{count} 个邀请未被接受。您可以单击用户名称以重新发送邀请。"
       user_view: 
         links: 
-          edit_sections: 编辑学群
+          edit_sections: 编辑学群(班级)
           link_to_students: 链接到学生
           remove_from_course: 从课程中删除
           resend_invitation: 重发邀请
@@ -3423,13 +3423,13 @@ zh-CN:
       buttons: 
         update_layout: 更新布局
       details: 
-        assignments: 此视图显示本课程的**计分作业列表**，即将到来和近期的计分作业显示在顶部。
+        assignments: 此视图显示本课程的**考评作业列表**，即将到来和近期的考评作业显示在顶部。
         communication_stream: "**通信流**允许参与者查看此课程的最新交流、通知和互动信息。它非常类似于用户首次登陆时看到的面板页面，但只显示此特定课程的内容。"
         confirm_unenroll: 是否确定要取消注册此课程?您将不再能够看到课程清单或与教师直接沟通，并且在您的通信流和通知中不再看到课程活动。
         custom_page: 您可以**设计自己的课程主页**，在其中包含您喜欢的任何链接、图像或富媒体。
         joining_a_course: 在参与课程后，该课程将显示在您的课程列表中。您将能够参与课程的已评分部分，并且能够与教师及其他学生直接沟通。.您还将在您的通信流和通知中看到本课程的交流和活动。
-        modules: "您可以将课程组织成**模块或群体**，每节包含一组相关的文件、计分作业和页面等。如果需要，还可以通过定义每个模块解锁之前需要完成的标准和先决条件，来组织序列模块。 这种布局可能最适合没有特定时间表（例如学期）的课程。"
-        syllabus: "**提纲视图**允许您编写有关课程期望的说明或通过链接、图像方式等介绍课程。还显示涵盖所有计分作业和课程活动的日历视图。"
+        modules: "您可以将课程组织成**模块或学群(班级)**，每节包含一组相关的文件、考评作业和页面等。如果需要，还可以通过定义每个模块解锁之前需要完成的标准和先决条件，来组织序列模块。 这种布局可能最适合没有特定时间表（例如学期）的课程。"
+        syllabus: "**纲要视图**允许您编写有关课程期望的说明或通过链接、图像方式等介绍课程。还显示涵盖所有考评作业和课程活动的日历视图。"
       dropping_course: 正在放弃课程...
       empty_body: 无内容
       headings: 
@@ -3449,14 +3449,14 @@ zh-CN:
         course_stream: 查看课程流
         drop_course: 放弃此课程
         join_course: 参与此课程
-        new_announcement: 新通知
+        new_announcement: 新公告
         restore_role: 恢复角色和权限
       options: 
-        assignments: 计分作业列表
+        assignments: 考评作业列表
         communication_stream: 通信流
         custom_page: 自定义页面
-        modules: 课程模块/群体
-        syllabus: 含有提纲的考评作业
+        modules: 课程模块/学群(班级)
+        syllabus: 含有纲要的考评作业
       period_name: 最近两周
       re_sending: 正在重新发送...
       send_done: 完成！收到消息可能需要几分钟。
@@ -3475,12 +3475,12 @@ zh-CN:
       labels: 
         assignments_weighting: 按组加权考评作业
       no_groups: 未设置组
-      not_weighted: 未加权课程计分作业。
+      not_weighted: 未加权课程考评作业。
     statistics: 
       active_students: 活动学生
       all_rubrics: 所有规则
       any: 任何
-      assignment_groups: 计分作业组
+      assignment_groups: 考评作业组
       assignments: 考评作业
       course_rubrics: 课程规则
       discussion_posts: 讨论贴
@@ -3528,7 +3528,7 @@ zh-CN:
     discussion_replies: 讨论回复
   crumbs: 
     access_report: 访问报告
-    announcements: 通知
+    announcements: 公告
     assignments: 考评作业
     calendar_events: 日历活动
     chat: 聊天
@@ -3546,7 +3546,7 @@ zh-CN:
     media: 媒体
     messages: 消息
     modules: 模块
-    outcomes: 成果
+    outcomes: 成绩
     people: 成员
     plugins: 插件
     prior_users: 之前的用户
@@ -3557,7 +3557,7 @@ zh-CN:
     settings: 设置
     site_admin: 网站管理
     stats: 统计
-    syllabus: 提纲
+    syllabus: 纲要
     users: 用户
     wiki_page_revisions: 修订版
     wiki_pages: 页面
@@ -3569,7 +3569,7 @@ zh-CN:
     curve_average: "输入 *%{assignment.name}* 的曲线平均评分。图表显示根据当前学生分数计算曲线评分的最佳方法。"
     curve_grade_for_assignment: "%{assignment.name} 的曲线评分"
     labels: 
-      assign_blanks: 对未提交的学生计分作业给零分
+      assign_blanks: 对未提交的学生考评作业给零分
     out_of_points_possible: " %{assignment.points_possible}"
   dashboard: 
     cancel: 取消
@@ -3692,7 +3692,7 @@ zh-CN:
       second: 秒
       year: 年
   defaults: 
-    assignment: 计分作业
+    assignment: 考评作业
   developer_key: 
     api_key: "Key: *%{api_key}*"
     created: 创建：
@@ -3789,8 +3789,8 @@ zh-CN:
     empty_message: 无消息
   discussion_topics: 
     confirm_delete_announcement: 
-      one: 您确定要删除这个通知?
-      other: "您确认要删除这些通知 %{count} ?"
+      one: 您确定要删除这个公告?
+      other: "您确认要删除这些公告 %{count} ?"
     confirm_delete_discussion_topic: 
       one: 您确定要删除这个讨论话题?
       other: "您确认要删除这些讨论话题 %{count} ?"
@@ -3842,21 +3842,21 @@ zh-CN:
       delete: 删除
       loading: 正在载入...
       lock_for_comments: 锁定评论
-      make_an_announcement: 发布一个通知
-      make_an_announcement_caps: 发布一个通知
+      make_an_announcement: 发布一个公告
+      make_an_announcement_caps: 发布一个公告
       make_sure_all_search_terms_are_spelled_correctly: 确保搜索项正确
       new_discussion: 创建新讨论
       rss_feed: "RSS feed"
       search_title_body_or_author: 搜索主题，正文，作者
       start_one_now: 创建一个新的
       suggestions: 建议：
-      there_are_no_announcements_show: 没有通知
+      there_are_no_announcements_show: 没有公告
       there_are_no_discussion_topics_to_show: 没有讨论话题
       try_different_more_general_or_fewer_keywords: 试试其它关键字
       try_disabling_the_unread_filters: 去掉”未读"帅选
       try_disabling_the_unread_or_assignments_filters: 去掉未读或考评作业过滤
       unread: 未读
-      your_search_did_not_match_any_announcements: 没有找到相关通知
+      your_search_did_not_match_any_announcements: 没有找到相关公告
       your_search_did_not_match_any_discussion_topics: 没有找到相关讨论话题
     new_and_total_badge: 
       reply_count_tooltip: 
@@ -3873,7 +3873,7 @@ zh-CN:
       zero: 没有回复
     show: 
       add_rubric: 新增评分标准
-      assignment_settings: 计分作业的详细信息
+      assignment_settings: 考评作业的详细信息
       authors_name: 作者的名字
       collapse_all: 全部收起
       confirm_delete_discussion: 您确定要删除这个讨论吗？
@@ -3883,7 +3883,7 @@ zh-CN:
       discussion_podcast_feed_title: 讨论播客订阅
       due: "由于%{date}"
       edit: 编辑
-      edit_assignment_settings: 编辑计分作业设置
+      edit_assignment_settings: 编辑考评作业设置
       edit_current_message: 编辑当前消息
       edited_by: "本主题编辑}%{user}"
       expand_all: 全部展开
@@ -3907,7 +3907,7 @@ zh-CN:
       retrieved_from_feed: "取自%{feed}"
       separated_conversation_notice: 有关此主题的会话被分成不同的组。以下是您可以访问的组主题列表。
       show_rubric: 显示评分
-      speed_grader: 评分栏
+      speed_grader: 评分器
       topic: 主题
       topic_for_assignment: 这是一个计分讨论
       topic_locked: "这个话题在 *%{date}* 前用户不可见"
@@ -3942,7 +3942,7 @@ zh-CN:
       go_to_parent: 转到父
       just_read: 刚读
       manage_discussion_entry: 管理讨论输入
-      open_in_speedgrader: 在评分栏打开
+      open_in_speedgrader: 在评分器打开
       unknown_author: 未知作者
       unread: 未读
     participant: 
@@ -4022,10 +4022,10 @@ zh-CN:
   eportfolio: 
     buttons: 
       done_editing: 完成编辑
-      manage_sections: 管理群体
+      manage_sections: 管理学群(班级)
     confirm_delete_message: 是否确定要删除此消息?
     confirm_delete_page: 删除此页及其所有内容?
-    confirm_delete_section: 删除此学群及其所有页面?
+    confirm_delete_section: 删除此学群(班级)及其所有页面?
     default_description: "这是我在 %{course} 中提交的 %{assignment}。"
     eportfolio_settings: "电子文档 设置"
     errors: 
@@ -4047,7 +4047,7 @@ zh-CN:
     errors: 
       missing_page: 找不到该页
   eportfolio_category: 
-    default_section: 学群名称
+    default_section: 学群(班级)名称
   eportfolio_entries: 
     errors: 
       not_found: 找不到
@@ -4074,7 +4074,7 @@ zh-CN:
       updated_at: "上次更新时间 %{updated_at}"
     help_link_text: "%{help_icon} 如何...?"
     manage_pages_link_text: 组织/管理页面
-    manage_sections_link_text: 组织群体
+    manage_sections_link_text: 组织学群(班级)
     notices: 
       created: "Porfolio 已成功创建"
       deleted: "Portfolio 已成功删除"
@@ -4086,12 +4086,12 @@ zh-CN:
       default_page_name: 页面名称
       edit_instructions: 单击任何页面名称可对其重命名，单击并拖动可重新排序。
       headers: 
-        page_list: 此学群的页面
+        page_list: 此学群(班级)的页面
       links: 
         add_page: 添加其他页面
       titles: 
         delete_page: 删除此页面
-        manage_pages: 添加、删除或重排此学群的页面
+        manage_pages: 添加、删除或重排此学群(班级)的页面
         rename_page: 重命名页面
     page_section: 
       links: 
@@ -4104,14 +4104,14 @@ zh-CN:
         rich_text: 富文本内容
         submission: 课程提交
       titles: 
-        delete_section: 删除此学群
-        move_section: 拖动以重排群体
+        delete_section: 删除此学群(班级)
+        move_section: 拖动以重排学群(班级)
     page_section_static: 
       headers: 
         submission: "学生提交的 %{assignment} 创建日期为 %{created_date}"
       links: 
         download_attachment: "单击此处下载 *%{attachment}*"
-        submission_url: "查看为此计分作业提交的 URL"
+        submission_url: "查看为此考评作业提交的 URL"
       not_rendered: 此处是提交文件的位置，但我们找不到文件或教学邦不支持导出该提交文件类型。
       rich_text: 
         default_content: 尚未输入内容
@@ -4120,15 +4120,15 @@ zh-CN:
     section_list: 
       buttons: 
         done_editing: 完成编辑
-      default_section_name: 学群名称
+      default_section_name: 学群(班级)名称
       links: 
-        add_section: 添加群体
+        add_section: 添加学群(班级)
         settings: "电子文档 设置"
       titles: 
-        manage_sections: 添加、删除或重排此电子文档的群体
-        rename_section: 重命名此学群
+        manage_sections: 添加、删除或重排此电子文档的学群(班级)
+        rename_section: 重命名此学群(班级)
     show: 
-      add_submission: 要为此提交文件添加新页面，请选择群体并输入新页面的名称。
+      add_submission: 要为此提交文件添加新页面，请选择学群(班级)并输入新页面的名称。
       attachment_count: 
         one: 1个附件
         other: "%{count}附件"
@@ -4158,7 +4158,7 @@ zh-CN:
       labels: 
         add_comment: 添加新评论
         allow_comments: 允许在此页添加评论
-        choose_submission: 选择要嵌入此页的计分作业提交文件
+        choose_submission: 选择要嵌入此页的考评作业提交文件
         eportfolio_name: "电子文档 名称"
         file_select: 选择要包含到此页中的文件
         file_upload: 或上传新文件
@@ -4166,7 +4166,7 @@ zh-CN:
         loading_submission: 正在加载提交文件
         make_public: 使其公开
         page_name: 页面名称
-        section: 学群
+        section: 学群(班级)
         show_comments: 使评论公开
         uploading_file: 正在上传
       links: 
@@ -4184,7 +4184,7 @@ zh-CN:
         view_original: 查看原始文件
         wizard: 入门向导
       login_required: 必须*登录*后才能在此页发表评论。
-      new_section: 新群体
+      new_section: 新学群(班级)
       no_comments: 无评论
       no_files: 未上传文件
       no_submissions: 找不到提交文件
@@ -4239,12 +4239,12 @@ zh-CN:
         instructions: "使用 电子文档"
         introduction: 简介
         page_content: 页面内容
-        pages: 群体页面
-        sections: 电子文档群体
+        pages: 学群(班级)页面
+        sections: 电子文档学群(班级)
         settings: "电子文档 设置"
         submissions: 添加提交文件
       introduction: 
-        body: "电子文档 是用来展示作品的地方。它们由群体和页面组成。窗口 (%{showme1}) 左侧显示群体列表。每节可能有多个页面，这些页面显示在窗口 (%{showme2}) 右侧。"
+        body: "电子文档 是用来展示作品的地方。它们由学群(班级)和页面组成。窗口 (%{showme1}) 左侧显示学群(班级)列表。每节可能有多个页面，这些页面显示在窗口 (%{showme2}) 右侧。"
       links: 
         portfolio: 查看电子文档
       page_content: 
@@ -4253,16 +4253,16 @@ zh-CN:
         body3: "内容分为多个小节，每个小节都有虚线边框。通过单击小节右上角的 %{edit_icon} 或 %{delete_icon} 图标，可编辑或删除该小节的内容。"
         body4: "要添加新小节，请在页面 (%{showme}) 右侧的选项列表中查找并单击要添加的内容类型。"
       pages: 
-        body1: "群体含有多个页面。您可以在窗口 (%{showme1}) 右侧查看当前群体的页面列表。要组织或添加页面，请单击 \"%{manage_pages}\" 链接 (%{showme2})。"
+        body1: "学群(班级)含有多个页面。您可以在窗口 (%{showme1}) 右侧查看当前学群(班级)的页面列表。要组织或添加页面，请单击 \"%{manage_pages}\" 链接 (%{showme2})。"
         body2: "您可以通过单击 %{edit_icon} 图标来重命名任何页面，通过单击 %{delete_icon} 图标来删除页面，或通过单击并拖动来重排页面顺序。"
       sections: 
-        body1: "窗口 (%{showme1}) 左侧列出各个群体。每个群体可能含有多个页面。要组织或添加群体，请单击 \"%{manage_sections}\" 链接 (%{showme2})。"
-        body2: "您可以通过单击 %{edit_icon} 图标来重命名任何群体，通过单击并拖动来重新排列群体，或通过单击 %{delete_icon} 图标来删除群体。"
+        body1: "窗口 (%{showme1}) 左侧列出各个学群(班级)。每个学群(班级)可能含有多个页面。要组织或添加学群(班级)，请单击 \"%{manage_sections}\" 链接 (%{showme2})。"
+        body2: "您可以通过单击 %{edit_icon} 图标来重命名任何学群(班级)，通过单击并拖动来重新排列学群(班级)，或通过单击 %{delete_icon} 图标来删除学群(班级)。"
       settings: 
         body: "要更改 电子文档 的设置，请单击 \"电子文档 Settings\" 链接 (%{showme})。您可以重命名电子文档，也可以将其可见性更改为公开或私人。私人公文包只有您授权的用户才能查看。"
       submissions: 
         body1: "您可能已经注意到，此页的底部是班级 (%{showme}) 最近提交的文件列表。您可以在此页中快速添加提交文件到电子文档中的新页面。只需单击要添加的提交文件，就会弹出一个简单的会话框。"
-        body2: "很好！现在要完成添加提交文件的操作，您需要选择要添加到的群体，并指定页面名称。单击 \"添加页面\" 之后，您将会转到新页面，以便能够根据需要进行详细编辑。"
+        body2: "很好！现在要完成添加提交文件的操作，您需要选择要添加到的学群(班级)，并指定页面名称。单击 \"添加页面\" 之后，您将会转到新页面，以便能够根据需要进行详细编辑。"
   errors: 
     bad_navigation_config: 课程选项卡的配置无效
     failed: 已失败
@@ -4306,7 +4306,7 @@ zh-CN:
       too_long: "太长了 (最多 %{count} 个字符) "
       too_short: "太短了 (至少 %{count} 个字符) "
       wrong_length: "长度错误 (应该 %{count} 个字符) "
-    no_attached_file: 您必须至少有一个文件附加到这项计分作业
+    no_attached_file: 您必须至少有一个文件附加到这项考评作业
     registration_incomplete: 请先确认邮箱地址才可以看到这个页面
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
   external_content: 
@@ -4420,11 +4420,11 @@ zh-CN:
       learn_more: "更多信息请参阅 .com"
       more_information: "更多信息请参阅 %{domain_list}"
       no_messages_notice: 当课程中发生事情时，您将在此处看到通知，从而知道您的教学邦帐户中发生的事情。
-      notification_about: "教学邦 Facebook 应用程序旨在方便您访问课程中的互动信息。您可以设置为当您的计分作业被评分、当期日期更改等活动时向您发送通知。您的私人数据在教学邦中仍然保持私密性。"
+      notification_about: "教学邦 Facebook 应用程序旨在方便您访问课程中的互动信息。您可以设置为当您的考评作业被评分、当期日期更改等活动时向您发送通知。您的私人数据在教学邦中仍然保持私密性。"
       notification_settings: 通知设置
       notifications_notice: "下面您可以看到来自教学邦的最近通知列表。您可以从 Facebook 主页查看教学邦新通知的数量（如果您制作了此应用程序的书签）。"
       welcome: "欢迎回来，%{name}！"
-      welcome_message: "欢迎使用  免费提供的新款在线学习软件。这款软件旨在帮助您更好地利用网络提高学习。我们的界面简洁、清爽且开放，我们充分利用您和您的学生已在使用的工具（例如 Facebook）提供更开放、更协作的学习体验。我们将它融合成一个强大、开放的软件包，而不仅仅一款跟踪计分作业的软件。它鼓励互动并促进学习。"
+      welcome_message: "欢迎使用  免费提供的新款在线学习软件。这款软件旨在帮助您更好地利用网络提高学习。我们的界面简洁、清爽且开放，我们充分利用您和您的学生已在使用的工具（例如 Facebook）提供更开放、更协作的学习体验。我们将它融合成一个强大、开放的软件包，而不仅仅一款跟踪考评作业的软件。它鼓励互动并促进学习。"
       welcome_title: "欢迎使用  教学邦"
     index_disabled: 
       disabled_notice: "此教学邦网站未配置为与 Facebook 通信。"
@@ -4675,16 +4675,16 @@ zh-CN:
       more_grading_options: 更多评分选项
     messages: 
       hidden_errors: 一个或多个高级选项中存在错误
-      lock_after_due: 计分作业在到期日期之前不应再次锁定
+      lock_after_due: 考评作业在到期日期之前不应再次锁定
       need_online_submission_type: 请选择至少一种在线提交类型
       need_url: "请指定有效的 URL"
-      unlock_before_due: 计分作业应在到期日期之前解锁
+      unlock_before_due: 考评作业应在到期日期之前解锁
     titles: 
       criterion_long_description: 标准详细说明
   gradebook: 
     alerts: 
       no_active_students: 对不起，课程中没有活动学生或可评分的学生。
-      no_students_in_section: 在该学群中找不到任何学生，请返回以显示所有群体。
+      no_students_in_section: 在该学群(班级)中找不到任何学生，请返回以显示所有学群(班级)。
       none_to_update: 无更新
       scores_updated: 
         one: 1学生成绩更新
@@ -4692,9 +4692,9 @@ zh-CN:
       students_updated: 
         one: 1学生更新
         other: "%{count}个学生更新"
-    assignment_details: 计分作业详细信息
+    assignment_details: 考评作业详细信息
     buttons: 
-      change_section: 更改群体
+      change_section: 更改学群(班级)
       saving_settings: 正在保存设置...
       submit_comment: 提交评论
       submitting: 正在提交...
@@ -4736,7 +4736,7 @@ zh-CN:
       view_submission: 查看提交
     loud_late: 延迟
     message_students_who: 发送消息到学生...
-    mute_assignment: 屏蔽计分作业
+    mute_assignment: 屏蔽考评作业
     new_assessment: "[新评估]"
     no_submission_time: 无提交时间
     nth_student: "学生 %{n}"
@@ -4747,8 +4747,8 @@ zh-CN:
     set_default_grade: 设置默认评分
     set_group_weights: 设置组权重
     show_student_name: 显示学生姓名
-    showing_all_sections: 正在显示所有群体
-    showing_section: "正在显示群体: %{section}"
+    showing_all_sections: 正在显示所有学群(班级)
+    showing_section: "正在显示学群(班级): %{section}"
     sort_columns_by: 列排序依据...
     sort_rows_by: 行排序依据...
     speed_grader: 评分器
@@ -4762,11 +4762,11 @@ zh-CN:
       scored_less_than: 分数低于
       scored_more_than: 分数高于
     submission_information: 提交文件信息
-    teacher_muted_title: 计分作业被屏蔽
+    teacher_muted_title: 考评作业被屏蔽
     titles: 
-      assignment_groups: 计分作业组
+      assignment_groups: 考评作业组
       click_to_record: 单击麦克风录制您的评论
-      dropped_assignment_no_total: 此计分作业将不会列入总分计算
+      dropped_assignment_no_total: 此考评作业将不会列入总分计算
       hypothetical_score: 这是假设分数
       loading: 正在加载...
       turnitin_score: "Turnitin 相似分数 – 更多信息"
@@ -4781,8 +4781,8 @@ zh-CN:
         error: "老师相似分数 - 提交错误的详细信息"
         pending: "Turnitin的相似评分 - 待提交"
         score: "Turnitin的相似评分 - 查看详细报告"
-    unmute_assignment: 取消屏蔽计分作业
-    unmute_button: 取消屏蔽计分作业
+    unmute_assignment: 取消屏蔽考评作业
+    unmute_button: 取消屏蔽考评作业
     upload_scores: "上传分数（从 %{format}）"
     view_grading_history: 查看评分记录
   gradebook2: 
@@ -4791,18 +4791,18 @@ zh-CN:
       scores_updated: 
         one: 1学生成绩更新
         other: "%{count}个学生分数更新"
-    all_sections: 所有群体
-    assignment_muted: 计分作业屏蔽
+    all_sections: 所有学群(班级)
+    assignment_muted: 考评作业屏蔽
     column_header: 
-      assignment_options: 计分作业选项
+      assignment_options: 考评作业选项
       points_out_of: "出于%{assignment.points_possible}"
-      this_assignment_is_muted: 这项计分作业是屏蔽
+      this_assignment_is_muted: 这项考评作业是屏蔽
     dropped_for_grading: 下拉为评分的目的
     errors: 
       none_to_update: 无更新
       upload_as_zip: 请作为zip文件上传
     gradebook_header_menu: 
-      assignment_details: 计分作业详细信息
+      assignment_details: 考评作业详细信息
       curve_grades: 曲线评分
       download_submissions: 下载提交文件
       message_students_who: 发送消息到学生...
@@ -4817,14 +4817,14 @@ zh-CN:
       student_placeholder: 学生
     secondary_id: 辅助ID
     section_to_show_menu: 
-      choose_a_section_to_show: 选择要显示的群体
+      choose_a_section_to_show: 选择要显示的学群(班级)
     show: 
       arrange_columns_by_due_date: 按到期日期排列列
-      arrange_columns_by_group: 按计分作业组排列列
+      arrange_columns_by_group: 按考评作业组排列列
       download_scores: "下载分数 (.csv)"
       filter_by_student: 按学生名字过滤
       hide_student_names: 隐藏学生名字
-      include_ungraded: 包括未评分的计分作业
+      include_ungraded: 包括未评分的考评作业
       publish_to_sis: "发布评分到 SIS"
       set_group_weights: 设置组权重
       show_attendance_columns: 显示参与列
@@ -4866,16 +4866,16 @@ zh-CN:
         one: 1提交成功更新。
         other: "%{count}提交成功更新。"
     show: 
-      assignment_answer: 此计分作业为
+      assignment_answer: 此考评作业为
       assignment_example: 股票指数测试
-      assignment_question: 有疑问的计分作业
+      assignment_question: 有疑问的考评作业
       buttons: 
         continue: "继续 %{icon}"
         save_changes: 保存更改
       choose_option: "-- 选择 --"
       headers: 
         import_error: "您上传的数据中有些材料无法解析:"
-        missing_assignment: 您上传的某些计分作业此前未出现在您的评分册中。请注明它是新计分作业还是现有计分作业。
+        missing_assignment: 您上传的某些考评作业此前未出现在您的评分册中。请注明它是新考评作业还是现有考评作业。
         missing_student: 您上传的行包括以下学生，我无法确定哪些学生在您的班级中。请注明哪些学生在您的班级中。
         no_changes: 在您上传的评分册中未检测到任何变化。
       ignore_assignment_option: 假的，忽略它
@@ -4884,9 +4884,9 @@ zh-CN:
         points_possible: 最高分
       links: 
         back: 返回到评分册
-      new_assignment_option: 新计分作业
+      new_assignment_option: 新考评作业
       notices: 
-        unchanged: "注:在您上传的某些计分作业中未检测到评分变化。它们已被隐藏。"
+        unchanged: "注:在您上传的某些考评作业中未检测到评分变化。它们已被隐藏。"
       page_title: 评分册
       student_answer: 此人是真的
       student_example: 一些家伙
@@ -4897,14 +4897,14 @@ zh-CN:
     buttons: 
       upload_data: 上传数据
     example_csv_file: "示例 CSV 文件"
-    existing_assignment_example: "现有计分作业 (581)"
+    existing_assignment_example: "现有考评作业 (581)"
     explanation_of_required_columns: 必须存在*所有*这些列，但每行只*需要*一个。
     instructions: 
       csv_download_and_upload: "如有疑问，您可以随时*下载 CSV*，更改所需的评分，然后重新上传相同的文件。"
     labels: 
       upload: "选择要上传的 CSV 文件:"
-    leaving_id_will_match_better_can_add_new_assignment: "保持 ID 不变（此例中位\"(581)\"部分）将有助于更好地匹配。还可以添加动态创建的新计分作业。"
-    new_assignment_example: 新计分作业
+    leaving_id_will_match_better_can_add_new_assignment: "保持 ID 不变（此例中位\"(581)\"部分）将有助于更好地匹配。还可以添加动态创建的新考评作业。"
+    new_assignment_example: 新考评作业
     optional_ignored: 可选，已忽略。
     titles: 
       upload_form: "选择要上传的 CSV 文件"
@@ -4912,21 +4912,21 @@ zh-CN:
   gradebooks: 
     assignment: 
       gradebook: 
-        unmute_assignment: 取消屏蔽计分作业
+        unmute_assignment: 取消屏蔽考评作业
       out_of_points_possible: "*超出* %{points_possible}"
       points_possible_of_grade: "*评分* %{points_possible}"
-      teacher_muted_title: 计分作业被屏蔽
-      unmute_dialog: 此计分作业当前被屏蔽。这意味着学生无法看到其评分和反馈。是否要立即取消屏蔽?
+      teacher_muted_title: 考评作业被屏蔽
+      unmute_dialog: 此考评作业当前被屏蔽。这意味着学生无法看到其评分和反馈。是否要立即取消屏蔽?
     assignments: 
       options: 选项
-      refresh_grades: 刷新评分
+      refresh_grades: 刷新评分册
       titles: 
         refresh_scores: 刷新分数
     attendance: 
-      attendance_info: 尚未创建参与计分作业。
+      attendance_info: 尚未创建参与考评作业。
       buttons: 
-        add_assignment: 添加计分作业
-      edit_attendance_info: 要编辑参与计分作业的详细信息，请单击计分作业名称正下方的下拉图标，然后单击"编辑计分作业"。
+        add_assignment: 添加考评作业
+      edit_attendance_info: 要编辑参与考评作业的详细信息，请单击考评作业名称正下方的下拉图标，然后单击"编辑考评作业"。
       headers: 
         attendance: 参与
         edit_attendance: 编辑参与详细信息
@@ -4941,7 +4941,7 @@ zh-CN:
         title: 标题
       links: 
         add_column: 添加列
-      mark_attendance_info: "参与视图显示的表格中，学生纵向列在左侧，计分作业横向列在顶部。要标记学生出席或缺席，请单击相应的复选框，直至其显示正确的标记（%{present_icon} 表示出席，%{absent_icon} 表示缺席）。还可以使用每个计分作业的下拉列表设置每个学生的出席情况。"
+      mark_attendance_info: "参与视图显示的表格中，学生纵向列在左侧，考评作业横向列在顶部。要标记学生出席或缺席，请单击相应的复选框，直至其显示正确的标记（%{present_icon} 表示出席，%{absent_icon} 表示缺席）。还可以使用每个考评作业的下拉列表设置每个学生的出席情况。"
       new_group: 新组
       page_title: 参与
       points_abbrev: 分
@@ -4981,7 +4981,7 @@ zh-CN:
         low_score: 低
         mean: 平均
         mean_score: 平均
-        only_graded: 只根据已评分的计分作业计算
+        only_graded: 只根据已评分的考评作业计算
         total: 总计
         your_score: 您的分数
       links: 
@@ -5011,9 +5011,9 @@ zh-CN:
       buttons: 
         by_due_date: 根据到期日期
         by_email: 根据电子邮件/ID
-        by_group: 根据计分作业组
+        by_group: 根据考评作业组
         by_name: 根据学生姓名
-        by_section: 根据群体名称
+        by_section: 根据学群(班级)名称
         by_total_asc: 根据总分（升序）
         by_total_desc: 根据总分（降序）
         curve_grades: 曲线评分
@@ -5022,7 +5022,7 @@ zh-CN:
         set_grade: 设置评分
         update: 更新
         upload: 上传文件
-      curve_average: 输入*计分作业*的曲线平均评分。图表显示根据当前学生分数计算曲线评分的最佳方法。
+      curve_average: 输入*考评作业*的曲线平均评分。图表显示根据当前学生分数计算曲线评分的最佳方法。
       default_grades: "在下面输入并提交评分值，给 %{class} 中所有当前可见的学生同样的评分:"
       download: "下载 %{attachment}"
       grade_statistics: "%{assignment} 的评分统计"
@@ -5030,10 +5030,10 @@ zh-CN:
         loading_gradebook: 正在加载评分册...
       hide_names: 隐藏学生姓名
       labels: 
-        assign_blanks: 对未提交的学生计分作业零
+        assign_blanks: 对未提交的学生考评作业零
         assignment_submitted: 已提交
         average_score: 平均分数
-        choose_section: 要显示的群体
+        choose_section: 要显示的学群(班级)
         comments: 学生评论
         grade: 评分册
         group_comment: 发送评论到全组
@@ -5047,7 +5047,7 @@ zh-CN:
         add_assignments: 向课程添加考评作业
         add_students: 向课程添加学生
         attach_file: 附加文件
-        manage: 管理计分作业组
+        manage: 管理考评作业组
       loading_submission: 正在加载提交文件详细信息...
       no_assignments: 尚未创建此课程的考评作业
       no_comments: 无评论
@@ -5058,7 +5058,7 @@ zh-CN:
       title: 
         quiz: 测试提交
       titles: 
-        choose_section: 选择要显示的群体
+        choose_section: 选择要显示的学群(班级)
         comments: 提交评论
         complete: 完成
         discussion: 讨论提交
@@ -5100,7 +5100,7 @@ zh-CN:
         submission_graded: "%{graded_date} 评分者 %{grader}"
     notices: 
       unauthorized: 您没有查看此课程参与情况的权限
-      updated: 计分作业提交文件已成功更新。
+      updated: 考评作业提交文件已成功更新。
       uploaded: 
         one: 1个用户提交的文件和评论
         other: "%{count}个用户提交的文件和创建评论"
@@ -5110,9 +5110,9 @@ zh-CN:
       keycode_descriptions: 
         edit_cell: 编辑模块格
         more_information: 当前模块格的更多信息
-        next_assignment: 下一个计分作业
+        next_assignment: 下一个考评作业
         next_student: 下一个学生
-        previous_assignment: 上一个计分作业
+        previous_assignment: 上一个考评作业
         previous_student: 上一个学生
         refresh_gradebook: 刷新评分册
       keycodes: 
@@ -5122,12 +5122,12 @@ zh-CN:
         next_student: 下
         previous_assignment: 左
         previous_student: 上
-        refresh_gradebook: r
+        refresh_gradebook: 刷新评分册
       page_title: 评分册
       titles: 
         feed: "课程评分册 Atom 订阅"
     speed_grader: 
-      all_sections: 所有群体
+      all_sections: 所有学群(班级)
       attach: 附加
       buttons: 
         save: 保存
@@ -5135,15 +5135,15 @@ zh-CN:
         submit_comment: 提交评论
       due_at: "到期日期 %{datetime}"
       gradebook: 
-        mute_assignment: 屏蔽计分作业
-        unmute_assignment: 取消屏蔽计分作业
+        mute_assignment: 屏蔽考评作业
+        unmute_assignment: 取消屏蔽考评作业
       headers: 
-        anonymous_submission: 这名学生的响应是隐藏的，因为这个计分作业是匿名的。
+        anonymous_submission: 这名学生的响应是隐藏的，因为这个考评作业是匿名的。
         assessment: 评估
         discussion: 讨论
         grading: 评分
-        no_submission: 该学生没有提交此计分作业的文件。
-        submission: 这名学生已提交计分作业
+        no_submission: 该学生没有提交此考评作业的文件。
+        submission: 这名学生已提交考评作业
       keycode_descriptions: 
         change_grade: 更改评分
         leave_comment: 发表评论
@@ -5177,7 +5177,7 @@ zh-CN:
         previous: 上一个
         remove_attachment: 删除附件
         settings: 设置
-        show_all_sections: 显示所有群体
+        show_all_sections: 显示所有学群(班级)
         submit_same_score: 对重新提交的文件使用此相同评分
       loading: 正在加载...
       new_assessment_option: "[新评估]"
@@ -5187,7 +5187,7 @@ zh-CN:
       sort_by: 
         status: 根据提交状态（需要评分、未提交等）
         student_name: 根据学生姓名（按字母顺序）
-        submitted_at: 提交计分作业的日期
+        submitted_at: 提交考评作业的日期
       student_index_of_total: "学生 %{index}，共 %{total_students}"
       submitted_files: "提交的文件:（单击以加载）"
       titles: 
@@ -5205,14 +5205,14 @@ zh-CN:
       student: 学生
     student_attendance: 
       headers: 
-        assignment: 计分作业
+        assignment: 考评作业
         mark: 标记
         no_attendance: 参与
         student_attendance: "%{user} 的参与情况"
       links: 
         grades: "%{user} 的评分"
         message_user: "消息 %{user}"
-      no_attendance_assignments: 尚未创建参与计分作业。
+      no_attendance_assignments: 尚未创建参与考评作业。
       page_title: "%{user} 的参与情况"
       titles: 
         absent: 标记为缺席，单击了解更多信息
@@ -5235,7 +5235,7 @@ zh-CN:
       headers: 
         attached_files: 已附加文件到以下用户提交页面
       links: 
-        back_to_assignment: 返回计分作业页面
+        back_to_assignment: 返回考评作业页面
         back_to_gradebook: "返回 Gradebook"
       no_comments_added: 未添加评论
       renamed_file: "从 %{filename} 重命名"
@@ -5288,7 +5288,7 @@ zh-CN:
       student_organized: 学生组
   group_membership: 
     errors: 
-      not_in_group_section: "%{student} 没有与 %{group} 的其他成员共享群体。"
+      not_in_group_section: "%{student} 没有与 %{group} 的其他成员共享学群(班级)。"
   group_settings: 
     invitation_sent: 邀请已经发送
   groups: 
@@ -5304,7 +5304,7 @@ zh-CN:
         manually_create_groups: 我将手动创建组
         name_for_groups: 组名称
         self_signup: 自行注册
-      restricted_self_signup: 要求组成员在相同的群体中
+      restricted_self_signup: 要求组成员在相同的学群(班级)中
       self_signup_help_message: 您可以创建套组，让学生可以自己登记。学生仍限于只属于其中一个组，但这种方式的学生可以自己组织起来，而不需要老师做的工作组。您也可以要求该小组的成员均是相同的部分课程的一部分。记住，学生可以从一个组移动到另一个，所以当您的学生已经参与组后，您有可能想要禁用自我注册
       self_signup_help_tooltip: 什么是自行注册组?
     button: 
@@ -5322,13 +5322,13 @@ zh-CN:
         delete_category: 删除此组设置
         edit_category: 编辑此组设置
       group_category_all: 每个人
-      group_category_unassigned: 未计分作业
+      group_category_unassigned: 未考评作业
       group_name: 名称
       instructions: 
-        group_assignment: 拖动学生以计分作业到组
-      random_distribution_explanation: 将未计分作业的学生平均计分作业到各组
-      randomly_distribute_students: 随机计分作业学生
-      restricted_self_signup_blurb: 组内所有学生需要在相同的群体中
+        group_assignment: 拖动学生以考评作业到组
+      random_distribution_explanation: 将未考评作业的学生平均考评作业到各组
+      randomly_distribute_students: 随机考评作业学生
+      restricted_self_signup_blurb: 组内所有学生需要在相同的学群(班级)中
       self_signup_blurb: 对这些组启用自行注册。
       self_signup_help_tooltip: 什么是自行注册组?
       status: 
@@ -5337,9 +5337,9 @@ zh-CN:
         one: 1学生
         other: "%{count}个学生"
       warnings: 
-        studend_groups: 这些组是学生自发组织的。与其他类型的组不同，在这些组中，学生可以同时属于多个组，因此，这些组未必是评分计分作业的最佳解决方案。
+        studend_groups: 这些组是学生自发组织的。与其他类型的组不同，在这些组中，学生可以同时属于多个组，因此，这些组未必是评分考评作业的最佳解决方案。
     confirm: 
-      assign_students: 这会将所有未计分作业的学生尽可能均匀地随机计分作业到现有的学生组
+      assign_students: 这会将所有未考评作业的学生尽可能均匀地随机考评作业到现有的学生组
       delete_group: 是否确定要删除此组?
       remove_category: 是否确定要删除此组设置?
     context_groups: 
@@ -5362,7 +5362,7 @@ zh-CN:
         invite_only: 只能通过邀请加入
         open_to_course_members: 学员可自由加入
       page_title: 课程组
-      student_group_warning: "如果您的教师将您计分作业到某个组，这肯定是有目的性的。您们自发组织的组不能用于评分... 您们仍可组建自己的组，但这样无法提交任何计分作业的电子副本，除非您加入教师计分作业的组。"
+      student_group_warning: "如果您的教师将您考评作业到某个组，这肯定是有目的性的。您们自发组织的组不能用于评分... 您们仍可组建自己的组，但这样无法提交任何考评作业的电子副本，除非您加入教师考评作业的组。"
     context_manage_groups: 
       account_group_explanation: 帐户级学生组是一种不依附特定课程而组织学生组的良好方式。每个学生组有自己的日历、讨论板和协作工具，从而能够更加有效地组织和合作。
       actions: 
@@ -5372,7 +5372,7 @@ zh-CN:
       course_group_explanation: 学生组是组织学生开展组项目或论文等工作的良好方式。每个学生组有自己的日历、讨论板和协作工具，从而能够更加有效地组织和合作。
       drag_and_drop_instructions: 单击并拖动可将学生移动到其他组。
       get_started_info: 要成立新组，请单击右侧的"成立新组"链接。
-      group_assignment_instructions: 您可以随机计分作业学生到指定规模的组，或手动创建并组织组。创建组之后，您可以设置计分作业为"组提交"计分作业，这意味着每个组的所有用户将提交相同主题的提交文件。
+      group_assignment_instructions: 您可以随机考评作业学生到指定规模的组，或手动创建并组织组。创建组之后，您可以设置考评作业为"组提交"考评作业，这意味着每个组的所有用户将提交相同主题的提交文件。
       group_pages: 组页面
       headings: 
         account_groups: 帐户级学生组
@@ -5392,10 +5392,10 @@ zh-CN:
         name: 组名称
     edit_group_category: 
       allow_self_signup: 允许自行注册
-      restricted_self_signup: 要求组成员在相同的群体中
+      restricted_self_signup: 要求组成员在相同的学群(班级)中
       self_signup_help_tooltip: 什么是自行注册组?
     errors: 
-      cant_restrict_self_signup: 当类别中存在群体不同的组时无法启用。
+      cant_restrict_self_signup: 当类别中存在学群(班级)不同的组时无法启用。
       category_in_use: "\"%{category_name}\"已在使"
       category_name_reserved: "%{category_name} 是预留的名称。"
       category_name_unavailable: "%{category_name} 已在使用。"
@@ -5441,18 +5441,18 @@ zh-CN:
       delete_success: 组已成功删除
       goodbye: "您已经退出了组 %{group_name}。"
       invalid_invitation: "在编辑您个人资料前，需要验证您的邮箱地址。 请点击发送到您邮箱的链接以验证邮箱正确。如果没有见到这个链接，请点击 *重发邮件*。另外，您可以检查是否在垃圾邮件中"
-      no_students_assigned: 未计分作业到组的学生。
-      students_assigned: 已计分作业到组的学生。
+      no_students_assigned: 未考评作业到组的学生。
+      students_assigned: 已考评作业到组的学生。
       update_category_success: 类别已成功更新。
       update_success: 组已成功更新。
       welcome: "欢迎加入组 %{group_name}！"
     show: 
       coming_up: 后续
       group_atom_feed: "组 Atom 订阅"
-      new_announcement: 新通知
+      new_announcement: 新公告
       next_week: 下周
     status: 
-      assigning_students: 正在计分作业学生...
+      assigning_students: 正在考评作业学生...
       creating_groups: 正在创建类别...
       updating: 正在更新...
     student: 
@@ -5597,10 +5597,10 @@ zh-CN:
         select_all: 全选
         un_hold: 松开
       headings: 
-        jobs_list: 计分作业列表
+        jobs_list: 考评作业列表
         popular_tags: 热门标签
-        running_jobs: 运行计分作业
-        selected_job: 所选计分作业
+        running_jobs: 运行考评作业
+        selected_job: 所选考评作业
       job_options: 
         all: 全部
         current: 当前
@@ -5624,8 +5624,8 @@ zh-CN:
         tag: 标签
         total_jobs: 总计
         with_selection: 选项
-      search_jobs: 搜索计分作业
-      title: "计分作业 CP"
+      search_jobs: 搜索考评作业
+      title: "考评作业 CP"
     titles: 
       job_handler: 工作处理程序
       last_error: 上一个错误
@@ -5645,7 +5645,7 @@ zh-CN:
       add_new_collection: 增加分类
       choose_a_collection: 选择分类
   labels: 
-    announcements: 通知
+    announcements: 公告
     assignments: 考评作业
     calendar_events: 日历活动
     discussions: 讨论
@@ -5698,7 +5698,7 @@ zh-CN:
     loading_more_results: 正在加载其他成果
     no_comment: 无评论
     no_description: 无说明
-    remove_outcome_alignment: 是否确定要删除此计分作业?
+    remove_outcome_alignment: 是否确定要删除此考评作业?
     this_outcome: 此成果
   learning_outcomes: 
     criteria: 
@@ -5884,8 +5884,8 @@ zh-CN:
           one: 一日中学生/教师没有互动
           other: "学生/教师超过%{count}没有互动"
         ungraded_count_description: 
-          one: 至少有一个计分作业尚未评分
-          other: "%{count}个或更多的计分作业尚未评分"
+          one: 至少有一个考评作业尚未评分
+          other: "%{count}个或更多的考评作业尚未评分"
         ungraded_timespan_description: 
           one: 至少有一个论已经超过一天未评分
           other: "至少有多个提交已经超过%{count}日未评分"
@@ -5908,8 +5908,8 @@ zh-CN:
           other: "学生/教师已经%{count}日或更多日未互动"
         subject: "警报: %{user_name}"
         ungraded_count_description: 
-          one: 有一个或多个计分作业尚未评分
-          other: "%{count}个或更多的计分作业尚未评分"
+          one: 有一个或多个考评作业尚未评分
+          other: "%{count}个或更多的考评作业尚未评分"
         ungraded_timespan_description: 
           one: 至少一个评论已经超过一天未评分
           other: "至少有一个提交已经超过%{count}天未评分"
@@ -6133,35 +6133,35 @@ zh-CN:
         message: "教学邦警报 - 您已登记了\"%{appointment_name}\"。"
     assignment_changed: 
       email: 
-        body: "%{course} 的计分作业\"%{title}\"已更改。 单击此处查看计分作业: %{url}"
-        subject: "计分作业已更改:%{title}，%{course}"
+        body: "%{course} 的考评作业\"%{title}\"已更改。 单击此处查看考评作业: %{url}"
+        subject: "考评作业已更改:%{title}，%{course}"
       facebook: 
-        body: "%{course} 的计分作业 %{title_link} 已更改。"
+        body: "%{course} 的考评作业 %{title_link} 已更改。"
       sms: 
         body: "%{title}，%{course} 已更改。 更多信息请访问 %{website}"
       summary: 
-        subject: "计分作业已更改:%{title}，%{course}"
+        subject: "考评作业已更改:%{title}，%{course}"
       twitter: 
         assignment_change: "教学邦 警报 - 更改:%{assignment_name}，%{course_name}"
     assignment_created: 
       email: 
-        assignment_created: "计分作业已创建 - %{assignment_name}，%{course_name}"
+        assignment_created: "考评作业已创建 - %{assignment_name}，%{course_name}"
         due_at: "到期日期: %{assignment_due_date_time}"
         labels: 
-          click_to_see_assignment: 单击此处查看计分作业
-        new_assignment: "已创建针对您的课程 %{course_name} 的新计分作业"
+          click_to_see_assignment: 单击此处查看考评作业
+        new_assignment: "已创建针对您的课程 %{course_name} 的新考评作业"
         no_due_date: "到期日期:无到期日期"
       facebook: 
         due_at: "到期日期: %{assignment_due_date_time}"
-        new_assignment: "已创建针对 %{course_name} 的新计分作业"
+        new_assignment: "已创建针对 %{course_name} 的新考评作业"
         no_due_date: "到期日期:无到期日期"
       sms: 
         due_at: "到期日期: %{assignment_due_date_time}"
         more_info: "更多信息请访问 %{course_name}"
-        new_assignment: "%{course_name} 的新计分作业"
+        new_assignment: "%{course_name} 的新考评作业"
         no_due_date: "到期日期:无到期日期"
       summary: 
-        assignment_created: "计分作业已创建 - %{assignment_name}，%{course_name}"
+        assignment_created: "考评作业已创建 - %{assignment_name}，%{course_name}"
         due_at: "到期日期: %{assignment_due_date_time}"
         no_due_date: "到期日期:无到期日期"
       twitter: 
@@ -6170,20 +6170,20 @@ zh-CN:
         no_due_date: "到期日期:无到期日期"
     assignment_due_date_changed: 
       email: 
-        assignment_due_date_changed: "计分作业到期日期更改:%{assignment_name}，%{course_name}"
-        assignment_due_date_changed_sentence: "课程 %{course_name} 的计分作业 %{assignment_name} 的到期日期已更改为:"
+        assignment_due_date_changed: "考评作业到期日期更改:%{assignment_name}，%{course_name}"
+        assignment_due_date_changed_sentence: "课程 %{course_name} 的考评作业 %{assignment_name} 的到期日期已更改为:"
         labels: 
-          click_to_see_assignment: 单击此处查看计分作业
+          click_to_see_assignment: 单击此处查看考评作业
         no_due_date: 无到期日期
       facebook: 
-        assignment_due_date_changed_sentence: "计分作业 *%{assignment_name}* 在课程  %{course_name} 的的到期日已更改为:"
+        assignment_due_date_changed_sentence: "考评作业 *%{assignment_name}* 在课程  %{course_name} 的的到期日已更改为:"
         no_due_date: 无到期日期
       sms: 
         assignment_due_date_changed: "%{assignment_name}，%{course_name} 现在的到期日期为:"
         more_info_at_url: "更多信息请访问 %{web_address}"
         no_due_date: 无到期日期
       summary: 
-        assignment_due_date_changed: "计分作业到期日期更改:%{assignment_name}，%{course_name}"
+        assignment_due_date_changed: "考评作业到期日期更改:%{assignment_name}，%{course_name}"
         due_at: "到期日期: %{assignment_due_date_time}"
         no_due_date: "到期日期:无到期日期"
       twitter: 
@@ -6193,11 +6193,11 @@ zh-CN:
     assignment_due_date_reminder: 
       email: 
         assignment_due: "到期日期:%{assignment_name}，%{course_name}"
-        assignment_due_sentence: "这是一个提醒，课程 %{course_name} 的计分作业 %{assignment_name} 将在 %{due_date} 到期"
+        assignment_due_sentence: "这是一个提醒，课程 %{course_name} 的考评作业 %{assignment_name} 将在 %{due_date} 到期"
         labels: 
-          click_to_view_assignment: 单击此处查看计分作业
+          click_to_view_assignment: 单击此处查看考评作业
       facebook: 
-        assignment_due_sentence: "这是一个提醒，%{course_name} 的计分作业 [%{assignment_name}](%{assignment_url}) 将在 %{due_date} 到期"
+        assignment_due_sentence: "这是一个提醒，%{course_name} 的考评作业 [%{assignment_name}](%{assignment_url}) 将在 %{due_date} 到期"
       sms: 
         assignment_is_due: "%{assignment_name}，%{course_name} 将在 %{due_date} 到期"
         more_info_at: "更多信息请访问 %{web_address}"
@@ -6208,53 +6208,53 @@ zh-CN:
         assignment_is_due: "教学邦 警报 - 提醒:%{assignment_name}，%{course_name} 将在 %{due_date} 到期"
     assignment_graded: 
       email: 
-        assignment_graded: "计分作业已评分:%{assignment_name}，%{course_name}"
+        assignment_graded: "考评作业已评分:%{assignment_name}，%{course_name}"
         labels: 
           view_here: 您可在此处进行查看
-        the_assignment_is_graded: "计分作业 %{assignment_name} 已评分。"
+        the_assignment_is_graded: "考评作业 %{assignment_name} 已评分。"
       facebook: 
-        the_assignment_is_graded: "计分作业 %{assignment_name} 已评分。"
+        the_assignment_is_graded: "考评作业 %{assignment_name} 已评分。"
       sms: 
         assignment_is_graded: "%{assignment_name}，%{course_name} 已评分。"
         more_info_at: "更多信息请访问 %{web_address}"
       summary: 
-        assignment_graded: "计分作业已评分:%{assignment_name}，%{course_name}"
-        the_assignment_is_graded: "计分作业 %{assignment_name} 已评分。"
+        assignment_graded: "考评作业已评分:%{assignment_name}，%{course_name}"
+        the_assignment_is_graded: "考评作业 %{assignment_name} 已评分。"
       twitter: 
         assignment_graded: "教学邦 警报 - 已评分:%{assignment_name}，%{course_name}"
     assignment_grading_reminder: 
       email: 
         labels: 
-          click_to_view: 单击此处查看计分作业
-        ungraded_assignment: "未评分的计分作业:%{assignment_name}，%{course_name}"
-        ungraded_assignment_sentence: "课程 %{course_name} 的计分作业 %{assignment_name} 似乎已评分。其到期日期为 %{due_date}。"
+          click_to_view: 单击此处查看考评作业
+        ungraded_assignment: "未评分的考评作业:%{assignment_name}，%{course_name}"
+        ungraded_assignment_sentence: "课程 %{course_name} 的考评作业 %{assignment_name} 似乎已评分。其到期日期为 %{due_date}。"
       facebook: 
-        ungraded_assignment_sentence: "课程 %{course_name} 的计分作业 [%{assignment_name}](%{assignment_url}) 似乎已评分。其到期日期为 %{due_date}。"
+        ungraded_assignment_sentence: "课程 %{course_name} 的考评作业 [%{assignment_name}](%{assignment_url}) 似乎已评分。其到期日期为 %{due_date}。"
       sms: 
         more_info_at: "更多信息请访问 %{web_address}"
         not_graded: "%{assignment_name}，%{course_name} 尚未评分，即使其到期日期为 %{due_date}"
       summary: 
         not_graded: "%{assignment_name}，%{course_name} 尚未评分。其到期日期为 %{due_date}"
-        ungraded_assignment: "未评分的计分作业:%{assignment_name}，%{course_name}"
+        ungraded_assignment: "未评分的考评作业:%{assignment_name}，%{course_name}"
       twitter: 
         not_graded: "教学邦 警报 - 提醒:评分 %{assignment_name}，%{course_name}，到期日期为 %{due_date}"
-    assignment_locked: 此计分作业当前锁定。
-    assignment_locked_at: "此计分作业锁定于 %{at}。"
-    assignment_locked_module: "此计分作业是模块 *%{module}* 的一部分，尚未解锁。"
-    assignment_locked_until: "此计分作业锁定至 %{date}。"
+    assignment_locked: 此考评作业当前锁定。
+    assignment_locked_at: "此考评作业锁定于 %{at}。"
+    assignment_locked_module: "此考评作业是模块 *%{module}* 的一部分，尚未解锁。"
+    assignment_locked_until: "此考评作业锁定至 %{date}。"
     assignment_publishing_reminder: 
       email: 
         labels: 
-          click_to_view: 单击此处查看计分作业
-        ungraded_assignment: "已取消发布的计分作业:%{assignment_name}，%{course_name}"
-        ungraded_assignment_sentence: "课程 %{course_name} 的计分作业 %{assignment_name} 似乎已评分，但未发布。发布计分作业会通知学生其评分已输入并且最终确定。"
+          click_to_view: 单击此处查看考评作业
+        ungraded_assignment: "已取消发布的考评作业:%{assignment_name}，%{course_name}"
+        ungraded_assignment_sentence: "课程 %{course_name} 的考评作业 %{assignment_name} 似乎已评分，但未发布。发布考评作业会通知学生其评分已输入并且最终确定。"
       facebook: 
-        ungraded_assignment_sentence: "计分作业 *%{assignment_name}* 的在课程 %{course_name} 已评分，但未发布。发布计分作业会通知学生其评分已输入并且最终确定。"
+        ungraded_assignment_sentence: "考评作业 *%{assignment_name}* 的在课程 %{course_name} 已评分，但未发布。发布考评作业会通知学生其评分已输入并且最终确定。"
       sms: 
         more_info_at: "更多信息请访问 %{web_address}"
         ungraded_assignment_sentence: "%{assignment_name}，%{course_name} 仍需要发布以便学生了解其分数已输入并且正式确定"
       summary: 
-        ungraded_assignment: "已取消发布的计分作业:%{assignment_name}，%{course_name}"
+        ungraded_assignment: "已取消发布的考评作业:%{assignment_name}，%{course_name}"
         ungraded_assignment_sentence: "%{assignment_name}，%{course_name} 尚未发布，即使其已评分。"
       twitter: 
         ungraded_assignment_sentence: "教学邦 警报 - 提醒:发布 %{assignment_name}，%{course_name}"
@@ -6269,7 +6269,7 @@ zh-CN:
         user_resubmitted: "**%{user_name}** 刚刚重新提交作业 **%{assignment_name}**   %{course_name} "
       sms: 
         more_info_at: "更多信息请访问 %{web_address}"
-        user_resubmitted: "%{user_name} 刚刚再次提交其计分作业 %{assignment_name}"
+        user_resubmitted: "%{user_name} 刚刚再次提交其考评作业 %{assignment_name}"
       summary: 
         turned_in_at: "提交日期: %{submission_date}"
         user_resubmitted: "重新提交文件:%{user_name}，%{assignment_name}"
@@ -6286,7 +6286,7 @@ zh-CN:
         user_submitted: "**%{user_name}**  刚刚提交 **%{assignment_name}** 课程  %{course_name}  的作业"
       sms: 
         more_info_at: "更多信息请访问 %{web_address}"
-        user_submitted: "%{user_name} 刚刚提交其计分作业 %{assignment_name}"
+        user_submitted: "%{user_name} 刚刚提交其考评作业 %{assignment_name}"
       summary: 
         turned_in_at: "提交日期: %{submission_date}"
         user_submitted: "提交文件:%{user_name}，%{assignment_name}"
@@ -6297,22 +6297,22 @@ zh-CN:
         labels: 
           view_submission: 您可在此处查看提交文件
         user_resubmitted_sentence: "%{user_name} 刚刚迟交课程 %{course_name} 中 %{assignment_name} 的作业"
-        user_submitted: "迟交计分作业:%{user_name}，%{assignment_name} "
+        user_submitted: "迟交考评作业:%{user_name}，%{assignment_name} "
       facebook: 
         click_to_view: 单击此处查看提交文件。
         user_resubmitted_sentence: "**%{user_name}** 刚刚提交 **%{assignment_name}** 课程 %{course_name} "
       sms: 
         more_info_at: "更多信息请访问 %{web_address}"
-        user_submitted: "%{user_name} 刚刚提交其计分作业（最近） %{assignment_name}"
+        user_submitted: "%{user_name} 刚刚提交其考评作业（最近） %{assignment_name}"
       summary: 
         turned_in_at: "提交日期: %{submission_date}"
-        user_submitted: "最近计分作业:%{user_name}，%{assignment_name}"
+        user_submitted: "最近考评作业:%{user_name}，%{assignment_name}"
       twitter: 
         user_submitted: "教学邦 警报 - 最近提交文件:%{user_name}，%{assignment_name}"
     assignment_unmuted: 
       email: 
         body: "您的教师已发布 %{title} 的评分更改和新评论。这些更改现在可查看。 您可在此处进行查看: %{url}"
-        subject: "计分作业取消屏蔽:%{title}，%{course}"
+        subject: "考评作业取消屏蔽:%{title}，%{course}"
       sms: 
         body: "您的教师已发布 %{title}，%{course} 的评分和评论。 更多信息请访问 %{website}"
       summary: 
@@ -6584,24 +6584,24 @@ zh-CN:
     grade_weight_changed: 
       email: 
         grade_changed: "课程 %{course_name} 的评分政策已更改。"
-        grading_based_on_points: 评分基于所有计分作业的总分数。
+        grading_based_on_points: 评分基于所有考评作业的总分数。
         labels: 
-          grades_based_on_percent: 评分基于每个计分作业组的加权总计
+          grades_based_on_percent: 评分基于每个考评作业组的加权总计
           now_see_here: 您可在此处查看详细信息
           subject: 评分加权已更改
       facebook: 
-        grading_based_on_points: 评分基于所有计分作业的总分数。
+        grading_based_on_points: 评分基于所有考评作业的总分数。
         grading_policy_changed: "**[%{course_name}](%{course_url})** 的评分政策已更改。"
         labels: 
-          grades_based_on_percent: 评分基于每个计分作业组的加权总计
+          grades_based_on_percent: 评分基于每个考评作业组的加权总计
       sms: 
         grade_changed: "课程 %{course_name} 的评分政策已更改。"
         more_info_at: "更多信息请访问 %{course_url}"
       summary: 
         grade_changed: "课程 %{course_name} 的评分政策已更改。"
-        grading_based_on_points: 评分基于所有计分作业的总分数。
+        grading_based_on_points: 评分基于所有考评作业的总分数。
         labels: 
-          grades_based_on_percent: 评分基于每个计分作业组的加权总计
+          grades_based_on_percent: 评分基于每个考评作业组的加权总计
           subject: 评分加权已更改
       twitter: 
         grade_changed: "教学邦 警报 - 评分政策已更改: %{course_name}"
@@ -6610,15 +6610,15 @@ zh-CN:
         body: "组 %{group_name} 刚刚提交课程 %{course_name} 中 %{assignment_name} 的最近提交文件。"
         labels: 
           view_submission_here: 您可在此处查看提交文件
-        subject: "最近计分作业:%{group_name}，%{assignment_name}"
+        subject: "最近考评作业:%{group_name}，%{assignment_name}"
       facebook: 
         body: "组 %{group_name} 刚刚迟交**[%{assignment_name}](%{assignment_url})** 课程  %{course_name}"
       sms: 
         more_info: "更多信息请访问 %{web_address}"
-        subject: "%{group_name} 刚刚提交其计分作业（最近） %{assignment_name}"
+        subject: "%{group_name} 刚刚提交其考评作业（最近） %{assignment_name}"
       summary: 
         body: "组 %{group_name} 已提交课程 %{course_name} 中 %{assignment_name} 的最近提交文件。"
-        subject: "最近计分作业:%{group_name}，%{assignment_name}"
+        subject: "最近考评作业:%{group_name}，%{assignment_name}"
       twitter: 
         subject: "教学邦 警报 - 最近组提交文件:%{group_name}，%{assignment_name}"
     group_membership_accepted: 
@@ -7008,8 +7008,8 @@ zh-CN:
         tweet: "教学邦 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
     submission_grade_changed: 
       email: 
-        body: "您的计分作业 %{assignment_title} 的评分已更改。"
-        link_message: "您可在此处检查计分作业:"
+        body: "您的考评作业 %{assignment_title} 的评分已更改。"
+        link_message: "您可在此处检查考评作业:"
         no_date_set: 未设置日期
         not_applicable: 不适用
         regraded_date: "重新评分日期: %{date}"
@@ -7017,7 +7017,7 @@ zh-CN:
         score_pending: 教师待检查的分数
         subject: "分数已更改:%{assignment}，%{context}"
       facebook: 
-        body: "您的计分作业 *%{title}* 的评分已更改。"
+        body: "您的考评作业 *%{title}* 的评分已更改。"
         no_date_set: 未设置日期
         not_applicable: 不适用
         regraded_date: "重新评分日期: %{date}"
@@ -7046,16 +7046,16 @@ zh-CN:
         tweet: "教学邦 警报 - 评分更改: %{date}"
     submission_graded: 
       email: 
-        body: "您的计分作业 %{assignment} 已评分。"
+        body: "您的考评作业 %{assignment} 已评分。"
         graded_date: "评分日期: %{date}"
-        link_message: "您可在此处检查计分作业:"
+        link_message: "您可在此处检查考评作业:"
         no_date_set: 未设置日期
         not_applicable: 不适用
         score: "分数:%{score}，满分 %{total}"
         score_pending_review: 教师待检查的分数
-        subject: "计分作业已评分:%{assignment}，%{context}"
+        subject: "考评作业已评分:%{assignment}，%{context}"
       facebook: 
-        body: "您的计分作业 *%{title}* 已评分。"
+        body: "您的考评作业 *%{title}* 已评分。"
         graded_date: "评分日期: %{date}"
         no_date_set: 未设置日期
         not_applicable: 不适用
@@ -7075,7 +7075,7 @@ zh-CN:
         not_applicable: 不适用
         score: "分数:%{score}，满分 %{total}"
         score_pending_review: 教师待检查的分数
-        subject: "计分作业已评分:%{assignment}，%{context}"
+        subject: "考评作业已评分:%{assignment}，%{context}"
       twitter: 
         no_date_set: 未设置日期
         not_applicable: 不适用
@@ -7129,25 +7129,25 @@ zh-CN:
       twitter: 
         tweet: "教学邦 警报 - 邀请:参加 %{title}，%{name}"
   mute_dialog: 
-    curving_assignments: 曲线计分作业
+    curving_assignments: 曲线考评作业
     grade_change_notifications: 评分更改通知
-    how_to_unmute: 一旦您取消屏蔽此计分作业，即可通过单击"取消屏蔽计分作业"链接再次开始发送通知。
-    mute_assignment: 屏蔽计分作业
+    how_to_unmute: 一旦您取消屏蔽此考评作业，即可通过单击"取消屏蔽考评作业"链接再次开始发送通知。
+    mute_assignment: 屏蔽考评作业
     score_change_notifications: 分数更改通知
-    see_grade: 其计分作业的评分
-    students_will_see: 学生将能够看到此计分作业已屏蔽。
+    see_grade: 其考评作业的评分
+    students_will_see: 学生将能够看到此考评作业已屏蔽。
     submission_comments: 提交评论
-    sure_you_want_to_mute: "是否确定要屏蔽此计分作业?此计分作业屏蔽时，学生将不会收到关于以下内容的新通知或无法看到:"
+    sure_you_want_to_mute: "是否确定要屏蔽此考评作业?此考评作业屏蔽时，学生将不会收到关于以下内容的新通知或无法看到:"
   not_applicable: 不适用
   notification: 
     added_to_conversation_description: 有关您添加的会话
     added_to_conversation_display: 添加到交流区
     alert_description: 警告通知
     alert_display: 警告
-    all_submissions_description: 有关您所教授的课程中的所有计分作业提交文件
+    all_submissions_description: 有关您所教授的课程中的所有考评作业提交文件
     all_submissions_display: 全部提交作业
-    announcement_description: 有关新通知
-    announcement_display: 通知
+    announcement_description: 有关新公告
+    announcement_display: 公告
     appointment_availability_description: 更改预约时段
     appointment_availability_display: 可以预约
     appointment_cancelations_description: 对于取消预约
@@ -7158,7 +7158,7 @@ zh-CN:
     calendar_display: 日历
     categories: 
       all_submissions: 所有提交文件
-      announcement: 通知
+      announcement: 公告
       appointment_availability: 预约可行性
       appointment_cancelations: 预约取消
       appointment_signups: 预约注册等
@@ -7198,7 +7198,7 @@ zh-CN:
     grading_policies_display: 评分政策
     invitation_description: 有关新邀请
     invitation_display: 邀请
-    late_grading_description: 有关最近提交的计分作业
+    late_grading_description: 有关最近提交的考评作业
     late_grading_display: 迟评分
     membership_update_description: 更改通知设置
     membership_update_display: 更新成员
@@ -7216,16 +7216,16 @@ zh-CN:
       appointment_group_updated: 预约组更新
       appointment_reserved_by_user: 通过用户保留预约
       appointment_reserved_for_user: 为用户保留预约
-      assignment_changed: 计分作业已更改
-      assignment_created: 计分作业已创建
-      assignment_due_date_changed: 计分作业到期日期更改
-      assignment_due_date_reminder: 计分作业到期日期提醒
-      assignment_graded: 计分作业已评分
-      assignment_grading_reminder: 计分作业评分提醒
-      assignment_publishing_reminder: 计分作业发布提醒
-      assignment_resubmitted: 计分作业已重新提交
-      assignment_submitted: 计分作业已提交
-      assignment_submitted_late: 最近提交的计分作业
+      assignment_changed: 考评作业已更改
+      assignment_created: 考评作业已创建
+      assignment_due_date_changed: 考评作业到期日期更改
+      assignment_due_date_reminder: 考评作业到期日期提醒
+      assignment_graded: 考评作业已评分
+      assignment_grading_reminder: 考评作业评分提醒
+      assignment_publishing_reminder: 考评作业发布提醒
+      assignment_resubmitted: 考评作业已重新提交
+      assignment_submitted: 考评作业已提交
+      assignment_submitted_late: 最近提交的考评作业
       collaboration_invitation: 协作邀请
       confirm_email_communication_channel: 确认电子邮件通信渠道
       confirm_registration: 确认注册
@@ -7240,7 +7240,7 @@ zh-CN:
       event_date_changed: 活动日期更改
       forgot_password: 忘记密码
       grade_weight_changed: 评分加权已更改
-      group_assignment_submitted_late: 最近提交的组计分作业
+      group_assignment_submitted_late: 最近提交的组考评作业
       group_membership_accepted: 组成员资格已接受
       group_membership_rejected: 组成员资格已拒绝
       merge_email_communication_channel: 合并电子邮件通信渠道
@@ -7248,7 +7248,7 @@ zh-CN:
       migration_import_failed: 迁移导入失败
       migration_import_finished: 迁移导入完成
       new_account_user: 新帐户用户
-      new_announcement: 新通知
+      new_announcement: 新公告
       new_context_group_membership: 新内容组成员资格
       new_context_group_membership_invitation: 新内容组成员资格邀请
       new_course: 新课程
@@ -7281,7 +7281,7 @@ zh-CN:
     reminder_display: 提醒
     student_appointment_description: 为学生预约注册和取消
     student_appointment_display: 学生预约登记
-    submission_comment_description: 有关计分作业提交文件的评论
+    submission_comment_description: 有关考评作业提交文件的评论
     submission_comment_display: 作业评注
     submission_new_as_read: 对新评注标记为已读
   notification_preferences: 
@@ -7391,11 +7391,11 @@ zh-CN:
       remove_this_outcome: 删除此成果
       show_details: 显示详细信息
     outcome_alignment: 
-      delete_title: 无法删除基于规则关联的计分作业。要删除这些关联，您需要从评估的规则中删除该行
+      delete_title: 无法删除基于规则关联的考评作业。要删除这些关联，您需要从评估的规则中删除该行
     outcome_form: 
       add_rating: 添加评分
       criterion_definition: 定义规则中使用的标准
-      criterion_dialog: 学习成果可包括在计分作业规则中作为评估是否掌握所计分作业特定计分作业成果的简单方式。当您定义学习成果时，还应定义构建计分作业规则时可使用的标准。根据需要定义尽可能多的规则列，并指定将用于定义是否掌握此成果的分数阈值。
+      criterion_dialog: 学习成果可包括在考评作业规则中作为评估是否掌握所考评作业特定考评作业成果的简单方式。当您定义学习成果时，还应定义构建考评作业规则时可使用的标准。根据需要定义尽可能多的规则列，并指定将用于定义是否掌握此成果的分数阈值。
       labels: 
         criterion_ratings: 标准评分
         grouping_description: 分组说明
@@ -7468,10 +7468,10 @@ zh-CN:
     loading_more_results: 正在载入更多结果
   plugins: 
     assignment_freezer: 
-      description: 冻结拷贝计分作业属性
-      name: 计分作业财产冷冻
+      description: 冻结拷贝考评作业属性
+      name: 考评作业财产冷冻
     assignment_freezer_settings: 
-      description: 这个插件允许管理员检查计分作业属性，使计分作业不可编辑属性复制到另一个课程
+      description: 这个插件允许管理员检查考评作业属性，使考评作业不可编辑属性复制到另一个课程
       no_copying_frozen: 冻结的作业不能复制
     big_blue_button: 
       description: "Big Blue Button Web 会议支持"
@@ -7858,7 +7858,7 @@ zh-CN:
       facebook_description: "如果您有 Facebook 帐户，您可以安装教学邦应用程序并在个人资料中接收课程通知。您可以指定要接收哪些类型的通知以及多久发送一次。"
       full_token_warning: "**立即复制此令牌**。一旦离开此页面，您将无法 再检索完整的令牌，您将不得不重新生成令牌以获取一个新值。"
       generate_access_token_description: "访问令牌是允许第三方应用程序代表您访问教学邦资源的功能。这些令牌通常根据需要自动为应用程序创建，但如果 [您正在部署新的或受限制的项目](%{documentation_url})，您可以恰好从此处生成该令牌。"
-      google_docs_description: "一旦您授权我们查看您的 Google Docs，您将能够从 Google Docs 直接提交计分作业，并且能够创建和与班级成员共享文档。"
+      google_docs_description: "一旦您授权我们查看您的 Google Docs，您将能够从 Google Docs 直接提交考评作业，并且能够创建和与班级成员共享文档。"
       headers: 
         application_abbrev: 应用程序
         dates: 日期
@@ -8262,9 +8262,9 @@ zh-CN:
         n_incorrect: "n 不正确"
         name: 名称
         score: 分数
-        section: 学群
-        section_id: 学群ID
-        section_sis_id: "学群_sis_id "
+        section: 学群(班级)
+        section_id: 学群(班级)ID
+        section_sis_id: "学群(班级)_sis_id "
         sis_id: "sis_id "
         submitted: 已提交
       exact_answer: "%{exact_value} +/- %{margin}"
@@ -8565,7 +8565,7 @@ zh-CN:
         delete_quiz: 是否确定要删除此测试?
       default_title: 未命名测试
       headers: 
-        assignment_quizzes: 计分作业测试
+        assignment_quizzes: 考评作业测试
         course_quizzes: 课程测试
         practice_quizzes: 练习测试
         publish_multiple_quizzes: 发布多个测试
@@ -8725,7 +8725,7 @@ zh-CN:
         preview_quiz: 预览测试
         quiz_options: 测试选项
         return_to_quiz_page: 返回测试页面
-        show_assignment_rubric: 显示计分作业规则
+        show_assignment_rubric: 显示考评作业规则
         start_over: 重新开始
         switch_views: 切换视图
       points_possible: "%{n} 最高分"
@@ -8916,7 +8916,7 @@ zh-CN:
     rubric: 
       loading: 正在加载...
       titles: 
-        details: 计分作业规则详细信息
+        details: 考评作业规则详细信息
     show: 
       anonymous_student: "学生 %{n}"
       answers: 
@@ -8956,7 +8956,7 @@ zh-CN:
       links: 
         delete_this_quiz: 删除此测试
         delete_this_survey: 删除此调查
-        edit_assignment_details: 编辑计分作业详细信息
+        edit_assignment_details: 编辑考评作业详细信息
         edit_this_quiz: 编辑此测试
         edit_this_survey: 编辑此调查
         keep_editing_this_quiz: 一直编辑此测试
@@ -8968,7 +8968,7 @@ zh-CN:
         resume_quiz: 继续测试
         resume_survey: 继续调查
         see_full_quiz: 查看完整测试
-        show_assignment_rubric: 显示计分作业规则
+        show_assignment_rubric: 显示考评作业规则
         show_student_quiz_results: 显示学生测试成果
         show_student_survey_results: 显示学生调查成果
         survey_statistics: 调查统计
@@ -8983,7 +8983,7 @@ zh-CN:
       publish_quiz_instructions: 要发布测试，请单击右侧的"编辑此测试"，然后单击"发布"按钮。
       publish_survey_instructions: 要发布调查，请单击右侧的"编辑此调查"，然后单击"发布"按钮。
       quiz_all_students_submitted: 所有学生均已进行测试
-      quiz_for_assignment: "此测试是针对计分作业 **%{assignment}**"
+      quiz_for_assignment: "此测试是针对考评作业 **%{assignment}**"
       quiz_in_progress: 您正在进行此测试的过程中。
       quiz_no_submissions: 学生尚未进行测试
       quiz_not_published: 此测试尚未发布。学生无法进行测试，直至其发布。
@@ -8992,7 +8992,7 @@ zh-CN:
         one: 1学生迄今提交
         other: "%{count}个学生迄今提交"
       survey_all_students_submitted: 所有学生均已进行调查
-      survey_for_assignment: "此调查是针对计分作业 **%{assignment}**"
+      survey_for_assignment: "此调查是针对考评作业 **%{assignment}**"
       survey_in_progress: 您正在进行此调查的过程中。
       survey_no_submissions: 学生尚未进行调查
       survey_not_published: 此调查尚未发布。学生无法进行调查，直至其发布。
@@ -9140,8 +9140,8 @@ zh-CN:
       one: "1 成员"
       other: "%{count} 个成员"
     sections_count: 
-      one: "1 学群"
-      other: "%{count} 个学群"
+      one: "1 学群(班级)"
+      other: "%{count} 个学群(班级)"
     select_all: 选择全部
   registration: 
     get_started: 开始
@@ -9205,19 +9205,19 @@ zh-CN:
       manage_account_settings: 管理帐户级设置
       manage_admin_users: 添加/删除课程的其他教师、课程设计者或助教
       manage_alerts: 管理全局警报
-      manage_assignments: 管理（添加/编辑/删除）计分作业和测试
+      manage_assignments: 管理（添加/编辑/删除）考评作业和测试
       manage_calendar: 添加、编辑和删除课程表上的活动
       manage_content: 管理所有其他课程内容
       manage_courses: 管理（添加/编辑/删除）课程
       manage_developer_keys: "管理developer keys "
       manage_files: 管理（添加/编辑/删除）课程文件
-      manage_frozen_assignment: 管理（编辑/删除）冻结计分作业
+      manage_frozen_assignment: 管理（编辑/删除）冻结考评作业
       manage_grades: 编辑评分（包括评估规则）
       manage_groups: 管理（创建/编辑/删除）组
       manage_interaction_alerts: 管理警报
       manage_outcomes: 管理学习成果
       manage_role_overrides: 管理权限
-      manage_sections: 管理（创建/编辑/删除）课程群体
+      manage_sections: 管理（创建/编辑/删除）课程学群(班级)
       manage_sis: "导入和管理 SIS 数据"
       manage_site_settings: 管理网站范围和插件设置
       manage_students: 添加/删除课程的学生
@@ -9351,7 +9351,7 @@ zh-CN:
       titles: 
         edit_rubric: 编辑规则
     titles: 
-      assignment_rubric_details: 计分作业评分明细
+      assignment_rubric_details: 考评作业评分明细
     user_index: 
       buttons: 
         add_rubric: 添加规则
@@ -9370,7 +9370,7 @@ zh-CN:
   scribd: 
     upgrade_flash: "你的adobe Flash player版本过低.   需要 %{link_tag} 获取最新Flash player版本 %{end_link}"
   search: 
-    course_sections: 课程学群
+    course_sections: 课程学群(班级)
     enrollments_observers: 观察员
     enrollments_students: 学生
     enrollments_tas: 助教
@@ -9381,11 +9381,11 @@ zh-CN:
       delete_enrollment: 是否确定要永久删除此注册?
     default_course_name: "课程 ID\"%{course_id}\""
     enrolled_as_designer: 注册为设计者
-    enrolled_as_limited_designer: 注册为群体设计者-只访问
-    enrolled_as_limited_observer: 注册为群体观察着-只访问
-    enrolled_as_limited_student: 注册为群体学生-只访问
-    enrolled_as_limited_ta: 注册为群体助教-只访问
-    enrolled_as_limited_teacher: 注册为群体教师-只访问
+    enrolled_as_limited_designer: 注册为学群(班级)设计者-只访问
+    enrolled_as_limited_observer: 注册为学群(班级)观察着-只访问
+    enrolled_as_limited_student: 注册为学群(班级)学生-只访问
+    enrolled_as_limited_ta: 注册为学群(班级)助教-只访问
+    enrolled_as_limited_teacher: 注册为学群(班级)教师-只访问
     enrolled_as_observer: 注册为观察者
     enrolled_as_student: 注册为学生
     enrolled_as_ta: 注册为助教
@@ -9395,16 +9395,16 @@ zh-CN:
       course_not_authorized_for_crosslist: "%{course_name} 没有授权交叉列出"
     status: 
       confirming_course: "正在确认 %{course_name}..."
-      removing_crosslisting_of_section: 正在取消交叉列出群体...
+      removing_crosslisting_of_section: 正在取消交叉列出学群(班级)...
   sections: 
-    section_created: 群体已成功创建！
-    section_creation_failed: 群体创建失败
-    section_crosslisted: 群体已成功交叉列出！
-    section_decrosslisted: 群体已成功取消交叉列出！
-    section_delete_not_allowed: 您不能删除已注册的群体
-    section_deleted: 课程群体已成功删除！
-    section_update_error: 群体更新失败
-    section_updated: 群体已成功更新！
+    section_created: 学群(班级)已成功创建！
+    section_creation_failed: 学群(班级)创建失败
+    section_crosslisted: 学群(班级)已成功交叉列出！
+    section_decrosslisted: 学群(班级)已成功取消交叉列出！
+    section_delete_not_allowed: 您不能删除已注册的学群(班级)
+    section_deleted: 课程学群(班级)已成功删除！
+    section_update_error: 学群(班级)更新失败
+    section_updated: 学群(班级)已成功更新！
     show: 
       access_limit: 用户只能参与这些日期之间的课程
       active_enrollment: 
@@ -9413,18 +9413,18 @@ zh-CN:
       buttons: 
         back_to_course: 返回课程设置
         cancel: 取消
-        crosslist_section: 交叉列出此群体
-        crosslist_this_section: 交叉列出此群体
-        decrosslit_section: 取消交叉列出此群体
-        edit_section: 编辑群体
-        recrosslist_section: 重新交叉列出此群体
-        uncrosslist_section: 取消交叉列出此群体
-        update_section: 更新群体
+        crosslist_section: 交叉列出此学群(班级)
+        crosslist_this_section: 交叉列出此学群(班级)
+        decrosslit_section: 取消交叉列出此学群(班级)
+        edit_section: 编辑学群(班级)
+        recrosslist_section: 重新交叉列出此学群(班级)
+        uncrosslist_section: 取消交叉列出此学群(班级)
+        update_section: 更新学群(班级)
       completed_enrollment: 
         one: 1个完成招募
         other: "%{count}个完成招募"
-      crosslist_description: "交叉列出可以在一个帐户中创建群体，然后将其移动到其他帐户中的课程。要交叉列出此课程，您将需要查找要移动到的课程，方法是使用搜索工具或输入课程 ID。"
-      decrosslist_description: "此操作会将群体移回其原来的课程 **%{course_name}**。"
+      crosslist_description: "交叉列出可以在一个帐户中创建学群(班级)，然后将其移动到其他帐户中的课程。要交叉列出此课程，您将需要查找要移动到的课程，方法是使用搜索工具或输入课程 ID。"
+      decrosslist_description: "此操作会将学群(班级)移回其原来的课程 **%{course_name}**。"
       decrosslist_long_description: 此课程中学生的所有评分将不再可见。您可以通过重新交叉列出课程稍后检索评分，但同时这些学生的评分将来自原来的课程。
       labels: 
         end_at: 结束
@@ -9433,7 +9433,7 @@ zh-CN:
           account: 帐户
           selected_course: 所选课程
           sis_id: "SIS ID"
-        name: 学群名称
+        name: 学群(班级)名称
         search_for_course: 搜索课程
         sis_id: "SIS ID"
         sis_source_id: "SIS ID"
@@ -9443,17 +9443,17 @@ zh-CN:
         one: 1个待招募
         other: "%{count}待招募"
       prompts: 
-        are_you_sure_decrosslist: 是否确定要取消交叉列出此群体?
+        are_you_sure_decrosslist: 是否确定要取消交叉列出此学群(班级)?
       run_dates: "从 %{start_date} 到 %{end_date} 运行"
       run_from: "从 %{start_date} 开始运行，无结束日期"
       runs_until: "运行直至 %{end_date}"
       student_access_dates: 学生只能访问这些日期之间的课程
       titles: 
         completed_enrollments: 已完成注册
-        cross_listed_sections: 交叉列出群体
-        crosslist_this_section: 交叉列出此群体
+        cross_listed_sections: 交叉列出学群(班级)
+        crosslist_this_section: 交叉列出此学群(班级)
         current_enrollments: 当前注册
-        decrosslist_section: 取消交叉列出此群体
+        decrosslist_section: 取消交叉列出此学群(班级)
   select_content_dialog: 
     buttons: 
       add_item: 添加项目
@@ -9491,7 +9491,7 @@ zh-CN:
         find_user: 查找用户
     add_assignment: 
       buttons: 
-        add_assignment: 添加计分作业
+        add_assignment: 添加考评作业
       labels: 
         assignment_group_id: 组
         due_at: 到期日期
@@ -9500,7 +9500,7 @@ zh-CN:
       options: 
         assignments: 考评作业
       titles: 
-        add_assignment: 添加计分作业
+        add_assignment: 添加考评作业
     add_assignment_group: 
       buttons: 
         add_group: 添加组
@@ -9513,7 +9513,7 @@ zh-CN:
         adding_group: 正在添加组...
       percent_of_grade: "评分的 %{percent} %"
       titles: 
-        add_assignment_group: 添加计分作业组
+        add_assignment_group: 添加考评作业组
     aligned_outcomes: 
       actions: 
         align_outcomes: 调整成果
@@ -9522,8 +9522,8 @@ zh-CN:
       errors: 
         align_outcomes_failed: 调整成果失败，请重试
       instructions: 
-        select_outcomes: 选择您想要调整此计分作业的成果。
-        specify_mastery: 然后指定此计分作业的学生分数掌握阈值。
+        select_outcomes: 选择您想要调整此考评作业的成果。
+        specify_mastery: 然后指定此考评作业的学生分数掌握阈值。
       mastery_info: 掌握详细信息（请参阅规则，或此分数级别的掌握）
       mastery_info_see_rubric: 请参阅规则以了解掌握详细信息
       mastery_score_details: "*学生达到掌握* %{score_text_field} 的分数或更高分数。"
@@ -9532,15 +9532,15 @@ zh-CN:
       status: 
         aligning_outcomes: 正在调整成果...
       titles: 
-        align_outcomes_for_assignment: 调整计分作业的成果
-        outcomes_for_assignment: 此计分作业的成果
+        align_outcomes_for_assignment: 调整考评作业的成果
+        outcomes_for_assignment: 此考评作业的成果
     assignment: 
       due_at: "%{date} %{time}"
       graded_count: "%{graded_count} 个已评分"
       links: 
-        delete_assignment: 删除计分作业
-        edit_assignment: 编辑计分作业
-        preview_assignment: 预览计分作业
+        delete_assignment: 删除考评作业
+        edit_assignment: 编辑考评作业
+        preview_assignment: 预览考评作业
         submission_comments: 提交评论
         view_rubric_evaluation: 查看规则评估
       points_out_of: "%{points}，满分 %{possible}"
@@ -9551,7 +9551,7 @@ zh-CN:
         sort_or_move: 对考评作业排序或转移到另外一个组
     assignment_group: 
       alts: 
-        add_assignment: 添加计分作业
+        add_assignment: 添加考评作业
         delete_assignment_group: 删除
         edit_group_details: 编辑
         move: 移动
@@ -9559,20 +9559,20 @@ zh-CN:
         group_name: 课程考评作业
       group_weight: "*总评分的 %{percent} %"
       links: 
-        add_an_assignment: 添加计分作业
-        add_assignment: 添加计分作业
+        add_an_assignment: 添加考评作业
+        add_assignment: 添加考评作业
         edit_group_details: 编辑组详细信息
         hide_info: 隐藏信息
         more_info: 更多信息...
         reorder_groups: 重新排序组
-      no_assignments: 尚无计分作业
+      no_assignments: 尚无考评作业
       titles: 
-        delete_assignment_group: 删除计分作业组
+        delete_assignment_group: 删除考评作业组
         percent_of_final_grade: 最终评分的百分比
     assignment_rubric_dialog: 
       links: 
         add_rubric: 添加规则
-        assign_rubric: 计分作业规则
+        assign_rubric: 考评作业规则
     conference: 
       buttons: 
         delete: 删除会议
@@ -9596,11 +9596,11 @@ zh-CN:
         loading: 正在加载
     enrollment: 
       enrolled_as_designer: 注册为设计者
-      enrolled_as_limited_designer: 注册为仅群体访问权限的设计者
-      enrolled_as_limited_observer: 注册为仅群体访问权限的观察员
-      enrolled_as_limited_student: 注册为仅群体访问权限的学生
-      enrolled_as_limited_ta: 注册为仅群体访问权限的助教
-      enrolled_as_limited_teacher: 注册为仅群体访问权限的教师
+      enrolled_as_limited_designer: 注册为仅学群(班级)访问权限的设计者
+      enrolled_as_limited_observer: 注册为仅学群(班级)访问权限的观察员
+      enrolled_as_limited_student: 注册为仅学群(班级)访问权限的学生
+      enrolled_as_limited_ta: 注册为仅学群(班级)访问权限的助教
+      enrolled_as_limited_teacher: 注册为仅学群(班级)访问权限的教师
       enrolled_as_observer: 注册为观察员
       enrolled_as_student: 注册为学生
       enrolled_as_ta: 注册为助教
@@ -9610,9 +9610,9 @@ zh-CN:
       links: 
         link_to_a_student: 链接至学生
         unenroll_user_course: 从课程中删除用户
-        unenroll_user_section: 从群体中删除用户
+        unenroll_user_section: 从学群(班级)中删除用户
       titles: 
-        course_section: 课程群体
+        course_section: 课程学群(班级)
     errors: 
       400_message: 
         description: 嗯。看起来加载您所请求的页面时出现试题。
@@ -9671,7 +9671,7 @@ zh-CN:
       close: 关闭
     full_assignment: 
       buttons: 
-        update: 更新计分作业
+        update: 更新考评作业
       defaults: 
         no_content: 无内容
         other_group: 其他
@@ -9681,15 +9681,15 @@ zh-CN:
         allowed_extensions: "输入接受的扩展名列表，例如:doc,xls,txt"
         allowed_extensions_list: "允许的文件扩展名：%{extensions}"
         assign_reviews_after_due_date: 必须在到期日期之后。如果为空，则使用到期日期。
-        assignment_group: "这项计分作业组是：%{group_name}"
-        grades_for_external_tool: 此计分作业的评分可从外部工具发送，或手动输入。
-        grades_from_discussion: 此计分作业的评分将基于讨论的发布内容
-        grades_from_quiz: 此计分作业的评分将从测试成果中抽取
+        assignment_group: "这项考评作业组是：%{group_name}"
+        grades_for_external_tool: 此考评作业的评分可从外部工具发送，或手动输入。
+        grades_from_discussion: 此考评作业的评分将基于讨论的发布内容
+        grades_from_quiz: 此考评作业的评分将从测试成果中抽取
         no_extension_restriction: 所有的文件扩展名是允许的。
-        no_group: 这个计分作业没有分组。
-        not_graded: 此计分作业将不会在记分册中出现
-        peer_reviews_not_required: 这项计分作业并不需要同学检查。
-        peer_reviews_required: 这项计分作业需要的同学检查。
+        no_group: 这个考评作业没有分组。
+        not_graded: 此考评作业将不会在记分册中出现
+        peer_reviews_not_required: 这项考评作业并不需要同学检查。
+        peer_reviews_required: 这项考评作业需要的同学检查。
         users_are_not_notified: 用户将不另行通知内容已经改变
         users_are_notified: 用户将得到通知如果内容已经改变
       due_by: "到期日期 %{date} 时间 %{time}"
@@ -9700,26 +9700,26 @@ zh-CN:
         allow_url: "允许网站 URL"
         allowed_extensions: 允许的文件扩展名
         assign_grades_individually: 分别为每位学生指定评分
-        assign_grades_individually_subtext: （通常，所有学生都会收到相同的组计分作业评分）
-        assignment_description: 计分作业说明
-        assignment_group_id: 计分作业组
-        automatically_assign_peer_reviews: 自动计分作业同学检查
+        assign_grades_individually_subtext: （通常，所有学生都会收到相同的组考评作业评分）
+        assignment_description: 考评作业说明
+        assignment_group_id: 考评作业组
+        automatically_assign_peer_reviews: 自动考评作业同学检查
         due: 到期日期
         external_tool_introduction: 外部工具说明/简介
         external_tool_url: URL
-        freeze_on_copy: 复制时锁定计分作业的属性
-        grades_from_quiz: 此计分作业的评分来自测试
+        freeze_on_copy: 复制时锁定考评作业的属性
+        grades_from_quiz: 此考评作业的评分来自测试
         grading_type: 评分者
-        group_assignment: 这是一个组计分作业
+        group_assignment: 这是一个组考评作业
         group_set: 组设置
         lock_submits_after: 之后锁定提交
         locked_until: 锁定至
-        manually_assign_peer_reviews: 手动计分作业同学检查
+        manually_assign_peer_reviews: 手动考评作业同学检查
         master_level: 掌握级别
-        never_drop: 从不删除此计分作业
+        never_drop: 从不删除此考评作业
         notify_of_update: 通知用户此内容已更改
         peer_review_count: 每位用户的检查次数
-        peer_reviews_assign_at: 计分作业检查
+        peer_reviews_assign_at: 考评作业检查
         points_possible: 分数
         quiz_summary: 测试总结/简介
         require_peer_reviews: 需要同学检查
@@ -9729,11 +9729,11 @@ zh-CN:
         title: 标题
         turnitin_enabled: "启用 Turnitin 提交评估"
         type: 类型
-      linked_to_discussion: "此计分作业已链接至讨论 %{discussion_topic}。评分将基于主题中的发布内容。"
+      linked_to_discussion: "此考评作业已链接至讨论 %{discussion_topic}。评分将基于主题中的发布内容。"
       links: 
         advanced_turnitin_settings: 高级设置...
         discussion: 单击此处转到讨论
-        edit_assignment_details: 编辑计分作业详细信息
+        edit_assignment_details: 编辑考评作业详细信息
         more_grading_options: 更多评分选项
         more_options: 更多选项
         quiz: 单击此处转到测试
@@ -9741,9 +9741,9 @@ zh-CN:
         view_grading_levels: 查看评分级别
       mastery_level: "%{points} 分或更高"
       messages: 
-        locked: 此计分作业当前锁定。
+        locked: 此考评作业当前锁定。
       options: 
-        assignment: 计分作业
+        assignment: 考评作业
         attendance: 参与
         discussion: 讨论
         external_tool: 外部工具
@@ -9761,7 +9761,7 @@ zh-CN:
       out_of: "满分 %{points}"
       score_range: "%{min_score} 至 %{max_score}"
       titles: 
-        score_range: 此计分作业可能的最低分和最高分
+        score_range: 此考评作业可能的最低分和最高分
     global_dialogs: 
       buttons: 
         install_video_plugin: 安装视频插件
@@ -9853,14 +9853,14 @@ zh-CN:
       out_of_points: "超出 %{points_possible}"
     mute_dialog: 
       gradebook: 
-        mute_assignment: 屏蔽计分作业
+        mute_assignment: 屏蔽考评作业
       mute_dialog: |-
-          是否确定要屏蔽此计分作业?此计分作业屏蔽 时，学生将不会收到关于以下内容新通知或无法 看到:
+          是否确定要屏蔽此考评作业?此考评作业屏蔽 时，学生将不会收到关于以下内容新通知或无法 看到:
           * 评分更改通知
           * 提交评论
-          * 曲线计分作业
+          * 曲线考评作业
           * 分数更改通知
-          学生将能够看到此计分作业已屏蔽。一旦您取消屏蔽此计分作业，即可通过单击取消 "屏蔽计分作业" 链接再次开始发送通知。
+          学生将能够看到此考评作业已屏蔽。一旦您取消屏蔽此考评作业，即可通过单击取消 "屏蔽考评作业" 链接再次开始发送通知。
     new_course_form: 
       cancel: 取消
       course_cose_explanation: 这个将在很小地方显示
@@ -9927,7 +9927,7 @@ zh-CN:
         ratings: 评分
       labels: 
         custom_rating: 评估学生时，我会撰写自由格式的评论
-        grading_rubric: 使用此规则进行计分作业评分
+        grading_rubric: 使用此规则进行考评作业评分
         title: 标题
         total_points: 总分
         totallying_rubric: 隐藏评估成果的总分
@@ -10009,9 +10009,9 @@ zh-CN:
         linked_to_learning_outcome: 这个评分标准与学习成绩关联
     select_content_dialog: 
       add_to_module: "添加 %{item} 到 *模块*"
-      assignment_alt: 计分作业
-      assignment_item: 计分作业
-      assignment_notice: "选择您要与此 *模块* 关联的计分作业，或通过选择\"新计分作业\"添加一个计分作业。"
+      assignment_alt: 考评作业
+      assignment_item: 考评作业
+      assignment_notice: "选择您要与此 *模块* 关联的考评作业，或通过选择\"新考评作业\"添加一个考评作业。"
       content_page_item: 内容页面
       discussion_item: 讨论
       domain_match_notice: "要使用此工具，域必须匹配 %{domain}"
@@ -10028,7 +10028,7 @@ zh-CN:
         other: "*缩进 %{count} 级*"
         zero: "*不缩进*"
       labels: 
-        assignment_name: 计分作业名称
+        assignment_name: 考评作业名称
         file: 文件
         folder: 文件夹
         header: 标题
@@ -10039,7 +10039,7 @@ zh-CN:
         topic_name: 主题名称
         url: URL
       loading: 正在加载...
-      new_assignment_option: "[新计分作业]"
+      new_assignment_option: "[新考评作业]"
       new_file_option: "[新文件]"
       new_page_option: "[新页面]"
       new_quiz_option: "[新测试]"
@@ -10061,7 +10061,7 @@ zh-CN:
       next: 下一个
       previous: 上一个
     submission_comment: 
-      assignment: 计分作业
+      assignment: 考评作业
       grading_alt: 评分
       submission_comment: 提交评论
     turnitin_settings: 
@@ -10082,7 +10082,7 @@ zh-CN:
         updating_settings: 更新设置...
       originality_report_visibility: "学生可以查看原始报告: %{when}"
       originality_report_visible_after_due_date: 在到期日期之后
-      originality_report_visible_after_grading: 在计分作业评分之后
+      originality_report_visible_after_grading: 在考评作业评分之后
       originality_report_visible_immediately: 立即
       settings_exclude_fewer_than_count: "少于 %{count} 个字"
       settings_exclude_less_than_percent: "少于文档的 %{percent}%"
@@ -10151,8 +10151,8 @@ zh-CN:
       insert: 
         announcements: 单击以插入指向此通知的链接
         announcements_page: 单击以插入指向通知页面的链接
-        assignments: 单击以插入指向此计分作业的链接
-        assignments_page: 单击以插入指向计分作业页面的链接
+        assignments: 单击以插入指向此考评作业的链接
+        assignments_page: 单击以插入指向考评作业页面的链接
         collaborations_page: 单击以插入指向协作页面的链接
         discussions: 单击以插入指向此主题的链接
         discussions_page: 单击以插入指向讨论页面的链接
@@ -10161,17 +10161,17 @@ zh-CN:
         modules: 单击以插入指向此模块的链接
         modules_page: 单击以插入指向模块页面的链接
         quizzes: 单击以插入指向此测试的链接
-        syllabus_page: 单击以插入指向提纲的链接
+        syllabus_page: 单击以插入指向纲要的链接
         users_page: 单击以插入指向人员页面的链接
         wiki_pages: 单击以插入指向此页面的链接
         wiki_pages_index: 单击以插入指向维基的链接
       labels: 
         folder: 文件夹
       links: 
-        announcements: 通知列表
-        announcements_page: 通知列表
-        assignments: 计分作业列表
-        assignments_page: 计分作业列表
+        announcements: 公告列表
+        announcements_page: 公告列表
+        assignments: 考评作业列表
+        assignments_page: 考评作业列表
         collaborations_page: 协作
         discussions: 讨论索引
         discussions_page: 讨论索引
@@ -10182,7 +10182,7 @@ zh-CN:
         modules_page: 模块
         new_page: 链接至新页面
         quizzes: 测试列表
-        syllabus: 课程提纲
+        syllabus: 课程纲要
         upload_file: 上传新文件
         upload_image: 上传新图像
         users_page: 成员
@@ -10230,7 +10230,7 @@ zh-CN:
     buttons: 
       process_data: 处理数据
     errors: 
-      import_failed_code: "导入 SIS 数据时出错。未导入记录。请通知教学邦管理员并提供下列代码: \"%{code}\""
+      import_failed_code: "导入 SIS 数据时出错。未导入记录。请公告教学邦管理员并提供下列代码: \"%{code}\""
       import_failed_messages: "未导入 SIS 记录。导入失败，显示以下消息:"
     headers: 
       import_errors: 阻止导入的错误
@@ -10243,7 +10243,7 @@ zh-CN:
       enrollments: "注册数: %{enrollment_count}"
       group_enrollments: "组招募：%{group_enrollments_count}"
       groups: "组：%{group_count}"
-      sections: "群体数: %{section_count}"
+      sections: "学群(班级)数: %{section_count}"
       terms: "学期数: %{term_count}"
       users: "用户数: %{user_count}"
     messages: 
@@ -10332,17 +10332,17 @@ zh-CN:
     this_was_submitted_multiple_times_choose_a_submission_to_view: "已提交多次，选择要查看哪个提交:"
     view_rubric_assessment_in_the_speedgrader: "在 评分器 中查看规则评估"
   submissions: 
-    assignment_submit_success: 计分作业已成功提交。
-    assignment_submitted: 计分作业已提交。
+    assignment_submit_success: 考评作业已成功提交。
+    assignment_submitted: 考评作业已提交。
     click_to_download: "单击此处下载 %{size_of_file}"
     creating_zip: "正在创建 zip 文件..."
-    download_submissions: 下载计分作业提交文件
+    download_submissions: 下载考评作业提交文件
     errors: 
-      assignment_submit_fail: 计分作业无法提交
-      can_not_submit_locked_assignment: 计分作业锁定时无法提交
+      assignment_submit_fail: 考评作业无法提交
+      can_not_submit_locked_assignment: 考评作业锁定时无法提交
       invalid_file_type: 无效的文件类型
       media_file_attached: 这个提交作业没有语音视频文件
-      no_attached_file: 您必须至少有一个文件附加到这项计分作业
+      no_attached_file: 您必须至少有一个文件附加到这项考评作业
       no_report: 无法查找该提交项目的报告
       student_not_enrolled: 指定的用户并非此课程中的学生
       student_not_enrolled_id: "指定的用户 (%{id}) 并非此课程中的学生"
@@ -10385,7 +10385,7 @@ zh-CN:
       submitted_at: "提交时间 %{submit_date}"
       teachers_notified_of_comments: 将通知教师和提交者所有评论
     show_preview: 
-      discussion_submission_description: "此计分作业的提交文件在计分作业的讨论中发布。下面是 %{user} 的讨论发布，或者您可以 *查看完整讨论* 。"
+      discussion_submission_description: "此考评作业的提交文件在考评作业的讨论中发布。下面是 %{user} 的讨论发布，或者您可以 *查看完整讨论* 。"
       entry_no_image: 请记住，此页面自最初进行提交后可能已更改。
       entry_with_image: 我们包括了页面提交时所显示内容的快照。或者您可以单击以查看原始提交文件。
       external_url_submission: "此提交是指向外部页面的一个 URL。"
@@ -10422,7 +10422,7 @@ zh-CN:
     total: 总计
     type: 类型
   tabs: 
-    announcements: 通知
+    announcements: 公告
     assignments: 考评作业
     chat: 聊天
     collaborations: 协作
@@ -10430,16 +10430,16 @@ zh-CN:
     discussions: 讨论
     eportfolios: 电子文档
     files: 文件
-    grades: 评分
+    grades: 评分册
     home: 主页
     modules: 模块
-    outcomes: 成果
+    outcomes: 成绩
     pages: 页面
     people: 成员
     profile: 资料
     quizzes: 测试
     settings: 设置
-    syllabus: 提纲
+    syllabus: 刚要
   terms: 
     index: 
       date: 
@@ -10522,7 +10522,7 @@ zh-CN:
   title_separator: ":"
   titles: 
     aligned_items: 调整的项目
-    announcement: 通知
+    announcement: 公告
     announcements: 公告
     discussion: 讨论
     discussions: 讨论
@@ -10543,7 +10543,7 @@ zh-CN:
   turnitin: 
     error_1007: 上传的文件太大。
     error_1009: "无效的文件类型。 （有效的文件类型的MS Word，Acrobat PDF格式，后记，文本，HTML的WordPerfect（WPD）和RTF格式）。"
-    error_1013: 提交的计分作业必须超过20字的文字
+    error_1013: 提交的考评作业必须超过20字的文字
     error_1023: PDF文件无法读取。请确保该文件是没有密码保护。
     error_216: 该学生帐户的已达到限制。请联系您的帐户管理员。
     error_217: 该帐户的Turnitin的产品已过期。请联系您的销售代理续订Turnitin的产品。
@@ -11065,8 +11065,8 @@ zh-CN:
         anyone: 任何人
         only_teachers: 仅教师
         teachers_and_students: 教师和学生
-      course_home_wiki_page_description: 您可以使用此页面组织或介绍您喜欢的课程。您可以轻松地使用"页面工具"群体链接至计分作业、文件等；一旦开始编辑后，您将在右侧看到。
-      course_wiki_page_description: 您可以使用此维基创建课程材料的补充页面或说明。您可以从计分作业轻松地链接至维基页面，或从任何维基页面链接至其他课程材料和文件。这使它成为说明困难概念的绝佳场所，允许分组项目，或创建您的课程中可能需要的几乎任何类型的页面。
+      course_home_wiki_page_description: 您可以使用此页面组织或介绍您喜欢的课程。您可以轻松地使用"页面工具"学群(班级)链接至考评作业、文件等；一旦开始编辑后，您将在右侧看到。
+      course_wiki_page_description: 您可以使用此维基创建课程材料的补充页面或说明。您可以从考评作业轻松地链接至维基页面，或从任何维基页面链接至其他课程材料和文件。这使它成为说明困难概念的绝佳场所，允许分组项目，或创建您的课程中可能需要的几乎任何类型的页面。
       default_wiki_page_description: 此页面是默认维基页面，学生单击此课程的"页面"选项卡时将看到它。
       default_wiki_page_is_course_home_page_warning: "目前，此页面还设置为默认课程页面，因此您的课程的访问者 也将首先看到此页面。您可以从 [课程主页](%{link}) 进行更改。"
       editing_roles: 
