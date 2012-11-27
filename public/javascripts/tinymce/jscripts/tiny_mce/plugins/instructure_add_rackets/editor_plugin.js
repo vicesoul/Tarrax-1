@@ -3,7 +3,7 @@ define([
   'i18n!editor',
   'jquery'
 ], function(tinymce, I18n, $) {
-var flag = false;
+var addRackets = false;
   tinymce.create('tinymce.plugins.InstructureAddRackets',  {
     init : function(ed, url) {
       ed.addCommand('instructureAddRackets', function() {
@@ -12,8 +12,8 @@ var flag = false;
           $editorBody = $editorIframe.find("body#tinymce");
 
       var $icon = $("#" + ed.id + "_instructure_add_rackets");
-          flag = !flag;
-          if(flag){
+          addRackets = !addRackets;
+          if(addRackets){
               $icon.css({
                   "opacity":1
               });
@@ -29,19 +29,19 @@ var flag = false;
               var $editor = $("#" + ed.id);
               $editor.editorBox('insert_code', $text);
 
-              flag = true;
+              addRackets = true;
           });
           }else{
               $editorBody.unbind("mouseup");
               $icon.css({
                   "opacity":0.5
               });
-              flag = false;
+              addRackets = false;
           }
 
       });
       ed.addButton('instructure_add_rackets', {
-        title: 'drawing',
+        title: 'add rackets to text',
         cmd: 'instructureAddRackets',
         image: url + '/img/icon.png'
       });
