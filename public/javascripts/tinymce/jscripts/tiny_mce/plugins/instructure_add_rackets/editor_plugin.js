@@ -11,9 +11,10 @@ var flag = false;
       var $editorIframe = $("#" + ed.id + "_ifr").contents(),
           $editorBody = $editorIframe.find("body#tinymce");
 
+      var $icon = $("#" + ed.id + "_instructure_add_rackets");
           flag = !flag;
           if(flag){
-              $("#quiz_description_instructure_add_rackets").css({
+              $icon.css({
                   "opacity":1
               });
           var count = 0;
@@ -32,7 +33,7 @@ var flag = false;
           });
           }else{
               $editorBody.unbind("mouseup");
-              $("#quiz_description_instructure_add_rackets").css({
+              $icon.css({
                   "opacity":0.5
               });
               flag = false;
