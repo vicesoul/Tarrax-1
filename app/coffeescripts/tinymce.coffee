@@ -12,6 +12,7 @@ instrPlugins = [  'compiled/editor/markScriptsLoaded'
   'tinymce/jscripts/tiny_mce/plugins/instructure_equella/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_external_tools/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_links/editor_plugin'
+  'tinymce/jscripts/tiny_mce/plugins/instructure_add_rackets/editor_plugin'
  ]
 
 isCanvasSupported = ->

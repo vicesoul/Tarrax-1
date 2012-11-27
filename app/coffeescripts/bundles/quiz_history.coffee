@@ -3,6 +3,7 @@ require [
   'quiz_arrows'
   'quiz_inputs'
   'quiz_history'
+  'comments'
 ], ($, createQuizArrows, inputMethods) ->
   $ ->
     createQuizArrows()

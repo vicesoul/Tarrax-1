@@ -579,8 +579,13 @@ form.question_form
     overflow: hidden
   .multi_answer_sets
     display: none
+  #insertEmbed
+    display: none
   .fill_in_multiple_blanks_question,.multiple_dropdowns_question
     .multi_answer_sets
+      display: block
+  .fill_in_multiple_blanks_question,.multiple_dropdowns_question
+    #insertEmbed
       display: block
     .multi_answer_sets_subheader
       font-size: 0.8em
@@ -738,8 +743,8 @@ ul#quiz_versions
     display: none
   .question_incorrect_comment
     display: none
-.calculated_question
-  .equation_answers
+form.question_form .calculated_question
+  .equation_answers,#insertEmbed
     display: block
   .form_answers
     display: none

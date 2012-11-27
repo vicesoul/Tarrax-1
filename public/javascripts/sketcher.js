@@ -53,16 +53,20 @@ Sketcher.prototype.generalHTML = function(){
     canvasHtml += '<input type="button" class="purple" value="purple" style="background:#9932cc;" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
     canvasHtml += '<input type="button" class="brown" value="pink" style="background:#ff69b4;" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
     canvasHtml += '</div>';
-    canvasHtml += '<div class="setLineSize"><label>Line</label><div></div><input type="text"></div>';
-    canvasHtml += '<div class="setBrushSize"><label>Brush</label><div></div><input type="text"></div>';
-    canvasHtml += ' <div class="container"><div class="img_background"></div><div id="' + self.defaultSetting.stageId +'"></div></div>';
+/*    canvasHtml += '<div class="setLineSize"><label>Line</label><div></div><input type="text"></div>';
+    canvasHtml += '<div class="setBrushSize"><label>Brush</label><div></div><input type="text"></div>';*/
+    canvasHtml += ' <div class="container"><div class="img_background"></div><div id="' + this.defaultSetting.stageId +'"></div></div>';
     canvasHtml += '<div class="containerDraft"><canvas class="canvasDraft" width="39" height="39"></canvas></div>';
     canvasHtml += '</div>';
 
     $("body").append( canvasHtml );
+    $(".drawing_app .container").css({
+        width:this.defaultSetting.canvasW,
+        height: this.defaultSetting.canvasH
+    });
 
     stage = new Kinetic.Stage({
-        container: self.defaultSetting.stageId,
+        container: this.defaultSetting.stageId,
         width: this.defaultSetting.canvasW,
         height: this.defaultSetting.canvasH
     });
@@ -74,7 +78,8 @@ Sketcher.prototype.generalHTML = function(){
 
     stage.add(layer);
 
-    $("#" + self.defaultSetting.stageId + " canvas").addClass(self.defaultSetting.canvasClass);
+    $("#" + self.defaultSetting.stageId + " canvas")
+        .addClass(self.defaultSetting.canvasClass);
 
     $(".color_setting input:gt(1)").hide();
 
@@ -118,7 +123,7 @@ Sketcher.prototype.generalHTML = function(){
     });
 
 
-    $("#setLineSize div").slider({
+/*    $("#setLineSize div").slider({
         max:5,
         min:1,
         value: this.defaultSetting.lineW,
@@ -149,7 +154,7 @@ Sketcher.prototype.generalHTML = function(){
             self.brushSize.height = ui.value;
             $(this).next("input").val(ui.value);
         }
-    }).addTouch();
+    }).addTouch();*/
 
 }
 
@@ -201,11 +206,15 @@ Sketcher.prototype.onCanvasMouseDown = function () {
 		self.mouseMoveHandler = self.onCanvasMouseMove()
 		self.mouseUpHandler = self.onCanvasMouseUp()
 
+        // unbind the event if in ie, when drawing out the canvas to select the text out of canvas, than back in canvas drawing the line always drawing
+        if ( $.browser.msie ){self.canvas.unbind( self.mouseMoveEvent);}
+
         self.canvas.bind( self.mouseMoveEvent, self.mouseMoveHandler );
-        $(document).bind(self.mouseUpEvent,self.mouseUpHandler)
+        $(document).bind(self.mouseUpEvent,self.mouseUpHandler);
 
 		self.updateMousePosition( event );
-		//self.renderFunction( event );           // click drawing
+		self.renderFunction( event );           // click drawing
+        return false;      //**** ie & chrome bug, stop the mouse selecting the outer text
 	}
 }
 
@@ -309,21 +318,6 @@ Sketcher.prototype.angleBetween2Points = function ( point1, point2 ) {
     var dx = point2.x - point1.x;
     var dy = point2.y - point1.y;
     return Math.atan2( dx, dy );
-}
-
-Sketcher.prototype.toString = function () {
-
-	var dataString = this.canvas.get(0).toDataURL("image/png");
-	var index = dataString.indexOf( "," )+1;
-	dataString = dataString.substring( index );
-	
-	return dataString;
-}
-
-Sketcher.prototype.toDataURL = function () {
-
-	var dataString = this.canvas.get(0).toDataURL("image/png");
-	return dataString;
 }
 
 Sketcher.prototype.clear = function () {

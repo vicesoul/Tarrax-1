@@ -30,11 +30,14 @@ define([
     init : function(ed, url) {
       ed.addCommand('instructureDrawing', function() {
         console.log(ed);
+
+
       var $editorIframe = $("#" + ed.id + "_ifr").contents(),
           $editorBody = $editorIframe.find("body#tinymce");
 
+
         // ****** if first open box
-        if($(".drawing_app").length == 0) {
+        if($("#" + ed.id + "_drawing_container").length == 0) {
             defaultSetting.stageId = ed.id + "_drawing_container";      // set stageId dynamic
             sketcher = new Sketcher(defaultSetting);
             $('head').append('<link rel="stylesheet" href="' + url + '/css/style.css" type="text/css" />');
@@ -96,18 +99,21 @@ define([
                   };
               }
 
+
               }
 
 
 
 
-
+          var bodyH = $(window).height();
           $(".drawing_app").dialog({
-              minWidth: 650,
-              buttons: { "保存": function() { saveImg( $(this) )} ,"取消": function() { $( this ).dialog( "close" ); } },
+              //minWidth: sketcher.defaultSetting.canvasW + 26,
+              width:"100%",
+              minHeight:bodyH,
+              buttons: { "保存": function() { saveImg();$(this).dialog("close");} ,"取消": function() { $(this).dialog("close");} },
               title:"画板",
-              dialogClass: "instructure_drawing_prompt"
-
+              dialogClass: "instructure_drawing_prompt",
+              "resizable": false
 
           });
 
@@ -177,8 +183,9 @@ define([
               var cropTop = scanY(true),
                   cropBottom = scanY(false),
                   cropLeft = scanX(true),
-                  cropRight = scanX(false);
-              if(bgw){                          // if has the args:type if switch :
+                  cropRight = scanX(false),
+                  edge = 0;
+              if(insertType == "switch"){                          // if has the args:type if switch :
 
                   // edge don't beyond canvas
                   bgw = bgw <= canvasW ? bgw : canvasW;
@@ -191,9 +198,11 @@ define([
                   cropLeft = 0;
                   cropTop = 0;
 
-              }else{}
-               cropWidth = cropRight - cropLeft;
-               cropHeight = cropBottom - cropTop;
+              }else if(insertType == "blank"){
+                  edge = 1;
+              }
+               cropWidth = cropRight - cropLeft + edge;
+               cropHeight = cropBottom - cropTop + edge;
                $croppedCanvas = $("<canvas>").attr({ width: cropWidth, height: cropHeight });
 
                $croppedCanvas[0].getContext("2d").drawImage(canvas,
@@ -205,7 +214,7 @@ define([
 
           }
 
-          function saveImg(Dialog){
+          function saveImg(){
               if(insertType == "switch"){
               var  $bgimg = backgroundContainer.find("img"),
                    getData = removeBlanks($bgimg[0].width,$bgimg[0].height),
@@ -240,7 +249,7 @@ define([
                   $editor.editorBox('insert_code', $div.html());
 
               }
-              Dialog.dialog( "close" );
+
 
           }
 

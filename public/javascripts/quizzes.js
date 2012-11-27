@@ -24,6 +24,8 @@ define([
   'wikiSidebar',
   'compiled/editor/MultipleChoiceToggle',
   'compiled/str/TextHelper',
+    'compiled/tinymce',
+    'tinymce.editor_box' /* editorBox */,
   'jquery.ajaxJSON' /* ajaxJSON */,
   'jquery.instructure_date_and_time' /* time_field, datetime_field */,
   'jquery.instructure_forms' /* formSubmit, fillFormData, getFormData, formErrors, errorBox */,
@@ -35,13 +37,12 @@ define([
   'compiled/jquery.rails_flash_notifications',
   'jquery.templateData' /* fillTemplateData, getTemplateData */,
   'supercalc' /* superCalc */,
-  'compiled/tinymce',
-  'tinymce.editor_box' /* editorBox */,
+
   'vendor/jquery.placeholder' /* /\.placeholder/ */,
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
   'jqueryui/sortable' /* /\.sortable/ */,
   'jqueryui/tabs' /* /\.tabs/ */
-], function(I18n, $, calcCmd, htmlEscape, pluralize, wikiSidebar, MultipleChoiceToggle, TextHelper) {
+], function(I18n, $, calcCmd, htmlEscape, pluralize, wikiSidebar, MultipleChoiceToggle, TextHelper, tinymce) {
 
   // TODO: refactor this... it's not going to be horrible, but it will
   // take a little bit of work.  I just wrapped it in a closure for now
@@ -2474,6 +2475,9 @@ define([
     });
 
     $("#equations_dialog_tabs").tabs();
+
+
+
   });
 
   $.fn.multipleAnswerSetsQuestion = function() {
@@ -2486,6 +2490,8 @@ define([
     $question_content.bind('keypress', function(event) {
       setTimeout(function() {$(event.target).triggerHandler('change')}, 50);
     });
+
+
     $question_content.bind('change', function() {
       var question_type = $question_type.val();
       if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question') {
@@ -2829,5 +2835,7 @@ define([
 
     toggler.toggle();
   });
+
+    console.log(tinymce)
 
 });

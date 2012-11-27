@@ -7,4 +7,5 @@
 .setLineSize > label,.setBrushSize > label{float: left;}
 .setLineSize > div,.setBrushSize > div{float: left;width: 100px;margin: 0 0 0 20px;}
 .setLineSize input,.setBrushSize input{width: 30px;margin: 0 0 0 20px;}
-.color_setting input[type="button"]{width: 40px;height: 40px;text-indent: -999em;}
+.color_setting {height: 45px;width: 100%;overflow: hidden;}
+.color_setting input[type="button"]{width: 40px;height: 40px;text-indent: -999em;border-radius: 50%;margin:  0 5px 0 0;border:1px solid #333;}
