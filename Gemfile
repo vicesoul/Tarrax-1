@@ -109,6 +109,8 @@ group :development do
     gem 'ruby-debug',   '0.10.4'
   end
   gem 'guard', '1.0.3'
+  gem 'pry'
+  gem 'capistrano'
 end
 
 group :i18n_tools do

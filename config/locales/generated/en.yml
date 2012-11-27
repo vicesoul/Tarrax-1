@@ -12,6 +12,8 @@ en:
     default_account_name: "Default Account"
     default_site_administrator_account_name: "Site Admin"
     default_term_name: "Default Term"
+    errors: 
+      invalid_discovery_url: "The discovery URL is not valid"
     manually_created_courses: "Manually-Created Courses"
     root_account_cant_have_sis_id: "SIS IDs cannot be set on root accounts"
     sis_id_in_use: "SIS ID \"%{sis_id}\" is already in use"
@@ -54,6 +56,7 @@ en:
         login_handle_name: "Login Label"
       login_handle_name_description: "The label used for unique login identifiers. Examples: Login, Username, Student ID, etc."
       save_button: "Save Authentication Settings"
+    deprecated_fail: "Can't use both deprecated and current version of create at the same time."
     index: 
       add_auth_desc: "Add an identity provider to this account:"
       canvas_login_tip: |-
@@ -136,25 +139,44 @@ en:
       last_ldap_timeout_failure: "Last timeout failure"
       ldap_timeout_failure_help: "If Canvas times out communicating with the LDAP server, it will block further login attempts from using that LDAP server for %{time}."
     login_required: "must be supplied"
+    no_auth_mixing: "Can not mix authentication types"
+    no_changing_auth_types: "Can not change type of authorization config, please delete and create new config."
+    no_config_sent: "Must specify auth_type"
+    no_discovery_url: "None set"
+    only_one_cas: "Can not create multiple CAS configurations"
     password_required: "must be supplied"
     saml_required: "A SAML configuration is required to test SAML"
     saml_settings: 
+      auth_type: Type
+      auth_url: "Login url for this config"
+      certificate_fingerprint: "Certificate Fingerprint"
+      change_password_url: "Change Password Link"
+      discovery_url: "Discovery URL:"
+      discovery_url_description: "If a discovery url is set, canvas will forward all users to that URL when they need to be authenticated. That page will need to then help the user figure out where they need to go to log in. If no discovery url is configured, the first SAML configuration will be used to attempt to authenticate the user."
+      identifier_format: "Identifier Format"
+      idp_entity_id: "IdP Entity ID"
       labels: 
-        auth_type: Type
         certificate_fingerprint: "Certificate Fingerprint"
         change_password_url: "Change Password Link"
         identifier_format: "Identifier Format"
+        idp_entity_id: "IdP Entity ID"
         log_in_url: "Log On URL"
         log_out_url: "Log Out URL"
         login_attribute: "Login Attribute"
         login_handle_name: "Login Label"
+        position: Position
         requested_authn_context: "Authentication Context"
+      log_in_url: "Log On URL"
+      log_out_url: "Log Out URL"
+      login_attribute: "Login Attribute"
+      login_handle_name: "Login Label"
       login_handle_name_description: "The label used for unique login identifiers. Examples: Login, Username, Student ID, etc."
+      no_discovery_url: "None set"
+      position: Position
       refresh_debugging: Refresh
+      requested_authn_context: "Authentication Context"
       saml_debug_instructions: "Once you start debugging all info about the next attempted SAML login attempt will be collected. Click \"Refresh\" to see if more data has been collected or \"Stop Debugging\" to clear the collected data and stop the current debug attempt."
       saml_debugging: Debugging
-      saml_meta_data_link: "Click here to see the service provider identity XML for this account."
-      save_button: "Save Authentication Settings"
       start_debugging: "Start Debugging"
       stop_debugging: "Stop Debugging"
     saml_testing: 
@@ -398,7 +420,6 @@ en:
         enable_alerts: Alerts
         enable_eportfolios: ePortfolios
         enable_profiles: "Enable Profiles"
-        enable_scheduler: "Enable Calendar 2"
         enable_user_notes: "Faculty Journal"
         end_at: Ends
         equella: Equella
@@ -1376,7 +1397,6 @@ en:
         calendar_scheduler: Scheduler
         calendar_week: Week
       refresh: Refresh
-      use_old_calendar: "Go back to the old calendar"
     cancel_appointment: "Are you sure you want to cancel your appointment with %{name}?"
     confirm_appointment_group_deletion: "Are you sure you want to delete this appointment group?"
     confirm_deletion: "Confirm Deletion"
@@ -2030,7 +2050,7 @@ en:
         day_substitutions: "You can also explicitly define day substitutions to adjust for changing class schedules (i.e. move everything that was on Mondays to now happen on Tuesdays)"
       from_to: "*from* %{start_date} **to** %{end_date}"
       labels: 
-        dates_range: "%{course} dates range"
+        dates_range: "*%{course}* dates range"
         shift_dates: "Adjust events and due dates"
         this_course_date_range: "**This Course** dates range"
       links: 
@@ -4830,7 +4850,6 @@ en:
       arrange_columns_by_group: "Arrange columns by assignment group"
       download_scores: "Download Scores (.csv)"
       filter_by_student: "Filter by student name or secondary ID"
-      go_back_to_the_old_gradebook: "Go back to the old gradebook"
       hide_student_names: "Hide Student Names"
       include_ungraded: "Treat Ungraded as 0's"
       publish_to_sis: "Publish grades to SIS"
@@ -5083,7 +5102,6 @@ en:
         upload: "File Upload Submission"
         url: "URL Submission"
         view: View
-      try_out_the_new_gradebook: "Try out the new gradebook"
       upload_info: "If you made changes to the student submission files you downloaded before, just zip them back up and upload the zip with the form below. Students will see the modified files in their comments for the submission."
       upload_warning: "Make sure you don't change the names of the submission files so we can recognize them."
       weight_final: "Weight final grade based on groups"
@@ -5190,7 +5208,6 @@ en:
         submit_same_score: "Use this same grade for the resubmission"
       loading: loading...
       new_assessment_option: "[New Assessment]"
-      no_annotation: "Annotations are not available for this document"
       not_newest_notice: "Note: This is not the most recent submission"
       page_title: "%{assignment_name}, SpeedGrader, %{course_name}"
       portion_graded: "%{x} / %{y} Graded"
@@ -5670,7 +5687,6 @@ en:
     wikis: Wikis
   layouts: 
     application: 
-      instructure_description: "Instructure, makers of the open source learning management system Canvas"
       links: 
         close: Close
         dashboard: "My Dashboard"
@@ -8128,6 +8144,12 @@ en:
       invalid_credentials: "Incorrect username and/or password"
       invalid_otp: "Invalid verification code, please try again"
       login_error: "There was a problem logging in at %{institution}"
+      login_errors: 
+        no_config_for_id: "The Canvas account has no authentication configuration with that id"
+        no_idp_set: "The institution you logged in from is not configured on this account."
+        unrecognized_idp: "Canvas did not recognize your identity provider"
+      logout_errors: 
+        no_idp_found: "Canvas was unable to log you out at your identity provider"
       max_attempts: "Too many failed login attempts. Please try again later or contact your system administrator."
       no_matching_user: "Canvas doesn't have an account for user: %{user}"
       request_failed: "Request failed. Try again."
@@ -10423,6 +10445,7 @@ en:
       assignment_submit_fail: "Assignment failed to submit"
       can_not_submit_locked_assignment: "You can't submit an assignment when it is locked"
       invalid_file_type: "Invalid file type"
+      media_file_attached: "There was no media recording in the submission"
       no_attached_file: "You must attach at least one file to this assignment"
       no_report: "Couldn't find a report for that submission item"
       student_not_enrolled: "The specified user is not a student in this course"

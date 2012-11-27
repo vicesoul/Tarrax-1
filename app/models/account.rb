@@ -1158,4 +1158,9 @@ class Account < ActiveRecord::Base
   def canvas_network_enabled?
     false
   end
+
+  # return root account's subdomain
+  def subdomain
+    Subdomain.find_by_account_id(root_account.id) || 'www'
+  end
 end
