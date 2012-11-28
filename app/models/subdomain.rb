@@ -1,6 +1,8 @@
 class Subdomain < ActiveRecord::Base
   PREFIX = 'edu'
 
+  attr_accessible :subdomain
+
   belongs_to :account
 
   after_save :create_subdomain_string

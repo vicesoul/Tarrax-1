@@ -4,7 +4,9 @@ describe AccountsController do
   context "subdomain" do
     before(:each) do
       @acct1 = Account.create!
-      Subdomain.create!(:account => @acct1, :subdomain => 'ed123')
+      domain = Subdomain.new(:subdomain => 'ed123')
+      domain.account_id = @acct1.id
+      domain.save!
       account_admin_user(:account => @acct1)
     end
 
