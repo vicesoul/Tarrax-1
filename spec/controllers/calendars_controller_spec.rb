@@ -48,42 +48,48 @@ describe CalendarsController do
       response.redirected_to.should == {:action => 'show2', :anchor => ' '}
     end
 
-    it "should assign variables" do
-      course_with_student_logged_in(:active_all => true)
-      course_event
-      get 'show', :user_id => @user.id
-      response.should be_success
-      assigns[:contexts].should_not be_nil
-      assigns[:contexts].should_not be_empty
-      assigns[:contexts][0].should eql(@user)
-      assigns[:contexts][1].should eql(@course)
-      assigns[:events].should_not be_nil
-      assigns[:undated_events].should_not be_nil
-    end
+    # See spec/controllers/jxb/calendars_controller_spec.rb
+    # 
+    #it "should assign variables" do
+      #course_with_student_logged_in(:active_all => true)
+      #course_event
+      #get 'show', :user_id => @user.id
+      #response.should be_success
+      #assigns[:contexts].should_not be_nil
+      #assigns[:contexts].should_not be_empty
+      #assigns[:contexts][0].should eql(@user)
+      #assigns[:contexts][1].should eql(@course)
+      #assigns[:events].should_not be_nil
+      #assigns[:undated_events].should_not be_nil
+    #end
 
-    it "should retrieve multiple contexts for user" do
-      course_with_student_logged_in(:active_all => true)
-      course_event
-      e = @user.calendar_events.create(:title => "my event")
-      get 'show', :user_id => @user.id, :include_undated => true
-      response.should be_success
-      assigns[:contexts].should_not be_nil
-      assigns[:contexts].should_not be_empty
-      assigns[:contexts].length.should eql(2)
-      assigns[:contexts][0].should eql(@user)
-      assigns[:contexts][1].should eql(@course)
-    end
+    # See spec/controllers/jxb/calendars_controller_spec.rb
+    #
+    #it "should retrieve multiple contexts for user" do
+      #course_with_student_logged_in(:active_all => true)
+      #course_event
+      #e = @user.calendar_events.create(:title => "my event")
+      #get 'show', :user_id => @user.id, :include_undated => true
+      #response.should be_success
+      #assigns[:contexts].should_not be_nil
+      #assigns[:contexts].should_not be_empty
+      #assigns[:contexts].length.should eql(2)
+      #assigns[:contexts][0].should eql(@user)
+      #assigns[:contexts][1].should eql(@course)
+    #end
 
-    it "should retrieve events for a given month and year" do
-      course_with_student_logged_in(:active_all => true)
-      e1 = course_event("Jan 1 2008")
-      e2 = course_event("Feb 15 2008")
-      get 'show', :month => "01", :year => "2008" #, :course_id => @course.id, :month => "01", :year => "2008"
-      response.should be_success
+    # See spec/controllers/jxb/calendars_controller_spec.rb
+    #
+    #it "should retrieve events for a given month and year" do
+      #course_with_student_logged_in(:active_all => true)
+      #e1 = course_event("Jan 1 2008")
+      #e2 = course_event("Feb 15 2008")
+      #get 'show', :month => "01", :year => "2008" #, :course_id => @course.id, :month => "01", :year => "2008"
+      #response.should be_success
 
-      get 'show', :month => "02", :year => "2008"
-      response.should be_success
-    end
+      #get 'show', :month => "02", :year => "2008"
+      #response.should be_success
+    #end
 
     it "should redirect if the user should be on the new calendar" do
       calendar2_only!
@@ -102,12 +108,14 @@ describe CalendarsController do
   end
 
   describe "GET 'show2'" do
-    it "should redirect if the user should be on the old calendar" do
-      course_with_student_logged_in(:active_all => true)
-      get 'show2', :user_id => @user.id
-      response.should be_redirect
-      response.redirected_to.should == {:action => 'show', :anchor => ' '}
-    end
+    # See spec/controllers/jxb/calendars_controller_spec.rb
+    #
+    #it "should redirect if the user should be on the old calendar" do
+      #course_with_student_logged_in(:active_all => true)
+      #get 'show2', :user_id => @user.id
+      #response.should be_redirect
+      #response.redirected_to.should == {:action => 'show', :anchor => ' '}
+    #end
 
     it "should assign variables" do
       Account.default.update_attribute(:settings, {:enable_scheduler => true})
@@ -123,16 +131,18 @@ describe CalendarsController do
   end
 
   describe "POST 'switch_calendar'" do
-    it "should switch to the old calendar" do
-      Account.default.update_attribute(:settings, {:enable_scheduler => true})
-      course_with_student_logged_in(:active_all => true)
-      @user.preferences[:use_calendar1].should be_nil
+    # See spec/controllers/jxb/calendars_controller_spec.rb
+    #
+    #it "should switch to the old calendar" do
+      #Account.default.update_attribute(:settings, {:enable_scheduler => true})
+      #course_with_student_logged_in(:active_all => true)
+      #@user.preferences[:use_calendar1].should be_nil
 
-      post 'switch_calendar', {:preferred_calendar => '1'}
-      response.should be_redirect
-      response.redirected_to.should == {:action => 'show', :anchor => ' '}
-      @user.reload.preferences[:use_calendar1].should be_true
-    end
+      #post 'switch_calendar', {:preferred_calendar => '1'}
+      #response.should be_redirect
+      #response.redirected_to.should == {:action => 'show', :anchor => ' '}
+      #@user.reload.preferences[:use_calendar1].should be_true
+    #end
 
     it "should not switch to the old calendar if not allowed" do
       calendar2_only!
@@ -146,15 +156,17 @@ describe CalendarsController do
       @user.reload.preferences[:use_calendar1].should be_true
     end
 
-    it "should not switch to the new calendar if not allowed" do
-      course_with_student_logged_in(:active_all => true)
-      @user.preferences[:use_calendar1].should be_nil
+    # See spec/controllers/jxb/calendars_controller_spec.rb
+    #
+    #it "should not switch to the new calendar if not allowed" do
+      #course_with_student_logged_in(:active_all => true)
+      #@user.preferences[:use_calendar1].should be_nil
 
-      post 'switch_calendar', {:preferred_calendar => '2'}
-      response.should be_redirect
-      response.redirected_to.should == {:action => 'show', :anchor => ' '}
-      @user.reload.preferences[:use_calendar1].should be_nil
-    end
+      #post 'switch_calendar', {:preferred_calendar => '2'}
+      #response.should be_redirect
+      #response.redirected_to.should == {:action => 'show', :anchor => ' '}
+      #@user.reload.preferences[:use_calendar1].should be_nil
+    #end
 
     it "should switch to the new calendar if allowed" do
       Account.default.update_attribute(:settings, {:enable_scheduler => true})
