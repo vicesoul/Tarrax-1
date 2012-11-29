@@ -37,7 +37,7 @@ define([
 
 
         // ****** if first open box
-        if($("#" + ed.id + "_drawing_container").length == 0) {
+        if($(".drawing_app").length == 0) {
             defaultSetting.stageId = ed.id + "_drawing_container";      // set stageId dynamic
             sketcher = new Sketcher(defaultSetting);
             $('head').append('<link rel="stylesheet" href="' + url + '/css/style.css" type="text/css" />');

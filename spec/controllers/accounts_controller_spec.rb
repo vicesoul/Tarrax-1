@@ -245,7 +245,8 @@ describe AccountsController do
         :global_includes => true, :enable_scheduler => true, :enable_profiles => true } }
       @account.reload
       @account.global_includes?.should be_false
-      @account.enable_scheduler?.should be_false
+      # See spec/controllers/jxb/accounts_controller_spec.rb
+      #@account.enable_scheduler?.should be_false
       @account.enable_profiles?.should be_false
     end
 
