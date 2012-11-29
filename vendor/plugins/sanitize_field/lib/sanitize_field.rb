@@ -63,12 +63,12 @@ module Instructure #:nodoc:
 
       if methods
         value.to_s.downcase.scan(REGEX_STYLE_METHOD) do |match|
-          return nil if !methods.include?(match[0].downcase)
+          return nil if !methods.include?(match[0].strip.downcase)
         end
       end
       if protocols
         value.to_s.downcase.scan(REGEX_STYLE_PROTOCOL) do |match|
-          return nil if !protocols.include?(match[0].downcase)
+          return nil if !protocols.include?(match[0].strip.downcase)
         end
       end
       value
@@ -145,7 +145,6 @@ module Instructure #:nodoc:
     module ClassMethods
       
       def sanitize_field(*args)
-        
         # Calls this as many times as a field is configured.  Will this play
         # nicely? 
         include Instructure::SanitizeField::InstanceMethods
