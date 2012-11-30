@@ -48,6 +48,7 @@ namespace :jxb do
        domain external_migration file_store
        outgoing_mail redis security session_store).each do |conf|
       upload "config/#{conf}.yml", "#{shared_path}/config/#{conf}.yml"
+      run "touch #{shared_path}/config/GEM_HOME"
     end
   end
 
@@ -60,6 +61,7 @@ namespace :jxb do
         run "ln -s #{shared_path}/config/#{conf}.yml #{release_path}/config/#{conf}.yml"
       end
 
+      run "ln -s #{shared_path}/config/GEM_HOME #{release_path}/config/GEM_HOME"
       run "ln -s #{shared_path}/tmp #{release_path}/tmp"
     end
   end
