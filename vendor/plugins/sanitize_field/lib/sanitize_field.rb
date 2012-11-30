@@ -35,8 +35,8 @@ module Instructure #:nodoc:
       # taken from https://github.com/flavorjones/loofah/blob/master/lib/loofah/html5/scrub.rb
       # the gauntlet
       #style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
-      #style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!?=&_-]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
-      #style = '' unless style =~ /\A\s*([-\w]+\s*:[^\;]*(\;\s*|$))*\z/
+      style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!?=&_\-]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
+      style = '' unless style =~ /\A\s*([-\w]+\s*:[^\;]*(\;\s*|$))*\z/
       
       config = env[:config]
 
@@ -63,12 +63,12 @@ module Instructure #:nodoc:
 
       if methods
         value.to_s.downcase.scan(REGEX_STYLE_METHOD) do |match|
-          return nil if !methods.include?(match[0].downcase)
+          return nil if !methods.include?(match[0].strip.downcase)
         end
       end
       if protocols
         value.to_s.downcase.scan(REGEX_STYLE_PROTOCOL) do |match|
-          return nil if !protocols.include?(match[0].downcase)
+          return nil if !protocols.include?(match[0].strip.downcase)
         end
       end
       value
@@ -145,7 +145,6 @@ module Instructure #:nodoc:
     module ClassMethods
       
       def sanitize_field(*args)
-        
         # Calls this as many times as a field is configured.  Will this play
         # nicely? 
         include Instructure::SanitizeField::InstanceMethods

@@ -1,4 +1,4 @@
-class AddSubdomain < ActiveRecord::Migration
+class JxbAddSubdomain < ActiveRecord::Migration
   tag :predeploy
 
   def self.up

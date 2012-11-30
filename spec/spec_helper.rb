@@ -42,7 +42,7 @@ ALL_MODELS << Delayed::Backend::ActiveRecord::Job
 # globally on every object. :context is already heavily used in our application,
 # so we remove rspec's definition.
 module Spec::DSL::Main
-  remove_method :context
+  remove_method :context if respond_to?(:context)
 end
 
 def truncate_table(model)
