@@ -6,7 +6,7 @@ class JxbMakeSubdomainIdStartsFrom10000 < ActiveRecord::Migration
     when 'postgresql'
       execute "SELECT setval('subdomains_id_seq', 10000)"
     when 'mysql', 'mysql2'
-      execute "ALTER TABLE subdomains INCREMENT = 10000"
+      execute "ALTER TABLE subdomains AUTO_INCREMENT = 10000"
     end
   end
 
