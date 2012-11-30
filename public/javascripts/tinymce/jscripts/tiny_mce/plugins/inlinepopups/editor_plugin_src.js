@@ -9,7 +9,7 @@
  */
 
 //**** 2012-11-30  rupert add "tinymce"
-(function() {
+(function(tinymce) {
 	var DOM = tinymce.DOM, Element = tinymce.dom.Element, Event = tinymce.dom.Event, each = tinymce.each, is = tinymce.is;
 
 	tinymce.create('tinymce.plugins.InlinePopups', {
