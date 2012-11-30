@@ -9,34 +9,49 @@ var addRackets = false;
       ed.addCommand('instructureAddRackets', function() {
 
       var $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          $editorBody = $editorIframe.find("body#tinymce");
+          $editorBody = $editorIframe.find("body#tinymce"),
+          $question = $("#" + ed.id).closest(".question_holder ").find(".question");
 
       var $icon = $("#" + ed.id + "_instructure_add_rackets");
           addRackets = !addRackets;
           if(addRackets){
+              addRackets = true;
               $icon.css({
                   "opacity":1
               });
           var count = 0;
-          $editorBody.mouseup( function(event) {
-              var  $text = ed.selection.getContent();
-              if(!$text){
-                  return;
-                   $text = "blank" + count;
-                  count ++;
-              }
-              $text = "[" + $text + "]";
-              var $editor = $("#" + ed.id);
-              $editor.editorBox('insert_code', $text);
+          $editorBody.bind("mouseup",addRacket);
 
-              addRackets = true;
-          });
           }else{
-              $editorBody.unbind("mouseup");
+              addRackets = false;
+
               $icon.css({
                   "opacity":0.5
               });
-              addRackets = false;
+              $editorBody.unbind("mouseup");
+
+          }
+          function addRacket() {
+              var  selectedText = ed.selection.getContent();
+              if(!selectedText){
+                  return;
+              }
+              var $editor = $("#" + ed.id);
+              if($question.is(".calculated_question")){
+                  $editor.editorBox('insert_code', "[" + selectedText + "]");
+              }else if($question.is(".fill_in_multiple_blanks_question")){
+
+                  var  text = "blank" + count;
+                  count ++;
+                  $editor.editorBox('insert_code', "[" + text + "]");
+
+                  //*** convey the text to select box, why use setTimeout? the editor check the changes every 200ms
+                  setTimeout(function(){
+                      $question.find(".blank_id_select ." + text).attr("data-text",selectedText);
+                  },500);
+                  //*** end
+
+              }
           }
 
       });

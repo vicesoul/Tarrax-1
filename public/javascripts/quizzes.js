@@ -1938,6 +1938,7 @@ define([
           $answer.removeClass('correct_answer');
         }
         $question.find(".form_answers").append($answer.show());
+        console.log("append")
         if (!skipFocus) {
           $("html,body").scrollTo($answer);
           $answer.find(":text:visible:first").focus().select();
@@ -2576,6 +2577,18 @@ define([
         if (!$valid_answers.length && variable && variable !== '0') {
           for(var idx = 0; idx < 2; idx++) {
             $question.find(".add_answer_link").triggerHandler('click', true);
+
+              //*** 2012-11-29 rupert fill the text in the first input
+              if (idx == 0){
+                      var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");
+                      var attr = $option.attr("data-text");
+                      if(typeof attr !== 'undefined' && attr !== false){
+                          var text = $question.find(".blank_id_select option:eq(" + variableIdx +")").attr("data-text");
+                          $('.answer_idx_' + variableIdx).find(".short_answer input").val(text);
+                          $option.removeAttr("data-text");
+                      }
+              }
+              //*** end
           }
           $valid_answers = $question.find(".form_answers .answer.answer_idx_" + variableIdx).show().removeClass('hidden');
         }
@@ -2836,6 +2849,6 @@ define([
     toggler.toggle();
   });
 
-    console.log(tinymce)
+
 
 });
