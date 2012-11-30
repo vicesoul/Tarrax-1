@@ -2577,7 +2577,6 @@ define([
         if (!$valid_answers.length && variable && variable !== '0') {
           for(var idx = 0; idx < 2; idx++) {
             $question.find(".add_answer_link").triggerHandler('click', true);
-
               //*** 2012-11-29 rupert fill the text in the first input
               if (idx == 0){
                       var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");

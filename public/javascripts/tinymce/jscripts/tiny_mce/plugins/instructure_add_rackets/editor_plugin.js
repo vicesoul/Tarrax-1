@@ -40,16 +40,38 @@ var addRackets = false;
               if($question.is(".calculated_question")){
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
               }else if($question.is(".fill_in_multiple_blanks_question")){
+                  //*** var this term before insert_code,coz after insert_code this element will be remove
+                  var hasOption = !!$question.find(".multi_answer_sets .blank_id_select .shown_when_no_other_options_available").size();
+                  //*** end
+
+                  //*** if .form_answers is not empty, when select change(), the possible answer is not appendTo, so the input will not be put in text
+                  if(hasOption){
+                      $question.find(".form_answers").html("");
+                  }
+                  //*** end
 
                   var  text = "blank" + count;
                   count ++;
+
+
                   $editor.editorBox('insert_code', "[" + text + "]");
+
+
+                  if(hasOption){
+
+                      $question.find(".form_answers .short_answer:first input").val(selectedText);
+
+                  }else{
 
                   //*** convey the text to select box, why use setTimeout? the editor check the changes every 200ms
                   setTimeout(function(){
                       $question.find(".blank_id_select ." + text).attr("data-text",selectedText);
-                  },500);
+                  },300);
                   //*** end
+
+                  }
+
+
 
               }
           }
