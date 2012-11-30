@@ -1117,6 +1117,7 @@ ul#quiz_versions
     max-width: 100%
 
 #questions
+  position: relative
   .short_answer_question, .numerical_question
     .answers_wrapper
       border-top: 1px solid #ddd
@@ -1141,3 +1142,19 @@ ul#quiz_versions
 
 #left-side
   position: absolute
+
+#questions
+  .sketch
+    position: absolute
+    left: 0
+    top: 0
+    z-index: 1
+  .start_drawing
+    position: absolute
+    right: 10
+    top: 0
+    z-index: 2
+
+
+
+

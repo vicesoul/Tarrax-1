@@ -8,7 +8,7 @@
  * http://code.google.com/p/jquery-ui-for-ipad-and-iphone/
  */
 
-
+define(['vendor/jquery-1.7.2'], function($) {
 $(function() {
     //
     // Extend jQuery feature detection
@@ -227,3 +227,4 @@ function iPadTouchHandler(event) {
 }
 
 
+})
