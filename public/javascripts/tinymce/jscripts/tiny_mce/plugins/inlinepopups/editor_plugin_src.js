@@ -696,5 +696,5 @@
 
 	// Register plugin
 	tinymce.PluginManager.add('inlinepopups', tinymce.plugins.InlinePopups);
-})();
+})(tinymce);
 
