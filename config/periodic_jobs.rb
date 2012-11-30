@@ -40,24 +40,24 @@ Delayed::Periodic.cron 'SummaryMessageConsolidator.process', '*/15 * * * *' do
   end
 end
 
-Delayed::Periodic.cron 'Attachment.process_scribd_conversion_statuses', '*/5 * * * *' do
-  Shard.with_each_shard do
-    Attachment.process_scribd_conversion_statuses
-  end
-end
-
-Delayed::Periodic.cron 'CrocodocDocument.update_process_states', '*/5 * * * *' do
-  Shard.with_each_shard do
-    CrocodocDocument.update_process_states
-  end
-end
-
-Delayed::Periodic.cron 'Twitter processing', '*/15 * * * *' do
-  Shard.with_each_shard do
-    TwitterSearcher.process
-    TwitterUserPoller.process
-  end
-end
+#Delayed::Periodic.cron 'Attachment.process_scribd_conversion_statuses', '*/5 * * * *' do
+#  Shard.with_each_shard do
+#    Attachment.process_scribd_conversion_statuses
+#  end
+#end
+#
+#Delayed::Periodic.cron 'CrocodocDocument.update_process_states', '*/5 * * * *' do
+#  Shard.with_each_shard do
+#    CrocodocDocument.update_process_states
+#  end
+#end
+#
+#Delayed::Periodic.cron 'Twitter processing', '*/15 * * * *' do
+#  Shard.with_each_shard do
+#    TwitterSearcher.process
+#    TwitterUserPoller.process
+#  end
+#end
 
 Delayed::Periodic.cron 'Reporting::CountsReport.process', '0 11 * * *' do
   Reporting::CountsReport.process
