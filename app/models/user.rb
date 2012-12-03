@@ -1401,7 +1401,9 @@ class User < ActiveRecord::Base
   end
 
   def watched_conversations_intro?
-    preferences[:watched_conversations_intro] == true
+    #TODO: Need add JiaoXueBang implement
+    true
+    #preferences[:watched_conversations_intro] == true
   end
 
   def watched_conversations_intro(value=true)
