@@ -203,8 +203,8 @@ Sketcher.prototype.onCanvasMouseDown = function () {
 	var self = this;
 
 	return function(event) {
-		self.mouseMoveHandler = self.onCanvasMouseMove()
-		self.mouseUpHandler = self.onCanvasMouseUp()
+		self.mouseMoveHandler = self.onCanvasMouseMove();
+		self.mouseUpHandler = self.onCanvasMouseUp();
 
         // unbind the event if in ie, when drawing out the canvas to select the text out of canvas, than back in canvas drawing the line always drawing
         if ( $.browser.msie ){self.canvas.unbind( self.mouseMoveEvent);}
@@ -213,7 +213,7 @@ Sketcher.prototype.onCanvasMouseDown = function () {
         $(document).bind(self.mouseUpEvent,self.mouseUpHandler);
 
 		self.updateMousePosition( event );
-		self.renderFunction( event );           // click drawing
+		//self.renderFunction( event );           // click drawing
         return false;      //**** ie & chrome bug, stop the mouse selecting the outer text
 	}
 }

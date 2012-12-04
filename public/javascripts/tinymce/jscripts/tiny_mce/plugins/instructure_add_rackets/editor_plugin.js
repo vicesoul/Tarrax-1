@@ -10,16 +10,19 @@ var addRackets = false;
 
       var $editorIframe = $("#" + ed.id + "_ifr").contents(),
           $editorBody = $editorIframe.find("body#tinymce"),
-          $question = $("#" + ed.id).closest(".question_holder ").find(".question");
+          $editor = $("#" + ed.id),
+          $question = $editor.closest(".question_holder ").find(".question");
+
 
       var $icon = $("#" + ed.id + "_instructure_add_rackets");
+
           addRackets = !addRackets;
           if(addRackets){
               addRackets = true;
               $icon.css({
                   "opacity":1
               });
-          var count = 0;
+
           $editorBody.bind("mouseup",addRacket);
 
           }else{
@@ -36,7 +39,7 @@ var addRackets = false;
               if(!selectedText){
                   return;
               }
-              var $editor = $("#" + ed.id);
+
               if($question.is(".calculated_question")){
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
               }else if($question.is(".fill_in_multiple_blanks_question")){
@@ -50,8 +53,23 @@ var addRackets = false;
                   }
                   //*** end
 
+                  var editorText = $editor.editorBox('get_code');
+                  var matches = editorText.match(/\[blank[0-9]*\]/g);
+
+                  var count = 1;
+                  if(matches != null){
+                  $.each(matches,function(i){
+                      var thisNum = matches[i].match(/\d{1,4}/)[0];
+                          thisNum = Number(thisNum);
+                      count = count < thisNum ? thisNum : count;
+
+
+                  });
+                      count ++;
+                     }
+
                   var  text = "blank" + count;
-                  count ++;
+
 
 
                   $editor.editorBox('insert_code', "[" + text + "]");
