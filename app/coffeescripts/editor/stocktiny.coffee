@@ -18,7 +18,7 @@ define [
 ], (markScriptsLoaded, punch) ->
 
   #  2012-12-04 rupert  reload if tinymce is undefined
-  if !window.tinymce
+  if window.tinymce is undefined
      $ ->
        location.reload();
   # end
