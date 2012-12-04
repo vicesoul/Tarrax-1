@@ -17,6 +17,12 @@ define [
   'order!tinymce/jscripts/tiny_mce/plugins/inlinepopups/editor_plugin_src'
 ], (markScriptsLoaded, punch) ->
 
+  #  2012-12-04 rupert  reload if tinymce is undefined
+  if window.tinymce is undefined
+     $ ->
+       location.reload();
+  # end
+
   # prevent tiny from loading any CSS assets
   punch tinymce.DOM, 'loadCSS', ->
 

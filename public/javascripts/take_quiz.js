@@ -423,6 +423,60 @@ define([
     }, 30000);
 
     setTimeout(function() { quizSubmission.updateSubmission(true) }, 15000);
+
+
+
+  var ipadInputType = (function(){
+
+       var isiPad = navigator.userAgent.match(/iPad/i) != null;
+           if(!isiPad){return;}
+
+      function isNumber(n) {
+          return !isNaN(parseFloat(n)) && isFinite(n);
+      }
+      var $input = $("input[type=text]");
+
+      var textType;
+
+      $input.blur(function(){
+          var lastText = $(this).val();
+          if(isNumber(lastText)){
+              textType = "number";
+          }else{
+              $(this).prop("type","text");
+              textType = "text";
+          }
+          console.log(isNumber(lastText));
+      });
+      $input.keydown(function(e){
+          var thisText = $(this).val();
+          var keyDownIsText = e.keyCode <= 90 && e.keyCode >= 65;
+
+          if(!!thisText){
+
+              if(isNumber(thisText)){
+                  if(keyDownIsText){
+                      $(this).prop("type","text");
+                  }else{
+                      $(this).prop("type","number");
+                  }
+              }else{
+                  $(this).prop("type","text");
+              }
+
+          }else{
+              if(textType == "number"){
+                  $(this).prop("type","number");
+              }else{
+                  $(this).prop("type","text");
+              }
+          }
+      });
+
+  })();
+
+
+
   });
 });
 
