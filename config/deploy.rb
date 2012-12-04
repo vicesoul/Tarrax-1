@@ -89,6 +89,21 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
+    Rake::Task['job:restart'].invoke
+  end
+end
+
+namespace :job do
+  task :start do
+    run "#{try_sudo} /etc/init.d/canvas_init start"
+  end
+
+  task :stop do
+    run "#{try_sudo} /etc/init.d/canvas_init stop"
+  end
+
+  task :restart do
+    run "#{try_sudo} /etc/init.d/canvas_init restart"
   end
 end
 
