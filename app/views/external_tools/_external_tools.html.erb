@@ -1,5 +1,5 @@
 <div id="external_tools">
-  <p><%= mt :external_tools_note, <<-HEREDOC, :lti_index_url => "https://lti-examples.heroku.com/index.html", :lti_examples_url => "http://help.instructure.com/entries/20878626-lti-tools-and-examples"
+  <p><%= mt :external_tools_note, <<-HEREDOC, :lti_index_url => "https://#{HostUrl.context_host}", :lti_examples_url => "http://#{HostUrl.context_host}"
   External (LTI) Tools are an easy way to add new features to Canvas.
   They can be added to individual courses, or to all courses in an account.
   Once configured, you can link to them through course modules and create assignments for
