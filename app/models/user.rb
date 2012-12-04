@@ -318,6 +318,10 @@ class User < ActiveRecord::Base
     User.update_account_associations([self], opts)
   end
 
+  def observer_of_course?(course)
+    self.observer_enrollments.map{ |e| e.course_id }.uniq.include?(course.id)
+  end
+
   def self.add_to_account_chain_cache(account_id, account_chain_cache)
     if account_id.is_a? Account
       account = account_id
@@ -1401,7 +1405,9 @@ class User < ActiveRecord::Base
   end
 
   def watched_conversations_intro?
-    preferences[:watched_conversations_intro] == true
+    #TODO: Need add JiaoXueBang implement
+    true
+    #preferences[:watched_conversations_intro] == true
   end
 
   def watched_conversations_intro(value=true)
