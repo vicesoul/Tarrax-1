@@ -49,13 +49,13 @@ define([
     enableBookmarking = $("body").hasClass('ie');
 
     //*** 2012-12-04 rupert  hide replay form if role is observer
-    if($("#observer").val() == "1"){
+    /*if($("#observer").val() == "1"){
         $('<style>' +
             '.discussion-reply-form { '+
             'display: none' +
             '}' +
             '</style>').appendTo("head");
-    }
+    }*/
     //*** end
 
   });
