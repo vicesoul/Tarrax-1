@@ -432,8 +432,9 @@ define([
            if(!isiPad){return;}
 
       function isNumber(n) {
-          return !isNaN(parseFloat(n)) && isFinite(n);
-      }
+                  return !isNaN(parseFloat(n)) && isFinite(n);
+                }
+
       var $input = $("input[type=text]");
 
       var textType;
@@ -448,6 +449,27 @@ define([
           }
           console.log(isNumber(lastText));
       });
+
+      $input.focus(function(){
+          var thisText = $(this).val();
+
+          if(!!thisText){
+
+              if(isNumber(thisText)){
+                  $(this).prop("type","number");
+              }else{
+                  $(this).prop("type","text");
+              }
+
+          }else{
+              if(textType == "number"){
+                  $(this).prop("type","number");
+              }else{
+                  $(this).prop("type","text");
+              }
+          }
+      });
+
       $input.keydown(function(e){
           var thisText = $(this).val();
           var keyDownIsText = e.keyCode <= 90 && e.keyCode >= 65;

@@ -19,7 +19,7 @@ define [
 
   #  2012-12-04 rupert  reload if tinymce is undefined
   if window.tinymce is undefined
-       location.reload();
+       location.replace(location.href);
   # end
 
   # prevent tiny from loading any CSS assets

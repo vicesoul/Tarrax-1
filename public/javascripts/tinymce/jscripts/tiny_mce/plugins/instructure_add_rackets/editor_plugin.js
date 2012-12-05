@@ -36,11 +36,10 @@ var addRackets = false;
           }
           function addRacket() {
               var  selectedText = ed.selection.getContent();
-              if(!selectedText){
-                  return;
-              }
+
 
               if($question.is(".calculated_question")){
+                  if(!selectedText){return;}
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
               }else if($question.is(".fill_in_multiple_blanks_question")){
                   //*** var this term before insert_code,coz after insert_code this element will be remove
