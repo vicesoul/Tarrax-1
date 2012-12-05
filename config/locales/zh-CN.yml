@@ -1,4 +1,4 @@
---- 
+﻿--- 
 zh-CN: 
   EditAppointmentGroupDetails: 
     affect_reservations: 对预约产生影响？
@@ -1547,7 +1547,7 @@ zh-CN:
         from: 从
         group: 组
         title: 标题
-        undated_events: 无日期的活动
+        undated_events: 未指定日期的活动
       links: 
         add_event: 添加活动
         delete: 删除
@@ -1557,7 +1557,7 @@ zh-CN:
         how_do_i: 如何...?
         jump_to_calendar: 跳至日历
         more_options: 更多选项
-        show_undated_events: "显示 %{count} 个无日期的活动"
+        show_undated_events: "显示 %{count} 个未指定日期的活动"
       messages: 
         max_visible: "每次最多可显示 %{count} 个日历"
       options: 
@@ -1637,7 +1637,7 @@ zh-CN:
         assignment_done: 完成！考评作业现已创建！可以单击它查看详细信息、编辑和删除活动，或者拖放至新的一天以更改其日期。
         change_date: 非常简单。只需将活动拖至新日期即可。也可以单击活动，然后单击"编辑"获取更具体的信息。
         create: 要开始创建日历活动，只需单击日历中您要安排该活动的日期。
-        create_assignment: 就像日历活动一样，单击要添加考评作业至其中的日期。或者单击"无日期的活动"框（*位置?*）以创建没有到期日期的考评作业。
+        create_assignment: 就像日历活动一样，单击要添加考评作业至其中的日期。或者单击"未指定日期的活动"框（*位置?*）以创建没有到期日期的考评作业。
         delete: 单击日历中您要删除的活动或考评作业。
         delete2: 现在单击"删除"（*位置?*），您的活动将被删除。
         delete_done: 完成。您刚才展示了一些重要的删除技巧。
@@ -1748,48 +1748,48 @@ zh-CN:
         add_email_address: 添加电子邮件地址
         back: 返回
         continue: 继续
-        create_account: 创建我的帐户
-        have_account: 我有教学邦帐户
+        create_account: 用这个邮箱创建一个新帐户
+        have_account: 用我已有教学邦帐户登录
         login_as: "登录为 %{invited_user}"
         merge: 合并
-        new_account: 不
+        new_account: 不需要
         ? "no"
-        : 不
+        : 不需要
         register: 注册
         transfer_enrollment: 转移参课
         ? "yes"
         : 是
       details: 
-        account_exists: "已有一个用户关联了这个 %{email}.\n\
+        account_exists: "已经有一个用户关联了这个 %{email}.\n\
             **您是 %{name}吗?** "
-        account_needed: "您已获邀请参加 **%{course}** .要接受此请求，您需要教学邦帐户。单击下面的链接创建教学邦帐户。"
-        add_email: 是否要将此电子邮件地址添加到您当前的帐户?
+        account_needed: "您已获邀请参加课程 **%{course}** .要接受此请求，您需要有教学邦帐户。单击下面的链接可以创建一个新教学邦帐户。"
+        add_email: 是否要将此电子邮件地址合并到您目前登录的帐户?
         choose_login: 选择要登录的位置。
-        logged_in_other_user: "**%{email}** 是一个新帐户，而您目前登录为 **%{user}** 。"
-        logged_in_other_user_course: "对 %{course} 的邀请已发送到 **%{email}**，而您目前登录为 **%{user}**。"
+        logged_in_other_user: "**%{email}** 是发送邀请的邮箱，而您目前正在用另一个邮箱账户 **%{user}** 登录。"
+        logged_in_other_user_course: "课程 %{course} 的邀请是发送到邮箱账户 **%{email}**，而您目前正在登录的账户是 **%{user}**。"
         merge_multiple: "选择要与 **%{current_user}** 合并的帐户。"
         merge_one: "是否要合并 **%{current_user}** 与 **%{other_user}**?"
         multiple_accounts_course: "已经有 %{count} 个关联这个EMAIL 邮箱"
         none_of_these: 没有这些，我是一个新用户
-        register: 要完成注册，我们需要更多信息。
-        register_with_course: "要完成对课程 **%{course}** 的注册，我们需要更多信息。"
-        wrong_account: "对 %{course} 的邀请已发送到 **%{invited_user}**，而您目前登录为 **%{current_user}**"
+        register: 要完成注册，需要更多信息。
+        register_with_course: "要完成对课程 **%{course}** 的注册，需要更多信息。"
+        wrong_account: "课程 %{course} 的邀请是发送给 **%{invited_user}**，您目前正在登录的账户为 **%{current_user}**"
       labels: 
         password: 密码
-        subscribe_to_emails: "我要从  接收信息、新闻和提示"
+        subscribe_to_emails: "我需要接收课程相关通知信息"
         time_zone: 时区
         unique_id: 电子邮件地址
       page_title: "注册 %{email}"
       titles: 
         welcome_aboard: 欢迎光临！
     confirm_failed: 
-      details: 看起来好像您已经确认注册。请使用您注册的电子邮件地址和密码尝试*登录*。如果不记得密码，请单击"忘记密码"链接，您应会获得一个新的链接，用以登录和重置密码。
+      details: 您好像已经确认注册。请使用您注册的电子邮件地址和密码尝试*登录*。如果不记得密码，请单击"忘记密码"链接，您应会获得一个新的链接，用以登录和重置密码。
       feedback: 如果仍有问题，请单击右上角的"反馈"联系我们。
       page_title: 注册确认失败
       titles: 
         problems_with_registration: 注册试题
     notices: 
-      login_to_confirm: 请登录以确认您的电子邮件地址
+      login_to_confirm: 请登录确认邮件地址
       registration_confirmed: 注册已确认！
     profile: 
       notices: 
@@ -1955,7 +1955,10 @@ zh-CN:
       crumbs: 
         copy_from_course: "复制%{course}"
       descriptions: 
-        copy_succeeded: "课程内容成功导入！您可以查看以下导入的成果。如果您对考评作业或事项的日期不满，您可以很容易在课程日历 (%{url} 上 [拖拽] 到不同日期。"
+        copy_succeeded: |- 
+             课程内容成功导入！您可以查看以下导入的成果。
+
+             如果您对考评作业或事项的日期不满，您可以很容易 [在课程日历上拖拽到不同日期](%{url})。
       labels: 
         assignment: "考评作业%{course}"
         discussions: "讨论%{course}"
@@ -3145,7 +3148,7 @@ zh-CN:
         invitation: 邀请
       invitation: 
         designer: "您被邀请作为用户帐户 *%{user}* 的*设计者*参与此课程。"
-        observer: "您被邀请作为用户帐户 *%{user}* 的*观察员*参与此课程。"
+        observer: "您被邀请作为用户帐户 *%{user}* 的*家长*参与此课程。"
         other: "您被邀请参与用户帐户 *%{user}* 的此课程。"
         student: "您被邀请作为用户帐户 *%{user}* 的*学生*参与此课程。"
         ta: "您被邀请作为用户帐户 *%{user}* 的*助教*参与此课程。"
@@ -3174,7 +3177,7 @@ zh-CN:
     link_enrollment: 
       buttons: 
         link: 链接至学生
-      details: "当观察员被链接到学生时，他们有权访问该学生的评分和课程互动。*立即将此观察员链接到学生 %{student}。* 要将课程观察员 %{user} 链接到学生，请从下面的列表中选择学生姓名。"
+      details: "当家长被链接到学生时，他们有权访问该学生的评分和课程互动。*立即将此家长链接到学生 %{student}。* 要将课程家长 %{user} 链接到学生，请从下面的列表中选择学生姓名。"
       labels: 
         student: 学生
       loading: 正在加载学生...
@@ -3269,7 +3272,7 @@ zh-CN:
         external_tools: 外部工具
         grade_publishing: 评分发布
         move_course: 将课程移动到其他顶级账户
-        observers: 观察员
+        observers: 家长
         sections: 课程学群(班级)
         students: 学生
         tas: 助教
@@ -3350,7 +3353,7 @@ zh-CN:
       not_date_restricted: 这些日期不会影响课程可用性
       option: 
         designers: 设计者
-        observers: 观察员
+        observers: 家长
         students: 学生
         tas: 助教
         teachers: 教师
@@ -3404,7 +3407,7 @@ zh-CN:
         reset_course_content: "重置课程内容将永久的删除相关的作业，讨论，测试，模块，管理规则，页面，文件，学习成果，题库，协作，会议，或者别的内容。这个动作是不可逆的，数据 *无法* 恢复。你确定继续吗？"
       labels: 
         designers: 设计员
-        observers: 观察员
+        observers: 家长
         students: 学生
         tas: 助教
         teachers: 教师
@@ -3647,7 +3650,7 @@ zh-CN:
       - !ruby/symbol month
       - !ruby/symbol day
   dates: 
-    no_date: 无日期
+    no_date: 未指定日期
   datetime: 
     distance_in_words: 
       about_x_hours: 
@@ -3721,53 +3724,6 @@ zh-CN:
       confirm_delete: 您确定要删除此开发KEY吗？
     no_user: 没有用户
     unnamed_tool: "未命名工具 "
-  devise: 
-    confirmations: 
-      confirmed: 你的账号已经激活，现在可以登录
-      send_instructions: 您将在几分钟内收到一封关于如何激活账户的邮件
-      send_paranoid_instructions: 您的邮件地址已经在教学邦平台注册过。您将在几分钟内收到一封关于如何激活账户的邮件
-    failure: 
-      already_authenticated: 您已登录
-      inactive: 您的账号尚未激活
-      invalid: 邮箱或密码错
-      invalid_token: 无效的验证TOKEN
-      locked: 您的账户已被锁定
-      timeout: 您的链接已经失效，请重新登录
-      unauthenticated: 您需要登录或者注册才能继续
-      unconfirmed: 你需要确认你的账户才能继续
-    mailer: 
-      confirmation_instructions: 
-        subject: 确认指导
-      reset_password_instructions: 
-        subject: 如何重设密码
-      unlock_instructions: 
-        subject: 解锁指导
-    omniauth_callbacks: 
-      failure: "您没有从  %{kind}  通过验证 原因 \"%{reason}\""
-      success: "成功验证  从 %{kind}  账户"
-    passwords: 
-      no_token: "您需要通过EMAIL 中的密码设置链接才可访问这个页面。 如果您确定是从邮件中的重置密码链接过来，请确保输入了完整的链接地址。"
-      send_instructions: 您将很快收到一封重新设置密码的邮件
-      send_paranoid_instructions: 如果您的邮件地址已在教学邦平台注册过，您将很快收到一封重新设置密码的邮件
-      updated: 您的密码已修改成功，您现在已经登录
-      updated_not_active: 您的密码修改成功
-    registrations: 
-      destroyed: 您的账户已经注销成功，希望您再次光临
-      signed_up: "欢迎您！ 您已成功注册"
-      signed_up_but_inactive: "您已注册成功。 请激活您的账户后才可登录"
-      signed_up_but_locked: 您已注册成功。因为您的账户已被锁定，你目前不能登录
-      signed_up_but_unconfirmed: 我们已经发送了一封激活账户的邮件给您，请打开并点击链接激活您的账户。
-      update_needs_confirmation: |-
-          您的账户已经更新成功，我们需要确认您的新邮件地址。
-          请检查您的邮件并点击链接确认新的邮件地址
-      updated: 您的账户已经更新成功
-    sessions: 
-      signed_in: 成功登录
-      signed_out: 退出成功
-    unlocks: 
-      send_instructions: 您将很快收到一封关于如何解锁账户的邮件
-      send_paranoid_instructions: 如果有您已有账户，将很快收到一封关于如何解锁账户的邮件
-      unlocked: 您的账户已成功解锁，请登录
   dialog: 
     cancel: 取消
     update: 更新
@@ -3925,7 +3881,7 @@ zh-CN:
       topic_podcast_feed: "Topic Podcast Feed"
     topic_deleted_notice: "%{topic_title}删除成功"
     unread_count_tooltip: 
-      one: "*1* 未读的回复"
+      one: "1个 未读的回复"
       other: "%{count} 个未读的回复"
       zero: 没有未读的回复
   discussions: 
@@ -4002,7 +3958,7 @@ zh-CN:
     default_user_name: 未知用户
     roles: 
       designer: 设计者
-      observer: 观察员
+      observer: 家长
       student: 学生
       ta: 助教
       teacher: 教师
@@ -4266,7 +4222,6 @@ zh-CN:
   errors: 
     bad_navigation_config: 课程选项卡的配置无效
     failed: 已失败
-    format: "%{attribute} %{message} "
     index: 
       all_categories: "- 所有类别 -"
       default_category: 默认
@@ -4279,33 +4234,6 @@ zh-CN:
         url: "url "
         user: 用户
       message_contains: 消息包含
-    messages: 
-      accepted: 必须接受
-      already_confirmed: 已经激活，请登录
-      blank: 不能留白
-      confirmation: 不匹配
-      empty: 不能为空
-      equal_to: "必须等于 %{count} "
-      even: 必须是偶数
-      exclusion: 保留
-      expired: 已过期，请重新申请
-      greater_than: "必须大于 %{count}"
-      greater_than_or_equal_to: "必须大于或等于 %{count}"
-      inclusion: 没有包含在清单中
-      invalid: 无效
-      less_than: "必须小于 %{count}"
-      less_than_or_equal_to: "必须小于或等于 %{count}"
-      not_a_number: 不是数字
-      not_an_integer: 必须是整数
-      not_found: 没有发现
-      not_locked: 没有被锁定
-      not_saved: 
-        one: "1 错误导致不能保存 %{resource}"
-        other: "%{count} 错误导致不能保存 %{resource}:"
-      odd: 必须是奇数
-      too_long: "太长了 (最多 %{count} 个字符) "
-      too_short: "太短了 (至少 %{count} 个字符) "
-      wrong_length: "长度错误 (应该 %{count} 个字符) "
     no_attached_file: 您必须至少有一个文件附加到这项考评作业
     registration_incomplete: 请先确认邮箱地址才可以看到这个页面
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
@@ -4713,7 +4641,7 @@ zh-CN:
     download_submissions: 下载提交文件
     edit_view_rubric: 查看规则
     errors: 
-      failed_to_load: 评分册加载失败，请尝试刷新页面
+      failed_to_load: 考评成绩加载失败，请尝试刷新页面
       none_to_update: 无更新
       select_an_option: 请选择选项
       upload_as_zip: "请以 .zip 形式上传文件"
@@ -4860,7 +4788,7 @@ zh-CN:
         upload_form: "选择要上传的 CSV 文件"
     new: 
       titles: 
-        new_upload: 上传评分册
+        new_upload: 上传考评成绩
     notices: 
       updated: 
         one: 1提交成功更新。
@@ -4875,24 +4803,24 @@ zh-CN:
       choose_option: "-- 选择 --"
       headers: 
         import_error: "您上传的数据中有些材料无法解析:"
-        missing_assignment: 您上传的某些考评作业此前未出现在您的评分册中。请注明它是新考评作业还是现有考评作业。
+        missing_assignment: 您上传的某些考评作业此前未出现在您的考评成绩中。请注明它是新考评作业还是现有考评作业。
         missing_student: 您上传的行包括以下学生，我无法确定哪些学生在您的班级中。请注明哪些学生在您的班级中。
-        no_changes: 在您上传的评分册中未检测到任何变化。
+        no_changes: 在您上传的考评成绩中未检测到任何变化。
       ignore_assignment_option: 假的，忽略它
       ignore_student_option: 不在我的班级中，忽略此行
       labels: 
         points_possible: 最高分
       links: 
-        back: 返回到评分册
+        back: 返回到考评成绩
       new_assignment_option: 新考评作业
       notices: 
         unchanged: "注:在您上传的某些考评作业中未检测到评分变化。它们已被隐藏。"
-      page_title: 评分册
+      page_title: 考评成绩
       student_answer: 此人是真的
       student_example: 一些家伙
       student_question: 有疑问的学生
       titles: 
-        feed: "课程评分册 Atom 订阅"
+        feed: "课程考评成绩 Atom 订阅"
   gradebook_uploads_form: 
     buttons: 
       upload_data: 上传数据
@@ -4919,7 +4847,7 @@ zh-CN:
       unmute_dialog: 此考评作业当前被屏蔽。这意味着学生无法看到其评分和反馈。是否要立即取消屏蔽?
     assignments: 
       options: 选项
-      refresh_grades: 刷新评分册
+      refresh_grades: 刷新考评成绩
       titles: 
         refresh_scores: 刷新分数
     attendance: 
@@ -5027,7 +4955,7 @@ zh-CN:
       download: "下载 %{attachment}"
       grade_statistics: "%{assignment} 的评分统计"
       headers: 
-        loading_gradebook: 正在加载评分册...
+        loading_gradebook: 正在加载考评成绩...
       hide_names: 隐藏学生姓名
       labels: 
         assign_blanks: 对未提交的学生考评作业零
@@ -5035,13 +4963,13 @@ zh-CN:
         average_score: 平均分数
         choose_section: 要显示的学群(班级)
         comments: 学生评论
-        grade: 评分册
+        grade: 考评成绩
         group_comment: 发送评论到全组
         high_score: 高分
         low_score: 低分
         send_comment: 发送评论到学生
-        sort_columns: 排序评分册列
-        sort_rows: 排序评分册行
+        sort_columns: 排序考评成绩列
+        sort_rows: 排序考评成绩行
         total_submitted: 提交总数
       links: 
         add_assignments: 向课程添加考评作业
@@ -5089,14 +5017,14 @@ zh-CN:
         before: 之前
         current: 当前
         student: 学生
-      page_title: 评分册记录
+      page_title: 考评成绩记录
       revert: 恢复到此评分
       submission_count: 
         one: 1的改变
         other: "%{count}"
       temporary_disabled: 成绩册历史的一页目前还没有这种规模
       titles: 
-        feed: "课程评分册 Atom 订阅"
+        feed: "课程考评成绩 Atom 订阅"
         submission_graded: "%{graded_date} 评分者 %{grader}"
     notices: 
       unauthorized: 您没有查看此课程参与情况的权限
@@ -5114,7 +5042,7 @@ zh-CN:
         next_student: 下一个学生
         previous_assignment: 上一个考评作业
         previous_student: 上一个学生
-        refresh_gradebook: 刷新评分册
+        refresh_gradebook: 刷新考评成绩
       keycodes: 
         edit_cell: 输入
         more_information: i
@@ -5122,10 +5050,10 @@ zh-CN:
         next_student: 下
         previous_assignment: 左
         previous_student: 上
-        refresh_gradebook: 刷新评分册
-      page_title: 评分册
+        refresh_gradebook: 刷新考评成绩
+      page_title: 考评成绩
       titles: 
-        feed: "课程评分册 Atom 订阅"
+        feed: "课程考评成绩 Atom 订阅"
     speed_grader: 
       all_sections: 所有学群(班级)
       attach: 附加
@@ -5172,7 +5100,7 @@ zh-CN:
         click_to_view: 单击此处查看
         course_home: 课程主页
         download_file: 下载文件
-        gradebook: 评分册
+        gradebook: 考评成绩
         next: 下一个
         previous: 上一个
         remove_attachment: 删除附件
@@ -5236,12 +5164,12 @@ zh-CN:
         attached_files: 已附加文件到以下用户提交页面
       links: 
         back_to_assignment: 返回考评作业页面
-        back_to_gradebook: "返回 Gradebook"
+        back_to_gradebook: "返回 考评成绩"
       no_comments_added: 未添加评论
       renamed_file: "从 %{filename} 重命名"
       submissions_upload: "%{assignment} 提交上传"
     titles: 
-      feed_for_course: "%{course} 评分册订阅"
+      feed_for_course: "%{course} 考评成绩订阅"
       total: 总计
   grading_box: 
     out_of_points_possible: "超出 %{assignment.points_possible}"
@@ -5440,7 +5368,7 @@ zh-CN:
       delete_category_success: 类别已成功删除
       delete_success: 组已成功删除
       goodbye: "您已经退出了组 %{group_name}。"
-      invalid_invitation: "在编辑您个人资料前，需要验证您的邮箱地址。 请点击发送到您邮箱的链接以验证邮箱正确。如果没有见到这个链接，请点击 *重发邮件*。另外，您可以检查是否在垃圾邮件中"
+      invalid_invitation: "在编辑您个人资料前，需要验证您的邮箱地址。 请点击发送到您邮箱的链接以验证邮箱正确。如果没有见到这个链接，请点击 重发邮件。另外，您可以检查是否在垃圾邮件中。"
       no_students_assigned: 未考评作业到组的学生。
       students_assigned: 已考评作业到组的学生。
       update_category_success: 类别已成功更新。
@@ -5492,17 +5420,6 @@ zh-CN:
     which_course_is_this_question_about: 这个试题属于哪个课程？
     you_are_using_browser_version_version_try_again_using_the_latest_version_of_chrome_or_firefox: "您目前使用Internet Explorer版本 %{browserVersion}的，请尝试再次使用 *Chrome*或 **Firefox** 的最新版本"
     your_email_address: 您的电子邮件地址
-  helpers: 
-    button: 
-      create: "创建 %{model}"
-      submit: "保存 %{model}"
-      update: "更新 %{model}"
-    select: 
-      prompt: 请选择
-    submit: 
-      create: "创建 %{model}"
-      submit: "保存 %{model}"
-      update: "更新 %{model}"
   info: 
     notices: 
       error_reported: 感谢您的帮助！我们马上解决。
@@ -5557,7 +5474,7 @@ zh-CN:
       searching: 正在搜索...
     switched_roles_message: 
       designer: 您已临时切换此课程的角色，现在以设计者的角色查看课程。您可以从课程主页恢复您的角色和权限。
-      observer: 您已临时切换此课程的角色，现在以观察员的角色查看课程。您可以从课程主页恢复您的角色和权限。
+      observer: 您已临时切换此课程的角色，现在以家长的角色查看课程。您可以从课程主页恢复您的角色和权限。
       student: 您已临时切换此课程的角色，现在以学生的角色查看课程。您可以从课程主页恢复您的角色和权限。
       ta: 您已临时切换此课程的角色，现在以助教的角色查看课程。您可以从课程主页恢复您的角色和权限。
       teacher: 您已临时切换此课程的角色，现在以教师的角色查看课程。您可以从课程主页恢复您的角色和权限。
@@ -6384,7 +6301,7 @@ zh-CN:
     enrollment_accepted: 
       email: 
         body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
-        body_observer: "%{user} 刚刚接受了作为观察员参与课程 %{course} 的邀请。"
+        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请。"
         body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请。"
         body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请。"
         body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
@@ -6392,20 +6309,20 @@ zh-CN:
         subject: "%{user} 接受了课程邀请"
       facebook: 
         body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
-        body_observer: "%{user} 刚刚接受了作为观察员参与课程 %{course} 的邀请。"
+        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请。"
         body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请。"
         body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请。"
         body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
       sms: 
         body_designer: "%{user} 接受了课程 %{course} 的设计者邀请"
-        body_observer: "%{user} 接受了课程 %{course} 的观察员邀请"
+        body_observer: "%{user} 接受了课程 %{course} 的家长邀请"
         body_student: "%{user} 接受了课程 %{course} 的学生邀请"
         body_ta: "%{user} 接受了课程 %{course} 的助教邀请"
         body_teacher: "%{user} 接受了课程 %{course} 的教师邀请"
         details: "更多信息请访问 %{url}"
       summary: 
         body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
-        body_observer: "%{user} 刚刚接受了作为观察员参与课程 %{course} 的邀请。"
+        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请。"
         body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请。"
         body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请。"
         body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
@@ -6415,7 +6332,7 @@ zh-CN:
     enrollment_invitation: 
       email: 
         body_designer: "我们邀请您作为设计者参与课程 %{course}。"
-        body_observer: "我们邀请您作为观察员参与课程 %{course}。"
+        body_observer: "我们邀请您作为家长参与课程 %{course}。"
         body_student: "我们邀请您作为学生参与课程 %{course}。"
         body_ta: "我们邀请您作为助教参与课程 %{course}。"
         body_teacher: "我们邀请您作为教师参与课程 %{course}。"
@@ -6428,7 +6345,7 @@ zh-CN:
         subject: 课程邀请
       facebook: 
         body_designer: "我们邀请您作为设计者参与课程 %{course}。"
-        body_observer: "我们邀请您作为观察员参与课程 %{course}。"
+        body_observer: "我们邀请您作为家长参与课程 %{course}。"
         body_student: "我们邀请您作为学生参与课程 %{course}。"
         body_ta: "我们邀请您作为助教参与课程 %{course}。"
         body_teacher: "我们邀请您作为教师参与课程 %{course}。"
@@ -6439,7 +6356,7 @@ zh-CN:
         none: 无
       sms: 
         body_designer: 我们邀请您作为设计者参与课程。
-        body_observer: 我们邀请您作为观察员参与课程。
+        body_observer: 我们邀请您作为家长参与课程。
         body_student: 我们邀请您作为学生参与课程。
         body_ta: 我们邀请您作为助教参与课程。
         body_teacher: 我们邀请您作为教师参与课程。
@@ -6451,7 +6368,7 @@ zh-CN:
         none: 无
       summary: 
         body_designer: "我们邀请您作为设计者参与课程 %{course}。"
-        body_observer: "我们邀请您作为观察员参与课程 %{course}。"
+        body_observer: "我们邀请您作为家长参与课程 %{course}。"
         body_student: "我们邀请您作为学生参与课程 %{course}。"
         body_ta: "我们邀请您作为助教参与课程 %{course}。"
         body_teacher: "我们邀请您作为教师参与课程 %{course}。"
@@ -6461,7 +6378,7 @@ zh-CN:
     enrollment_notification: 
       email: 
         body_designer: "您已作为设计者注册课程 %{course}。"
-        body_observer: "您已作为观察员注册课程 %{course}。"
+        body_observer: "您已作为家长注册课程 %{course}。"
         body_student: "您已作为学生注册课程 %{course}。"
         body_ta: "您已作为助教注册课程 %{course}。"
         body_teacher: "您已作为教师注册课程 %{course}。"
@@ -6475,7 +6392,7 @@ zh-CN:
         subject: 课程注册
       facebook: 
         body_designer: "您已作为设计者注册课程 %{course}。"
-        body_observer: "您已作为观察员注册课程 %{course}。"
+        body_observer: "您已作为家长注册课程 %{course}。"
         body_student: "您已作为学生注册课程 %{course}。"
         body_ta: "您已作为助教注册课程 %{course}。"
         body_teacher: "您已作为教师注册课程 %{course}。"
@@ -6486,7 +6403,7 @@ zh-CN:
         none: 无
       sms: 
         body_designer: 您已作为设计者注册课程。
-        body_observer: 您已作为观察员注册课程。
+        body_observer: 您已作为家长注册课程。
         body_student: 您已作为学生注册课程。
         body_ta: 您已作为助教注册课程。
         body_teacher: 您已作为教师注册课程。
@@ -6498,7 +6415,7 @@ zh-CN:
         none: 无
       summary: 
         body_designer: "您已作为设计者注册课程 %{course}。"
-        body_observer: "您已作为观察员注册课程 %{course}。"
+        body_observer: "您已作为家长注册课程 %{course}。"
         body_student: "您已作为学生注册课程 %{course}。"
         body_ta: "您已作为助教注册课程 %{course}。"
         body_teacher: "您已作为教师注册课程 %{course}。"
@@ -6507,12 +6424,12 @@ zh-CN:
         body: "教学邦 警报 - 已注册:作为 %{enrollment_type} 参与课程"
     enrollment_registration: 
       email: 
-        body_designer: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为设计者参与。"
-        body_observer: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为观察员参与。"
-        body_student: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为学生参与。"
-        body_ta: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为助教参与。"
-        body_teacher: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为教师参与。"
-        details: "您将需要向教学邦注册，然后才能参与班级。要开始使用，请在此处访问课程页面:"
+        body_designer: "我们邀请您作为设计者参与 %{website} 的课程 %{course}。"
+        body_observer: "我们邀请您作为家长参与 %{website} 的课程 %{course}。"
+        body_student: "我们邀请您作为学生参与 %{website} 的课程 %{course}。"
+        body_ta: "我们邀请您作为助教参与 %{website} 的课程 %{course}。"
+        body_teacher: "我们邀请您作为教师参与 %{website} 的课程 %{course}。"
+        details: "您将需要在教学邦注册后才能参与课程。要开始使用，请点击此处访问课程页面:"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6521,7 +6438,7 @@ zh-CN:
         subject: 课程邀请
       sms: 
         body_designer: 我们邀请您作为设计者参与课程。
-        body_observer: 我们邀请您作为观察员参与课程。
+        body_observer: 我们邀请您作为家长参与课程。
         body_student: 我们邀请您作为学生参与课程。
         body_ta: 我们邀请您作为助教参与课程。
         body_teacher: 我们邀请您作为教师参与课程。
@@ -6532,11 +6449,11 @@ zh-CN:
           username: 用户名
         none: 无
       summary: 
-        body_designer: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为设计者参与。"
-        body_observer: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为观察员参与。"
-        body_student: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为学生参与。"
-        body_ta: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为助教参与。"
-        body_teacher: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为教师参与。"
+        body_designer: "我们邀请您作为设计者参与 %{website} 的课程 %{course}。"
+        body_observer: "我们邀请您作为家长参与 %{website} 的课程 %{course}。"
+        body_student: "我们邀请您作为学生参与 %{website} 的课程 %{course}。"
+        body_ta: "我们邀请您作为助教参与 %{website} 的课程 %{course}。"
+        body_teacher: "我们邀请您作为教师参与 %{website} 的课程 %{course}。"
         subject: 课程邀请
       twitter: 
         body: "教学邦 警报 - 已邀请:作为 %{enrollment_type} 参与课程"
@@ -7323,30 +7240,15 @@ zh-CN:
         format: "%u%n"
         precision: 2
         separator: "."
-        significant: false
-        strip_insignificant_zeros: false
         unit: $
     format: 
       delimiter: ","
       precision: 3
       separator: "."
-      significant: false
-      strip_insignificant_zeros: false
     human: 
-      decimal_units: 
-        format: "%n %u "
-        units: 
-          billion: 十亿位
-          million: 百万位
-          quadrillion: 万亿位
-          thousand: 千位
-          trillion: 万亿
-          unit: 取消多重身份验证
       format: 
         delimiter: 重新配置多重身份验证
         precision: 1
-        significant: false
-        strip_insignificant_zeros: false
       storage_units: 
         format: "%n %u"
         units: 
@@ -7362,9 +7264,7 @@ zh-CN:
         delimiter: 配置通知周期和方式清单
     precision: 
       format: 
-        delimiter: |-
-            ---
-            Other: *其它运营商*
+        delimiter: ""
   outcome_groups: 
     invalid_file: 无效的成果组文件
   outcomes: 
@@ -9242,7 +9142,7 @@ zh-CN:
     roles: 
       account_admin: 帐户管理员
       designer: 课程设计者
-      observer: 观察员
+      observer: 家长
       student: 学生
       ta: 助教
       teacher: 教师
@@ -9371,7 +9271,7 @@ zh-CN:
     upgrade_flash: "你的adobe Flash player版本过低.   需要 %{link_tag} 获取最新Flash player版本 %{end_link}"
   search: 
     course_sections: 课程学群(班级)
-    enrollments_observers: 观察员
+    enrollments_observers: 家长
     enrollments_students: 学生
     enrollments_tas: 助教
     enrollments_teachers: 教师
@@ -9585,7 +9485,7 @@ zh-CN:
     current_enrollment: 
       course_unpublished: 此课程尚未发布
       enrolled_as_designer: 注册为设计者
-      enrolled_as_observer: 注册为观察员
+      enrolled_as_observer: 注册为家长
       enrolled_as_student: 注册为学生
       enrolled_as_ta: 注册为助教
       enrolled_as_teacher: 注册为教师
@@ -9597,11 +9497,11 @@ zh-CN:
     enrollment: 
       enrolled_as_designer: 注册为设计者
       enrolled_as_limited_designer: 注册为仅学群(班级)访问权限的设计者
-      enrolled_as_limited_observer: 注册为仅学群(班级)访问权限的观察员
+      enrolled_as_limited_observer: 注册为仅学群(班级)访问权限的家长
       enrolled_as_limited_student: 注册为仅学群(班级)访问权限的学生
       enrolled_as_limited_ta: 注册为仅学群(班级)访问权限的助教
       enrolled_as_limited_teacher: 注册为仅学群(班级)访问权限的教师
-      enrolled_as_observer: 注册为观察员
+      enrolled_as_observer: 注册为家长
       enrolled_as_student: 注册为学生
       enrolled_as_ta: 注册为助教
       enrolled_as_teacher: 注册为教师
@@ -9825,7 +9725,7 @@ zh-CN:
       buttons: 
         request_password: 请求密码
       default_login_message: 在您的机构登录
-      dont_know_password: 不知道你的密码？
+      dont_know_password: 忘记密码？
       labels: 
         password: 密码
         remember_me: 保持登录状态
@@ -9876,8 +9776,8 @@ zh-CN:
     pending_enrollment: 
       designer: "%{course}（作为设计者）。"
       designer_title: 邀请作为设计者，单击以查看"课程"
-      observer: "%{course}（作为观察员）。"
-      observer_title: 邀请作为观察员，单击以查看"课程"
+      observer: "%{course}（作为家长）。"
+      observer_title: 邀请作为家长，单击以查看"课程"
       student: "%{course}（作为学生）。"
       student_title: 邀请作为学生，单击以查看"课程"
       ta: "%{course}（作为助教）。"
@@ -10422,24 +10322,24 @@ zh-CN:
     total: 总计
     type: 类型
   tabs: 
-    announcements: 公告
+    announcements: 通知公告
     assignments: 考评作业
     chat: 聊天
     collaborations: 协作
     conferences: 会议
-    discussions: 讨论
-    eportfolios: 电子文档
-    files: 文件
-    grades: 评分册
+    discussions: 课程讨论
+    eportfolios: 课程文档
+    files: 课程文件
+    grades: 考评成绩
     home: 主页
-    modules: 模块
+    modules: 课程模块
     outcomes: 成绩
-    pages: 页面
-    people: 成员
-    profile: 资料
-    quizzes: 测试
-    settings: 设置
-    syllabus: 刚要
+    pages: 课程页面
+    people: 课程成员
+    profile: 课程资料
+    quizzes: 练习测试
+    settings: 设置管理
+    syllabus: 课程纲要
   terms: 
     index: 
       date: 
@@ -10681,9 +10581,9 @@ zh-CN:
       page_title: 教师日志
   user_profile: 
     tabs: 
-      notifications: 通知
+      notifications: 通信设置
       profile: 个人资料
-      settings: 设置
+      settings: 设置修改
   user_service: 
     descriptions: 
       delicious: "Delicious 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Delicious 帐户以分享相似兴趣的链接。"
@@ -10756,7 +10656,7 @@ zh-CN:
       links: 
         teacher_activity: 请参阅学生互动报告
       roles_designer: 注册为设计者。
-      roles_observer: 注册为观察员。
+      roles_observer: 注册为家长。
       roles_student: 注册为学生。
       roles_ta: 注册为助教。
       roles_teacher: 注册为教师。
@@ -11133,21 +11033,6 @@ zh-CN:
   wiki_sidebar: 
     collection_item: 
       no_title: 无主题
-  will_paginate: 
-    next_label: "下一个 &#8594;"
-    page_entries_info: 
-      multi_page: "显示 %{model} %{from} - %{to} %{count}"
-      multi_page_html: "显示  %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>  <b>%{count}</b> "
-      single_page: 
-        one: "显示<b>1</b> %{model}"
-        other: "显示 <b>all&nbsp;%{count}</b> %{model}"
-        zero: " 没有发现%{model}"
-      single_page_html: 
-        one: "显示<b>1</b> %{model}"
-        other: "显示 <b>all&nbsp;%{count}</b> %{model}"
-        zero: "没有发现%{model}"
-    page_gap: "&hellip;"
-    previous_label: "&#8592; 上一个"
   wimba_conference: 
     external_urls: 
       archive: 存档
