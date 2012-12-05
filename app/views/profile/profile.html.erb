@@ -4,7 +4,7 @@
 
 <% content_for :right_side do %>
   <% if @current_user.registered? %>
-  <%= render :partial => "ways_to_contact" %>
+  <%#= render :partial => "ways_to_contact" %>
   <div class="rs-margin-lr">
     <hr />
     <a href="#" class="edit_settings_link button button-sidebar-wide"><%= image_tag "edit.png" %> <%= t('links.edit_settings', "Edit Settings") %></a>
@@ -171,7 +171,8 @@
 </div>
 </div>
 
-<% unless (@domain_root_account && @domain_root_account.service_enabled?(:none)) %>
+<%# unless (@domain_root_account && @domain_root_account.service_enabled?(:none)) %>
+<% unless true %>
 <a name="registered_web_services"></a>
 <h2><%= t('headers.web_services', "Web Services") %></h2>
 <p><%= t(:web_services, <<-TEXT)
@@ -416,6 +417,7 @@ TEXT
   </td>
 </tr></table>
 <% end %>
+<% if false %>
 <h3><%= before_label(:'headers.approved_integrations', "Approved Integrations") %></h3>
 <div style="margin-left: 20px;">
   <% if @user.access_tokens.empty? %>
@@ -537,6 +539,7 @@ TEXT
     <% end %>
   </div>
 </div>
+<% end #TODO: remove in the feature %>
 <div id="profile_pic_dialog" style="display: none;">
   <a href="<%= profile_pics_url %>" class="profile_pics_url" style="display: none;">&nbsp;</a>
   <%= t(:profile_pictures, "Select the image you'd like to use as your profile pic, or upload a new image:") %>
