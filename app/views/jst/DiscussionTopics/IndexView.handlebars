@@ -16,24 +16,24 @@
         <a href="{{new_topic_url}}" class="btn btn-primary">{{#if showingAnnouncements}}
           {{#t "make_an_announcement"}}Make an announcement{{/t}}
         {{else}}
-          {{#t "new_discussion"}}Start a discussion{{/t}}
+          创建新讨论
         {{/if}}</a>
       {{/if}}
     </div>
     <div class="headerBar-left bootstrap-form form-inline index_view_filter_form">
       <label class="hidden-inline-text" for="searchTerm">{{#t "search_title_body_or_author"}}Search title, body, or author{{/t}}</label>
       <input id="searchTerm"
-             placeholder="{{#t "search_title_body_or_author"}}Search title, body, or author{{/t}}"
+             placeholder="搜索主题，正文，作者"
              value="{{searchTerm}}"
              type="search">
       <span id="discussionsFilter">
         <input type="checkbox"
                id="onlyUnread"
-               {{#if onlyUnread}}checked{{/if}} /><label for="onlyUnread">{{#t "unread"}}Unread{{/t}}</label>
+               {{#if onlyUnread}}checked{{/if}} /><label for="onlyUnread">未读</label>
         {{#unless showingAnnouncements}}
           <input type="checkbox"
                  id="onlyGraded"
-                 {{#if onlyGraded}}checked{{/if}}/><label for="onlyGraded">{{#t "assignments"}}Assignments{{/t}}</label>
+                 {{#if onlyGraded}}checked{{/if}}/><label for="onlyGraded">考评作业</label>
         {{/unless}}
       </span>
     </div>
@@ -71,7 +71,7 @@
         {{#if showingAnnouncements}}
           {{#t "there_are_no_announcements_show"}}There are no announcements to show{{/t}}
         {{else}}
-          {{#t "there_are_no_discussion_topics_to_show"}}There are no discussion topics to show{{/t}}
+          没有讨论话题
         {{/if}}
       </h1>
       {{#if options.permissions.create}}
@@ -79,7 +79,7 @@
           {{#if showingAnnouncements}}
             {{#t "make_an_announcement_caps"}}Make an Announcement{{/t}}
           {{else}}
-            {{#t "start_one_now"}}Start One Now{{/t}}
+            创建一个新的
           {{/if}}
         </a>
       {{/if}}
