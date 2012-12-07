@@ -32,14 +32,18 @@ var addRackets = false;
                   "opacity":0.5
               });
               $editorBody.unbind("mouseup");
-
+              
           }
+
+          function checkChinese(str){  
+              var reg=/[\u4E00-\u9FA5]/g;
+              return(reg.test(str));
+            }
+
           function addRacket() {
               var  selectedText = ed.selection.getContent();
-
-
               if($question.is(".calculated_question")){
-                  if(!selectedText){return;}
+                  if(!selectedText || checkChinese(selectedText)){return;}
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
               }else if($question.is(".fill_in_multiple_blanks_question")){
                   //*** var this term before insert_code,coz after insert_code this element will be remove

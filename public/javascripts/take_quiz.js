@@ -337,7 +337,7 @@ define([
 
         if (tagName == "TEXTAREA") {
           val = $this.editorBox('get_code');
-        } else if ($this.attr('type') == "text") {
+        } else if ($this.attr('type') == "text" || "number") {        //*** 2012-12-07 rupert add "|| number"
           val = $this.val();
         } else if (tagName == "SELECT") {
           var $selects = $this.parents(".question").find("select.question_input");
@@ -440,13 +440,17 @@ define([
       var textType;
 
       $input.blur(function(){
-          var lastText = $(this).val();
+        var lastText = $(this).val();
+        if(!!lastText){
           if(isNumber(lastText)){
               textType = "number";
           }else{
               $(this).prop("type","text");
               textType = "text";
           }
+        }else{
+
+        }
           console.log(isNumber(lastText));
       });
 
