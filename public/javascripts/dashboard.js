@@ -84,11 +84,11 @@ define([
 
     // TODO: i18n
     var notifications = {
-      "New Assignments and Events": [],
-      "Grading Notifications": [],
-      "Group Membership Notifications": [],
-      "Date Changes": [],
-      "Scheduling Notifications": []
+      "新的作业和活动": [],
+      "评分提醒": [],
+      "小组成员提醒": [],
+      "日期改变": [],
+      "行程安排提醒": []
     };
 
     $(".dashboard_notification").each(function() {
