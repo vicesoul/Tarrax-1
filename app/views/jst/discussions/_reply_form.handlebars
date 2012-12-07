@@ -3,9 +3,9 @@
   <a class="discussion-reply-label hide-if-replying" data-event="addReply" href="#">
     <label for="reply_message_for_{{id}}">
       {{#if allowsSideComments}}
-        {{#t "add_side_comment"}}Add a side comment...{{/t}}
+        新增旁注...
       {{else}}
-        {{#t "write_a_reply"}}Write a reply...{{/t}}
+        写一个回复...
       {{/if}}
     </label>
   </a>
@@ -14,14 +14,14 @@
 
     <div class="clearfix">
       <div class="discussion-reply-buttons">
-        <button class="button small-button" type="submit">{{#t "post_response"}}Post Response{{/t}}</button>
-        <a href="javascript:" class="cancel_button">{{#t "cancel"}}Cancel{{/t}}</a>
+        <button class="button small-button" type="submit">回复</button>
+        <a href="javascript:" class="cancel_button">取消</a>
       </div>
 
       <div class="discussion-reply-attachments-container">
         <ul class="discussion-reply-attachments"></ul>
         {{#if canAttach}}
-          <a href="#" class="discussion-reply-add-attachment" data-event="addReplyAttachment">{{#t "attach_file"}}Attach{{/t}}</a>
+          <a href="#" class="discussion-reply-add-attachment" data-event="addReplyAttachment">上传附件</a>
         {{/if}}
       </div>
     </div>
