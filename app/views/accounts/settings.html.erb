@@ -376,7 +376,7 @@
           </fieldset>
         <% end %>
 
-        <% if @account.root_account? and not Account.services_exposed_to_ui_hash(:service).empty? %>
+        <% if @account.site_admin? and not Account.services_exposed_to_ui_hash(:service).empty? %>
           <fieldset>
             <legend><%= t(:enabled_web_serices_title, "Enabled Web Services") %></legend>
             <% f.fields_for :services do |services| %>
