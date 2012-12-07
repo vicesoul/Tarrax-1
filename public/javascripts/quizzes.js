@@ -723,7 +723,7 @@ define([
 
   function makeQuestion(data) {
     var idx = $(".question_holder:visible").length + 1;
-    var question = $.extend({}, quiz.defaultQuestionData, {question_name: I18n.t('default_quesiton_name', "Question")}, data);
+    var question = $.extend({}, quiz.defaultQuestionData, {question_name: I18n.t('default_quesiton_name', "试题")}, data);
     var $question = $("#question_template").clone(true);
     $question.attr('id', '').find('.question').attr('id', 'question_new');
     $question.fillTemplateData({ data: question, except: ['answers'] });
