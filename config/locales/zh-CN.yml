@@ -10322,24 +10322,24 @@ zh-CN:
     total: 总计
     type: 类型
   tabs: 
-    announcements: 通知公告
+    announcements: 公告
     assignments: 作业
     chat: 聊天
     collaborations: 协作
     conferences: 会议
-    discussions: 课程讨论
-    eportfolios: 课程文档
-    files: 课程文件
-    grades: 考评成绩
+    discussions: 讨论
+    eportfolios: 文档
+    files: 文件
+    grades: 成绩
     home: 主页
-    modules: 课程模块
-    outcomes: 成绩
-    pages: 课程页面
-    people: 课程成员
-    profile: 课程资料
-    quizzes: 练习测试
-    settings: 设置管理
-    syllabus: 课程纲要
+    modules: 模块
+    outcomes: 成果
+    pages: 页面
+    people: 成员
+    profile: 资料
+    quizzes: 测试
+    settings: 设置
+    syllabus: 纲要
   terms: 
     index: 
       date: 
