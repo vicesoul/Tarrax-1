@@ -21,7 +21,7 @@ zh-CN:
     tab_courses: 课程
     tab_developer_keys: "Developer Keys "
     tab_faculty_journal: 教师日志
-    tab_grading_standards: 评分方案
+    tab_grading_standards: 评分标准
     tab_jobs: JOBS
     tab_outcomes: 成绩
     tab_permissions: 权限
@@ -1470,7 +1470,7 @@ zh-CN:
       cancel_existing_reservation: 取消现有的保留，并注册这个？
       cancel_some_appointments_and_try_again: 请取消您的其他保留并再次尝试。
       would_you_like_to_cancel_that_and_sign_up_for_this: 您想取消那个并注册这个？
-      you_are_already_signed_up_for: 您已经签入：
+      you_are_already_signed_up_for: 您已经注册：
     save: 保存
     save_and_publish: 保存和发布
     save_changes: 保存更改
@@ -1761,7 +1761,7 @@ zh-CN:
         : 是
       details: 
         account_exists: "已经有一个用户关联了这个 %{email}.\n\
-            **您是 %{name}吗?** "
+            **您是 %{name}本人吗?** "
         account_needed: "您已获邀请参加课程 **%{course}** .要接受此请求，您需要有教学邦帐户。单击下面的链接可以创建一个新教学邦帐户。"
         add_email: 是否要将此电子邮件地址合并到您目前登录的帐户?
         choose_login: 选择要登录的位置。
@@ -1776,7 +1776,7 @@ zh-CN:
         wrong_account: "课程 %{course} 的邀请是发送给 **%{invited_user}**，您目前正在登录的账户为 **%{current_user}**"
       labels: 
         password: 密码
-        subscribe_to_emails: "我需要接收课程相关通知信息"
+        subscribe_to_emails: 我需要接收课程相关通知信息
         time_zone: 时区
         unique_id: 电子邮件地址
       page_title: "注册 %{email}"
@@ -1955,10 +1955,10 @@ zh-CN:
       crumbs: 
         copy_from_course: "复制%{course}"
       descriptions: 
-        copy_succeeded: |- 
-             课程内容成功导入！您可以查看以下导入的成果。
-
-             如果您对作业或事项的日期不满，您可以很容易 [在课程日历上拖拽到不同日期](%{url})。
+        copy_succeeded: |-
+            课程内容成功导入！您可以查看以下导入的成果。
+            
+            如果您对作业或事项的日期不满，您可以很容易 [在课程日历上拖拽到不同日期](%{url})。
       labels: 
         assignment: "作业%{course}"
         discussions: "讨论%{course}"
@@ -2225,7 +2225,7 @@ zh-CN:
     titles: 
       tag_external_web_page: 标记外部网页
   context: 
-    all_marked_read: 收件箱消息全部标记为已读
+    all_marked_read: 消息消息全部标记为已读
     bad_message: 此消息无法显示
     chat: 
       titles: 
@@ -2371,7 +2371,7 @@ zh-CN:
           remove_message: 删除此消息
       no_title: 无标题
     inbox_items: 
-      inbox_delete_confirm: 是否确定要从收件箱删除此项目?
+      inbox_delete_confirm: 是否确定要从消息删除此项目?
       loading_results: 正在加载其他成果
       no_messages: 抱歉，没有消息。
     media_object_inline: 
@@ -2545,7 +2545,7 @@ zh-CN:
       delete_item: 是否确定要从该模块删除此项目?
     content: 
       add_prerequisite: "添加先修课程到 *%{module}*"
-      assignment_points_possible: "超出 %{points_possible}"
+      assignment_points_possible: "满分 %{points_possible}"
       buttons: 
         add_module: 添加模块
         add_prerequisite: 添加先修课程
@@ -2763,9 +2763,9 @@ zh-CN:
       inbox_actions_description: 标记为未读
       read_more: 更多...
     conversations_list: 
-      no_archived_messages: 您没有存档的邮件
+      no_archived_messages: 您没有存档的消息
       no_messages: 您有没有消息
-      no_sent_messages: 您没有发送的邮件
+      no_sent_messages: 您没有发送的消息
       no_starred_messages: 您有没有星标记的消息
       no_unread_messages: 您有没有未读消息
     conversations_pane: 
@@ -2800,7 +2800,7 @@ zh-CN:
       inbox_views: 
         archived_messages: 已存档
         discussion_replies: 讨论回复
-        inbox: 收件箱
+        inbox: 消息
         sent_messages: 发送
         starred_messages: 标记星
         unread_messages: 未读
@@ -2869,7 +2869,7 @@ zh-CN:
     select_all: 选择全部
     title: 
       add_recipients: 添加收件人
-      forward_messages: 转发邮件
+      forward_messages: 转发消息
     titles: 
       expand_inline: 显示更多评论
       rss_feed: 会话订阅
@@ -2878,22 +2878,22 @@ zh-CN:
     unspecified_error: 发生意外的错误，请再试一次
   conversations_intro: 
     slide1: 
-      paragraph1: 检查您的收件箱
-      paragraph2: 会话的新教学邦邮件教学邦已经到来！
+      paragraph1: 检查您的消息
+      paragraph2: 会话的新教学邦消息教学邦已经到来！
       paragraph3: 使用会话发送私人讯息给一个同学或整组人。
       paragraph4: 准备一个简短的介绍？单击右箭头开始。
     slide2: 
       paragraph1: 您的谈话显示在左侧。
       paragraph2: 您可以看到谁谈话，有多少条消息，并在每个会话的最新消息，从几行。
     slide3: 
-      paragraph1: 谈话可以被标记为已读/未读，归档，或在邮件上使用的"动作"按钮的颜色标记。
-      paragraph2: 存档的邮件不会被删除，他们刚刚搬进了您的收件箱，这样您就可以再次访问他们，如果需要的话。
+      paragraph1: 谈话可以被标记为已读/未读，归档，或在消息上使用的"动作"按钮的颜色标记。
+      paragraph2: 存档的消息不会被删除，他们刚刚搬进了您的消息，这样您就可以再次访问他们，如果需要的话。
     slide4: 
       paragraph1: 当您选择一个谈话，那次谈话的所有消息都显示在右侧的面板。当谈话变长，您总是可以向下滚动看到刚才的消息。
     slide5: 
       paragraph1: 要开始一个消息，通过点击撰写图标启动。
     slide6: 
-      paragraph1: 在新邮件中，开始打字的人，或组的名称，他们就会出现在下拉。另外，您可以点击地址簿图标，找人，如果您不记得名字。
+      paragraph1: 在新消息中，开始打字的人，或组的名称，他们就会出现在下拉。另外，您可以点击地址簿图标，找人，如果您不记得名字。
       paragraph2: 键入您的消息，点击发送。
     slide7: 
       paragraph1: 您可以发送消息到一个人或一群人。默认情况下，所有组信息提供给该组中的每个人。
@@ -3222,15 +3222,15 @@ zh-CN:
       no_new_submissions: 无新作业
       no_submissions: 新作业
       not_submitted: 未提交
-      submission_score: "%{score} *超出 %{points_possible}*"
+      submission_score: "%{score} *满分 %{points_possible}*"
     recent_feedback: 
       comments: "评论: %{count}"
       labels: 
         due_date: 到期日期
       not_graded: 未评分
       submission_points: 
-        with_score: "分数:%{score} *超出 %{points_possible}*"
-        without_score: "超出 %{points_possible}"
+        with_score: "分数:%{score} *满分 %{points_possible}*"
+        without_score: "满分 %{points_possible}"
     roster_user: 
       course_profile: 课程信息
       profile: 信息
@@ -4841,7 +4841,7 @@ zh-CN:
     assignment: 
       gradebook: 
         unmute_assignment: 取消屏蔽作业
-      out_of_points_possible: "*超出* %{points_possible}"
+      out_of_points_possible: "*满分* %{points_possible}"
       points_possible_of_grade: "*评分* %{points_possible}"
       teacher_muted_title: 作业被屏蔽
       unmute_dialog: 此作业当前被屏蔽。这意味着学生无法看到其评分和反馈。是否要立即取消屏蔽?
@@ -4899,7 +4899,7 @@ zh-CN:
         due: 到期日期
         grades: "%{student} 的成绩"
         name: 名称
-        out_of: 超出
+        out_of: 满分
         score: 分数
       labels: 
         final_grade_hidden: 总分计算已禁用
@@ -4926,7 +4926,7 @@ zh-CN:
       see_turnitin_results: "查看 Turnitin 答案"
       student_mute_legend: 您的教师正在处理评分。当教师在处理评分时，评分和评论信息不可用。
       student_mute_notification: 教师正在进行评分
-      submission_score: "*%{score}*超出 %{possible}"
+      submission_score: "*%{score}*满分 %{possible}"
       titles: 
         revert_score: 恢复到原始分数
         turnitin_score: "Turnitin 相似分数 – 更多信息"
@@ -4980,7 +4980,7 @@ zh-CN:
       no_assignments: 尚未创建此课程的作业
       no_comments: 无评论
       no_students: 没有学生注册此课程。
-      out_of_points_possible: "*超出* %{points_possible}"
+      out_of_points_possible: "*满分* %{points_possible}"
       overwrite: 覆盖已输入的评分
       submissions: 提交文件
       title: 
@@ -5033,7 +5033,7 @@ zh-CN:
         one: 1个用户提交的文件和评论
         other: "%{count}个用户提交的文件和创建评论"
     out_of_final: "最终的 %{weight}"
-    out_of_points_possible: "超出 %{points_possible}"
+    out_of_points_possible: "满分 %{points_possible}"
     show: 
       keycode_descriptions: 
         edit_cell: 编辑模块格
@@ -5172,7 +5172,7 @@ zh-CN:
       feed_for_course: "%{course} 考评成绩订阅"
       total: 总计
   grading_box: 
-    out_of_points_possible: "超出 %{assignment.points_possible}"
+    out_of_points_possible: "满分 %{assignment.points_possible}"
   grading_standard: 
     unknown_grading_details: 未知详细信息
   grading_standards: 
@@ -5650,7 +5650,7 @@ zh-CN:
       default_document_name: " Doc"
     incoming_message_processor: 
       failure_message: 
-        body: "标题为\"%{subject}\"的邮件无法送达。该邮件被发送到一个未知的邮箱地址。如果您尝试通过教学邦联系某人，可以尝试登录到您的帐户并使用\"收件箱\"工具向其发送消息。 谢谢！教学邦支持部门"
+        body: "标题为\"%{subject}\"的邮件无法送达。该邮件被发送到一个未知的邮箱地址。如果您尝试通过教学邦联系某人，可以尝试登录到您的帐户并使用\"消息\"工具向其发送消息。 谢谢！教学邦支持部门"
         subject: "消息回复失败%{subject}"
     send_to_inbox: 
       default_subject: 无主题
@@ -5686,6 +5686,7 @@ zh-CN:
     switch_views: 切换视图
   locales: 
     en: 英语
+    zh-CN: 简体中文
   manage_avatars: 
     errors: 
       update_failed: 更新失败，??请再试一次
@@ -5742,7 +5743,7 @@ zh-CN:
       send_message: 发送消息
       send_message_failed: 发送消息失败，请重试
       sending_message: 正在发送消息...
-    message_student: "向学生发送有关 %{course_name} 的邮件"
+    message_student: "向学生发送有关 %{course_name} 的消息"
     send_message: 发送消息
   messages: 
     account_user_notification: 
@@ -9693,7 +9694,7 @@ zh-CN:
         courses_and_groups: 课程和组
     identity: 
       links: 
-        inbox: 收件箱
+        inbox: 消息
         log_in: 登录
         logout: 注销
         settings: 设置
@@ -9750,7 +9751,7 @@ zh-CN:
       labels: 
         body: 消息
       message_students_who: 发送消息到学生...
-      out_of_points: "超出 %{points_possible}"
+      out_of_points: "满分 %{points_possible}"
     mute_dialog: 
       gradebook: 
         mute_assignment: 屏蔽作业
@@ -10272,7 +10273,7 @@ zh-CN:
       only_see_your_own_comments_peer: 作为交叉审阅学生，您只能看到自己的评论
       options: 
         new_assessment: "[新评估]"
-      out_of_points: "超出 %{points_possible}"
+      out_of_points: "满分 %{points_possible}"
       peer_review: 同学检查
       peer_review_not_done: "**此同学检查尚未完成。**要使其被视为已完成，您需要至少留下一个评论。"
       peer_review_not_done_rubric: "**此同学检查尚未完成。**要使其被视为已完成，您需要至少留下一个评论并填写右侧的规则表单。"
@@ -10694,8 +10695,8 @@ zh-CN:
       linked_student_accounts: 链接的学生帐户
       links: 
         teacher_activity: 学生互动报告
-      no_grade: 无评分
-      no_grades: 无评分
+      no_grade: 没有评分
+      no_grades: 没有评分
       page_title: 评分
       percent: 百分比
       send_teacher_message: 向教师发送消息
