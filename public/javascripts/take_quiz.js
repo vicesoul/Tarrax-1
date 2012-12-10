@@ -435,22 +435,20 @@ define([
                   return !isNaN(parseFloat(n)) && isFinite(n);
                 }
 
-      var $input = $("input[type=text]");
+      var $input = $("input[type=text]") || $("input[type=number]");
 
       var textType;
 
       $input.blur(function(){
         var lastText = $(this).val();
         if(!!lastText){
-          if(isNumber(lastText)){
-              textType = "number";
-          }else{
-              $(this).prop("type","text");
-              textType = "text";
+            if(isNumber(lastText)){
+                textType = "number";
+              }else{
+                  $(this).prop("type","text");
+                  textType = "text";
+              }
           }
-        }else{
-
-        }
           console.log(isNumber(lastText));
       });
 
@@ -476,7 +474,7 @@ define([
 
       $input.keydown(function(e){
           var thisText = $(this).val();
-          var keyDownIsText = e.keyCode <= 90 && e.keyCode >= 65;
+          var keyDownIsText = (e.keyCode <= 90 && e.keyCode >= 65);
 
           if(!!thisText){
 
@@ -491,11 +489,12 @@ define([
               }
 
           }else{
-              if(textType == "number"){
-                  $(this).prop("type","number");
-              }else{
-                  $(this).prop("type","text");
-              }
+            console.log("empty")
+              if(keyDownIsText){
+                      $(this).prop("type","text");
+                  }else{
+                      $(this).prop("type","number");
+                  }
           }
       });
 
