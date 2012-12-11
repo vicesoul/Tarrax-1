@@ -410,7 +410,7 @@ class Quiz < ActiveRecord::Base
   
   def generate_submission_question(q)
     @idx ||= 1
-    q[:name] = "Question #{@idx}"
+    q[:name] = "#{t('#quiz_question.defaults.question_name', 'Question')} #{@idx}"
     if q[:question_type] == 'text_only_question'
       q[:name] = "Spacer"
       @idx -= 1
