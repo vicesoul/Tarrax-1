@@ -1,7 +1,7 @@
 <article class="discussion_entry can_be_marked_as_read {{read_state}}" data-mark-read-url="{{mark_read_url}}">
   <div class="entry_content">
     {{#if deleted}}
-      {{>[discussions/deleted_entry]}}
+      <div style="display:none;">{{>[discussions/deleted_entry]}}</div>
     {{else}}
       {{>[discussions/entry_content]}}
     {{/if}}

@@ -1,7 +1,7 @@
 <div class="submission_details_dialog">
   <h1 class="assignment-name">{{assignment.name}}</h1>
   <section class="submission-details">
-    <a class="more-details-link" target="_blank" href="{{speedGraderUrl}}">{{#t "more_details_in_the_speedgrader"}}More details in the SpeedGrader{{/t}}</a>
+    <a class="more-details-link" target="_blank" href="{{speedGraderUrl}}">在评分器中查看更多详细信息</a>
     <div>
       <h2>
         {{#if moreThanOneSubmission}}
@@ -27,10 +27,10 @@
   </section>
   <section>
     {{#if loading}}
-      <h1>{{#t "loading_comments"}}Loading comments...{{/t}}</h1>
+      <h1>正在加载评论...</h1>
     {{else}}
       {{#if submission_comments}}
-        <h1>{{#t "comments"}}Comments{{/t}}</h1>
+        <h1>评论</h1>
         <div class="submission_details_comments">
           {{#each submission_comments}}
             <article class="comment clearfix">
@@ -59,14 +59,14 @@
     {{/if}}
   </section>
   <form class="submission_details_add_comment_form clearfix">
-    <label for="add_a_comment">{{#t "add_a_comment"}}Add a comment{{/t}}</label>
+    <label for="add_a_comment">添加评论</label>
     <textarea id="add_a_comment" name="comment[text_comment]"></textarea>
     {{#if assignment.group_category_id}}
     <span id="group-comment-container">
       <input type="checkbox" id="group_comment" name="comment[group_comment]" />
-      <label for="group_comment">{{#t "labels.group_comment"}}Send Comment to the Whole Group{{/t}}</label>
+      <label for="group_comment">发送评论到整个组</label>
     </span>
     {{/if}}
-    <button class="button" type="submit">{{#t "post_comment"}}Post Comment{{/t}}</button>
+    <button class="button" type="submit">发表评论</button>
   </form>
 </div>

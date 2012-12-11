@@ -679,7 +679,7 @@ define [
         id: "total_grade"
         field: "total_grade"
         formatter: @groupTotalFormatter
-        name: "Total"
+        name: "总计"
         minWidth: columnWidths.total.min
         maxWidth: columnWidths.total.max
         width: testWidth("Total", columnWidths.total.min, columnWidths.total.max)
