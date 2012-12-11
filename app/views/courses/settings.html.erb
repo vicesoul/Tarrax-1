@@ -246,7 +246,7 @@ Hashtags should consist of letters, numbers, dashes and underscores (no spaces).
         <td colspan="3">
           <span class="course_form">
             <%= f.select :license, Course.licenses.map { |id, attrs| [attrs[:readable_license], id] }%>
-            <%= license_help_link %>
+            <%#= license_help_link %>
           </span>
           <span class="course_info readable_license"><%= @context.readable_license %></span>
         </td>
