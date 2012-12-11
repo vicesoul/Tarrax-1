@@ -3809,8 +3809,8 @@ zh-CN:
       there_are_no_announcements_show: 没有公告
       there_are_no_discussion_topics_to_show: 没有讨论话题
       try_different_more_general_or_fewer_keywords: 试试其它关键字
-      try_disabling_the_unread_filters: 去掉”未读"帅选
-      try_disabling_the_unread_or_assignments_filters: 去掉未读或作业过滤
+      try_disabling_the_unread_filters: 去掉"未读"筛选
+      try_disabling_the_unread_or_assignments_filters: 去掉"未读"或"作业"筛选
       unread: 未读
       your_search_did_not_match_any_announcements: 没有找到相关公告
       your_search_did_not_match_any_discussion_topics: 没有找到相关讨论话题
