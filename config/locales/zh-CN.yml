@@ -10595,6 +10595,12 @@ zh-CN:
       skype: "Skype 是一个免费的在线语音和视频呼叫工具。"
       twitter: "Twitter 是一个优秀的课外通信资源。"
   users: 
+    a_media_recording: "语音视频录制"
+    a_file_upload: "文件上传"
+    a_website_url: "网站URL"
+    a_text_entry_box: "文本输入"
+    a_discussion_post: "参与讨论"
+    a_quiz: "测试"
     account_notification: 
       close: 关闭
     admin_merge: 
