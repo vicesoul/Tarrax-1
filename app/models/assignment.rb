@@ -1398,17 +1398,17 @@ class Assignment < ActiveRecord::Base
   def readable_submission_type(submission_type)
     case submission_type
     when 'online_quiz'
-      "a quiz"
+      t('#users.a_quiz', "a quiz")
     when 'online_upload'
-      "a file upload"
+      t('#users.a_file_upload', "a file upload")
     when 'online_text_entry'
-      "a text entry box"
+      t('#users.a_text_entry_box', "a text entry box")
     when 'online_url'
-      "a website url"
+      t('#users.a_website_url', "a website url")
     when 'discussion_topic'
-      "a discussion post"
+      t('#users.a_discussion_post', "a discussion post")
     when 'media_recording'
-      "a media recording"
+      t('#users.a_media_recording', 'a media recording')
     else
       nil
     end
