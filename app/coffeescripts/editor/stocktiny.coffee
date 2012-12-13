@@ -27,14 +27,14 @@ define [
 
   # prevents tinyMCE from trying to load these dynamically
   markScriptsLoaded [
-    'themes/advanced/editor_template'
+    'themes/advanced/editor_template_src'
     'themes/advanced/langs/en'
     'plugins/media/editor_plugin'
     'plugins/paste/editor_plugin'
     'plugins/paste/langs/en_dlg'
     'plugins/table/editor_plugin'
     'plugins/table/langs/en_dlg'
-    'plugins/inlinepopups/editor_plugin'
+    'plugins/inlinepopups/editor_plugin_src'
   ]
 
   tinymce

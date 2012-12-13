@@ -13,9 +13,9 @@ define([
 ], function(tinymce, I18n, $, htmlEscape) {
 
     var sketcher,
-        pluginProp = {id:"instructure_drawing",name:"instructure_drawing"},
+        pluginProp = {id:"instructureHandWrite",name:"instructure_handWrite"},
         defaultSetting = {
-            canvasClass:"paint",
+            canvasClass:"handWrite",
             stageId:"",
             lineW : 1,
             canvasW : 600,
@@ -23,7 +23,7 @@ define([
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
-            appTitle : "画板"
+            appTitle : "写字板",
 
         };
 
@@ -250,6 +250,7 @@ define([
       };
     }
   });
+
 
   // Register plugin
 

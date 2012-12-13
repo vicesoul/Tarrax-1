@@ -23,7 +23,8 @@ function Sketcher(setting) {
 Sketcher.prototype.initial = function(){
     this.generalHTML();
 
-    this.canvas = $(".container canvas." + this.defaultSetting.canvasClass);
+    this.canvas = $("#" + this.defaultSetting.stageId).find("." + this.defaultSetting.canvasClass);
+    console.log(this.canvas)
     this.context = this.canvas.get(0).getContext("2d");
 
     //set color and line width
@@ -38,7 +39,9 @@ Sketcher.prototype.generalHTML = function(){
     var self = this,
         stage,
         layer,
-    canvasHtml  = '<div class="drawing_app">';
+        canvasContainer = this.defaultSetting.stageId + "_container";
+        canvasHtml  = '<div class="'+ this.defaultSetting.appName + ' ' + this.defaultSetting.canvasClass + '" id="' + this.defaultSetting.stageId  + '">';
+
     canvasHtml += '<input type="button" value="清空" class="clear_all" />';
     canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
     canvasHtml += '<input type="button" value="墨水" class="ink" />';
@@ -55,18 +58,18 @@ Sketcher.prototype.generalHTML = function(){
     canvasHtml += '</div>';
 /*    canvasHtml += '<div class="setLineSize"><label>Line</label><div></div><input type="text"></div>';
     canvasHtml += '<div class="setBrushSize"><label>Brush</label><div></div><input type="text"></div>';*/
-    canvasHtml += ' <div class="container"><div class="img_background"></div><div id="' + this.defaultSetting.stageId +'"></div></div>';
+    canvasHtml += ' <div class="container"><div class="img_background"></div><div id="' + canvasContainer +'"></div></div>';
     canvasHtml += '<div class="containerDraft"><canvas class="canvasDraft" width="39" height="39"></canvas></div>';
     canvasHtml += '</div>';
 
     $("body").append( canvasHtml );
-    $(".drawing_app .container").css({
+    $("#" + this.defaultSetting.stageId).find(".container").css({
         width:this.defaultSetting.canvasW,
         height: this.defaultSetting.canvasH
     });
 
     stage = new Kinetic.Stage({
-        container: this.defaultSetting.stageId,
+        container: canvasContainer,
         width: this.defaultSetting.canvasW,
         height: this.defaultSetting.canvasH
     });
@@ -78,7 +81,7 @@ Sketcher.prototype.generalHTML = function(){
 
     stage.add(layer);
 
-    $("#" + self.defaultSetting.stageId + " canvas")
+    $("#" + canvasContainer + " canvas")
         .addClass(self.defaultSetting.canvasClass);
 
     $(".color_setting input:gt(1)").hide();
@@ -156,7 +159,7 @@ Sketcher.prototype.generalHTML = function(){
         }
     }).addTouch();*/
 
-}
+        }
 
 Sketcher.prototype.setTools = function(){
     var self = this;

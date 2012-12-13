@@ -181,6 +181,7 @@ stylesheets:
   discussions:
     - public/stylesheets/compiled/ui.selectmenu.css
     - public/stylesheets/compiled/discussions.css
+
   full_files:
     - public/stylesheets/compiled/full_files.css
   datagrid:
@@ -260,5 +261,8 @@ stylesheets:
     - public/javascripts/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/ui.css
     - public/stylesheets/compiled/tiny_like_ck_with_external_tools.css
     - public/javascripts/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/window.css
+    - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/css/style.css
+    - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/css/style.css
     - public/stylesheets/static/mathquill.css
+    - public/stylesheets/static/bootstrap.css
   <%= anchors["stylesheets"].map{ |(bundle,anchor)| "#{bundle}: *#{anchor}" }.join("\n  ") %>
