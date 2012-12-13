@@ -2754,7 +2754,7 @@ zh-CN:
     conversation_context: 从会话者
     conversation_item: 
       has_attachments: 这个会话有一个或多个附件
-      has_media: 这个会话有一个或多个媒体评论
+      has_media: 这个会话有一个或多个语音视频
       inbox_actions: 
         action_star: 星标记
         action_unstar: 删除星标
@@ -2817,7 +2817,7 @@ zh-CN:
       titles: 
         compose_new_message: 编写新消息
         download_attachment: 下载附件
-        play_media_comment: 播放媒体评论
+        play_media_comment: 播放语音视频
         rss: 
           conversations: 谈话Atom源
         submission_author: 提交文件作者
@@ -3809,8 +3809,8 @@ zh-CN:
       there_are_no_announcements_show: 没有公告
       there_are_no_discussion_topics_to_show: 没有讨论话题
       try_different_more_general_or_fewer_keywords: 试试其它关键字
-      try_disabling_the_unread_filters: 去掉”未读"帅选
-      try_disabling_the_unread_or_assignments_filters: 去掉未读或作业过滤
+      try_disabling_the_unread_filters: 去掉"未读"筛选
+      try_disabling_the_unread_or_assignments_filters: 去掉"未读"或"作业"筛选
       unread: 未读
       your_search_did_not_match_any_announcements: 没有找到相关公告
       your_search_did_not_match_any_discussion_topics: 没有找到相关讨论话题
@@ -4771,7 +4771,7 @@ zh-CN:
       turnitin: "Turnitin 分数"
     titles: 
       discussion: 讨论提交
-      media: 媒体评论提交
+      media: 语音视频提交
       quiz_review: 这个测试需要检查
       text: 文本录入提交
       upload: 文件上传
@@ -4917,7 +4917,7 @@ zh-CN:
         download: "下载 %{attachment}"
         revert_score: 恢复到实际分数
         show_details: 显示所有详细信息
-      media_comment: 这是一个媒体评论，
+      media_comment: 这是一个语音视频，
       not_official: "*注*:这不是您的正式分数。"
       page_title: "%{student} 的评分"
       percent: 百分比
@@ -4992,7 +4992,7 @@ zh-CN:
         discussion: 讨论提交
         fail: 失败
         incomplete: 未完成
-        media: 媒体评论提交
+        media: 语音视频提交
         new_message: 有关此提交文件的新消息
         pass: 通过
         quiz_review: 此测试需要检查
@@ -5126,7 +5126,7 @@ zh-CN:
         speedgrader_options: "评分器 选项"
       tooltips: 
         file_attachment: 文件附件
-        media_comment: 媒体评论
+        media_comment: 语音视频
         speech_recognition: 语音识别
     student: 
       new_student: 新学生
@@ -5685,7 +5685,6 @@ zh-CN:
     show_me_where: 显示我的位置
     switch_views: 切换视图
   locales: 
-    en: 英语
     zh-CN: 简体中文
   manage_avatars: 
     errors: 
@@ -5709,7 +5708,7 @@ zh-CN:
       submit: 提交媒体文件
     errors: 
       file_too_large: "*此文件太大。*最大大小为 %{size}MB。"
-      load_failed: 媒体评论应用程序无法加载。请重试。
+      load_failed: 语音视频应用程序无法加载。请重试。
       must_be_logged_in: 您必须登录才能记录媒体。
       persistent_problem: 如果一直出现此试题，您可能会想要尝试在本地记录媒体然后上传保存的文件代替。
       save_failed: 保存似乎失败。请关闭此弹出窗口以重试。
@@ -5729,8 +5728,8 @@ zh-CN:
     titles: 
       click_to_view: 单击查看
       media_contribution: 媒体参与
-      play_comment: 播放媒体评论
-      record_upload_media_comment: 记录/上传媒体评论
+      play_comment: 播放语音视频
+      record_upload_media_comment: 记录/上传语音视频
   menu: 
     current_groups: 当前组
     customize: 自定义
@@ -6279,7 +6278,7 @@ zh-CN:
     conversation_message: 
       email: 
         attached_files: "附加的文件:"
-        audio_comment: "此邮件包括媒体评论。要收听或回复，单击下面的链接:"
+        audio_comment: "此邮件包括语音视频。要收听或回复，单击下面的链接:"
         body: "%{user_name} 刚刚在教学邦中向您发送了一封邮件:"
         reply_message: "要回复此邮件，单击下面的链接:"
         subject: "%{user_name} 刚刚在教学邦中向您发送了一封邮件。"
@@ -7301,7 +7300,7 @@ zh-CN:
         criterion_ratings: 标准评分
         grouping_description: 分组说明
         grouping_name: 分组名称
-        longer_description: 较长的说明
+        longer_description: 详细说明
         short_description: 简短说明
         threshold: 阈值
       links: 
@@ -9861,7 +9860,7 @@ zh-CN:
         threshold: 阈值
       links: 
         additional_comments: 其他评论
-        view_longer_description: 查看较长的说明
+        view_longer_description: 查看详细说明
       no_marks: 无分数
       options: 
         select: "[选择]"
@@ -10206,7 +10205,7 @@ zh-CN:
   submission: 
     atom_no_author: 没有作者
     attached_files_comment: 查看附加的文件。
-    media_comment: 这是一个媒体评论。
+    media_comment: 这是一个语音视频。
     state: 
       graded: 已评分
       submitted: 已提交
@@ -10267,8 +10266,8 @@ zh-CN:
       links: 
         resubmit: 重新提交作业
         submit: 提交作业
-      media_comment: 媒体评论
-      media_comment_link: 这是一个媒体评论，*单击此处查看*。
+      media_comment: 语音视频
+      media_comment_link: 这是一个语音视频，*单击此处查看*。
       only_see_your_own_comments_muted: 因老师正在对你的作业进行评分，你不能看到全部评注
       only_see_your_own_comments_peer: 作为交叉审阅学生，您只能看到自己的评论
       options: 
@@ -10595,6 +10594,12 @@ zh-CN:
       skype: "Skype 是一个免费的在线语音和视频呼叫工具。"
       twitter: "Twitter 是一个优秀的课外通信资源。"
   users: 
+    a_media_recording: "语音视频录制"
+    a_file_upload: "文件上传"
+    a_website_url: "网站URL"
+    a_text_entry_box: "文本输入"
+    a_discussion_post: "参与讨论"
+    a_quiz: "测试"
     account_notification: 
       close: 关闭
     admin_merge: 

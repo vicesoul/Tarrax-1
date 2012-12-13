@@ -31,6 +31,7 @@ describe FacebookController do
     end
 
     it "should find a user with a user_id" do
+      pending
       @user = user_model
       UserService.create!(:user => @user, :service => 'facebook', :service_user_id => 'some_facebook_user_id')
       get 'index', :signed_request => signed_request(:user_id => 'some_facebook_user_id')
@@ -38,6 +39,7 @@ describe FacebookController do
     end
 
     it "should not find a user without a user_id" do
+      pending
       @user = user_model
       UserService.create!(:user => @user, :service => 'facebook', :service_user_id => nil)
       get 'index', :signed_request => signed_request
