@@ -108,7 +108,7 @@ Sketcher.prototype.generalHTML = function(){
     });
 
     $(".big_brush").click(function(){
-        self.defaultSetting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush.png"};
+        self.defaultSetting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush_s.png"};
         $(".color_setting input").show();
         $(".color_setting input[type=button]:first").trigger("click");
     });

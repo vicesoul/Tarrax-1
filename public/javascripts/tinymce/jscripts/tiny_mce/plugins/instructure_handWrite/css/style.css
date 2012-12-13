@@ -1,0 +1,4 @@
+.ui-widget-content.handWrite{background: none;}
+.ui-widget-overlay{background: none;}
+.ui-dialog.handWrite{}
+.ui-dialog.handWrite input[type=button],.ui-dialog.handWrite .color_setting{display: none;}

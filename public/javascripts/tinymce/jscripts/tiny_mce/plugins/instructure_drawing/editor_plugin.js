@@ -10,8 +10,7 @@ define([
    "modernizr.custom.34982",
    "sketcher",
    "jquery.ui.touch"
-], function(tinymce, I18n, $, htmlEscape) {
-
+], function(tinymce, I18n, $) {
     var sketcher,
         pluginProp = {id:"instructure_drawing",name:"instructure_drawing"},
         defaultSetting = {
@@ -26,67 +25,22 @@ define([
             appTitle : "画板"
 
         };
-
   tinymce.create('tinymce.plugins.' + pluginProp.id,  {
     init : function(ed, url) {
       ed.addCommand(pluginProp.id, function() {
         console.log(ed);
-        console.log(ed.selection.getContent());
+        //console.log(ed.selection.getContent());
+      defaultSetting.stageId = ed.id + "_" + defaultSetting.canvasClass;      // set stageId dynamic
+
       var $editor = $("#" + ed.id),
           $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          $editorBody = $editorIframe.find("body#tinymce"),
           dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.canvasClass,
-          $bgimg;
+          backgroundContainer = "#" + defaultSetting.stageId + " .img_background";
 
-          defaultSetting.stageId = ed.id + "_" + defaultSetting.canvasClass;      // set stageId dynamic
-
-        // ****** if first open box
-        if(!$(dialogStr).size()) {
+        if(!$(dialogStr).size()) {     // ****** if first open box
             sketcher = new Sketcher(defaultSetting);
-            //$('head').append('<link rel="stylesheet" href="' + url + '/css/style.css" type="text/css" />');
               }
-        // ****** end
-
-          var backgroundContainer = $(".img_background"),
-              $chosen = $editorBody.find("img.focused"),
-              drawingData,
-              canvasImage,
-              parternPng = /data:image\/png/,
-              parternQuotation = /\"|\'|\)|\(|url/g,
-              srcIsData = parternPng.test($chosen.attr("src")),
-              originImgSrc = $chosen.css('background-image'),
-              hasBgImg = !(originImgSrc == undefined || originImgSrc == "none"),
-              newImg;
-
-
-          //********* put element to drawing board
-              if(srcIsData){                        //*** src is data
-
-                  if(hasBgImg){                     //*** src is data & bgimg
-
-                    // ******* load background img
-                    originImgSrc = originImgSrc.replace(parternQuotation,'');
-                    newImg = $("<img/>").attr({
-                        "src":originImgSrc,
-                        "data-mce-src":originImgSrc
-                    });
-                    backgroundContainer.append(newImg);
-
-                    }
-
-                    // ****** paint canvas
-                    drawingData = $chosen.attr("src");
-                    canvasImage = new Image();
-                    canvasImage.src = drawingData;
-                    canvasImage.onload = function() {
-                        imageToCanvas(this,sketcher.defaultSetting.canvasClass);
-                    };
-
-
-                }else{                               //*** src is normal
-                  backgroundContainer.append($chosen.clone());
-                };
-        //********** end
+          conveyToBoard();
 
           $(dialogStr).dialog({
               //minWidth: sketcher.defaultSetting.canvasW + 26,
@@ -96,13 +50,47 @@ define([
               title:defaultSetting.appTitle,
               dialogClass: defaultSetting.canvasClass,
               "resizable": false,
-              close: function( event, ui ) {
+              close: function() {
                       sketcher.clear();             // **** empty canvas
-                      backgroundContainer.html(""); // **** empty bg img
+                      $(backgroundContainer).html(""); // **** empty bg img
                     }
 
           });
+          function conveyToBoard(){
+              var $chosen = $editorIframe.find("img.focused"),
+                  drawingData,
+                  parternPng = /data:image\/png/,
+                  parternQuotation = /\"|\'|\)|\(|url/g,
+                  srcIsData = parternPng.test($chosen.attr("src")),
+                  chosenImgSrc = $chosen.css('background-image');
 
+              if(srcIsData){                        //*** src is data
+              var hasBgImg = !(chosenImgSrc == undefined || chosenImgSrc == "none");
+                  if(hasBgImg){                     //*** src is data & bgimg
+
+                      // ******* load background img
+                      chosenImgSrc = chosenImgSrc.replace(parternQuotation,'');
+                      var newImg = $("<img/>").attr({
+                          "src":chosenImgSrc,
+                          "data-mce-src":chosenImgSrc
+                      });
+                      $(backgroundContainer).append(newImg);
+
+                  }
+
+                  // ****** paint canvas
+                  drawingData = $chosen.attr("src");
+              var canvasImage = new Image();
+                  canvasImage.src = drawingData;
+                  canvasImage.onload = function() {
+                      imageToCanvas(this,sketcher.defaultSetting.canvasClass);
+                  };
+
+
+              }else{                               //*** src is normal
+                  $(backgroundContainer).append($chosen.clone());
+              }
+          }
           function imageToCanvas(imageObj,canvasClass) {
               var context = $("canvas." + canvasClass)[0].getContext('2d');
               context.drawImage(imageObj, 0, 0);
@@ -171,11 +159,11 @@ define([
                   cropLeft = scanX(true),
                   cropRight = scanX(false),
                   edge = 0;
-              if(!!backgroundContainer.find("img").size()){
+              if(!!$(backgroundContainer).find("img").size()){
                   // edge don't beyond canvas
-                  $bgimg = backgroundContainer.find("img");
-                  var bgw = $bgimg[0].width,
-                      bgh = $bgimg[0].height;
+                  var  $bgimg = $(backgroundContainer).find("img")[0],
+                       bgw = $bgimg.width,
+                       bgh = $bgimg.height;
                   bgw = bgw <= canvasW ? bgw : canvasW;
                   bgh = bgh <= canvasH ? bgh : canvasH;
 
@@ -205,11 +193,11 @@ define([
           function saveImg(){
             var $div = $(document.createElement('div')),
                 data = removeBlanks(),
-                $img; 
+                $img = $("<img/>");
 
-              if(!!backgroundContainer.find("img").size()){
+              if(!!$(backgroundContainer).find("img").size()){
                    
-               var originImgSrc = backgroundContainer.find("img").attr("data-mce-src") || backgroundContainer.find("img").attr("src"),
+               var originImgSrc = $(backgroundContainer).find("img").attr("data-mce-src") || $(backgroundContainer).find("img").attr("src"),
                    havePreview = originImgSrc.indexOf("preview") != -1,
                    style ="";
                       style += havePreview ?  "background:url( " + originImgSrc + " ) no-repeat;" : "background:url(" + originImgSrc + ") no-repeat;";
@@ -217,22 +205,21 @@ define([
                       style += "min-width:" + data.width + "px;";
                       style += "max-height:" + data.height + "px;";
                       style += "min-height:" + data.height + "px;";
-                      $img = $("<img/>")
-                              .attr({
-                                    "src":data.urlData,
-                                    "data-mce-src":data.urlData,
-                                    "style":style,
-                                    "data-mce-style":style
-                                })
-                              .addClass("editted");
+
+                   $img.attr({  "src":data.urlData,
+                                "data-mce-src":data.urlData,
+                                "style":style,
+                                "data-mce-style":style
+                                });
                    }else{
-                        $img = $("<img/>").attr("src",data.urlData);
+                      $img.attr("src",data.urlData);
                        }
               $div.append($img);
               $editor.editorBox('insert_code', $div.html());
           }
 
       });
+
       ed.addButton(pluginProp.name, {
         title: defaultSetting.canvasClass,
         cmd: pluginProp.id,
@@ -252,7 +239,5 @@ define([
   });
 
   // Register plugin
-
 tinymce.PluginManager.add(pluginProp.name, tinymce.plugins[pluginProp.id]);
 });
-
