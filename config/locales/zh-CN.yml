@@ -318,7 +318,7 @@ zh-CN:
     course_added_message: "%{course} 已成功添加！"
     courses: 
       courses_crumb: 课程
-      no_results_message: 未找到成果
+      no_results_message: 未找到结果
       page_title: "\"%{query}\" 的课程搜索结"
       search_results_crumb: "\"%{query}\" 的搜索结果"
       title: "\"%{query}\"的课程搜索结"
@@ -714,8 +714,8 @@ zh-CN:
       feed_title_group: "组公告 Atom 订阅"
       podcast_title_course: 课程公告播客订阅
       podcast_title_group: 组公告播客订阅
-    podcast_feed_description_course: "任何与课程 \"%{course}\"中的公告链接或内嵌于其中的媒体文件都会出现在此订阅中"
-    podcast_feed_description_group: "任何与组\"%{group}\"中的公告链接或内嵌于其中的媒体文件都会出现在此订阅中。"
+    podcast_feed_description_course: "任何与课程 \"%{course}\"中的公告链接或内嵌于其中的语音视频都会出现在此订阅中"
+    podcast_feed_description_group: "任何与组\"%{group}\"中的公告链接或内嵌于其中的语音视频都会出现在此订阅中。"
     podcast_feed_name: "%{course} 公告播客订阅"
   application: 
     errors: 
@@ -792,7 +792,7 @@ zh-CN:
       due: 到期日期
     messages: 
       assignment_created: "作业 \"%{assignment}\" 已创建"
-    submission_action_take_quiz: "提取 %{title}"
+    submission_action_take_quiz: "进入 %{title}"
     submission_action_turn_in_assignment: "进入 %{title}"
     warnings: 
       group_assignment: "作业 \"%{assignment}\" 是组作业，您需要针对这个新的上下文重置组设置"
@@ -1102,7 +1102,7 @@ zh-CN:
         submitted: 已提交
     submit_assignment: 
       buttons: 
-        record_media: 记录/上传媒体
+        record_media: 记录/上传语音视频
         submit_assignment: 提交作业
       errors: 
         unacceptable_file_type: "不允许此文件类型。接受的文件类型为: %{allowed_extensions_list}"
@@ -1122,18 +1122,18 @@ zh-CN:
         submit: 
           file_upload: 文件上传
           google_doc: "Google Doc"
-          media: 媒体
+          media: 语音视频
           text_entry: 文本输入
           website: "网站 URL"
       messages: 
         google_docs_auth_required: "必须授权教学邦访问您的 Google Docs 帐户，然后才可直接从 Google Docs 提交作业:"
         media_recording_ready: 可以提交!单击"提交作业"按钮以完成。
-        media_recordings_disabled: 没有为此教学邦网站启用媒体记录，您无法提交这些类型的作业。请联系教师更改此作业的设置，或者要求教学邦管理员启用媒体记录。
+        media_recordings_disabled: 没有为此教学邦网站启用录制语音视频，您无法提交这些类型的作业。请联系教师更改此作业的设置，或者要求教学邦管理员启用录制语音视频。
         submitting: 正在提交...
         uploading: "检索要为此作业提交的 Google Doc 副本。这可能需要一段时间，具体取决于文件大小..."
       no_files: 无文件
       titles: 
-        media_recordings_disabled: 没有为此教学邦网站启用媒体记录
+        media_recordings_disabled: 没有为此教学邦网站启用录制语音视频
         view_in_separate_window: 在单独的窗口中查看
       upload_or_choose_file: 上传文件，或选择您已上传的文件。
     syllabus: 
@@ -2059,7 +2059,7 @@ zh-CN:
         import: 导入课程
       choose_file: "选择要导入的 %{file_extension} 文件"
       details: 
-        selective_import: 我们只提取您在下面选择的区域。并非所有课程都有这些功能。在完成提取之后，您可以精确选择要从每个区域导入课程的项目。
+        selective_import: 我们只选择您在下面选择的区域。并非所有课程都有这些功能。在完成选择之后，您可以精确选择要从每个区域导入课程的项目。
       errors: 
         choos_file: "必须选择要上传的 .zip 文件"
       instructions: 
@@ -2115,7 +2115,7 @@ zh-CN:
       links: 
         warnings: 警告/错误
     notices: 
-      already_imported: 该提取内容已导入到课程中
+      already_imported: 该解压的内容已导入到课程中
       choose_a_course: 选择一门复制课程
       no_archive: 没有对这个内容迁移进行归档
     question_bank_config: 
@@ -2376,8 +2376,8 @@ zh-CN:
       no_messages: 抱歉，没有消息。
     media_object_inline: 
       titles: 
-        media_playback: 媒体播放
-    media_objects_not_configured: 媒体对象未配置
+        media_playback: 语音视频播放
+    media_objects_not_configured: 语音视频对象未配置
     message_deleted: 此消息已删除
     message_removed: 您要查看的消息已删除
     new_roster_user: 
@@ -2848,7 +2848,7 @@ zh-CN:
       done_sending_message: "发送 *%{message_preview}* to *%{num_people}* "
       error_sending_message: 错误发送消息：
       sending_message: "正发送 *%{message_preview}* to *%{num_people}* "
-    no_results: 没有找到成果
+    no_results: 没有找到结果
     not_applicable: "N / A"
     not_scored: 没有评分
     notes_to_self: 独白
@@ -2973,8 +2973,8 @@ zh-CN:
       grading_standards: 无法导出评分标准
       learning_outcomes: 无法导出学习成果
       lti_links: "无法导出某些 Web 链接"
-      media_file: 媒体文件无法导出
-      media_files: 无法导出某些媒体文件
+      media_file: 语音视频无法导出
+      media_files: 无法导出某些语音视频
       module_meta: 无法导出模块元数据
       organization: 无法生成组织结构。
       question_bank: "题库 \"%{title}\" 无法导出"
@@ -3429,7 +3429,7 @@ zh-CN:
         assignments: 此视图显示本课程的**作业列表**，即将到来和近期的作业显示在顶部。
         communication_stream: "**通信流**允许参与者查看此课程的最新交流、通知和互动信息。它非常类似于用户首次登陆时看到的面板页面，但只显示此特定课程的内容。"
         confirm_unenroll: 是否确定要取消注册此课程?您将不再能够看到课程清单或与教师直接沟通，并且在您的通信流和通知中不再看到课程活动。
-        custom_page: 您可以**设计自己的课程主页**，在其中包含您喜欢的任何链接、图像或富媒体。
+        custom_page: 您可以**设计自己的课程主页**，在其中包含您喜欢的任何链接、图像或富语音视频。
         joining_a_course: 在参与课程后，该课程将显示在您的课程列表中。您将能够参与课程的已评分部分，并且能够与教师及其他学生直接沟通。.您还将在您的通信流和通知中看到本课程的交流和活动。
         modules: "您可以将课程组织成**模块或学群(班级)**，每节包含一组相关的文件、作业和页面等。如果需要，还可以通过定义每个模块解锁之前需要完成的标准和先决条件，来组织序列模块。 这种布局可能最适合没有特定时间表（例如学期）的课程。"
         syllabus: "**纲要视图**允许您编写有关课程期望的说明或通过链接、图像方式等介绍课程。还显示涵盖所有作业和课程活动的日历视图。"
@@ -3501,7 +3501,7 @@ zh-CN:
         totals: 正在运行总计
       labels: 
         allotted_storage: 指定存储
-        media_files: 媒体文件
+        media_files: 语音视频
         uploaded_files: 上传的文件
       new: 新建
       new_discussion_entries: 新建讨论条目
@@ -3546,7 +3546,7 @@ zh-CN:
     grading_schemes: 评分方案
     groups: 组
     jobs: JOBS
-    media: 媒体
+    media: 语音视频
     messages: 消息
     modules: 模块
     outcomes: 成绩
@@ -3731,7 +3731,7 @@ zh-CN:
     created_entry_notice: 条目已成功创建。
     deleted_entry_notice: 该条目已删除
     disabled_podcasts_notice: 尚未对此主题启用播客
-    podcast_description: "任何与主题 \"%{title}\" 中的条目相链接或内嵌于其中的媒体文件都会出现在此订阅中。"
+    podcast_description: "任何与主题 \"%{title}\" 中的条目相链接或内嵌于其中的语音视频都会出现在此订阅中。"
     podcast_feed_title: "%{title} 贴子播客订阅"
     posts_feed_title: "%{title} 贴子订阅"
     updated_entry_notice: 条目已成功更新。
@@ -3809,8 +3809,8 @@ zh-CN:
       there_are_no_announcements_show: 没有公告
       there_are_no_discussion_topics_to_show: 没有讨论话题
       try_different_more_general_or_fewer_keywords: 试试其它关键字
-      try_disabling_the_unread_filters: 去掉"未读"筛选
-      try_disabling_the_unread_or_assignments_filters: 去掉"未读"或"作业"筛选
+      try_disabling_the_unread_filters: 去掉”未读"帅选
+      try_disabling_the_unread_or_assignments_filters: 去掉未读或作业过滤
       unread: 未读
       your_search_did_not_match_any_announcements: 没有找到相关公告
       your_search_did_not_match_any_discussion_topics: 没有找到相关讨论话题
@@ -4408,7 +4408,7 @@ zh-CN:
       collaborations2: 要了解有关特定协作类型的详细信息，请单击"新协作"，然后从下拉列表中选择该类型。
     errors: 
       empty_file: 该文件夹为空。请加载其他文件。
-      extracting: 提取压缩文件时出错。请重试。
+      extracting: 解压缩文件时出错。请重试。
       failed_uploading: "上传失败: %{error_info}"
       loading_file: 加载文件内容出错。请重试。
       missing_field: 上传失败，缺少预期的表单字段
@@ -4448,7 +4448,7 @@ zh-CN:
         lock_file: 文件被锁定后，只有教师和助教才能访问它。
         lock_folder: 文件夹被锁定后，只有教师和助教才能访问它。
       drop_here: 将文件拖放到此处以添加到此文件夹。
-      drop_zip_files: 还可以拖放压缩文件并选择提取其内容到此文件夹。
+      drop_zip_files: 还可以拖放压缩文件并选择解压其内容到此文件夹。
       edit_html_warning: HTML编辑器将改变你的HTML内容，你应该先下载一个备份，然后再保存更改。
       file_details: 文件明细
       file_list: 文件清单
@@ -4520,7 +4520,7 @@ zh-CN:
       error_count: 
         one: 1错误
         other: "%{count}个错误"
-      extraction_complete: 提取完成！正在更新文件结构...
+      extraction_complete: 解压完成！正在更新文件...
       finalizing: 完成
       folder_empty: 此文件夹中没有内容
       gathering_data: 正在收集数据...
@@ -4548,7 +4548,7 @@ zh-CN:
       delete_file: 是否确定要删除此文件?
       delete_folder: 是否确定要删除此文件夹及其所有内容?
       duplicate_filenames: 此文件中已存在以下名称的文件。是否要替换它们，或者用独特的名称重命名新文件?
-      extract_zip: 此文件为压缩文件。是否要提取其内容到此文件夹?
+      extract_zip: 此文件为压缩文件。是否要解压其内容到此文件夹?
     show: 
       messages: 
         file_locked: 此文件尚未解锁。
@@ -4561,7 +4561,7 @@ zh-CN:
       download_folder_contents: 下载文件夹内容
       drag_to_move: 拖动以移动到其他文件夹
       edit_collaboration: 编辑协作
-      extracting: 正在提取文件到文件夹
+      extracting: 正在解压文件到文件夹
       file_uplaods_queue: 文件上传队列
       lock_file: 锁定文件
       lock_folder: 锁定文件夹
@@ -5467,7 +5467,7 @@ zh-CN:
       view_equella_content_in_new_window: 在新窗口中查看内容
     loading: 正在加载...
     no_description: 无说明
-    no_results_found: 未找到成果
+    no_results_found: 未找到结果
     status: 
       diigo_search_throttling: "Diigo 限制用户每十秒搜索一次。请稍候..."
       posting_message: 正在发布消息...
@@ -5685,6 +5685,7 @@ zh-CN:
     show_me_where: 显示我的位置
     switch_views: 切换视图
   locales: 
+    en: 英语
     zh-CN: 简体中文
   manage_avatars: 
     errors: 
@@ -5705,29 +5706,29 @@ zh-CN:
       relationships: 关系
   media_comments: 
     buttons: 
-      submit: 提交媒体文件
+      submit: 提交语音视频
     errors: 
       file_too_large: "*此文件太大。*最大大小为 %{size}MB。"
       load_failed: 语音视频应用程序无法加载。请重试。
-      must_be_logged_in: 您必须登录才能记录媒体。
-      persistent_problem: 如果一直出现此试题，您可能会想要尝试在本地记录媒体然后上传保存的文件代替。
+      must_be_logged_in: 您必须登录才能记录语音视频。
+      persistent_problem: 如果一直出现此试题，您可能会想要尝试在本地记录语音视频然后上传保存的文件代替。
       save_failed: 保存似乎失败。请关闭此弹出窗口以重试。
       save_failed_try_again: 条目无法保存。请重试。
       upload_failed: "上传失败，错误:"
     links: 
       upgrade_flash: 单击此处升级
     messages: 
-      file_failed_to_load: 此媒体文件无法加载
+      file_failed_to_load: 此语音视频无法加载
       flash_required: "此视频需要 Flash 版本 9 或更高版本（您已安装 %{version}）。"
       flash_required_record_audio: "需要 Flash 才能记录音频。"
       flash_required_upload_audio: "需要 Flash 才能上传音频。"
       flash_required_upload_video: "需要 Flash 才能上传视频。"
       loading: 正在加载...
-      submitted: 已提交媒体文件！
-      submitting: 正在提交媒体文件...
+      submitted: 已提交语音视频！
+      submitting: 正在提交语音视频...
     titles: 
       click_to_view: 单击查看
-      media_contribution: 媒体参与
+      media_contribution: 语音视频参与
       play_comment: 播放语音视频
       record_upload_media_comment: 记录/上传语音视频
   menu: 
@@ -9595,7 +9596,7 @@ zh-CN:
       due_by: "到期日期 %{date} 时间 %{time}"
       labels: 
         allow_file_uploads: 允许文件上传
-        allow_media_recordings: 允许媒体记录
+        allow_media_recordings: 允许录制语音视频
         allow_text_entry: 允许文本输入
         allow_url: "允许网站 URL"
         allowed_extensions: 允许的文件扩展名
@@ -10291,7 +10292,7 @@ zh-CN:
       external_url_submission: "此提交是指向外部页面的一个 URL。"
       file_uploads_for_user: "**%{user}** 的文件上传"
       group_discussion_submission_description: "这些提交的作业全部上传到组计分讨论中。以下是用户 %{user} 提交作业。 您也可以 *查看全组讨论*"
-      media_comment_link: 此提交是一个媒体记录。*单击此处查看*。
+      media_comment_link: 此提交是一个录制语音视频。*单击此处查看*。
       no_files: 没有此提交上传的文件
       no_preview_available: 不能预览
       no_submission: 无提交
@@ -10594,12 +10595,6 @@ zh-CN:
       skype: "Skype 是一个免费的在线语音和视频呼叫工具。"
       twitter: "Twitter 是一个优秀的课外通信资源。"
   users: 
-    a_media_recording: "语音视频录制"
-    a_file_upload: "文件上传"
-    a_website_url: "网站URL"
-    a_text_entry_box: "文本输入"
-    a_discussion_post: "参与讨论"
-    a_quiz: "测试"
     account_notification: 
       close: 关闭
     admin_merge: 
@@ -10725,7 +10720,7 @@ zh-CN:
         users: 用户
       labels: 
         show_users_for_term: 显示在学期内注册的用户
-      no_results_found: 未找到成果
+      no_results_found: 未找到结果
       search_for_user: "%{user_name} 的用户搜索成果"
       titles: 
         all_users: 所有用户
