@@ -23,7 +23,7 @@ function Sketcher(setting) {
 Sketcher.prototype.initial = function(){
     this.generalHTML();
 
-    this.canvas = $("#" + this.defaultSetting.stageId).find("." + this.defaultSetting.canvasClass);
+    this.canvas = $("#" + this.defaultSetting.stageId).find("." + this.defaultSetting.sketchType);
     console.log(this.canvas)
     this.context = this.canvas.get(0).getContext("2d");
 
@@ -40,7 +40,7 @@ Sketcher.prototype.generalHTML = function(){
         stage,
         layer,
         canvasContainer = this.defaultSetting.stageId + "_container";
-        canvasHtml  = '<div class="'+ this.defaultSetting.appName + ' ' + this.defaultSetting.canvasClass + '" id="' + this.defaultSetting.stageId  + '">';
+        canvasHtml  = '<div class="'+ this.defaultSetting.appName + ' ' + this.defaultSetting.sketchType + '" id="' + this.defaultSetting.stageId  + '">';
 
     canvasHtml += '<input type="button" value="清空" class="clear_all" />';
     canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
@@ -48,7 +48,7 @@ Sketcher.prototype.generalHTML = function(){
     canvasHtml += '<input type="button" value="刷子" class="big_brush" />';
     canvasHtml += '<input type="button" value="橡皮擦" class="eraser" />';
     canvasHtml += '<div class="color_setting">';
-    canvasHtml += '<input type="button" class="black" value="black" style="background:#000000;" data-color=' + '{hex:"000000",rgb:[0,0,0]} ' + '  />';
+    canvasHtml += '<input type="button" class="black" value="black" style="background:#000000;" data-color=' + '{hex:"333333",rgb:[51,51,51]} ' + '  />';
     canvasHtml += '<input type="button" class="blue" value="blue" style="background:#0000ff;" data-color=' + '{hex:"0000ff",rgb:[0,0,255]} ' + '  />';
     canvasHtml += '<input type="button" class="red" value="red" style="background:#ff0000;" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
     canvasHtml += '<input type="button" class="green" value="green" style="background:#7cfc00;" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
@@ -82,7 +82,7 @@ Sketcher.prototype.generalHTML = function(){
     stage.add(layer);
 
     $("#" + canvasContainer + " canvas")
-        .addClass(self.defaultSetting.canvasClass);
+        .addClass(self.defaultSetting.sketchType);
 
     $(".color_setting input:gt(1)").hide();
 

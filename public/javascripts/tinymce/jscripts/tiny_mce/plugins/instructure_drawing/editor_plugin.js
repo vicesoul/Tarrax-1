@@ -14,7 +14,7 @@ define([
     var sketcher,
         pluginProp = {id:"instructure_drawing",name:"instructure_drawing"},
         defaultSetting = {
-            canvasClass:"paint",
+            sketchType:"paint",
             stageId:"",
             lineW : 1,
             canvasW : 600,
@@ -30,12 +30,12 @@ define([
       ed.addCommand(pluginProp.id, function() {
         console.log(ed);
         //console.log(ed.selection.getContent());
-      defaultSetting.stageId = ed.id + "_" + defaultSetting.canvasClass;      // set stageId dynamic
+      defaultSetting.stageId = ed.id + "_" + defaultSetting.sketchType;      // set stageId dynamic
 
       var $editor = $("#" + ed.id),
           $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.canvasClass,
-          backgroundContainer = "#" + defaultSetting.stageId + " .img_background";
+          dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.sketchType,
+          backgroundContainer = "." + dialogStr + " .img_background";
 
         if(!$(dialogStr).size()) {     // ****** if first open box
             sketcher = new Sketcher(defaultSetting);
@@ -48,7 +48,7 @@ define([
               minHeight:$(window).height(),
               buttons: { "保存": function() { saveImg();$(this).dialog("close");}},
               title:defaultSetting.appTitle,
-              dialogClass: defaultSetting.canvasClass,
+              dialogClass: defaultSetting.sketchType,
               "resizable": false,
               close: function() {
                       sketcher.clear();             // **** empty canvas
@@ -83,7 +83,7 @@ define([
               var canvasImage = new Image();
                   canvasImage.src = drawingData;
                   canvasImage.onload = function() {
-                      imageToCanvas(this,sketcher.defaultSetting.canvasClass);
+                      imageToCanvas(this,sketcher.defaultSetting.sketchType);
                   };
 
 
@@ -91,8 +91,8 @@ define([
                   $(backgroundContainer).append($chosen.clone());
               }
           }
-          function imageToCanvas(imageObj,canvasClass) {
-              var context = $("canvas." + canvasClass)[0].getContext('2d');
+          function imageToCanvas(imageObj,sketchType) {
+              var context = $("canvas." + sketchType)[0].getContext('2d');
               context.drawImage(imageObj, 0, 0);
           }
 
@@ -103,7 +103,7 @@ define([
                cropHeight,
                returnObj,
                $croppedCanvas,
-               canvas = $("canvas." + sketcher.defaultSetting.canvasClass)[0],
+               canvas = $("canvas." + sketcher.defaultSetting.sketchType)[0],
                context = canvas.getContext('2d'),
                imageData = context.getImageData(0, 0, canvasW, canvasH),
                data = imageData.data,
@@ -221,9 +221,9 @@ define([
       });
 
       ed.addButton(pluginProp.name, {
-        title: defaultSetting.canvasClass,
+        title: defaultSetting.sketchType,
         cmd: pluginProp.id,
-        image: url + '/img/' + defaultSetting.canvasClass +'.png'
+        image: url + '/img/' + defaultSetting.sketchType +'.png'
       });
     },
 

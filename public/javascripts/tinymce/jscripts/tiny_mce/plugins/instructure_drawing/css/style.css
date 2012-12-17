@@ -1,5 +1,6 @@
 .mceIframeContainer{position: relative;}
-.sketch_app .container{border: 1px solid #ccc;position: relative;overflow: hidden;margin: 0!important;}
+.sketch_app .container{border: 1px solid #ccc;position: relative;overflow: hidden;}
+.ui-dialog.paint .container{margin: 0!important;}
 .sketch_app .container .img_background{position: absolute;z-index:-1;}
 .sketch_app .containerDraft canvas {display: none;}
 .setLineSize,.setBrushSize{margin: 20px;display: none;}

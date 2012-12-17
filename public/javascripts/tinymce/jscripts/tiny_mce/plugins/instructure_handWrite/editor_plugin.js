@@ -12,14 +12,14 @@ define([
    "jquery.ui.touch"
 ], function(tinymce, I18n, $) {
 
-    var sketcher,
+    var HandWrite,
         pluginProp = {id:"instructureHandWrite",name:"instructure_handWrite"},
         defaultSetting = {  
-            canvasClass:"handWrite",
+            sketchType:"handWrite",
             stageId:"",
             lineW : 10,
-            canvasW : 1200,
-            canvasH : 400,
+            canvasW : 1000,
+            canvasH : 240,
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
@@ -32,47 +32,29 @@ define([
       ed.addCommand(pluginProp.id, function() {
       var $editor = $("#" + ed.id),
           $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.canvasClass,
+          dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.sketchType,
           writeState;
 
-          defaultSetting.stageId = ed.id + "_" + defaultSetting.canvasClass;      // set stageId dynamic
-
-        if(!$(dialogStr).size()) { init();}// ****** if first open box
-
-          $(dialogStr).dialog({
-              width:"100%",
-              minHeight:$(window).height(),
-              title:defaultSetting.appTitle,
-              dialogClass: defaultSetting.canvasClass,
-              "resizable": false,
-              modal: true,
-              close: function() {
-                      sketcher.clear();             // **** empty canvas
-              }
-
-          });
+          defaultSetting.stageId = ed.id + "_" + defaultSetting.sketchType;      // set stageId dynamic
 
           function init(){
-              sketcher = new Sketcher(defaultSetting);
+              HandWrite = new Sketcher(defaultSetting);
 
               if(!$("#handWriteCopy").size()){
                   $("<canvas></canvas>")
                       .attr({
-                          width:defaultSetting.canvasW/5,
-                          height:defaultSetting.canvasH/5,
+                          width:defaultSetting.canvasW/8,
+                          height:defaultSetting.canvasH/8,
                           id:"handWriteCopy"
                       })
                       .appendTo("body");
               }
-
-
-              sketcher.brushSize = {width:13,height:13,step:.3};
-              //$(".big_brush").trigger("click");
-
+              HandWrite.brushSize = {width:9,height:9,step:.3};
+              $(".big_brush").trigger("click");
               var touchSupported = Modernizr.touch,
-                   mouseDownEvent,
-                   mouseMoveEvent,
-                   mouseUpEvent;
+                  mouseDownEvent,
+                  mouseMoveEvent,
+                  mouseUpEvent;
 
               if (touchSupported) {
                   mouseDownEvent = "touchstart";
@@ -84,7 +66,7 @@ define([
                   mouseUpEvent = "mouseup";
               }
 
-              var $writingCanvas = $("#" + defaultSetting.stageId).find("canvas.handWrite");
+              var $writingCanvas = $(dialogStr).find("." + defaultSetting.sketchType);
               var checkWriteDone;
 
               $writingCanvas.bind(mouseDownEvent,function(){
@@ -92,14 +74,30 @@ define([
                   clearTimeout(checkWriteDone);
               });
 
-              $writingCanvas.bind(mouseUpEvent,function(){
+              $(document).bind(mouseUpEvent,function(){
                   checkWriteDone = setTimeout(function(){
                       saveImg();
                       writeState = false;
                   },500);
 
               });
+
           }
+
+          if(!$(dialogStr).size()) { init();}// ****** if first open box
+
+          $(dialogStr).dialog({
+              width:"100%",
+              minHeight:$(window).height(),
+              title:defaultSetting.appTitle,
+              dialogClass: defaultSetting.sketchType,
+              "resizable": false,
+              modal: true,
+              close: function() {
+                      HandWrite.clear();             // **** empty canvas
+              }
+
+          });
 
           function removeBlanks(canvasTarget) {
            var canvasW = defaultSetting.canvasW,
@@ -159,14 +157,14 @@ define([
                   return null; // all image is white
               };
 
-              var cropTop = scanY(true),
+              var cropTop = 0,
                   cropBottom = scanY(false),
                   cropLeft = scanX(true),
                   cropRight = scanX(false),
                   edge = 1;
 
                cropWidth = cropRight - cropLeft + edge;
-               cropHeight = cropBottom - cropTop + edge;
+               cropHeight = defaultSetting.canvasH/8;
                $croppedCanvas = $("<canvas>").attr({ width: cropWidth, height: cropHeight });
 
                $croppedCanvas[0].getContext("2d").drawImage(canvas,
@@ -179,35 +177,35 @@ define([
           }
 
           function saveImg(){
-
-              var handWriteData = $("#" + defaultSetting.stageId + " canvas.handWrite").get(0).toDataURL();
+              var handWriteData = $(dialogStr).find("." + defaultSetting.sketchType).get(0).toDataURL();
               var $copy = $("#handWriteCopy");
               var copyContext = $copy[0].getContext('2d');
               var canvasImage = new Image();
                   canvasImage.src = handWriteData;
                   canvasImage.onload = function() {
-                  copyContext.drawImage(this, 0, 0,240,80);
+                  copyContext.drawImage(this, 0, 0,defaultSetting.canvasW/8,defaultSetting.canvasH/8);
                       var $div = $(document.createElement('div')),
                           data = removeBlanks($copy),
-                          $img = $("<img/>").attr("src",data.urlData);
+                          $img = $("<img/>").attr("src",data.urlData).addClass(defaultSetting.sketchType);
 
 
                       $div.append($img);
                       $editor.editorBox('insert_code', $div.html());
 
-                      sketcher.clear();             // **** empty canvas
-                      copyContext.clearRect( 0, 0,240,80);
+                      // **** clear canvas
+                      HandWrite.clear();
+                      copyContext.clearRect( 0, 0,defaultSetting.canvasW/8,defaultSetting.canvasH/8);
+                      // end
+
               };
-
-
           }
 
       });
 
       ed.addButton(pluginProp.name, {
-        title: defaultSetting.canvasClass,
+        title: defaultSetting.sketchType,
         cmd: pluginProp.id,
-        image: url + '/img/' + defaultSetting.canvasClass +'.png'
+        image: url + '/img/' + defaultSetting.sketchType +'.png'
       });
 
     },
