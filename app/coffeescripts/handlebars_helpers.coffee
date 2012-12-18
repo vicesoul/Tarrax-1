@@ -8,13 +8,14 @@ define [
   'compiled/util/semanticDateRange'
   'compiled/util/dateSelect'
   'compiled/str/convertApiUserContent'
+  'compiled/str/underscore'
   'jquery.instructure_date_and_time'
   'jquery.instructure_misc_helpers'
   'jquery.instructure_misc_plugins'
-], (ENV, Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, convertApiUserContent) ->
+], (ENV, Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, convertApiUserContent, underscore) ->
 
   Handlebars.registerHelper name, fn for name, fn of {
-    t : (key, defaultValue, options) ->
+    t : (word, defaultValue, options) ->
       wrappers = {}
       options = options?.hash ? {}
       for key, value of options when key.match(/^w\d+$/)
@@ -22,7 +23,10 @@ define [
         delete options[key]
       options.wrapper = wrappers if wrappers['*']
       options = $.extend(options, this) unless this instanceof String or typeof this is 'string'
-      I18n.scoped(options.scope).t(key, defaultValue, options)
+      format_scope = for s in options.scope.split('.')
+        underscore(s)
+      delete options.scope
+      I18n.scoped( format_scope.join('.') ).t(word, defaultValue, options)
 
     hiddenIf : (condition) -> " display:none; " if condition
 
