@@ -167,7 +167,8 @@ class PseudonymsController < ApplicationController
     else
       account_id = params[:pseudonym].delete(:account_id)
       if Account.site_admin.grants_right?(@current_user, :manage_user_logins)
-        params[:pseudonym][:account] = Account.root_accounts.find(account_id)
+        #params[:pseudonym][:account] = Account.root_accounts.find(account_id)
+        params[:pseudonym][:account] = @domain_root_account
       else
         params[:pseudonym][:account] = @domain_root_account
         unless @domain_root_account.settings[:admins_can_change_passwords]

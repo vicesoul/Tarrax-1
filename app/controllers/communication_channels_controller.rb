@@ -149,7 +149,8 @@ class CommunicationChannelsController < ApplicationController
       @user = cc.user
       @enrollment = @user.enrollments.find_by_uuid_and_workflow_state(params[:enrollment], 'invited') if params[:enrollment].present?
       @course = @enrollment && @enrollment.course
-      @root_account = @course.root_account if @course
+      #@root_account = @course.root_account if @course
+      @root_account = @domain_root_account  # create pseudonym under default domain root account
       @root_account ||= @user.pseudonyms.first.try(:account) if @user.pre_registered?
       @root_account ||= @user.enrollments.first.try(:root_account) if @user.creation_pending?
       unless @root_account
@@ -240,7 +241,8 @@ class CommunicationChannelsController < ApplicationController
         # set up a password yet
         @pseudonym = @user.pseudonyms.active.find(:first, :conditions => {:password_auto_generated => true, :account_id => @root_account.id} ) if @user.pre_registered? || @user.creation_pending?
         # Users implicitly created via course enrollment or account admin creation are creation pending, and don't have a pseudonym yet
-        @pseudonym ||= @user.pseudonyms.build(:account => @root_account, :unique_id => cc.path) if @user.creation_pending?
+        #@pseudonym ||= @user.pseudonyms.build(:account => @root_account, :unique_id => cc.path) if @user.creation_pending?
+        @pseudonym ||= @user.pseudonyms.build(:account => @domain_root_account, :unique_id => cc.path) if @user.creation_pending?
         # We create the pseudonym with unique_id = cc.path, but if that unique_id is taken, just nil it out and make the user come
         # up with something new
         @pseudonym.unique_id = '' if @pseudonym && @pseudonym.new_record? && @root_account.pseudonyms.active.custom_find_by_unique_id(@pseudonym.unique_id)
