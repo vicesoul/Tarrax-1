@@ -3673,35 +3673,35 @@ en:
     todo: Todo
   date: 
     abbr_day_names: 
-      - 周日
-      - 周一
-      - 周二
-      - 周三
-      - 周四
-      - 周五
-      - 周六
+      - Sun
+      - Mon
+      - Tue
+      - Wed
+      - Thu
+      - Fri
+      - Sat
     abbr_month_names: 
       - ~
-      - 1月
-      - 2月
-      - 3月
-      - 4月
-      - 5月
-      - 6月
-      - 7月
-      - 8月
-      - 9月
-      - 10月
-      - 11月
-      - 12月
+      - Jan
+      - Feb
+      - Mar
+      - Apr
+      - May
+      - Jun
+      - Jul
+      - Aug
+      - Sep
+      - Oct
+      - Nov
+      - Dec
     day_names: 
-      - 星期天
-      - 星期一
-      - 星期二
-      - 星期三
-      - 星期四
-      - 星期五
-      - 星期六
+      - Sunday
+      - Monday
+      - Tuesday
+      - Wednesday
+      - Thursday
+      - Friday
+      - Saturday
     days: 
       today: Today
       today_lower: today
@@ -10616,7 +10616,7 @@ en:
       tiny: "%l:%M%P"
       tiny_on_the_hour: "%l%P"
     less_than_a_minute_ago: "less than a minute ago"
-    pm: 下午
+    pm: pm
     ranges: 
       different_days: "%{start_date_and_time} to %{end_date_and_time}"
       same_day: "%{date} from %{start_time} to %{end_time}"

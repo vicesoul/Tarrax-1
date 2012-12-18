@@ -16,24 +16,24 @@
         <a href="{{new_topic_url}}" class="btn btn-primary">{{#if showingAnnouncements}}
           创建公告
         {{else}}
-          创建新讨论
+          {{#t "new_discussion"}}Start a discussion{{/t}}
         {{/if}}</a>
       {{/if}}
     </div>
     <div class="headerBar-left bootstrap-form form-inline index_view_filter_form">
       <label class="hidden-inline-text" for="searchTerm">{{#t "search_title_body_or_author"}}Search title, body, or author{{/t}}</label>
       <input id="searchTerm"
-             placeholder="搜索主题，正文，作者"
+             placeholder="{{#t "search_title_body_or_author"}}Search title, body, or author{{/t}}"
              value="{{searchTerm}}"
              type="search">
       <span id="discussionsFilter">
         <input type="checkbox"
                id="onlyUnread"
-               {{#if onlyUnread}}checked{{/if}} /><label for="onlyUnread">未读</label>
+               {{#if onlyUnread}}checked{{/if}} /><label for="onlyUnread">{{#t "unread"}}Unread{{/t}}</label>
         {{#unless showingAnnouncements}}
           <input type="checkbox"
                  id="onlyGraded"
-                 {{#if onlyGraded}}checked{{/if}}/><label for="onlyGraded">考评作业</label>
+                 {{#if onlyGraded}}checked{{/if}}/><label for="onlyGraded">{{#t "assignments"}}Assignments{{/t}}</label>
         {{/unless}}
       </span>
     </div>
@@ -71,7 +71,7 @@
         {{#if showingAnnouncements}}
           没有公告
         {{else}}
-          没有讨论话题
+          {{#t "there_are_no_discussion_topics_to_show"}}There are no discussion topics to show{{/t}}
         {{/if}}
       </h1>
       {{#if options.permissions.create}}
@@ -79,7 +79,7 @@
           {{#if showingAnnouncements}}
             发布一个公告
           {{else}}
-            创建一个新的
+            {{#t "start_one_now"}}Start One Now{{/t}}
           {{/if}}
         </a>
       {{/if}}
