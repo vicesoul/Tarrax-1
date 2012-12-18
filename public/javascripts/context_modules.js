@@ -308,7 +308,9 @@ define([
           var $option = $(document.createElement('option'));
           $option.val(data.id);
           // data.id could come back as undefined, so calling $option.val(data.id) would return an "", which is not chainable, so $option.val(data.id).text... would die.
-          $option.text("the module, " + data.name).addClass('context_module_' + data.id).addClass('context_module_option');
+          // TODO: I18n
+          //$option.text("the module, " + data.name).addClass('context_module_' + data.id).addClass('context_module_option');
+          $option.text(data.name).addClass('context_module_' + data.id).addClass('context_module_option');
           $("#module_list").append($option);
         });
       },

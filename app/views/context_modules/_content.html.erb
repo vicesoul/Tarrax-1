@@ -99,7 +99,7 @@ TEXT
     </tr><tr>
       <td colspan="2">
         <div class="button-container" style="margin-top: 10px;">
-          <button type="submit" class="button submit_button"><%#= t('buttons.add_module', %{Add Module}) %>新增模块</button>
+          <button type="submit" class="button submit_button"><%= t('buttons.add_module', %{Add Module}) %></button>
           <button type="button" class="cancel_button button-secondary"><%= t('#buttons.cancel', %{Cancel}) %></button>
         </div>
         <a href="<%= context_url(@context, :context_context_modules_url) %>" style="display: none;" class="add_context_module_url">&nbsp;</a>
@@ -261,7 +261,7 @@ TEXT
   <select id="module_list">
     <option value="">[ <%= t('select_module.instructions', %{Select Module}) %> ]</option>
     <% @modules.each do |m| %>
-      <option value="<%= m.id %>" class="context_module_option context_module_<%= m.id %>"><%= t 'select_module.name', '%{module}', :module => m.name %></option>
+      <option value="<%= m.id %>" class="context_module_option context_module_<%= m.id %>"><%= t 'select_module.name', 'the module, %{module}', :module => m.name %></option>
     <% end %>
   </select>
   <div id="display_criterion_blank" class="criterion" style="display: none; float: left;">

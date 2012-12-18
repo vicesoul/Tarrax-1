@@ -1,0 +1,26 @@
+--- 
+zh-CN: 
+  calendar: 
+    edit_appointment_group: 
+      have_students_sign_up_in_groups: "让学生加入这个小组。"
+      date: 日期
+      time_range: 时间范围
+      options: 选项
+      limit_each_time_slot_to: 限制每段时间对应
+      groups: 小组
+      users: 用户
+      allow_students: "允许学生可以看见有谁一起参加。"
+      limit_participants: 限制参与者尝试
+      appointment: "次。"
+      details: 详细描述
+      split: 拆分
+      into_slots_of: 成
+      minutes_each: "分钟每组。"
+    undated_events:
+      undated_events: 未指定日期的活动
+      loading_undated_events: 正在加载
+      show_undated_events: 显示未指定日期的活动
+  discussion_topics:
+    edit_view:
+      editor:
+        switch_views: 切换视图

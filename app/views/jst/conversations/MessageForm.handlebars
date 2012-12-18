@@ -9,7 +9,7 @@
         {{#if conversation}}
           {{{audience}}}
         {{else}}
-          发新消息
+          {{#t "headings.new_message"}}New Message{{/t}}
         {{/if}}
       </span>
       {{#if addRecipientsEnabled}}
@@ -20,12 +20,12 @@
   <table>
     {{#unless conversation}}
     <tr class="recipient_info">
-      <th><label>to:</th>
+      <th><label>{{#t "labels.to"}}To:{{/t}}</th>
       <td><input type="text" name="recipients" data-finder_url="/conversations/find_recipients" class="recipients"></td>
     </tr>
     {{/unless}}
     <tr>
-      <th><label>内容</label></th>
+      <th><label>{{#t "labels.message"}}Message:{{/t}}</label></th>
       <td><textarea name="body" class="conversation_body">{{message}}</textarea></td>
     </tr>
     {{#unless conversation}}
@@ -34,7 +34,7 @@
       <td>
         <label>
           <input type="checkbox" name="group_conversation" value="1" class="group_conversation">
-          组交流。参与者可以看到全部回复。
+          {{#t "labels.group_conversation"}}This is a group conversation. Participants will see everyone's replies{{/t}}
         </label>
       </td>
     </tr>
@@ -62,13 +62,16 @@
           <input type="hidden" name="media_comment_type">
         {{/if}}
         <ul class="attachment_list"></ul>
-        <a class="action_add_attachment" href="#" title="{{#t "titles.add_attachment"}}Add an attachment{{/t}}"><img src="/images/messages/attach-blue.png"> 附件</a>
+        <a class="action_add_attachment" href="#" title="{{#t "titles.add_attachment"}}Add an attachment{{/t}}"><img src="/images/messages/attach-blue.png"> {{#t "links.add_attachment"}}Attach{{/t}}</a>
+        {{#if mediaCommentsEnabled}}
+          <a class="action_media_comment" href="#" title="{{#t "titles.record_media_comment"}}Record an audio or video comment{{/t}}"><img src="/images/messages/media-blue.png"> {{#t "links.media_comment"}}Record{{/t}}</a>
+        {{/if}}
         <div style="float: right">
           <input type="hidden" name="from_conversation_id" value="{{from_conversation_id}}">
           <input type="hidden" name="mode" value="async">
           <input type="hidden" name="scope" value="{{scope}}">
           <input type="hidden" name="filter" value="{{filter}}">
-          <button type="submit" class="button">发送</button>
+          <button type="submit" class="button">{{#t "buttons.send_message"}}Send{{/t}}</button>
         </div>
       </td>
     </tr>

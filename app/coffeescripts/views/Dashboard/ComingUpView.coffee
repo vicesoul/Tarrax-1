@@ -8,7 +8,6 @@ define [
   class ComingUpView extends SideBarSectionView
     collectionClass: ComingUpCollection
     itemView:        ComingUpItemView
-    #title:           I18n.t 'coming_up', 'Coming Up'
-    title:           '即将到来'
+    title:           I18n.t '#dashboard.coming_up', 'Coming Up'
     listClassName:   'coming-up-list'
 

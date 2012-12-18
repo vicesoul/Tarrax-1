@@ -64,29 +64,55 @@
   <div class="scheduler-content">
     {{#if canManageAGroup}}
       <h2>
-        您还没有创建任何预约组，没有可以签入
+        {{#t "scheduler_explanation_teacher_header"}}
+          You have not created any appointment groups, and there are none you can sign up for
+        {{/t}}
       </h2>
       <p>
-        这是调度工具。您可以使用它为您的学生创建预约组。
+        {{#t "scheduler_explanation_teacher_paragraph_1"}}
+          This is the Scheduler Tool.  You can use it to create appointment groups for your students to sign up for.
+        {{/t}}
       </p>
       <p>
-例如，如果您要跟每个学生过期中考评作业。您将创建一个新的预约组，您指定可以的日期和时间，每15分为一时间段，每一个学生可以选择这个时间。
+        {{#t "scheduler_explanation_teacher_paragraph_2"}}
+          For example, lets say you want to go over the midterm paper assignment with each of the students in your course.
+          You would create a new appointment group, specify the dates and times that you're available,
+          tell it to split that time into 15 minute blocks and only allow one student per time-block.
+        {{/t}}
       </p>
       <p>
-学生将得到通知，看到他们需要签入的指定的时间段。他们可以在其它日历上看到有空的时间段。
+        {{#t "scheduler_explanation_teacher_paragraph_3"}}
+          Then students would get notified and see that they need to sign up for one of the specified
+          time blocks.  They will be shown a calendar with the available time blocks overlaid on top of
+          everything on their other calendars so they can pick a time that works for them.
+        {{/t}}
       </p>
       <p>
-* 点击右边 "创建预约组" 按钮开始 *
+        {{#t "scheduler_explanation_teacher_paragraph_4"}}
+          <strong>
+            Get started now by clicking the "Create an appointment group" button to the right
+          </strong>
+        {{/t}}
       </p>
     {{else}}
       <h2>
-您没有需要注册的预约组
+        {{#t "scheduler_explanation_student_header"}}
+          You do not have any appointment groups to sign up for
+        {{/t}}
       </h2>
       <p>
-教师可以利用这一调度工具，安排学生注册。比如："上班时间"，"组演示时间"或"与聚会午餐"。
+        {{#t "scheduler_explanation_student_paragraph_1"}}
+          Teachers can use this scheduler tool to schedule things for their students to
+          sign up for.  Things like: "office hours", "group presentation time-slots" or "lunch with
+          an alumnus".
+        {{/t}}
       </p>
       <p>
-您的老师都没有布置任何考评作业，您可以注册，但目前没有任何考评作业。如果有人发布东西，您将会收到通知。
+        {{#t "scheduler_explanation_student_paragraph_2"}}
+          None of your teachers have made any appointments you can sign up for so there is not anything
+          for you do to now. You will be notified if anyone does create something so
+          you can come sign up for it.
+        {{/t}}
       </p>
     {{/if}}
   </div>
