@@ -1368,7 +1368,7 @@ zh-CN:
     calendar_app: 
       links: 
         calendar_month: 月
-        calendar_scheduler: 调度
+        calendar_scheduler: 预约
         calendar_week: 周
       refresh: 刷新
     cancel_appointment: "您确定要取消您跟%{name}的预约吗？"
@@ -3890,7 +3890,7 @@ zh-CN:
     entry: 
       loading: 载入中...
     entry_collection_view: 
-      add_reply_to_topic: 回覆主题
+      add_reply_to_topic: 回复主题
     entry_content: 
       authors_name: 作者的名字
       delete: 删除
@@ -3910,10 +3910,10 @@ zh-CN:
     reply_attachment: 
       remove_attachment: 清除
     reply_form: 
-      add_side_comment: 新增旁注...
-      attach_file: 附上
+      add_side_comment: 跟帖...
+      attach_file: 附件
       cancel: 取消
-      post_response: 上传响应
+      post_response: 上传
       write_a_reply: 写一个回复...
     uknown_author: 未知作者
     unknown_author: 匿名作者

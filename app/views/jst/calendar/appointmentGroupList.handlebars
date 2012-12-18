@@ -1,31 +1,31 @@
 {{#if appointment_groups}}
   <div class="scheduler-header">
-    <h2 id="appointment-group-list-header">我的预约组</h2>
-    <button class="button single_item_done_button">已完成, 返回列表</button>
+    <h2 id="appointment-group-list-header">{{#t "my_appointment_groups"}}My Appointment Groups{{/t}}</h2>
+    <button class="button single_item_done_button">{{#t "done"}}Done, Go Back To List{{/t}}</button>
   </div>
   <ul class="scheduler-content" id="appointment-group-list">
     {{#each appointment_groups}}
       <li class='appointment-group-item admin-link-hover-area {{#if requiring_action}}requiring-action{{/if}} {{#unless published}}unpublished-ag{{/unless}}' data-appointment-group-id='{{id}}'>
         {{#if is_manageable}}
           <div class="admin-links">
-            <button class="al-trigger ui-button"><span class="al-trigger-inner">操作</span></button>
+            <button class="al-trigger ui-button"><span class="al-trigger-inner">{{#t "manage"}}Manage{{/t}}</span></button>
             <ul class="al-options">
-              <li><a class="edit_link" href="#"><span class="ui-icon ui-icon-pencil" />修改</a></li>
-              <li><a class="message_link" href="#"><span class="ui-icon ui-icon-mail-closed" />{{#ifEqual participant_type "Group"}}消息组...{{else}}消息学生...{{/ifEqual}}</a></li>
-              <li><a class="delete_link" href="#"><span class="ui-icon ui-icon-trash" />删除</a></li>
+              <li><a class="edit_link" href="#"><span class="ui-icon ui-icon-pencil" />{{#t "edit"}}Edit{{/t}}</a></li>
+              <li><a class="message_link" href="#"><span class="ui-icon ui-icon-mail-closed" />{{#ifEqual participant_type "Group"}}{{#t "message_groups"}}Message Groups Who...{{/t}}{{else}}{{#t "message_students"}}Message Students Who...{{/t}}{{/ifEqual}}</a></li>
+                <li><a class="delete_link" href="#"><span class="ui-icon ui-icon-trash" />{{#t "delete"}}Delete{{/t}}</a></li>
             </ul>
           </div>
         {{/if}}
         {{#if requiring_action}}
           <div class="alert alert-warning">
             <div>
-              您可以 <a class="view_calendar_link" href="#">注册</a> 这个小组。
+              {{#t "you_can"}}You can{{/t}} <a class="view_calendar_link" href="#">{{#t "sign_up"}}sign up{{/t}}</a> {{#t "for_this"}}for this.{{/t}}
             </div>
           </div>
         {{else}}
           {{#if signed_up_times}}
             <div class="alert alert-success">
-              <div>您已经加入</div>
+              <div>{{#t "you_sign_up_for"}}You're signed up for{{/t}}</div>
               {{#each signed_up_times}}
                 <div><strong><a href="#" class="show_event_link" data-event-id="{{id}}">{{{formatted_time}}}</a></strong></div>
               {{/each}}
@@ -39,7 +39,7 @@
         </div>
         {{#if location_name}}
           <div class="ag-location">
-            <strong>地点：</strong>
+            <strong>{{#t "location"}}Location:{{/t}}</strong>
             <span>{{location_name}}</span>
           </div>
         {{/if}}
@@ -49,11 +49,15 @@
         {{#if is_manageable}}
           <div class="ag-x-of-x-signed-up">
             {{#ifEqual participant_type "Group"}}
-              {{signed_up}} 组已登记
+              {{#t "x_groups_have_signed_up"}}
+                {{signed_up}} groups have signed up
+              {{/t}}
             {{else}}
-              {{signed_up}} 人已登记
+              {{#t "x_people_have_signed_up"}}
+                {{signed_up}} people have signed up
+              {{/t}}
             {{/ifEqual}}
-            {{#unless published}}(未发布){{/unless}}
+            {{#unless published}}({{#t "unpublished"}}unpublished{{/t}}){{/unless}}
           </div>
         {{/if}}
       </li>

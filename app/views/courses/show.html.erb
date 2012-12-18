@@ -61,7 +61,7 @@
   <% elsif @course_home_view == 'syllabus' %>
     <%= render :partial => 'assignments/syllabus_right_side', :locals => {:course_home => true} %>
   <% else %>
-    <% locals = {:title => '将有', :display_count => 3, :period => '下周', :contexts_to_link_to => @context, :upcoming => true} %>
+    <% locals = {:title => t('coming_up', "Coming Up"), :display_count => 3, :period => t('period', "the next week"), :contexts_to_link_to => @context, :upcoming => true} %>
     <% if @current_user %>
       <% cache(safe_cache_key([@current_user, @contexts, 'course_upcoming_events' ])) do %>
         <%= render :partial => "shared/event_list", :object => @current_user.upcoming_events(:contexts => @contexts), :locals => locals %>

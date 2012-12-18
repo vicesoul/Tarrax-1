@@ -12,13 +12,13 @@
     <div class="hide-if-collapsed admin-links">
       <button class="al-trigger ui-button" data-event="openMenu"><span class="al-trigger-inner">{{#t "manage_discussion_entry"}}Manage Discussion Entry{{/t}}</span></button>
       <ul class="al-options">
-        <li><a href="#{{#if parent_cid}}{{parent_cid}}{{else}}content{{/if}}"><span class="ui-icon ui-icon-arrowreturnthick-1-w" />转到上一级</a></li>
+        <li><a href="#{{#if parent_cid}}{{parent_cid}}{{else}}content{{/if}}"><span class="ui-icon ui-icon-arrowreturnthick-1-w" />{{#t "go_to_parent"}}Go To Parent{{/t}}</a></li>
         {{#if canModerate}}
-          <li><a data-event="edit" href="#"><span class="ui-icon ui-icon-pencil" />编辑</a></li>
-          <li><a data-event="remove" href="#"><span class="ui-icon ui-icon-trash" />删除</a></li>
+          <li><a data-event="edit" href="#"><span class="ui-icon ui-icon-pencil" />{{#t "edit"}}Edit{{/t}}</a></li>
+          <li><a data-event="remove" href="#"><span class="ui-icon ui-icon-trash" />{{#t "delete"}}Delete{{/t}}</a></li>
         {{/if}}
         {{#if speedgraderUrl}}
-          <li><a href="{{speedgraderUrl}}"><span class="ui-icon ui-icon-check" />在评分器中打开</a></li>
+          <li><a href="{{speedgraderUrl}}"><span class="ui-icon ui-icon-check" />{{#t "open_in_speedgrader"}}Open in SpeedGrader{{/t}}</a></li>
         {{/if}}
       </ul>
     </div>

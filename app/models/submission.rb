@@ -769,7 +769,7 @@ class Submission < ActiveRecord::Base
     return nil unless grade
     case grading_type
       when 'points'
-        "#{grade} 满分 #{assignment.points_possible}" rescue grade.capitalize 
+        "#{grade} #{t('out_of', 'out of')} #{assignment.points_possible}" rescue grade.capitalize 
       else
         grade.capitalize
     end

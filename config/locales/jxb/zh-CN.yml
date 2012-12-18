@@ -20,7 +20,45 @@ zh-CN:
       undated_events: 未指定日期的活动
       loading_undated_events: 正在加载
       show_undated_events: 显示未指定日期的活动
+    appointment_group_list: 
+      done: 已完成, 返回列表
+      manage: 操作
+      edit: 修改
+      delete: 删除
+      you_can: 您可以
+      sign_up: 注册
+      for_this: "这个小组。"
+      you_sign_up_for: 您已经加入
+      unpublished: 未发布
   discussion_topics:
     edit_view:
       editor:
         switch_views: 切换视图
+    show:
+      jump_to_next_unread: 跳到下一个未读
+  users:
+    a_media_recording: "语音视频录制"
+    a_file_upload: "文件上传"
+    a_website_url: "网站URL"
+    a_text_entry_box: "文本输入"
+    a_discussion_post: "参与讨论"
+    a_quiz: "测试"
+  logic:
+    true_logic: 正确
+    false_logic: 错误
+  submission:
+    out_of: 满分
+  gradebook2:
+    total: 总计
+  rubrics:
+    index:
+      account: 网校
+  quizzes:
+    question_group:
+      pick: 挑选
+      questions: "题目,"
+      pts_per_question: 每个问题
+  courses:
+    show:
+      coming_up: 将有
+      period: 下周

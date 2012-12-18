@@ -268,9 +268,8 @@ class AssessmentQuestion < ActiveRecord::Base
           correct_answer = false
         end
       end
-      #TODO: need I18n
-      t = {:text => "正确", :comments => true_comments, :weight => (correct_answer ? 100 : 0), :id => true_id}
-      f = {:text => "错误", :comments => false_comments, :weight => (!correct_answer ? 100 : 0), :id => false_id}
+      t = {:text => t('#logic.true_logic', "True"), :comments => true_comments, :weight => (correct_answer ? 100 : 0), :id => true_id}
+      f = {:text => t('#logic.false_logic', "False"), :comments => false_comments, :weight => (!correct_answer ? 100 : 0), :id => false_id}
       question[:answers] << t
       question[:answers] << f
     elsif question[:question_type] == "short_answer_question"
