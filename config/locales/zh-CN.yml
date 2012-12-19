@@ -5060,7 +5060,7 @@ zh-CN:
       buttons: 
         save: 保存
         save_settings: 保存设置
-        submit_comment: 提交评论
+        submit_comment: 提交评语
       due_at: "到期日期 %{datetime}"
       gradebook: 
         mute_assignment: 屏蔽作业
