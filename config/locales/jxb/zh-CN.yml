@@ -2,46 +2,46 @@
 zh-CN: 
   calendar: 
     edit_appointment_group: 
-      have_students_sign_up_in_groups: "让学生加入这个小组。"
+      have_students_sign_up_in_groups: "让学生注册这个小组。"
       date: 日期
       time_range: 时间范围
       options: 选项
-      limit_each_time_slot_to: 限制每段时间对应
+      limit_each_time_slot_to: 限制每段时间
       groups: 小组
       users: 用户
       allow_students: "允许学生可以看见有谁一起参加。"
-      limit_participants: 限制参与者尝试
-      appointment: "次。"
+      limit_participants: 参与限制
+      appointment: "预约。"
       details: 详细描述
       split: 拆分
       into_slots_of: 成
       minutes_each: "分钟每组。"
     undated_events:
-      undated_events: 未指定日期的活动
-      loading_undated_events: 正在加载
-      show_undated_events: 显示未指定日期的活动
+      undated_events: 未指定日期的事项
+      loading_undated_events: 正在加载为指定日期的事项
+      show_undated_events: 显示未指定日期的事项
     appointment_group_list: 
       done: 已完成, 返回列表
-      manage: 操作
-      edit: 修改
+      manage: 管理
+      edit: 编辑
       delete: 删除
       you_can: 您可以
       sign_up: 注册
       for_this: "这个小组。"
-      you_sign_up_for: 您已经加入
+      you_sign_up_for: 您注册为
       unpublished: 未发布
   discussion_topics:
     edit_view:
       editor:
         switch_views: 切换视图
     show:
-      jump_to_next_unread: 跳到下一个未读
+      jump_to_next_unread: 到下一个未读
   users:
     a_media_recording: "语音视频录制"
     a_file_upload: "文件上传"
     a_website_url: "网站URL"
     a_text_entry_box: "文本输入"
-    a_discussion_post: "参与讨论"
+    a_discussion_post: "提交讨论"
     a_quiz: "测试"
   logic:
     true_logic: 正确
@@ -55,12 +55,20 @@ zh-CN:
       account: 网校
   quizzes:
     question_group:
-      pick: 挑选
-      questions: "题目,"
-      pts_per_question: 每个问题
+      pick: 选择
+      questions: "题目"
+      pts_per_question: 题目分数
   courses:
     show:
-      coming_up: 将有
-      period: 下周
+      coming_up: 最近
+      period: 期间
   jxb:
-    gradebook: 考评成绩
+    gradebook: 成绩
+  shared:
+    new_course_form:
+      make_course_publicly_visible: 允许公众可见
+      student_data_will_remain_private: 学生的数据保留私密
+  calendars:
+    show2:
+      instructions: 
+        ics_link: "复制以下链接并将其粘贴到提取 iCal 订阅的任何日历应用程序（Google Calendar、iCal、Outlook 等）"

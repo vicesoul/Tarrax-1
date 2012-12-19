@@ -38,8 +38,8 @@
     <div class="controls">
       <label class="checkbox">
         <%= f.check_box :is_public %>
-        Make course publicly visible
-        <div>(student data will remain private)</div>
+        <%= t('make_course_publicly_visible', 'Make course publicly visible') %>
+        <div>(<%= t('student_data_will_remain_private', 'student data will remain private') %>)</div>
       </label>
     </div>
   </div>
