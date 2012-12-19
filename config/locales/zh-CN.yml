@@ -4723,7 +4723,7 @@ zh-CN:
     assignment_muted: 作业屏蔽
     column_header: 
       assignment_options: 作业选项
-      points_out_of: "出于%{assignment.points_possible}"
+      points_out_of: "满分%{assignment.points_possible}"
       this_assignment_is_muted: 这项作业是屏蔽
     dropped_for_grading: 下拉为评分的目的
     errors: 
@@ -10410,8 +10410,8 @@ zh-CN:
       default: "%a, %d %b %Y %H:%M:%S %z"
       long: "%B %d, %Y %H:%M"
       short: "%d %b %H:%M"
-      tiny: "%l:%M%P"
-      tiny_on_the_hour: "%l%P"
+      tiny: "%k:%M"
+      tiny_on_the_hour: "%k"
     less_than_a_minute_ago: 不到一分钟前
     pm: 下午
     ranges: 
