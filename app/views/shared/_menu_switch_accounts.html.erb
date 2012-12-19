@@ -1,0 +1,8 @@
+<%= link_to t('links.associated_accounts', "Associated Accounts"), accounts_path, :class => 'menu-item-title' -%>
+<div class="menu-item-drop">
+  <table cellspacing="0">
+    <tr>
+      <%= render(:partial => "shared/menu_section", :locals => menu_switch_accounts_locals) %>
+    </tr>
+  </table>
+</div>

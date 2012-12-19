@@ -651,6 +651,19 @@ module ApplicationHelper
     }
   end
 
+  def menu_switch_accounts_locals
+    accounts = @current_user.associated_accounts.map(&:root_account).uniq
+    {
+      :collection => accounts,
+      :collection_size => accounts.size,
+      :partial => "shared/menu_account",
+      :max_to_show => 8,
+      #:more_link_for_over_max => accounts_path,
+      :title => t('#menu.associated_accounts', "Associated Accounts"),
+      #:link_text => raw(t('#layouts.menu.view_all_accounts', 'View all accounts'))
+    }
+  end
+
   def show_home_menu?
     @current_user.set_menu_data(session[:enrollment_uuid])
     [

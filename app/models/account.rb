@@ -1161,6 +1161,6 @@ class Account < ActiveRecord::Base
 
   # return root account's subdomain
   def subdomain
-    Subdomain.find_by_account_id(root_account.id) || 'www'
+    Subdomain.find_by_account_id(root_account.id).try(:subdomain) || 'www'
   end
 end
