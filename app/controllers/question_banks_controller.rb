@@ -18,7 +18,7 @@
 
 class QuestionBanksController < ApplicationController
   before_filter :require_context
-  add_crumb("Question Banks") { |c| c.send :named_context_url, c.instance_variable_get("@context"), :context_question_banks_url }
+  add_crumb( I18n.t('#jxb.question_banks', 'Question Banks') ) { |c| c.send :named_context_url, c.instance_variable_get("@context"), :context_question_banks_url }
   
   def index
     if @context == @current_user || authorized_action(@context, @current_user, :manage_assignments)

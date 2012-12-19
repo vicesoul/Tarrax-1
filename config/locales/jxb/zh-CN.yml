@@ -30,6 +30,12 @@ zh-CN:
       for_this: "这个小组。"
       you_sign_up_for: 您注册为
       unpublished: 未发布
+    edit_calendar_event:
+      buttons:
+        submit: 提交
+    edit_assignment:
+      buttons:
+        submit: 提交
   discussion_topics:
     edit_view:
       editor:
@@ -64,6 +70,7 @@ zh-CN:
       period: 期间
   jxb:
     gradebook: 成绩
+    question_banks: 题库
   shared:
     new_course_form:
       make_course_publicly_visible: 允许公众可见

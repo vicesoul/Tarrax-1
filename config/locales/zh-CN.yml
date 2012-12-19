@@ -6,8 +6,8 @@ zh-CN:
     and_n_sectionCodes: "和%{n}的其他"
     bad_max_appts: 您必须允许每个参与者至少一个预约
     bad_per_slot: 应让每个时段至少允许一个预约
-    context_required: 您需要选择一个日历
-    select_calendars: 选择日历
+    context_required: 您需要选择一个日历对象
+    select_calendars: 选择日历对象
   account: 
     default_account_name: 默认帐户
     default_site_administrator_account_name: "平台默认管理员\n"
@@ -377,7 +377,7 @@ zh-CN:
         modify_users: 返回编辑用户列表
       confirm_turnitin_settings_link: "确认 Turnitin 设置"
       create_courses_description: （网校管理员可随时创建课程）
-      create_courses_title: 谁可以创建新课程
+      create_courses_title: 谁可以新建课程
       custom_links_to_include_in_the_help_dialog_popup: 包括在帮助会话框弹出的自定义链接
       default_language_description: 这将覆盖所有浏览器/操作教学邦语言设置。首选的语言仍可在课程/用户级设置。
       delete: 删除
@@ -418,7 +418,7 @@ zh-CN:
         end_at: 结束
         equella: Equella
         equella_endpoint: "Equella 端点"
-        equella_teaser: "Equella 评论"
+        equella_teaser: "Equella 评语"
         global_includes: "全局 CSS/JavaScript 包含"
         global_javascript: "全局 JavaScript URL"
         global_stylesheet: "全局 CSS URL"
@@ -442,7 +442,7 @@ zh-CN:
         teachers_can_create_courses: 教师
         turnitin: Turnitin
         turnitin_account_id: "Turnitin 帐户 ID"
-        turnitin_comments: "Turnitin 提交评论"
+        turnitin_comments: "Turnitin 提交评语"
         turnitin_pledge: "Turnitin 保证"
         turnitin_shared_secret: "Turnitin 共享密钥"
         users_can_edit_name: 用户可以编辑显示名称
@@ -478,7 +478,7 @@ zh-CN:
       tab_external_tools: 外部工具
       tab_reports: 报告
       tab_settings: 维护设置
-      turnitin_comments_help: "这些评论在提交 Turnitin 启用的任务时显示给学生"
+      turnitin_comments_help: "这些评语在提交 Turnitin 启用的任务时显示给学生"
       turnitin_pledge_help: 学生必须勾选相关框以确认他们同意此保证
       turnitin_settings_title: "Turnitin 设置"
       update_settings_button: 更新设置
@@ -846,7 +846,7 @@ zh-CN:
         attendance: 参与
         discussion: 讨论
         external_tool: 外部工具
-        not_graded: 未评分
+        not_graded: 不评分
         quiz: 试题
       tooltips: 
         assignment_is_quiz: 此作业是一个试题，因此分数可能来自试题，无法手动设置。
@@ -918,7 +918,7 @@ zh-CN:
         past_assignments: 过去的作业
         undated_assignments: 未指定日期的作业
         ungraded_assignments: 还未评分的作业
-        upcoming_assignments: 将有的作业
+        upcoming_assignments: 最新的作业
     assignments_list_right_side: 
       links: 
         group_assignments_by_type: 按类型对作业组
@@ -927,7 +927,7 @@ zh-CN:
         see_current_grades: 查看我目前的评分
       titles: 
         show_only_assignments_from: 只显示下列来源的作业
-        upcoming_assignments: 即将到来的作业
+        upcoming_assignments: 最新的作业
     assignments_right_side: 
       add_assignment_to_group: "*添加作业*到 %{group}"
       assignment_groups_wrapper: "（%{number_of_groups} 中）"
@@ -962,13 +962,13 @@ zh-CN:
       resubmission_count: 
         one: "1 未评分的重复提交"
         other: "%{count}未评分的重复提交"
-      reupload_instructions: 如果在之前更改了下载的学生提交文件，只需将其压缩备份，然后使用下表上传压缩包。学生将在其提交评论中看到修改的文件。*确保不要更改提交文件的名称，以便我们能够识别。*
+      reupload_instructions: 如果在之前更改了下载的学生提交文件，只需将其压缩备份，然后使用下表上传压缩包。学生将在其提交评语中看到修改的文件。*确保不要更改提交文件的名称，以便我们能够识别。*
       titles: 
         submission: 提交文件
     graded: 此作业已评分
     group_comment: 
       labels: 
-        group_comment: 发送评论到全组
+        group_comment: 发送评语到全组
     group_name: 组名称
     group_submission_reminder: 
       warnings: 
@@ -1086,11 +1086,11 @@ zh-CN:
         submit: 提交作业
         view_rubric_evaluation: 查看评分评估
       messages: 
-        no_comments: 无评论
+        no_comments: 无评语
         submission_late_timestamp: "%{submitted_at}（延迟）"
       titles: 
         assigned_peer_reviews: 作业的同学检查
-        comments: "评论:"
+        comments: "评语:"
         submission: 提交
         submission_not_turned_in: 没有参加
         submission_turned_in: 进入!
@@ -1112,7 +1112,7 @@ zh-CN:
         online_text_entry: 在此复制并粘贴或键入您的提交。
         online_url: 复制并粘贴要为此作业提交的网站链接。
       labels: 
-        comment: 评论
+        comment: 评语
         uploaded_data: 文件
         url: "网站 URL"
       links: 
@@ -1182,7 +1182,7 @@ zh-CN:
           step2: 很好！现在输入详细信息。可以输入作业的标题、到期日期以及最高分数。如果还要执行其他操作，只有等到作业创建后。
           step3: "完成！作业已添加到组中！如果将鼠标放在作业上，将会看到许多选项。其含义如下:"
       links: 
-        create_assignment: 创建新作业
+        create_assignment: 新建作业
         create_assignment_group: 创建作业组
         create_or_import_quiz: 创建/导入测试
         edit_assignment_in_detail: 编辑作业详细信息
@@ -1345,7 +1345,7 @@ zh-CN:
     last_formula_row: 最后一个公式行将用于计算最终的答案
     sample_final_answer: 此值是该试题类型的典型最终答案
   calendar: 
-    appointment_group_deletion_details: 删除它也将删除任何已经登记了学生的预约。
+    appointment_group_deletion_details: 删除它也将删除学生的其它预约。
     appointment_group_list: 
       location: 地点：
       message_groups: 消息组......
@@ -1354,13 +1354,13 @@ zh-CN:
       scheduler_explanation_student_header: 您没有需要注册的预约组
       scheduler_explanation_student_paragraph_1: 教师可以利用这一调度工具，安排学生注册。比如："上班时间"，"组演示时间"或"与聚会午餐"。
       scheduler_explanation_student_paragraph_2: 您的老师都没有布置任何作业，您可以注册，但目前没有任何作业。如果有人发布东西，您将会收到通知。
-      scheduler_explanation_teacher_header: 您还没有创建任何预约组，没有可以签入
+      scheduler_explanation_teacher_header: 您还没有创建任何预约组，不可以预约
       scheduler_explanation_teacher_paragraph_1: 这是调度工具。您可以使用它为您的学生创建预约组。
       scheduler_explanation_teacher_paragraph_2: 例如，如果您要跟每个学生过期中作业。您将创建一个新的预约组，您指定可以的日期和时间，每15分为一时间段，每一个学生可以选择这个时间。
-      scheduler_explanation_teacher_paragraph_3: 学生将得到通知，看到他们需要签入的指定的时间段。他们可以在其它日历上看到有空的时间段。
+      scheduler_explanation_teacher_paragraph_3: 学生将得到通知，看到他们需要预约的指定的时间段。他们可以在其它日历上看到有空的时间段。
       scheduler_explanation_teacher_paragraph_4: "* 点击右边 \"创建预约组\" 按钮开始 *"
-      x_groups_have_signed_up: "%{signed_up}组已登记"
-      x_people_have_signed_up: "%{signed_up}人已登记"
+      x_groups_have_signed_up: "%{signed_up}组已预约"
+      x_people_have_signed_up: "%{signed_up}人已预约"
     buttons: 
       cancel: 取消
       send_message: 发送
@@ -1447,14 +1447,14 @@ zh-CN:
     message_participants: 
       all_groups: 所有组
       all_users: 所有用户
-      message_groups: 发消息到组
+      message_groups: 发送消息给
       message_label: 消息：
       message_students: 发消息给学生
-      registered_groups: 已签入组
-      registered_users: 已签入用户
+      registered_groups: 已预约组
+      registered_users: 已预约用户
       send_message_to: 发送消息到...
-      unregistered_groups: 那些还没有签入的组
-      unregistered_users: 那些还没有签入的用户
+      unregistered_groups: 那些还没有预约的组
+      unregistered_users: 那些还没有预约的用户
     messages_sent: 发送消息
     no_groups: 没找到组
     no_users: 没找到用户
@@ -1648,9 +1648,9 @@ zh-CN:
         i_would_like_to: 我要
       links: 
         change_date: 更改活动/作业的日期
-        create_assignment: 创建新作业
+        create_assignment: 新建作业
         delete: 删除活动/作业
-        new: 创建新活动
+        new: 新建活动
   canvas: 
     migration: 
       errors: 
@@ -1724,7 +1724,7 @@ zh-CN:
       links: 
         delete: 删除此协作
         edit: 编辑此协作
-        new: 创建新协作
+        new: 新建协作
       page_title: 协作
       started_by: "启动者*%{user}*，时间 %{at}"
       titles: 
@@ -1827,8 +1827,8 @@ zh-CN:
         type: 类型
       links: 
         advanced_settings: 管理高级设置...
-      new_conference_heading: 创建新会议
-      new_conference_link: 创建新会议
+      new_conference_heading: 新建会议
+      new_conference_link: 新建会议
       page_title: "Web 会议"
       title: "Web 会议"
     loading_urls_message: 正在加载，请稍候...
@@ -2239,7 +2239,7 @@ zh-CN:
           course_discussions: "课程讨论 Atom 订阅"
         start_collaboration: 创建协作
         start_conference: "创建Web 会议"
-        start_topic: 创建新主题
+        start_topic: 新建主题
       titles: 
         communication: 通信
     dashboard_conference: 
@@ -2312,7 +2312,7 @@ zh-CN:
         submitted: 已提交
     dashboard_submission_comment: 
       labels: 
-        group_comment: 发送评论到整个组
+        group_comment: 发送评语到整个组
     dashboard_topic: 
       delayed_posting: "此主题在 *%{date_time}* 之前对用户不可见"
       images: 
@@ -2772,7 +2772,7 @@ zh-CN:
       confirm: 
         delete_conversation: 您确定要删除您的这次谈话的副本吗？此操作不可撤消。
     crumbs: 
-      messages: 会话
+      messages: 消息
     enrollments_everyone: 每个人
     errors: 
       field_is_required: 必输字段
@@ -2782,7 +2782,7 @@ zh-CN:
       one: 1组
       other: "%{count}个组"
     headings: 
-      new_message: 新的消息
+      new_message: 新消息
     index: 
       add_recipients_instructions: 您加入会话的人将会看到所有之前的消息。
       inbox_actions: 
@@ -2833,8 +2833,8 @@ zh-CN:
       labels: 
         add_to_faculty_journal: 作为教学日志记录
         group_conversation: 组交流。参与者可以看到全部回复
-        message: 消息：
-        to: 到：
+        message: 内容：
+        to: 发给：
       links: 
         add_attachment: 粘贴
         media_comment: 录制
@@ -2851,7 +2851,7 @@ zh-CN:
     no_results: 没有找到结果
     not_applicable: "N / A"
     not_scored: 没有评分
-    notes_to_self: 独白
+    notes_to_self: 笔记
     other: 
       one: 1个其他
       other: "%{count}其他"
@@ -2917,7 +2917,7 @@ zh-CN:
       slide9: 幻灯片9
   course: 
     csv: 
-      comments: 评论
+      comments: 评语
       current_score: 当前分数
       final_grade: 最终评分
       final_score: 最终分数
@@ -3061,7 +3061,7 @@ zh-CN:
       due_at: "到期日期 %{date}"
       headings: 
         grade: "成绩 %{assignment}"
-        to_do: 待完成任务
+        to_do: 未及时完成作业
       images: 
         alt: 
           ignore: 忽略
@@ -3124,7 +3124,7 @@ zh-CN:
           form: "全部完成了吗?可以发布您的课程了！单击下面的按钮，正式发布课程！ 发布课程时会向所有课程用户发送电子邮件邀请，以便他们能够注册并开始学习该课程"
           not_registered: 本课程已被领受并准备就绪，但需要完成注册过程后才能发布。您应该收到了来自教学邦的电子邮件，其中包含完成该过程的链接。确保检查您的垃圾邮件箱。
         students: 您肯定对学生感兴趣。试想，没有学生参与的课程有什么趣味呢?
-        tas: 您可能要指定一些助教帮助您教授课程。助教可以帮助您批改学生作业、引导讨论以及更新到期日期和作业详细信息。
+        tas: 您可能要指定一些助教帮助您教课程。助教可以帮助您批改学生作业、引导讨论以及更新到期日期和作业详细信息。
       headings: 
         next_steps: 后续步骤
       links: 
@@ -3169,7 +3169,7 @@ zh-CN:
         future_enrollments: 未来参课
         my_courses: 我的课程
         past_enrollments: 以前的注册
-      start_new_course: 创建新课程
+      start_new_course: 新建课程
       titles: 
         courses: 课程
         rss: 
@@ -3224,7 +3224,7 @@ zh-CN:
       not_submitted: 未提交
       submission_score: "%{score} *满分 %{points_possible}*"
     recent_feedback: 
-      comments: "评论: %{count}"
+      comments: "评语: %{count}"
       labels: 
         due_date: 到期日期
       not_graded: 未评分
@@ -3331,7 +3331,7 @@ zh-CN:
           description: 太普通
         too_long_twitter_hashtag: 
           description: 太长
-        turnitin_comments: "Turnitin 提交评论"
+        turnitin_comments: "Turnitin 提交评语"
       language_overrides_preferences: 这将覆盖所有用户/教学邦语言首选项。建议只对外语课程使用此操作
       link_to_students_view: 
         link_student_action: "以下列表中选择学生名字，使课程的观察者 *%{name}* 可以绑定该学生。"
@@ -3384,7 +3384,7 @@ zh-CN:
         example: "#biology"
       too_long_twitter_hashtag: 
         example: "#san-fransisco-university-biology-100"
-      turnitin: "这些评论在提交 Turnitin 启用的任务时显示给学生"
+      turnitin: "这些评语在提交 Turnitin 启用的任务时显示给学生"
       unaccepted_invitations: "%{count} 个邀请未被接受。您可以单击用户名称以重新发送邀请。"
       user_view: 
         links: 
@@ -3420,7 +3420,7 @@ zh-CN:
         import: 导入课程内容
         reset: 重置课程内容
         stats: 课程统计
-        student_view: 学生视角
+        student_view: 学生视图
     show: 
       acting_as: "您正在使用此角色查看本课程:%{enrollment_type}。您只有适用于此角色用户的权限。"
       buttons: 
@@ -3576,7 +3576,7 @@ zh-CN:
     out_of_points_possible: " %{assignment.points_possible}"
   dashboard: 
     cancel: 取消
-    coming_up: 将有
+    coming_up: 最新
     create: 创建
     creating_course: 正创建课程
     creating_group: 正创建组
@@ -3624,11 +3624,11 @@ zh-CN:
       tomorrow: 明天
       yesterday: 昨天
     formats: 
-      default: "%Y-%m-%d"
-      long: "%B %d, %Y"
+      default: ! '%Y-%m-%d'
+      long: ! '%Y年%b%d日'
       medium: "%b %e, %Y"
       medium_month: "%B%Y"
-      short: "%b %e"
+      short: ! '%b%d日'
       short_month: "%B"
       weekday: "%A"
     month_names: 
@@ -3750,7 +3750,7 @@ zh-CN:
     confirm_delete_discussion_topic: 
       one: 您确定要删除这个讨论话题?
       other: "您确认要删除这些讨论话题 %{count} ?"
-    create_new_crumb: 创建新
+    create_new_crumb: 新建
     default_discussion_title: 没有主题
     deleted_topic_notice: 该主题已删除
     discussion_feed_title: "%{title} 讨论订阅"
@@ -3781,8 +3781,8 @@ zh-CN:
       edited_comment: "此评论被 %{user} 编辑。"
       labels: 
         attached_file: 附加的文件
-      make_side_comment: 编写侧评论...
-      reply_to_message: 编写侧评论
+      make_side_comment: 编写评论侧...
+      reply_to_message: 编写跟帖
       show_more_entries: 
         one: 显示再一个条目
         other: "显示再 %{count}个条目"
@@ -3801,7 +3801,7 @@ zh-CN:
       make_an_announcement: 发布一个公告
       make_an_announcement_caps: 发布一个公告
       make_sure_all_search_terms_are_spelled_correctly: 确保搜索项正确
-      new_discussion: 创建新讨论
+      new_discussion: 新建讨论
       rss_feed: "RSS feed"
       search_title_body_or_author: 搜索主题，正文，作者
       start_one_now: 创建一个新的
@@ -3837,7 +3837,7 @@ zh-CN:
       delete_current_message: 删除当前消息
       discussion_atom_feed_title: "讨论 Atom 订阅"
       discussion_podcast_feed_title: 讨论播客订阅
-      due: "由于%{date}"
+      due: "于%{date}"
       edit: 编辑
       edit_assignment_settings: 编辑作业设置
       edit_current_message: 编辑当前消息
@@ -4695,7 +4695,7 @@ zh-CN:
       assignment_groups: 作业组
       click_to_record: 单击麦克风录制您的评论
       dropped_assignment_no_total: 此作业将不会列入总分计算
-      hypothetical_score: 这是假设分数
+      hypothetical_score: 这是调整分数
       loading: 正在加载...
       turnitin_score: "Turnitin 相似分数 – 更多信息"
     tooltips: 
@@ -4887,12 +4887,12 @@ zh-CN:
     grade_summary: 
       assessment_by: "评估者 %{name}"
       buttons: 
-        show_what_if: "显示已保存的 \"假设\" 分数"
+        show_what_if: "显示已保存的 \"调整\" 分数"
       change_score_instructions: 单击任何分数并输入新值以查看该更改对总分的影响。
       click_to_change: 单击以测试不同分数
       comment_count: 
-        one: 1个评论
-        other: "%{count}评论"
+        one: 1个评语
+        other: "%{count}评语"
       faculty_journal: "%{user} 的教师日志"
       for_course: 课程
       headers: 
@@ -4924,7 +4924,7 @@ zh-CN:
       see_rubric_results: 查看规则答案
       see_scoring_details: 查看评分详细信息
       see_turnitin_results: "查看 Turnitin 答案"
-      student_mute_legend: 您的教师正在处理评分。当教师在处理评分时，评分和评论信息不可用。
+      student_mute_legend: 您的教师正在处理评分。当教师在处理评分时，评分和评语信息不可用。
       student_mute_notification: 教师正在进行评分
       submission_score: "*%{score}*满分 %{possible}"
       titles: 
@@ -4932,7 +4932,7 @@ zh-CN:
         turnitin_score: "Turnitin 相似分数 – 更多信息"
         view_rubric_evaluation: 查看规则评估
         view_scoring_details: 查看评分详细信息
-      view_comments: 查看评论和评分详细信息
+      view_comments: 查看评语和评分详细信息
     gradebook: 
       all_sections: 全部
       assignment_submitted_late: （延迟）
@@ -4962,12 +4962,12 @@ zh-CN:
         assignment_submitted: 已提交
         average_score: 平均分数
         choose_section: 要显示的学群(班级)
-        comments: 学生评论
-        grade: 考评成绩
-        group_comment: 发送评论到全组
+        comments: 学生评语
+        grade: 成绩
+        group_comment: 发送评语到全组
         high_score: 高分
         low_score: 低分
-        send_comment: 发送评论到学生
+        send_comment: 发送评语到学生
         sort_columns: 排序考评成绩列
         sort_rows: 排序考评成绩行
         total_submitted: 提交总数
@@ -4978,7 +4978,7 @@ zh-CN:
         manage: 管理作业组
       loading_submission: 正在加载提交文件详细信息...
       no_assignments: 尚未创建此课程的作业
-      no_comments: 无评论
+      no_comments: 无评语
       no_students: 没有学生注册此课程。
       out_of_points_possible: "*满分* %{points_possible}"
       overwrite: 覆盖已输入的评分
@@ -5074,7 +5074,7 @@ zh-CN:
         submission: 这名学生已提交作业
       keycode_descriptions: 
         change_grade: 更改成绩
-        leave_comment: 发表评论
+        leave_comment: 给出评语
         next_student: 下一个学生
         previous_student: 上一个学生
         use_rubric: 使用规则
@@ -5085,10 +5085,10 @@ zh-CN:
         previous_student: k
         use_rubric: r
       labels: 
-        add_comment: 添加评论
+        add_comment: 添加评语
         average: 平均
         grade: 成绩
-        group_comment: 发送评论到全组
+        group_comment: 发送评语到全组
         hide_names: "在 评分器 中隐藏学生姓名"
         show_assessment_by: 显示评估依据
         showing: 正在显示
@@ -5151,9 +5151,9 @@ zh-CN:
         submission_review: 此提交文件需要检查
     submissions_zip_upload: 
       comments_made: 
-        one: 1条评论
-        other: "%{count}发表的评论"
-      done: 完成！我们针对您上传的文件发表简短的评论，然后将其附加到每个用户的提交页面上。学生会收到已添加新评论的通知。
+        one: 1条评语
+        other: "%{count}发表的评语"
+      done: 完成！我们针对您上传的文件发表简短的评语，然后将其附加到每个用户的提交页面上。学生会收到已添加新评语的通知。
       failures: 有些文件我们不知道如何处理。它们尚未被添加到用户的提交页面。您可以查看左侧的列表。
       files_ignored: 
         one: 1文件被忽略
@@ -5165,7 +5165,7 @@ zh-CN:
       links: 
         back_to_assignment: 返回作业页面
         back_to_gradebook: "返回 考评成绩"
-      no_comments_added: 未添加评论
+      no_comments_added: 未添加评语
       renamed_file: "从 %{filename} 重命名"
       submissions_upload: "%{assignment} 提交上传"
     titles: 
@@ -5233,7 +5233,7 @@ zh-CN:
         name_for_groups: 组名称
         self_signup: 自行注册
       restricted_self_signup: 要求组成员在相同的学群(班级)中
-      self_signup_help_message: 您可以创建套组，让学生可以自己登记。学生仍限于只属于其中一个组，但这种方式的学生可以自己组织起来，而不需要老师做的工作组。您也可以要求该小组的成员均是相同的部分课程的一部分。记住，学生可以从一个组移动到另一个，所以当您的学生已经参与组后，您有可能想要禁用自我注册
+      self_signup_help_message: 您可以创建套组，让学生可以自己注册。学生仍限于只属于其中一个组，但这种方式的学生可以自己组织起来，而不需要老师做的工作组。您也可以要求该小组的成员均是相同的部分课程的一部分。记住，学生可以从一个组移动到另一个，所以当您的学生已经参与组后，您有可能想要禁用自我注册
       self_signup_help_tooltip: 什么是自行注册组?
     button: 
       create_category: 创建类别
@@ -5281,7 +5281,7 @@ zh-CN:
       groups_disabled: 此课程已禁用学生组织的组，因此您只能加入教师组织的组。
       headings: 
         available_groups: 可用组
-        new_group: 创建新组
+        new_group: 新建组
       labels: 
         name: 组名称
         restrictions_for_joining_groups: 加入
@@ -5375,7 +5375,7 @@ zh-CN:
       update_success: 组已成功更新。
       welcome: "欢迎加入组 %{group_name}！"
     show: 
-      coming_up: 将有
+      coming_up: 最新
       group_atom_feed: "组 Atom 订阅"
       new_announcement: 新公告
       next_week: 下周
@@ -5403,7 +5403,7 @@ zh-CN:
     include_a_link_to_a_screencast_or_screenshot_using_something_like_jing: 包括一个链接到一个截屏/截图使用像*JING*的东西。
     instructor_question: 向您的老师问一个试题
     instructor_question_sub: 试题被提交给您的老师
-    just_a_casual_question_comment_idea_suggestion: 只是一个偶然的试题，评论，想法，建议;
+    just_a_casual_question_comment_idea_suggestion: 只是一个随机的试题，评论，想法，建议;
     message: 消息
     message_will_be_sent_to_all_the_teachers_tas_in_the_course: "消息将被发送到所有的教师/ 助教"
     please_select_one: 请选择一个...
@@ -5613,7 +5613,7 @@ zh-CN:
     align_item: 调整项目
     align_to_outcome: 调整项目到此成果
     loading_more_results: 正在加载其他成果
-    no_comment: 无评论
+    no_comment: 无评语
     no_description: 无说明
     remove_outcome_alignment: 是否确定要删除此作业?
     this_outcome: 此成果
@@ -5940,14 +5940,14 @@ zh-CN:
       facebook: 
         group_signup: "组（%{group_category}）"
         individual_signup: 个人
-        instructions: 登记一个时段
+        instructions: 预约一个时段
         labels: 
           course: 课程
           dates: 日期（S）
           details: 预约详情
           signup_type: Signup类型
           slots_remaining: 有空时段
-        message: "\"%{appointment_name}\"时段现在开放登记。"
+        message: "\"%{appointment_name}\"时段现在开放预约。"
       sms: 
         message: "\"%{appointment_name}\" 已开放预约"
         more_info: "%{url} 更多信息"
@@ -5955,31 +5955,31 @@ zh-CN:
         message: "\"%{appointment_name}\" 在(%{dates})的时间段可以预约"
         subject: "可预约课程 (%{course}) \"%{appointment_name}\""
       twitter: 
-        message: "教学邦提醒 - 开放\"%{appointment_name}\"登记。"
+        message: "教学邦提醒 - 开放\"%{appointment_name}\"预约。"
     appointment_group_updated: 
       email: 
         group_signup: "组（%{group_category}）"
         individual_signup: 个人
-        instructions: "可以通过以下链接：%{link}登记时段"
+        instructions: "可以通过以下链接：%{link}预约时段"
         labels: 
           course: 课程
           dates: 日期（S）
           details: 预约详情
-          signup_type: 登记类型
+          signup_type: 预约类型
           slots_remaining: 有空时段
-        message: "有空时段已加入\"%{appointment_name}\"，现在可以登记。"
+        message: "有空时段已加入\"%{appointment_name}\"，现在可以预约。"
         subject: "预约\"%{appointment_name}\"已更新（%{course}）"
       facebook: 
         group_signup: "组（%{group_category}）"
         individual_signup: 个人
-        instructions: 登记一个空些时段
+        instructions: 预约一个空隙时段
         labels: 
           course: 课程
           dates: 日期（S）
           details: 预约详情
           signup_type: Signup类型
           slots_remaining: 有空时段
-        message: "空闲时段已加入\"%{appointment_name}\"可以登记。"
+        message: "空闲时段已加入\"%{appointment_name}\"可以预约。"
       sms: 
         message: "已加入新的预约时段 \"%{appointment_name}\"。"
         more_info: "更多信息 %{url} "
@@ -5999,8 +5999,8 @@ zh-CN:
           details: 预约详情
           group: 组
           slots_remaining: 可用的时隙
-        message: "%{user}已登记了\"%{appointment_name}\"。"
-        subject: "用户登记了\"%{appointment_name}\"（%{course}）"
+        message: "%{user}已预约了\"%{appointment_name}\"。"
+        subject: "用户预约了\"%{appointment_name}\"（%{course}）"
       facebook: 
         instructions: 查看预约
         labels: 
@@ -6011,12 +6011,12 @@ zh-CN:
           details: 预约详情
           group: 组
           slots_remaining: 可用的时隙
-        message: "%{user}已登记了\"%{appointment_name}\"。"
+        message: "%{user}已预约了\"%{appointment_name}\"。"
       sms: 
-        message: "%{user}已登记了\"%{appointment_name}\"。"
+        message: "%{user}已预约了\"%{appointment_name}\"。"
         more_info: "点击 %{url} 查看更多信息"
       twitter: 
-        message: "教学邦警报 - %{user}已登记了\"%{appointment_name}\"。"
+        message: "教学邦警报 - %{user}已预约了\"%{appointment_name}\"。"
     appointment_reserved_for_user: 
       email: 
         instructions: "不同时段在下面的链接：%{link}"
@@ -6028,8 +6028,8 @@ zh-CN:
           details: 预约详情
           group: 组
           slots_remaining: 可用的时隙
-        message: "%{user}已登记了\"%{appointment_name}\"。"
-        subject: "您已登记了\"%{appointment_name}\""
+        message: "%{user}已预约了\"%{appointment_name}\"。"
+        subject: "您已预约了\"%{appointment_name}\""
       facebook: 
         instructions: 不同时段
         labels: 
@@ -6040,15 +6040,15 @@ zh-CN:
           details: 预约详情
           group: 组
           slots_remaining: 可用的时隙
-        message: "%{user}已登记了\"%{appointment_name}\"。"
+        message: "%{user}已预约了\"%{appointment_name}\"。"
       sms: 
-        message: "您已经登记了\"%{appointment_name}\"。"
+        message: "您已经预约了\"%{appointment_name}\"。"
         more_info: "点击 %{url} 查看更多信息"
       summary: 
         message: "%{user} 已经预订 \"%{appointment_name}\" (%{date_and_time}). "
-        subject: "您已登记了\"%{appointment_name}\"（%{course}）"
+        subject: "您已预约了\"%{appointment_name}\"（%{course}）"
       twitter: 
-        message: "教学邦警报 - 您已登记了\"%{appointment_name}\"。"
+        message: "教学邦警报 - 您已预约了\"%{appointment_name}\"。"
     assignment_changed: 
       email: 
         body: "%{course} 的作业\"%{title}\"已更改。 单击此处查看作业: %{url}"
@@ -6229,12 +6229,12 @@ zh-CN:
         user_submitted: "教学邦 警报 - 最近提交文件:%{user_name}，%{assignment_name}"
     assignment_unmuted: 
       email: 
-        body: "您的教师已发布 %{title} 的评分更改和新评论。这些更改现在可查看。 您可在此处进行查看: %{url}"
+        body: "您的教师已发布 %{title} 的评分和新评语。这些更改现在可查看。 您可在此处进行查看: %{url}"
         subject: "作业取消屏蔽:%{title}，%{course}"
       sms: 
-        body: "您的教师已发布 %{title}，%{course} 的评分和评论。 更多信息请访问 %{website}"
+        body: "您的教师已发布 %{title}，%{course} 的评分和评语。 更多信息请访问 %{website}"
       summary: 
-        subject: "评分和评论已发布:%{title}，%{course}"
+        subject: "评分和评语已发布:%{title}，%{course}"
     collaboration_invitation: 
       email: 
         body: "您已被邀请协作文档 %{document} ( %{course_or_group})。该文档在 %{service} 中创建并通过您的电子邮件地址 %{email} 邀请您。 如果针对此类型协作的电子邮件地址错误，您将需要 更改个人资料设置或向 %{service} 注册。 您可在此处查看详细信息: %{link}"
@@ -6536,7 +6536,7 @@ zh-CN:
         subject: "%{group_name} 刚刚提交其作业（最近） %{assignment_name}"
       summary: 
         body: "组 %{group_name} 已提交课程 %{course_name} 中 %{assignment_name} 的最近提交文件。"
-        subject: "最近作业:%{group_name}，%{assignment_name}"
+        subject: "最新作业:%{group_name}，%{assignment_name}"
       twitter: 
         subject: "教学邦 警报 - 最近组提交文件:%{group_name}，%{assignment_name}"
     group_membership_accepted: 
@@ -6890,40 +6890,40 @@ zh-CN:
         tweet: "教学邦 警报 - 新评估:%{title}，%{context}。"
     submission_comment: 
       email: 
-        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评论"
+        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评语"
         link_message: "您可在此处检查提交文件的详细信息:"
         someone: 某人
-        subject: "提交评论:%{user}，%{assignment}，%{context}"
+        subject: "提交评语:%{user}，%{assignment}，%{context}"
       facebook: 
-        body: "*%{author}* 刚刚对 **%{user} 的 %{assignment}** 的提交文件进行了新评论。"
+        body: "*%{author}* 刚刚对 **%{user} 的 %{assignment}** 的提交文件进行了新评语。"
         someone: 某人
       sms: 
-        body: "%{author} 针对 %{assignment}，%{user}，%{context} 的新评论。"
+        body: "%{author} 针对 %{assignment}，%{user}，%{context} 的新评语。"
         more_info: "更多信息请访问 %{url}"
       summary: 
-        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评论。"
+        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评语。"
         someone: 某人
-        subject: "提交评论:%{user}，%{assignment}，%{context}"
+        subject: "提交评语:%{user}，%{assignment}，%{context}"
       twitter: 
-        tweet: "教学邦 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
+        tweet: "教学邦 警报 - 评语:%{author}（%{assignment}，%{user}，%{context}）。"
     submission_comment_for_teacher: 
       email: 
-        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评论。"
+        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评语。"
         link_message: "您可在此处检查提交文件的详细信息:"
         someone: 某人
-        subject: "提交评论:%{user}，%{assignment}，%{context}"
+        subject: "提交评语:%{user}，%{assignment}，%{context}"
       facebook: 
-        body: "*%{author}* 刚刚对 **%{user} 的 %{assignment}** 的提交文件进行了新评论。"
+        body: "*%{author}* 刚刚对 **%{user} 的 %{assignment}** 的提交文件进行了新评语。"
         someone: 某人
       sms: 
         more_info: "更多信息请访问 %{url}"
-        sms_body: "%{author} 针对 %{assignment}，%{user}，%{context} 的新评论。"
+        sms_body: "%{author} 针对 %{assignment}，%{user}，%{context} 的新评语。"
       summary: 
-        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评论。"
+        body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评语。"
         someone: 某人
-        subject: "提交评论:%{user}，%{assignment}，%{context}"
+        subject: "提交评语:%{user}，%{assignment}，%{context}"
       twitter: 
-        tweet: "教学邦 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
+        tweet: "教学邦 警报 - 评语:%{author}（%{assignment}，%{user}，%{context}）。"
     submission_grade_changed: 
       email: 
         body: "您的作业 %{assignment_title} 的评分已更改。"
@@ -7054,7 +7054,7 @@ zh-CN:
     score_change_notifications: 分数更改通知
     see_grade: 其作业的评分
     students_will_see: 学生将能够看到此作业已屏蔽。
-    submission_comments: 提交评论
+    submission_comments: 提交评语
     sure_you_want_to_mute: "是否确定要屏蔽此作业?此作业屏蔽时，学生将不会收到关于以下内容的新通知或无法看到:"
   not_applicable: 不适用
   notification: 
@@ -7062,7 +7062,7 @@ zh-CN:
     added_to_conversation_display: 添加到交流区
     alert_description: 警告通知
     alert_display: 警告
-    all_submissions_description: 有关您所教授的课程中的所有作业提交文件
+    all_submissions_description: 有关您所教的课程中的所有作业提交文件
     all_submissions_display: 全部提交作业
     announcement_description: 有关新公告
     announcement_display: 公告
@@ -7071,7 +7071,7 @@ zh-CN:
     appointment_cancelations_description: 对于取消预约
     appointment_cancelations_display: 取消预约
     appointment_signups_description: 为您的新预约
-    appointment_signups_display: 预约登记
+    appointment_signups_display: 预约
     calendar_description: 有关日历更改
     calendar_display: 日历
     categories: 
@@ -7096,7 +7096,7 @@ zh-CN:
       registration: 注册
       reminder: 提醒
       student_appointment_signups: 学生预约注册等;
-      submission_comment: 提交评论
+      submission_comment: 提交评语
     conversation_message_description: 有关新会话消息
     conversation_message_display: 消息
     course_content_description: 有关课程页面的更改
@@ -7184,22 +7184,22 @@ zh-CN:
       rubric_assessment_invitation: 规则评估邀请
       rubric_assessment_submission_reminder: 规则评估提交文件提醒
       rubric_association_created: 创建的规则关联
-      submission_comment: 提交评论
-      submission_comment_for_teacher: 教师提交评论
+      submission_comment: 提交评语
+      submission_comment_for_teacher: 教师提交评语
       submission_grade_changed: 提交文件评分已更改
       submission_graded: 提交文件已评分
       summaries: 总结
       updated_wiki_page: 更新的维基页面
       web_conference_invitation: "Web 会议邀请"
-    no_comments: 无评论
+    no_comments: 无评语
     no_subject: 无主题
     other_description: 有关任何其他通知
     other_display: 管理的通知
     reminder_description: 提醒消息
     reminder_display: 提醒
     student_appointment_description: 为学生预约注册和取消
-    student_appointment_display: 学生预约登记
-    submission_comment_description: 有关作业提交文件的评论
+    student_appointment_display: 学生预约
+    submission_comment_description: 有关作业提交文件的评语
     submission_comment_display: 作业评注
     submission_new_as_read: 对新评注标记为已读
   notification_preferences: 
@@ -7344,7 +7344,7 @@ zh-CN:
     default_user_name: 匿名
   page_comments: 
     errors: 
-      create_failed: 评论创建失败
+      create_failed: 评语创建失败
   page_view: 
     default_user_name: 未知用户
     insignificant_duration: "--"
@@ -7610,7 +7610,7 @@ zh-CN:
         parallelism: "用于处理并行 SIS 导入的工作处理器数"
         queue_for_parallel_jobs: 用于并行工作的工作队列（默认为空）
     tinychat: 
-      description: "Tinychat 聊天室"
+      description: " 聊天室"
       name: Tinychat
     tinychat_settings: 
       description: "您将需要注册 [Tinychat 上的新应用程序](%{tinychat_url})。 记下您的应用程序的\"公钥\"和\"加密密钥\"值。"
@@ -8203,7 +8203,7 @@ zh-CN:
       only_n_valid_combinations: 
         one: 系统只能产生1给定参数的有效结合
         other: "系统只能生成%{count}个给定参数的有效组合"
-    answer_comments: 答案评论
+    answer_comments: 答案提示
     answer_text: 答案文本
     buttons: 
       add_selected_questions: 添加所选试题
@@ -8353,7 +8353,7 @@ zh-CN:
         create_update_question: 创建/更新试题
         generate: 生成
         recompute: 重新计算
-      correct_answer_comments: 正确答案评论
+      correct_answer_comments: 正确答案提示
       distractor_instructions: 在其自己的行中键入每个错误选项
       equation_example: "即\"5 加 [x] 等于多少?\""
       explanation: 
@@ -8375,7 +8375,7 @@ zh-CN:
         text_only: 此"试题"将不会评分，但在引入一组相关试题时非常有用。
         true_false: "输入您的试题文本，然后选择 True 或 False 作为正确答案。"
         variable_definitions: 一旦您输入上述变量后，应看到这些变量在此处列出。您可以指定下面每个变量可能的值范围。
-      general_answer_comments: 一般答案评论
+      general_answer_comments: 一般答案提示
       headers: 
         formula_definition: 公式定义
         generate_possible_solutions: 生成可能的解
@@ -8418,7 +8418,7 @@ zh-CN:
         click_to_enter_correct_answer_comments: 单击对正确答案输入评论
         click_to_enter_general_answer_comments: 单击以输入一般评论
         click_to_enter_wrong_answer_comments: 单击对错误答案输入评论
-      wrong_answer_comments: 错误答案评论
+      wrong_answer_comments: 错误答案提示
     helpers: 
       duration_in_minutes: 
         one: "1 分钟"
@@ -8437,8 +8437,8 @@ zh-CN:
       headers: 
         quiz_submissions: 测试提交
         survey_submissions: 调查提交
-      latest_quiz_results: "以下是 %{user} 的最新测试成果。您可以修改任何问题的分数和添加更多评论，然后单击页面底部的\"更新分数\"。"
-      latest_survey_results: "以下是 %{user} 的最新调查成果。您可以修改任何问题的分数和添加更多评论，然后单击页面底部的\"更新分数\"。"
+      latest_quiz_results: "以下是 %{user} 的最新测试成果。您可以修改任何问题的分数和添加更多评语，然后单击页面底部的\"更新分数\"。"
+      latest_survey_results: "以下是 %{user} 的最新调查成果。您可以修改任何问题的分数和添加更多评语，然后单击页面底部的\"更新分数\"。"
       links: 
         back_to_quiz: 返回测试
         back_to_survey: 返回调查
@@ -8475,7 +8475,7 @@ zh-CN:
       labels: 
         publish_multiple_quizzes: 选择您想要在此时发布的测试
       links: 
-        create_new_quiz: 创建新测试
+        create_new_quiz: 新建测试
         manage_question_banks: 管理题库
         publish_multiple_quizzes: 发布多个测试
       no_quizzes: 没有可用的测试
@@ -8578,7 +8578,7 @@ zh-CN:
       graded_quiz: 评分测试
       graded_survey: 评分调查
       headers: 
-        create_new_quiz: 创建新测试
+        create_new_quiz: 新建测试
         edit_quiz: 编辑测试
         ip_filters: "什么是测试 IP 过滤器?"
         link_to_content: 链接至内容
@@ -8587,8 +8587,8 @@ zh-CN:
         question_detail_disabled: "注意：当问题数超过 %{question_count} 个时，不能维护问题明细"
         quiz_score: 一旦进行调查，学生将自动获得满分
       ip_filters: "可以使用测试 IP 过滤器，只允许指定 IP 范围的计算机访问测试。过滤器可以是逗号分隔的地址列表，或者地址后面接掩码（\"192.168.217.1\"、\"192.168.217.1/24\"或\"192.168.217.1/255.255.255.0\"）。"
-      keep_highest: 最高
-      keep_latest: 最新
+      keep_highest: 保留高分那次
+      keep_latest: 保留最后一次
       labels: 
         allow_multiple_attempts: 允许多次尝试
         anonymous_submissions: 提交文件保持匿名
@@ -8614,7 +8614,7 @@ zh-CN:
         score_to_keep: 要保留的测试分数
         show_correct_answers: 显示正确答案
         show_question_details: 显示试题详细信息
-        shuffle_answers: 混淆答案
+        shuffle_answers: 答案顺序随机
         time_limit: 时间限制
         time_limit_minutes: 分钟
       links: 
@@ -8670,7 +8670,7 @@ zh-CN:
       attempts: 
         one: 1次尝试
         other: "%{count}次尝试"
-      empty_response: 空响应
+      empty_response: 无回答
       labels: 
         other_answers: 其他答案
       no_data: 无数据
@@ -8785,7 +8785,7 @@ zh-CN:
         quiz_time_limit: 时间限制
         survey_details: 调查详细信息
       links: 
-        resume_quiz: 继续测试
+        resume_quiz: 进行测试
         resume_survey: 继续调查
       no_details: 无详细信息
       points_possible: "%{points_possible} 最高分"
@@ -8866,7 +8866,7 @@ zh-CN:
         moderate_this_quiz: 调整测试次数
         moderate_this_survey: 调整此调查
         quiz_statistics: 测试统计
-        resume_quiz: 继续测试
+        resume_quiz: 进行测试
         resume_survey: 继续调查
         see_full_quiz: 查看完整测试
         show_assignment_rubric: 显示作业规则
@@ -8877,7 +8877,7 @@ zh-CN:
         take_the_quiz_again: 再次进行测试
         take_the_survey: 进行调查
         take_the_survey_again: 再次进行调查
-      only_registered_users: 只有注册的登记用户才能进行评分测试
+      only_registered_users: 只有注册的用户才能进行评分测试
       points_possible: 
         one: 1分
         other: "%{count}分"
@@ -9099,7 +9099,7 @@ zh-CN:
     permissions: 
       become_user: 成为其他用户
       change_course_state: 更改课程状态
-      comment_on_others_submissions: 查看所有学生的提交文件并对其进行评论
+      comment_on_others_submissions: 查看所有学生的提交文件并对其进行评语
       create_collaborations: 创建学生协作
       create_conferences: "创建 Web 会议"
       manage_account_memberships: 添加/删除帐户的其他管理员
@@ -9359,7 +9359,7 @@ zh-CN:
     buttons: 
       add_item: 添加项目
     errors: 
-      failed_to_create_item: 无法创建新项目
+      failed_to_create_item: 无法新建项目
       loading_failed: 加载失败
     invalid_lti_resource_selection: 从外部工具检索有效链接时出现试题
     link_from_external_tool: 从外部工具链接资源
@@ -9758,7 +9758,7 @@ zh-CN:
       mute_dialog: |-
           是否确定要屏蔽此作业?此作业屏蔽 时，学生将不会收到关于以下内容新通知或无法 看到:
           * 评分更改通知
-          * 提交评论
+          * 提交评语
           * 曲线作业
           * 分数更改通知
           学生将能够看到此作业已屏蔽。一旦您取消屏蔽此作业，即可通过单击取消 "屏蔽作业" 链接再次开始发送通知。
@@ -9827,7 +9827,7 @@ zh-CN:
         points: 分
         ratings: 评分
       labels: 
-        custom_rating: 评估学生时，我会撰写自由格式的评论
+        custom_rating: 评估学生时，我会撰写自由格式的评语
         grading_rubric: 使用此规则进行作业评分
         title: 标题
         total_points: 总分
@@ -9853,14 +9853,14 @@ zh-CN:
       defaults: 
         description: 标准说明
       description: 
-        custom_comments_area: 此区域将供评估人员留下有关此标准的评论。
+        custom_comments_area: 此区域将供评估人员留下有关此标准的评语。
       full_marks: 满分
-      instructor_comments: 老师评论
+      instructor_comments: 老师评语
       labels: 
-        save_criterion_for_reuse: 保存此评论供重复使用
+        save_criterion_for_reuse: 保存此评语供重复使用
         threshold: 阈值
       links: 
-        additional_comments: 其他评论
+        additional_comments: 其他评语
         view_longer_description: 查看详细说明
       no_marks: 无分数
       options: 
@@ -9871,10 +9871,10 @@ zh-CN:
         linked_to_learning_outcome: 此标准已链接至学习成果
     rubric_criterion_dialog: 
       buttons: 
-        update_comments: 更新评论
+        update_comments: 更新评语
         update_description: 更新说明
       labels: 
-        additional_comments: 其他评论
+        additional_comments: 其他评语
     rubric_dialog: 
       buttons: 
         use_this_rubric: 使用此规则
@@ -9906,7 +9906,7 @@ zh-CN:
       no_marks: 无分数
       out_of_points: "%{points}/%{total} 分"
       titles: 
-        full_comments: 单击以查看完整评论
+        full_comments: 单击以查看完整评语
         linked_to_learning_outcome: 这个评分标准与学习成绩关联
     select_content_dialog: 
       add_to_module: "添加 %{item} 到 *模块*"
@@ -9964,7 +9964,7 @@ zh-CN:
     submission_comment: 
       assignment: 作业
       grading_alt: 评分
-      submission_comment: 提交评论
+      submission_comment: 提交评语
     turnitin_settings: 
       buttons: 
         update_settings: 更新设置
@@ -10219,16 +10219,16 @@ zh-CN:
     online_text_entry_see_details_in_the_speedgrader: "在线文本输入，*请参阅 评分器 中的详细信息*。"
     submitted_files: "提交的文件:"
   submission_details_dialog: 
-    add_a_comment: 添加评论
-    comments: 评论
+    add_a_comment: 添加评语
+    comments: 评语
     labels: 
-      group_comment: 发送评论到整个组
+      group_comment: 发送评语到整个组
     late: 延迟
     links: 
       click_to_view: 单击此处查看
-    loading_comments: 正在加载评论...
+    loading_comments: 正在加载评语...
     more_details_in_the_speedgrader: "评分器 中的更多详细信息"
-    post_comment: 发表评论
+    post_comment: 发布评语
     submitted: 已提交
     this_was_submitted_multiple_times_choose_a_submission_to_view: "已提交多次，选择要查看哪个提交:"
     view_rubric_assessment_in_the_speedgrader: "在 评分器 中查看规则评估"
@@ -10256,11 +10256,11 @@ zh-CN:
       attach_file: 附加文件
       buttons: 
         save: 保存
-        save_comment: 保存评论
+        save_comment: 保存评语
       crumbs: 
         assignments: 作业
       labels: 
-        add_a_comment: 添加评论
+        add_a_comment: 添加评语
         grade: 评分
         show_assessment_by: 显示评估依据
       late_submission: （延迟）
@@ -10270,21 +10270,21 @@ zh-CN:
       media_comment: 语音视频
       media_comment_link: 这是一个语音视频，*单击此处查看*。
       only_see_your_own_comments_muted: 因老师正在对你的作业进行评分，你不能看到全部评注
-      only_see_your_own_comments_peer: 作为交叉审阅学生，您只能看到自己的评论
+      only_see_your_own_comments_peer: 作为交叉审阅学生，您只能看到自己的评语
       options: 
         new_assessment: "[新评估]"
       out_of_points: "满分 %{points_possible}"
       peer_review: 同学检查
-      peer_review_not_done: "**此同学检查尚未完成。**要使其被视为已完成，您需要至少留下一个评论。"
-      peer_review_not_done_rubric: "**此同学检查尚未完成。**要使其被视为已完成，您需要至少留下一个评论并填写右侧的规则表单。"
+      peer_review_not_done: "**此同学检查尚未完成。**要使其被视为已完成，您需要至少留下一个评语。"
+      peer_review_not_done_rubric: "**此同学检查尚未完成。**要使其被视为已完成，您需要至少留下一个评语并填写右侧的规则表单。"
       peer_review_steps_complete: 您已完成此同学检查所需的步骤。
-      sent_to_whole_group: 发送评论到全组
+      sent_to_whole_group: 发送评语到全组
       show_rubric: 显示规则
       speedgrader: 评分器?
       student_mute_notification: 评分不可用，原因是教师正在进行处理。
       submission_details: 提交详细信息
       submitted_at: "提交时间 %{submit_date}"
-      teachers_notified_of_comments: 将通知教师和提交者所有评论
+      teachers_notified_of_comments: 将通知教师和提交者所有评语
     show_preview: 
       discussion_submission_description: "此作业的提交文件在作业的讨论中发布。下面是 %{user} 的讨论发布，或者您可以 *查看完整讨论* 。"
       entry_no_image: 请记住，此页面自最初进行提交后可能已更改。
@@ -10407,9 +10407,9 @@ zh-CN:
     due_date: "%{date}，%{time} 之前"
     event: "%{date} %{time}"
     formats: 
-      default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%B %d, %Y %H:%M"
-      short: "%d %b %H:%M"
+      default: ! '%Y年%b%d日 %A %H:%M:%S %Z'
+      long: ! '%Y年%b%d日 %H:%M'
+      short: ! '%b%d日 %H:%M'
       tiny: "%k:%M"
       tiny_on_the_hour: "%k"
     less_than_a_minute_ago: 不到一分钟前
@@ -10548,7 +10548,7 @@ zh-CN:
       labels: 
         title: 标题
       links: 
-        create_new_entry: 创建新条目
+        create_new_entry: 新建条目
       messages: 
         no_entries: 没有此学生的日志条目。
       page_title: 教师日志
@@ -10691,7 +10691,7 @@ zh-CN:
       course: 课程
       crumbs: 
         grades: 评分
-      current_teacher_courses: 我教授的课程
+      current_teacher_courses: 我教的课程
       linked_student_accounts: 链接的学生帐户
       links: 
         teacher_activity: 学生互动报告
@@ -10808,7 +10808,7 @@ zh-CN:
         license: 课程内容许可
         name: 输入课程名称
       new_course: 增加新课程
-      start_a_group: 创建新组
+      start_a_group: 新建组
       student_data_privacy: 学时数据不公开
       user_atom_feed: "用户 Atom Feed （所有课程）"
       user_dashboard: 用户面板
@@ -10874,13 +10874,13 @@ zh-CN:
     twitter_added: "Twitter 访问已授权！"
     twitter_fail_whale: "Twitter 授权失败。请重试"
     user_dashboard: 
-      coming_up: 将有
+      coming_up: 最新的作业
       information: 信息
       no_courses_message: 您没有任何课程，因此此页面现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
       pending_invitations: 待邀请
       pending_invitations_link: "您已经被邀请加入%{count}课程。到您的*课程表*查看。"
       recent_feedback: 近期更新
-      start_new_course: 创建新课程
+      start_new_course: 新建课程
       user_atom_feed: "用户 Atom 订阅（所有课程）"
       user_dashboard: 用户面板
       welcome_to_happiness: "欢迎使用 教学邦！"
@@ -11022,7 +11022,7 @@ zh-CN:
       labels: 
         title: 新页面标题
       links: 
-        create_page: 创建新页面
+        create_page: 新建页面
         delete_page: 删除此页面
         edit_page: 编辑此页面
         more: 更多...
