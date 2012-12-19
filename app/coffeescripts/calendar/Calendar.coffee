@@ -56,6 +56,7 @@ define [
       """
 
       fullCalendarParams = _.defaults(
+        timeFormat: 'H:mm'
         header:
           left:   'prev,today,next,title'
           center: ''
