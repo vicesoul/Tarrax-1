@@ -826,12 +826,12 @@ zh-CN:
       deleted: 此组已删除
       updated: 作业组已成功更新。
   assignment_muter: 
-    mute_assignment: 屏蔽作业
-    muting_assignment: 正在屏蔽作业...
-    unmute_assignment: 正在屏蔽作业...
-    unmute_button: 正在屏蔽作业...
+    mute_assignment: 屏蔽作业变更通知
+    muting_assignment: 正在屏蔽作业变更通知...
+    unmute_assignment: 正在屏蔽作业变更通知...
+    unmute_button: 正在屏蔽作业变更通知...
     unmute_dialog: 这项作业是当前屏蔽。这意味着学生不能看到自己的成绩和反馈。您想现在解除屏蔽吗？
-    unmuting_assignment: 正解除屏蔽作业作业…
+    unmuting_assignment: 正解除屏蔽作业变更通知作业…
   assignments: 
     add_assignment_form: 
       assignment_name: 作业名称
@@ -918,7 +918,7 @@ zh-CN:
         past_assignments: 过去的作业
         undated_assignments: 未指定日期的作业
         ungraded_assignments: 还未评分的作业
-        upcoming_assignments: 最新的作业
+        upcoming_assignments: 最新的任务
     assignments_list_right_side: 
       links: 
         group_assignments_by_type: 按类型对作业组
@@ -927,7 +927,7 @@ zh-CN:
         see_current_grades: 查看我目前的评分
       titles: 
         show_only_assignments_from: 只显示下列来源的作业
-        upcoming_assignments: 最新的作业
+        upcoming_assignments: 最新的任务
     assignments_right_side: 
       add_assignment_to_group: "*添加作业*到 %{group}"
       assignment_groups_wrapper: "（%{number_of_groups} 中）"
@@ -1399,13 +1399,13 @@ zh-CN:
       users: 用户。
     edit_assignment: 
       calendar: 日历：
-      due: 截止日期：
+      due: 到期日期：
       group: 组：
       links: 
         more_options: 更多选项
       title: 标题：
     edit_calendar_event: 
-      calendar: 日历：
+      calendar: 日历对象：
       date: 日期：
       from: 从：
       links: 
@@ -1735,7 +1735,7 @@ zh-CN:
       saved_successfully: 保存成功
   coming_up_item_view: 
     assignment: 
-      assignment_due: 积分作业到期日
+      assignment_due: 作业到期日
     event: 
       event: 事项
   communication_channel: 
@@ -1745,49 +1745,49 @@ zh-CN:
   communication_channels: 
     confirm: 
       buttons: 
-        add_email_address: 添加电子邮件地址
+        add_email_address: 添加电子邮件
         back: 返回
         continue: 继续
-        create_account: 用这个邮箱创建一个新帐户
-        have_account: 用我已有教学邦帐户登录
+        create_account: 注册新账号
+        have_account: 用已有账号登录
         login_as: "登录为 %{invited_user}"
         merge: 合并
         new_account: 不需要
         ? "no"
         : 不需要
         register: 注册
-        transfer_enrollment: 转移参课
+        transfer_enrollment: 课程邀请转给正登录账号
         ? "yes"
         : 是
       details: 
         account_exists: "已经有一个用户关联了这个 %{email}.\n\
             **您是 %{name}本人吗?** "
-        account_needed: "您已获邀请参加课程 **%{course}** .要接受此请求，您需要有教学邦帐户。单击下面的链接可以创建一个新教学邦帐户。"
-        add_email: 是否要将此电子邮件地址合并到您目前登录的帐户?
+        account_needed: "在使用课程 **%{course}** 之前,您需有教学邦账号. 如果您本人在此之前从未使用过教学邦，请选择注册新帐号。"
+        add_email: 是否要将此电子邮件地址合并到您目前登录的帐号?
         choose_login: 选择要登录的位置。
-        logged_in_other_user: "**%{email}** 是发送邀请的邮箱，而您目前正在用另一个邮箱账户 **%{user}** 登录。"
+        logged_in_other_user: "**%{email}** 是接受邀请的邮箱，而您目前正在用另一个邮箱账户 **%{user}** 登录。"
         logged_in_other_user_course: "课程 %{course} 的邀请是发送到邮箱账户 **%{email}**，而您目前正在登录的账户是 **%{user}**。"
         merge_multiple: "选择要与 **%{current_user}** 合并的帐户。"
         merge_one: "是否要合并 **%{current_user}** 与 **%{other_user}**?"
-        multiple_accounts_course: "已经有 %{count} 个关联这个EMAIL 邮箱"
-        none_of_these: 没有这些，我是一个新用户
-        register: 要完成注册，需要更多信息。
-        register_with_course: "要完成对课程 **%{course}** 的注册，需要更多信息。"
-        wrong_account: "课程 %{course} 的邀请是发送给 **%{invited_user}**，您目前正在登录的账户为 **%{current_user}**"
+        multiple_accounts_course: "已经有以下 %{count} 个用户关联了这个邮箱"
+        none_of_these: 以上都不是，我需要注新用户
+        register: 需要完成注册
+        register_with_course: "要完成对课程 **%{course}** 的注册，请输入以下信息。"
+        wrong_account: "课程 %{course} 的邀请是发送给 **%{invited_user}**，但您目前正在登录的账号为 **%{current_user}**"
       labels: 
         password: 密码
-        subscribe_to_emails: 我需要接收课程相关通知信息
+        subscribe_to_emails: 我要接收课程相关通知信息
         time_zone: 时区
         unique_id: 电子邮件地址
       page_title: "注册 %{email}"
       titles: 
         welcome_aboard: 欢迎光临！
     confirm_failed: 
-      details: 您好像已经确认注册。请使用您注册的电子邮件地址和密码尝试*登录*。如果不记得密码，请单击"忘记密码"链接，您应会获得一个新的链接，用以登录和重置密码。
+      details: 您好像已经确认注册。请使用您注册的电子邮件地址和密码尝试*登录*。如果不知道密码，请点击"忘记密码"链接，您可通过新的链接重置密码。
       feedback: 如果仍有问题，请单击右上角的"反馈"联系我们。
       page_title: 注册确认失败
       titles: 
-        problems_with_registration: 注册试题
+        problems_with_registration: 注册问题
     notices: 
       login_to_confirm: 请登录确认邮件地址
       registration_confirmed: 注册已确认！
@@ -2300,10 +2300,10 @@ zh-CN:
         title: 
           submission: 作业提交
       links: 
-        add_comment: 添加评论...
+        add_comment: 添加评语...
         show_more_comments: 
-          one: 显示1条评论
-          other: "显示%{count}更多评论"
+          one: 显示1条评语
+          other: "显示%{count}更多评语"
         view_original_submission: 查看原始提交文件
       pending_review: （还需要教师检查）
       state: 
@@ -2326,7 +2326,7 @@ zh-CN:
       labels: 
         attached_file: 附加的文件
       links: 
-        add_comment: 添加评论...
+        add_comment: 添加评语...
         view_topic: 查看整个主题
       message_summary: "%{total_messages}（%{unread_messages}）"
       no_title: 无标题
@@ -3061,7 +3061,7 @@ zh-CN:
       due_at: "到期日期 %{date}"
       headings: 
         grade: "成绩 %{assignment}"
-        to_do: 未及时完成作业
+        to_do: 未按时完成的任务
       images: 
         alt: 
           ignore: 忽略
@@ -3147,14 +3147,14 @@ zh-CN:
       headings: 
         invitation: 邀请
       invitation: 
-        designer: "您被邀请作为用户帐户 *%{user}* 的*设计者*参与此课程。"
-        observer: "您被邀请作为用户帐户 *%{user}* 的*家长*参与此课程。"
+        designer: "您被邀请作为用户 *%{user}* 以*设计者*身份参与此课程。"
+        observer: "您被邀请作为用户 *%{user}* 以*家长*身份参与此课程。"
         other: "您被邀请参与用户帐户 *%{user}* 的此课程。"
-        student: "您被邀请作为用户帐户 *%{user}* 的*学生*参与此课程。"
-        ta: "您被邀请作为用户帐户 *%{user}* 的*助教*参与此课程。"
-        teacher: "您被邀请作为用户帐户 *%{user}* 的*教师*参与此课程。"
+        student: "您被邀请作为用户 *%{user}* 以*学生*身份参与此课程。"
+        ta: "您被邀请作为用户 *%{user}* 以*助教*身份参与此课程。"
+        teacher: "您被邀请作为用户 *%{user}* 以*教师*身份参与此课程。"
       invitiation: 
-        look_around: 随意浏览一下课程。当您准备就绪后，您可以接受或拒绝邀请。
+        look_around: 您可以先浏览一下课程，确定是否接受邀请。在返回到这个邀请界面，请点击左上角“主页”。
     errors: 
       create_failed: 课程创建失败
       invalid_email: 电子邮件地址无效，请重试。
@@ -3781,8 +3781,8 @@ zh-CN:
       edited_comment: "此评论被 %{user} 编辑。"
       labels: 
         attached_file: 附加的文件
-      make_side_comment: 编写评论侧...
-      reply_to_message: 编写跟帖
+      make_side_comment: 写跟帖...
+      reply_to_message: 写跟帖
       show_more_entries: 
         one: 显示再一个条目
         other: "显示再 %{count}个条目"
@@ -3797,7 +3797,7 @@ zh-CN:
       assignments: 作业
       delete: 删除
       loading: 正在载入...
-      lock_for_comments: 锁定评论
+      lock_for_comments: 锁定回复
       make_an_announcement: 发布一个公告
       make_an_announcement_caps: 发布一个公告
       make_sure_all_search_terms_are_spelled_correctly: 确保搜索项正确
@@ -3849,7 +3849,7 @@ zh-CN:
       links: 
         peer_reviews: 同学检查
       loading_replies: 稍等，正在更新回复信息
-      lock_topic: 关闭评论
+      lock_topic: 关闭讨论
       locked: 本主题已经关闭讨论
       locked_topic: 此主题当前已锁定。
       manage_discussion: 管理讨论
@@ -3867,16 +3867,16 @@ zh-CN:
       topic: 主题
       topic_for_assignment: 这是一个计分讨论
       topic_locked: "这个话题在 *%{date}* 前用户不可见"
-      topic_locked_notice: 此主题已关闭评论。
+      topic_locked_notice: 此主题已关闭讨论。
       topic_podcast_feed_link: 主题播客订阅
-      unlock_topic: 重新开放评论
+      unlock_topic: 重新开放讨论
     sub_entry: 
       authors_name: 作者姓名
       post_message: 发布消息
     summary_view: 
       attached_file_name: "附件 %{display_name} "
       drag_up_or_down_to_reorder: 上下拖动排序
-      locked: 这个话题不再允许评论
+      locked: 这个话题不再允许讨论
       this_topic_is_used_for_grading: 用来评分的讨论
       topic_podcast_feed: "Topic Podcast Feed"
     topic_deleted_notice: "%{topic_title}删除成功"
@@ -4089,7 +4089,7 @@ zh-CN:
         one: 1个附件
         other: "%{count}附件"
       buttons: 
-        add_comment: 添加评论
+        add_comment: 添加回复
         add_page: 添加页面
         delete: "删除 电子文档"
         keep_editing: 继续编辑
@@ -4624,7 +4624,7 @@ zh-CN:
     buttons: 
       change_section: 更改学群(班级)
       saving_settings: 正在保存设置...
-      submit_comment: 提交评论
+      submit_comment: 提交评语
       submitting: 正在提交...
       upload_data: 上传数据
     cancel_button: 取消
@@ -4632,7 +4632,7 @@ zh-CN:
     click_to_expand: 单击以展开
     computing_grades: 正在计算评分...
     confirms: 
-      delete_comment: 是否确定要删除此评论?
+      delete_comment: 是否确定要删除此评语?
       unsaved_changes: "以下学生的测试提交文件中有未保存的更改: %{users} 是否仍要继续?"
     curve_grade_for_course: "%{assignment} 的曲线评分"
     curve_grades: 曲线评分
@@ -4664,7 +4664,7 @@ zh-CN:
       view_submission: 查看提交
     loud_late: 延迟
     message_students_who: 发送消息到学生...
-    mute_assignment: 屏蔽作业
+    mute_assignment: 屏蔽作业变更通知变更消息
     new_assessment: "[新评估]"
     no_submission_time: 无提交时间
     nth_student: "学生 %{n}"
@@ -4693,7 +4693,7 @@ zh-CN:
     teacher_muted_title: 作业被屏蔽
     titles: 
       assignment_groups: 作业组
-      click_to_record: 单击麦克风录制您的评论
+      click_to_record: 单击麦克风录制您的评语
       dropped_assignment_no_total: 此作业将不会列入总分计算
       hypothetical_score: 这是调整分数
       loading: 正在加载...
@@ -4709,8 +4709,8 @@ zh-CN:
         error: "老师相似分数 - 提交错误的详细信息"
         pending: "Turnitin的相似评分 - 待提交"
         score: "Turnitin的相似评分 - 查看详细报告"
-    unmute_assignment: 取消屏蔽作业
-    unmute_button: 取消屏蔽作业
+    unmute_assignment: 取消屏蔽作业变更通知变更消息
+    unmute_button: 取消屏蔽作业变更通知变更消息
     upload_scores: "上传分数（从 %{format}）"
     view_grading_history: 查看评分记录
   gradebook2: 
@@ -4840,7 +4840,7 @@ zh-CN:
   gradebooks: 
     assignment: 
       gradebook: 
-        unmute_assignment: 取消屏蔽作业
+        unmute_assignment: 取消屏蔽作业变更通知变更消息
       out_of_points_possible: "*满分* %{points_possible}"
       points_possible_of_grade: "*评分* %{points_possible}"
       teacher_muted_title: 作业被屏蔽
@@ -5063,8 +5063,8 @@ zh-CN:
         submit_comment: 提交评语
       due_at: "到期日期 %{datetime}"
       gradebook: 
-        mute_assignment: 屏蔽作业
-        unmute_assignment: 取消屏蔽作业
+        mute_assignment: 屏蔽作业变更通知变更消息
+        unmute_assignment: 取消屏蔽作业变更通知变更消息
       headers: 
         anonymous_submission: 这名学生的响应是隐藏的，因为这个作业是匿名的。
         assessment: 评估
@@ -6301,19 +6301,19 @@ zh-CN:
         unknown_user: 未知用户
     enrollment_accepted: 
       email: 
-        body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
-        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请。"
-        body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请。"
-        body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请。"
-        body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
+        body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请"
+        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请"
+        body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请"
+        body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请"
+        body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请"
         details: "此处可查看当前注册的列表:"
         subject: "%{user} 接受了课程邀请"
       facebook: 
-        body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
-        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请。"
-        body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请。"
-        body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请。"
-        body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
+        body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请"
+        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请"
+        body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请"
+        body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请"
+        body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请"
       sms: 
         body_designer: "%{user} 接受了课程 %{course} 的设计者邀请"
         body_observer: "%{user} 接受了课程 %{course} 的家长邀请"
@@ -6322,22 +6322,22 @@ zh-CN:
         body_teacher: "%{user} 接受了课程 %{course} 的教师邀请"
         details: "更多信息请访问 %{url}"
       summary: 
-        body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
-        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请。"
-        body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请。"
-        body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请。"
-        body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
+        body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请"
+        body_observer: "%{user} 刚刚接受了作为家长参与课程 %{course} 的邀请"
+        body_student: "%{user} 刚刚接受了作为学生参与课程 %{course} 的邀请"
+        body_ta: "%{user} 刚刚接受了作为助教参与课程 %{course} 的邀请"
+        body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请"
         subject: "%{user} 接受了课程邀请"
       twitter: 
-        body: "教学邦 警报 - 已接受:%{user}，%{enrollment_type}，课程，%{course}"
+        body: "教学邦  - 已接受:%{user}，%{enrollment_type}，课程，%{course}"
     enrollment_invitation: 
       email: 
-        body_designer: "我们邀请您作为设计者参与课程 %{course}。"
-        body_observer: "我们邀请您作为家长参与课程 %{course}。"
-        body_student: "我们邀请您作为学生参与课程 %{course}。"
-        body_ta: "我们邀请您作为助教参与课程 %{course}。"
-        body_teacher: "我们邀请您作为教师参与课程 %{course}。"
-        details: "此处访问课程页面:"
+        body_designer: "我们邀请您作为设计者参与课程: %{course}"
+        body_observer: "我们邀请您作为家长参与课程: %{course}"
+        body_student: "我们邀请您作为学生参与课程: %{course}"
+        body_ta: "我们邀请您作为助教参与课程: %{course}"
+        body_teacher: "我们邀请您作为教师参与课程: %{course}"
+        details: "请点击以下链接访问课程:"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6345,11 +6345,11 @@ zh-CN:
         none: 无
         subject: 课程邀请
       facebook: 
-        body_designer: "我们邀请您作为设计者参与课程 %{course}。"
-        body_observer: "我们邀请您作为家长参与课程 %{course}。"
-        body_student: "我们邀请您作为学生参与课程 %{course}。"
-        body_ta: "我们邀请您作为助教参与课程 %{course}。"
-        body_teacher: "我们邀请您作为教师参与课程 %{course}。"
+        body_designer: "我们邀请您作为设计者参与课程: %{course}"
+        body_observer: "我们邀请您作为家长参与课程: %{course}"
+        body_student: "我们邀请您作为学生参与课程: %{course}"
+        body_ta: "我们邀请您作为助教参与课程: %{course}"
+        body_teacher: "我们邀请您作为教师参与课程: %{course}"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6368,22 +6368,22 @@ zh-CN:
           username: 用户名
         none: 无
       summary: 
-        body_designer: "我们邀请您作为设计者参与课程 %{course}。"
-        body_observer: "我们邀请您作为家长参与课程 %{course}。"
-        body_student: "我们邀请您作为学生参与课程 %{course}。"
-        body_ta: "我们邀请您作为助教参与课程 %{course}。"
-        body_teacher: "我们邀请您作为教师参与课程 %{course}。"
+        body_designer: "我们邀请您作为设计者参与课程: %{course}"
+        body_observer: "我们邀请您作为家长参与课程: %{course}"
+        body_student: "我们邀请您作为学生参与课程: %{course}"
+        body_ta: "我们邀请您作为助教参与课程: %{course}"
+        body_teacher: "我们邀请您作为教师参与课程: %{course}"
         subject: 课程邀请
       twitter: 
         body: "教学邦 警报 - 已邀请:作为 %{enrollment_type} 参与课程"
     enrollment_notification: 
       email: 
-        body_designer: "您已作为设计者注册课程 %{course}。"
-        body_observer: "您已作为家长注册课程 %{course}。"
-        body_student: "您已作为学生注册课程 %{course}。"
-        body_ta: "您已作为助教注册课程 %{course}。"
-        body_teacher: "您已作为教师注册课程 %{course}。"
-        details: "此处访问课程页面:"
+        body_designer: "您已作为设计者注册课程: %{course}"
+        body_observer: "您已作为家长注册课程: %{course}"
+        body_student: "您已作为学生注册课程: %{course}"
+        body_ta: "您已作为助教注册课程: %{course}"
+        body_teacher: "您已作为教师注册课程: %{course}"
+        details: "请点击以下链接访问课程此:"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6392,11 +6392,11 @@ zh-CN:
         register: "访问 %{link} 完成注册"
         subject: 课程注册
       facebook: 
-        body_designer: "您已作为设计者注册课程 %{course}。"
-        body_observer: "您已作为家长注册课程 %{course}。"
-        body_student: "您已作为学生注册课程 %{course}。"
-        body_ta: "您已作为助教注册课程 %{course}。"
-        body_teacher: "您已作为教师注册课程 %{course}。"
+        body_designer: "您已作为设计者注册课程: %{course}"
+        body_observer: "您已作为家长注册课程: %{course}"
+        body_student: "您已作为学生注册课程: %{course}"
+        body_ta: "您已作为助教注册课程: %{course}"
+        body_teacher: "您已作为教师注册课程: %{course}"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6415,11 +6415,11 @@ zh-CN:
           username: 用户名
         none: 无
       summary: 
-        body_designer: "您已作为设计者注册课程 %{course}。"
-        body_observer: "您已作为家长注册课程 %{course}。"
-        body_student: "您已作为学生注册课程 %{course}。"
-        body_ta: "您已作为助教注册课程 %{course}。"
-        body_teacher: "您已作为教师注册课程 %{course}。"
+        body_designer: "您已作为设计者注册课程: %{course}"
+        body_observer: "您已作为家长注册课程: %{course}"
+        body_student: "您已作为学生注册课程: %{course}"
+        body_ta: "您已作为助教注册课程: %{course}"
+        body_teacher: "您已作为教师注册课程: %{course}"
         subject: 课程注册
       twitter: 
         body: "教学邦 警报 - 已注册:作为 %{enrollment_type} 参与课程"
@@ -6430,7 +6430,7 @@ zh-CN:
         body_student: "我们邀请您作为学生参与 %{website} 的课程 %{course}。"
         body_ta: "我们邀请您作为助教参与 %{website} 的课程 %{course}。"
         body_teacher: "我们邀请您作为教师参与 %{website} 的课程 %{course}。"
-        details: "您将需要在教学邦注册后才能参与课程。要开始使用，请点击此处访问课程页面:"
+        details: "请点击下面链接访问课程信息，进入页面后选择请击邀请，然后会自动跳到登录页面"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6999,13 +6999,13 @@ zh-CN:
         not_applicable: 不适用
         score: "分数:%{score}，满分 %{total}"
         score_pending_review: （待检查）
-        tweet: "教学邦 警报 - 已评分:%{assignment}，%{context}"
+        tweet: "教学邦  - 已评分:%{assignment}，%{context}"
     summaries: 
       email: 
-        daily_body: "您已注册接收来自教学邦帐户的一些通知的每日报告。下面是 %{date} 的报告:"
-        notifications_link: "您可通过访问以下页面更改通知设置:"
-        subject: 最近教学邦通知
-        weekly_body: "您已注册接收来自教学邦帐户的一些通知的每周报告。下面是一周结束 %{date} 的报告:"
+        daily_body: "您教学邦平台的每日报告。下面是 %{date} 的报告:"
+        notifications_link: "您可通过通过以下链接更改通信设置:"
+        subject: 教学邦每周报告
+        weekly_body: "您已设置接收来自教学邦的每周报告。以下是 %{date} 前的周报告:"
       facebook: 
         new_notifications: "您已收到 #教学邦# 中的 *%{notification_count} 个新通知*。"
       sms: 
@@ -7049,8 +7049,8 @@ zh-CN:
   mute_dialog: 
     curving_assignments: 曲线作业
     grade_change_notifications: 评分更改通知
-    how_to_unmute: 一旦您取消屏蔽此作业，即可通过单击"取消屏蔽作业"链接再次开始发送通知。
-    mute_assignment: 屏蔽作业
+    how_to_unmute: 一旦您取消屏蔽此作业，即可通过单击"取消屏蔽作业变更通知变更消息"链接再次开始发送通知。
+    mute_assignment: 屏蔽作业变更通知变更消息
     score_change_notifications: 分数更改通知
     see_grade: 其作业的评分
     students_will_see: 学生将能够看到此作业已屏蔽。
@@ -7072,7 +7072,7 @@ zh-CN:
     appointment_cancelations_display: 取消预约
     appointment_signups_description: 为您的新预约
     appointment_signups_display: 预约
-    calendar_description: 有关日历更改
+    calendar_description: 有关日历变更
     calendar_display: 日历
     categories: 
       all_submissions: 所有提交文件
@@ -7103,7 +7103,7 @@ zh-CN:
     course_content_display: 课程内容
     discussion_description: 有关新主题
     discussion_display: 讨论
-    discussion_entry_description: 有关我已进行评论的主题
+    discussion_entry_description: 有关我已进行讨论的主题
     discussion_entry_display: 讨论输入
     due_date_description: 有关到期日期更改
     due_date_display: 到期日
@@ -7227,8 +7227,8 @@ zh-CN:
     groups: 
       admin: 管理的
       alerts: 警告
-      communication: 沟通
-      course: 课程活动
+      communication: 通信
+      course: 课程
       discussions: 讨论
       groups: 组
       other: 其它
@@ -8256,7 +8256,7 @@ zh-CN:
         variable_precision: 小数位
         variables: 变量
       labels: 
-        additional_comments: 附加评论
+        additional_comments: 附加提示
         for_answer_number: "答案 %{answer_number}"
       links: 
         delete_question: 删除此试题
@@ -8267,9 +8267,9 @@ zh-CN:
       show_ansers_for_variable: "显示 %{variable} 的答案"
       skip_question_text: 跳至试题文本。
       titles: 
-        question_correct_comment: 如果学生回答试题正确，他们将看到此评论
-        question_incorrect_comment: 如果学生回答试题错误，他们将看到此评论
-        question_neutral_comment: 一旦学生回答试题后，他们将看到此评论
+        question_correct_comment: 如果学生回答试题正确，他们将看到此提示
+        question_incorrect_comment: 如果学生回答试题错误，他们将看到此提示
+        question_neutral_comment: 一旦学生回答试题后，他们将看到此提示
       unsupported_question_type: "此试题从外部来源导入。这是一个'%{question_type}'试题，此测试工具中不支持该试题。"
       you_left_this_blank: 您将此项留空
     enter_answer_variable_above: "[在上面输入答案变量]"
@@ -8335,7 +8335,7 @@ zh-CN:
       answer_text: 答案文本
       exact_answer_with_error_margin: "%{exact_answer}，误差为 %{error_margin}"
       labels: 
-        answer_comments: 学生选择此答案时的评论
+        answer_comments: 学生选择此答案时的提示
         answer_in_range: 在范围内回答
         answer_text: 答案文本
         exact_answer: 确切答案
@@ -8343,7 +8343,7 @@ zh-CN:
       matching_left: 匹配左侧
       matching_right: 匹配右侧
       titles: 
-        click_to_enter_answer_comments: 单击以输入学生选择此答案时的评论
+        click_to_enter_answer_comments: 单击以输入学生选择此答案时的提示
         click_to_set_as_correct: 单击以将此答案设置为正确答案
         delete_answer: 删除此答案
         edit_as_html: 编辑HTML
@@ -8415,9 +8415,9 @@ zh-CN:
         true_false: 正确/错误
       show_possible_answers: "显示 %{question} 可能的答案"
       titles: 
-        click_to_enter_correct_answer_comments: 单击对正确答案输入评论
-        click_to_enter_general_answer_comments: 单击以输入一般评论
-        click_to_enter_wrong_answer_comments: 单击对错误答案输入评论
+        click_to_enter_correct_answer_comments: 单击对正确答案输入提示
+        click_to_enter_general_answer_comments: 单击以输入一般提示
+        click_to_enter_wrong_answer_comments: 单击对错误答案输入提示
       wrong_answer_comments: 错误答案提示
     helpers: 
       duration_in_minutes: 
@@ -8487,9 +8487,9 @@ zh-CN:
       survey_protected: 此调查受到保护并且仅从特定位置可用。您当前使用的计算机似乎并非进行此调查的有效位置。
     labels: 
       answer_text: 答案文本
-      comments_on_answer: 用户选择此答案时的评论
-      comments_on_question: 此试题的评论
-      comments_on_wrong_match: 用户匹配错误时的评论
+      comments_on_answer: 用户选择此答案时的提示
+      comments_on_question: 此试题的提示
+      comments_on_wrong_match: 用户匹配错误时的提示
       message_text: 消息文本
       other_incorrect_matches: 其他不正确的匹配选项
       possible_answer: 可能的答案
@@ -9011,8 +9011,8 @@ zh-CN:
         time_remaining: 剩余时间
     titles: 
       add_questions_as_group: 添加试题作为一组
-      click_to_enter_comments_on_answer: 单击以输入学生选择此答案时的评论
-      click_to_enter_comments_on_wrong_match: 单击以输入学生遗漏此匹配时的评论
+      click_to_enter_comments_on_answer: 单击以输入学生选择此答案时的提示
+      click_to_enter_comments_on_wrong_match: 单击以输入学生遗漏此匹配时的提示
       click_to_set_as_correct: 单击以将此答案设置为正确答案
       click_to_unset_as_correct: 单击以将此答案取消设置为正确答案
       find_question_bank: 查找题库
@@ -9194,7 +9194,7 @@ zh-CN:
     options: 
       select: "[选择]"
     titles: 
-      additional_comments: 附加评论
+      additional_comments: 附加提示
       criterion_long_description: 标准详细说明
     unknown_user: 未知用户
   rubric_association: 
@@ -9754,14 +9754,14 @@ zh-CN:
       out_of_points: "满分 %{points_possible}"
     mute_dialog: 
       gradebook: 
-        mute_assignment: 屏蔽作业
+        mute_assignment: 屏蔽作业变更通知
       mute_dialog: |-
           是否确定要屏蔽此作业?此作业屏蔽 时，学生将不会收到关于以下内容新通知或无法 看到:
           * 评分更改通知
           * 提交评语
           * 曲线作业
           * 分数更改通知
-          学生将能够看到此作业已屏蔽。一旦您取消屏蔽此作业，即可通过单击取消 "屏蔽作业" 链接再次开始发送通知。
+          学生将能够看到此作业已屏蔽。一旦您取消屏蔽此作业，即可通过单击取消 "屏蔽作业变更通知" 链接再次开始发送通知。
     new_course_form: 
       cancel: 取消
       course_cose_explanation: 这个将在很小地方显示
@@ -10874,7 +10874,7 @@ zh-CN:
     twitter_added: "Twitter 访问已授权！"
     twitter_fail_whale: "Twitter 授权失败。请重试"
     user_dashboard: 
-      coming_up: 最新的作业
+      coming_up: 最新的任务
       information: 信息
       no_courses_message: 您没有任何课程，因此此页面现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
       pending_invitations: 待邀请
