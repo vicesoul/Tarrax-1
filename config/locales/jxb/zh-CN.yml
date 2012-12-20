@@ -66,7 +66,7 @@ zh-CN:
       pts_per_question: 题目分数
   courses:
     show:
-      coming_up: 最近
+      coming_up: 最近的任务
       period: 期间
   jxb:
     gradebook: 成绩
