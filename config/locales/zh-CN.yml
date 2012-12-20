@@ -10411,7 +10411,7 @@ zh-CN:
       long: ! '%Y年%b%d日 %H:%M'
       short: ! '%b%d日 %H:%M'
       tiny: "%k:%M"
-      tiny_on_the_hour: "%k"
+      tiny_on_the_hour: "%k:%M"
     less_than_a_minute_ago: 不到一分钟前
     pm: 下午
     ranges: 
