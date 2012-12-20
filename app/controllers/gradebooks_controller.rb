@@ -58,7 +58,7 @@ class GradebooksController < ApplicationController
           add_crumb(@student.name, named_context_url(@context, :context_student_grades_url, @student.id))
 
           @groups = @context.assignment_groups.active.all
-          @assignments = @context.assignments.active.gradeable.find(:all, :order => 'due_at, title')
+          @assignments = @context.assignments.active.gradeable.find(:all, :order => 'due_at DESC, title')
           groups_assignments =
             groups_as_assignments(@groups, :out_of_final => true, :exclude_total => @context.settings[:hide_final_grade])
           @no_calculations = groups_assignments.empty?
