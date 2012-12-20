@@ -47,7 +47,6 @@
         <a class="button button-sidebar-wide"><%= image_tag "person.png" %> <%= t('links.restore_role', %{Restore Role and Permissions}) %></a>
       </div>
     <% end %>
-    <%= render :partial => 'assignments_needing_grading', :locals => {:contexts => [@context]} %>
     <%= render :partial => "group_list", :object => @user_groups %>
     <%= nbsp unless @current_user %>
   </div>
@@ -70,6 +69,7 @@
       <%= render :partial => "shared/event_list", :object => [], :locals => locals %>
     <% end %>
   <% end %>
+  <%= render :partial => 'assignments_needing_grading', :locals => {:contexts => [@context]} %>
   <% if @show_recent_feedback %>
     <%= render :partial => "shared/event_list", :object => @recent_feedback, :locals => {:title => t('titles.recent_feedback', "Recent Feedback"), :display_count => 3, :period => t('period_name', "the last 2 weeks"), :contexts_to_link_to => @context, :is_recent_feedback => true} %>
   <% end %>

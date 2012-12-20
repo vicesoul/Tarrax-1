@@ -1276,7 +1276,7 @@ class Assignment < ActiveRecord::Base
   }
 
   # This should only be used in the course drop down to show assignments needing a submission
-  named_scope :need_submitting_info, lambda{|user_id, limit, ignored_ids|
+  named_scope :need_submitting_info, lambda{|user_id, limit, ignored_ids, order|
     ignored_ids ||= []
           {:select => 'id, title, points_possible, due_at, context_id, context_type, submission_types, description, could_be_locked, needs_grading_count, ' +
           '(SELECT name FROM courses WHERE id = assignments.context_id) AS context_name',
@@ -1285,7 +1285,7 @@ class Assignment < ActiveRecord::Base
               AND submission_type IS NOT NULL
               AND user_id = ?) = 0 #{ignored_ids.empty? ? "" : "AND id NOT IN (#{ignored_ids.join(',')})"}", user_id],
           :limit => limit,
-          :order => 'due_at ASC'
+          :order => order || 'due_at ASC'
     }
   }
 

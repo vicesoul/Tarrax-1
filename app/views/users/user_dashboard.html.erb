@@ -7,7 +7,6 @@
 <% end %>
 
 <% content_for :right_side do %>
-  <%= render :partial => 'courses/assignments_needing_grading', :locals => {:contexts => nil} %>
   <% locals = {:title => t('coming_up', "Coming Up"), :display_count => 3, :period => :one_week, :show_context => true, :upcoming => true} %>
   <% if @current_user %>    
     <% cache([@current_user, 'user_dashboard_upcoming_events' ], :expires_in => 3.minutes) do %>
@@ -20,6 +19,7 @@
   <% else %>
     <%= render :partial => "shared/event_list", :object => [], :locals => locals %>
   <% end %>
+  <%= render :partial => 'courses/assignments_needing_grading', :locals => {:contexts => nil} %>
   <% if @show_recent_feedback %>
     <%= render :partial => "shared/event_list", :object => @recent_feedback, :locals => {:title => t('recent_feedback', "Recent Feedback"), :display_count => 3, :period => :two_weeks, :show_context => true, :is_recent_feedback => true} %>
   <% end %>
