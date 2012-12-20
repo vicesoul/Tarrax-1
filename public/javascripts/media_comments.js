@@ -719,6 +719,12 @@ define([
       $("#media_upload_submit").live('click', function(event) {
         $.mediaComment.upload_delegate.submit();
       });
+
+
+      //****** 2012-12-20 rupert
+      // if first open, #audio_record_holder_holder is not hidden
+      var audioInit = false;
+
       $("#video_record_option,#audio_record_option").live('click', function(event) {
         event.preventDefault();
         $("#video_record_option,#audio_record_option").removeClass('selected_option');
@@ -726,13 +732,34 @@ define([
         $("#audio_record_holder").stop(true, true).clearQueue().css('width', '').removeClass('with_volume');
         $("#video_record_holder").stop(true, true).clearQueue().css('width', '').removeClass('with_volume');
         if($(this).attr('id') == 'audio_record_option') {
-          $("#video_record_holder_holder").hide();
-          $("#audio_record_holder_holder").show();
+                $("#video_record_holder_holder").hide();
+
+            if(!audioInit){
+                $("#audio_record_holder_holder").removeAttr("style");
+                audioInit = true;
+            }
+
+            $("#audio_record_holder_holder").show();
+
         } else {
           $("#video_record_holder_holder").show();
-          $("#audio_record_holder_holder").hide();
+
+            if(!audioInit){
+
+                $("#audio_record_holder_holder").css({
+                    position:"absolute",
+                    left: -9999
+                });
+
+            }else{
+                $("#audio_record_holder_holder").hide();
+            }
+
         }
       });
+
+      // end
+
     });
     $(document).bind('media_recording_error', function() {
       $("#audio_record_holder_message,#video_record_holder_message").find(".recorder_message").html(
