@@ -68,6 +68,8 @@ zh-CN:
     show:
       coming_up: 最近的任务
       period: 期间
+    recent_event:
+      due: 到期日期
   jxb:
     gradebook: 成绩
     question_banks: 题库
@@ -83,3 +85,9 @@ zh-CN:
     footer:
       email:
         the_reason_you_received_this_email: "这是一封来自教学邦平台课程通知邮件。如果您要修改通信设置或者退订，请点击下面的链接："
+  menu:
+    associated_accounts: 参加的网校
+  shared:
+    menu_switch_accounts:
+      links:
+        associated_accounts: 网校

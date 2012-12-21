@@ -25,7 +25,7 @@
       <span class='tooltip-carat'></span>
       <span class="tooltip_text">
         <% if recent_event.is_a?(Assignment) %>
-          <span style="display: block;">due: <%= datetime_string(recent_event.due_at) %></span>
+          <span style="display: block;"><%= t('due', 'due') %>: <%= datetime_string(recent_event.due_at) %></span>
           <% if icon_explanation %>
             <span style="display: block; font-style: italic;"><%= icon_explanation %></span>
           <% end %>

@@ -826,12 +826,12 @@ zh-CN:
       deleted: 此组已删除
       updated: 作业组已成功更新。
   assignment_muter: 
-    mute_assignment: 屏蔽作业变更通知
-    muting_assignment: 正在屏蔽作业变更通知...
-    unmute_assignment: 正在屏蔽作业变更通知...
-    unmute_button: 正在屏蔽作业变更通知...
+    mute_assignment: 屏蔽作业通知
+    muting_assignment: 正在屏蔽作业通知...
+    unmute_assignment: 正在屏蔽作业通知...
+    unmute_button: 正在屏蔽作业通知...
     unmute_dialog: 这项作业是当前屏蔽。这意味着学生不能看到自己的成绩和反馈。您想现在解除屏蔽吗？
-    unmuting_assignment: 正解除屏蔽作业变更通知作业…
+    unmuting_assignment: 正解除屏蔽作业通知作业…
   assignments: 
     add_assignment_form: 
       assignment_name: 作业名称
@@ -4664,7 +4664,7 @@ zh-CN:
       view_submission: 查看提交
     loud_late: 延迟
     message_students_who: 发送消息到学生...
-    mute_assignment: 屏蔽作业变更通知变更消息
+    mute_assignment: 屏蔽作业通知
     new_assessment: "[新评估]"
     no_submission_time: 无提交时间
     nth_student: "学生 %{n}"
@@ -4690,7 +4690,7 @@ zh-CN:
       scored_less_than: 分数低于
       scored_more_than: 分数高于
     submission_information: 提交文件信息
-    teacher_muted_title: 作业被屏蔽
+    teacher_muted_title: 暂停发送变更通知
     titles: 
       assignment_groups: 作业组
       click_to_record: 单击麦克风录制您的评语
@@ -4709,8 +4709,8 @@ zh-CN:
         error: "老师相似分数 - 提交错误的详细信息"
         pending: "Turnitin的相似评分 - 待提交"
         score: "Turnitin的相似评分 - 查看详细报告"
-    unmute_assignment: 取消屏蔽作业变更通知变更消息
-    unmute_button: 取消屏蔽作业变更通知变更消息
+    unmute_assignment: 允许发送变更通知
+    unmute_button: 允许发送变更通知
     upload_scores: "上传分数（从 %{format}）"
     view_grading_history: 查看评分记录
   gradebook2: 
@@ -4720,7 +4720,7 @@ zh-CN:
         one: 1学生成绩更新
         other: "%{count}个学生分数更新"
     all_sections: 所有学群(班级)
-    assignment_muted: 作业屏蔽
+    assignment_muted: 暂停发送变更通知
     column_header: 
       assignment_options: 作业选项
       points_out_of: "满分%{assignment.points_possible}"
@@ -4840,10 +4840,10 @@ zh-CN:
   gradebooks: 
     assignment: 
       gradebook: 
-        unmute_assignment: 取消屏蔽作业变更通知变更消息
+        unmute_assignment: 允许发送变更通知
       out_of_points_possible: "*满分* %{points_possible}"
       points_possible_of_grade: "*评分* %{points_possible}"
-      teacher_muted_title: 作业被屏蔽
+      teacher_muted_title: 暂停发送变更通知
       unmute_dialog: 此作业当前被屏蔽。这意味着学生无法看到其评分和反馈。是否要立即取消屏蔽?
     assignments: 
       options: 选项
@@ -5063,8 +5063,8 @@ zh-CN:
         submit_comment: 提交评语
       due_at: "到期日期 %{datetime}"
       gradebook: 
-        mute_assignment: 屏蔽作业变更通知变更消息
-        unmute_assignment: 取消屏蔽作业变更通知变更消息
+        mute_assignment: 暂停发送变更通知
+        unmute_assignment: 允许发送变更通知
       headers: 
         anonymous_submission: 这名学生的响应是隐藏的，因为这个作业是匿名的。
         assessment: 评估
@@ -6230,7 +6230,7 @@ zh-CN:
     assignment_unmuted: 
       email: 
         body: "您的教师已发布 %{title} 的评分和新评语。这些更改现在可查看。 您可在此处进行查看: %{url}"
-        subject: "作业取消屏蔽:%{title}，%{course}"
+        subject: "允许发送变更通知:%{title}，%{course}"
       sms: 
         body: "您的教师已发布 %{title}，%{course} 的评分和评语。 更多信息请访问 %{website}"
       summary: 
@@ -7049,13 +7049,13 @@ zh-CN:
   mute_dialog: 
     curving_assignments: 曲线作业
     grade_change_notifications: 评分更改通知
-    how_to_unmute: 一旦您取消屏蔽此作业，即可通过单击"取消屏蔽作业变更通知变更消息"链接再次开始发送通知。
-    mute_assignment: 屏蔽作业变更通知变更消息
+    how_to_unmute: 一旦您取消屏蔽此作业，即可通过单击"允许发送变更通知"链接再次开始发送通知。
+    mute_assignment: 暂停发送变更通知
     score_change_notifications: 分数更改通知
     see_grade: 其作业的评分
     students_will_see: 学生将能够看到此作业已屏蔽。
     submission_comments: 提交评语
-    sure_you_want_to_mute: "是否确定要屏蔽此作业?此作业屏蔽时，学生将不会收到关于以下内容的新通知或无法看到:"
+    sure_you_want_to_mute: "是否确定要屏蔽此作业?此暂停发送变更通知时，学生将不会收到关于以下内容的新通知或无法看到:"
   not_applicable: 不适用
   notification: 
     added_to_conversation_description: 有关您添加的会话
@@ -8339,7 +8339,7 @@ zh-CN:
         answer_in_range: 在范围内回答
         answer_text: 答案文本
         exact_answer: 确切答案
-        possible_answer: 可能的答案
+        possible_answer: 正确的答案
       matching_left: 匹配左侧
       matching_right: 匹配右侧
       titles: 
@@ -8359,17 +8359,17 @@ zh-CN:
       explanation: 
         generate_possible_solutions: 最后，根据您的测试需要建立尽可能多的变量-解组合。
       explanations: 
-        calculated: 输入您的试题，建立一个公式，然后生成一组可能的答案组合。学生将看到通过随机选择的一组变量填充的试题，并且必须键入正确的数值答案。
+        calculated: 输入您的试题，建立一个公式，然后生成一组正确的答案组合。学生将看到通过随机选择的一组变量填充的试题，并且必须键入正确的数值答案。
         equations: 您可以通过键入括号包围的变量名称来定义变量
         essay: 教学邦将为学生提供一个文本字段以撰写其答案。
         fill_in_multiple_blanks: 输入您的试题，指定每个空格应转至的位置。然后定义每个空格可能的正确答案。学生必须在每个空格的文本框中键入正确的答案。
         formula_definition: 接下来，您将需要写入用于计算正确答案的公式或公式内容。仅使用与上述列出相同的变量名称。
         matching: 构建成对的匹配值。学生将看到左侧的值，并且必须从右侧的下拉列表中选择匹配的值。多个行可以有相同的答案，并且您可以在右侧添加其他错误选项。
-        missing_word: 定义转至下拉列表之前和之后的文本。构建一组可能的答案并选择一个正确答案。
+        missing_word: 定义转至下拉列表之前和之后的文本。构建一组正确的答案并选择一个正确答案。
         multi_answer_sets: 在下面的框中（您要显示答案框的每个位置），键入一个包含在括号内的参考词（无空格）
         multiple_answers: 此试题将在每个答案旁边显示一个复选框，并且学生必须选择您标记为正确的"所有"答案。
         multiple_choice: 输入您的试题和多个答案，然后选择一个正确答案。
-        multiple_dropdowns: 输入您的试题，指定每个下拉列表应转至的位置。然后定义每个下拉列表可能的答案，每个下拉列表有一个正确答案。
+        multiple_dropdowns: 输入您的试题，指定每个下拉列表应转至的位置。然后定义每个下拉列表正确的答案，每个下拉列表有一个正确答案。
         numerical: 将正确答案定义为范围内的任何数字，或数字加上或减去一些误差。教学邦将向学生提供一个空文本框用于键入其数值答案。
         short_answer: "输入您的试题文本，然后定义空格所有可能的正确答案。 学生将看到试题，后跟一个小文本框用于键入其答案。"
         text_only: 此"试题"将不会评分，但在引入一组相关试题时非常有用。
@@ -8403,17 +8403,17 @@ zh-CN:
       question_type: 
         calculated: 公式题
         essay: 问答题
-        fill_in_multiple_blanks: 填写多个空格
+        fill_in_multiple_blanks: 多项填空
         matching: 匹配
-        missing_word: 缺字
-        multiple_answers: 多个答案
-        multiple_choice: 多选
-        multiple_dropdowns: 多个下拉列表
+        missing_word: 缺失题
+        multiple_answers: 多重选择
+        multiple_choice: 单项选择
+        multiple_dropdowns: 列表选择
         numerical: 数值答案
-        short_answer: 填空题
+        short_answer: 单项填空
         text_only: 文本（无试题）
-        true_false: 正确/错误
-      show_possible_answers: "显示 %{question} 可能的答案"
+        true_false: 判断题
+      show_possible_answers: "显示 %{question} 正确的答案"
       titles: 
         click_to_enter_correct_answer_comments: 单击对正确答案输入提示
         click_to_enter_general_answer_comments: 单击以输入一般提示
@@ -8492,7 +8492,7 @@ zh-CN:
       comments_on_wrong_match: 用户匹配错误时的提示
       message_text: 消息文本
       other_incorrect_matches: 其他不正确的匹配选项
-      possible_answer: 可能的答案
+      possible_answer: 正确的答案
     loading_more_questions: 正在加载更多试题...
     loading_question: 正在加载试题...
     loading_question_banks: 正在加载题库...
@@ -9644,14 +9644,14 @@ zh-CN:
       messages: 
         locked: 此作业当前锁定。
       options: 
-        assignment: 作业
+        assignment: 任务
         attendance: 参与
         discussion: 讨论
         external_tool: 外部工具
         letter_grade: 书面评分
         new_group_set: "[新组设置]"
         no_submission: 无提交
-        not_graded: 未评分
+        not_graded: 不评分
         on_paper: 书面
         online_submission: 在线提交
         pass_fail: 完成/未完成
@@ -9754,14 +9754,14 @@ zh-CN:
       out_of_points: "满分 %{points_possible}"
     mute_dialog: 
       gradebook: 
-        mute_assignment: 屏蔽作业变更通知
+        mute_assignment: 屏蔽作业通知
       mute_dialog: |-
-          是否确定要屏蔽此作业?此作业屏蔽 时，学生将不会收到关于以下内容新通知或无法 看到:
+          是否确定要屏蔽此作业?此暂停发送变更通知 时，学生将不会收到关于以下内容新通知或无法 看到:
           * 评分更改通知
           * 提交评语
           * 曲线作业
           * 分数更改通知
-          学生将能够看到此作业已屏蔽。一旦您取消屏蔽此作业，即可通过单击取消 "屏蔽作业变更通知" 链接再次开始发送通知。
+          学生将能够看到此作业已屏蔽。一旦您取消屏蔽此作业，即可通过单击取消 "屏蔽作业通知" 链接再次开始发送通知。
     new_course_form: 
       cancel: 取消
       course_cose_explanation: 这个将在很小地方显示
