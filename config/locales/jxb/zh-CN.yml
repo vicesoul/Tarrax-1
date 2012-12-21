@@ -66,10 +66,10 @@ zh-CN:
       pts_per_question: 题目分数
   courses:
     show:
-      coming_up: 最近的任务
+      coming_up: 最新的任务
       period: 期间
     recent_event:
-      due: 到期日期
+      due: 到期日
   jxb:
     gradebook: 成绩
     question_banks: 题库
@@ -91,3 +91,9 @@ zh-CN:
     menu_switch_accounts:
       links:
         associated_accounts: 网校
+  dashboard:
+    new_assignments_and_events: 新的作业和活动
+    grading_notifications: 评分提醒
+    group_membership_notifications: 小组成员提醒
+    date_changes: 日期变更
+    scheduling_notifications: 预约提醒
