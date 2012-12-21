@@ -68,6 +68,8 @@ zh-CN:
     show:
       coming_up: 最近的任务
       period: 期间
+    recent_event:
+      due: 到期日期
   jxb:
     gradebook: 成绩
     question_banks: 题库
