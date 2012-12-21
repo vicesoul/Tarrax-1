@@ -9,7 +9,7 @@ zh-CN:
     context_required: 您需要选择一个日历对象
     select_calendars: 选择日历对象
   account: 
-    default_account_name: 默认帐户
+    default_account_name: 默认模账号
     default_site_administrator_account_name: "平台默认管理员\n"
     default_term_name: 默认学期
     errors: 
@@ -31,7 +31,7 @@ zh-CN:
     tab_settings: 维护设置
     tab_sis_import: "SIS 导入"
     tab_statistics: 统计
-    tab_sub_accounts: 子帐户
+    tab_sub_accounts: 子模账号
     tab_terms: 学期
     tab_users: 用户
     turnitin_pledge: 原始作业
@@ -66,10 +66,10 @@ zh-CN:
       delete_auth_link: 删除身份认证
       edit_auth_link: 编辑详细信息
       ip_address_list_description: "如果使用的身份认证服务要求教学邦服务器与您的服务器直接连接，例如 LDAP，则需确保您的服务器可以接受来自以下 IP 地址的连接:"
-      no_auth_type_description: 此帐户目前未与身份提供商集成。
+      no_auth_type_description: 此模账号目前未与身份提供商集成。
       page_title: 身份认证设置
       profile_page_link_example: "例如，下面是您的配置文件页面: [%{friendlyname}](%{url})"
-      settings_description: "为了让用户通过外部身份提供商 (IdP) 进行身份认证，用户必须具有链接到此帐户并且与 IdP 返回的唯一标识符匹配的登录标识符。要查看用户的当前登录，请参阅用户配置文件页面上的\"登录信息\"部分。（可通过在用户选项卡上搜索\"用户\"来查找。）"
+      settings_description: "为了让用户通过外部身份提供商 (IdP) 进行身份认证，用户必须具有链接到此模账号并且与 IdP 返回的唯一标识符匹配的登录标识符。要查看用户的当前登录，请参阅用户配置文件页面上的\"登录信息\"部分。（可通过在用户选项卡上搜索\"用户\"来查找。）"
       settings_title: 身份认证设置
       test_ldap_link: 测试身份认证
       title: 身份认证设置
@@ -221,14 +221,14 @@ zh-CN:
   account_settings: 
     confirms: 
       delete_announcement: 您确定要删除本公告吗？
-      remove_account_admin: 是否确定要删除此管理员帐户?
+      remove_account_admin: 是否确定要删除此管理员模账号?
     links: 
       turnitin: 
         confirm_settings: "确认 Turnitin 设置"
     notices: 
       turnitin: 
         checking_settings: "正在检查 Turnitin 设置..."
-        invalid_settings: "Turnitin 设置无效，请从 Turnitin 检查您的帐户 ID 和共享密钥"
+        invalid_settings: "Turnitin 设置无效，请从 Turnitin 检查您的模账号 ID 和共享密钥"
         setings_confirmed: "Turnitin 设置已确认！"
     titles: 
       configure_report: 配置报告
@@ -295,7 +295,7 @@ zh-CN:
       title: 头像
       unlock_link: 解锁
     confirm_delete_user: 
-      confirm_delete: "是否确定要从帐户 %{account} 删除此用户? 这将导致该用户在所有课程和组删除（包括评分）的数据被删除。此过程无法恢复。"
+      confirm_delete: "是否确定要从模账号 %{account} 删除此用户? 这将导致该用户在所有课程和组删除（包括评分）的数据被删除。此过程无法恢复。"
       delete_button: "删除 %{user}"
       page_title: 确认删除
       title: "确认从 %{account} 删除 %{user}"
@@ -344,10 +344,10 @@ zh-CN:
             note: 已经屏蔽的作业可能没有计入到成绩报告中
       all_terms: 所有学期
     index: 
-      accounts_crumb: 帐户
-      no_accounts_message: 无帐户
-      page_title: 帐户
-      title: "帐户 I 管理"
+      accounts_crumb: 模账号
+      no_accounts_message: 无模账号
+      page_title: 模账号
+      title: "模账号 I 管理"
     no_user_message: "找不到使用该 ID 的用户"
     provisioning_csv_description: 
       account_reports: 
@@ -355,7 +355,7 @@ zh-CN:
           description: 
             text: 这个报表导出所有与教学邦平台预期发展相关的分类
     settings: 
-      about_google_docs: "为了让用户更方便，而不强制他们下载Word 文档、PDF、Excel 电子表格等内容以及打开办公文档，在整个教学邦的许多区域，用户可以内联预览文档。 如果已为此帐户启用 Scribd，将会尝试用其显示预览。但由于Scribd 使用 flash 显示文档，而许多用户（ iPad/iPhone 用户）没有安装Flash，无法预览。在启用Google Docs 预览后，若浏览器未启用 Flash或Scribd 未启用，将使用 Google Docs 预览功能。[使用条款](%{terms_url}) "
+      about_google_docs: "为了让用户更方便，而不强制他们下载Word 文档、PDF、Excel 电子表格等内容以及打开办公文档，在整个教学邦的许多区域，用户可以内联预览文档。 如果已为此模账号启用 Scribd，将会尝试用其显示预览。但由于Scribd 使用 flash 显示文档，而许多用户（ iPad/iPhone 用户）没有安装Flash，无法预览。在启用Google Docs 预览后，若浏览器未启用 Flash或Scribd 未启用，将使用 Google Docs 预览功能。[使用条款](%{terms_url}) "
       about_google_docs_tooltip: "关于 Google Docs 预览"
       account_admins_title: 网校管理员
       account_settings_title: 网校设置
@@ -387,9 +387,9 @@ zh-CN:
       equella_settings_title: "Equella 设置"
       external_tools_title: 外部工具
       features_title: 功能
-      global_announcements_description: "您可以在帐户中使用全局通知在所有用户的面板上发布即时消息。这些消息将会在每个用户的面板上显示指定的时长，或者显示至用户单击\"关闭\"链接忽略该警报。 **这些通知应尽量少用。**"
+      global_announcements_description: "您可以在模账号中使用全局通知在所有用户的面板上发布即时消息。这些消息将会在每个用户的面板上显示指定的时长，或者显示至用户单击\"关闭\"链接忽略该警报。 **这些通知应尽量少用。**"
       global_announcements_title: 全校公告
-      global_js_and_css_includes_description: 这些文件将包含在为您的帐户加载的所有页面中
+      global_js_and_css_includes_description: 这些文件将包含在为您的模账号加载的所有页面中
       global_js_and_css_includes_title: "全局 JavaScript 和 CSS 包含"
       headers: 
         report_last_run: 上次运行
@@ -441,7 +441,7 @@ zh-CN:
         subject: 主题
         teachers_can_create_courses: 教师
         turnitin: Turnitin
-        turnitin_account_id: "Turnitin 帐户 ID"
+        turnitin_account_id: "Turnitin 模账号 ID"
         turnitin_comments: "Turnitin 提交评语"
         turnitin_pledge: "Turnitin 保证"
         turnitin_shared_secret: "Turnitin 共享密钥"
@@ -609,7 +609,7 @@ zh-CN:
     test_ldap_result_canceled: 已取消
     test_ldap_result_failed: 已失败
     test_ldap_result_ok: OK
-    update_failed_notice: 帐户设置更新失败
+    update_failed_notice: 模账号设置更新失败
     user_add_failed_message: 添加用户失败，请重试
     user_added_message: "%{user} 已成功添加！"
     user_added_message_sent_message: "%{user} 已成功添加！他们应该很快会收到确认电子邮件。"
@@ -734,7 +734,7 @@ zh-CN:
       mismatched_verification_code: 验证代码与当前注册的任何用户都不匹配。
       permission_denied: 您没有访问该页面的权限
       quota_exceeded: 已超过存储配额
-      quota_exceeded_account: 已超过帐户存储配额
+      quota_exceeded_account: 已超过模账号存储配额
       quota_exceeded_course: 已超过课程存储配额
       quota_exceeded_group: 已超过组存储配额
       quota_exceeded_user: 已超过用户存储配额
@@ -1126,7 +1126,7 @@ zh-CN:
           text_entry: 文本输入
           website: "网站 URL"
       messages: 
-        google_docs_auth_required: "必须授权教学邦访问您的 Google Docs 帐户，然后才可直接从 Google Docs 提交作业:"
+        google_docs_auth_required: "必须授权教学邦访问您的 Google Docs 模账号，然后才可直接从 Google Docs 提交作业:"
         media_recording_ready: 可以提交!单击"提交作业"按钮以完成。
         media_recordings_disabled: 没有为此教学邦网站启用录制语音视频，您无法提交这些类型的作业。请联系教师更改此作业的设置，或者要求教学邦管理员启用录制语音视频。
         submitting: 正在提交...
@@ -1258,7 +1258,7 @@ zh-CN:
     update: 更新
     update_learning_outcome: 更新学习成果
     update_outcome_group: 更新成果组
-    view_account_roster: 查看帐户清单
+    view_account_roster: 查看模账号清单
     view_course_roster: 查看课程清单
   calculator: 
     buttons: 
@@ -1703,8 +1703,8 @@ zh-CN:
         update: 更新协作
       collaboration_name: "%{course_or_group_name} 协作"
       descriptions: 
-        etherpad: "EtherPad一个开放源码项目，可让您快速设置共享文档。其速度足以让您看到他人键入的过程。另一方面，\"PADS\"无密码保护，因此与其链接的任何人都可以编辑。如果您要支持匿名和/或允许没有 Google 帐户的人参与，EtherPad 比 Google Docs 更适合。"
-        google_docs: "Google Docs是协作处理组项目的极佳方式。它像 Microsoft Word，但可让您同时与他人合作处理同一文件，而无需发送电子邮件。 **警告**:您（及您的协作者）必须具有 Google 帐户才可参与任何 Google Docs 协作。"
+        etherpad: "EtherPad一个开放源码项目，可让您快速设置共享文档。其速度足以让您看到他人键入的过程。另一方面，\"PADS\"无密码保护，因此与其链接的任何人都可以编辑。如果您要支持匿名和/或允许没有 Google 模账号的人参与，EtherPad 比 Google Docs 更适合。"
+        google_docs: "Google Docs是协作处理组项目的极佳方式。它像 Microsoft Word，但可让您同时与他人合作处理同一文件，而无需发送电子邮件。 **警告**:您（及您的协作者）必须具有 Google 模账号才可参与任何 Google Docs 协作。"
       labels: 
         collaborate_using: 协作方式
         description: 说明
@@ -1740,7 +1740,7 @@ zh-CN:
       event: 事项
   communication_channel: 
     body: "你的教学邦验证码为 %{verification_code} "
-    default_facebook_account: "Facebook 帐户"
+    default_facebook_account: "Facebook 模账号"
     default_twitter_handle: "Twitter 处理"
   communication_channels: 
     confirm: 
@@ -1767,7 +1767,7 @@ zh-CN:
         choose_login: 选择要登录的位置。
         logged_in_other_user: "**%{email}** 是接受邀请的邮箱，而您目前正在用另一个邮箱账户 **%{user}** 登录。"
         logged_in_other_user_course: "课程 %{course} 的邀请是发送到邮箱账户 **%{email}**，而您目前正在登录的账户是 **%{user}**。"
-        merge_multiple: "选择要与 **%{current_user}** 合并的帐户。"
+        merge_multiple: "选择要与 **%{current_user}** 合并的模账号。"
         merge_one: "是否要合并 **%{current_user}** 与 **%{other_user}**?"
         multiple_accounts_course: "已经有以下 %{count} 个用户关联了这个邮箱"
         none_of_these: 以上都不是，我需要注新用户
@@ -2452,7 +2452,7 @@ zh-CN:
         users_details: "%{user} 的详细信息"
       help: 
         list_services: 您未启用已注册服务的列表。启用此列表可让课程和组的同学成员在课外更轻松地与您链接。
-        services: "您没有将用户配置文件链接到任何外部服务。您可以将教学邦帐户链接到 Facebook 和Twitter 等服务。这更便于课程和组同学成员在课外与您链接。"
+        services: "您没有将用户配置文件链接到任何外部服务。您可以将教学邦模账号链接到 Facebook 和Twitter 等服务。这更便于课程和组同学成员在课外与您链接。"
       labels: 
         public_list_services: 让课程/组同学成员查看我已将哪些服务链接到配置文件
         user_privileges: 权限
@@ -2465,7 +2465,7 @@ zh-CN:
         delete_enrollment: 删除此注册
         faculty_journal: "%{user} 的教师日志"
         link_enrollment: 链接此注册
-        link_services: "链接 Web 服务到我的帐户"
+        link_services: "链接 Web 服务到我的模账号"
         message_user: "消息 %{user}"
         more_user_details: 更多用户详细信息...
         remove_avatar: 删除头像
@@ -2475,13 +2475,13 @@ zh-CN:
         teacher_activity: "%{user} 的学生交互报告"
         title: 
           enrollment_sis_defined: 此注册已被大学定义，无法删除
-        user_account_details: 用户帐户详细信息
+        user_account_details: 用户模账号详细信息
         user_grades: "%{user} 的评分"
         user_only_view_section: 将此用户限于只能查看学群(班级)同学用户
         user_outcomes: "%{user} 的成果"
         user_view_all_sections: 让此用户查看所有课程用户
       no_messages: 无消息
-      no_services: "%{user} 尚未将任何外部服务链接至其帐户。"
+      no_services: "%{user} 尚未将任何外部服务链接至其模账号。"
       services_not_visible: "您目前无法看见 %{user} 的注册服务。"
       user_only_view_section: 此用户只能在其被作业的课程学群(班级)中查看学生
       user_view_all_sections: 此用户可在任何课程学群(班级)查看学生
@@ -2490,17 +2490,17 @@ zh-CN:
         registered_services: 注册的服务
         service_types: 服务类型
       help: 
-        no_services: "您没有将用户配置文件链接到任何外部服务。您可以将教学邦帐户链接到 Facebook 和 Twitter 等服务。"
-        services_private: 您未启用已注册服务的列表。启用此列表可让课程和组同学成员查看您已将哪些服务链接至您的教学邦帐户。
-        user_services: 如果其他成员选择，他们可让您查看他们已将哪些外部服务链接至其教学邦帐户。这样更便于协调组项目以及链接课堂外部。
+        no_services: "您没有将用户配置文件链接到任何外部服务。您可以将教学邦模账号链接到 Facebook 和 Twitter 等服务。"
+        services_private: 您未启用已注册服务的列表。启用此列表可让课程和组同学成员查看您已将哪些服务链接至您的教学邦模账号。
+        user_services: 如果其他成员选择，他们可让您查看他们已将哪些外部服务链接至其教学邦模账号。这样更便于协调组项目以及链接课堂外部。
       labels: 
         allow_view_services: 让课程/组同学成员查看我已将哪些服务链接到配置文件
       links: 
         alt: 
           skype_status: "skype 状态"
         back_to_roster: 返回清单
-        link_existing_service_account: 链接现有帐户
-        link_service: "链接 Web 服务到我的帐户"
+        link_existing_service_account: 链接现有模账号
+        link_service: "链接 Web 服务到我的模账号"
         sign_up_for_service: 注册
       titles: 
         registered_services: 注册的服务
@@ -3149,7 +3149,7 @@ zh-CN:
       invitation: 
         designer: "您被邀请作为用户 *%{user}* 以*设计者*身份参与此课程。"
         observer: "您被邀请作为用户 *%{user}* 以*家长*身份参与此课程。"
-        other: "您被邀请参与用户帐户 *%{user}* 的此课程。"
+        other: "您被邀请参与用户模账号 *%{user}* 的此课程。"
         student: "您被邀请作为用户 *%{user}* 以*学生*身份参与此课程。"
         ta: "您被邀请作为用户 *%{user}* 以*助教*身份参与此课程。"
         teacher: "您被邀请作为用户 *%{user}* 以*教师*身份参与此课程。"
@@ -3210,7 +3210,7 @@ zh-CN:
       titles: 
         invitation: "邀请参与 %{course}"
     open_enrollment_confirmed: 
-      details: "几分钟内您的 %{email} 中会收到一封电子邮件。该电子邮件中含有链接，可用于完成注册过程。在设置帐户之后，您就可以访问 %{course} 的内容。欢迎使用 教学邦！"
+      details: "几分钟内您的 %{email} 中会收到一封电子邮件。该电子邮件中含有链接，可用于完成注册过程。在设置模账号之后，您就可以访问 %{course} 的内容。欢迎使用 教学邦！"
       headings: 
         invitation: 课程邀请
         received: 邀请已收到！
@@ -3341,7 +3341,7 @@ zh-CN:
         edit_course: 编辑课程详细信息
         hashtag_help: "什么是 Hashtag?"
         more_options: 更多选项
-        move_course: 移动到其他帐户
+        move_course: 移动到其他模账号
         title: 
           cant_delete: 无法删除用户已注册的学群(班级)
           delete_section: 删除学群(班级)
@@ -3468,7 +3468,7 @@ zh-CN:
       titles: 
         drop_course: 放弃此课程
         join_course: 参与此课程
-        recent_feedback: 近期更新
+        recent_feedback: 最近反馈
     sidebar_weighting: 
       default_name: 组
       headings: 
@@ -4273,7 +4273,7 @@ zh-CN:
     errors: 
       save_tool_settings_failed: 保存工具设置失败
     external_tool: 
-      account_navigation_configured: 配置帐户导航
+      account_navigation_configured: 配置模账号导航
       course_navigation_configured: 课程导航配置
       delete_tool: 删除工具
       edit_tool: 编辑工具
@@ -4343,11 +4343,11 @@ zh-CN:
       all_set: 已设置完毕！
       bookmark_notice: "您可以从 Facebook 主页查看教学邦新通知的数量（如果您制作了此应用程序的书签）。"
       canvas_messages: "教学邦 消息"
-      configure_notification_preferences_notice: 在*配置您的通知首选项*之后，就可以在此处看到通知，从而知道您的教学邦帐户中发生的事情。
-      installation_about: "要安装教学邦Facebook 应用程序，请转至教学邦中的配置文件页面，然后单击 Facebook 按钮将您的帐户连接到 Facebook。"
+      configure_notification_preferences_notice: 在*配置您的通知首选项*之后，就可以在此处看到通知，从而知道您的教学邦模账号中发生的事情。
+      installation_about: "要安装教学邦Facebook 应用程序，请转至教学邦中的配置文件页面，然后单击 Facebook 按钮将您的模账号连接到 Facebook。"
       learn_more: "更多信息请参阅 .com"
       more_information: "更多信息请参阅 %{domain_list}"
-      no_messages_notice: 当课程中发生事情时，您将在此处看到通知，从而知道您的教学邦帐户中发生的事情。
+      no_messages_notice: 当课程中发生事情时，您将在此处看到通知，从而知道您的教学邦模账号中发生的事情。
       notification_about: "教学邦 Facebook 应用程序旨在方便您访问课程中的互动信息。您可以设置为当您的作业被评分、当期日期更改等活动时向您发送通知。您的私人数据在教学邦中仍然保持私密性。"
       notification_settings: 通知设置
       notifications_notice: "下面您可以看到来自教学邦的最近通知列表。您可以从 Facebook 主页查看教学邦新通知的数量（如果您制作了此应用程序的书签）。"
@@ -4379,7 +4379,7 @@ zh-CN:
     settings: 
       back_to_messages: 返回到消息
       link_needed: "在配置教学邦Facebook 应用程序之前需要将其链接到您的教学邦登录。请单击 \"欢迎\" 了解更多信息。"
-      notifications_config_notice: "来自教学邦的通知可自动发送到您的 Facebook 帐户。下面您会看到可发送的通知类型。您可以在此处或教学邦中随时更改您的通知首选项。"
+      notifications_config_notice: "来自教学邦的通知可自动发送到您的 Facebook 模账号。下面您会看到可发送的通知类型。您可以在此处或教学邦中随时更改您的通知首选项。"
       settings_title: "教学邦 通知设置"
       updating_preferences: 正在更新首选项...
   files: 
@@ -4444,7 +4444,7 @@ zh-CN:
         folder_locked: 此文件夹被锁定，学生无法查看。
         folder_locked_after: "它将在 %{lock_at} 之后锁定。"
         folder_locked_until: "它在 %{unlock_at} 之前锁定。"
-        google_docs: "Google Docs 是协作处理组项目的极佳方式。它像 Microsoft Word，但可让您与他人合作处理同一文件，而无需发送电子邮件。参与任何 Google Docs 协作都需要 Google 帐户。"
+        google_docs: "Google Docs 是协作处理组项目的极佳方式。它像 Microsoft Word，但可让您与他人合作处理同一文件，而无需发送电子邮件。参与任何 Google Docs 协作都需要 Google 模账号。"
         lock_file: 文件被锁定后，只有教师和助教才能访问它。
         lock_folder: 文件夹被锁定后，只有教师和助教才能访问它。
       drop_here: 将文件拖放到此处以添加到此文件夹。
@@ -5271,7 +5271,7 @@ zh-CN:
       delete_group: 是否确定要删除此组?
       remove_category: 是否确定要删除此组设置?
     context_groups: 
-      account_groups: 帐户组
+      account_groups: 模账号组
       actions: 
         add: 开始新组
       buttons: 
@@ -5292,7 +5292,7 @@ zh-CN:
       page_title: 课程组
       student_group_warning: "如果您的教师将您作业到某个组，这肯定是有目的性的。您们自发组织的组不能用于评分... 您们仍可组建自己的组，但这样无法提交任何作业的电子副本，除非您加入教师作业的组。"
     context_manage_groups: 
-      account_group_explanation: 帐户级学生组是一种不依附特定课程而组织学生组的良好方式。每个学生组有自己的日历、讨论板和协作工具，从而能够更加有效地组织和合作。
+      account_group_explanation: 模账号级学生组是一种不依附特定课程而组织学生组的良好方式。每个学生组有自己的日历、讨论板和协作工具，从而能够更加有效地组织和合作。
       actions: 
         add_students: 向课程添加学生
       buttons: 
@@ -5303,7 +5303,7 @@ zh-CN:
       group_assignment_instructions: 您可以随机作业学生到指定规模的组，或手动创建并组织组。创建组之后，您可以设置作业为"组提交"作业，这意味着每个组的所有用户将提交相同主题的提交文件。
       group_pages: 组页面
       headings: 
-        account_groups: 帐户级学生组
+        account_groups: 模账号级学生组
         course_groups: 学生组
       messages: 
         no_students: 尚未添加学生到此课程
@@ -5429,7 +5429,7 @@ zh-CN:
       new_course: 开设新课
       start_a_group: 创建一个组
   instructions: 
-    authorize_google_docs: "需要授权教学邦访问您的 Google Docs 帐户之后才能协作处理文档:"
+    authorize_google_docs: "需要授权教学邦访问您的 Google Docs 模账号之后才能协作处理文档:"
   instructure: 
     alerts: 
       file_previews_disabled: 此教学邦网站已禁用文件预览
@@ -5606,7 +5606,7 @@ zh-CN:
     head: 
       default_page_title: 教学邦平台
     menu: 
-      view_all_accounts: 查看所有帐户
+      view_all_accounts: 查看所有模账号
       view_all_enrollments: 查看所有课程
       view_all_groups: 查看所有组
   learning_outcome: 
@@ -5650,7 +5650,7 @@ zh-CN:
       default_document_name: " Doc"
     incoming_message_processor: 
       failure_message: 
-        body: "标题为\"%{subject}\"的邮件无法送达。该邮件被发送到一个未知的邮箱地址。如果您尝试通过教学邦联系某人，可以尝试登录到您的帐户并使用\"消息\"工具向其发送消息。 谢谢！教学邦支持部门"
+        body: "标题为\"%{subject}\"的邮件无法送达。该邮件被发送到一个未知的邮箱地址。如果您尝试通过教学邦联系某人，可以尝试登录到您的模账号并使用\"消息\"工具向其发送消息。 谢谢！教学邦支持部门"
         subject: "消息回复失败%{subject}"
     send_to_inbox: 
       default_subject: 无主题
@@ -5734,7 +5734,7 @@ zh-CN:
   menu: 
     current_groups: 当前组
     customize: 自定义
-    managed_accounts: 管理的帐户
+    managed_accounts: 管理的模账号
     my_courses: 我的课程
   message: 
     default_subject: "教学邦 警报"
@@ -5748,15 +5748,15 @@ zh-CN:
   messages: 
     account_user_notification: 
       email: 
-        subject: 帐户管理员通知
-        url_info: "此处访问帐户页面: %{url}"
+        subject: 模账号管理员通知
+        url_info: "此处访问模账号页面: %{url}"
     account_user_registration: 
       email: 
-        added_message: "您已作为 %{role_type} 添加到 %{website} 上的帐户 %{account}。"
+        added_message: "您已作为 %{role_type} 添加到 %{website} 上的模账号 %{account}。"
         email_info: "电子邮件: %{email}"
         name_info: "名称: %{name}"
-        subject: "教学邦 帐户管理员邀请"
-        url_info: "您将需要向教学邦注册，然后才能作为帐户管理员参与。您可在此处完成注册过程: %{url}"
+        subject: "教学邦 模账号管理员邀请"
+        url_info: "您将需要向教学邦注册，然后才能作为模账号管理员参与。您可在此处完成注册过程: %{url}"
         username_info: "用户名: %{username}"
     added_to_conversation: 
       email: 
@@ -6258,7 +6258,7 @@ zh-CN:
         subject: "确认电子邮件:教学邦"
     confirm_registration: 
       email: 
-        body: "感谢您注册 教学邦！此电子邮件用于确认用户 %{user} 在 %{website} 注册的新帐户。"
+        body: "感谢您注册 教学邦！此电子邮件用于确认用户 %{user} 在 %{website} 注册的新模账号。"
         details: "要完成注册过程，请访问以下 url:"
         subject: "确认注册:教学邦"
     confirm_sms_communication_channel: 
@@ -6491,7 +6491,7 @@ zh-CN:
       email: 
         associated_login: "此地址关联登录信息\"%{login_identifier}\"。"
         labels: 
-          associated_with_accounts: 此地址关联以下帐户
+          associated_with_accounts: 此地址关联以下模账号
           change_password_at: 在以下位置更改此登录信息的密码
           click_to_reset: 要设置新密码，请单击以下链接
         login_at_account: "%{login_email} at %{account_name}"
@@ -6541,7 +6541,7 @@ zh-CN:
         subject: "教学邦 警报 - 最近组提交文件:%{group_name}，%{assignment_name}"
     group_membership_accepted: 
       email: 
-        account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被接受。"
+        account_group: "模账号 %{account_name} 加入组 %{group_name} 的请求已被接受。"
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被接受。"
         group_request_accepted: "组请求已接受: %{group_name}"
         labels: 
@@ -6552,19 +6552,19 @@ zh-CN:
         course_group: " 申请加入组 **[%{group_name}](%{group_url})**  课程 %{course_name}请求已被接受。"
         group_request_accepted: "申请加入组: %{group_name} 已批准"
       sms: 
-        account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被接受。"
+        account_group: "模账号 %{account_name} 加入组 %{group_name} 的请求已被接受。"
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被接受。"
         more_info: "更多信息请访问 %{web_address}"
       summary: 
-        account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被接受。"
+        account_group: "模账号 %{account_name} 加入组 %{group_name} 的请求已被接受。"
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被接受。"
         subject: "组成员资格已接受: %{group_name}"
       twitter: 
-        account_group: "教学邦 警报 - 组成员资格已接受:%{group_name}（帐户 %{account_name}）。"
+        account_group: "教学邦 警报 - 组成员资格已接受:%{group_name}（模账号 %{account_name}）。"
         course_group: "教学邦 警报 - 组成员资格已接受:%{group_name}（课程 %{course_name}）。"
     group_membership_rejected: 
       email: 
-        account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
+        account_group: "模账号 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被拒绝。"
         group_request_rejected: "组请求已拒绝: %{group_name}"
         labels: 
@@ -6574,20 +6574,20 @@ zh-CN:
         account_group: "您的加入组 **[%{group_name}](%{group_url})** 网校 %{account_name} 的请求没有通过。"
         course_group: "加入组 **[%{group_name}](%{group_url})** %{course_name}的请求已被拒绝。"
       sms: 
-        account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
+        account_group: "模账号 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被拒绝。"
         more_info: "更多信息请访问 %{web_address}"
       summary: 
-        account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
+        account_group: "模账号 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被拒绝。"
         subject: "%{group_name} 的组成员资格已拒绝"
       twitter: 
-        account_group: "教学邦 警报 - 组成员资格已拒绝:%{group_name}（帐户 %{account_name}）。"
+        account_group: "教学邦 警报 - 组成员资格已拒绝:%{group_name}（模账号 %{account_name}）。"
         course_group: "教学邦 警报 - 组成员资格已拒绝:%{group_name}（课程 %{course_name}）。"
     merge_email_communication_channel: 
       email: 
-        body: "已在 %{url} 为您创建一个帐户，但您已有教学邦帐户。如果想要将其合并在一起，请访问以下 url:"
-        subject: 新教学邦帐户
+        body: "已在 %{url} 为您创建一个模账号，但您已有教学邦模账号。如果想要将其合并在一起，请访问以下 url:"
+        subject: 新教学邦模账号
     message: 
       titles: 
         created_at: 创建于：
@@ -6617,18 +6617,18 @@ zh-CN:
         subject: "课程导入已完成: %{course_name}"
     new_account_user: 
       email: 
-        body: "%{account} 的新帐户管理员"
-        details: "已添加帐户 %{account} 的新管理员 %{user}"
-        subject: 新帐户用户
+        body: "%{account} 的新模账号管理员"
+        details: "已添加模账号 %{account} 的新管理员 %{user}"
+        subject: 新模账号用户
       facebook: 
-        body: "已添加帐户 **%{account}** 的新管理员 **%{user}**。"
-        subject: "%{account} 的新帐户管理员"
+        body: "已添加模账号 **%{account}** 的新管理员 **%{user}**。"
+        subject: "%{account} 的新模账号管理员"
       sms: 
-        body: "已添加帐户 %{account} 的新管理员 %{user}"
+        body: "已添加模账号 %{account} 的新管理员 %{user}"
         details: "更多信息请访问 %{website}"
       summary: 
-        body: "已添加帐户 %{account} 的新管理员 %{user}"
-        subject: 新帐户用户
+        body: "已添加模账号 %{account} 的新管理员 %{user}"
+        subject: 新模账号用户
       twitter: 
         body: "教学邦 警报 - 新管理员:%{user}，%{account}"
     new_announcement: 
@@ -6644,65 +6644,65 @@ zh-CN:
         body: "教学邦 警报 - 通知:%{title}，%{course}。"
     new_context_group_membership: 
       email: 
-        body_account: "您已被添加到帐户 %{account} 的新组。组名称为 %{group_name}。"
+        body_account: "您已被添加到模账号 %{account} 的新组。组名称为 %{group_name}。"
         body_course: "您已被添加到课程 %{course} 的新组。组名称为 %{group_name}。"
-        details_account: "您可通过单击下面的链接查看此帐户是哪些组的组成部分:"
+        details_account: "您可通过单击下面的链接查看此模账号是哪些组的组成部分:"
         subject: "%{course_or_account} 的新组成员资格"
         title: "新组成员资格: %{group_name}"
       facebook: 
-        body_account: "您已被添加到帐户 %{account} 的新组。组名称为 %{group_name}。"
+        body_account: "您已被添加到模账号 %{account} 的新组。组名称为 %{group_name}。"
         body_course: "您已被添加到课程 %{course} 的新组。组名称为 %{group_name}。"
       sms: 
-        body_account: "您已被添加到帐户 %{account} 的新组。组名称为 %{group_name}。"
+        body_account: "您已被添加到模账号 %{account} 的新组。组名称为 %{group_name}。"
         body_course: "您已被添加到课程 %{course} 的新组。组名称为 %{group_name}。"
         details: "更多信息请访问 %{url}"
       summary: 
-        body_account: "您已被添加到帐户 %{account} 的新组。组名称为 %{group_name}。"
+        body_account: "您已被添加到模账号 %{account} 的新组。组名称为 %{group_name}。"
         body_course: "您已被添加到课程 %{course} 的新组。组名称为 %{group_name}。"
         subject: "%{course_or_account} 的新组成员资格"
       twitter: 
-        body_account: "教学邦 警报 - 新组:%{group} （帐户 %{account}）"
+        body_account: "教学邦 警报 - 新组:%{group} （模账号 %{account}）"
         body_course: "教学邦 警报 - 新组:%{group} （课程 %{course}）"
     new_context_group_membership_invitation: 
       email: 
-        body_account: "您已被邀请加入帐户 %{account} 的组 %{group}。"
+        body_account: "您已被邀请加入模账号 %{account} 的组 %{group}。"
         body_course: "您已被邀请加入课程 %{course} 的组 %{group}。"
         details: "您可通过单击下面的链接检查组:"
         subject: "%{course_or_account} 的新组成员资格"
         title: "新组成员资格: %{group_name}"
       facebook: 
-        body_account: "您已被邀请加入帐户 %{account} 的组 %{group}。"
+        body_account: "您已被邀请加入模账号 %{account} 的组 %{group}。"
         body_course: "您已被邀请加入课程 %{course} 的组 %{group}。"
       sms: 
-        body_account: "您已被邀请加入帐户 %{account} 的组 %{group}。"
+        body_account: "您已被邀请加入模账号 %{account} 的组 %{group}。"
         body_course: "您已被邀请加入课程 %{course} 的组 %{group}。"
         details: "更多信息请访问 %{url}"
       summary: 
-        body_account: "您已被邀请加入帐户 %{account} 的组 %{group}。"
+        body_account: "您已被邀请加入模账号 %{account} 的组 %{group}。"
         body_course: "您已被邀请加入课程 %{course} 的组 %{group}。"
         subject: "%{course_or_account} 的新组成员资格"
       twitter: 
-        body_account: "教学邦 警报 - 邀请:%{group} （帐户 %{account}）"
+        body_account: "教学邦 警报 - 邀请:%{group} （模账号 %{account}）"
         body_course: "教学邦 警报 - 邀请:%{group}（课程 %{course}）。"
     new_course: 
       email: 
-        body: "已添加帐户 %{account} 的课程 %{course}"
+        body: "已添加模账号 %{account} 的课程 %{course}"
         labels: 
           teachers: 教师
         subject: 新课程
         title: "%{account} 的新课程"
       facebook: 
-        body: "已添加帐户 **%{account}** 的新课程 **%{course}**。"
+        body: "已添加模账号 **%{account}** 的新课程 **%{course}**。"
         labels: 
           teachers: 教师
         subject: "%{account} 的新课程"
       sms: 
-        body: "已添加帐户 %{account} 的新课程 %{course}"
+        body: "已添加模账号 %{account} 的新课程 %{course}"
         details: "更多信息请访问 %{url}"
         labels: 
           teachers: 教师
       summary: 
-        body: "已添加帐户 %{account} 的新课程 %{course}"
+        body: "已添加模账号 %{account} 的新课程 %{course}"
         labels: 
           teachers: 教师
         subject: 新课程
@@ -6765,23 +6765,23 @@ zh-CN:
         subject: "教学邦 警报 - 活动:%{event_title}，%{course_name}"
     new_student_organized_group: 
       email: 
-        body_account: "已为帐户 %{account} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
+        body_account: "已为模账号 %{account} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
         body_course: "已为课程 %{course} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
         details: "您可通过单击下面的链接查看该组的详细信息:"
         subject: "%{course_or_account} 的新学生组"
         title: "新学生组: %{group_name}"
       facebook: 
-        body_account: "已为帐户 %{account} 创建名为 %{group_name} 的新学生组织组。第一位成员是 %{user}。"
+        body_account: "已为模账号 %{account} 创建名为 %{group_name} 的新学生组织组。第一位成员是 %{user}。"
         body_course: "已为课程 %{course} 创建名为 %{group_name} 的新学生组织组。第一位成员是 %{user}。"
       sms: 
-        body_account: "已为帐户 %{account} 创建名为\"%{group_name}\"的新组。第一位成员是 %{user}。"
+        body_account: "已为模账号 %{account} 创建名为\"%{group_name}\"的新组。第一位成员是 %{user}。"
         body_course: "已为课程 %{course} 创建名为\"%{group_name}\"的新组。第一位成员是 %{user}。"
         detail: "更多信息请访问 %{url}"
       summary: 
-        body_account: "已为帐户 %{account} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
+        body_account: "已为模账号 %{account} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
         body_course: "已为课程 %{course} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
       twitter: 
-        body_account: "教学邦 警报 - 新组:%{group_name} （帐户 %{account}）"
+        body_account: "教学邦 警报 - 新组:%{group_name} （模账号 %{account}）"
         body_course: "教学邦 警报 - 新组:%{group_name} （课程 %{course}）"
     new_teacher_registration: 
       email: 
@@ -6809,17 +6809,17 @@ zh-CN:
         body: "教学邦 警报 - 新教师:%{user}，%{account}"
     new_user: 
       email: 
-        body: "刚刚注册帐户 %{account} 的新用户 %{user}"
+        body: "刚刚注册模账号 %{account} 的新用户 %{user}"
         subject: 新用户
         title: "%{account} 的新用户"
       facebook: 
-        body: "刚刚注册帐户 **%{account}** 的新用户 **%{user}**。"
+        body: "刚刚注册模账号 **%{account}** 的新用户 **%{user}**。"
         title: "%{account} 的新用户"
       sms: 
-        body: "已注册帐户 %{account} 的新用户 %{user}"
+        body: "已注册模账号 %{account} 的新用户 %{user}"
         details: "更多信息请访问 %{url}"
       summary: 
-        body: "刚刚注册帐户 %{account} 的新用户 %{user}"
+        body: "刚刚注册模账号 %{account} 的新用户 %{user}"
         subject: 新用户
       twitter: 
         body: "教学邦 警报 - 新用户:%{user}，%{account}"
@@ -6829,7 +6829,7 @@ zh-CN:
     page_locked_until: "此页面锁定至 %{date}。"
     pseudonym_registration: 
       email: 
-        body: "您已在 %{account} 注册教学邦帐户！您将需要完成配置过程，然后才能登录和开始使用教学邦。"
+        body: "您已在 %{account} 注册教学邦模账号！您将需要完成配置过程，然后才能登录和开始使用教学邦。"
         link_message: "要完成注册过程，请访问以下 url:"
         subject: "完成注册:教学邦"
     quiz_locked: 此测试当前锁定。
@@ -7123,8 +7123,8 @@ zh-CN:
     missing_description_description: "有关 %{category} 通知"
     missing_display_display: " %{category} 通知"
     names: 
-      account_user_notification: 帐户用户通知
-      account_user_registration: 帐户用户注册
+      account_user_notification: 模账号用户通知
+      account_user_registration: 模账号用户注册
       added_to_conversation: 添加到会话
       alert: 警报
       appointment_canceled_by_user: 由用户取消预约
@@ -7165,7 +7165,7 @@ zh-CN:
       migration_export_ready: 迁移导出就绪
       migration_import_failed: 迁移导入失败
       migration_import_finished: 迁移导入完成
-      new_account_user: 新帐户用户
+      new_account_user: 新模账号用户
       new_announcement: 新公告
       new_context_group_membership: 新内容组成员资格
       new_context_group_membership_invitation: 新内容组成员资格邀请
@@ -7275,7 +7275,7 @@ zh-CN:
       outcome_description: 部分成果
       select_this_outcome: 选择此成果
     index: 
-      back_to_account_home: 返回帐户主页
+      back_to_account_home: 返回模账号主页
       back_to_course_home: 返回课程主页
       back_to_group_home: 返回组主页
       back_to_unknown_home: 返回主页
@@ -7529,13 +7529,13 @@ zh-CN:
           ?
           Then check the boxes for "Add Entry" and "Delete Entry" in the "Sent by Server" column.
       headers: 
-        account_settings: 帐户设置
+        account_settings: 模账号设置
         domain_settings: 域设置
         ui_conf_ids: "UI 配置 ID"
       hints: 
-        domain: 对于托管的帐户，使用"www.kaltura.com"
-        resource_domain: 对于托管的帐户，使用"cdn.kaltura.com"
-        rtmp_domain: 对于托管的帐户，使用"www.kaltura.com"
+        domain: 对于托管的模账号，使用"www.kaltura.com"
+        resource_domain: 对于托管的模账号，使用"cdn.kaltura.com"
+        rtmp_domain: 对于托管的模账号，使用"www.kaltura.com"
       labels: 
         domain: 域
         kcw_ui_conf: "KCW UI 配置 ID"
@@ -7592,7 +7592,7 @@ zh-CN:
       description: "Scribd 文档预览"
       name: Scribd
     scribd_settings: 
-      description: "您将需要 [注册 Scribd API 帐户](%{scribd_url})。 记下您的 API 密钥和 API 密码。这些可在创建后 从个人资料中的\"设置 -> API\"提供。"
+      description: "您将需要 [注册 Scribd API 模账号](%{scribd_url})。 记下您的 API 密钥和 API 密码。这些可在创建后 从个人资料中的\"设置 -> API\"提供。"
       labels: 
         api_key: "API 密钥"
         secret_key: "API 密码"
@@ -7635,7 +7635,7 @@ zh-CN:
       description: "Wimba Web 会议支持"
       name: Wimba
     wimba_settings: 
-      description: "您将需要访问 [Wimba](%{url}) 帐户。"
+      description: "您将需要访问 [Wimba](%{url}) 模账号。"
       domain_description: "（例如 mycompany.wimba.com）"
       labels: 
         domain: 域
@@ -7746,8 +7746,8 @@ zh-CN:
         generate_token: 生成令牌
         new_access_token: 新访问令牌
         regenerate_token: 重新生成令牌
-        register_facebook_account: "注册您的 Facebook 帐户"
-        register_linkedin_account: "注册您的 LinkedIn 帐户"
+        register_facebook_account: "注册您的 Facebook 模账号"
+        register_linkedin_account: "注册您的 LinkedIn 模账号"
         save_login: 保存登录信息
         save_skype_name: "保存 Skype 名称"
         select_image: 选择图像
@@ -7756,7 +7756,7 @@ zh-CN:
       delicious_description: "Delicious 是一个工具，可让您存储和与其他人分享您的书签。教学邦的丰富内容编辑器可让您搜索 Delicious 标记，从而轻松地从教学邦内链接到您觉得有用的其他资源。"
       diigo_description: "Diigo 是专为研究和教育人士量身打造的一款社交书签工具。教学邦 的丰富内容编辑器可让您搜索 Diigo 标记，从而轻松地从教学邦内链接到您觉得有用的其他资源。"
       error_loading_token_details: 加载令牌详细信息时出错
-      facebook_description: "如果您有 Facebook 帐户，您可以安装教学邦应用程序并在个人资料中接收课程通知。您可以指定要接收哪些类型的通知以及多久发送一次。"
+      facebook_description: "如果您有 Facebook 模账号，您可以安装教学邦应用程序并在个人资料中接收课程通知。您可以指定要接收哪些类型的通知以及多久发送一次。"
       full_token_warning: "**立即复制此令牌**。一旦离开此页面，您将无法 再检索完整的令牌，您将不得不重新生成令牌以获取一个新值。"
       generate_access_token_description: "访问令牌是允许第三方应用程序代表您访问教学邦资源的功能。这些令牌通常根据需要自动为应用程序创建，但如果 [您正在部署新的或受限制的项目](%{documentation_url})，您可以恰好从此处生成该令牌。"
       google_docs_description: "一旦您授权我们查看您的 Google Docs，您将能够从 Google Docs 直接提交作业，并且能够创建和与班级成员共享文档。"
@@ -7782,7 +7782,7 @@ zh-CN:
         web_services: "Web 服务"
       hints: 
         expires_at: 留为空白以便不会过期
-        language: 这将覆盖所有浏览器或帐户设置。
+        language: 这将覆盖所有浏览器或模账号设置。
         name: 教师将使用此名称来评分。
         short_name: 人们会在讨论、消息和评论中看到此名称。
         sortable_name: 此名称出现在分类的列表中。
@@ -7815,9 +7815,9 @@ zh-CN:
         token_last_used: 上次使用
         token_purpose: 用途
         user_name: 用户名
-      linkedin_description: "LinkedIn 是一个优秀的业务网络资源，它可以在您完成学业很久以后一直有所帮助如果您拥有 LinkedIn 帐户，可在此处进行注册。然后，如果您允许其他课程/组成员查看您注册的服务，他们就可以轻松地邀请您与他们联系而不必在 LinkedIn 中搜索您的个人资料。"
+      linkedin_description: "LinkedIn 是一个优秀的业务网络资源，它可以在您完成学业很久以后一直有所帮助如果您拥有 LinkedIn 模账号，可在此处进行注册。然后，如果您允许其他课程/组成员查看您注册的服务，他们就可以轻松地邀请您与他们联系而不必在 LinkedIn 中搜索您的个人资料。"
       links: 
-        add_account: 添加帐户
+        add_account: 添加模账号
         configure_mfa: 您要求设置多重身份验证
         delete_account: 删除我的账户
         delicious: Delicious
@@ -7853,9 +7853,9 @@ zh-CN:
         diigo_login: "Diigo 登录"
         new_access_token: 新访问令牌
         register_skype: "注册 Skype"
-        remove_account_from_profile: 从此个人资料中删除帐户
+        remove_account_from_profile: 从此个人资料中删除模账号
         unregister_service: 取消注册服务
-      twitter_description: "Twitter 是一个用于发布和订阅短信息的服务。 如果您拥有 Twitter 帐户，可在此处进行注册。然后，如果您允许 其他课程/组成员查看您注册的访问，他们就可以轻松地与您的 Twitter 帐户联系。 您还可以注册以将通知发送到您的 Twitter 帐户。这些通知将作为直接消息让您自己发送给 自己，并且将不会在公共流中出现。"
+      twitter_description: "Twitter 是一个用于发布和订阅短信息的服务。 如果您拥有 Twitter 模账号，可在此处进行注册。然后，如果您允许 其他课程/组成员查看您注册的访问，他们就可以轻松地与您的 Twitter 模账号联系。 您还可以注册以将通知发送到您的 Twitter 模账号。这些通知将作为直接消息让您自己发送给 自己，并且将不会在公共流中出现。"
       unknown_service: 未知
       web_services: "通过将教学邦绑定到您已经使用的 Web 工具，它可以让您的生活轻松许多。单击\"其他服务\"中的任何服务，您就会了解我们的意思。"
     resending: 重发中...
@@ -7918,7 +7918,7 @@ zh-CN:
       titles: 
         confirm_email_address: 确认电子邮件地址
         default_email_address: 默认电子邮件地址
-        merge_users: 其他用户已有相同的电子邮件地址。单击此处以合并用户帐户。
+        merge_users: 其他用户已有相同的电子邮件地址。单击此处以合并用户模账号。
         remove_email_address: 删除电子邮件地址
       validations: 
         should_be_10_digits: "应为 10 位数字"
@@ -7958,9 +7958,9 @@ zh-CN:
       logout_errors: 
         no_idp_found: 教学邦无法帮您注销
       max_attempts: 登录尝试失败次数过多。请稍后重试或联系您的教学邦管理员。
-      no_matching_user: "教学邦 没有以下用户的帐户: %{user}"
+      no_matching_user: "教学邦 没有以下用户的模账号: %{user}"
       request_failed: 请求失败。请重试。
-      user_deleted: 该用户帐户已被删除。请联系您的教学邦管理员以重新激活您的帐户。
+      user_deleted: 该用户模账号已被删除。请联系您的教学邦管理员以重新激活您的模账号。
     messages: 
       resending: 正在重新发送...
       sent: 已发送！邮件可能需要几分钟才能到达。
@@ -8042,8 +8042,8 @@ zh-CN:
       invalid_password: 密码无效
       password_confirmation_sent: "密码确认已发送到 %{email_address}。确保检查您的垃圾邮件箱。"
     notices: 
-      account_registered: 帐户已注册！
-      account_updated: 帐户已更新！
+      account_registered: 模账号已注册！
+      account_updated: 模账号已更新！
       email_sent: "确认电子邮件已发送到 %{email}，确保检查您的垃圾邮件箱"
       link_invalid: 您使用的链接似乎不再有效。如果您无法登录，请尝试单击"不知道我的密码"并让教学邦为您发送一封新邮件。
       password_changed: 密码已更改
@@ -8061,7 +8061,7 @@ zh-CN:
     bank_success: 题库已成功创建！
     delete_question_bank_prompt: 是否确定要删除此题库?
     index: 
-      account_question_banks: 帐户题库
+      account_question_banks: 模账号题库
       add_bank: 添加题库
       course_question_banks: 课程题库
       labels: 
@@ -9102,8 +9102,8 @@ zh-CN:
       comment_on_others_submissions: 查看所有学生的提交文件并对其进行评语
       create_collaborations: 创建学生协作
       create_conferences: "创建 Web 会议"
-      manage_account_memberships: 添加/删除帐户的其他管理员
-      manage_account_settings: 管理帐户级设置
+      manage_account_memberships: 添加/删除模账号的其他管理员
+      manage_account_settings: 管理模账号级设置
       manage_admin_users: 添加/删除课程的其他教师、课程设计者或助教
       manage_alerts: 管理全局警报
       manage_assignments: 管理（添加/编辑/删除）作业和测试
@@ -9141,7 +9141,7 @@ zh-CN:
       view_group_pages: 查看所有学生组的组页面
       view_statistics: 查看统计
     roles: 
-      account_admin: 帐户管理员
+      account_admin: 模账号管理员
       designer: 课程设计者
       observer: 家长
       student: 学生
@@ -9158,17 +9158,17 @@ zh-CN:
         permissions: 权限
       explanation_defaults: "部分透明的复选框（%{default_checked} 和 %{default_unchecked}）表示教学邦默认值。"
       explanation_disabled: "灰显的框（%{disabled_checked} 或 %{disabled_unchecked}）表示不允许进行更改。"
-      explanation_locked: "如果您想要阻止任何人在任何子帐户中覆盖此项，请单击锁定 (%{lock}) 图标。"
+      explanation_locked: "如果您想要阻止任何人在任何子模账号中覆盖此项，请单击锁定 (%{lock}) 图标。"
       explanation_normal: "您可以单击以覆盖默认值并明确**允许** (%{normal_checked}) 或**拒绝** (%{normal_unchecked}) 此操作。"
       headers: 
-        account_permissions: 帐户权限
-        account_role_type: 帐户角色类型
-        course_permissions: 课程和帐户权限
+        account_permissions: 模账号权限
+        account_role_type: 模账号角色类型
+        course_permissions: 课程和模账号权限
         site_admin_permissions: 网站管理员权限
       labels: 
         new_role_type: 新角色类型
       links: 
-        manage_accoiunt_roles: 管理帐户级角色
+        manage_accoiunt_roles: 管理模账号级角色
         manage_course_roles: 管理课程级角色
       page_title: "管理 %{account} 的权限"
       prompts: 
@@ -9324,14 +9324,14 @@ zh-CN:
       completed_enrollment: 
         one: 1个完成招募
         other: "%{count}个完成招募"
-      crosslist_description: "交叉列出可以在一个帐户中创建学群(班级)，然后将其移动到其他帐户中的课程。要交叉列出此课程，您将需要查找要移动到的课程，方法是使用搜索工具或输入课程 ID。"
+      crosslist_description: "交叉列出可以在一个模账号中创建学群(班级)，然后将其移动到其他模账号中的课程。要交叉列出此课程，您将需要查找要移动到的课程，方法是使用搜索工具或输入课程 ID。"
       decrosslist_description: "此操作会将学群(班级)移回其原来的课程 **%{course_name}**。"
       decrosslist_long_description: 此课程中学生的所有评分将不再可见。您可以通过重新交叉列出课程稍后检索评分，但同时这些学生的评分将来自原来的课程。
       labels: 
         end_at: 结束
         enter_course_id: "或输入课程 ID"
         labels: 
-          account: 帐户
+          account: 模账号
           selected_course: 所选课程
           sis_id: "SIS ID"
         name: 学群(班级)名称
@@ -9385,7 +9385,7 @@ zh-CN:
         go: 执行
       links: 
         manage_permissions: 管理角色权限
-        manage_subaccounts: 管理子帐户
+        manage_subaccounts: 管理子模账号
         manage_terms: 管理学期
         view_statistics: 查看统计
       titles: 
@@ -9711,10 +9711,10 @@ zh-CN:
     invitation: 
       accept_or_reject: 当您准备好了，您可以接受或拒绝邀请。
       body_designer: "您已经被邀作为 **设计者** 加入%{course}，用户 **%{email_address}**. "
-      body_observer: "您已经被邀作为 **观察者** 加入%{course}，用户帐户 **%{email_address}**. "
-      body_student: "您已经被邀作为 **学生** 加入%{course}，用户帐户 **%{email_address}**. "
-      body_ta: "您已经被邀作为 **助教** 加入%{course}，用户帐户 **%{email_address}**。"
-      body_teacher: "您已经被邀作为 **教师** 加入%{course}，用户帐户 **%{email_address}**。"
+      body_observer: "您已经被邀作为 **观察者** 加入%{course}，用户模账号 **%{email_address}**. "
+      body_student: "您已经被邀作为 **学生** 加入%{course}，用户模账号 **%{email_address}**. "
+      body_ta: "您已经被邀作为 **助教** 加入%{course}，用户模账号 **%{email_address}**。"
+      body_teacher: "您已经被邀作为 **教师** 加入%{course}，用户模账号 **%{email_address}**。"
       buttons: 
         accept: 接受邀请
         reject: 拒绝邀请
@@ -10138,7 +10138,7 @@ zh-CN:
       import_warnings: 警告
       imported_items: 导入的项目
     import_counts: 
-      accounts: "帐户数: %{account_count}"
+      accounts: "模账号数: %{account_count}"
       courses: "课程数: %{course_count}"
       crosslists: "交叉列表数: %{crosslist_count}"
       enrollments: "注册数: %{enrollment_count}"
@@ -10176,31 +10176,31 @@ zh-CN:
   step: 步骤
   sub_accounts: 
     alerts: 
-      subaccount_has_courses: 您无法删除其中有课程的子帐户
-      subaccount_has_subaccounts: 您无法删除拥有子帐户的子帐户
+      subaccount_has_courses: 您无法删除其中有课程的子模账号
+      subaccount_has_subaccounts: 您无法删除拥有子模账号的子模账号
     confirms: 
-      delete_subaccount: 是否确定要删除此子帐户?
+      delete_subaccount: 是否确定要删除此子模账号?
     courses_count: 
       one: 1课程
       other: "%{count}个课程"
     index: 
       titles: 
-        sub_accounts: 子帐户
+        sub_accounts: 子模账号
     sub_accounts: 
       account_courses: 
         one: 1课程
         other: "%{count}个课程"
       account_sub_accounts: 
-        one: "1个 子帐户"
+        one: "1个 子模账号"
         other: "%{count}个子账户"
-      add_sub_accounts: 添加子帐户
-      can_not_delete: 您无法删除其中有课程的子帐户
-      delete_sub_account: 删除子帐户
-      edit_account_name: 编辑帐户名称
-      hide_sub_accounts: 隐藏子帐户
-      show_sub_accounts: 显示子帐户
+      add_sub_accounts: 添加子模账号
+      can_not_delete: 您无法删除其中有课程的子模账号
+      delete_sub_account: 删除子模账号
+      edit_account_name: 编辑模账号名称
+      hide_sub_accounts: 隐藏子模账号
+      show_sub_accounts: 显示子模账号
     sub_accounts_count: 
-      one: 1分子帐户
+      one: 1分子模账号
       other: "%{count}个子账户"
   subject_reply_to: "回复: %{subject}"
   submission: 
@@ -10446,8 +10446,8 @@ zh-CN:
     error_1009: "无效的文件类型。 （有效的文件类型的MS Word，Acrobat PDF格式，后记，文本，HTML的WordPerfect（WPD）和RTF格式）。"
     error_1013: 提交的作业必须超过20字的文字
     error_1023: PDF文件无法读取。请确保该文件是没有密码保护。
-    error_216: 该学生帐户的已达到限制。请联系您的帐户管理员。
-    error_217: 该帐户的Turnitin的产品已过期。请联系您的销售代理续订Turnitin的产品。
+    error_216: 该学生模账号的已达到限制。请联系您的模账号管理员。
+    error_217: 该模账号的Turnitin的产品已过期。请联系您的销售代理续订Turnitin的产品。
     error_414: 这个提交的原始报告尚未开放
     error_415: 这个提交的原始成绩尚未开放
     error_default: 这是提交给Turnitin的错误。请联系支持部门之前尝试重新提交的文件。
@@ -10587,8 +10587,8 @@ zh-CN:
       settings: 设置修改
   user_service: 
     descriptions: 
-      delicious: "Delicious 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Delicious 帐户以分享相似兴趣的链接。"
-      diigo: "Diigo 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Diigo 帐户以分享相似兴趣的链接。"
+      delicious: "Delicious 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Delicious 模账号以分享相似兴趣的链接。"
+      diigo: "Diigo 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Diigo 模账号以分享相似兴趣的链接。"
       facebook: "列出您的 Facebook 个人资料可以更轻松地与班级和组中的好友进行联系。"
       google_docs: "学生可以使用 Google Docs 协作组项目。Google Docs 可以实时协作编辑文档、电子表格和演示文稿。"
       linked_in: "LinkedIn 是一种业务网络资源。您在学校时建立的许多关系在您进入职场后仍然会有帮助。"
@@ -10600,25 +10600,25 @@ zh-CN:
     admin_merge: 
       buttons: 
         go: 执行
-        merge_user_account: 合并用户帐户
+        merge_user_account: 合并用户模账号
       labels: 
         name: 名称
         user_id: "用户 ID"
       links: 
         select: 选择
-      merge_result_explanation: "是否确定要将帐户 %{source_user_name} (%{source_user_email}) 合并到此帐户 %{target_user_name} (%{target_user_email})?此过程将有以下最终成果:"
-      merge_result_explanation_again: "您已选择将用户 %{user_name} (%{user_email}) 合并到帐户 %{pending_other_user_name} (%{pending_other_user_email}) 中。此过程将有以下最终成果:"
+      merge_result_explanation: "是否确定要将模账号 %{source_user_name} (%{source_user_email}) 合并到此模账号 %{target_user_name} (%{target_user_email})?此过程将有以下最终成果:"
+      merge_result_explanation_again: "您已选择将用户 %{user_name} (%{user_email}) 合并到模账号 %{pending_other_user_name} (%{pending_other_user_email}) 中。此过程将有以下最终成果:"
       merge_somone_else: "将其他人与 %{user_name} 合并"
-      merge_user_initial_instructions: "您已选择将用户 %{user_name} (%{user_email}) 与另一个帐户合并。您可以使用下面的表单搜索想要与此用户合并的用户，或者仅仅导航到该用户的页面并再次单击\"合并用户\"以将其他人与此用户合并。"
+      merge_user_initial_instructions: "您已选择将用户 %{user_name} (%{user_email}) 与另一个模账号合并。您可以使用下面的表单搜索想要与此用户合并的用户，或者仅仅导航到该用户的页面并再次单击\"合并用户\"以将其他人与此用户合并。"
       no_merge_undo: 此过程无法撤消，因此请确保确定合并，然后再继续。
-      no_permission: 您没有搜索任何帐户的权限
+      no_permission: 您没有搜索任何模账号的权限
       prepare_to_merge: 准备合并用户
       switch_user_positions: 切换用户位置
       titles: 
         enter_user_id: "或输入用户 ID"
         find_user: 查找用户
-        merge_users: 合并用户帐户
-        really_merge: 是否确实要合并用户帐户?
+        merge_users: 合并用户模账号
+        really_merge: 是否确实要合并用户模账号?
     cant_self_merge: 不能合并同一个账户
     cc_prefs: 
       buttons: 
@@ -10629,13 +10629,13 @@ zh-CN:
         configure_com_prefs: 配置通信首选项
     confirm_merge: 
       buttons: 
-        merge_user_accounts: 合并用户帐户
-      login_to_merge_different_account: "要将帐户 %{current_user_name} (%{current_user_email}) 合并到另一个帐户，请登录到新帐户:"
-      merge_result_explanation: "是否确定要将帐户 %{user_name} (%{user_email}) 合并到此帐户 %{current_user_name} (%{current_user_email})?"
+        merge_user_accounts: 合并用户模账号
+      login_to_merge_different_account: "要将模账号 %{current_user_name} (%{current_user_email}) 合并到另一个模账号，请登录到新模账号:"
+      merge_result_explanation: "是否确定要将模账号 %{user_name} (%{user_email}) 合并到此模账号 %{current_user_name} (%{current_user_email})?"
       no_undo_for_merge: 此过程无法撤消，因此请确保确定合并，然后再继续。
       titles: 
-        confirm_user_merge: 确认合并用户帐户
-        really_merge: 是否确实要合并用户帐户?
+        confirm_user_merge: 确认合并用户模账号
+        really_merge: 是否确实要合并用户模账号?
       users_to_merge: "%{first_user} 和 %{second_user}"
     confirms: 
       unenroll_user: 是否确定要取消注册此用户?
@@ -10643,7 +10643,7 @@ zh-CN:
     crumbs: 
       profile: "%{user} 的个人资料"
     delete: 
-      are_you_sure: 是否确定要删除此用户帐户?
+      are_you_sure: 是否确定要删除此用户模账号?
       buttons: 
         delete_user: "删除 %{user_name}"
       titles: 
@@ -10665,7 +10665,7 @@ zh-CN:
     errors: 
       no_teacher_courses: 没有在此教师和学生之间共享的课程
       user_not_teacher: 该用户并非此课程中的教师
-    facebook_added: "Facebook 帐户已成功添加！"
+    facebook_added: "Facebook 模账号已成功添加！"
     facebook_fail: "Facebook 授权失败。"
     form: 
       buttons: 
@@ -10692,7 +10692,7 @@ zh-CN:
       crumbs: 
         grades: 评分
       current_teacher_courses: 我教的课程
-      linked_student_accounts: 链接的学生帐户
+      linked_student_accounts: 链接的学生模账号
       links: 
         teacher_activity: 学生互动报告
       no_grade: 没有评分
@@ -10727,14 +10727,14 @@ zh-CN:
         choose_term: 选择学期
         search_results: "\"%{search_term}\"的搜索结果"
     invalid_input: 无效输入，请输入有效ID
-    linkedin_added: "LinkedIn 帐户已成功添加！"
+    linkedin_added: "LinkedIn 模账号已成功添加！"
     linkedin_fail: "LinkedIn 授权失败。请重试"
     logins: 
       add_login: 添加登录信息
       buttons: 
         update_login: 更新登录信息
       labels: 
-        account_id: 帐户
+        account_id: 模账号
         current_ip: "当前登录 IP"
         current_login: 当前登录
         last_ip: "上次登录 IP"
@@ -10751,18 +10751,18 @@ zh-CN:
       titles: 
         logins: 登录信息
     masquerade: 
-      are_you_sure_start: 是否确定要删除仿冒此用户?
-      are_you_sure_stop: 是否确定要停止仿冒?
+      are_you_sure_start: 是否确定要删除模拟此用户?
+      are_you_sure_stop: 是否确定要停止模拟?
       buttons: 
-        masquerade: 仿冒此用户
-        unmasquerade: 停止仿冒
-      details: "仿冒基本上是作为此用户登录而没有密码。 您将能够进行假设您是此用户的任何操作，并且从其他用户的视角， 就好像此用户执行这些操作一样。不过，审计日志会记录 **您**是代表此用户实际执行操作的人员的事实。"
-      masquerade_as: "仿冒 %{user_name}"
+        masquerade: 模拟此用户
+        unmasquerade: 停止模拟
+      details: "模拟是作为此用户登录。 您将能够进行模拟您是此用户的任何操作，并且从这个用户的真实操作一样。不过，审计日志会记录 **您**是代表此用户实际执行操作的人员的记录。"
+      masquerade_as: "模拟 %{user_name}"
     merge: 
-      login_to_merge_different_account: "要将帐户 %{current_user_name} (%{current_user_email}) 合并到另一个帐户，请登录到新帐户:"
+      login_to_merge_different_account: "要将模账号 %{current_user_name} (%{current_user_email}) 合并到另一个模账号，请登录到新模账号:"
       merge_definition: 出于各种原因，您可能会最终有两个登录而不是一个。如果出现这种情况，您可以将两个登录合并到一起并合并它们的信息。
       titles: 
-        merge_accounts: 合并用户帐户
+        merge_accounts: 合并用户模账号
     merge_results: 
       action: 操作
       emails: 电子邮件
@@ -10813,10 +10813,10 @@ zh-CN:
       user_atom_feed: "用户 Atom Feed （所有课程）"
       user_dashboard: 用户面板
     no_deleting_sis_user: 您不能删除系统生成的用户
-    no_open_registration: 此帐户未启用开放注册
+    no_open_registration: 此模账号未启用开放注册
     oauth_fail: "OAuth 请求失败。无法找到有效的请求"
     recaptcha_settings: 
-      instructions: "在能够使用 ReCAPTCHA 插件之前，您将需要 [注册 ReCAPTCHA 帐户](%{url})。确保正确设置 您的域以处理网站域。设置帐户 后，在下面输入您的公钥和私钥。 **注:**您对这些设置所做的任何更改都不会 更新，直到您重新启动服务器。"
+      instructions: "在能够使用 ReCAPTCHA 插件之前，您将需要 [注册 ReCAPTCHA 模账号](%{url})。确保正确设置 您的域以处理网站域。设置模账号 后，在下面输入您的公钥和私钥。 **注:**您对这些设置所做的任何更改都不会 更新，直到您重新启动服务器。"
       labels: 
         private_key: "ReCAPTCHA 私钥"
         public_key: "ReCAPTCHA 公钥"
@@ -10835,7 +10835,7 @@ zh-CN:
       while_you_wait: 您等待时...
     service_not_enabled: 该服务尚未启用
     show: 
-      accounts: 帐户
+      accounts: 模账号
       buttons: 
         faculty_journal_for: "%{user} 的教师日志"
       courses: 课程
@@ -10879,7 +10879,7 @@ zh-CN:
       no_courses_message: 您没有任何课程，因此此页面现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
       pending_invitations: 待邀请
       pending_invitations_link: "您已经被邀请加入%{count}课程。到您的*课程表*查看。"
-      recent_feedback: 近期更新
+      recent_feedback: 最近反馈
       start_new_course: 新建课程
       user_atom_feed: "用户 Atom 订阅（所有课程）"
       user_dashboard: 用户面板
