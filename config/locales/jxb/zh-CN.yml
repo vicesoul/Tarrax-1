@@ -1,0 +1,19 @@
+---
+zh-CN:
+  accounts:
+    notices:
+      account_created: '网校创建成功'
+    errors:
+      create_failed: '网校创建失败'
+  shared:
+    new_account_form: 
+      cancel: 取消
+      create_account: 开设网校
+      creating_account: 正在创建网校
+      labels: 
+        name: 网校名称
+      new_account_name_placeholder: 网校名称
+      create_a_new_account: 创建一个新的网校
+  users:
+    user_dashboard:
+      create_new_account: 创建新网校

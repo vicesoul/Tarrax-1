@@ -24,6 +24,43 @@ class AccountsController < ApplicationController
 
   include Api::V1::Account
 
+  def create
+    @account = Account.new params[:account]
+
+    respond_to do |format|
+      if @account.save
+        # add current_user as account admin
+        @account.add_user(@current_user)
+
+        flash[:notice] = t('notices.account_created', "Account Successfully created!")
+        format.html { redirect_to root_url(:subdomain => @account.subdomain) }
+        format.json { account_json(@account, @current_user, session, []) }
+      else
+        flash[:error] = t('errors.create_failed', "Account creation failed")
+        format.html { redirect_to :root_url }
+        format.json { render :json => @account.errors.to_json, :status => :bad_request }
+      end
+    end
+  end
+
+  # @API List associated accounts
+  # List accounts that the current user can view or manage.  Typically,
+  # students and even teachers will get an empty list in response, only
+  # account admins can view the accounts that they are in.
+  def associated
+    @accounts = @current_user.associated_root_accounts rescue []
+    respond_to do |format|
+      format.html
+      format.json do
+        # TODO: what would be more useful, include sub-accounts here
+        # that you implicitly have access to, or have a separate method
+        # to get the sub-accounts of an account?
+        @accounts = Api.paginate(@accounts, self, api_v1_associated_accounts_path)
+        render :json => @accounts.map { |a| account_json(a, @current_user, session, []) }
+      end
+    end
+  end
+
   # @API List accounts
   # List accounts that the current user can view or manage.  Typically,
   # students and even teachers will get an empty list in response, only

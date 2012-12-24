@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
   around_filter :set_locale
 
   helper :all
+  include UrlHelper
 
   include AuthenticationMethods
   protect_from_forgery

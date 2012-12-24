@@ -93,6 +93,7 @@ class Account < ActiveRecord::Base
   before_save :ensure_defaults
   before_save :set_update_account_associations_if_changed
   after_save :update_account_associations_if_changed
+  after_create :create_subdomain
   after_create :default_enrollment_term
   
   serialize :settings, Hash
@@ -630,7 +631,11 @@ class Account < ActiveRecord::Base
       @default_enrollment_term = self.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME)
     end
   end
-  
+
+  def create_subdomain
+    Subdomain.create!(:account => self) if subdomain.nil? and id > 2
+  end
+
   def add_user(user, membership_type = nil)
     return nil unless user && user.is_a?(User)
     membership_type ||= 'AccountAdmin'
@@ -1161,6 +1166,6 @@ class Account < ActiveRecord::Base
 
   # return root account's subdomain
   def subdomain
-    Subdomain.find_by_account_id(root_account.id).try(:subdomain) || 'www'
+    Subdomain.find_by_account_id(root_account.id)
   end
 end

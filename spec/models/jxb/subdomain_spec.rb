@@ -21,4 +21,9 @@ describe Subdomain do
     domain.save!
     domain.subdomain.should == "abc001"
   end
+
+  it "should auto create subdomain string" do
+    a = Account.create
+    a.subdomain.to_s.should =~ /edu[0-9]+/
+  end
 end

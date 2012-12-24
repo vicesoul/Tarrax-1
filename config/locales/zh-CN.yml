@@ -267,6 +267,11 @@ zh-CN:
     add_user_dialog_title: 新增用户
     adding_course_message: 正在添加课程...
     adding_user_message: 正在添加用户...
+    associated:
+      accounts_crumb: 我的网校
+      no_accounts_message: 无网校
+      page_title: 我的网校
+      title: "我的网校"
     avatars: 
       all_link: 
         one: "所有%{count}"
@@ -5818,7 +5823,7 @@ zh-CN:
     customize: 自定义
     managed_accounts: 管理的帐户
     my_courses: 我的课程
-    associated_accounts: 参加的网校
+    associated_accounts: 我的网校
   message: 
     default_subject: "教学邦 警报"
   message_students: 
