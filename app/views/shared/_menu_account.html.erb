@@ -1,5 +1,5 @@
 <li>
-<a href="<%= account_url(menu_account, :subdomain => menu_account.subdomain) %>">
+<a href="<%= root_url(:subdomain => menu_account.subdomain) %>">
     <span class="name ellipsis"><%= menu_account.name %></span>
     <% unless menu_account.root_account? %>
       <span class="subtitle ellipsis"><%= menu_account.root_account.name %></span>
