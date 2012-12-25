@@ -103,6 +103,7 @@ class Account < ActiveRecord::Base
   validates_locale :default_locale, :allow_nil => true
   validate :account_chain_loop, :if => :parent_account_id_changed?
   validate :validate_auth_discovery_url
+  validates_uniqueness_of :name, :scope => :parent_account_id
 
   include StickySisFields
   are_sis_sticky :name

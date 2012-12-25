@@ -20,4 +20,28 @@ describe Account do
       sub1.subdomain.should == domain
     end
   end
+
+  context "multi accounts" do
+    it "should failed to create a root account with existed name" do
+      Account.create!(:name => 'abc')
+      expect {
+        Account.create!(:name => 'abc')
+      }.to raise_error ( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
+    end
+
+    it "should successfully create a account with existed name in different scope" do
+      root = Account.create!(:name => 'abc')
+      expect {
+        Account.create!(:name => 'abc', :parent_account => root)
+      }.to_not raise_error ( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
+    end
+
+    it "should failed to create a sub account with existed name" do
+      root = Account.create!(:name => 'abc')
+      Account.create!(:name => 'abc', :parent_account => root)
+      expect {
+        Account.create!(:name => 'abc', :parent_account => root)
+      }.to raise_error ( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
+    end
+  end
 end
