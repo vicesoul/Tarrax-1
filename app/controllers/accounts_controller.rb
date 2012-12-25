@@ -37,7 +37,7 @@ class AccountsController < ApplicationController
         format.json { account_json(@account, @current_user, session, []) }
       else
         flash[:error] = t('errors.create_failed', "Account creation failed")
-        format.html { redirect_to :root_url }
+        format.html { redirect_to :back }
         format.json { render :json => @account.errors.to_json, :status => :bad_request }
       end
     end

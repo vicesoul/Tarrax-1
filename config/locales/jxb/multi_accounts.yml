@@ -18,6 +18,7 @@ zh-CN:
       create_a_new_account: 创建一个新的网校
     menu_switch_accounts:
       links:
+        associated_accounts: 我的网校
   users:
     user_dashboard:
       create_new_account: 创建新网校
