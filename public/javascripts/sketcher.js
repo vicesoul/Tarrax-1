@@ -1,11 +1,13 @@
-function Sketcher(setting) {
-    this.defaultSetting = setting;
+function Sketcher(set) {
+    this.Setting = set;
     this.brushImg = new Image();
 	this.renderFunction = this.updateCanvasByLine;
 	this.touchSupported = Modernizr.touch;
-
+    this.writingEdge = {leftTop:{x:9999,y:9999},rightBottom:{x:0,y:0}};
 	this.lastMousePoint = {x:0, y:0};
     this.brushSize = {width:15,height:15,step:.3};
+    this.writeState = {};
+    this.timeOut_mouseUp = {};
 
 	if (this.touchSupported) {
 		this.mouseDownEvent = "touchstart";
@@ -23,13 +25,13 @@ function Sketcher(setting) {
 Sketcher.prototype.initial = function(){
     this.generalHTML();
 
-    this.canvas = $("#" + this.defaultSetting.stageId).find("." + this.defaultSetting.sketchType);
+    this.canvas = $("#" + this.Setting.stageId).find("." + this.Setting.sketchType);
     console.log(this.canvas)
     this.context = this.canvas.get(0).getContext("2d");
 
     //set color and line width
-    this.context.strokeStyle = "#" + this.defaultSetting.color.hex;
-    this.context.lineWidth = this.defaultSetting.lineW;
+    this.context.strokeStyle = "#" + this.Setting.color.hex;
+    this.context.lineWidth = this.Setting.lineW;
 
     // bind mouseDown event
     this.canvas.bind( this.mouseDownEvent, this.onCanvasMouseDown() );
@@ -39,8 +41,8 @@ Sketcher.prototype.generalHTML = function(){
     var self = this,
         stage,
         layer,
-        canvasContainer = this.defaultSetting.stageId + "_container";
-        canvasHtml  = '<div class="'+ this.defaultSetting.appName + ' ' + this.defaultSetting.sketchType + '" id="' + this.defaultSetting.stageId  + '">';
+        canvasContainer = this.Setting.stageId + "_container";
+        canvasHtml  = '<div class="'+ this.Setting.appName + ' ' + this.Setting.sketchType + '" id="' + this.Setting.stageId  + '">';
 
     canvasHtml += '<input type="button" value="清空" class="clear_all" />';
     canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
@@ -58,20 +60,21 @@ Sketcher.prototype.generalHTML = function(){
     canvasHtml += '</div>';
 /*    canvasHtml += '<div class="setLineSize"><label>Line</label><div></div><input type="text"></div>';
     canvasHtml += '<div class="setBrushSize"><label>Brush</label><div></div><input type="text"></div>';*/
-    canvasHtml += ' <div class="container"><div class="img_background"></div><div id="' + canvasContainer +'"></div></div>';
+    canvasHtml += '<div class="container" style="width: '+ this.Setting.canvasW + 'px;height:' + this.Setting.canvasH +'px;">';
+    canvasHtml += '<div class="img_background"></div>';
+    canvasHtml += '<div id="' + canvasContainer +'">';
+    canvasHtml += '<canvas class="' + this.Setting.sketchType + '" width='+ this.Setting.canvasW + ' height=' + this.Setting.canvasH +'></canvas>';
+    canvasHtml += '</div>';
+    canvasHtml += '</div>';
     canvasHtml += '<div class="containerDraft"><canvas class="canvasDraft" width="39" height="39"></canvas></div>';
     canvasHtml += '</div>';
 
     $("body").append( canvasHtml );
-    $("#" + this.defaultSetting.stageId).find(".container").css({
-        width:this.defaultSetting.canvasW,
-        height: this.defaultSetting.canvasH
-    });
 
-    stage = new Kinetic.Stage({
+  /*  stage = new Kinetic.Stage({
         container: canvasContainer,
-        width: this.defaultSetting.canvasW,
-        height: this.defaultSetting.canvasH
+        width: this.Setting.canvasW,
+        height: this.Setting.canvasH
     });
 
     layer = new Kinetic.Layer({
@@ -79,10 +82,14 @@ Sketcher.prototype.generalHTML = function(){
         id:"uuoo"
     });
 
-    stage.add(layer);
+    stage.add(layer);*/
 
-    $("#" + canvasContainer + " canvas")
-        .addClass(self.defaultSetting.sketchType);
+/*    $("#" + canvasContainer + " canvas")
+        .addClass(self.Setting.sketchType)
+        .attr({
+            width:this.Setting.canvasW,
+            height: this.Setting.canvasH
+        });*/
 
     $(".color_setting input:gt(1)").hide();
 
@@ -96,32 +103,32 @@ Sketcher.prototype.generalHTML = function(){
     });
 
     $(".line").click(function(){
-        self.defaultSetting.tools.type = "line";
+        self.Setting.tools.type = "line";
         $(".color_setting").find("input").show().end().find("input:gt(1)").hide();
         $(".color_setting input[type=button]:first").trigger("click");
     });
 
     $(".ink").click(function(){
-        self.defaultSetting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/ink_s.png"};
+        self.Setting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/ink_s.png"};
         $(".color_setting").find("input").show().end().find("input:gt(1)").hide();
         $(".color_setting input[type=button]:first").trigger("click");
     });
 
     $(".big_brush").click(function(){
-        self.defaultSetting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush_s.png"};
+        self.Setting.tools = {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush_s.png"};
         $(".color_setting input").show();
         $(".color_setting input[type=button]:first").trigger("click");
     });
 
     $(".eraser").click(function(){
-        self.defaultSetting.tools.type = "eraser";
+        self.Setting.tools.type = "eraser";
         $(".color_setting input").hide();
         self.setTools();
     });
 
     $(".color_setting input[type=button]").click(function(){
         var string = $(this).attr("data-color");
-        eval('self.defaultSetting.color = '+string);
+        eval('self.Setting.color = '+string);
         self.setTools();
     });
 
@@ -129,9 +136,9 @@ Sketcher.prototype.generalHTML = function(){
 /*    $("#setLineSize div").slider({
         max:5,
         min:1,
-        value: this.defaultSetting.lineW,
+        value: this.Setting.lineW,
         create: function(event, ui) {
-            $(this).next("input").val(self.defaultSetting.lineW);
+            $(this).next("input").val(self.Setting.lineW);
         },
         slide: function(event, ui) {
             $(this).next("input").val(ui.value);
@@ -163,17 +170,17 @@ Sketcher.prototype.generalHTML = function(){
 
 Sketcher.prototype.setTools = function(){
     var self = this;
-    if(self.defaultSetting.tools.type == "line"){
-        this.context.strokeStyle = "#" + self.defaultSetting.color.hex;
+    if(self.Setting.tools.type == "line"){
+        this.context.strokeStyle = "#" + self.Setting.color.hex;
         this.renderFunction = this.updateCanvasByLine;
-    }else if(self.defaultSetting.tools.type == "brush"){
+    }else if(self.Setting.tools.type == "brush"){
         var canvas = $(".canvasDraft").get(0);
         var context = canvas.getContext("2d");
 
         context.clearRect(0,0,39,39);
 
         var draftBrush = new Image();
-        draftBrush.src = self.defaultSetting.tools.src;
+        draftBrush.src = self.Setting.tools.src;
         draftBrush.onload = function() {
             context.drawImage(draftBrush,0,0,39,39);
 
@@ -181,9 +188,9 @@ Sketcher.prototype.setTools = function(){
             imgData = imageData.data;
 
             for(var i = 0; i < imgData.length; i += 4) {
-                imgData[i] = self.defaultSetting.color.rgb[0];
-                imgData[i + 1] = self.defaultSetting.color.rgb[1];
-                imgData[i + 2] = self.defaultSetting.color.rgb[2];
+                imgData[i] = self.Setting.color.rgb[0];
+                imgData[i + 1] = self.Setting.color.rgb[1];
+                imgData[i + 2] = self.Setting.color.rgb[2];
             }
             context.putImageData(imageData, 0, 0);
 
@@ -197,7 +204,7 @@ Sketcher.prototype.setTools = function(){
 
             };
         };
-    }else if(self.defaultSetting.tools.type == "eraser"){
+    }else if(self.Setting.tools.type == "eraser"){
         self.renderFunction = self.updateCanvasByEraser;
     }
 }
@@ -206,6 +213,13 @@ Sketcher.prototype.onCanvasMouseDown = function () {
 	var self = this;
 
 	return function(event) {
+        if( event.button == 2 )return false;        // forbidden right mouse
+
+        if(!!self.Setting.saveImage){
+            self.writeState = true;
+            clearTimeout(self.timeOut_mouseUp);
+        }
+
 		self.mouseMoveHandler = self.onCanvasMouseMove();
 		self.mouseUpHandler = self.onCanvasMouseUp();
 
@@ -235,6 +249,19 @@ Sketcher.prototype.onCanvasMouseMove = function () {
 Sketcher.prototype.onCanvasMouseUp = function (event) {
 	var self = this;
 	return function(event) {
+
+        if( !self.writeState ) return;
+        self.timeOut_mouseUp = setTimeout(function(){
+
+            if( !self.writeState ) return;
+
+            if(!!self.Setting.saveImage){
+                self.Setting.saveImage();
+                self.reset();
+            }
+
+        },1000);
+
         self.canvas.unbind( self.mouseMoveEvent, self.mouseMoveHandler );
         $(document).unbind(self.mouseUpEvent,self.mouseUpHandler);
 
@@ -251,13 +278,19 @@ Sketcher.prototype.updateMousePosition = function (event) {
 	}
 
 	var offset = this.canvas.offset();
+    var writingEdge = this.writingEdge;
 	this.lastMousePoint.x = target.pageX - offset.left;
 	this.lastMousePoint.y = target.pageY - offset.top;
+
+    writingEdge.leftTop.x = ( target.pageX < writingEdge.leftTop.x ) ? target.pageX : writingEdge.leftTop.x ;
+    writingEdge.leftTop.y = ( target.pageY < writingEdge.leftTop.y ) ? target.pageY : writingEdge.leftTop.y ;
+    writingEdge.rightBottom.x = ( target.pageX > writingEdge.rightBottom.x ) ? target.pageX : writingEdge.rightBottom.x ;
+    writingEdge.rightBottom.y = ( target.pageY > writingEdge.rightBottom.y ) ? target.pageY : writingEdge.rightBottom.y ;
 
 }
 
 Sketcher.prototype.updateCanvasByLine = function (event) {
-    this.defaultSetting.tools.type = "line";
+    this.Setting.tools.type = "line";
 	this.context.beginPath();
 
 	this.context.moveTo( this.lastMousePoint.x, this.lastMousePoint.y );
@@ -284,8 +317,6 @@ Sketcher.prototype.updateCanvasByBrush = function (event) {
 		x = start.x + (Math.sin(angle) * z) - self.brushSize.width/2;
 		y = start.y + (Math.cos(angle) * z) - self.brushSize.height/2;
         self.context.drawImage(self.brushImg, x, y,self.brushSize.width,self.brushSize.height);
-
-
 	}
 }
 
@@ -325,7 +356,18 @@ Sketcher.prototype.angleBetween2Points = function ( point1, point2 ) {
 
 Sketcher.prototype.clear = function () {
 
-	var c = this.canvas[0];
-	this.context.clearRect( 0, 0, c.width, c.height );
+	var c = this.canvas.get(0);
+	c.getContext("2d").clearRect( 0, 0, c.width, c.height );
+}
+
+Sketcher.prototype.reset = function () {
+
+    if(!!this.Setting.saveImage){
+    this.writeState = false;
+    clearTimeout(this.timeOut_mouseUp);
+    }
+
+    this.clear();
+    this.writingEdge = {leftTop:{x:9999,y:9999},rightBottom:{x:0,y:0}};
 }
 			

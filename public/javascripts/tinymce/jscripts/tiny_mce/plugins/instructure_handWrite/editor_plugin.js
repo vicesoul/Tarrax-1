@@ -1,20 +1,19 @@
 define([
-  'compiled/editor/stocktiny',
-  'i18n!editor',
-  'jquery',
-  'str/htmlEscape',
-  'jqueryui/dialog',
-  'jqueryui/slider',
-  'jquery.instructure_misc_helpers',
-   "kinetic-v4.0.1",
-   "modernizr.custom.34982",
-   "sketcher",
-   "jquery.ui.touch"
+    'compiled/editor/stocktiny',
+    'i18n!editor',
+    'jquery',
+    'str/htmlEscape',
+    'jqueryui/dialog',
+    'jqueryui/slider',
+    'jquery.instructure_misc_helpers',
+    "modernizr.custom.34982",
+    "sketcher",
+    "jquery.ui.touch"
 ], function(tinymce, I18n, $) {
 
     var HandWrite,
         pluginProp = {id:"instructureHandWrite",name:"instructure_handWrite"},
-        defaultSetting = {  
+        sketchSetting = {  
             sketchType:"handWrite",
             stageId:"",
             lineW : 10,
@@ -23,8 +22,8 @@ define([
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
-            appTitle : "写字板"
-
+            appTitle : "写字板",
+            saveImage : {}
         };
 
   tinymce.create('tinymce.plugins.' + pluginProp.id,  {
@@ -32,180 +31,79 @@ define([
       ed.addCommand(pluginProp.id, function() {
       var $editor = $("#" + ed.id),
           $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.sketchType,
-          writeState;
+          dialogStr = 'div.' + sketchSetting.appName + '.' + sketchSetting.sketchType,
+          writingCanvasStr = dialogStr + " " + "canvas." + sketchSetting.sketchType,
+          $writingCanvas;
 
-          defaultSetting.stageId = ed.id + "_" + defaultSetting.sketchType;      // set stageId dynamic
+          sketchSetting.stageId = ed.id + "_" + sketchSetting.sketchType;      // set stageId dynamic
 
           function init(){
-              HandWrite = new Sketcher(defaultSetting);
+              sketchSetting.saveImage = saveImg;
+              HandWrite = new Sketcher(sketchSetting);
 
-              if(!$("#handWriteCopy").size()){
-                  $("<canvas></canvas>")
-                      .attr({
-                          width:defaultSetting.canvasW/8,
-                          height:defaultSetting.canvasH/8,
-                          id:"handWriteCopy"
-                      })
-                      .appendTo("body");
-              }
-              HandWrite.brushSize = {width:9,height:9,step:.3};
+              //****** add close button
+              var $close = $("<div style='text-align: right;'><a href='#' class='btn btn-info ui-close'>关闭</a></div>")
+                  .click(function(){
+                      $( dialogStr ).dialog( "close" );
+                  });
+              $(dialogStr).prepend($close);
+                // end
+
+              //****** choose brush
+              HandWrite.brushSize = {width:9,height:9,step:1};
               $(".big_brush").trigger("click");
-              var touchSupported = Modernizr.touch,
-                  mouseDownEvent,
-                  mouseMoveEvent,
-                  mouseUpEvent;
-
-              if (touchSupported) {
-                  mouseDownEvent = "touchstart";
-                  mouseMoveEvent = "touchmove";
-                  mouseUpEvent = "touchend";
-              }else {
-                  mouseDownEvent = "mousedown";
-                  mouseMoveEvent = "mousemove";
-                  mouseUpEvent = "mouseup";
-              }
-
-              var $writingCanvas = $(dialogStr).find("." + defaultSetting.sketchType);
-              var checkWriteDone;
-
-              $writingCanvas.bind(mouseDownEvent,function(){
-                  writeState = true;
-                  clearTimeout(checkWriteDone);
-              });
-
-              $(document).bind(mouseUpEvent,function(){
-                  checkWriteDone = setTimeout(function(){
-                      saveImg();
-                      writeState = false;
-                  },500);
-
-              });
-
+                // end
           }
 
-          if(!$(dialogStr).size()) { init();}// ****** if first open box
+          //****** if first open box
+          if(!$(dialogStr).size()) { init();}
+          // end
 
+
+          $writingCanvas = $(writingCanvasStr);
           $(dialogStr).dialog({
-              width:"100%",
+              width:"95%",
               minHeight:$(window).height(),
-              title:defaultSetting.appTitle,
-              dialogClass: defaultSetting.sketchType,
+              dialogClass: sketchSetting.sketchType,
               "resizable": false,
               modal: true,
               close: function() {
-                      HandWrite.clear();             // **** empty canvas
+                  HandWrite.reset();
               }
-
           });
 
-          function removeBlanks(canvasTarget) {
-           var canvasW = defaultSetting.canvasW,
-               canvasH = defaultSetting.canvasH,
-               cropWidth,
-               cropHeight,
-               returnObj,
-               $croppedCanvas,
-               canvas = $(canvasTarget)[0],
-               context = canvas.getContext('2d'),
-               imageData = context.getImageData(0, 0, canvasW, canvasH),
-               data = imageData.data,
-               getRBG = function(x, y) {
-                      var offset = canvasW * y + x;
-                      return {
-                          red:     data[offset * 4],
-                          green:   data[offset * 4 + 1],
-                          blue:    data[offset * 4 + 2],
-                          opacity: data[offset * 4 + 3]
-                      };
-                  },
-               isWhite = function (rgb) {
-                  // many images contain noise, as the white is not a pure #fff white
-                  //return rgb.red > 200 && rgb.green > 200 && rgb.blue > 200;
-                  return rgb.opacity == 0;
-              },
-               scanY = function (fromTop) {
-                  var offset = fromTop ? 1 : -1;
-
-                  // loop through each row
-                  for(var y = fromTop ? 0 : canvasH - 1; fromTop ? (y < canvasH) : (y > -1); y += offset) {
-
-                      // loop through each column
-                      for(var x = 0; x < canvasW; x++) {
-                          var rgb = getRBG(x, y);
-                          if (!isWhite(rgb)) {
-                              return y;
-                          }
-                      }
-                  }
-                  return null; // all image is white
-              },
-               scanX = function (fromLeft) {
-                  var offset = fromLeft? 1 : -1;
-
-                  // loop through each column
-                  for(var x = fromLeft ? 0 : canvasW - 1; fromLeft ? (x < canvasW) : (x > -1); x += offset) {
-
-                      // loop through each row
-                      for(var y = 0; y < canvasH; y++) {
-                          var rgb = getRBG(x, y);
-                          if (!isWhite(rgb)) {
-                              return x;
-                          }
-                      }
-                  }
-                  return null; // all image is white
-              };
-
-              var cropTop = 0,
-                  cropBottom = scanY(false),
-                  cropLeft = scanX(true),
-                  cropRight = scanX(false),
-                  edge = 1;
-
-               cropWidth = cropRight - cropLeft + edge;
-               cropHeight = defaultSetting.canvasH/8;
-               $croppedCanvas = $("<canvas>").attr({ width: cropWidth, height: cropHeight });
-
-               $croppedCanvas[0].getContext("2d").drawImage(canvas,
-                  cropLeft, cropTop, cropWidth, cropHeight,
-                  0, 0, cropWidth, cropHeight);
-                returnObj = {urlData:$croppedCanvas[0].toDataURL(),width:cropWidth,height:cropHeight};
-
-              return returnObj;
-
-          }
-
           function saveImg(){
-              var handWriteData = $(dialogStr).find("." + defaultSetting.sketchType).get(0).toDataURL();
-              var $copy = $("#handWriteCopy");
-              var copyContext = $copy[0].getContext('2d');
-              var canvasImage = new Image();
-                  canvasImage.src = handWriteData;
-                  canvasImage.onload = function() {
-                  copyContext.drawImage(this, 0, 0,defaultSetting.canvasW/8,defaultSetting.canvasH/8);
-                      var $div = $(document.createElement('div')),
-                          data = removeBlanks($copy),
-                          $img = $("<img/>").attr("src",data.urlData).addClass(defaultSetting.sketchType);
+              var writeW = HandWrite.writingEdge.rightBottom.x - HandWrite.writingEdge.leftTop.x;
+              var writeH = sketchSetting.canvasH;
 
+              var cropLeft = HandWrite.writingEdge.leftTop.x - $writingCanvas.offset().left;
 
-                      $div.append($img);
-                      $editor.editorBox('insert_code', $div.html());
+              var $copyCanvas = $("<canvas></canvas>").attr({
+                  width: writeW/7,
+                  height: writeH/7
+              });
 
-                      // **** clear canvas
-                      HandWrite.clear();
-                      copyContext.clearRect( 0, 0,defaultSetting.canvasW/8,defaultSetting.canvasH/8);
-                      // end
+              var copyCanvasContext = $copyCanvas.get(0).getContext("2d");
+              copyCanvasContext.drawImage($writingCanvas.get(0),
+                  cropLeft,0,writeW,writeH,
+                  0,0,writeW/7,writeH/7
+              );
 
-              };
+              var copyCanvasData = $copyCanvas.get(0).toDataURL();
+              var $div = $("<div></div>"),
+                  $img = $("<img/>").attr("src",copyCanvasData).addClass(sketchSetting.sketchType);
+
+              $div.append($img);
+              $editor.editorBox('insert_code', $div.html());
+
           }
 
       });
 
       ed.addButton(pluginProp.name, {
-        title: defaultSetting.sketchType,
+        title: sketchSetting.sketchType,
         cmd: pluginProp.id,
-        image: url + '/img/' + defaultSetting.sketchType +'.png'
+        image: url + '/img/' + sketchSetting.sketchType +'.png'
       });
 
     },

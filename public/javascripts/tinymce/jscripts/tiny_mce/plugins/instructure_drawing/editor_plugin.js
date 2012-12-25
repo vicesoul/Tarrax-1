@@ -6,14 +6,13 @@ define([
   'jqueryui/dialog',
   'jqueryui/slider',
   'jquery.instructure_misc_helpers',
-   "kinetic-v4.0.1",
    "modernizr.custom.34982",
    "sketcher",
    "jquery.ui.touch"
 ], function(tinymce, I18n, $) {
     var sketcher,
         pluginProp = {id:"instructure_drawing",name:"instructure_drawing"},
-        defaultSetting = {
+        sketchSetting = {
             sketchType:"paint",
             stageId:"",
             lineW : 1,
@@ -22,40 +21,54 @@ define([
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
-            appTitle : "画板"
+            appTitle : "画板",
+            savePaint : new Function()
 
         };
   tinymce.create('tinymce.plugins.' + pluginProp.id,  {
     init : function(ed, url) {
       ed.addCommand(pluginProp.id, function() {
-        console.log(ed);
+        //console.log(ed);
         //console.log(ed.selection.getContent());
-      defaultSetting.stageId = ed.id + "_" + defaultSetting.sketchType;      // set stageId dynamic
+      sketchSetting.stageId = ed.id + "_" + sketchSetting.sketchType;      // set stageId dynamic
 
       var $editor = $("#" + ed.id),
           $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          dialogStr = '.' + defaultSetting.appName + '.' + defaultSetting.sketchType,
-          backgroundContainer = "." + dialogStr + " .img_background";
+          dialogStr = '.' + sketchSetting.appName + '.' + sketchSetting.sketchType,
+          backgroundContainer = dialogStr + " .img_background",
+          writingCanvasStr = dialogStr + " " + "canvas." + sketchSetting.sketchType,
+          $writingCanvas;
 
-        if(!$(dialogStr).size()) {     // ****** if first open box
-            sketcher = new Sketcher(defaultSetting);
-              }
+        //****** if first open box
+        if(!$(dialogStr).size()) {
+            sketcher = new Sketcher(sketchSetting);
+        }
+
           conveyToBoard();
 
           $(dialogStr).dialog({
-              //minWidth: sketcher.defaultSetting.canvasW + 26,
+              //minWidth: sketcher.sketchSetting.canvasW + 26,
               width:"100%",
               minHeight:$(window).height(),
-              buttons: { "保存": function() { saveImg();$(this).dialog("close");}},
-              title:defaultSetting.appTitle,
-              dialogClass: defaultSetting.sketchType,
+              buttons: { "保存": function() {
+                  saveImg();
+                  sketcher.reset();
+                  $(this).dialog("close");
+              }},
+              title:sketchSetting.appTitle,
+              dialogClass: sketchSetting.sketchType,
               "resizable": false,
               close: function() {
-                      sketcher.clear();             // **** empty canvas
-                      $(backgroundContainer).html(""); // **** empty bg img
+
+                      // **** empty canvas & bg img
+                      sketcher.clear();
+                      $(backgroundContainer).html("");
+                        // end
+
                     }
 
           });
+
           function conveyToBoard(){
               var $chosen = $editorIframe.find("img.focused"),
                   drawingData,
@@ -64,9 +77,9 @@ define([
                   srcIsData = parternPng.test($chosen.attr("src")),
                   chosenImgSrc = $chosen.css('background-image');
 
-              if(srcIsData){                        //*** src is data
+              if(srcIsData){
               var hasBgImg = !(chosenImgSrc == undefined || chosenImgSrc == "none");
-                  if(hasBgImg){                     //*** src is data & bgimg
+                  if(hasBgImg){
 
                       // ******* load background img
                       chosenImgSrc = chosenImgSrc.replace(parternQuotation,'');
@@ -75,7 +88,7 @@ define([
                           "data-mce-src":chosenImgSrc
                       });
                       $(backgroundContainer).append(newImg);
-
+                        // end
                   }
 
                   // ****** paint canvas
@@ -83,27 +96,26 @@ define([
               var canvasImage = new Image();
                   canvasImage.src = drawingData;
                   canvasImage.onload = function() {
-                      imageToCanvas(this,sketcher.defaultSetting.sketchType);
+                      var context = $("canvas." + sketchSetting.sketchType)[0].getContext('2d');
+                      context.drawImage(this, 0, 0);
                   };
+                  // end
 
-
-              }else{                               //*** src is normal
+              }else{
+                  //****** src is normal
                   $(backgroundContainer).append($chosen.clone());
+                  // end
               }
-          }
-          function imageToCanvas(imageObj,sketchType) {
-              var context = $("canvas." + sketchType)[0].getContext('2d');
-              context.drawImage(imageObj, 0, 0);
           }
 
           function removeBlanks() {
-           var canvasW = defaultSetting.canvasW,
-               canvasH = defaultSetting.canvasH,
+           var canvasW = sketchSetting.canvasW,
+               canvasH = sketchSetting.canvasH,
                cropWidth,
                cropHeight,
                returnObj,
                $croppedCanvas,
-               canvas = $("canvas." + sketcher.defaultSetting.sketchType)[0],
+               canvas = $("canvas." + sketcher.Setting.sketchType)[0],
                context = canvas.getContext('2d'),
                imageData = context.getImageData(0, 0, canvasW, canvasH),
                data = imageData.data,
@@ -191,28 +203,30 @@ define([
           }
 
           function saveImg(){
-            var $div = $(document.createElement('div')),
-                data = removeBlanks(),
+            var $div = $("<div></div>"),
+                data = removeBlanks().urlData,
                 $img = $("<img/>");
 
               if(!!$(backgroundContainer).find("img").size()){
-                   
+
+
                var originImgSrc = $(backgroundContainer).find("img").attr("data-mce-src") || $(backgroundContainer).find("img").attr("src"),
                    havePreview = originImgSrc.indexOf("preview") != -1,
                    style ="";
                       style += havePreview ?  "background:url( " + originImgSrc + " ) no-repeat;" : "background:url(" + originImgSrc + ") no-repeat;";
-                      style += "max-width:" + data.width + "px;";
+    /*                      style += "max-width:" + data.width + "px;";
                       style += "min-width:" + data.width + "px;";
                       style += "max-height:" + data.height + "px;";
-                      style += "min-height:" + data.height + "px;";
+                      style += "min-height:" + data.height + "px;";*/
 
-                   $img.attr({  "src":data.urlData,
-                                "data-mce-src":data.urlData,
+                   $img.attr({  "src":data,
+                                "data-mce-src":data,
                                 "style":style,
                                 "data-mce-style":style
                                 });
                    }else{
-                      $img.attr("src",data.urlData);
+
+                      $img.attr("src",data);
                        }
               $div.append($img);
               $editor.editorBox('insert_code', $div.html());
@@ -221,9 +235,9 @@ define([
       });
 
       ed.addButton(pluginProp.name, {
-        title: defaultSetting.sketchType,
+        title: sketchSetting.sketchType,
         cmd: pluginProp.id,
-        image: url + '/img/' + defaultSetting.sketchType +'.png'
+        image: url + '/img/' + sketchSetting.sketchType +'.png'
       });
     },
 

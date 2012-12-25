@@ -1,5 +1,8 @@
 .ui-widget-content.handWrite{background: none;}
 .ui-widget-overlay{background: none;}
-.ui-dialog.handWrite{}
+.ui-dialog.handWrite {border:none;}
+.ui-dialog.handWrite .ui-dialog-titlebar {display: none;}
+.ui-dialog.handWrite .ui-widget-content .container{}
+/*.ui-dialog.handWrite .ui-widget-content .ui-close{position: absolute;top:10px;right: 10px;}*/
 .ui-dialog.handWrite input[type=button],.ui-dialog.handWrite .color_setting{display: none;}
 .ui-dialog.handWrite .container{background: rgba(0,0,0,0.1);border: 2px solid rgba(134,170,193,0.5)}
