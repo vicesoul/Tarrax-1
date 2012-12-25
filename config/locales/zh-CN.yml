@@ -5823,7 +5823,6 @@ zh-CN:
     customize: 自定义
     managed_accounts: 管理的帐户
     my_courses: 我的课程
-    associated_accounts: 我的网校
   message: 
     default_subject: "教学邦 警报"
   message_students: 
@@ -9849,9 +9848,6 @@ zh-CN:
       labels: 
         enrolled_as: 注册作为
         invited_as: 邀请作为
-    menu_switch_accounts:
-      links:
-        associated_accounts: 网校
     message_students: 
       buttons: 
         send_message: 发送消息

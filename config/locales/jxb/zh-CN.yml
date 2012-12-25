@@ -5,6 +5,8 @@ zh-CN:
       account_created: '网校创建成功'
     errors:
       create_failed: '网校创建失败'
+  menu:
+    associated_accounts: 我的网校
   shared:
     new_account_form: 
       cancel: 取消
@@ -14,6 +16,8 @@ zh-CN:
         name: 网校名称
       new_account_name_placeholder: 网校名称
       create_a_new_account: 创建一个新的网校
+    menu_switch_accounts:
+      links:
   users:
     user_dashboard:
       create_new_account: 创建新网校
