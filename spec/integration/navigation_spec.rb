@@ -36,7 +36,7 @@ describe "navigation" do
 
     get "/"
     page = Nokogiri::HTML(response.body)
-    list = page.css(".menu-item-drop-column-list li")
+    list = page.css("#courses_menu_item .menu-item-drop-column-list li")
 
     # order of tests assumes alphabetical order of list
     list[4].text.should match /Summer Term/m # course 3, Summer Term

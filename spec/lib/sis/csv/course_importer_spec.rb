@@ -273,10 +273,10 @@ describe SIS::CSV::CourseImporter do
     )
     process_csv_data_cleanly(
       "account_id,parent_account_id,name,status",
-      "A001,,Humanities,active",
-      "A002,,Humanities,active",
-      "A003,,Humanities,active",
-      "A004,,Humanities,active"
+      "A001,,Humanities1,active",
+      "A002,,Humanities2,active",
+      "A003,,Humanities3,active",
+      "A004,,Humanities4,active"
     )
     process_csv_data_cleanly(
       "course_id,short_name,long_name,account_id,term_id,status,start_date,end_date",
@@ -371,10 +371,10 @@ describe SIS::CSV::CourseImporter do
     )
     process_csv_data_cleanly(
       "account_id,parent_account_id,name,status",
-      "A001,,Humanities,active",
-      "A002,,Humanities,active",
-      "A003,,Humanities,active",
-      "A004,,Humanities,active"
+      "A001,,Humanities1,active",
+      "A002,,Humanities2,active",
+      "A003,,Humanities3,active",
+      "A004,,Humanities4,active"
     )
     process_csv_data_cleanly(
       "course_id,short_name,long_name,account_id,term_id,status,start_date,end_date",

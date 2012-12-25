@@ -92,6 +92,7 @@ class Account < ActiveRecord::Base
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
   before_save :set_update_account_associations_if_changed
+  before_create :auto_create_name if RAILS_ENV == 'test'
   after_save :update_account_associations_if_changed
   after_create :create_subdomain
   after_create :default_enrollment_term
@@ -631,6 +632,10 @@ class Account < ActiveRecord::Base
     if self.root_account?
       @default_enrollment_term = self.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME)
     end
+  end
+
+  def auto_create_name
+    self.name = SecureRandom.base64(12) if name.nil?
   end
 
   def create_subdomain

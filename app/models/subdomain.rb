@@ -1,7 +1,7 @@
 class Subdomain < ActiveRecord::Base
   PREFIX = 'edu'
 
-  attr_accessible :subdomain, :account_id, :account
+  attr_accessible :subdomain, :account
 
   belongs_to :account
 
