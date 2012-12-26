@@ -47,6 +47,7 @@ class ApplicationController < ActionController::Base
   before_filter :fix_xhr_requests
   before_filter :init_body_classes
   before_filter :set_ua_header
+  before_filter :load_all_models if RAILS_ENV == 'development' # load all models before initialize instance from cache store
 
   add_crumb(proc { I18n.t('links.dashboard', "My Dashboard") }, :root_path, :class => "home")
 
@@ -143,6 +144,10 @@ class ApplicationController < ActionController::Base
     else
       Time.zone = @domain_root_account && @domain_root_account.default_time_zone
     end
+  end
+
+  def load_all_models
+    Dir.glob('app/models/*.rb') { |f| File.basename(f, '.rb').camelize.constantize }
   end
 
   # retrieves the root account for the given domain
