@@ -158,12 +158,12 @@ define([
                       tinymce.activeEditor.undoManager.undo();
                   }).appendTo(buttonSet);
 
-              var $return = $("<span href='#' class='btn btn-success'><i class='ico-white ico-arrow-left'></i>换行</span>")
+              /*var $return = $("<span href='#' class='btn btn-success'><i class='ico-white ico-arrow-left'></i>换行</span>")
                   .click(function(){
                       var $editor = $("#" + ed.id);
                       //tinyMCE.activeEditor.selection.select(tinyMCE.activeEditor.dom.select('p')[0]);
                      $editor.editorBox('insert_code', "<br/>");
-                  }).appendTo(buttonSet);
+                  }).appendTo(buttonSet);*/
 
               var $close = $("<a href='#' class='btn btn-danger'><i class='ico-white ico-remove'></i>关闭</a>")
                   .click(function(e){
