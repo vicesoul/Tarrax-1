@@ -4,7 +4,8 @@ define([
   'jquery',
   'str/htmlEscape',
   'jqueryui/dialog',
-  'jquery.instructure_misc_helpers'
+  'jquery.instructure_misc_helpers',
+   "sketcher"
 ], function(tinymce, I18n, $) {
     var Painter,
         pluginProp = {id:"instructure_drawing",name:"instructure_drawing"},
