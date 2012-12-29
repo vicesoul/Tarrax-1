@@ -124,9 +124,8 @@ define([
       width = $textarea.closest(":visible").width();
     }
 
-      // add instructure_drawing 2012-11-01 rupert
-    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets";
-    //var instructure_buttons = ",instructure_embed,instructure_equation";
+      // 2012-11-01 rupert
+    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets,instructure_handWrite";
       // end
 
     for(var idx in INST.editorButtons) {
@@ -166,9 +165,8 @@ define([
       elements: id,
       theme : "advanced",
 
-      // add instructure_drawing 2012-11-01 rupert
-      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_add_rackets,instructure_equella,media,paste,table,inlinepopups",
-      //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_equella,media,paste,table,inlinepopups",
+      // 2012-11-01 rupert
+      plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links,instructure_embed,instructure_equation,instructure_record,instructure_drawing,instructure_add_rackets,instructure_handWrite,instructure_equella,media,paste,table,inlinepopups",
       // end
 
       dialog_type: 'modal',

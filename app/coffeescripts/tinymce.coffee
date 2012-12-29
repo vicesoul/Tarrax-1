@@ -13,6 +13,7 @@ instrPlugins = [  'compiled/editor/markScriptsLoaded'
   'tinymce/jscripts/tiny_mce/plugins/instructure_external_tools/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_links/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_add_rackets/editor_plugin'
+  'tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/editor_plugin'
  ]
 
 isCanvasSupported = ->
@@ -37,6 +38,8 @@ define instrPlugins, (markScriptsLoaded, tinymce) ->
     'plugins/instructure_external_tools/editor_plugin'
     'plugins/instructure_links/editor_plugin'
     'plugins/instructure_record/editor_plugin'
+    'plugins/instructure_add_rackets/editor_plugin'
+    'plugins/instructure_drawing/editor_plugin'
   ]
 
   tinymce
