@@ -1,8 +1,7 @@
-.ui-widget-content.handWrite{background: none;}
-.ui-widget-overlay{background: none;}
-.ui-dialog.handWrite {border:none;}
-.ui-dialog.handWrite .ui-dialog-titlebar {display: none;}
-.ui-dialog.handWrite .ui-widget-content .container{}
-/*.ui-dialog.handWrite .ui-widget-content .ui-close{position: absolute;top:10px;right: 10px;}*/
-.ui-dialog.handWrite input[type=button],.ui-dialog.handWrite .color_setting{display: none;}
-.ui-dialog.handWrite .container{background: rgba(0,0,0,0.1);border: 2px solid rgba(134,170,193,0.5)}
+.sketch_app.handWrite {border:none;position: fixed;top: 0;z-index: 19;left:50%;margin: 0 0 0 -500px;}
+
+.sketch_app.handWrite input[type=button],.sketch_app.handWrite .color_setting{display: none;}
+.sketch_app.handWrite .buttons-set .btn{margin: 10px;}
+/*.sketch_app.handWrite .container {background: rgba(255,255,255,0.9);border: 9px dashed rgba(0, 0, 0, 0.8);}*/
+.sketch_app.handWrite .container canvas.handWrite {background: url("/images/handWrite-mi.png") no-repeat 0 0;}
+.ui-mask{position: fixed;top:0;left:0;width: 100%;height: 100%;z-index: 18;background: rgba(0,0,0,0.5)}
