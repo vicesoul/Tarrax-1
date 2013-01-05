@@ -81,10 +81,6 @@ zh-CN:
     show2:
       instructions: 
         ics_link: "复制以下链接并将其粘贴到提取 iCal 订阅的任何日历应用程序（Google Calendar、iCal、Outlook 等）"
-  messages:
-    footer:
-      email:
-        the_reason_you_received_this_email: "这是一封来自教学邦平台课程通知邮件。如果您要修改通信设置或者退订，请点击下面的链接："
   menu:
     associated_accounts: 参加的网校
   shared:

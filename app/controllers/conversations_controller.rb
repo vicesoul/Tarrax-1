@@ -234,7 +234,7 @@ class ConversationsController < ApplicationController
   def batches
     batches = Api.paginate(@current_user.conversation_batches.in_progress,
                            self,
-                           api_v1_conversations_batches_path,
+                           api_v1_conversations_batches_url,
                            :order => :id)
     render :json => batches.map{ |m| conversation_batch_json(m, @current_user, session) }
   end
@@ -275,7 +275,7 @@ class ConversationsController < ApplicationController
   #   attachments:: Array of attachments for this message. Fields include: display_name, content-type, filename, url
   # @response_field submissions Array of assignment submissions having
   #   comments relevant to this conversation. These should be interleaved with
-  #   the messages when displaying to the user. See the {api:SubmissionsApiController Submissions API documentation}
+  #   the messages when displaying to the user. See the {api:SubmissionsApiController#index Submissions API documentation}
   #   for details on the fields included. This response includes
   #   the submission_comments and assignment associations.
   #
@@ -344,14 +344,17 @@ class ConversationsController < ApplicationController
     end
 
     @conversation.update_attribute(:workflow_state, "read") if @conversation.unread? && auto_mark_as_read?
-    messages = @conversation.messages
-    ConversationMessage.send(:preload_associations, messages, :asset)
-    submissions = messages.map(&:submission).compact
-    Submission.send(:preload_associations, submissions, [:assignment, :submission_comments])
-    if interleave_submissions
-      submissions = nil
-    else
-      messages = messages.select{ |message| message.submission.nil? }
+    messages = submissions = nil
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      messages = @conversation.messages
+      ConversationMessage.send(:preload_associations, messages, :asset)
+      submissions = messages.map(&:submission).compact
+      Submission.send(:preload_associations, submissions, [:assignment, :submission_comments])
+      if interleave_submissions
+        submissions = nil
+      else
+        messages = messages.select{ |message| message.submission.nil? }
+      end
     end
     render :json => conversation_json(@conversation,
                                       @current_user,
@@ -575,17 +578,19 @@ class ConversationsController < ApplicationController
       f.updated = Time.now
       f.id = conversations_url
     end
-    @entries = []
-    @conversation_contexts = {}
-    @current_user.conversations.each do |conversation|
-      @entries.concat(conversation.messages.human)
-      if @conversation_contexts[conversation.conversation.id].blank?
-        @conversation_contexts[conversation.conversation.id] = feed_context_content(conversation)
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      @entries = []
+      @conversation_contexts = {}
+      @current_user.conversations.each do |conversation|
+        @entries.concat(conversation.messages.human)
+        if @conversation_contexts[conversation.conversation.id].blank?
+          @conversation_contexts[conversation.conversation.id] = feed_context_content(conversation)
+        end
       end
-    end
-    @entries = @entries.sort_by{|e| e.created_at}.reverse
-    @entries.each do |entry|
-      feed.entries << entry.to_atom(:additional_content => @conversation_contexts[entry.conversation.id])
+      @entries = @entries.sort_by{|e| e.created_at}.reverse
+      @entries.each do |entry|
+        feed.entries << entry.to_atom(:additional_content => @conversation_contexts[entry.conversation.id])
+      end
     end
     respond_to do |format|
       format.atom { render :text => feed.to_xml }
@@ -655,7 +660,7 @@ class ConversationsController < ApplicationController
         @current_user.conversations.default
     end
 
-    filters = Array(params[:filter]).compact
+    filters = param_array(:filter)
     @conversations_scope = @conversations_scope.for_masquerading_user(@real_current_user) if @real_current_user
     @conversations_scope = @conversations_scope.tagged(*filters) if filters.present?
     @set_visibility = true
@@ -693,7 +698,7 @@ class ConversationsController < ApplicationController
   end
 
   def infer_tags
-    tags = Array(params[:tags] || []).concat(params[:recipients] || [])
+    tags = param_array(:tags).concat(param_array(:recipients))
     tags = SimpleTags.normalize_tags(tags)
     tags += tags.grep(/\Agroup_(\d+)\z/){ g = Group.find_by_id($1.to_i) and g.context.asset_string }.compact
     @tags = tags.uniq
@@ -751,4 +756,8 @@ class ConversationsController < ApplicationController
     value_to_boolean(params[:auto_mark_as_read])
   end
 
+  # look up the param and cast it to an array. treat empty string same as empty
+  def param_array(key)
+    Array(params[key].presence || []).compact
+  end
 end

@@ -51,13 +51,6 @@ end
 #    CrocodocDocument.update_process_states
 #  end
 #end
-#
-#Delayed::Periodic.cron 'Twitter processing', '*/15 * * * *' do
-#  Shard.with_each_shard do
-#    TwitterSearcher.process
-#    TwitterUserPoller.process
-#  end
-#end
 
 Delayed::Periodic.cron 'Reporting::CountsReport.process', '0 11 * * *' do
   Reporting::CountsReport.process
@@ -75,7 +68,7 @@ if Mailman.config.poll_interval == 0 && Mailman.config.ignore_stdin == true
   end
 end
 
-if PageView.page_view_method == :cache
+if PageView.redis_queue?
   # periodically pull new page views off the cache and insert them into the db
   Delayed::Periodic.cron 'PageView.process_cache_queue', '*/1 * * * *' do
     Shard.with_each_shard do

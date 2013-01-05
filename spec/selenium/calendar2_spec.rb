@@ -208,7 +208,19 @@ describe "calendar2" do
         create_middle_day_event
       end
 
+      it "should show scheduler button if it is enabled" do
+        get "/calendar2"
+        f('input#scheduler').should_not be_nil
+      end
+
+      it "should not show scheduler button if it is disabled" do
+        account = Account.default.tap { |a| a.settings[:show_scheduler] = false; a.save! }
+        get "/calendar2"
+        f('input#scheduler').should be_nil
+      end      
+
       it "should drag and drop an event" do
+        pending('drag and drop not working correctly')
         create_middle_day_event
         driver.action.drag_and_drop(f('.calendar .fc-event'), f('.calendar .fc-week2 .fc-last')).perform
         wait_for_ajaximations
@@ -229,6 +241,14 @@ describe "calendar2" do
         f('#breadcrumbs').text.should include 'Calendar Events'
       end
 
+      it "should go to assignment page when clicking assignment title" do
+        name = 'special assignment'
+        create_middle_day_assignment(name)
+        f('.fc-event.assignment').click
+        expect_new_page_load { f('.view_event_link').click }
+        f('h2.title').text.should include(name)
+      end
+
       it "more options link on assignments should go to assignment edit page" do
         name = 'super big assignment'
         create_middle_day_assignment(name)
@@ -236,6 +256,32 @@ describe "calendar2" do
         f('.edit_event_link').click
         expect_new_page_load { f('.more_options_link').click }
         f('h2.title').text.should include(name)
+      end
+
+      it "should delete an event" do
+        create_middle_day_event('doomed event')
+        f('.fc-event').click
+        f('.delete_event_link').click
+        f('.ui-dialog .btn-primary').click
+        wait_for_ajaximations
+        f('.fc-event').should be_nil
+        # make sure it was actually deleted and not just removed from the interface
+        get("/calendar2")
+        wait_for_ajax_requests
+        f('.fc-event').should be_nil
+      end
+
+      it "should delete an assignment" do
+        create_middle_day_assignment
+        f('.fc-event').click
+        f('.delete_event_link').click
+        f('.ui-dialog .btn-primary').click
+        wait_for_ajaximations
+        f('.fc-event').should be_nil
+        # make sure it was actually deleted and not just removed from the interface
+        get("/calendar2")
+        wait_for_ajax_requests
+        f('.fc-event').should be_nil
       end
 
       it "should let me message students who have signed up for an appointment" do
@@ -257,12 +303,12 @@ describe "calendar2" do
         f('.fc-event').click
         f('.message_students').click
         wait_for_ajaximations
-        ff(".participant_list input").size.should eql 1
+        ff(".participant_list input").size.should == 1
         set_value f('textarea[name="body"]'), 'hello'
         fj('.ui-button:contains(Send)').click
         wait_for_ajaximations
 
-        student1.conversations.first.messages.size.should eql 1
+        student1.conversations.first.messages.size.should == 1
         student2.conversations.should be_empty
       end
 
@@ -296,6 +342,24 @@ describe "calendar2" do
         wait_for_ajax_requests
         assignment2.reload.title.should == "Assignment 2!"
         assignment2.assignment_group.should == group2
+      end
+
+      it "editing an existing assignment should preserve more options link" do
+        assignment = @course.active_assignments.create!(:name => "to edit", :due_at => Time.zone.now)
+        get "/calendar2"
+        f('.fc-event').click
+        f('.popover-links-holder .edit_event_link').click
+        original_more_options = f('.more_options_link')['href']
+        original_more_options.should_not match(/undefined/)
+        replace_content(f('.ui-dialog #assignment_title'), "edited title")
+        submit_form('#edit_assignment_form')
+        wait_for_ajax_requests
+        assignment.reload
+        assignment.title.should eql("edited title")
+
+        f('.fc-event').click
+        f('.popover-links-holder .edit_event_link').click
+        f('.more_options_link')['href'].should match(original_more_options)
       end
 
       it "should change the month" do
@@ -341,7 +405,7 @@ describe "calendar2" do
         get "/calendar2"
         wait_for_ajaximations
         events = ff('.fc-event')
-        events.size.should eql 2
+        events.size.should == 2
         events.first.click
 
         details = f('.event-details')
@@ -366,7 +430,7 @@ describe "calendar2" do
           fj('.ui-button:contains(Update)').click
           wait_for_ajaximations
 
-          ag.reload.appointments.first.description.should eql description
+          ag.reload.appointments.first.description.should == description
           lambda { f('.fc-event') }.should_not raise_error
         end
       end
@@ -379,16 +443,16 @@ describe "calendar2" do
                          :due_at => Time.zone.now.beginning_of_week + 1.day - 1.minute)
         calendar_events = @teacher.calendar_events_for_calendar.last
 
-        calendar_events.title.should eql "super important"
+        calendar_events.title.should == "super important"
         @assignment.due_date == Time.zone.now.beginning_of_week + 1.day - 1.minute
 
         get "/calendar2"
         wait_for_ajaximations
         f('label[for=week]').click
         keep_trying_until do
-          events = ff('.fc-event').select { |e| e.text =~ /11:59.*super important/ }
+          events = ff('.fc-event').select { |e| e.text =~ /due.*super important/ }
           # shows on monday night and tuesday morning
-          events.size.should eql 2
+          events.size.should == 2
         end
       end
 
@@ -462,7 +526,7 @@ describe "calendar2" do
         get "/calendar2"
         wait_for_ajaximations
         events = ff('.fc-event')
-        events.size.should eql 1
+        events.size.should == 1
         events.first.text.should include "1p"
         events.first.click
 
@@ -478,7 +542,7 @@ describe "calendar2" do
 
         popup_title = f('.details_title')
         popup_title.should be_displayed
-        popup_title.text.should eql "future event"
+        popup_title.text.should == "future event"
       end
 
     end

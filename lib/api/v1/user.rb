@@ -96,7 +96,7 @@ module Api::V1::User
   def user_json_is_admin?(context = @context, current_user = @current_user)
     @user_json_is_admin ||= {}
     @user_json_is_admin[[context.class.name, context.id, current_user.id]] ||= (
-      if context.is_a?(UserProfile)
+      if context.is_a?(::UserProfile)
         permissions_context = permissions_account = @domain_root_account
       else
         permissions_context = context
@@ -124,6 +124,7 @@ module Api::V1::User
   def enrollment_json(enrollment, user, session, includes = [])
     api_json(enrollment, user, session, :only => API_ENROLLMENT_JSON_OPTS).tap do |json|
       json[:enrollment_state] = json.delete('workflow_state')
+      json[:role] = enrollment.role
       if enrollment.student?
         json[:grades] = {
           :html_url => course_student_grades_url(enrollment.course_id, enrollment.user_id),

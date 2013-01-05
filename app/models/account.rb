@@ -40,7 +40,6 @@ class Account < ActiveRecord::Base
   has_many :all_accounts, :class_name => 'Account', :foreign_key => 'root_account_id', :order => 'name'
   has_many :account_users, :dependent => :destroy
   has_many :course_sections, :foreign_key => 'root_account_id'
-  has_many :learning_outcomes, :as => :context
   has_many :sis_batches
   has_many :abstract_courses, :class_name => 'AbstractCourse', :foreign_key => 'account_id'
   has_many :root_abstract_courses, :class_name => 'AbstractCourse', :foreign_key => 'root_account_id'
@@ -63,6 +62,8 @@ class Account < ActiveRecord::Base
   has_many :grading_standards, :as => :context
   has_many :assessment_questions, :through => :assessment_question_banks
   has_many :assessment_question_banks, :as => :context, :include => [:assessment_questions, :assessment_question_bank_users]
+  has_many :roles
+  has_many :all_roles, :class_name => 'Role', :foreign_key => 'root_account_id'
   def inherited_assessment_question_banks(include_self = false, *additional_contexts)
     sql = []
     conds = []
@@ -76,12 +77,9 @@ class Account < ActiveRecord::Base
     AssessmentQuestionBank.scoped :conditions => conds
   end
   
+  include LearningOutcomeContext
+
   has_many :context_external_tools, :as => :context, :dependent => :destroy, :order => 'name'
-  has_many :learning_outcomes, :as => :context
-  has_many :learning_outcome_groups, :as => :context
-  has_many :created_learning_outcomes, :class_name => 'LearningOutcome', :as => :context
-  has_many :learning_outcome_tags, :class_name => 'ContentTag', :as => :context, :conditions => ['content_tags.tag_type = ? AND workflow_state != ?', 'learning_outcome_association', 'deleted']
-  has_many :associated_learning_outcomes, :through => :learning_outcome_tags, :source => :learning_outcome
   has_many :error_reports
   has_many :announcements, :class_name => 'AccountNotification'
   has_many :alerts, :as => :context, :include => :criteria
@@ -153,9 +151,12 @@ class Account < ActiveRecord::Base
   add_setting :open_registration, :boolean => true, :root_only => true
   add_setting :enable_scheduler, :boolean => true, :root_only => true, :default => true
   add_setting :calendar2_only, :boolean => true, :root_only => true, :default => true
+  add_setting :show_scheduler, :boolean => true, :root_only => true, :default => false
   add_setting :enable_profiles, :boolean => true, :root_only => true, :default => false
   add_setting :mfa_settings, :root_only => true
   add_setting :canvas_authentication, :boolean => true, :root_only => true
+  add_setting :admins_can_change_passwords, :boolean => true, :root_only => true, :default => false
+  add_setting :outgoing_email_default_name
 
   def settings=(hash)
     if hash.is_a?(Hash)
@@ -435,10 +436,6 @@ class Account < ActiveRecord::Base
     self.default_user_storage_quota = val.try(:to_i).try(:megabytes)
   end
 
-  def has_outcomes?
-    self.learning_outcomes.count > 0
-  end
-  
   def turnitin_shared_secret=(secret)
     return if secret.blank?
     self.turnitin_crypted_secret, self.turnitin_salt = Canvas::Security.encrypt_password(secret, 'instructure_turnitin_secret_shared')
@@ -496,23 +493,31 @@ class Account < ActiveRecord::Base
     self.account_users.find_by_user_id(user && user.id)
   end
 
-  def account_membership_types
-    res = ['AccountAdmin']
-    res += self.parent_account.account_membership_types if self.parent_account
-    res += (self.membership_types || "").split(",").select{|t| !t.empty? }
-    res.uniq
+  def available_account_roles
+    account_roles = roles.for_accounts.active.map(&:name)
+    account_roles |= ['AccountAdmin']
+    account_roles = account_roles | self.parent_account.available_account_roles if self.parent_account
+    account_roles
   end
-  
-  def add_account_membership_type(type)
-    types = account_membership_types
-    types += type.split(",")
-    self.membership_types = types.join(',')
-    self.save
+
+  def available_course_roles
+    course_roles = roles.for_courses.active.map(&:name)
+    course_roles |= parent_account.available_course_roles if parent_account
+    course_roles
   end
-  
-  def remove_account_membership_type(type)
-    self.membership_types = self.account_membership_types.select{|t| t != type}.join(',')
-    self.save
+
+  def get_course_role(role_name)
+    course_role = self.roles.for_courses.find_by_name(role_name)
+    course_role ||= self.parent_account.get_course_role(role_name) if self.parent_account
+    course_role
+  end
+
+  def has_role?(role_name)
+    roles.not_deleted.scoped(:conditions => ["roles.name = ?", role_name]).any?
+  end
+
+  def find_role(role_name)
+    roles.not_deleted.find_by_name(role_name) || (parent_account && parent_account.find_role(role_name))
   end
 
   def account_authorization_config
@@ -546,11 +551,22 @@ class Account < ActiveRecord::Base
   end
 
   def account_users_for(user)
-    @account_chain_ids ||= self.account_chain(:include_site_admin => true).map { |a| a.active? ? a.id : nil }.compact
+    return [] unless user
     @account_users_cache ||= {}
-    @account_users_cache[user] ||= Shard.partition_by_shard(@account_chain_ids) do |account_chain_ids|
-      AccountUser.find(:all, :conditions => { :account_id => account_chain_ids, :user_id => user.id })
-    end if user
+    if self == Account.site_admin
+      @account_users_cache[user] ||= Rails.cache.fetch('all_site_admin_account_users', :expires_in => 30.minutes) do
+        self.account_users.all
+      end.select { |au| au.user_id == user.id }.each { |au| au.account = self }
+    else
+      @account_chain_ids ||= self.account_chain(:include_site_admin => true).map { |a| a.active? ? a.id : nil }.compact
+      @account_users_cache[user] ||= Shard.partition_by_shard(@account_chain_ids) do |account_chain_ids|
+        if account_chain_ids == [Account.site_admin.id]
+          Account.site_admin.account_users_for(user)
+        else
+          AccountUser.find(:all, :conditions => { :account_id => account_chain_ids, :user_id => user.id })
+        end
+      end
+    end
     @account_users_cache[user] ||= []
     @account_users_cache[user]
   end
@@ -582,7 +598,7 @@ class Account < ActiveRecord::Base
     end
 
     given { |user| !self.account_users_for(user).empty? }
-    can :read and can :manage and can :update and can :delete
+    can :read and can :manage and can :update and can :delete and can :read_outcomes
 
     given { |user|
       root_account = self.root_account
@@ -605,6 +621,14 @@ class Account < ActiveRecord::Base
       result
     }
     can :create_courses
+
+    # any logged in user can read global outcomes, but must be checked against the site admin
+    given{ |user,session| self.site_admin? && user }
+    can :read_global_outcomes
+
+    # any user with an association to this account can read the outcomes in the account
+    given{ |user,session| user && self.user_account_associations.find_by_user_id(user.id) }
+    can :read_outcomes
   end
 
   alias_method :destroy!, :destroy
@@ -665,11 +689,11 @@ class Account < ActiveRecord::Base
   def cas_authentication?
     !!(self.account_authorization_config && self.account_authorization_config.cas_authentication?)
   end
-  
+
   def ldap_authentication?
-    !!(self.account_authorization_config && self.account_authorization_config.ldap_authentication?)
+    self.account_authorization_configs.any? { |aac| aac.ldap_authentication? }
   end
-  
+
   def saml_authentication?
     !!(self.account_authorization_config && self.account_authorization_config.saml_authentication?)
   end
@@ -1162,5 +1186,14 @@ class Account < ActiveRecord::Base
   # return root account's subdomain
   def subdomain
     Subdomain.find_by_account_id(root_account.id) || 'www'
+  end
+
+  def import_from_migration(data, params, migration)
+
+    LearningOutcome.process_migration(data, migration)
+
+    migration.progress=100
+    migration.workflow_state = :imported
+    migration.save
   end
 end

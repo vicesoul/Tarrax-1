@@ -30,10 +30,11 @@ class Shard
   end
 
   def self.partition_by_shard(array, partition_proc = nil)
+    return [] if array.empty?
     Array(yield array)
   end
 
-  def self.with_each_shard
+  def self.with_each_shard(shards = nil)
     Array(yield)
   end
 
@@ -73,11 +74,29 @@ ActiveRecord::Base.class_eval do
     Shard.default
   end
 
+  def shard=(new_shard)
+    raise ReadOnlyRecord if new_record? && self.shard != new_shard
+    new_shard
+  end
+
   def global_id
     id
   end
 
-  def self.set_shard_override(&block)
-    # pass
+  def local_id
+    id
+  end
+end
+
+module ActiveRecord::Associations
+  %w{HasManyAssociation HasManyThroughAssociation}.each do |klass|
+    const_get(klass).class_eval do
+      def with_each_shard(options = nil)
+        scope = self
+        scope = self.scoped(options) if options
+        scope = yield(scope) if block_given?
+        Array(scope)
+      end
+    end
   end
 end

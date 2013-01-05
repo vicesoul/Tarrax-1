@@ -129,7 +129,7 @@ describe CoursesController do
 
     it "should not reject invitation for bad parameters" do
       course_with_student(:active_course => true, :active_user => true)
-      post 'enrollment_invitation', :course_id => @course.id, :reject => '1', :invitation => @enrollment.uuid + 'a'
+      post 'enrollment_invitation', :course_id => @course.id, :reject => '1', :invitation => "#{@enrollment.uuid}https://canvas.instructure.com/courses/#{@course.id}?invitation=#{@enrollment.uuid}"
       response.should be_redirect
       response.should redirect_to(course_url(@course.id))
       assigns[:pending_enrollment].should be_nil
@@ -180,6 +180,20 @@ describe CoursesController do
       post 'enrollment_invitation', :course_id => @course.id, :accept => '1', :invitation => @e2.uuid
       response.should redirect_to(login_url(:re_login => 1))
     end
+
+    it "should accept an enrollment for a restricted by dates course" do
+      course_with_student_logged_in(:active_all => true)
+
+      @course.update_attributes(:restrict_enrollments_to_course_dates => true,
+                                :start_at => Time.now + 2.weeks)
+      @enrollment.update_attributes(:workflow_state => 'invited')
+
+      post 'enrollment_invitation', :course_id => @course.id, :accept => '1',
+        :invitation => @enrollment.uuid
+
+      response.should redirect_to(courses_url)
+      @enrollment.reload.workflow_state.should == 'active'
+    end
   end
   
   describe "GET 'show'" do
@@ -200,7 +214,7 @@ describe CoursesController do
       get 'show', :id => @course.id
       response.should be_success
       assigns[:context].should eql(@course)
-      # assigns[:message_types].should_not be_nil
+      assigns[:stream_items].should eql([])
     end
 
     it "should give a helpful error message for students that can't access yet" do
@@ -376,7 +390,6 @@ describe CoursesController do
         get 'show', :id => @course.id, :invitation => @enrollment.uuid
         response.should be_success
         response.should render_template('show')
-        assigns[:pending_enrollment].should be_nil
         assigns[:context_enrollment].should == @enrollment
         @enrollment.reload
         @enrollment.should be_active
@@ -571,6 +584,37 @@ describe CoursesController do
       @course.reload
       @course.students.map{|s| s.name}.should be_include("Sam")
       @course.students.map{|s| s.name}.should be_include("Fred")
+    end
+
+    it "should not enroll people in hard-concluded courses" do
+      course_with_teacher_logged_in(:active_all => true)
+      @course.complete
+      post 'enroll_users', :course_id => @course.id, :user_list => "\"Sam\" <sam@yahoo.com>, \"Fred\" <fred@yahoo.com>"
+      response.should_not be_success
+      @course.reload
+      @course.students.map{|s| s.name}.should_not be_include("Sam")
+      @course.students.map{|s| s.name}.should_not be_include("Fred")
+    end
+
+    it "should not enroll people in soft-concluded courses" do
+      course_with_teacher_logged_in(:active_all => true)
+      @course.conclude_at = 1.day.ago
+      @course.restrict_enrollments_to_course_dates = true
+      @course.save!
+      post 'enroll_users', :course_id => @course.id, :user_list => "\"Sam\" <sam@yahoo.com>, \"Fred\" <fred@yahoo.com>"
+      response.should_not be_success
+      @course.reload
+      @course.students.map{|s| s.name}.should_not be_include("Sam")
+      @course.students.map{|s| s.name}.should_not be_include("Fred")
+    end
+
+    it "should record initial_enrollment_type on new users" do
+      course_with_teacher_logged_in(:active_all => true)
+      post 'enroll_users', :course_id => @course.id, :user_list => "\"Sam\" <sam@yahoo.com>", :enrollment_type => 'ObserverEnrollment'
+      response.should be_success
+      @course.reload
+      @course.observers.count.should == 1
+      @course.observers.first.initial_enrollment_type.should == 'observer'
     end
 
     it "should allow TAs to enroll Observers (by default)" do

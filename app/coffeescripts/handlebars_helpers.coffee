@@ -1,5 +1,4 @@
 define [
-  'ENV'
   'vendor/handlebars.vm'
   'i18nObj'
   'jquery'
@@ -12,7 +11,7 @@ define [
   'jquery.instructure_date_and_time'
   'jquery.instructure_misc_helpers'
   'jquery.instructure_misc_plugins'
-], (ENV, Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, convertApiUserContent, underscore) ->
+], (Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, convertApiUserContent, underscore) ->
 
   Handlebars.registerHelper name, fn for name, fn of {
     t : (word, defaultValue, options) ->
@@ -58,6 +57,10 @@ define [
     # helper for using date.js's custom toString method on Date objects
     dateToString : (date = '', format) ->
       date.toString(format)
+
+    # convert a date to a string, using the given i18n format in the date.formats namespace
+    tDateToString : (date = '', i18n_format) ->
+      I18n.l("date.formats.#{i18n_format}", date)
 
     mimeClass: (contentType) -> $.mimeClass(contentType)
 
@@ -109,6 +112,9 @@ define [
         return fn(this) if arg
       inverse(this)
 
+    # {{#eachWithIndex records}}
+    #   <li class="legend_item{{_index}}"><span></span>{{Name}}</li>
+    # {{/each_with_index}}
     eachWithIndex: (context, options) ->
       fn = options.fn
       inverse = options.inverse

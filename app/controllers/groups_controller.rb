@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2012 Instructure, Inc.
+# Copyright (C) 2011 - 2012 Instructure, Inc.
 #
 # This file is part of Canvas.
 #
@@ -146,18 +146,15 @@ class GroupsController < ApplicationController
   # @returns [Group]
   def index
     return context_index if @context
-    scope = @current_user.try(:current_groups)
+    @groups = @current_user.try(:current_groups)
+    # can't use #try, cause it's not defined on the association class,
+    # so it will try to load the association and call it on the resulting array'
+    @groups = @groups.with_each_shard({ :include => :group_category, :order => "groups.id ASC" }) if @groups
+    @groups ||= []
     respond_to do |format|
-      format.html do
-        @groups = scope || []
-      end
+      format.html {}
       format.json do
-        scope = scope.scoped({
-          :include => :group_category,
-          :order => "groups.id ASC",
-        })
-        route = polymorphic_url([:api_v1, :groups])
-        @groups = Api.paginate(scope, self, route)
+        @groups = Api.paginate(@groups, self, api_v1_current_user_groups_url)
         render :json => @groups.map { |g| group_json(g, @current_user, session) }
       end
     end
@@ -221,6 +218,7 @@ class GroupsController < ApplicationController
           return
         end
         @current_conferences = @group.web_conferences.select{|c| c.active? && c.users.include?(@current_user) } rescue []
+        @stream_items = @current_user.try(:cached_recent_stream_items, { :contexts => @context }) || []
         if params[:join] && @group.grants_right?(@current_user, :join)
           @group.request_user(@current_user)
           if !@group.grants_right?(@current_user, session, :read)
@@ -242,13 +240,8 @@ class GroupsController < ApplicationController
           end
         end
         if authorized_action(@group, @current_user, :read)
-          #if show_new_dashboard?
-          #  @use_new_styles = true
-          #  js_env :GROUP_ID => @group.id
-          #  return render :action => :dashboard
-          #else
+          set_badge_counts_for(@group, @current_user)
           @home_page = @group.wiki.wiki_page
-          #end
         end
       end
       format.json do
@@ -469,7 +462,7 @@ class GroupsController < ApplicationController
     find_group
     if authorized_action(@group, @current_user, :manage)
       root_account = @group.context.try(:root_account) || @domain_root_account
-      ul = UserList.new(params[:invitees], root_account, :preferred)
+      ul = UserList.new(params[:invitees], :root_account => root_account, :search_method => :preferred)
       @memberships = []
       ul.users.each{ |u| @memberships << @group.invite_user(u) }
       render :json => @memberships.map{ |gm| group_membership_json(gm, @current_user, session) }
@@ -550,9 +543,7 @@ class GroupsController < ApplicationController
     @group = @context
     if authorized_action(@group, @current_user, :manage)
       @membership = @group.group_memberships.find_by_user_id(params[:user_id])
-      @membership.group_id = nil
       @membership.destroy
-      @group.touch
       render :json => @membership.to_json
     end
   end
@@ -571,23 +562,6 @@ class GroupsController < ApplicationController
     if authorized_action(@group, @current_user, :update)
       render :action => :edit
     end
-  end
-
-  def profile
-    account = @context.root_account
-    raise ActiveRecord::RecordNotFound unless account.canvas_network_enabled?
-
-    @use_new_styles = true
-    @active_tab = 'profile'
-    @group = Group.find(params[:group_id])
-
-    # FIXME: there are probably some permissions that could override the
-    # public/private setting on groups (school admins or something?)
-    @can_join = %(parent_context_auto_join
-                  parent_context_request).include? @group.join_level
-    @in_group = @current_user && @current_user.groups.include?(@group)
-
-    render :action => :profile
   end
 
   def public_feed
@@ -686,6 +660,9 @@ class GroupsController < ApplicationController
     elsif @context.group_categories.other_than(@group_category).find_by_name(name)
       render :json => { 'category[name]' => t('errors.category_name_unavailable', "%{category_name} is already in use.", :category_name => name) }, :status => :bad_request
       return false
+    elsif name.length >= 250 && params[:category][:split_group_count].to_i > 0
+      render :json => { 'category[name]' => t('errors.category_name_too_long', "Enter a shorter category name to split students into groups") }, :status => :bad_request
+      return false
     end
 
     enable_self_signup = params[:category][:enable_self_signup] == "1"
@@ -709,6 +686,7 @@ class GroupsController < ApplicationController
     count_field = self_signup ? :create_group_count : :split_group_count
     count = params[:category][count_field].to_i
     count = 0 if count < 0
+    count = [count, Setting.get_cached('max_groups_in_new_category', '200').to_i].min
     count = potential_members.length if distribute_members && count > potential_members.length
     return if count.zero?
 

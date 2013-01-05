@@ -20,38 +20,22 @@ class Notification < ActiveRecord::Base
   include LocaleSelection
 
   include Workflow
-  
-  TYPES_TO_SHOW_IN_FEED = ["Assignment Due Date Changed", 
-    "Assignment Publishing Reminder", 
-    "Assignment Grading Reminder", 
-    "Assignment Due Date Reminder", 
-    "Assignment Created", 
-    "Grade Weight Changed", 
-    "Assignment Graded", 
-    "New Event Created", 
-    "Event Date Changed", 
-    "Collaboration Invitation", 
-    "Web Conference Invitation", 
-    "Enrollment Invitation", 
-    "Enrollment Registration", 
-    "Enrollment Notification", 
-    "Enrollment Accepted", 
-    "New Context Group Membership", 
-    "New Context Group Membership Invitation", 
-    "Group Membership Accepted", 
-    "Group Membership Rejected", 
-    "New Student Organized Group", 
-    "Rubric Assessment Submission Reminder", 
-    "Rubric Assessment Invitation", 
-    "Rubric Association Created", 
-    "Assignment Submitted Late", 
+
+  TYPES_TO_SHOW_IN_FEED = [
+    # Assignment
+    "Assignment Created",
+    "Assignment Changed",
+    "Assignment Due Date Changed",
+    "Assignment Due Date Override Changed",
+
+    # Submissions / Grading
+    "Assignment Graded",
+    "Assignment Submitted Late",
+    "Grade Weight Changed",
     "Group Assignment Submitted Late",
+
+    # Testing
     "Show In Feed",
-    "Migration Import Finished",
-    "Migration Import Failed",
-    "Appointment Group Published",
-    "Appointment Group Updated",
-    "Appointment Reserved For User",
   ].freeze
 
   FREQ_IMMEDIATELY = 'immediately'
@@ -77,7 +61,7 @@ class Notification < ActiveRecord::Base
     end
 
   end
-  
+
   def self.summary_notification
     by_name('Summaries')
   end
@@ -156,7 +140,7 @@ class Notification < ActiveRecord::Base
       list << delayed_message
     end
   end
-  
+
   def create_message(asset, *tos)
     current_locale = I18n.locale
 
@@ -199,14 +183,20 @@ class Notification < ActiveRecord::Base
         user = recipient
         cc = user.email_channel
       end
-      I18n.locale = infer_locale(:user => user)
-      
+
+      user_asset = asset.respond_to?(:filter_asset_by_recipient) ?
+          asset.filter_asset_by_recipient(self, user) : asset
+      next unless user_asset
+
+      I18n.locale = infer_locale(:user => user,
+        :context => user_asset.is_a?(Context) ? user_asset : user_asset.try_rescue(:context))
+
       # For non-essential messages, check if too many have gone out, and if so
       # send this message as a daily summary message instead of immediate.
       should_summarize = user && self.summarizable? && too_many_messages?(user)
       channels = CommunicationChannel.find_all_for(user, self, cc)
       fallback_channel = channels.sort_by{|c| c.path_type }.first
-      record_delayed_messages((options || {}).merge(:user => user, :communication_channel => cc, :asset => asset, :fallback_channel => should_summarize ? channels.first : nil))
+      record_delayed_messages((options || {}).merge(:user => user, :communication_channel => cc, :asset => user_asset, :fallback_channel => should_summarize ? channels.first : nil))
       if should_summarize
         channels = channels.select{|cc| cc.path_type != 'email' && cc.path_type != 'sms' }
       end
@@ -228,8 +218,8 @@ class Notification < ActiveRecord::Base
         message.communication_channel = c if c.is_a?(CommunicationChannel)
         message.dispatch_at = nil
         message.user = user
-        message.context = asset
-        message.asset_context = options[:asset_context] || asset.context(user) rescue asset
+        message.context = user_asset
+        message.asset_context = options[:asset_context] || user_asset.context(user) rescue user_asset
         message.notification_category = self.category
         message.delay_for = self.delay_for if self.delay_for 
         message.data = data if data
@@ -460,10 +450,8 @@ class Notification < ActiveRecord::Base
     t 'names.assignment_changed', 'Assignment Changed'
     t 'names.assignment_created', 'Assignment Created'
     t 'names.assignment_due_date_changed', 'Assignment Due Date Changed'
-    t 'names.assignment_due_date_reminder', 'Assignment Due Date Reminder'
+    t 'names.assignment_due_date_override_changed', 'Assignment Due Date Override Changed'
     t 'names.assignment_graded', 'Assignment Graded'
-    t 'names.assignment_grading_reminder', 'Assignment Grading Reminder'
-    t 'names.assignment_publishing_reminder', 'Assignment Publishing Reminder'
     t 'names.assignment_resubmitted', 'Assignment Resubmitted'
     t 'names.assignment_submitted', 'Assignment Submitted'
     t 'names.assignment_submitted_late', 'Assignment Submitted Late'
@@ -682,5 +670,4 @@ class Notification < ActiveRecord::Base
       true
     end
   end
-
 end

@@ -1,12 +1,13 @@
-#en:
-  #locales:
-    #en: English
-#es:
-  #locales:
-    #es: Español
+# es is needed for test
+es:
+  locales:
+    es: Español
 #ru:
-  #locales:
-    #ru: ру́сский
+#  locales:
+#    ru: pу́сский
+#fr:
+#  locales:
+#    fr: Français [bêta]
 zh-CN:
   locales:
     zh-CN: 简体中文

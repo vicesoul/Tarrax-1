@@ -62,16 +62,10 @@ module TextHelper
         |                                        # or
         [a-z0-9.\-]+[.][a-z]{2,4}/               # looks like domain name followed by a slash
       )
-      (?:                                        # One or more:
-        [^\s()<>]+                               # Run of non-space, non-()<>
-        |                                        # or
-        \(([^\s()<>]+|(\([^\s()<>]+\)))*\)       # balanced parens, up to 2 levels
-      )+
-      (?:                                        # End with:
-        \(([^\s()<>]+|(\([^\s()<>]+\)))*\)       # balanced parens, up to 2 levels
-        |                                        # or
-        [^\s`!()\[\]{};:'".,<>?«»“”‘’]           # not a space or one of these punct chars
-      )
+
+      [^\s()<>]+                                 # Run of non-space, non-()<>
+
+      [^\s`!()\[\]{};:'".,<>?«»“”‘’]             # End with: not a space or one of these punct chars
     ) | (
       #{AUTO_LINKIFY_PLACEHOLDER}
     )
@@ -441,7 +435,7 @@ def self.date_component(start_date, style=:normal)
   # make sure we won't get an invalid utf-8 error trying to save the error
   # report to the db.
   def self.strip_invalid_utf8(string)
-    return string unless string.present?
+    return string if string.nil? 
     # add four spaces to the end of the string, because iconv with the //IGNORE
     # option will still fail on incomplete byte sequences at the end of the input
     Iconv.conv('UTF-8//IGNORE', 'UTF-8', string + '    ')[0...-4]

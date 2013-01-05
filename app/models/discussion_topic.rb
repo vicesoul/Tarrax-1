@@ -223,7 +223,10 @@ class DiscussionTopic < ActiveRecord::Base
     current_user ||= self.current_user
     return "read" unless current_user #default for logged out user
     uid = current_user.is_a?(User) ? current_user.id : current_user
-    discussion_topic_participants.find_by_user_id(uid).try(:workflow_state) || "unread"
+    dtp = discussion_topic_participants.loaded? ?
+      discussion_topic_participants.detect{ |dtp| dtp.user_id == uid } :
+      discussion_topic_participants.find_by_user_id(uid)
+    dtp.try(:workflow_state) || "unread"
   end
 
   def read?(current_user = nil)
@@ -237,13 +240,11 @@ class DiscussionTopic < ActiveRecord::Base
   def change_read_state(new_state, current_user = nil)
     current_user ||= self.current_user
     return nil unless current_user
+    return true if new_state == self.read_state(current_user)
 
-    if new_state != self.read_state(current_user)
-      self.context_module_action(current_user, :read) if new_state == 'read'
-      self.update_or_create_participant(:current_user => current_user, :new_state => new_state)
-    else
-      true
-    end
+    self.context_module_action(current_user, :read) if new_state == 'read'
+    StreamItem.update_read_state_for_asset(self, new_state, current_user.id)
+    self.update_or_create_participant(:current_user => current_user, :new_state => new_state)
   end
 
   def change_all_read_state(new_state, current_user = nil)
@@ -252,6 +253,7 @@ class DiscussionTopic < ActiveRecord::Base
 
     transaction do
       self.context_module_action(current_user, :read) if new_state == 'read'
+      StreamItem.update_read_state_for_asset(self, new_state, current_user.id)
 
       new_count = (new_state == 'unread' ? self.default_unread_count : 0)
       self.update_or_create_participant(:current_user => current_user, :new_state => new_state, :new_count => new_count)
@@ -396,7 +398,7 @@ class DiscussionTopic < ActiveRecord::Base
 
   def user_ids_who_have_posted_and_admins
     ids = DiscussionEntry.active.scoped(:select => "distinct user_id").find_all_by_discussion_topic_id(self.id).map(&:user_id)
-    ids += self.context.admin_enrollments.scoped(:select => 'user_id').map(&:user_id) if self.context.respond_to?(:admin_enrollments)
+    ids += self.context.admin_enrollments.active.scoped(:select => 'user_id').map(&:user_id) if self.context.respond_to?(:admin_enrollments)
     ids
   end
   memoize :user_ids_who_have_posted_and_admins
@@ -407,25 +409,33 @@ class DiscussionTopic < ActiveRecord::Base
   end
 
   def reply_from(opts)
-    return if self.context.root_account.deleted?
+    raise IncomingMessageProcessor::UnknownAddressError if self.context.root_account.deleted?
     user = opts[:user]
-    if opts[:text]
+    if opts[:html]
+      message = opts[:html].strip
+    else
       message = opts[:text].strip
       message = format_message(message).first
-    else
-      message = opts[:html].strip
     end
     user = nil unless user && self.context.users.include?(user)
     if !user
       raise "Only context participants may reply to messages"
     elsif !message || message.empty?
       raise "Message body cannot be blank"
+    elsif !self.grants_right?(user, :read)
+      nil
     else
-      DiscussionEntry.create!({
+      entry = DiscussionEntry.new({
         :message => message,
         :discussion_topic => self,
         :user => user,
       })
+      if !entry.grants_right?(user, :create)
+        raise IncomingMessageProcessor::ReplyToLockedTopicError
+      else
+        entry.save!
+        entry
+      end
     end
   end
 

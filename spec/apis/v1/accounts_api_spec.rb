@@ -94,64 +94,28 @@ describe "Accounts API", :type => :integration do
                       { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' })
 
       [@c1, @c2].each { |c| c.reload }
-      json.should == [
-        {
-          'id' => @c1.id,
-          'name' => 'c1',
-          'account_id' => @c1.account_id,
-          'course_code' => 'c1',
-          'sis_course_id' => nil,
-          'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@c1.uuid}.ics" },
-          'hide_final_grades' => false,
-          'start_at' => @c1.start_at.as_json,
-          'end_at' => @c1.end_at.as_json
-        },
-        {
-          'id' => @c2.id,
-          'name' => 'c2',
-          'account_id' => @c2.account_id,
-          'course_code' => 'c2',
-          'sis_course_id' => 'sis2',
-          'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@c2.uuid}.ics" },
-          'hide_final_grades' => false,
-          'start_at' => @c2.start_at.as_json,
-          'end_at' => @c2.end_at.as_json
-        }
-      ]
+      json.first['id'].should == @c1.id
+      json.first['name'].should == 'c1'
+      json.first['account_id'].should == @c1.account_id
+
+      json.last['id'].should == @c2.id
+      json.last['name'].should == 'c2'
+      json.last['account_id'].should == @c2.account_id
 
       json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
                       { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' },
                         { :hide_enrollmentless_courses => '1' })
-      json.should == [
-        {
-          'id' => @c2.id,
-          'name' => 'c2',
-          'account_id' => @c2.account_id,
-          'course_code' => 'c2',
-          'sis_course_id' => 'sis2',
-          'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@c2.uuid}.ics" },
-          'hide_final_grades' => false,
-          'start_at' => @c2.start_at.as_json,
-          'end_at' => @c2.end_at.as_json
-        }
-      ]
+      json.first['id'].should == @c2.id
+      json.first['name'].should == 'c2'
+      json.first['account_id'].should == @c2.account_id
 
       json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
                       { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' },
                         { :per_page => 1, :page => 2 })
-      json.should == [
-        {
-          'id' => @c2.id,
-          'name' => 'c2',
-          'account_id' => @c2.account_id,
-          'course_code' => 'c2',
-          'sis_course_id' => 'sis2',
-          'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@c2.uuid}.ics" },
-          'hide_final_grades' => false,
-          'start_at' => @c2.start_at.as_json,
-          'end_at' => @c2.end_at.as_json
-        }
-      ]
+      json.first['id'].should == @c2.id
+      json.first['name'].should == 'c2'
+      json.first['account_id'].should == @c2.account_id
+
     end
   end
 
@@ -168,6 +132,188 @@ describe "Accounts API", :type => :integration do
 
     json.length.should eql 1
     json.first['name'].should eql 'c2'
+  end
+
+  describe "?with_enrollments" do
+    before do
+      @me = @user
+      c1 = course_model(:account => @a1, :name => 'c1')    # has a teacher
+      c2 = Course.create!(:account => @a1, :name => 'c2')  # has no enrollments
+      @user = @me
+    end
+
+    it "should not apply if not specified" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' })
+      json.collect{|row|row['name']}.should eql ['c1', 'c2']
+    end
+
+    it "should filter on courses with enrollments" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?with_enrollments=1",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :with_enrollments => "1" })
+      json.collect{|row|row['name']}.should eql ['c1']
+    end
+
+    it "should filter on courses without enrollments" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?with_enrollments=0",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :with_enrollments => "0" })
+      json.collect{|row|row['name']}.should eql ['c2']
+    end
+  end
+
+  describe "?published" do
+    before do
+      @me = @user
+      [:c1, :c2].each do |course|
+        instance_variable_set("@#{course}".to_sym, course_model(:name => course.to_s, :account => @a1))
+      end
+      @c1.offer!
+      @user = @me
+    end
+
+    it "should not apply if not specified" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' })
+      json.collect{|row|row['name']}.should eql ['c1', 'c2']
+    end
+
+    it "should filter courses on published state" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?published=true",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :published => "true" })
+      json.collect{|row|row['name']}.should eql ['c1']
+    end
+
+    it "should filter courses on non-published state" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?published=false",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :published => "false" })
+      json.collect{|row|row['name']}.should eql ['c2']
+    end
+  end
+
+  describe "?completed" do
+    before do
+      @me = @user
+      [:c1, :c2, :c3, :c4].each do |course|
+        instance_variable_set("@#{course}".to_sym, course_model(:name => course.to_s, :account => @a1, :conclude_at => 2.days.from_now))
+      end
+
+      @c2.conclude_at = 1.week.ago
+      @c2.save!
+
+      term = @c3.root_account.enrollment_terms.create! :end_at => 2.days.ago
+      @c3.enrollment_term = term
+      @c3.save!
+
+      @c4.complete!
+      @user = @me
+    end
+
+    it "should not apply if not specified" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' })
+      json.collect{|row|row['name']}.should eql ['c1', 'c2', 'c3', 'c4']
+    end
+
+    it "should filter courses on completed state" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?completed=yes",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :completed => "yes" })
+      json.collect{|row|row['name']}.should eql ['c2', 'c3', 'c4']
+    end
+
+    it "should filter courses on non-completed state" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?completed=no",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :completed => "no" })
+      json.collect{|row|row['name']}.should eql ['c1']
+    end
+  end
+
+  describe "?by_teachers" do
+    before do
+      @me = @user
+      course_with_teacher(:account => @a1, :course_name => 'c1a', :user => user_with_pseudonym(:account => @a1))
+      @pseudonym.sis_user_id = 'a_sis_id'
+      @pseudonym.save!
+      @t1 = @teacher
+      course_with_teacher(:account => @a1, :user => @t1, :course_name => 'c1b')
+      course_with_teacher(:account => @a1, :course_name => 'c2')
+      @teacher
+      course_with_teacher(:account => @a1, :course_name => 'c3')
+      @t3 = @teacher
+      @user = @me
+    end
+
+    it "should not apply when not specified" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.collect{|row|row['name']}.should eql ['c1a', 'c1b', 'c2', 'c3']
+    end
+
+    it "should filter courses by teacher enrollments" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?by_teachers[]=sis_user_id:a_sis_id&by_teachers[]=#{@t3.id}",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :by_teachers => ['sis_user_id:a_sis_id', "#{@t3.id}"] },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.collect{|row|row['name']}.should eql ['c1a', 'c1b', 'c3']
+    end
+
+    it "should not break with an empty result set" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?by_teachers[]=bad_id",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :by_teachers => ['bad_id'] },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.should eql []
+    end
+  end
+
+  describe "?by_subaccounts" do
+    before do
+      @me = @user
+      @sub1 = account_model(:name => 'sub1', :parent_account => @a1, :root_account => @a1, :sis_source_id => 'sub1')
+      @sub1a = account_model(:name => 'sub1a', :parent_account => @sub1, :root_account => @a1, :sis_source_id => 'sub1a')
+      @sub1b = account_model(:name => 'sub1b', :parent_account => @sub1, :root_account => @a1, :sis_source_id => 'sub1b')
+      @sub2 = account_model(:name => 'sub2', :parent_account => @a1, :root_account => @a1, :sis_source_id => 'sub2')
+
+      course_model(:name => 'in sub1', :account => @sub1)
+      course_model(:name => 'in sub1a', :account => @sub1a)
+      course_model(:name => 'in sub1b', :account => @sub1b)
+      course_model(:name => 'in sub2', :account => @sub2)
+      course_model(:name => 'in top level', :account => @a1)
+      @user = @me
+    end
+
+    it "should not apply when not specified" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json' },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.collect{|row|row['name']}.should eql ['in sub1', 'in sub1a', 'in sub1b', 'in sub2', 'in top level']
+    end
+
+    it "should include descendants of the specified subaccount" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?by_subaccounts[]=sis_account_id:sub1",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :by_subaccounts => ['sis_account_id:sub1'] },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.collect{|row|row['name']}.should eql ['in sub1', 'in sub1a', 'in sub1b']
+    end
+
+    it "should work with multiple subaccounts specified" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?by_subaccounts[]=sis_account_id:sub1a&by_subaccounts[]=sis_account_id:sub1b",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :by_subaccounts => ['sis_account_id:sub1a', 'sis_account_id:sub1b'] },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.collect{|row|row['name']}.should eql ['in sub1a', 'in sub1b']
+    end
+
+    it "should work with a numeric ID" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?by_subaccounts[]=#{@sub2.id}",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :by_subaccounts => ["#{@sub2.id}"] },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.collect{|row|row['name']}.should eql ['in sub2']
+    end
+
+    it "should not break with an empty result set" do
+      json = api_call(:get, "/api/v1/accounts/#{@a1.id}/courses?by_subaccounts[]=bad_id",
+                      { :controller => 'accounts', :action => 'courses_api', :account_id => @a1.to_param, :format => 'json', :by_subaccounts => ['bad_id'] },
+                      {}, {}, { :domain_root_account => @a1 })
+      json.should eql []
+    end
   end
 
   it "should limit the maximum per-page returned" do

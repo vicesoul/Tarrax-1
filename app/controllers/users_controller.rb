@@ -85,7 +85,7 @@ class UsersController < ApplicationController
   include LinkedIn
   include DeliciousDiigo
   include SearchHelper
-  before_filter :require_user, :only => [:grades, :confirm_merge, :merge, :kaltura_session, :ignore_item, :close_notification, :mark_avatar_image, :user_dashboard, :toggle_dashboard, :masquerade, :external_tool]
+  before_filter :require_user, :only => [:grades, :confirm_merge, :merge, :kaltura_session, :ignore_item, :ignore_stream_item, :close_notification, :mark_avatar_image, :user_dashboard, :toggle_dashboard, :masquerade, :external_tool]
   before_filter :require_registered_user, :only => [:delete_user_service, :create_user_service]
   before_filter :reject_student_view_student, :only => [:delete_user_service, :create_user_service, :confirm_merge, :merge, :user_dashboard, :masquerade]
   before_filter :require_open_registration, :only => [:new, :create]
@@ -236,7 +236,7 @@ class UsersController < ApplicationController
 
         if api_request?
           @users = User.of_account(@context).active.order_by_sortable_name
-          @users = Api.paginate(@users, self, api_v1_account_users_path, :order => :sortable_name)
+          @users = Api.paginate(@users, self, api_v1_account_users_url, :order => :sortable_name)
           user_json_preloads(@users)
         else
           @users = @users.paginate(:page => params[:page], :per_page => @per_page, :total_entries => @users.size)
@@ -301,20 +301,13 @@ class UsersController < ApplicationController
     if @show_recent_feedback = (@current_user.student_enrollments.active.size > 0)
       @recent_feedback = (@current_user && @current_user.recent_feedback) || []
     end
+
     @announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
+    @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
+    @stream_items = @current_user.try(:cached_recent_stream_items) || []
 
     incomplete_registration = @current_user && @current_user.pre_registered? && params[:registration_success]
-    base_env = {:INCOMPLETE_REGISTRATION => incomplete_registration, :USER_EMAIL => @current_user.email}
-
-    if show_new_dashboard?
-      @use_new_styles = true
-      load_all_contexts
-      js_env base_env.merge(:CONTEXTS => @contexts, :DASHBOARD_PATH => dashboard_path)
-      return render :action => :new_user_dashboard
-    else
-      js_env base_env
-    end
-
+    js_env({:INCOMPLETE_REGISTRATION => incomplete_registration, :USER_EMAIL => @current_user.email})
   end
 
   def toggle_dashboard
@@ -542,7 +535,7 @@ class UsersController < ApplicationController
   end
 
   def ignore_stream_item
-    StreamItemInstance.update_all({ :hidden => true }, { :stream_item_id => params[:id], :user_id => @current_user.id })
+    StreamItemInstance.find_by_user_id_and_stream_item_id(@current_user.id, params[:id]).try(:update_attribute, :hidden, true)
     render :json => { :hidden => true }
   end
 
@@ -623,12 +616,12 @@ class UsersController < ApplicationController
     @user = params[:id] && params[:id] != 'self' ? User.find(params[:id]) : @current_user
     if authorized_action(@user, @current_user, :view_statistics)
       add_crumb(t('crumbs.profile', "%{user}'s profile", :user => @user.short_name), @user == @current_user ? user_profile_path(@current_user) : user_path(@user) )
-      @page_views = @user.page_views.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 50, :without_count => true
 
       # course_section and enrollment term will only be used if the enrollment dates haven't been cached yet;
       # maybe should just look at the first enrollment and check if it's cached to decide if we should include
       # them here
-      @enrollments = @user.enrollments.scoped(:conditions => "workflow_state<>'deleted'", :include => [{:course => { :enrollment_term => :enrollment_dates_overrides }}, :associated_user, :course_section]).select{|e| e.course && !e.course.deleted? }.sort_by{|e| [e.state_sortable, e.rank_sortable, e.course.name] }
+      @enrollments = @user.enrollments.with_each_shard { |scope| scope.scoped(:conditions => "enrollments.workflow_state<>'deleted' AND courses.workflow_state<>'deleted'", :include => [{:course => { :enrollment_term => :enrollment_dates_overrides }}, :associated_user, :course_section]) }
+      @enrollments = @enrollments.sort_by {|e| [e.state_sortable, e.rank_sortable, e.course.name] }
       # pre-populate the reverse association
       @enrollments.each { |e| e.user = @user }
       @group_memberships = @user.group_memberships.scoped(:include => :group)
@@ -774,8 +767,7 @@ class UsersController < ApplicationController
         message_sent = true
         @pseudonym.send_registration_notification!
       else
-        other_cc_count = CommunicationChannel.email.active.by_path(@cc.path).count(:all, :joins => { :user => :pseudonyms }, :conditions => ["communication_channels.user_id<>? AND pseudonyms.workflow_state='active'", @user.id])
-        @cc.send_merge_notification! if other_cc_count != 0
+        @cc.send_merge_notification! if @cc.merge_candidates.length != 0
       end
 
       data = { :user => @user, :pseudonym => @pseudonym, :channel => @cc, :observee => @observee, :message_sent => message_sent }
@@ -937,10 +929,9 @@ class UsersController < ApplicationController
   end
 
   def merge
-    @user_about_to_go_away = User.find_by_uuid(session[:merge_user_uuid]) if session[:merge_user_uuid].present?
-    @user_about_to_go_away = nil unless @user_about_to_go_away.id == params[:user_id].to_i
+    @user_about_to_go_away = User.find_by_id(session[:merge_user_id]) if session[:merge_user_id].present?
 
-    if params[:new_user_uuid] && @true_user = User.find_by_uuid(params[:new_user_uuid])
+    if params[:new_user_id] && @true_user = User.find_by_id(params[:new_user_id])
       if @true_user.grants_right?(@current_user, session, :manage_logins) && @user_about_to_go_away.grants_right?(@current_user, session, :manage_logins)
         @user_that_will_still_be_around = @true_user
       else
@@ -950,10 +941,10 @@ class UsersController < ApplicationController
       @user_that_will_still_be_around = @current_user
     end
 
-    if @user_about_to_go_away && @user_that_will_still_be_around && @user_about_to_go_away.id.to_s == params[:user_id]
+    if @user_about_to_go_away && @user_that_will_still_be_around
       @user_about_to_go_away.move_to_user(@user_that_will_still_be_around)
       @user_that_will_still_be_around.touch
-      session.delete(:merge_user_uuid)
+      session.delete(:merge_user_id)
       flash[:notice] = t('user_merge_success', "User merge succeeded! %{first_user} and %{second_user} are now one and the same.", :first_user => @user_that_will_still_be_around.name, :second_user => @user_about_to_go_away.name)
     else
       flash[:error] = t('user_merge_fail', "User merge failed. Please make sure you have proper permission and try again.")
@@ -980,7 +971,6 @@ class UsersController < ApplicationController
       end
       if @other_user && @other_user.grants_right?(@current_user, session, :manage_logins)
         session[:merge_user_id] = @user.id
-        session[:merge_user_uuid] = @user.uuid
         session.delete(:pending_user_id)
       else
         @other_user = nil
@@ -991,14 +981,10 @@ class UsersController < ApplicationController
 
   def get_pending_user_and_error(pending_user_id, entered_user_id)
     pending_other_error = nil
-    if entered_user_id.to_s != entered_user_id.to_i.to_s && entered_user_id.present?
-      pending_user_id = nil
-      pending_other_error = t('invalid_input', "Invalid input. Please enter a valid ID.")
-    end
-    @pending_other_user = User.find_by_id(pending_user_id) if pending_user_id.present?
-    @pending_other_user = nil if @pending_other_user == @user
+    @pending_other_user = api_find_all(User, [pending_user_id]).first if pending_user_id.present?
     @pending_other_user = nil unless @pending_other_user.try(:grants_right?, @current_user, session, :manage_logins)
-    if entered_user_id == @user.id.to_s
+    if @pending_other_user == @user
+      @pending_other_user = nil
       pending_other_error = t('cant_self_merge', "You can't merge an account with itself.")
     elsif @pending_other_user.blank? && entered_user_id.present? && pending_other_error.blank?
       pending_other_error = t('user_not_found', "No active user with that ID was found.")
@@ -1007,12 +993,10 @@ class UsersController < ApplicationController
   end
 
   def confirm_merge
-    @user = User.find_by_uuid(session[:merge_user_uuid]) if session[:merge_user_uuid].present?
-    @user = nil unless @user && @user.id == session[:merge_user_id]
+    @user = User.find_by_id(session[:merge_user_id]) if session[:merge_user_id].present?
     if @user && @user != @current_user
       render :action => 'confirm_merge'
     else
-      session[:merge_user_uuid] = @current_user.uuid
       session[:merge_user_id] = @current_user.id
       store_location(user_confirm_merge_url(@current_user.id))
       render :action => 'merge'
@@ -1159,12 +1143,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def menu_courses
-    render :json => Rails.cache.fetch(['menu_courses', @current_user].cache_key) {
-      @template.map_courses_for_menu(@current_user.menu_courses)
-    }
-  end
-
   def all_menu_courses
     render :json => Rails.cache.fetch(['menu_courses', @current_user].cache_key) {
       @template.map_courses_for_menu(@current_user.courses_with_primary_enrollment)
@@ -1182,7 +1160,7 @@ class UsersController < ApplicationController
         student = User.find(params[:student_id])
         enrollments = student.student_enrollments.active.all(:include => :course)
         enrollments.each do |enrollment|
-          should_include = enrollment.course.user_has_been_teacher?(@teacher) && 
+          should_include = enrollment.course.user_has_been_instructor?(@teacher) && 
                            enrollment.course.enrollments_visible_to(@teacher, :include_priors => true).find_by_id(enrollment.id) &&
                            enrollment.course.grants_right?(@current_user, :read_reports)
           if should_include
@@ -1198,7 +1176,7 @@ class UsersController < ApplicationController
 
       else # implied params[:course_id]
         course = Course.find(params[:course_id])
-        if !course.user_has_been_teacher?(@teacher)
+        if !course.user_has_been_instructor?(@teacher)
           flash[:error] = t('errors.user_not_teacher', "That user is not a teacher in this course")
           redirect_to_referrer_or_default(root_url)
         elsif authorized_action(course, @current_user, :read_reports)

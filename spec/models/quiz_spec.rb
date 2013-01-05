@@ -661,6 +661,27 @@ describe Quiz do
         stats[11].size.should == 3
         stats[11][2].should == ',baz'
       end
+
+      it 'should contain answers to numerical questions' do
+        @quiz.quiz_questions.create!(:question_data => { :name => "numerical_question",
+          :question_type => 'numerical_question',
+          :question_text => "[num1]",
+          :answers => {'answer_0' => {:numerical_answer_type => 'exact_answer'}}})
+
+        @quiz.quiz_questions.last.question_data[:answers].first[:exact] = 5
+
+        @quiz.generate_quiz_data
+        @quiz.save!
+
+        qs = @quiz.generate_submission(@student)
+        qs.submission_data = {
+          "question_#{@quiz.quiz_questions[1].id}" => 5
+        }
+        qs.grade_submission
+
+        stats = FasterCSV.parse(@quiz.statistics_csv)
+        stats[9][2].should == '5'
+      end
     end
 
     it 'should strip tags from html multiple-choice/multiple-answers' do
@@ -858,5 +879,56 @@ describe Quiz do
         each { |s| q1.send(s).should be_false }
     [:require_lockdown_browser, :require_lockdown_browser?, :require_lockdown_browser_for_results, :require_lockdown_browser_for_results?].
         each { |s| q2.send(s).should be_true }
+  end
+
+  describe "non_shuffled_questions" do
+    subject { Quiz.non_shuffled_questions }
+
+    it { should include "true_false_question" }
+    it { should include "matching_question" }
+    it { should include "fill_in_multiple_blanks_question" }
+    it { should_not include "multiple_choice_question" }
+  end
+
+  describe "prepare_answers" do
+    let(:quiz) { Quiz.new }
+    let(:question) { { :answers => answers } }
+    let(:answers) { ['a', 'b', 'c'] }
+
+    context "on a shuffle answers question" do
+      before { quiz.stubs(:shuffle_answers).returns(true) }
+
+      context "on a non-shuffleable question type" do
+        before { Quiz.stubs(:shuffleable_question_type?).returns(false) }
+
+        it "doesn't shuffle" do
+          quiz.prepare_answers(question).should == answers
+        end
+      end
+
+      context "on a shuffleable question type" do
+        before { Quiz.stubs(:shuffleable_question_type?).returns(true) }
+        
+        it "returns the same answers, not necessarily in the same order" do
+          quiz.prepare_answers(question).sort.should == answers.sort
+        end
+
+        it "shuffles" do
+          answers.expects(:sort_by)
+          quiz.prepare_answers(question)
+        end
+      end
+    end
+
+    context "on a non-shuffle answers question" do
+      it "doesn't shuffle" do
+        quiz.prepare_answers(question).should == answers
+      end
+    end
+  end
+
+  describe "shuffleable_question_type?" do
+    specify { Quiz.shuffleable_question_type?("true_false_question").should be_false }
+    specify { Quiz.shuffleable_question_type?("multiple_choice_question").should be_true }
   end
 end

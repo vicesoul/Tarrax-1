@@ -49,7 +49,7 @@ describe "assignments" do
 
       f('.submit_assignment_link').click
       wait_for_ajaximations
-      driver.execute_script("return $('#submission_comment').height()").should == 16
+      driver.execute_script("return $('#submission_comment').height()").should == 14
       driver.execute_script("$('#submission_comment').focus()")
       wait_for_ajaximations
       driver.execute_script("return $('#submission_comment').height()").should == 72
@@ -150,7 +150,7 @@ describe "assignments" do
       get "/courses/#{@course.id}/assignments/#{@fourth_assignment.id}"
 
       driver.current_url.should match %r{/courses/\d+/discussion_topics/\d+}
-      f('.discussion-title').should include_text(@fourth_assignment.title)
+      f('h1.discussion-title').should include_text(@fourth_assignment.title)
     end
 
     it "should validate an assignment created with the type of external tool" do

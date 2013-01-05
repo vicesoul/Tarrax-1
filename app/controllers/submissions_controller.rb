@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 Instructure, Inc.
+# Copyright (C) 2011 - 2012 Instructure, Inc.
 #
 # This file is part of Canvas.
 #
@@ -83,6 +83,9 @@
 #       // The id of the user who created the submission
 #       user_id: 134
 #
+#       // The id of the user who graded the submission
+#       grader_id: 86
+#
 #       // The submissions user (see user API) (optional)
 #       user: User
 #     }
@@ -147,7 +150,7 @@ class SubmissionsController < ApplicationController
           end
 
           @headers = false
-          if @assignment.quiz && @context.is_a?(Course) && @context.user_is_student?(@current_user) && !@context.user_is_teacher?(@current_user)
+          if @assignment.quiz && @context.is_a?(Course) && @context.user_is_student?(@current_user) && !@context.user_is_instructor?(@current_user)
             format.html { redirect_to(named_context_url(@context, :context_quiz_url, @assignment.quiz.id, :headless => 1)) }
           elsif @submission.submission_type == "online_quiz" && @submission.quiz_submission_version
             format.html { redirect_to(named_context_url(@context, :context_quiz_history_url, @assignment.quiz.id, :user_id => @submission.user_id, :headless => 1, :version => @submission.quiz_submission_version)) }
@@ -371,6 +374,7 @@ class SubmissionsController < ApplicationController
       respond_to do |format|
         if @submission.save
           log_asset_access(@assignment, "assignments", @assignment_group, 'submit')
+          generate_new_page_view
           format.html {
             flash[:notice] = t('assignment_submit_success', 'Assignment successfully submitted.')
             redirect_to course_assignment_url(@context, @assignment)

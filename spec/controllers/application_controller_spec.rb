@@ -89,7 +89,10 @@ describe ApplicationController do
       @controller.expects(:file_download_url).
         with(@attachment, @common_params.merge(:inline => 1)).
         returns('')
-      @controller.send(:safe_domain_file_url, @attachment)
+      HostUrl.expects(:file_host_with_shard).with(42, '').returns(['myfiles', Shard.default])
+      @controller.instance_variable_set(:@domain_root_account, 42)
+      url = @controller.send(:safe_domain_file_url, @attachment)
+      url.should match /myfiles/
     end
 
     it "should include :download=>1 in inline urls for relative contexts" do
@@ -148,7 +151,8 @@ describe ApplicationController do
     it "should reset the localizer" do
       # emulate all the locale related work done before/around a request
       acct = Account.default
-      acct.default_locale = "es"
+      #acct.default_locale = "es"
+      acct.default_locale = "zh-CN"
       acct.save!
       @controller.instance_variable_set(:@domain_root_account, acct) 
       req = mock()
@@ -156,12 +160,14 @@ describe ApplicationController do
       @controller.stubs(:request).returns(req)
       @controller.send(:assign_localizer)
       I18n.set_locale_with_localizer # this is what t() triggers
-      I18n.locale.to_s.should == "es"
+      #I18n.locale.to_s.should == "es"
+      I18n.locale.to_s.should == "zh-CN"
       course_model(:locale => "ru")
       @controller.stubs(:named_context_url).with(@course, :context_url).returns('')
       @controller.stubs(:params).returns({ :course_id => @course.id })
       @controller.stubs(:api_request?).returns(false)
       @controller.stubs(:session).returns({})
+      @controller.stubs(:js_env).returns({})
       @controller.send(:get_context)
       @controller.instance_variable_get(:@context).should == @course
       I18n.set_locale_with_localizer # this is what t() triggers

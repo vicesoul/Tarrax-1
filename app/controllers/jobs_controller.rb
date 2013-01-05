@@ -28,10 +28,19 @@ class JobsController < ApplicationController
           when 'jobs'
             result.merge!(jobs(@flavor, params[:limit] || LIMIT, params[:offset].to_i))
           end
-          render :json => result.to_json(:include_root => false)
+          render :json => result.to_json(:include_root => false, :except => [:handler, :last_error])
         end
       end
     end
+  end
+
+  def show
+    if params[:flavor] == 'failed'
+      job = Delayed::Job::Failed.find(params[:id])
+    else
+      job = Delayed::Job.find(params[:id])
+    end
+    render :json => job.to_json(:include_root => false)
   end
 
   def batch_update

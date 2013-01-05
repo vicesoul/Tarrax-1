@@ -23,42 +23,81 @@ class TestCourseApi
   include Api::V1::Course
   def feeds_calendar_url(feed_code); "feed_calendar_url(#{feed_code.inspect})"; end
   def course_url(course, opts = {}); return "course_url(Course.find(#{course.id}), :host => #{HostUrl.context_host(@course1)})"; end
+  def api_user_content(syllabus, course); return "api_user_content(#{syllabus}, #{course.id})"; end
 end
 
 describe Api::V1::Course do
 
-  before do
-    @test_api = TestCourseApi.new
-    course_with_teacher(:active_all => true, :user => user_with_pseudonym)
-    @me = @user
-    @course1 = @course
-    course_with_student(:user => @user, :active_all => true)
-    @course2 = @course
-    @course2.update_attribute(:sis_source_id, 'TEST-SIS-ONE.2011')
-    @user.pseudonym.update_attribute(:sis_user_id, 'user1')
+  describe '#course_json' do
+    before do
+      @test_api = TestCourseApi.new
+      course_with_teacher(:active_all => true, :user => user_with_pseudonym)
+      @me = @user
+      @course1 = @course
+      course_with_student(:user => @user, :active_all => true)
+      @course2 = @course
+      @course2.update_attribute(:sis_source_id, 'TEST-SIS-ONE.2011')
+      @user.pseudonym.update_attribute(:sis_user_id, 'user1')
+    end
+
+    it 'should support optionally providing the url' do
+      @test_api.course_json(@course1, @me, {}, ['html_url'], []).should encompass({
+        "html_url" => "course_url(Course.find(#{@course1.id}), :host => #{HostUrl.context_host(@course1)})"
+      })
+      @test_api.course_json(@course1, @me, {}, [], []).has_key?("html_url").should be_false
+    end
+
+    it 'should only include needs_grading_count if requested' do
+      @teacher_enrollment = @course1.teacher_enrollments.first
+      @test_api.course_json(@course1, @me, {}, [], [@teacher_enrollment]).has_key?("needs_grading_count").should be_false
+    end
+
+    it 'should honor needs_grading_count for teachers' do
+      @teacher_enrollment = @course1.teacher_enrollments.first
+      @test_api.course_json(@course1, @me, {}, ['needs_grading_count'], [@teacher_enrollment]).has_key?("needs_grading_count").should be_true
+    end
+
+    it 'should not honor needs_grading_count for designers' do
+      @designer_enrollment = @course1.enroll_designer(@me)
+      @designer_enrollment.accept!
+      @test_api.course_json(@course1, @me, {}, ['needs_grading_count'], [@designer_enrollment]).has_key?("needs_grading_count").should be_false
+    end
   end
 
-  it 'should support optionally providing the url' do
-    @test_api.course_json(@course1, @me, {}, ['html_url'], []).should encompass({
-      "html_url" => "course_url(Course.find(#{@course1.id}), :host => #{HostUrl.context_host(@course1)})"
-    })
-    @test_api.course_json(@course1, @me, {}, [], []).has_key?("html_url").should be_false
-  end
+  describe '#add_helper_dependant_entries' do
+    let(:hash) { Hash.new }
+    let(:course) { stub_everything( :feed_code => 573, :id => 42, :syllabus_body => 'syllabus text' ) }
+    let(:course_json) { stub_everything() }
+    let(:api) { TestCourseApi.new }
 
-  it 'should only include needs_grading_count if requested' do
-    @teacher_enrollment = @course1.teacher_enrollments.first
-    @test_api.course_json(@course1, @me, {}, [], [@teacher_enrollment]).has_key?("needs_grading_count").should be_false
-  end
+    let(:result) do 
+      result_hash = api.add_helper_dependant_entries(hash, course, course_json)  
+      class << result_hash
+        def method_missing(method_name, *args)
+          self[method_name.to_s]
+        end
+      end
+      result_hash
+    end
 
-  it 'should honor needs_grading_count for teachers' do
-    @teacher_enrollment = @course1.teacher_enrollments.first
-    @test_api.course_json(@course1, @me, {}, ['needs_grading_count'], [@teacher_enrollment]).has_key?("needs_grading_count").should be_true
-  end
+    subject { result } 
 
-  it 'should not honor needs_grading_count for designers' do
-    @designer_enrollment = @course1.enroll_designer(@me)
-    @designer_enrollment.accept!
-    @test_api.course_json(@course1, @me, {}, ['needs_grading_count'], [@designer_enrollment]).has_key?("needs_grading_count").should be_false
+    it { should == hash }
+    its('calendar') { should == { 'ics' => "feed_calendar_url(573).ics" } }
+
+    describe 'when the include options are all set off' do
+      let(:course_json){ stub( :include_syllabus => false, :include_url => false ) }
+
+      its('syllabus_body') { should be_nil }
+      its('html_url') { should be_nil }
+    end
+
+    describe 'when everything is included' do
+      let(:course_json){ stub( :include_syllabus => true, :include_url => true ) }
+
+      its('syllabus_body') { should == "api_user_content(syllabus text, 42)" }
+      its('html_url') { should == "course_url(Course.find(42), :host => localhost)" }
+    end
   end
 end
 
@@ -74,6 +113,7 @@ describe CoursesController, :type => :integration do
     course_with_student(:user => @user, :active_all => true)
     @course2 = @course
     @course2.update_attribute(:sis_source_id, 'TEST-SIS-ONE.2011')
+    @course2.update_attribute(:default_view, 'wiki')
     @user.pseudonym.update_attribute(:sis_user_id, 'user1')
   end
 
@@ -86,24 +126,26 @@ describe CoursesController, :type => :integration do
         'name' => @course1.name,
         'account_id' => @course1.account_id,
         'course_code' => @course1.course_code,
-        'enrollments' => [{'type' => 'teacher'}],
+        'enrollments' => [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}],
         'sis_course_id' => nil,
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course1.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'feed'
       },
       {
         'id' => @course2.id,
         'name' => @course2.name,
         'account_id' => @course2.account_id,
         'course_code' => @course2.course_code,
-        'enrollments' => [{'type' => 'student'}],
+        'enrollments' => [{'type' => 'student', 'role' => 'StudentEnrollment'}],
         'sis_course_id' => 'TEST-SIS-ONE.2011',
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course2.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'wiki'
       },
     ]
   end
@@ -138,7 +180,7 @@ describe CoursesController, :type => :integration do
             'hide_final_grades'                     => true,
             'license'                              => 'Creative Commons',
             'sis_course_id'                        => '12345',
-            'public_description'                   => 'Nature is lethal but it doesn\'t hold a candle to man.'
+            'public_description'                   => 'Nature is lethal but it doesn\'t hold a candle to man.',
           }
         }
         course_response = post_params['course'].merge({
@@ -147,6 +189,7 @@ describe CoursesController, :type => :integration do
           'start_at' => '2011-01-01T07:00:00Z',
           'end_at' => '2011-05-01T07:00:00Z',
           'workflow_state' => 'available',
+          'default_view' => 'feed'
         })
         json = api_call(:post, @resource_path, @resource_params, post_params)
         new_course = Course.find(json['id'])
@@ -226,7 +269,8 @@ describe CoursesController, :type => :integration do
         'open_enrollment' => true,
         'self_enrollment' => true,
         'hide_final_grades' => false,
-        'restrict_enrollments_to_course_dates' => true
+        'restrict_enrollments_to_course_dates' => true,
+        'default_view' => 'new default view'
       }, 'offer' => true }
     end
 
@@ -240,6 +284,7 @@ describe CoursesController, :type => :integration do
         json['start_at'].should eql @new_values['course']['start_at']
         json['end_at'].should eql @new_values['course']['end_at']
         json['sis_course_id'].should eql @new_values['course']['sis_course_id']
+        json['default_view'].should eql @new_values['course']['default_view']
 
         @course.name.should eql @new_values['course']['name']
         @course.course_code.should eql @new_values['course']['course_code']
@@ -256,6 +301,7 @@ describe CoursesController, :type => :integration do
         @course.self_enrollment.should be_true
         @course.restrict_enrollments_to_course_dates.should be_true
         @course.workflow_state.should == 'available'
+        @course.default_view.should == 'new default view'
       end
 
       it "should not change dates that aren't given" do
@@ -298,6 +344,7 @@ describe CoursesController, :type => :integration do
         json['course_code'].should eql @new_values['course']['course_code']
         json['start_at'].should eql @new_values['course']['start_at']
         json['end_at'].should eql @new_values['course']['end_at']
+        json['default_view'].should eql @new_values['course']['default_view']
       end
 
       it "should not be able to update the sis id" do
@@ -332,9 +379,10 @@ describe CoursesController, :type => :integration do
         @course.workflow_state.should eql 'deleted'
       end
 
-      it "should be able to complete a course" do
+      it "should conclude when completing a course" do
         json = api_call(:delete, @path, @params, { :event => 'conclude' })
         json.should == { 'conclude' => true }
+
         @course.reload
         @course.workflow_state.should eql 'completed'
       end
@@ -384,12 +432,13 @@ describe CoursesController, :type => :integration do
         'name' => @course1.name,
         'account_id' => @course1.account_id,
         'course_code' => @course1.course_code,
-        'enrollments' => [{'type' => 'teacher'}],
+        'enrollments' => [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}],
         'sis_course_id' => nil,
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course1.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'feed'
       },
       {
         'id' => @course2.id,
@@ -397,6 +446,7 @@ describe CoursesController, :type => :integration do
         'account_id' => @course2.account_id,
         'course_code' => @course2.course_code,
         'enrollments' => [{'type' => 'student',
+                           'role' => 'StudentEnrollment',
                            'computed_current_score' => expected_current_score,
                            'computed_final_score' => expected_final_score,
                            'computed_final_grade' => expected_final_grade}],
@@ -404,7 +454,8 @@ describe CoursesController, :type => :integration do
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course2.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'wiki'
       },
     ]
   end
@@ -424,24 +475,26 @@ describe CoursesController, :type => :integration do
         'name' => @course1.name,
         'account_id' => @course1.account_id,
         'course_code' => @course1.course_code,
-        'enrollments' => [{'type' => 'teacher'}],
+        'enrollments' => [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}],
         'sis_course_id' => nil,
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course1.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'feed'
       },
       {
         'id' => @course2.id,
         'name' => @course2.name,
         'account_id' => @course2.account_id,
         'course_code' => @course2.course_code,
-        'enrollments' => [{'type' => 'student'}],
+        'enrollments' => [{'type' => 'student', 'role' => 'StudentEnrollment'}],
         'sis_course_id' => 'TEST-SIS-ONE.2011',
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course2.uuid}.ics" },
         'hide_final_grades' => true,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'wiki'
       }
     ]
   end
@@ -455,14 +508,44 @@ describe CoursesController, :type => :integration do
         'name' => @course1.name,
         'account_id' => @course1.account_id,
         'course_code' => @course1.course_code,
-        'enrollments' => [{'type' => 'teacher'}],
+        'enrollments' => [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}],
         'sis_course_id' => nil,
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course1.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'feed'
       }
     ]
+  end
+
+  describe "enrollment_role" do
+    before do
+      role = Account.default.roles.build :name => 'SuperTeacher'
+      role.base_role_type = 'TeacherEnrollment'
+      role.save!
+      @course3 = course
+      @course3.enroll_user(@me, 'TeacherEnrollment', { :role_name => 'SuperTeacher', :active_all => true })
+    end
+
+    it "should return courses with all teacher types on ?enrollment_type=teacher" do
+      json = api_call(:get, "/api/v1/courses.json?enrollment_type=teacher",
+               { :controller => 'courses', :action => 'index', :format => 'json', :enrollment_type => 'teacher' })
+      json.collect{ |c| c['id'].to_i }.sort.should == [@course1.id, @course3.id].sort
+    end
+
+    it "should return only courses with vanilla TeacherEnrollments on ?enrollment_role=TeacherEnrollment" do
+      json = api_call(:get, "/api/v1/courses.json?enrollment_role=TeacherEnrollment",
+                      { :controller => 'courses', :action => 'index', :format => 'json', :enrollment_role => 'TeacherEnrollment' })
+      json.collect{ |c| c['id'].to_i }.should == [@course1.id]
+    end
+
+    it "should return courses by custom role" do
+      json = api_call(:get, "/api/v1/courses.json?enrollment_role=SuperTeacher",
+                      { :controller => 'courses', :action => 'index', :format => 'json', :enrollment_role => 'SuperTeacher' })
+      json.collect{ |c| c['id'].to_i }.should == [@course3.id]
+      json[0]['enrollments'].should == [{ 'type' => 'teacher', 'role' => 'SuperTeacher' }]
+    end
   end
 
   describe "/students" do
@@ -653,6 +736,48 @@ describe CoursesController, :type => :integration do
       json.map { |u| u['enrollments'].map { |e| e['type'] } }.flatten.uniq.sort.should == %w{StudentEnrollment TeacherEnrollment}
     end
 
+    describe "enrollment_role" do
+      before do
+        role = Account.default.roles.build :name => 'EliteStudent'
+        role.base_role_type = 'StudentEnrollment'
+        role.save!
+        @student3 = user(:name => 'S3')
+        @student3_enroll = @course1.enroll_user(@student3, 'StudentEnrollment', { :role_name => 'EliteStudent' })
+      end
+
+      it "should return all student types with ?enrollment_type=student" do
+        json = api_call(:get, "/api/v1/courses/#{@course1.id}/users.json",
+                        { :controller => 'courses', :action => 'users', :course_id => @course1.id.to_s, :format => 'json' },
+                        :enrollment_type => 'student')
+
+        json.map {|x| x["id"].to_i}.sort.should == [@student1, @student2, @student3].map(&:id).sort
+      end
+
+      it "should return only base student types with ?enrollment_role=StudentEnrollment" do
+        json = api_call(:get, "/api/v1/courses/#{@course1.id}/users.json",
+                        { :controller => 'courses', :action => 'users', :course_id => @course1.id.to_s, :format => 'json' },
+                        :enrollment_role => 'StudentEnrollment')
+
+        json.map {|x| x["id"].to_i}.sort.should == [@student1, @student2].map(&:id).sort
+      end
+
+      it "should return users with a custom role type" do
+        json = api_call(:get, "/api/v1/courses/#{@course1.id}/users.json",
+                        { :controller => 'courses', :action => 'users', :course_id => @course1.id.to_s, :format => 'json' },
+                        :enrollment_role => 'EliteStudent')
+
+        json.map {|x| x["id"].to_i}.should == [@student3.id]
+      end
+
+      it "should accept an array of enrollment roles" do
+        json = api_call(:get, "/api/v1/courses/#{@course1.id}/users.json",
+                        { :controller => 'courses', :action => 'users', :course_id => @course1.id.to_s, :format => 'json' },
+                        :enrollment_role => %w{StudentEnrollment EliteStudent})
+
+        json.map {|x| x["id"].to_i}.sort.should == [@student1, @student2, @student3].map(&:id).sort
+      end
+    end
+
     it "maintains query parameters in link headers" do
       json = api_call(
         :get,
@@ -841,37 +966,26 @@ describe CoursesController, :type => :integration do
         'name' => @course1.name,
         'account_id' => @course1.account_id,
         'course_code' => @course1.course_code,
-        'enrollments' => [{'type' => 'teacher'}],
+        'enrollments' => [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}],
         'needs_grading_count' => 1,
         'sis_course_id' => nil,
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course1.uuid}.ics" },
         'hide_final_grades' => false,
         'start_at' => nil,
-        'end_at' => nil
+        'end_at' => nil,
+        'default_view' => 'feed'
       },
     ]
   end
   
   it "should return the course syllabus" do
-    @course1.syllabus_body = "Syllabi are boring"
-    @course1.save
-    json = api_call(:get, "/api/v1/courses.json?enrollment_type=teacher&include[]=syllabus_body",
+    should_translate_user_content(@course1) do |content|
+      @course1.syllabus_body = content
+      @course1.save!
+      json = api_call(:get, "/api/v1/courses.json?enrollment_type=teacher&include[]=syllabus_body",
             { :controller => 'courses', :action => 'index', :format => 'json', :enrollment_type => 'teacher', :include=>["syllabus_body"] })
-    json.should == [
-      {
-        'id' => @course1.id,
-        'name' => @course1.name,
-        'account_id' => @course1.account_id,
-        'course_code' => @course1.course_code,
-        'enrollments' => [{'type' => 'teacher'}],
-        'syllabus_body' => @course1.syllabus_body,
-        'sis_course_id' => nil,
-        'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course1.uuid}.ics" },
-        'hide_final_grades' => false,
-        'start_at' => nil,
-        'end_at' => nil
-      },
-    ]
+      json[0]['syllabus_body']
+    end
   end
 
   it "should get individual course data" do
@@ -936,12 +1050,13 @@ describe CoursesController, :type => :integration do
       json.map{ |el| el['id'] }.should == [@student2.id, @student3.id, @student1.id]
     end
   end
+
 end
 
 def each_copy_option
   [[:assignments, :assignments], [:external_tools, :context_external_tools], [:files, :attachments], 
    [:topics, :discussion_topics], [:calendar_events, :calendar_events], [:quizzes, :quizzes], 
-   [:modules, :context_modules], [:outcomes, :learning_outcomes]].each{|o| yield o}
+   [:modules, :context_modules], [:outcomes, :created_learning_outcomes]].each{|o| yield o}
 end
 
 describe ContentImportsController, :type => :integration do
@@ -961,7 +1076,7 @@ describe ContentImportsController, :type => :integration do
     @copy_from.calendar_events.create!(:title => 'event', :description => 'hi', :start_at => 1.day.from_now)
     @copy_from.context_modules.create!(:name => "a module")
     @copy_from.quizzes.create!(:title => 'quiz')
-    LearningOutcomeGroup.default_for(@copy_from).add_item(@copy_from.learning_outcomes.create!(:short_description => 'oi', :context => @copy_from))
+    @copy_from.root_outcome_group.add_outcome(@copy_from.created_learning_outcomes.create!(:short_description => 'oi', :context => @copy_from))
     @copy_from.save!
     
     course_with_teacher(:active_all => true, :name => 'whatever', :user => @user)
@@ -1080,16 +1195,20 @@ describe ContentImportsController, :type => :integration do
   end
   
   it "should only copy course settings" do
-    run_only_copy(:course_settings)
-    check_counts 0
-    @copy_to.reload
-    @copy_to.syllabus_body.should == "<p>haha</p>"
+    @copy_from.default_view = 'modules' 
+    @copy_from.save!
+    run_only_copy(:course_settings) 
+    check_counts 0 
+    @copy_to.reload 
+    @copy_to.default_view.should == 'modules'
   end
+
   it "should only copy wiki pages" do
     run_only_copy(:wiki_pages)
     check_counts 0
     @copy_to.wiki.wiki_pages.count.should == 1
   end
+
   each_copy_option do |option, association|
     it "should only copy #{option}" do
       pending if !Qti.qti_enabled? && association == :quizzes

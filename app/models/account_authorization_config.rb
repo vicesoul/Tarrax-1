@@ -104,7 +104,7 @@ class AccountAuthorizationConfig < ActiveRecord::Base
   
   def ldap_filter(login = nil)
     filter = self.auth_filter
-    filter.gsub!(/\{\{login\}\}/, sanitized_ldap_login(login)) if login
+    filter = filter.gsub(/\{\{login\}\}/, sanitized_ldap_login(login)) if login
     filter
   end
   
@@ -387,6 +387,8 @@ class AccountAuthorizationConfig < ActiveRecord::Base
     rescue Timeout::Error
       ErrorReport.log_exception(:ldap, $!, :account => self.account)
       self.update_attribute(:last_timeout_failure, Time.now)
+    rescue
+      ErrorReport.log_exception(:ldap, $!, :account => self.account)
     end
 
     return nil

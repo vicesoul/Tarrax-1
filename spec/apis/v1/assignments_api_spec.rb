@@ -133,7 +133,10 @@ describe AssignmentsApiController, :type => :integration do
 
   it "should allow creating an assignment via the API" do
     course_with_teacher(:active_all => true)
+    @course.assignment_groups.create!({:name => "first group"})
     @group = @course.assignment_groups.create!({:name => "some group"})
+    @course.assignment_groups.create!({:name => "last group"})
+
 
     # make sure we can assign a custom field during creation
     CustomField.create!(:name => 'test_custom',
@@ -149,12 +152,13 @@ describe AssignmentsApiController, :type => :integration do
               'position' => '1', 'points_possible' => '12',
               'due_at' => '2011-01-01',
               'description' => 'assignment description',
+              'assignment_group_id' => @group.id,
               'grading_type' => 'points', 'set_custom_field_values' => { 'test_custom' => { 'value' => '1' } } } })
 
     assignment = Assignment.first
     json.should == {
       'id' => assignment.id,
-      'assignment_group_id' => assignment.assignment_group_id,
+      'assignment_group_id' => @group.id,
       'name' => 'some assignment',
       'course_id' => @course.id,
       'description' => 'assignment description',
@@ -176,10 +180,74 @@ describe AssignmentsApiController, :type => :integration do
     a.get_custom_field_value('test_custom').true?.should == true
   end
 
+  it "should allow creating an assignment with overrides via the API" do
+    course_with_teacher(:active_all => true)
+    student_in_course(:course => @course, :active_enrollment => true)
+
+    @adhoc_due_at = 5.days.from_now
+    @section_due_at = 7.days.from_now
+
+    @user = @teacher
+    api_call(:post, "/api/v1/courses/#{@course.id}/assignments.json",
+      { :controller => 'assignments_api', :action => 'create', :format => 'json', :course_id => @course.id.to_s },
+      { :assignment => {
+          'name' => 'some assignment',
+          'assignment_overrides' => {
+            '0' => { 'student_ids' => [@student.id], 'title' => 'adhoc override', 'due_at' => @adhoc_due_at.iso8601 },
+            '1' => { 'course_section_id' => @course.default_section.id, 'due_at' => @section_due_at.iso8601 }}}})
+
+    @assignment = Assignment.first
+    @assignment.assignment_overrides.count.should == 2
+
+    @adhoc_override = @assignment.assignment_overrides.find_by_set_type('ADHOC')
+    @adhoc_override.should_not be_nil
+    @adhoc_override.set.should == [@student]
+    @adhoc_override.due_at_overridden.should be_true
+    @adhoc_override.due_at.to_i.should == @adhoc_due_at.to_i
+
+    @section_override = @assignment.assignment_overrides.find_by_set_type('CourseSection')
+    @section_override.should_not be_nil
+    @section_override.set.should == @course.default_section
+    @section_override.due_at_overridden.should be_true
+    @section_override.due_at.to_i.should == @section_due_at.to_i
+  end
+
+  it "should take overrides into account in the assignment-created notification for assignments created with overrides" do
+    course_with_teacher(:active_all => true)
+    student_in_course(:course => @course, :active_enrollment => true)
+    course_with_ta(:course => @course, :active_enrollment => true)
+
+    notification = Notification.create! :name => "Assignment Created"
+
+    @student.register!
+    @student.communication_channels.create(:path => "student@instructure.com").confirm!
+    @student.email_channel.notification_policies.find_or_create_by_notification_id(notification.id).update_attribute(:frequency, 'immediately')
+
+    @ta.register!
+    @ta.communication_channels.create(:path => "ta@instructure.com").confirm!
+    @ta.email_channel.notification_policies.find_or_create_by_notification_id(notification.id).update_attribute(:frequency, 'immediately')
+
+    @override_due_at = Time.parse('2002 Jun 22 12:00:00')
+
+    @user = @teacher
+    api_call(:post, "/api/v1/courses/#{@course.id}/assignments.json",
+             { :controller => 'assignments_api', :action => 'create', :format => 'json', :course_id => @course.id.to_s },
+             { :assignment => {
+                 'name' => 'some assignment',
+                 'assignment_overrides' => {
+                     '0' => { 'course_section_id' => [ @course.default_section.id ], 'due_at' => @override_due_at.iso8601 }}}})
+
+    @student.messages.detect{|m| m.notification_id == notification.id}.body.should be_include 'Jun 22'
+    @ta.messages.detect{|m| m.notification_id == notification.id}.body.should be_include 'Multiple Dates'
+  end
+
   it "should allow updating an assignment via the API" do
     course_with_teacher(:active_all => true)
-    @group = @course.assignment_groups.create!({:name => "some group"})
+    @start_group = @course.assignment_groups.create!({:name => "start group"})
+    @group = @course.assignment_groups.create!({:name => "new group"})
     @assignment = @course.assignments.create!(:title => "some assignment", :points_possible => 12)
+    @assignment.assignment_group = @start_group
+    @assignment.save!
 
     # make sure we can assign a custom field during update
     CustomField.create!(:name => 'test_custom',
@@ -193,11 +261,12 @@ describe AssignmentsApiController, :type => :integration do
             :format => 'json', :course_id => @course.id.to_s, :id => @assignment.id.to_s },
           { :assignment => { 'name' => 'some assignment again',
               'points_possible' => '15',
+              'assignment_group_id' => @group.id,
               'set_custom_field_values' => { 'test_custom' => { 'value' => '1' } } } })
 
     json.should == {
       'id' => @assignment.id,
-      'assignment_group_id' => @assignment.assignment_group_id,
+      'assignment_group_id' => @group.id,
       'name' => 'some assignment again',
       'course_id' => @course.id,
       'description' => nil,
@@ -217,6 +286,39 @@ describe AssignmentsApiController, :type => :integration do
     Assignment.count.should == 1
     a = Assignment.first
     a.get_custom_field_value('test_custom').true?.should == true
+  end
+
+  it "should allow updating an assignment with overrides via the API" do
+    course_with_teacher(:active_all => true)
+    student_in_course(:course => @course, :active_enrollment => true)
+    @assignment = @course.assignments.create!
+
+    @adhoc_due_at = 5.days.from_now
+    @section_due_at = 7.days.from_now
+
+    @user = @teacher
+    api_call(:put, "/api/v1/courses/#{@course.id}/assignments/#{@assignment.id}.json",
+      { :controller => 'assignments_api', :action => 'update', :format => 'json', :course_id => @course.id.to_s, :id => @assignment.id.to_s },
+      { :assignment => {
+          'name' => 'some assignment',
+          'assignment_overrides' => {
+            '0' => { 'student_ids' => [@student.id], 'title' => 'adhoc override', 'due_at' => @adhoc_due_at.iso8601 },
+            '1' => { 'course_section_id' => @course.default_section.id, 'due_at' => @section_due_at.iso8601 }}}})
+
+    @assignment = Assignment.first
+    @assignment.assignment_overrides.count.should == 2
+
+    @adhoc_override = @assignment.assignment_overrides.find_by_set_type('ADHOC')
+    @adhoc_override.should_not be_nil
+    @adhoc_override.set.should == [@student]
+    @adhoc_override.due_at_overridden.should be_true
+    @adhoc_override.due_at.to_i.should == @adhoc_due_at.to_i
+
+    @section_override = @assignment.assignment_overrides.find_by_set_type('CourseSection')
+    @section_override.should_not be_nil
+    @section_override.set.should == @course.default_section
+    @section_override.due_at_overridden.should be_true
+    @section_override.due_at.to_i.should == @section_due_at.to_i
   end
 
   it "should not allow updating an assignment via the API if it is locked" do

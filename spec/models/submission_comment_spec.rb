@@ -150,8 +150,8 @@ This text has a http://www.google.com link in it...
     @comment = @submission.add_comment(:author => se.user, :comment => "some comment")
     @item = StreamItem.last
     @item.should_not be_nil
-    @item.item_asset_string.should eql(@submission.asset_string)
-    @item.data.should be_is_a(OpenObject)
+    @item.asset.should == @submission
+    @item.data.should be_is_a(Submission)
     @item.data.submission_comments.should_not be_nil
     @item.data.id.should eql(@submission.id)
     @item.data.submission_comments[0].id.should eql(@comment.id)
@@ -605,5 +605,33 @@ This text has a http://www.google.com link in it...
     @teacher_comment.grants_right?(@student1, :read).should be_true
     @reviewer_comment.grants_right?(@student1, :read).should be_true
     @my_comment.grants_right?(@student1, :read).should be_true
+  end
+
+  describe "reply_from" do
+    it "should ignore replies on deleted accounts" do
+      comment = @submission.add_comment(:user => @teacher, :comment => "some comment")
+      Account.default.destroy
+      comment.reload
+      lambda { 
+        comment.reply_from(:user => @student, :text => "some reply") 
+      }.should raise_error(IncomingMessageProcessor::UnknownAddressError)
+    end
+  end
+
+  describe "read/unread state" do
+    it "should be unread after submission is commented on by teacher" do
+      expect {
+        @comment = SubmissionComment.create!(@valid_attributes.merge({:author => @teacher}))
+      }.to change(ContentParticipation, :count).by(1)
+      ContentParticipation.find_by_user_id(@student).should be_unread
+      @submission.unread?(@student).should be_true
+    end
+
+    it "should be unread after submission is commented on by self" do
+      expect {
+        @comment = SubmissionComment.create!(@valid_attributes.merge({:author => @student}))
+      }.to change(ContentParticipation, :count).by(0)
+      @submission.read?(@student).should be_true
+    end
   end
 end

@@ -6299,6 +6299,8 @@ zh-CN:
       twitter: 
         tweet: "教学邦 警报 - 来自 %{user_name} 的邮件。"
         unknown_user: 未知用户
+    email:
+      footer: "这是一封来自教学邦平台课程通知邮件。如果您要修改通信设置或者退订，请点击下面的链接：%{url}"
     enrollment_accepted: 
       email: 
         body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请"

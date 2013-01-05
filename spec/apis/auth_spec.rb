@@ -174,8 +174,8 @@ describe "API Authentication", :type => :integration do
           response.should be_success
           json = JSON.parse(response.body)
           json.size.should == 1
-          json.first['enrollments'].should == [{'type' => 'teacher'}]
-          AccessToken.last.token.should == token
+          json.first['enrollments'].should == [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}]
+          AccessToken.authenticate(token).should == AccessToken.last
 
           # post requests should work with nothing but an access token
           post "/api/v1/courses/#{@course.id}/assignments.json?access_token=1234", { :assignment => { :name => 'test assignment', :points_possible => '5.3', :grading_type => 'points' } }
@@ -197,7 +197,7 @@ describe "API Authentication", :type => :integration do
         post "/login/oauth2/token", :client_id => @client_id, :client_secret => @client_secret, :code => code
         response.should be_success
         json = JSON.parse(response.body)
-        json['access_token'].should == AccessToken.last.token
+        AccessToken.authenticate(json['access_token']).should == AccessToken.last
       end
 
       it "should execute for password/ldap login" do
@@ -356,7 +356,7 @@ describe "API Authentication", :type => :integration do
           end
 
           @user.access_tokens.first.shard.should == Shard.default
-          @user.access_tokens.first.token.should == @token
+          @user.access_tokens.first.should == AccessToken.authenticate(@token)
         end
       end
     end
@@ -416,8 +416,8 @@ describe "API Authentication", :type => :integration do
             response.should be_success
             json = JSON.parse(response.body)
             json.size.should == 1
-            json.first['enrollments'].should == [{'type' => 'teacher'}]
-            AccessToken.last.token.should == token
+            json.first['enrollments'].should == [{'type' => 'teacher', 'role' => 'TeacherEnrollment'}]
+            AccessToken.last.should == AccessToken.authenticate(token)
           end
         end
       end
@@ -439,12 +439,12 @@ describe "API Authentication", :type => :integration do
     end
 
     it "should allow passing the access token in the query string" do
-      check_used { get "/api/v1/courses?access_token=#{@token.token}" }
+      check_used { get "/api/v1/courses?access_token=#{@token.full_token}" }
       JSON.parse(response.body).size.should == 1
     end
 
     it "should allow passing the access token in the authorization header" do
-      check_used { get "/api/v1/courses", nil, { 'Authorization' => "Bearer #{@token.token}" } }
+      check_used { get "/api/v1/courses", nil, { 'Authorization' => "Bearer #{@token.full_token}" } }
       JSON.parse(response.body).size.should == 1
     end
 
@@ -456,7 +456,7 @@ describe "API Authentication", :type => :integration do
       check_used do
         post "/api/v1/accounts/#{Account.default.id}/admins", {
           'user_id' => u2.id,
-          'access_token' => @token.token,
+          'access_token' => @token.full_token,
         }
       end
       Account.default.reload.users.should be_include(u2)
@@ -488,13 +488,13 @@ describe "API Authentication", :type => :integration do
     end
 
     it "should be able to log out" do
-      get "/api/v1/courses?access_token=#{@token.token}"
+      get "/api/v1/courses?access_token=#{@token.full_token}"
       response.should be_success
 
-      delete "/login/oauth2/token?access_token=#{@token.token}"
+      delete "/login/oauth2/token?access_token=#{@token.full_token}"
       response.should be_success
 
-      get "/api/v1/courses?access_token=#{@token.token}"
+      get "/api/v1/courses?access_token=#{@token.full_token}"
       response.status.to_i.should == 401
     end
 
@@ -511,7 +511,7 @@ describe "API Authentication", :type => :integration do
         end
         LoadAccount.stubs(:default_domain_root_account).returns(@account)
 
-        check_used { get "/api/v1/courses", nil, { 'Authorization' => "Bearer #{@token.token}" } }
+        check_used { get "/api/v1/courses", nil, { 'Authorization' => "Bearer #{@token.full_token}" } }
         JSON.parse(response.body).size.should == 1
       end
     end
