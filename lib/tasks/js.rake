@@ -3,6 +3,7 @@ namespace :js do
   desc 'test javascript specs with PhantomJS'
   task :test do
     quick = ENV["quick"] && ENV["quick"] == "true"
+    
     unless quick
       puts "--> do rake js:test quick=true to skip generating compiled coffeescript and handlebars."
       Rake::Task['js:generate'].invoke
@@ -11,6 +12,9 @@ namespace :js do
 
     require 'canvas/require_js'
     require 'erubis'
+    
+    Canvas::RequireJs.add_special_file ENV["file"]
+    
     output = Erubis::Eruby.new(File.read("#{Rails.root}/spec/javascripts/runner.html.erb")).
       result(Canvas::RequireJs.get_binding)
     File.open("#{Rails.root}/spec/javascripts/runner.html", 'w') { |f| f.write(output) }
