@@ -102,7 +102,8 @@
              end
           %>
           <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
-        <% elsif question && hash_get(question, :question_type) == 'paint_question'%>
+        <% elsif question && hash_get(question, :question_type) == 'paint_question' && !editable %>
+          <div class="paint_question_text"><%= user_content(hash_get(question, :question_text)) %></div>
         <% else %>
           <%= user_content(hash_get(question, :question_text)) %>
         <% end %>
@@ -254,7 +255,7 @@
                   Your Answer:
                   <div class="user_content quiz_response_text">
                     <% if question && hash_get(question, :question_type) == 'paint_question' %>
-                      <div id="paint_question"><%= hash_get(question, :question_text).html_safe %></div>
+                      <div class="paint_question"><%= hash_get(question, :question_text).html_safe %></div>
                     <% end %>
                     <%= hash_get(user_answer, :text).html_safe %>
                   </div>
