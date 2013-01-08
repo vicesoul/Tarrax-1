@@ -102,6 +102,7 @@
              end
           %>
           <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
+        <% elsif question && hash_get(question, :question_type) == 'paint_question'%>
         <% else %>
           <%= user_content(hash_get(question, :question_text)) %>
         <% end %>
@@ -251,7 +252,12 @@
               <div>
                 <% if question_type.entry_type == 'textarea' %>
                   Your Answer:
-                  <div class="user_content quiz_response_text"><%= hash_get(user_answer, :text).html_safe %></div>
+                  <div class="user_content quiz_response_text">
+                    <% if question && hash_get(question, :question_type) == 'paint_question' %>
+                      <div id="paint_question"><%= hash_get(question, :question_text).html_safe %></div>
+                    <% end %>
+                    <%= hash_get(user_answer, :text).html_safe %>
+                  </div>
                 <% else %>
                   <% matched_answer = hash_get(question, :answers, []).find{|a| hash_get(a, :text) == hash_get(user_answer, :text) || hash_get(a, :id) == hash_get(user_answer, :answer_id) } %>
                   <% hash_get(question, :answers, []).each do |a|
