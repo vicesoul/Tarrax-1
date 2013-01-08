@@ -54,9 +54,9 @@ module QuizzesHelper
       }),
       "paint_question" => OpenObject.new({
        :question_type => "paint_question",
-       :entry_type => "none",
-       :display_answers => "none",
-       :answer_type => "none"
+       :entry_type => "textarea",
+       :display_answers => "single",
+       :answer_type => "text_answer"
       }),
       "connecting_lead_question" => OpenObject.new({
        :question_type => "connecting_lead_question",
