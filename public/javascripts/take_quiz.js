@@ -30,7 +30,8 @@ define([
   'tinymce.editor_box' /* editorBox */,
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
   'compiled/behaviors/quiz_selectmenu',
-  'sketcher'
+  'sketcher',
+  'i18n!editor'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
@@ -390,8 +391,10 @@ define([
     $("#submit_quiz_form").submit(function(event) {
       $(".question_holder .paint_question canvas.paintQuestion").each(function(){
         var data = $(this)[0].toDataURL();
-        var id = $(this).closest(".paint_question").attr("id");
-        $(' <input type="hidden" class="imageZ" > ').val(data).attr("name",id).prependTo("#submit_quiz_form");
+        var $img = $("<img>").attr( "src", data );
+        var $div = $("<div></div>").append($img);
+        var $editor = $(this).closest(".paint_question").find(".question_input");
+        $editor.editorBox( 'insert_code', $div.html() );
 
 
       });
