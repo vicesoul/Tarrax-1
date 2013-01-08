@@ -398,6 +398,13 @@ define([
           return false;
         }
       }
+
+      $(".question_holder .paint_question canvas.paintQuestion").each(function(){
+
+        $(this)[0].toDataURL();
+
+      });
+
       quizSubmission.submitting = true;
     });
 
