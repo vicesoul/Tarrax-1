@@ -212,15 +212,8 @@ define([
           if(only_show_icon) {
             $img.attr('src', '/images/media_comment.png');
           } else {
-            //2012-10-30 rupert
             $img.attr('src', '/images/play_overlay.png');
             $(this).addClass('no-hover').addClass('no-underline');
-            /*$img.hover(function() {
-              $img.attr('src', '/images/play_overlay.png');
-            }, function() {
-              $img.attr('src', '/images/blank.png');
-            });*/
-              //end
           }
           $img.css('backgroundImage', 'url(' + url + ')');
           $img.attr('title', I18n.t('titles.click_to_view', 'Click to View'));

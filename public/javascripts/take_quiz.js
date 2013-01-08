@@ -20,17 +20,18 @@ define([
   'jquery' /* $ */,
   'quiz_timing',
   'compiled/behaviors/autoBlurActiveInput',
+  'compiled/tinymce',
   'jquery.ajaxJSON' /* ajaxJSON */,
   'jquery.instructure_date_and_time' /* friendlyDatetime, friendlyDate */,
   'jquery.instructure_forms' /* getFormData, errorBox */,
   'jqueryui/dialog',
   'jquery.instructure_misc_helpers' /* scrollSidebar */,
   'compiled/jquery.rails_flash_notifications',
-  'compiled/tinymce',
   'tinymce.editor_box' /* editorBox */,
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
-  'compiled/behaviors/quiz_selectmenu'
-], function(I18n, $, timing, autoBlurActiveInput) {
+  'compiled/behaviors/quiz_selectmenu',
+  'sketcher'
+], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
   var quizSubmission = (function() {
@@ -424,16 +425,14 @@ define([
 
     setTimeout(function() { quizSubmission.updateSubmission(true) }, 15000);
 
+    var ipadInputType = (function (){
 
-
-  var ipadInputType = (function(){
-
-       var isiPad = navigator.userAgent.match(/iPad/i) != null;
-           if(!isiPad){return;}
+      var isiPad = navigator.userAgent.match(/iPad/i) != null;
+      if(!isiPad){return;}
 
       function isNumber(n) {
-                  return !isNaN(parseFloat(n)) && isFinite(n);
-                }
+        return !isNaN(parseFloat(n)) && isFinite(n);
+      }
 
       var $input = $("input[type=text]") || $("input[type=number]");
 
@@ -442,66 +441,93 @@ define([
       $input.blur(function(){
         var lastText = $(this).val();
         if(!!lastText){
-            if(isNumber(lastText)){
-                textType = "number";
-              }else{
-                  $(this).prop("type","text");
-                  textType = "text";
-              }
+          if(isNumber(lastText)){
+            textType = "number";
+          }else{
+            $(this).prop("type","text");
+            textType = "text";
           }
-          console.log(isNumber(lastText));
+        }
       });
 
       $input.focus(function(){
-          var thisText = $(this).val();
+        var thisText = $(this).val();
 
-          if(!!thisText){
+        if(!!thisText){
 
-              if(isNumber(thisText)){
-                  $(this).prop("type","number");
-              }else{
-                  $(this).prop("type","text");
-              }
-
+          if(isNumber(thisText)){
+            $(this).prop("type","number");
           }else{
-              if(textType == "number"){
-                  $(this).prop("type","number");
-              }else{
-                  $(this).prop("type","text");
-              }
+            $(this).prop("type","text");
           }
+
+        }else{
+          if(textType == "number"){
+            $(this).prop("type","number");
+          }else{
+            $(this).prop("type","text");
+          }
+        }
       });
 
       $input.keydown(function(e){
-          var thisText = $(this).val();
-          var keyDownIsText = (e.keyCode <= 90 && e.keyCode >= 65);
+        var thisText = $(this).val();
+        var keyDownIsText = (e.keyCode <= 90 && e.keyCode >= 65);
 
-          if(!!thisText){
+        if(!!thisText){
 
-              if(isNumber(thisText)){
-                  if(keyDownIsText){
-                      $(this).prop("type","text");
-                  }else{
-                      $(this).prop("type","number");
-                  }
-              }else{
-                  $(this).prop("type","text");
-              }
-
+          if(isNumber(thisText)){
+            if(keyDownIsText){
+              $(this).prop("type","text");
+            }else{
+              $(this).prop("type","number");
+            }
           }else{
-            console.log("empty")
-              if(keyDownIsText){
-                      $(this).prop("type","text");
-                  }else{
-                      $(this).prop("type","number");
-                  }
+            $(this).prop("type","text");
           }
+
+        }else{
+          if(keyDownIsText){
+            $(this).prop("type","text");
+          }else{
+            $(this).prop("type","number");
+          }
+        }
       });
 
-  })();
+    })();
+
+    var takePaintQuestion = (function(){
+      if( $(".question.paint_question").size() === 0 ) return false;
+      console.log("paint_question")
+
+      var Painter,
+        sketchSetting = {
+          sketchType:"paintQuestion",
+          stageId:"",
+          lineW : 1,
+          canvasW : 600,
+          canvasH : 400,
+          color : {hex:"000000",rgb:[0,0,0]},
+          tools : {type:"line",src:""},
+          appName : "sketch_app",
+          appTitle : "画板"
+        };
 
 
+
+      $("#submit_quiz_form .paint_question").each(function(){
+
+        sketchSetting.canvasW = $(this).width();
+        sketchSetting.canvasH = $(this).find(".text").height();
+        sketchSetting.stageId = $(this).attr("id");
+        Painter = new Sketcher(sketchSetting);
+
+      });
+
+    })();
 
   });
 });
+
 

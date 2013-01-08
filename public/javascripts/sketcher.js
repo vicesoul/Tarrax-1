@@ -53,83 +53,83 @@ define([
         },
 
         generalHTML: function(){
-            var self = this;
-            var canvasHtml = '<input type="button" value="清空" class="clear_all" />';
-            canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
-            canvasHtml += '<input type="button" value="墨水" class="ink" />';
-            canvasHtml += '<input type="button" value="刷子" class="big_brush" />';
-            canvasHtml += '<input type="button" value="橡皮擦" class="eraser" />';
-            canvasHtml += '<div class="color_setting">';
-            canvasHtml += '<input type="button" class="black" value="black" style="background:#000000;" data-color=' + '{hex:"333333",rgb:[51,51,51]} ' + '  />';
-            canvasHtml += '<input type="button" class="blue" value="blue" style="background:#0000ff;" data-color=' + '{hex:"0000ff",rgb:[0,0,255]} ' + '  />';
-            canvasHtml += '<input type="button" class="red" value="red" style="background:#ff0000;" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
-            canvasHtml += '<input type="button" class="green" value="green" style="background:#7cfc00;" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
-            canvasHtml += '<input type="button" class="orange" value="orange" style="background:#FF7940;" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
-            canvasHtml += '<input type="button" class="purple" value="purple" style="background:#9932cc;" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
-            canvasHtml += '<input type="button" class="brown" value="pink" style="background:#ff69b4;" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
-            canvasHtml += '</div>';
-            canvasHtml += '<div class="container" style="width: '+ this.get("canvasW") + 'px;height:' + this.get("canvasH") +'px;">';
-            canvasHtml += '</div>';
-            canvasHtml += '<div class="containerDraft"><canvas class="canvasDraft" width="39" height="39"></canvas></div>';
+          var self = this;
+          var canvasHtml = '<input type="button" value="清空" class="clear_all" />';
+          canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
+          canvasHtml += '<input type="button" value="墨水" class="ink" />';
+          canvasHtml += '<input type="button" value="刷子" class="big_brush" />';
+          canvasHtml += '<input type="button" value="橡皮擦" class="eraser" />';
+          canvasHtml += '<div class="color_setting">';
+          canvasHtml += '<input type="button" class="black" value="black" style="background:#000000;" data-color=' + '{hex:"333333",rgb:[51,51,51]} ' + '  />';
+          canvasHtml += '<input type="button" class="blue" value="blue" style="background:#0000ff;" data-color=' + '{hex:"0000ff",rgb:[0,0,255]} ' + '  />';
+          canvasHtml += '<input type="button" class="red" value="red" style="background:#ff0000;" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
+          canvasHtml += '<input type="button" class="green" value="green" style="background:#7cfc00;" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
+          canvasHtml += '<input type="button" class="orange" value="orange" style="background:#FF7940;" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
+          canvasHtml += '<input type="button" class="purple" value="purple" style="background:#9932cc;" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
+          canvasHtml += '<input type="button" class="brown" value="pink" style="background:#ff69b4;" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
+          canvasHtml += '</div>';
+          canvasHtml += '<div class="container" style="width: '+ this.get("canvasW") + 'px;height:' + this.get("canvasH") +'px;">';
+          canvasHtml += '</div>';
+          canvasHtml += '<div class="containerDraft"><canvas class="canvasDraft" width="39" height="39"></canvas></div>';
 
-            this.App = $("<div></div>")
-                .addClass( this.get("appName") )
-                .addClass( this.get("sketchType") )
-                .append(canvasHtml);
+          this.App = $("<div></div>")
+              .addClass( this.get("appName") )
+              .addClass( this.get("sketchType") )
+              .append(canvasHtml);
 
-            this.canvas = $("<canvas></canvas>")
-                .addClass( this.get("sketchType") )
-                .attr({
-                    width: this.get("canvasW"),
-                    height: this.get("canvasH")
-                });
+          this.canvas = $("<canvas></canvas>")
+              .addClass( this.get("sketchType") )
+              .attr({
+                  width: this.get("canvasW"),
+                  height: this.get("canvasH")
+              });
 
-            this.App.find(".container").append( this.canvas );
+          this.App.find(".container").append( this.canvas );
 
+          this.App.find(".color_setting input:gt(1)").hide();
 
-
-            $("body").append( this.App );
-
-            $(".color_setting input:gt(1)").hide();
-
-            $(".clear_all").click(function(){
+          this.App.find(".clear_all").click(function(){
                 var response = confirm('你确定要清空画布?');
-                if (response){
-                    self.clear();
-                }else {}
-
-
+                if (response) self.clear();
             });
 
-            $(".line").click(function(){
+          this.App.find(".line").click(function(){
                 self.get("tools").type = "line";
-                $(".color_setting").find("input").show().end().find("input:gt(1)").hide();
-                $(".color_setting input[type=button]:first").trigger("click");
+            self.App.find(".color_setting").find("input").show().end().find("input:gt(1)").hide();
+            self.App.find(".color_setting input[type=button]:first").trigger("click");
             });
 
-            $(".ink").click(function(){
+          this.App.find(".ink").click(function(){
                 self.set("tools", {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/ink_s.png"});
-                $(".color_setting").find("input").show().end().find("input:gt(1)").hide();
-                $(".color_setting input[type=button]:first").trigger("click");
+            self.App.find(".color_setting").find("input").show().end().find("input:gt(1)").hide();
+            self.App.find(".color_setting input[type=button]:first").trigger("click");
             });
 
-            $(".big_brush").click(function(){
+          this.App.find(".big_brush").click(function(){
                 self.set("tools", {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush_s.png"});
-                $(".color_setting input").show();
-                $(".color_setting input[type=button]:first").trigger("click");
+            self.App.find(".color_setting input").show();
+            self.App.find(".color_setting input[type=button]:first").trigger("click");
             });
 
-            $(".eraser").click(function(){
+          this.App.find(".eraser").click(function(){
                 self.get("tools").type = "eraser";
-                $(".color_setting input").hide();
+            self.App.find(".color_setting input").hide();
                 self.setTools();
             });
 
-            $(".color_setting input[type=button]").click(function(){
+          this.App.find(".color_setting input[type=button]").click(function(){
                 var string = $(this).attr("data-color");
                 eval('self.set("color",' + string + ')');
                 self.setTools();
             });
+
+
+
+          if( this.get("sketchType") === "paintQuestion" ){
+            $( "#" + this.get("stageId") ).find("div.text").prepend( this.App );
+          }else{
+            $("body").append( this.App );
+          }
 
         },
 
