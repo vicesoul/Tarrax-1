@@ -151,8 +151,7 @@ describe ApplicationController do
     it "should reset the localizer" do
       # emulate all the locale related work done before/around a request
       acct = Account.default
-      #acct.default_locale = "es"
-      acct.default_locale = "zh-CN"
+      acct.default_locale = "es"
       acct.save!
       @controller.instance_variable_set(:@domain_root_account, acct) 
       req = mock()
@@ -160,9 +159,8 @@ describe ApplicationController do
       @controller.stubs(:request).returns(req)
       @controller.send(:assign_localizer)
       I18n.set_locale_with_localizer # this is what t() triggers
-      #I18n.locale.to_s.should == "es"
-      I18n.locale.to_s.should == "zh-CN"
-      course_model(:locale => "ru")
+      I18n.locale.to_s.should == "es"
+      course_model(:locale => "zh")
       @controller.stubs(:named_context_url).with(@course, :context_url).returns('')
       @controller.stubs(:params).returns({ :course_id => @course.id })
       @controller.stubs(:api_request?).returns(false)
@@ -171,7 +169,7 @@ describe ApplicationController do
       @controller.send(:get_context)
       @controller.instance_variable_get(:@context).should == @course
       I18n.set_locale_with_localizer # this is what t() triggers
-      I18n.locale.to_s.should == "ru"
+      I18n.locale.to_s.should == "zh"
     end
   end
 

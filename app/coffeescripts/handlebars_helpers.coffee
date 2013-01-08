@@ -6,12 +6,13 @@ define [
   'str/htmlEscape'
   'compiled/util/semanticDateRange'
   'compiled/util/dateSelect'
+  'compiled/util/mimeClass'
   'compiled/str/convertApiUserContent'
   'compiled/str/underscore'
   'jquery.instructure_date_and_time'
   'jquery.instructure_misc_helpers'
   'jquery.instructure_misc_plugins'
-], (Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, convertApiUserContent, underscore) ->
+], (Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, mimeClass, convertApiUserContent, underscore) ->
 
   Handlebars.registerHelper name, fn for name, fn of {
     t : (word, defaultValue, options) ->
@@ -62,7 +63,7 @@ define [
     tDateToString : (date = '', i18n_format) ->
       I18n.l("date.formats.#{i18n_format}", date)
 
-    mimeClass: (contentType) -> $.mimeClass(contentType)
+    mimeClass: mimeClass
 
     # use this method to process any user content fields returned in api responses
     # this is important to handle object/embed tags safely, and to properly display audio/video tags

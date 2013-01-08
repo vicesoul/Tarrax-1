@@ -809,4 +809,12 @@ module ApplicationHelper
     content_tag(:div, '', :id => 'kaltura-info', 'data-domain' => config['domain'], 'data-partner_id' => config['partner_id'],
       'data-player_ui_conf' => config['player_ui_conf'], 'style' => 'display: none;')
   end
+
+  def agree_to_terms
+    # may be overridden by a plugin
+    @agree_to_terms ||
+    t("#user.registration.agree_to_terms",
+      "You agree to the *terms of use*.",
+      :wrapper => link_to('\1', "http://www.instructure.com/terms-of-use", :target => "_new"))
+  end
 end

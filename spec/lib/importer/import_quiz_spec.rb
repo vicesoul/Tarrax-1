@@ -118,7 +118,7 @@ describe "Quiz Import" do
     question_data[:aq_data][data['questions'].first[:migration_id]]['question_name'] = "Not Rocket Bee?"
     Quiz.import_from_migration(data, context, question_data)
 
-    quiz.quiz_questions.first.question_data[:question_name].should == "Not Rocket Bee?"
+    quiz.quiz_questions.reload.first.question_data[:question_name].should == "Not Rocket Bee?"
   end
 
 end
