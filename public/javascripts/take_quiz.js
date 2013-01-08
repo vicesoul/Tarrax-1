@@ -388,6 +388,13 @@ define([
     });
 
     $("#submit_quiz_form").submit(function(event) {
+      $(".question_holder .paint_question canvas.paintQuestion").each(function(){
+        var data = $(this)[0].toDataURL();
+        var id = $(this).closest(".paint_question").attr("id");
+        $(' <input type="hidden" class="imageZ" > ').val(data).attr("name",id).prependTo("#submit_quiz_form");
+
+
+      });
       $(".question_holder textarea.question_input").each(function() { $(this).change(); });
       unanswered = $("#question_list .list_question:not(.answered)").length;
       if(unanswered && !quizSubmission.submitting) {
@@ -399,11 +406,7 @@ define([
         }
       }
 
-      $(".question_holder .paint_question canvas.paintQuestion").each(function(){
 
-        $(this)[0].toDataURL();
-
-      });
 
       quizSubmission.submitting = true;
     });
