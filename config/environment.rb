@@ -35,7 +35,6 @@ Rails::Initializer.run do |config|
   # Run "rake -D time" for a list of tasks for finding time zone names. Comment line to use default local time.
   #config.time_zone = 'UTC'
   config.time_zone = 'Beijing'
-  config.i18n.default_locale = 'zh-CN'
 
   if ENV['RUNNING_AS_DAEMON'] == 'true'
     config.log_path = Rails.root+'log/delayed_job.log'

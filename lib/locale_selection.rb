@@ -75,7 +75,7 @@ module LocaleSelection
   # there are other translations for that locale)
   def available_locales
     I18n.available_locales.inject({}) do |hash, locale|
-      name = I18n.send(:t, "locales", :locale => 'zh-CN')[locale]
+      name = I18n.send(:t, "locales", :locale => locale)[locale]
       hash[locale.to_s] = name if name
       hash
     end

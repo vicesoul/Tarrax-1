@@ -160,7 +160,7 @@ describe ApplicationController do
       @controller.send(:assign_localizer)
       I18n.set_locale_with_localizer # this is what t() triggers
       I18n.locale.to_s.should == "es"
-      course_model(:locale => "zh")
+      course_model(:locale => "ru")
       @controller.stubs(:named_context_url).with(@course, :context_url).returns('')
       @controller.stubs(:params).returns({ :course_id => @course.id })
       @controller.stubs(:api_request?).returns(false)
@@ -169,7 +169,7 @@ describe ApplicationController do
       @controller.send(:get_context)
       @controller.instance_variable_get(:@context).should == @course
       I18n.set_locale_with_localizer # this is what t() triggers
-      I18n.locale.to_s.should == "zh"
+      I18n.locale.to_s.should == "ru"
     end
   end
 
