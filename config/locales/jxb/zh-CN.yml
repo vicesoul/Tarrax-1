@@ -71,7 +71,7 @@ zh-CN:
     recent_event:
       due: 到期日
   jxb:
-    gradebook: 成绩
+    gradebook: 成绩册
     question_banks: 题库
   shared:
     new_course_form:
