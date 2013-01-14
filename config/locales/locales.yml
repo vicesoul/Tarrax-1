@@ -1,12 +1,18 @@
-#en:
-  #locales:
-    #en: English
-#es:
-  #locales:
-    #es: Español
-#ru:
-  #locales:
-    #ru: ру́сский
+en:
+  locales:
+    en: English
+es:
+  locales:
+    es: Español
+ru:
+  locales:
+    ru: pу́сский
+fr:
+  locales:
+    fr: Français [bêta]
 zh-CN:
   locales:
     zh-CN: 简体中文
+ar:
+  locales:
+    ar: العربية

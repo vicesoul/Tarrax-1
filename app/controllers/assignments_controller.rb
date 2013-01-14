@@ -19,6 +19,7 @@
 # @API Assignments
 class AssignmentsController < ApplicationController
   include Api::V1::Assignment
+  include Api::V1::Outcome
 
   include GoogleDocs
   before_filter :require_context
@@ -51,7 +52,7 @@ class AssignmentsController < ApplicationController
       end
     end
   end
-  
+
   def show
     @assignment ||= @context.assignments.find(params[:id])
     if @assignment.deleted?
@@ -62,7 +63,9 @@ class AssignmentsController < ApplicationController
       return
     end
     if authorized_action(@assignment, @current_user, :read)
+      @assignment = AssignmentOverrideApplicator.assignment_overridden_for(@assignment, @current_user)
       @context.require_assignment_group
+      js_env :ROOT_OUTCOME_GROUP => outcome_group_json(@context.root_outcome_group, @current_user, session)
       @assignment_groups = @context.assignment_groups.active
       if !@assignment.new_record? && !@assignment_groups.map(&:id).include?(@assignment.assignment_group_id)
         @assignment.assignment_group = @assignment_groups.first
@@ -88,7 +91,7 @@ class AssignmentsController < ApplicationController
         # TODO: make this happen asynchronously via ajax, and only if the user selects the google docs tab
         @google_docs = google_doc_list(nil, @assignment.allowed_extensions) rescue nil
       end
-      
+
       if @assignment.new_record?
         add_crumb(t('crumbs.new_assignment', "New Assignment"), request.url)
       else
@@ -114,11 +117,12 @@ class AssignmentsController < ApplicationController
   
   def rubric
     @assignment = @context.assignments.active.find(params[:assignment_id])
+    @root_outcome_group = outcome_group_json(@context.root_outcome_group, @current_user, session).to_json
     if authorized_action(@assignment, @current_user, :read)
       render :partial => 'shared/assignment_rubric_dialog'
     end
   end
-  
+
   def assign_peer_reviews
     @assignment = @context.assignments.active.find(params[:assignment_id])
     if authorized_action(@assignment, @current_user, :grade)
@@ -243,6 +247,7 @@ class AssignmentsController < ApplicationController
     group = get_assignment_group(params[:assignment])
     @assignment ||= @context.assignments.build(params[:assignment])
     @assignment.workflow_state = "available"
+    @assignment.updating_user = @current_user
     @assignment.content_being_saved_by(@current_user)
     @assignment.assignment_group = group if group
     # if no due_at was given, set it to 11:59 pm in the creator's time zone
@@ -316,6 +321,7 @@ class AssignmentsController < ApplicationController
         @assignment.assignment_group = group if group
         if @assignment.update_attributes(params[:assignment])
           log_asset_access(@assignment, "assignments", @assignment_group, 'participate')
+          generate_new_page_view
           @assignment.context_module_action(@current_user, :contributed)
           @assignment.reload
           flash[:notice] = t 'notices.updated', "Assignment was successfully updated."

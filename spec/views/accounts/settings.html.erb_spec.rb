@@ -93,6 +93,8 @@ describe "accounts/settings.html.erb" do
       view_context(@account, admin)
       render
       response.should have_tag("input#account_settings_global_includes")
+      #response.should have_tag("input#account_settings_enable_scheduler")
+      #response.should have_tag("input#account_settings_show_scheduler")
       response.should have_tag("input#account_settings_enable_profiles")
     end
 
@@ -101,7 +103,8 @@ describe "accounts/settings.html.erb" do
       view_context(@account, admin)
       render
       response.should_not have_tag("input#account_settings_global_includes")
-      response.should_not have_tag("input#account_settings_enable_scheduler")
+      #response.should_not have_tag("input#account_settings_enable_scheduler")
+      #response.should_not have_tag("input#account_settings_show_scheduler")
       response.should_not have_tag("input#account_settings_enable_profiles")
     end
   end

@@ -16,7 +16,8 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + '/../sharding_spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + '/../cassandra_spec_helper.rb')
 
 describe PageView do
   before do
@@ -25,11 +26,152 @@ describe PageView do
     @page_view = PageView.new { |p| p.send(:attributes=, { :url => "http://test.one/", :session_id => "phony", :context => @course, :controller => 'courses', :action => 'show', :user_request => true, :render_time => 0.01, :user_agent => 'None', :account_id => Account.default.id, :request_id => "abcde", :interaction_seconds => 5, :user => @user }, false) }
   end
 
+  describe "sharding" do
+      it_should_behave_like "sharding"
+
+      it "should not assign the default shard" do
+        PageView.new.shard.should == Shard.default
+        @shard1.activate do
+          PageView.new.shard.should == @shard1
+        end
+      end
+  end
+
+  describe "cassandra page views" do
+    it_should_behave_like "cassandra page views"
+    it "should store and load from cassandra" do
+      expect {
+        @page_view.save!
+      }.to change { PageView.cassandra.execute("select count(*) from page_views").fetch_row["count"] }.by(1)
+      PageView.find(@page_view.id).should == @page_view
+      expect { PageView.find("junk") }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    describe "sharding" do
+      it_should_behave_like "sharding"
+
+      it "should always assign the default shard" do
+        PageView.new.shard.should == Shard.default
+        pv = nil
+        @shard1.activate do
+          pv = page_view_model
+          pv.shard.should == Shard.default
+          pv.save!
+          pv = PageView.find(pv.request_id)
+          pv.should be_present
+          pv.shard.should == Shard.default
+        end
+        pv = PageView.find(pv.request_id)
+        pv.should be_present
+        pv.shard.should == Shard.default
+        pv.interaction_seconds = 25
+        pv.save!
+        pv = PageView.find(pv.request_id)
+        pv.interaction_seconds.should == 25
+        @shard2.settings[:page_view_method] = :cache
+        @shard2.save
+        @shard2.activate do
+          pv = page_view_model
+          pv.shard.should == @shard2
+          pv.save!
+        end
+        @shard2.activate do
+          PageView.find(pv.request_id).should be_present
+        end
+        # can't find in cassandra
+        expect { PageView.find(pv.request_id) }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    it "should paginate with a willpaginate-like array" do
+      # some page views we shouldn't find
+      page_view_model(:user => user_model)
+      page_view_model(:user => user_model)
+
+      user_model
+      pvs = []
+      4.times { |i| pvs << page_view_model(:user => @user, :created_at => (5 - i).weeks.ago) }
+      pager = @user.page_views
+      pager.should be_a PaginatedCollection::Proxy
+      expect { pager.paginate() }.to raise_exception(ArgumentError)
+      full = pager.paginate(:per_page => 4)
+      full.size.should == 4
+      full.next_page.should be_nil
+
+      half = pager.paginate(:per_page => 2)
+      half.should == full[0,2]
+      half.next_page.should be_present
+
+      second_half = pager.paginate(:per_page => 2, :page => half.next_page)
+      second_half.should == full[2,2]
+      second_half.next_page.should be_nil
+    end
+
+    it "should halt pagination after a set time period" do
+      p1 = page_view_model(:user => @user)
+      p2 = page_view_model(:user => @user, :created_at => 13.months.ago)
+      coll = @user.page_views.paginate(:per_page => 3)
+      coll.should == [p1]
+      coll.next_page.should be_blank
+    end
+
+    it "should ignore an invalid page" do
+      @page_view.save!
+      @user.page_views.paginate(:per_page => 2, :page => '3').should == [@page_view]
+    end
+
+    describe "db migrator" do
+      it "should migrate the relevant page views" do
+        a1 = account_model
+        a2 = account_model
+        a3 = account_model
+        Setting.set('enable_page_views', 'db')
+        moved = (0..1).map { page_view_model(:account => a1, :created_at => 1.day.ago) }
+        moved_a3 = page_view_model(:account => a3, :created_at => 4.hours.ago)
+        # this one is more recent in time and will be processed last
+        moved_later = page_view_model(:account => a1, :created_at => 2.hours.ago)
+        # this one is in a deleted account
+        deleted = page_view_model(:account => a2, :created_at => 2.hours.ago)
+        a2.destroy
+        # too far back
+        old = page_view_model(:account => a1, :created_at => 13.months.ago)
+
+        Setting.set('enable_page_views', 'cassandra')
+        migrator = PageView::CassandraMigrator.new
+        PageView.find(moved.map(&:request_id)).size.should == 0
+        migrator.run_once(2)
+        PageView.find(moved.map(&:request_id)).size.should == 2
+        # should migrate all active accounts
+        PageView.find(moved_a3.request_id).request_id.should == moved_a3.request_id
+        expect { PageView.find(moved_later.request_id) }.to raise_error(ActiveRecord::RecordNotFound)
+        # it should resume where the last migrator left off
+        migrator = PageView::CassandraMigrator.new
+        migrator.run_once(2)
+        PageView.find(moved.map(&:request_id) + [moved_later.request_id]).size.should == 3
+
+        expect { PageView.find(deleted.request_id) }.to raise_error(ActiveRecord::RecordNotFound)
+        expect { PageView.find(old.request_id) }.to raise_error(ActiveRecord::RecordNotFound)
+
+        # running again should migrate new page views as time advances
+        Setting.set('enable_page_views', 'db')
+        # shouldn't actually happen, but create an older page view to verify
+        # we're not migrating old page views again
+        not_moved = page_view_model(:account => a1, :created_at => 1.day.ago)
+        newly_moved = page_view_model(:account => a1, :created_at => 1.hour.ago)
+        Setting.set('enable_page_views', 'cassandra')
+        migrator = PageView::CassandraMigrator.new
+        migrator.run_once(2)
+        expect { PageView.find(not_moved.request_id) }.to raise_error(ActiveRecord::RecordNotFound)
+        PageView.find(newly_moved.request_id).request_id.should == newly_moved.request_id
+      end
+    end
+  end
+
   it "should store directly to the db in db mode" do
     Setting.set('enable_page_views', 'db')
     @page_view.store.should be_true
     PageView.count.should == 1
-    PageView.first.should == @page_view
+    PageView.find(@page_view.id).should == @page_view
   end
 
   if Canvas.redis_enabled?
@@ -42,7 +184,7 @@ describe PageView do
       PageView.count.should == 0
       PageView.process_cache_queue
       PageView.count.should == 1
-      PageView.first.attributes.except('created_at', 'updated_at', 'summarized').should == @page_view.attributes.except('created_at', 'updated_at', 'summarized')
+      PageView.find(@page_view.id).attributes.except('created_at', 'updated_at', 'summarized').should == @page_view.attributes.except('created_at', 'updated_at', 'summarized')
     end
 
     it "should store into redis in transactional batches" do
@@ -54,15 +196,6 @@ describe PageView do
       PageView.expects(:transaction).at_least(5).yields # 5 times, because 2 outermost transactions, then rails starts a "transaction" for each save (which runs as a no-op, since we're already in a transaction)
       PageView.process_cache_queue
       PageView.count.should == 3
-    end
-
-    it "should store directly to the db if redis is down" do
-      Canvas::Redis.patch
-      Redis::Client.any_instance.expects(:ensure_connected).raises(Redis::TimeoutError)
-      @page_view.store.should be_true
-      PageView.count.should == 1
-      PageView.first.attributes.except('created_at', 'updated_at').should == @page_view.attributes.except('created_at', 'updated_at')
-      Canvas::Redis.reset_redis_failure
     end
 
     describe "batch transaction" do
@@ -129,5 +262,52 @@ describe PageView do
         Canvas.redis.smembers(PageView.user_count_bucket_for_time(store_time_2)).should == [@user2.global_id.to_s]
       end
     end
+  end
+
+  describe "for_users" do
+    before :each do
+      @page_view.save!
+    end
+
+    it "should work with User objects" do
+      PageView.for_users([@user]).should == [@page_view]
+      PageView.for_users([User.create!]).should == []
+    end
+
+    it "should work with a User ids" do
+      PageView.for_users([@user.id]).should == [@page_view]
+      PageView.for_users([@user.id + 1]).should == []
+    end
+
+    it "should with with an empty list" do
+      PageView.for_users([]).should == []
+    end
+  end
+
+  describe '.generate' do
+    let(:params) { {'action' => 'path', 'controller' => 'some'} }
+    let(:headers) { {'User-Agent' => 'Mozilla'} }
+    let(:session) { {:id => 42} }
+    let(:request) { stub(:url => 'host.com/some/path', :path_parameters => params, :headers => headers, :session_options => session, :method => :get) }
+    let(:user) { User.new }
+    let(:attributes) { {:real_user => user, :user => user } }
+
+    before { RequestContextGenerator.stubs( :request_id => 9 ) }
+    after { RequestContextGenerator.unstub :request_id }
+
+    subject { PageView.generate(request, attributes) }
+
+    its(:url) { should == request.url }
+    its(:user) { should == user }
+    its(:controller) { should == params['controller'] }
+    its(:action) { should == params['action'] }
+    its(:session_id) { should == session[:id] }
+    its(:real_user) { should == user }
+    its(:user_agent) { should == headers['User-Agent'] }
+    its(:interaction_seconds) { should == 5 }
+    its(:created_at) { should_not be_nil }
+    its(:updated_at) { should_not be_nil }
+    its(:http_method) { should == 'get' }
+
   end
 end

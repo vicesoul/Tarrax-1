@@ -28,7 +28,7 @@
       <a href="#" class="next"><%= t('links.next', "Next") %></a>
       <div id='x_of_x_students'>
         (<%= t(:student_index_of_total, "student %{index} of %{total_students}", :index => raw('<span>???</span>'), :total_students => @assignment.context.students_visible_to(@current_user).uniq.count) %>)<br />
-        <a href="<%= context_url(@context, :context_gradebook_url) %>#assignment/<%= @assignment.id %>"><%= t('links.gradebook', "Gradebook") %></a> | 
+        <a href="<%= gradebook_url_for(@current_user, @context, @assignment) %>"><%= t('links.gradebook', "Gradebook") %></a> | 
         <a href="<%= context_url(@context, :context_url) %>"><%= t('links.course_home', "Course Home") %></a>
       </div>
     </div>
@@ -56,6 +56,10 @@
 <div id="full_width_container" style="display:none;">
   <div id="left_side" class="full_height">
     <div id="left_side_inner">
+      <div id="no_annotation_warning" class="alert">
+        <a id="hide_no_annotation_warning" href="#" class="close">×</a>
+        <%= t :no_annotation, "Annotations are not available for this document" %>
+      </div>
       <div id='submissions_container'>
         <div id="this_student_does_not_have_a_submission">
           <h3><%= t('headers.no_submission', "This student does not have a submission for this assignment") %></h3>
@@ -114,7 +118,7 @@
             <%= render :partial => "shared/rubric", :object => @assignment.try_rescue(:rubric_association).try_rescue(:rubric), :locals => {:assessing => true, :rubric_association => @assignment.rubric_association } if @assignment.try_rescue(:rubric_association).try_rescue(:rubric) %>
             <div class="button-container">
               <% if @assignment.rubric_association && can_do(@assignment.rubric_association, @current_user, :assess) %>
-                <button type="button" class="save_rubric_button button"><%= t('buttons.save', "Save") %></button>
+                <button type="button" class="save_rubric_button btn"><%= t('buttons.save', "Save") %></button>
               <% end %>
               <button type="button" class="hide_rubric_link button-secondary"><%= t('#buttons.cancel', "Cancel") %></button>
             </div>
@@ -207,7 +211,7 @@
                 </div>
 
 
-                <button class="button small-button" type="submit"><%= t('buttons.submit_comment', "Submit Comment") %></button>
+                <button class="btn btn-small" type="submit"><%= t('buttons.submit_comment', "Submit Comment") %></button>
                 <ul class="attach_things">
                   <li class="prompt"><%= t(:attach, "Attach") %></li>
                   <li>
@@ -262,9 +266,10 @@
     <input type="checkbox" id="hide_student_names" name="hide_student_names"/>
     <label for="hide_student_names"><%= t('labels.hide_names', "Hide student names in the SpeedGrader") %></label>
   </p>
-  <p>
-    <button type="submit" class="button submit_button"><%= t('buttons.save_settings', "Save Settings") %></button>
-  </p>
+  <div class="button-container">
+    <button class="btn dialog_closer"><%= t('#buttons.cancel', "Cancel") %></button>
+    <button type="submit" class="btn btn-primary submit_button"><%= t('buttons.save_settings', "Save Settings") %></button>
+  </div>
 </form>
 <%= render :partial => "shared/mute_dialog" %>
 <ul id="section-menu" class="ui-selectmenu-menu ui-widget ui-widget-content ui-selectmenu-menu-dropdown ui-selectmenu-open" style="display:none;" role="listbox" aria-activedescendant="section-menu-link">

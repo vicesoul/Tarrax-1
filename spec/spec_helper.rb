@@ -27,16 +27,8 @@ require File.dirname(__FILE__) + '/mocha_extensions'
 
 Dir.glob("#{File.dirname(__FILE__).gsub(/\\/, "/")}/factories/*.rb").each { |file| require file }
 
-ALL_MODELS = (ActiveRecord::Base.send(:subclasses) +
-    Dir["#{RAILS_ROOT}/app/models/*", "#{RAILS_ROOT}/vendor/plugins/*/app/models/*"].collect { |file|
-      model = File.basename(file, ".*").camelize.constantize
-      next unless model < ActiveRecord::Base
-      model
-    }).compact.uniq.reject { |model| model.superclass != ActiveRecord::Base || (model.respond_to?(:tableless?) && model.tableless?) }
-ALL_MODELS << Version
-ALL_MODELS << Delayed::Backend::ActiveRecord::Job::Failed
-ALL_MODELS << Delayed::Backend::ActiveRecord::Job
-
+# deprecated
+ALL_MODELS = ActiveRecord::Base.all_models
 
 # rspec aliases :describe to :context in a way that it's pretty much defined
 # globally on every object. :context is already heavily used in our application,
@@ -69,12 +61,21 @@ def truncate_table(model)
 end
 
 def truncate_all_tables
-  models_by_connection = ALL_MODELS.group_by { |m| m.connection }
+  models_by_connection = ActiveRecord::Base.all_models.group_by { |m| m.connection }
   models_by_connection.each do |connection, models|
     if connection.adapter_name == "PostgreSQL"
       connection.execute("TRUNCATE TABLE #{models.map(&:table_name).map { |t| connection.quote_table_name(t) }.join(',')}")
     else
       models.each { |model| truncate_table(model) }
+    end
+  end
+end
+
+def truncate_all_cassandra_tables
+  Canvas::Cassandra::Database.config_names.each do |cass_config|
+    db = Canvas::Cassandra::Database.from_config(cass_config)
+    db.keyspace_information.tables.each do |table|
+      db.execute("TRUNCATE #{table}")
     end
   end
 end
@@ -131,7 +132,9 @@ Spec::Runner.configure do |config|
     Notification.reset_cache!
     ActiveRecord::Base.reset_any_instantiation!
     Attachment.clear_cached_mime_ids
+    RoleOverride.clear_cached_contexts
     Delayed::Job.redis.flushdb if Delayed::Job == Delayed::Backend::Redis::Job
+    truncate_all_cassandra_tables
     Rails::logger.try(:info, "Running #{self.class.description} #{@method_name}")
   end
 
@@ -198,6 +201,7 @@ Spec::Runner.configure do |config|
         account.role_overrides.create(:permission => permission.to_s, :enrollment_type => opts[:membership_type] || 'AccountAdmin', :enabled => enabled)
       end
     end
+    RoleOverride.clear_cached_contexts
     account_admin_user(opts)
   end
 
@@ -508,9 +512,9 @@ Spec::Runner.configure do |config|
   end
 
   def outcome_with_rubric(opts={})
-    @outcome_group ||= LearningOutcomeGroup.default_for(@course)
+    @outcome_group ||= @course.root_outcome_group
     @outcome = @course.created_learning_outcomes.create!(:description => '<p>This is <b>awesome</b>.</p>', :short_description => 'new outcome')
-    @outcome_group.add_item(@outcome)
+    @outcome_group.add_outcome(@outcome)
     @outcome_group.save!
 
     @rubric = Rubric.generate(:context => @course,
@@ -556,13 +560,15 @@ Spec::Runner.configure do |config|
                                       }
                                   }
                               })
-    @rubric.instance_variable_set('@outcomes_changed', true)
+    @rubric.instance_variable_set('@alignments_changed', true)
     @rubric.save!
-    @rubric.update_outcome_tags
+    @rubric.update_alignments
   end
 
-  def grading_standard_for(context)
-    @standard = context.grading_standards.create!(:title => "My Grading Standard", :standard_data => {
+  def grading_standard_for(context, opts={})
+    @standard = context.grading_standards.create!(
+      :title => opts[:title] || "My Grading Standard",
+      :standard_data => {
         "scheme_0" => {:name => "A", :value => "0.9"},
         "scheme_1" => {:name => "B", :value => "0.8"},
         "scheme_2" => {:name => "C", :value => "0.7"}
@@ -821,6 +827,13 @@ Spec::Runner.configure do |config|
   def run_transaction_commit_callbacks(conn = ActiveRecord::Base.connection)
     conn.after_transaction_commit_callbacks.each { |cb| cb.call }
     conn.after_transaction_commit_callbacks.clear
+  end
+
+  def force_string_encoding(str, encoding = "UTF-8")
+    if str.respond_to?(:force_encoding)
+      str.force_encoding(encoding)
+    end
+    str
   end
 
   def verify_post_matches(post_lines, expected_post_lines)

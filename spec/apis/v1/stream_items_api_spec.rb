@@ -145,6 +145,27 @@ describe UsersController, :type => :integration do
           ]
   end
 
+  it "should translate user content in discussion topic" do
+    should_translate_user_content(@course) do |user_content|
+      @context = @course
+      discussion_topic_model(:message => user_content)
+      json = api_call(:get, "/api/v1/users/activity_stream.json",
+                      { :controller => "users", :action => "activity_stream", :format => 'json' })
+      json.first['message']
+    end
+  end
+
+  it "should translate user content in discussion entry" do
+    should_translate_user_content(@course) do |user_content|
+      @context = @course
+      discussion_topic_model
+      @topic.reply_from(:user => @user, :html => user_content)
+      json = api_call(:get, "/api/v1/users/activity_stream.json",
+                      { :controller => "users", :action => "activity_stream", :format => 'json' })
+      json.first['root_discussion_entries'].first['message']
+    end
+  end
+
   it "should format Announcement" do
     @context = @course
     announcement_model
@@ -173,6 +194,27 @@ describe UsersController, :type => :integration do
       ],
       'course_id' => @course.id,
     }]
+  end
+
+  it "should translate user content in announcement messages" do
+    should_translate_user_content(@course) do |user_content|
+      @context = @course
+      announcement_model(:message => user_content)
+      json = api_call(:get, "/api/v1/users/activity_stream.json",
+                      { :controller => "users", :action => "activity_stream", :format => 'json' })
+      json.first['message']
+    end
+  end
+
+  it "should translate user content in announcement discussion entries" do
+    should_translate_user_content(@course) do |user_content|
+      @context = @course
+      announcement_model
+      @a.reply_from(:user => @user, :html => user_content)
+      json = api_call(:get, "/api/v1/users/activity_stream.json",
+                      { :controller => "users", :action => "activity_stream", :format => 'json' })
+      json.first['root_discussion_entries'].first['message']
+    end
   end
 
   it "should format Conversation" do
@@ -221,7 +263,7 @@ describe UsersController, :type => :integration do
     @assignment = @course.assignments.create!(:title => 'assignment 1', :description => 'hai', :points_possible => '14.2', :submission_types => 'online_text_entry')
     @teacher = User.create!(:name => 'teacher')
     @course.enroll_teacher(@teacher)
-    @sub = @assignment.grade_student(@user, { :grade => '12' }).first
+    @sub = @assignment.grade_student(@user, { :grade => '12', :grader => @teacher}).first
     @sub.workflow_state = 'submitted'
     @sub.submission_comments.create!(:comment => 'c1', :author => @teacher, :recipient_id => @user.id)
     @sub.submission_comments.create!(:comment => 'c2', :author => @user, :recipient_id => @teacher.id)
@@ -237,6 +279,7 @@ describe UsersController, :type => :integration do
       'created_at' => StreamItem.last.created_at.as_json,
       'updated_at' => StreamItem.last.updated_at.as_json,
       'grade' => '12',
+      'grader_id' => @teacher.id,
       'score' => 12,
       'html_url' => "http://www.example.com/courses/#{@course.id}/assignments/#{@assignment.id}/submissions/#{@user.id}",
       'workflow_state' => 'graded',
@@ -293,6 +336,7 @@ describe UsersController, :type => :integration do
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course.uuid}.ics" },
         'hide_final_grades' => false,
         'html_url' => course_url(@course, :host => HostUrl.context_host(@course)),
+        'default_view' => 'feed'
       },
 
       'user' => {
@@ -323,6 +367,7 @@ describe UsersController, :type => :integration do
       'created_at' => StreamItem.last.created_at.as_json,
       'updated_at' => StreamItem.last.updated_at.as_json,
       'grade' => nil,
+      'grader_id' => nil,
       'score' => nil,
       'html_url' => "http://www.example.com/courses/#{@course.id}/assignments/#{@assignment.id}/submissions/#{@user.id}",
       'workflow_state' => 'unsubmitted',
@@ -379,6 +424,7 @@ describe UsersController, :type => :integration do
         'calendar' => { 'ics' => "http://www.example.com/feeds/calendars/course_#{@course.uuid}.ics" },
         'hide_final_grades' => false,
         'html_url' => course_url(@course, :host => HostUrl.context_host(@course)),
+        'default_view' => 'feed'
       },
 
       'user' => {

@@ -1,3 +1,21 @@
+#
+# Copyright (C) 2012 Instructure, Inc.
+#
+# This file is part of Canvas.
+#
+# Canvas is free software: you can redistribute it and/or modify it under
+# the terms of the GNU Affero General Public License as published by the Free
+# Software Foundation, version 3 of the License.
+#
+# Canvas is distributed in the hope that it will be useful, but WITHOUT ANY
+# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+# A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
+# details.
+#
+# You should have received a copy of the GNU Affero General Public License along
+# with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+
 define [
   'Backbone'
   'underscore'
@@ -32,7 +50,8 @@ define [
     ##
     # options.page: 'next', 'prev', 'first', 'last', 'top', 'bottom'
     fetch: (options = {}) ->
-      @["fetching#{capitalize options.page}Page"] = true
+      exclusionFlag = "fetching#{capitalize options.page}Page"
+      @[exclusionFlag] = true
       if options.page?
         options.url = @urls[options.page] if @urls?
         options.add = true unless options.add?
@@ -42,10 +61,10 @@ define [
       @trigger 'beforeFetch', this, options
       @trigger "beforeFetch:#{options.page}", this, options if options.page?
       super(options).done (response, text, xhr) =>
-        @["fetching#{capitalize options.page}Page"] = false
-        @fetchingNextPage = false
+        @[exclusionFlag] = false
         @trigger 'fetch', this, response, options
         @trigger "fetch:#{options.page}", this, response, options if options.page?
+        @trigger 'fetched:last', arguments... unless @urls.next
 
     canFetch: (page) ->
       @urls? and @urls[page]?

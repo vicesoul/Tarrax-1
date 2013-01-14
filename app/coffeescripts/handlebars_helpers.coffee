@@ -1,5 +1,4 @@
 define [
-  'ENV'
   'vendor/handlebars.vm'
   'i18nObj'
   'jquery'
@@ -7,12 +6,13 @@ define [
   'str/htmlEscape'
   'compiled/util/semanticDateRange'
   'compiled/util/dateSelect'
+  'compiled/util/mimeClass'
   'compiled/str/convertApiUserContent'
   'compiled/str/underscore'
   'jquery.instructure_date_and_time'
   'jquery.instructure_misc_helpers'
   'jquery.instructure_misc_plugins'
-], (ENV, Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, convertApiUserContent, underscore) ->
+], (Handlebars, I18n, $, _, htmlEscape, semanticDateRange, dateSelect, mimeClass, convertApiUserContent, underscore) ->
 
   Handlebars.registerHelper name, fn for name, fn of {
     t : (word, defaultValue, options) ->
@@ -59,7 +59,11 @@ define [
     dateToString : (date = '', format) ->
       date.toString(format)
 
-    mimeClass: (contentType) -> $.mimeClass(contentType)
+    # convert a date to a string, using the given i18n format in the date.formats namespace
+    tDateToString : (date = '', i18n_format) ->
+      I18n.l("date.formats.#{i18n_format}", date)
+
+    mimeClass: mimeClass
 
     # use this method to process any user content fields returned in api responses
     # this is important to handle object/embed tags safely, and to properly display audio/video tags
@@ -109,6 +113,9 @@ define [
         return fn(this) if arg
       inverse(this)
 
+    # {{#eachWithIndex records}}
+    #   <li class="legend_item{{_index}}"><span></span>{{Name}}</li>
+    # {{/each_with_index}}
     eachWithIndex: (context, options) ->
       fn = options.fn
       inverse = options.inverse

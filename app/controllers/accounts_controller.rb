@@ -36,7 +36,7 @@ class AccountsController < ApplicationController
         # TODO: what would be more useful, include sub-accounts here
         # that you implicitly have access to, or have a separate method
         # to get the sub-accounts of an account?
-        @accounts = Api.paginate(@accounts, self, api_v1_accounts_path)
+        @accounts = Api.paginate(@accounts, self, api_v1_accounts_url)
         render :json => @accounts.map { |a| account_json(a, @current_user, session, []) }
       end
     end
@@ -65,20 +65,49 @@ class AccountsController < ApplicationController
   # @API List active courses in an account
   # Retrieve the list of courses in this account.
   #
-  # @argument hide_enrollmentless_courses [optional] If set, only return courses that have at least one enrollment.
-  # @argument state[] [optional] If set, only return courses that are in the given state[s]. Valid states are "created," "claimed," "available," "completed," and "deleted." By default, all states but "deleted" are returned.
+  # @argument with_enrollments [optional] If true, include only courses with at least one enrollment.  If false, include only courses with no enrollments.  If not present, do not filter on course enrollment status.
+  # @argument published [optional] If true, include only published courses.  If false, exclude published courses.  If not present, do not filter on published status.
+  # @argument completed [optional] If true, include only completed courses (these may be in state 'completed', or their enrollment term may have ended).  If false, exclude completed courses.  If not present, do not filter on completed status.
+  # @argument by_teachers[] [optional] List of User IDs of teachers; if supplied, include only courses taught by one of the referenced users.
+  # @argument by_subaccounts[] [optional] List of Account IDs; if supplied, include only courses associated with one of the referenced subaccounts.
+  # @argument hide_enrollmentless_courses [optional] If present, only return courses that have at least one enrollment.  Equivalent to 'with_enrollments=true'; retained for compatibility.
+  # @argument state[] [optional] If set, only return courses that are in the given state(s). Valid states are "created," "claimed," "available," "completed," and "deleted." By default, all states but "deleted" are returned.
   #
-  # @example_response
-  #   [ { 'id': 1, 'name': 'first course', 'course_code': 'first', 'sis_course_id': 'first-sis' },
-  #     { 'id': 2, 'name': 'second course', 'course_code': 'second', 'sis_course_id': null } ]
+  # @returns [Course]
   def courses_api
     return unless authorized_action(@account, @current_user, :read)
 
     params[:state] ||= %w{created claimed available completed}
+    if value_to_boolean(params[:published])
+      params[:state] -= %w{created claimed completed deleted}
+    elsif !params[:published].nil? && !value_to_boolean(params[:published])
+      params[:state] -= %w{available}
+    end
 
     @courses = @account.associated_courses.scoped(:conditions => { :workflow_state => params[:state] })
-    @courses = @courses.with_enrollments if params[:hide_enrollmentless_courses]
-    @courses = Api.paginate(@courses, self, api_v1_account_courses_path, :order => :id)
+    if params[:hide_enrollmentless_courses] || value_to_boolean(params[:with_enrollments])
+      @courses = @courses.with_enrollments
+    elsif !params[:with_enrollments].nil? && !value_to_boolean(params[:with_enrollments])
+      @courses = @courses.without_enrollments
+    end
+
+    if value_to_boolean(params[:completed])
+      @courses = @courses.completed
+    elsif !params[:completed].nil? && !value_to_boolean(params[:completed])
+      @courses = @courses.not_completed
+    end
+
+    if params[:by_teachers].is_a?(Array)
+      teacher_ids = Api.map_ids(params[:by_teachers], User, @domain_root_account).map(&:to_i)
+      @courses = @courses.by_teachers(teacher_ids)
+    end
+
+    if params[:by_subaccounts].is_a?(Array)
+      account_ids = Api.map_ids(params[:by_subaccounts], Account, @domain_root_account).map(&:to_i)
+      @courses = @courses.by_associated_accounts(account_ids)
+    end
+
+    @courses = Api.paginate(@courses, self, api_v1_account_courses_url, :order => :id)
 
     render :json => @courses.map { |c| course_json(c, @current_user, session, [], nil) }
   end
@@ -108,6 +137,12 @@ class AccountsController < ApplicationController
           params[:account].delete :services
         end
         if Account.site_admin.grants_right?(@current_user, :manage_site_settings)
+          # If the setting is present (update is called from 2 different settings forms, one for notifications)
+          if params[:account][:settings] && params[:account][:settings][:outgoing_email_default_name_option].present?
+            # If set to default, remove the custom name so it doesn't get saved
+            params[:account][:settings][:outgoing_email_default_name] = '' if params[:account][:settings][:outgoing_email_default_name_option] == 'default'
+          end
+
           @account.enable_user_notes = enable_user_notes if enable_user_notes
           @account.allow_sis_import = allow_sis_import if allow_sis_import && @account.root_account?
           if @account.site_admin? && params[:account][:settings]
@@ -122,6 +157,7 @@ class AccountsController < ApplicationController
             :enable_eportfolios,
             :enable_profiles,
             :enable_scheduler,
+            :show_scheduler,
             :global_includes,
           ].each do |key|
             params[:account][:settings].try(:delete, key)
@@ -162,7 +198,7 @@ class AccountsController < ApplicationController
       load_course_right_side
       @account_users = @account.account_users
       order_hash = {}
-      (['AccountAdmin'] + @account.account_membership_types).each_with_index do |type, idx|
+      @account.available_account_roles.each_with_index do |type, idx|
         order_hash[type] = idx
       end
       @account_users = @account_users.select(&:user).sort_by{|au| [order_hash[au.membership_type] || 999, au.user.sortable_name.downcase] }
@@ -362,7 +398,9 @@ class AccountsController < ApplicationController
   # AdminsController. see https://redmine.instructure.com/issues/6634
   def add_account_user
     if authorized_action(@context, @current_user, :manage_account_memberships)
-      list = UserList.new(params[:user_list], @context.root_account, @context.user_list_search_mode_for(@current_user))
+      list = UserList.new(params[:user_list],
+                          :root_account => @context.root_account,
+                          :search_method => @context.user_list_search_mode_for(@current_user))
       users = list.users
       account_users = users.map do |user|
         admin = user.flag_as_admin(@context, params[:membership_type])

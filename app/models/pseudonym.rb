@@ -41,6 +41,8 @@ class Pseudonym < ActiveRecord::Base
   after_save :update_passwords_on_related_pseudonyms
   after_save :update_account_associations_if_account_changed
   has_a_broadcast_policy
+
+  alias_method :context, :account
   
   include StickySisFields
   are_sis_sticky :unique_id
@@ -190,7 +192,7 @@ class Pseudonym < ActiveRecord::Base
   def validate_unique_id
     if (!self.account || self.account.email_pseudonyms) && !self.deleted?
       unless self.unique_id.match(/\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i)
-        self.errors.add(:unique_id, t('errors.invalid_email_address', "\"%{email}\" is not a valid email address", :email => self.unique_id))
+        self.errors.add(:unique_id, "not_email")
         return false
       end
     end
@@ -375,7 +377,6 @@ class Pseudonym < ActiveRecord::Base
     {:conditions => {:account_id => account.id, :unique_id => unique_ids}, :order => :unique_id}
   }
   named_scope :active, :conditions => ['pseudonyms.workflow_state IS NULL OR pseudonyms.workflow_state != ?', 'deleted']
-  named_scope :trusted_by_including_self, lambda { |account| {} }
 
   def self.serialization_excludes; [:crypted_password, :password_salt, :reset_password_token, :persistence_token, :single_access_token, :perishable_token, :sis_ssha]; end
 

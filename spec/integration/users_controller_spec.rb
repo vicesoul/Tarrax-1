@@ -212,17 +212,15 @@ describe UsersController do
         diff = data.select{|k,v|k =~ /avatar_img/}.size - orig_size
         diff.should > 0
 
-        expect {
-          @user.update_attribute(:avatar_image, {'type' => 'attachment', 'url' => '/images/thumbnails/foo.gif'})
-        }.to change(data, :size).by(-diff)
+        @user.update_attribute(:avatar_image, {'type' => 'attachment', 'url' => '/images/thumbnails/foo.gif'})
+        data.select{|k,v|k =~ /avatar_img/}.size.should == orig_size
 
-        expect {
-          get "http://someschool.instructure.com/images/users/#{User.avatar_key(@user.id)}"
-          response.should redirect_to "http://someschool.instructure.com/images/thumbnails/foo.gif"
+        get "http://someschool.instructure.com/images/users/#{User.avatar_key(@user.id)}"
+        response.should redirect_to "http://someschool.instructure.com/images/thumbnails/foo.gif"
 
-          get "http://otherschool.instructure.com/images/users/#{User.avatar_key(@user.id)}?fallback=#{CGI::escape("https://test.domain/my/custom/fallback/url.png")}"
-          response.should redirect_to "http://otherschool.instructure.com/images/thumbnails/foo.gif"
-        }.to change(data, :size).by(diff)
+        get "http://otherschool.instructure.com/images/users/#{User.avatar_key(@user.id)}?fallback=#{CGI::escape("https://test.domain/my/custom/fallback/url.png")}"
+        response.should redirect_to "http://otherschool.instructure.com/images/thumbnails/foo.gif"
+        data.select{|k,v|k =~ /avatar_img/}.size.should == orig_size + diff
       end
     end
   end
@@ -240,6 +238,39 @@ describe UsersController do
       student_grades.length.should == 2
       student_grades.text.should match /#{@first_course.name}/
       student_grades.text.should match /#{@course.name}/
+    end
+  end
+
+  describe "admin_merge" do
+    it "should work for the whole flow" do
+      user_with_pseudonym(:active_all => 1)
+      Account.default.add_user(@user)
+      @admin = @user
+      user_with_pseudonym(:active_all => 1, :username => 'user2@instructure.com')
+      user_session(@admin)
+
+      get user_admin_merge_url(@user, :pending_user_id => @admin.id)
+      response.should be_success
+      assigns['pending_other_user'].should == @admin
+      assigns['other_user'].should be_nil
+      session[:pending_user_id].should be_nil
+      session[:merge_user_id].should be_nil
+
+      get user_admin_merge_url(@user, :new_user_id => @admin.id)
+      response.should be_success
+      assigns['pending_other_user'].should be_nil
+      assigns['other_user'].should == @admin
+      session[:pending_user_id].should be_nil
+      session[:merge_user_id].should == @user.id
+
+      post user_merge_url(@user, :new_user_id => @admin.id)
+      response.should redirect_to(user_profile_url(@admin))
+
+      session[:pending_user_id].should be_nil
+      session[:merge_user_id].should be_nil
+      @user.reload.should be_deleted
+      @admin.reload.should be_registered
+      @admin.pseudonyms.count.should == 2
     end
   end
 end

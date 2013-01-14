@@ -150,11 +150,11 @@ describe "people" do
       expect_new_page_load { driver.find_element(:link, 'View User Groups').click }
       dialog = open_student_group_dialog
       dialog.find_element(:css, '#category_split_groups').click
-      dialog.find_element(:css, '#category_split_group_count').send_keys(group_count)
+      replace_content(f('#category_split_group_count'), group_count)
       @course.groups.count.should == 0
       submit_form('#add_category_form')
       wait_for_ajaximations
-      @course.groups.count.should == 4
+      @course.groups.count.should == group_count.to_i
       ffj('.left_side .group_name:visible').count.should == group_count.to_i
     end
 
@@ -195,7 +195,7 @@ describe "people" do
       wait_for_ajaximations
       group_count.times do
         f('.add_group_link').click
-        f('.button-container > .small-button').click
+        f('.button-container > .btn-small').click
         wait_for_ajaximations
       end
       f('.assign_students_link').click
@@ -210,9 +210,7 @@ describe "people" do
     end
 
     it "should test prior enrollment functionality" do
-      expect_new_page_load { driver.find_element(:link, 'Manage Users').click }
-      expect_new_page_load { driver.find_element(:link, 'End this Course').click }
-      expect_new_page_load { f('.button-container .big-button').click }
+      @course.complete
       get "/courses/#{@course.id}/users"
       expect_new_page_load { driver.find_element(:link, 'View Prior Enrollments').click }
       f('#users').should include_text(@student_1.name)
@@ -244,6 +242,7 @@ describe "people" do
 
       get "/courses/#{@course.id}/users/#{@obs.id}"
       f('.more_user_information_link').click
+      wait_for_animations
       enrollments = ff(".enrollment")
       enrollments.length.should == 2
 

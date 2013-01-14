@@ -108,7 +108,7 @@ describe Notification do
     end
     
     it "should not dispatch non-immediate message based on default policies" do
-      notification_model(:category => 'TestDaily',:name => "Show In Feed")
+      notification_model(:category => 'TestDaily', :name => "Show In Feed")
       @notification.default_frequency.should eql("daily")
       u1 = user_model(:name => "user 1", :workflow_state => "registered")
       
@@ -165,26 +165,14 @@ describe Notification do
       }.length.should eql(2)
     end
     
-    it "should replace dashboard messages when a similar notification occurs" do
-      notification_set(:notification_opts => {:name => "Show In Feed"})
-      
-      messages = @notification.create_message(@assignment, @user)
-      messages.length.should eql(2)
-      messages.select{|m| m.to == "dashboard"}.length.should eql(1)
-      StreamItem.for_user(@user).count.should eql(1)
-      
-      messages = @notification.create_message(@assignment, @user)
-      messages.length.should eql(2)
-      StreamItem.for_user(@user).count.should eql(2)
-    end
-    
     it "should create stream items" do
       notification_set(:notification_opts => {:name => "Show In Feed"})
-      StreamItem.for_user(@user).count.should eql(0)
+      @user.stream_item_instances.count.should == 0
       messages = @notification.create_message(@assignment, @user)
-      StreamItem.for_user(@user).count.should eql(1)
-      si = StreamItem.for_user(@user).first
-      si.item_asset_string.should eql("message_")
+      @user.stream_item_instances.count.should == 1
+      si = @user.stream_item_instances.first.stream_item
+      si.asset_type.should == 'Message'
+      si.asset_id.should be_nil
     end
     
     it "should translate ERB in the notification" do
@@ -192,25 +180,49 @@ describe Notification do
       messages = @notification.create_message(@assignment, @user)
       messages.each {|m| m.subject.should eql("This is 5!")}
     end
-    
-    it "should localize the notification" do
-      notification_set
 
-      I18n.backend.store_translations :piglatin, {:messages => {:test_name => {:email => {:subject => "Isthay isay ivefay!"}}}}
-      @user.browser_locale = 'piglatin'
-      @user.save(false) # the validation was declared before :piglatin was added, so we skip it
-      messages = @notification.create_message(@assignment, @user)
-      messages.each {|m| m.subject.should eql("Isthay isay ivefay!")}
-      I18n.locale.should eql(:en)
+    context "localization" do
+      before { notification_set }
 
-      I18n.backend.store_translations :shouty, {:messages => {:test_name => {:email => {:subject => "THIS IS *5*!!!!?!11eleventy1"}}}}
-      @user.locale = 'shouty'
-      @user.save(false)
-      messages = @notification.create_message(@assignment, @user)
-      messages.each {|m| m.subject.should eql("THIS IS *5*!!!!?!11eleventy1")}
-      I18n.locale.should eql(:en)
+      it "should respect browser locales" do
+        I18n.backend.store_translations :piglatin, {:messages => {:test_name => {:email => {:subject => "Isthay isay ivefay!"}}}}
+        @user.browser_locale = 'piglatin'
+        @user.save(false) # the validation was declared before :piglatin was added, so we skip it
+        messages = @notification.create_message(@assignment, @user)
+        messages.each {|m| m.subject.should eql("Isthay isay ivefay!")}
+        I18n.locale.should eql(:en)
+      end
+
+      it "should respect user locales" do
+        I18n.backend.store_translations :shouty, {:messages => {:test_name => {:email => {:subject => "THIS IS *5*!!!!?!11eleventy1"}}}}
+        @user.locale = 'shouty'
+        @user.save(false)
+        messages = @notification.create_message(@assignment, @user)
+        messages.each {|m| m.subject.should eql("THIS IS *5*!!!!?!11eleventy1")}
+        I18n.locale.should eql(:en)
+      end
+
+      it "should respect course locales" do
+        course
+        I18n.backend.store_translations :es, { :messages => { :test_name => { :email => { :subject => 'El Tigre Chino' } } } }
+        @course.enroll_teacher(@user).accept!
+        @course.update_attribute(:locale, 'es')
+        messages = @notification.create_message(@course, @user)
+        messages.each { |m| m.subject.should eql('El Tigre Chino') }
+        I18n.locale.should eql(:en)
+      end
+
+      it "should respect account locales" do
+        course
+        I18n.backend.store_translations :es, { :messages => { :test_name => { :email => { :subject => 'El Tigre Chino' } } } }
+        @course.account.update_attribute(:default_locale, 'es')
+        @course.enroll_teacher(@user).accept!
+        messages = @notification.create_message(@course, @user)
+        messages.each { |m| m.subject.should eql('El Tigre Chino') }
+        I18n.locale.should eql(:en)
+      end
     end
-    
+
     it "should not get confused with nil values in the to list" do
       notification_set
       messages = @notification.create_message(@assignment, nil)
@@ -289,11 +301,11 @@ describe Notification do
         :asset => @assignment
       }
     end
-    
+
     it "should only work when a user is passed to it" do
       lambda{@notification.record_delayed_messages}.should raise_error(ArgumentError, "Must provide a user")
     end
-    
+
     it "should only work when a communication_channel is passed to it" do
       # One without a communication_channel, gets cc explicitly through 
       # :to => cc or implicitly through the user. 
@@ -301,16 +313,28 @@ describe Notification do
       lambda{@notification.record_delayed_messages(:user => @user)}.should raise_error(ArgumentError, 
         "Must provide an asset")
     end
-    
+
     it "should only work when a context is passed to it" do
       lambda{@notification.record_delayed_messages(:user => @user, :to => @communication_channel)}.should raise_error(ArgumentError, 
         "Must provide an asset")
     end
-    
+
     it "should work with a user, communication_channel, and context" do
       lambda{@notification.record_delayed_messages(@valid_record_delayed_messages_opts)}.should_not raise_error
     end
-    
+
+    it "should receive data passed to create_message" do
+      @notification.stubs(:summarizable?).returns(true)
+      Message.any_instance.stubs(:get_template).returns('Hello, <%= data.user.name %>!')
+      notification_policy_model(:frequency => 'weekly',
+                                :notification => @notification,
+                                :communication_channel => @communication_channel)
+
+      @notification.create_message(@assignment, [@user,{:data => {:user => @user}}])
+      message = @notification.instance_variable_get(:@delayed_messages_to_save).first
+      message.summary.should == "Hello, #{@user.name}!"
+    end
+
     context "testing that the applicable daily or weekly policies exist" do
       before do
         NotificationPolicy.delete_all
@@ -383,7 +407,6 @@ describe Notification do
                                               :communication_channel => @communication_channel,
                                               :asset => @assignment).should be_false
       end
-        
     end # testing that the applicable daily or weekly policies exist
   end # delay message
 end

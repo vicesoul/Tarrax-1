@@ -1,5 +1,6 @@
 require [
   # true modules that we manage in this file
+  'Backbone'
   'compiled/widget/courseList'
   'compiled/helpDialog'
 
@@ -19,11 +20,11 @@ require [
   'compiled/behaviors/ujsLinks'
   'compiled/behaviors/admin-links'
   'compiled/behaviors/elementToggler'
-  'compiled/behaviors/upvote-item'
-  'compiled/behaviors/repin-item'
-  'compiled/behaviors/follow'
+  # uncomment these to turn on collection pinning and voting
+  # 'compiled/behaviors/upvote-item'
+  # 'compiled/behaviors/repin-item'
+  # 'compiled/behaviors/follow'
   'compiled/behaviors/tooltip'
-
   # other stuff several bundles use
   'media_comments'
   # add mwEmbedLoader 2012-11-01 rupert
@@ -32,6 +33,7 @@ require [
   'jqueryui/effects/drop'
   'jqueryui/progressbar'
   'jqueryui/tabs'
+  'compiled/registration/incompleteRegistrationWarning'
 
   # random modules required by the js_blocks, put them all in here
   # so RequireJS doesn't try to load them before common is loaded
@@ -41,7 +43,8 @@ require [
   'link_enrollment'
   'vendor/jquery.pageless'
   'vendor/jquery.scrollTo'
-], (courseList, helpDialog) ->
+  'compiled/badge_counts'
+], (Backbone, courseList, helpDialog) ->
   courseList.init()
   helpDialog.initTriggers()
 
@@ -53,4 +56,10 @@ require [
   $logo = $('#header-logo')
   if $logo.length > 0 and $logo.css('background-image').match(/\/canvas\/header_canvas_logo\.png/)
     $logo.addClass('original')
+
+  ##
+  # Backbone routes
+  $('body').on 'click', '[data-pushstate]', (event) ->
+    event.preventDefault()
+    Backbone.history.navigate $(this).attr('href'), yes
 

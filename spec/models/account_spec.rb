@@ -336,6 +336,15 @@ describe Account do
     end
   end
 
+  context "closest_turnitin_pledge" do
+    it "should find a custom pledge in a root account from a sub account" do
+      pledge = "custom yo"
+      root_account = Account.create(:turnitin_pledge => pledge)
+      sub_account = Account.create(:parent_account => root_account)
+      sub_account.closest_turnitin_pledge.should == pledge
+    end
+  end
+
   it "should make a default enrollment term if necessary" do
     a = Account.create!(:name => "nada")
     a.enrollment_terms.size.should == 1
@@ -347,7 +356,10 @@ describe Account do
   end
 
   def account_with_admin_and_restricted_user(account)
-    account.add_account_membership_type('Restricted Admin')
+    role = account.roles.build(:name => 'Restricted Admin')
+    role.base_role_type = AccountUser::BASE_ROLE_NAME
+    role.workflow_state = 'active'
+    role.save!
     admin = User.create
     user = User.create
     account.account_users.create(:user => admin, :membership_type => 'AccountAdmin')
@@ -384,25 +396,27 @@ describe Account do
       hash[k][:user] = user
     end
 
-    limited_access = [ :read, :manage, :update, :delete ]
-    full_access = RoleOverride.permissions.map { |k, v| k } + limited_access
+    limited_access = [ :read, :manage, :update, :delete, :read_outcomes ]
+    full_access = RoleOverride.permissions.keys + limited_access
     index = full_access.index(:manage_courses)
     full_access = full_access[0..index] + [:create_courses] + full_access[index+1..-1]
+    full_root_access = full_access - RoleOverride.permissions.select { |k, v| v[:account_only] == :site_admin }.map(&:first)
+    full_sub_access = full_root_access - RoleOverride.permissions.select { |k, v| v[:account_only] == :root }.map(&:first)
     # site admin has access to everything everywhere
     hash.each do |k, v|
       account = v[:account]
-      account.check_policy(hash[:site_admin][:admin]).should == full_access
-      account.check_policy(hash[:site_admin][:user]).should == limited_access
+      account.check_policy(hash[:site_admin][:admin]).should == full_access + (k == :site_admin ? [:read_global_outcomes] : [])
+      account.check_policy(hash[:site_admin][:user]).should == limited_access + (k == :site_admin ? [:read_global_outcomes] : [])
     end
 
     # root admin has access to everything except site admin
     account = hash[:site_admin][:account]
-    account.check_policy(hash[:root][:admin]).should == []
-    account.check_policy(hash[:root][:user]).should == []
+    account.check_policy(hash[:root][:admin]).should == [:read_global_outcomes]
+    account.check_policy(hash[:root][:user]).should == [:read_global_outcomes]
     hash.each do |k, v|
       next if k == :site_admin
       account = v[:account]
-      account.check_policy(hash[:root][:admin]).should == full_access
+      account.check_policy(hash[:root][:admin]).should == full_root_access
       account.check_policy(hash[:root][:user]).should == limited_access
     end
 
@@ -410,13 +424,13 @@ describe Account do
     hash.each do |k, v|
       next unless k == :site_admin || k == :root
       account = v[:account]
-      account.check_policy(hash[:sub][:admin]).should == []
-      account.check_policy(hash[:sub][:user]).should == []
+      account.check_policy(hash[:sub][:admin]).should == (k == :site_admin ? [:read_global_outcomes] : [:read_outcomes])
+      account.check_policy(hash[:sub][:user]).should == (k == :site_admin ? [:read_global_outcomes] : [:read_outcomes])
     end
     hash.each do |k, v|
       next if k == :site_admin || k == :root
       account = v[:account]
-      account.check_policy(hash[:sub][:admin]).should == full_access
+      account.check_policy(hash[:sub][:admin]).should == full_sub_access
       account.check_policy(hash[:sub][:user]).should == limited_access
     end
 
@@ -429,17 +443,17 @@ describe Account do
     RoleOverride.clear_cached_contexts
     hash.each do |k, v|
       account = v[:account]
-      account.check_policy(hash[:site_admin][:admin]).should == full_access
-      account.check_policy(hash[:site_admin][:user]).should == some_access
+      account.check_policy(hash[:site_admin][:admin]).should == full_access + (k == :site_admin ? [:read_global_outcomes] : [])
+      account.check_policy(hash[:site_admin][:user]).should == some_access + (k == :site_admin ? [:read_global_outcomes] : [])
     end
 
     account = hash[:site_admin][:account]
-    account.check_policy(hash[:root][:admin]).should == []
-    account.check_policy(hash[:root][:user]).should == []
+    account.check_policy(hash[:root][:admin]).should == [:read_global_outcomes]
+    account.check_policy(hash[:root][:user]).should == [:read_global_outcomes]
     hash.each do |k, v|
       next if k == :site_admin
       account = v[:account]
-      account.check_policy(hash[:root][:admin]).should == full_access
+      account.check_policy(hash[:root][:admin]).should == full_root_access
       account.check_policy(hash[:root][:user]).should == some_access
     end
 
@@ -447,13 +461,13 @@ describe Account do
     hash.each do |k, v|
       next unless k == :site_admin || k == :root
       account = v[:account]
-      account.check_policy(hash[:sub][:admin]).should == []
-      account.check_policy(hash[:sub][:user]).should == []
+      account.check_policy(hash[:sub][:admin]).should == (k == :site_admin ? [:read_global_outcomes] : [:read_outcomes])
+      account.check_policy(hash[:sub][:user]).should == (k == :site_admin ? [:read_global_outcomes] : [:read_outcomes])
     end
     hash.each do |k, v|
       next if k == :site_admin || k == :root
       account = v[:account]
-      account.check_policy(hash[:sub][:admin]).should == full_access
+      account.check_policy(hash[:sub][:admin]).should == full_sub_access
       account.check_policy(hash[:sub][:user]).should == some_access
     end
   end
@@ -710,14 +724,22 @@ describe Account do
     it_should_behave_like "sharding"
 
     it "should properly return site admin permissions regardless of active shard" do
-      user
-      site_admin = Account.site_admin
-      site_admin.add_user(@user)
+      enable_cache do
+        user
+        site_admin = Account.site_admin
+        site_admin.add_user(@user)
 
-      @shard1.activate do
+        @shard1.activate do
+          site_admin.grants_right?(@user, nil, :manage_site_settings).should be_true
+        end
         site_admin.grants_right?(@user, nil, :manage_site_settings).should be_true
+
+        user
+        @shard1.activate do
+          site_admin.grants_right?(@user, nil, :manage_site_settings).should be_false
+        end
+        site_admin.grants_right?(@user, nil, :manage_site_settings).should be_false
       end
-      site_admin.grants_right?(@user, nil, :manage_site_settings).should be_true
     end
   end
 
@@ -728,6 +750,44 @@ describe Account do
       @course = Account.default.courses.create!
       @course.enroll_teacher(@user).accept!
       Account.default.grants_right?(@user, :read_sis).should be_true
+    end
+
+    it "should grant :read_global_outcomes to any user iff site_admin" do
+      @site_admin = Account.site_admin
+      @site_admin.grants_right?(User.new, :read_global_outcomes).should be_true
+
+      @subaccount = @site_admin.sub_accounts.create!
+      @subaccount.grants_right?(User.new, :read_global_outcomes).should be_false
+    end
+
+    it "should not grant :read_outcomes to user's outside the account" do
+      Account.default.grants_right?(User.new, :read_outcomes).should be_false
+    end
+
+    it "should grant :read_outcomes to account admins" do
+      account_admin_user(:account => Account.default)
+      Account.default.grants_right?(@admin, :read_outcomes).should be_true
+    end
+
+    it "should grant :read_outcomes to subaccount admins" do
+      account_admin_user(:account => Account.default.sub_accounts.create!)
+      Account.default.grants_right?(@admin, :read_outcomes).should be_true
+    end
+
+    it "should grant :read_outcomes to enrollees in account courses" do
+      course(:account => Account.default)
+      teacher_in_course
+      student_in_course
+      Account.default.grants_right?(@teacher, :read_outcomes).should be_true
+      Account.default.grants_right?(@student, :read_outcomes).should be_true
+    end
+
+    it "should grant :read_outcomes to enrollees in subaccount courses" do
+      course(:account => Account.default.sub_accounts.create!)
+      teacher_in_course
+      student_in_course
+      Account.default.grants_right?(@teacher, :read_outcomes).should be_true
+      Account.default.grants_right?(@student, :read_outcomes).should be_true
     end
   end
 
@@ -772,6 +832,66 @@ describe Account do
       acct.save!
       manual_course_account = acct.manually_created_courses_account
       manual_course_account.id.should_not == bad_acct.id
+    end
+  end
+
+  describe "account_users_for" do
+    it "should be cache coherent for site admin" do
+      enable_cache do
+        user
+        sa = Account.site_admin
+        sa.account_users_for(@user).should == []
+
+        au = sa.add_user(@user)
+        # out-of-proc cache should clear, but we have to manually clear
+        # the in-proc cache
+        sa = Account.find(sa)
+        sa.account_users_for(@user).should == [au]
+
+        au.destroy
+        #ditto
+        sa = Account.find(sa)
+        sa.account_users_for(@user).should == []
+      end
+    end
+  end
+
+  describe "available_course_roles_by_name" do
+    before do
+      account_model
+      @roleA = @account.roles.create :name => 'A'
+      @roleA.base_role_type = 'StudentEnrollment'
+      @roleA.save!
+      @roleB = @account.roles.create :name => 'B'
+      @roleB.base_role_type = 'StudentEnrollment'
+      @roleB.save!
+      @sub_account = @account.sub_accounts.create!
+      @roleBsub = @sub_account.roles.create :name => 'B'
+      @roleBsub.base_role_type = 'StudentEnrollment'
+      @roleBsub.save!
+    end
+
+    it "should return roles indexed by name" do
+      @account.available_course_roles_by_name.should == { 'A' => @roleA, 'B' => @roleB }
+    end
+
+    it "should not return inactive roles" do
+      @roleB.deactivate!
+      @account.available_course_roles_by_name.should == { 'A' => @roleA }
+    end
+
+    it "should not return deleted roles" do
+      @roleA.destroy
+      @account.available_course_roles_by_name.should == { 'B' => @roleB }
+    end
+
+    it "should find the most derived version of each role" do
+      @sub_account.available_course_roles_by_name.should == { 'A' => @roleA, 'B' => @roleBsub }
+    end
+
+    it "should find a base role if the derived version is inactive" do
+      @roleBsub.deactivate!
+      @sub_account.available_course_roles_by_name.should == { 'A' => @roleA, 'B' => @roleB }
     end
   end
 end

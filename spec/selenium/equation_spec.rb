@@ -13,7 +13,6 @@ describe "equation editor" do
       submit_form('.question_form')
       wait_for_ajaximations
     end
-
     wait_for_tiny(f("#quiz_description"))
 
     new_question_link = f('.add_question_link')
@@ -21,7 +20,7 @@ describe "equation editor" do
       new_question_link.click
 
       questions = ffj(".question_holder:visible")
-      questions.length.should eql(time + 1)
+      questions.length.should == time + 1
       question = questions[time]
 
       wait_for_tiny(question.find_element(:css, 'textarea.question_content'))
@@ -29,17 +28,17 @@ describe "equation editor" do
       equation_editor = keep_trying_until do
         question.find_element(:css, '.mce_instructure_equation').click
         sleep 1
-        equation_editor = fj("#instructure_equation_prompt:visible")
+        equation_editor = fj(".mathquill-editor:visible")
         equation_editor.should_not be_nil
         equation_editor
       end
-      equation_editor.find_element(:css, 'button').click
+      f('.ui-dialog-buttonset .btn-primary').click
       question.find_element(:css, '.toggle_question_content_views_link').click
       question.find_element(:css, 'textarea.question_content').attribute(:value).should include('<img class="equation_image" title="" src="/equation_images/" alt="" />')
       save_question_and_wait
 
       question.find_elements(:css, 'img.equation_image').size.should == 1
-      f("#right-side .points_possible").text.should eql((time + 1).to_s)
+      f("#right-side .points_possible").text.should == (time + 1).to_s
     end
   end
 end

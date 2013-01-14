@@ -36,7 +36,7 @@ describe "handlebars" do
         url: 'http://foo.bar'
     CS
 
-    result.should eql(<<-RESULT)
+    result.should == <<-RESULT
       <h1>greetings</h1>
       <p>ohai my name is katie im your <b>yoga</b> instructure!! ;) heres some tips to get you started:</p>
       <ol>
@@ -48,12 +48,12 @@ describe "handlebars" do
     RESULT
   end
 
-  it "should 'require' partials used within template" do
+  it "should require partials used within template" do
     driver.execute_script Handlebars.compile_template("hi from inside partial", "_test_partial")
     driver.execute_script Handlebars.compile_template("outside partial {{>test_partial}}", "test_template")
 
     result = require_exec "jst/test_template", "test_template()"
-    result.should eql "outside partial hi from inside partial"
+    result.should == "outside partial hi from inside partial"
   end
 end
 

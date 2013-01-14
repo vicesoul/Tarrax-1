@@ -29,6 +29,7 @@ class CourseSection < ActiveRecord::Base
   has_many :all_enrollments, :class_name => 'Enrollment'
   has_many :students, :through => :student_enrollments, :source => :user
   has_many :student_enrollments, :class_name => 'StudentEnrollment', :conditions => ['enrollments.workflow_state != ? AND enrollments.workflow_state != ? AND enrollments.workflow_state != ? AND enrollments.workflow_state != ?', 'deleted', 'completed', 'rejected', 'inactive'], :include => :user
+  has_many :all_student_enrollments, :class_name => 'StudentEnrollment', :conditions => ['enrollments.workflow_state != ?', 'deleted'], :include => :user
   has_many :instructor_enrollments, :class_name => 'Enrollment', :conditions => "(enrollments.type = 'TaEnrollment' or enrollments.type = 'TeacherEnrollment')"
   has_many :admin_enrollments, :class_name => 'Enrollment', :conditions => "(enrollments.type = 'TaEnrollment' or enrollments.type = 'TeacherEnrollment' or enrollments.type = 'DesignerEnrollment')"
   has_many :users, :through => :enrollments
@@ -53,9 +54,12 @@ class CourseSection < ActiveRecord::Base
     course.participating_students.scoped(:conditions => ["enrollments.course_section_id = ?", id])
   end
 
-  def participants
-    participating_students + 
+  def participating_admins
     course.participating_admins.scoped(:conditions => ["enrollments.course_section_id = ? OR NOT COALESCE(enrollments.limit_privileges_to_course_section, ?)", id, false])
+  end
+
+  def participants
+    participating_students + participating_admins
   end
 
   def available?

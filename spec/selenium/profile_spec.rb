@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require File.expand_path(File.dirname(__FILE__) + '/common')
 
 describe "profile" do
@@ -14,7 +15,7 @@ describe "profile" do
     f('#unregistered_service_skype > a').click
     skype_dialog = f('#unregistered_service_skype_dialog')
     skype_dialog.find_element(:id, 'user_service_user_name').send_keys("jakesorce")
-    submit_dialog(skype_dialog, '.button')
+    submit_dialog(skype_dialog, '.btn')
     wait_for_ajaximations
     f('#registered_services').should include_text("Skype")
   end
@@ -112,13 +113,7 @@ describe "profile" do
       link = f("#channel_#{channel.id} td:first-child a")
       link.click
       wait_for_ajaximations
-      row.attribute(:class).should match(/default/)
-    end
-
-    it "should display file uploader link on files page" do
-      get "/profile/settings"
-      expect_new_page_load { f('#left-side .files').click }
-      f('#file_swf-button').should be_displayed
+      row.should have_class("default")
     end
 
     it "should edit full name" do
@@ -200,11 +195,11 @@ describe "profile" do
 
       f('#show_user_services').click
       wait_for_ajaximations
-      @user.reload.show_user_services.should_not eql initial_state
+      @user.reload.show_user_services.should_not == initial_state
 
       f('#show_user_services').click
       wait_for_ajaximations
-      @user.reload.show_user_services.should eql initial_state
+      @user.reload.show_user_services.should == initial_state
     end
 
     it "should generate a new access token" do
@@ -216,7 +211,7 @@ describe "profile" do
       get "/profile/settings"
       f('.add_access_token_link').click
       access_token_form = f('#access_token_form')
-      access_token_form.find_element(:css, '.cancel_button').click
+      access_token_form.find_element(:xpath, '../..').find_element(:css, '.ui-dialog-buttonpane .cancel_button').click
       access_token_form.should_not be_displayed
     end
 
@@ -248,7 +243,7 @@ describe "profile" do
       submit_form(edit_form)
       wait_for_ajaximations
       @user.reload
-      @user.birthdate.should eql(Time.utc(1980, 1, 31))
+      @user.birthdate.should == Time.utc(1980, 1, 31)
     end
 
     it "should not accept a partial birthdate" do
@@ -330,7 +325,7 @@ shared_examples_for "profile pictures selenium tests" do
     wait_for_ajaximations
     keep_trying_until do
       profile_pic = fj('.profile_pic_link img')
-      profile_pic.attribute('src').should == image_src
+      profile_pic.should have_attribue('src', image_src)
     end
     Attachment.last.folder.should == @user.profile_pics_folder
   end

@@ -233,6 +233,10 @@
       float: right
       font-size: 10px
       font-weight: normal
+      
+      &[class*=icon-]:before, &[class^=icon-]:before
+        font-size: 16px
+        vertical-align: middle
 
   table.assignments
     :width 100%
@@ -612,7 +616,8 @@ ul.group_list
 
   h3
     :border-bottom 1px solid #aaa
-    :margin 0
+    :margin 0 0 10px
+    :padding-bottom 5px
 
 
   .wizard_content
@@ -638,6 +643,12 @@ ul.group_list
       :margin 0px 20px
       :color #444
       :position relative
+      
+      // adding override to link appearance, as javascript depends on there being a .link class here
+      a.link
+        :background-image none
+        :padding 0
+      
       p
         :margin-top 0
 
@@ -645,44 +656,28 @@ ul.group_list
       :list-style-type none
       :margin 0 10px 0 0
       :line-height 1.8em
-      :padding-left 10px
+      :padding-left 5px
 
       .option
         :cursor pointer
-        :padding-left 25px
-        :color #444
         :font-weight bold
+        :color #444
         +border-radius(3px)
-        :background-image url(/images/person.png)
-        :background-repeat no-repeat
-        :background-position 3px center
 
-        &.information_step
-          :background-image url(/images/information.png)
-        &.assignments_step
-          :background-image url(/images/grading_icon.png)
-        &.content_step
-          :background-image url(/images/file.png)
-        &.calendar_step
-          :background-image url(/images/due_date_icon.png)
-        &.publish_step
-          :background-image url(/images/forward.png)
-        &.add_step
-          :background-image url(/images/add.png)
-        &.quiz_step
-          :background-image url(/images/quiz.png)
-        &.download_step
-          :background-image url(/images/download.png)
-        &.edit_step
-          :background-image url(/images/edit.png)
-        &.delete_step
-          :background-image url(/images/delete.png)
         &:hover
           :background-color #ddd
         &.completed a
           :color #aaa
         &.selected
           :background-color #ccc
+        
+        a[class*=icon-], a[class^=icon-]
+          
+          &:before
+            :font-size 16px
+            :line-height 16px
+            :vertical-align text-top
+            :color #555
 
 #content_tags_dialog
   h3
@@ -742,19 +737,6 @@ ul.group_list
         :font-family courier, monospace
         :text-align right
 
-#topic_list
-  .hidden_until_scroll
-    display: none
-  .part_of_clump
-    display: none
-.recent_messages_list
-  .communication_message,.communication_sub_message
-    .context_code
-      display: none
-  &.recent_messages_show_context
-    .communication_message,.communication_sub_message
-      .context_code
-        display: inline
 .communication_messages_list
   .communication_message,.communication_sub_message
     .context_code
@@ -966,7 +948,7 @@ ul.group_list
       margin: 0 10px 10px 0
       padding: 0
     li
-      padding 2px 5px
+      padding: 2px 5px
       margin: 0 0 2px 0
       list-style: none
       background: #e8e8e8
@@ -1196,13 +1178,14 @@ html > body .new_activity_message form textarea
 
 #user_list_boxes
   position: relative
-  height: 152px
+  min-height: 165px
   margin-top: 10px
   #user_list_textarea_container, #user_list_processing, #user_list_parsed
-    height: 152px
+    min-height: 165px
     width: 100%
-    position: absolute
     background-color: white
+    label
+      font-size: 0.8em
   textarea
     width: 98%
     height: 108px
@@ -1559,3 +1542,22 @@ form.user_content_post_form
   text-indent: -10000px
   white-space: nowrap
   width: 0
+
+.nav-badge
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+  +border-radius(10px)
+  background-color: $highlight-color
+  padding: 1px 7px
+  font-size: 12px
+  color: white
+  float: right
+
+.unread-grade
+  float: left
+  display: inline-block
+  line-height: 8px
+  width: 8px
+  margin-top: 6px
+  margin-left: -16px
+  background-color: #06a9ee
+  +border-radius(4px)

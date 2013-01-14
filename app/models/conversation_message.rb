@@ -65,17 +65,19 @@ class ConversationMessage < ActiveRecord::Base
       SQL
     end
 
-    ret = distinct_on('conversation_participant_id',
-      :select => "conversation_messages.*, conversation_participant_id, conversation_message_participants.tags",
-      :joins => 'JOIN conversation_message_participants ON conversation_messages.id = conversation_message_id',
-      :conditions => base_conditions,
-      :order => 'conversation_participant_id, created_at DESC'
-    )
-    map = Hash[ret.map{ |m| [m.conversation_participant_id.to_i, m]}]
-    if author_id
-      conversation_participants.each{ |cp| cp.last_authored_message = map[cp.id] }
-    else
-      conversation_participants.each{ |cp| cp.last_message = map[cp.id] }
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      ret = distinct_on('conversation_participant_id',
+        :select => "conversation_messages.*, conversation_participant_id, conversation_message_participants.tags",
+        :joins => 'JOIN conversation_message_participants ON conversation_messages.id = conversation_message_id',
+        :conditions => base_conditions,
+        :order => 'conversation_participant_id, created_at DESC'
+      )
+      map = Hash[ret.map{ |m| [m.conversation_participant_id.to_i, m]}]
+      if author_id
+        conversation_participants.each{ |cp| cp.last_authored_message = map[cp.id] }
+      else
+        conversation_participants.each{ |cp| cp.last_message = map[cp.id] }
+      end
     end
   end
 
@@ -120,6 +122,12 @@ class ConversationMessage < ActiveRecord::Base
   def attachment_ids=(ids)
     self.attachments = author.conversation_attachments_folder.attachments.find_all_by_id(ids.map(&:to_i))
     write_attribute(:attachment_ids, attachments.map(&:id).join(','))
+  end
+
+  def clone
+    copy = super
+    copy.attachments = attachments
+    copy
   end
 
   def delete_from_participants
@@ -219,7 +227,7 @@ class ConversationMessage < ActiveRecord::Base
   end
 
   def reply_from(opts)
-    return if self.context.try(:root_account).try(:deleted?)
+    raise IncomingMessageProcessor::UnknownAddressError if self.context.try(:root_account).try(:deleted?)
     conversation.reply_from(opts.merge(:root_account_id => self.root_account_id))
   end
 

@@ -30,7 +30,7 @@ describe "quizzes question banks" do
       find_questions_link.click
       f(".select_all_link")
     }.click
-    submit_dialog("div#find_question_dialog")
+    submit_dialog("div#find_question_dialog", '.submit_button')
     keep_trying_until { fj("#quiz_display_points_possible .points_possible").text.should == "17" }
   end
 
@@ -50,7 +50,7 @@ describe "quizzes question banks" do
       f(".select_all_link").should be_displayed
     }
     f(".select_all_link").click
-    submit_dialog("div#find_question_dialog")
+    submit_dialog("div#find_question_dialog", '.submit_button')
     keep_trying_until { fj("#quiz_display_points_possible .points_possible").text.should == "1" }
 
     f(".add_question_group_link").click
@@ -58,7 +58,7 @@ describe "quizzes question banks" do
     keep_trying_until {
       fj("#find_bank_dialog .bank:visible")
     }.click
-    submit_dialog("#find_bank_dialog")
+    submit_dialog("#find_bank_dialog", '.submit_button')
     submit_form(".quiz_group_form")
     keep_trying_until { fj("#quiz_display_points_possible .points_possible").text.should == "2" }
   end
@@ -80,7 +80,7 @@ describe "quizzes question banks" do
       f(".select_all_link").should be_displayed
     }
     f(".select_all_link").click
-    submit_dialog("#find_question_dialog")
+    submit_dialog("#find_question_dialog", '.submit_button')
     keep_trying_until { fj("#quiz_display_points_possible .points_possible").text.should == "1" }
 
     f(".add_question_group_link").click
@@ -88,7 +88,7 @@ describe "quizzes question banks" do
     keep_trying_until {
       fj("#find_bank_dialog .bank:visible")
     }.click
-    submit_dialog("#find_bank_dialog")
+    submit_dialog("#find_bank_dialog", '.submit_button')
     submit_form(".quiz_group_form")
     keep_trying_until { fj("#quiz_display_points_possible .points_possible").text.should == "2" }
   end
@@ -113,7 +113,7 @@ describe "quizzes question banks" do
       wait_for_ajaximations
       f(".select_all_link").should be_displayed
     }
-    ffj("#find_question_dialog .bank:visible").size.should eql 1
+    ffj("#find_question_dialog .bank:visible").size.should == 1
 
     close_visible_dialog
     keep_trying_until {
@@ -122,7 +122,7 @@ describe "quizzes question banks" do
     }
     f(".find_bank_link").click
     wait_for_ajaximations
-    ffj("#find_bank_dialog .bank:visible").size.should eql 1
+    ffj("#find_bank_dialog .bank:visible").size.should == 1
   end
 
   it "should import questions from a question bank" do

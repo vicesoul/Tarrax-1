@@ -173,6 +173,18 @@ describe GradebooksController do
       response.should be_success
       assigns[:courses_with_grades].should be_nil
     end
+
+    it "should assign submissions_by_assignment" do
+      course_with_teacher_logged_in(:active_all => true)
+      student_in_course(:active_all => true)
+      assignment1 = @course.assignments.create(:title => "Assignment 1")
+      submission1 = assignment1.submit_homework(@student)
+      assignment2 = @course.assignments.create(:title => "Assignment 2")
+      submission2 = assignment2.submit_homework(@student)
+
+      get 'grade_summary', :course_id => @course.id, :id => @student.id
+      assigns[:submissions_by_assignment].values.map(&:count).should == [1,1]
+    end
   end
 
   describe "GET 'show'" do
@@ -194,11 +206,12 @@ describe GradebooksController do
     end
 
     describe "csv" do
-      it "should recompute cached grades" do
+      it "should not re-compute enrollment grades" do
         course_with_teacher_logged_in(:active_all => true)
+        student_in_course(:active_all => true)
         assignment1 = @course.assignments.create(:title => "Assignment 1")
         assignment2 = @course.assignments.create(:title => "Assignment 2")
-        Enrollment.expects(:recompute_final_score).once
+        Enrollment.expects(:recompute_final_score).never
         get 'show', :course_id => @course.id, :init => 1, :assignments => 1, :format => 'csv'
         response.should be_success
         response.body.should match(/\AStudent,/)

@@ -412,9 +412,10 @@ describe ApplicationHelper do
 
     it "should output the translated default" do
       def i18n_scope; "date.days"; end
-      (I18n.available_locales - [:en]).each do |locale|
+      #(I18n.available_locales - [:en]).each do |locale|
+      %w(zh-CN).each do |locale|
         I18n.locale = locale
-        expected = t("#date.days.today").to_json
+        expected = I18n.t("#date.days.today").to_json
         # relative
         jt("today", nil).should include expected
         # and absolute

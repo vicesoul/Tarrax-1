@@ -228,11 +228,11 @@ describe "quizzes question creation" do
     fj('.combination_count:visible').send_keys('20') # over the limit
     button = fj('button.compute_combinations:visible')
     button.click
-    fj('.combination_count:visible').attribute(:value).should eql "10"
+    fj('.combination_count:visible').should have_attribute(:value, "10")
     keep_trying_until {
       button.text == 'Generate'
     }
-    ffj('table.combinations:visible tr').size.should eql 11 # plus header row
+    ffj('table.combinations:visible tr').size.should == 11 # plus header row
 
     submit_form(question)
     wait_for_ajax_requests
@@ -291,6 +291,45 @@ describe "quizzes question creation" do
     questions[0].should have_class("multiple_choice_question")
     questions[1].should have_class("true_false_question")
     questions[2].should have_class("short_answer_question")
+  end
+
+  it "should not create an extra, blank, correct answer when you use [answer] as a placeholder" do
+    quiz = @last_quiz
+
+    # be a multiple dropdown question
+    question = fj(".question_form:visible")
+    click_option('.question_form:visible .question_type', 'Multiple Dropdowns')
+
+    # set up a placeholder (this is the bug)
+    type_in_tiny '.question:visible textarea.question_content', 'What is the [answer]'
+
+    # check answer select
+    select_box = question.find_element(:css, '.blank_id_select')
+    select_box.click
+    options = select_box.find_elements(:css, 'option')
+    options[0].text.should == 'answer'
+
+    # input answers for the blank input
+    answers = question.find_elements(:css, ".form_answers > .answer")
+    answers[0].find_element(:css, ".select_answer_link").click
+
+    # make up some answers
+    replace_content(answers[0].find_element(:css, '.select_answer input'), 'a')
+    replace_content(answers[1].find_element(:css, '.select_answer input'), 'b')
+
+    # save the question
+    submit_form(question)
+    wait_for_ajax_requests
+
+    # check to see if the questions displays correctly
+    f('#show_question_details').click
+    quiz.reload
+    finished_question = f("#question_#{quiz.quiz_questions[0].id}")
+    finished_question.should be_displayed
+
+    # check to make sure extra answers were not generated
+    quiz.quiz_questions.first.question_data["answers"].count.should == 2
+    quiz.quiz_questions.first.question_data["answers"].detect{|a| a["text"] == ""}.should be_nil
   end
 
   context "drag and drop reordering" do

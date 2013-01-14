@@ -604,6 +604,10 @@ class Attachment < ActiveRecord::Base
     Canvas::Security.hmac_sha1(uuid + "quota_exempt")[0,10]
   end
 
+  def self.minimum_size_for_quota
+    Setting.get_cached('attachment_minimum_size_for_quota', '512').to_i
+  end
+
   def self.get_quota(context)
     quota = 0
     quota_used = 0
@@ -611,7 +615,9 @@ class Attachment < ActiveRecord::Base
       ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
         quota = Setting.get_cached('context_default_quota', 50.megabytes.to_s).to_i
         quota = context.quota if (context.respond_to?("quota") && context.quota)
-        quota_used = context.attachments.active.sum('COALESCE(size, 0)', :conditions => { :root_attachment_id => nil }).to_i
+        min = self.minimum_size_for_quota
+        # translated to ruby this is [size, min].max || 0
+        quota_used = context.attachments.active.sum("COALESCE(CASE when size < #{min} THEN #{min} ELSE size END, 0)", :conditions => { :root_attachment_id => nil }).to_i
       end
     end
     {:quota => quota, :quota_used => quota_used}
@@ -802,18 +808,12 @@ class Attachment < ActiveRecord::Base
   # can't handle arbitrary thumbnails for our attachment_fu thumbnails on s3 though, we could handle a couple *predefined* sizes though
   def thumbnail_url(options={})
     return nil if Attachment.skip_thumbnails
-    if self.scribd_doc #handle if it is a scribd doc, get the thumbnail from scribd's api
-      self.scribd_thumbnail(options)
-    elsif self.thumbnail || (options && options[:size].present?)
-      if options && options[:size].present?
-        geometry = options[:size]
-        if self.class.dynamic_thumbnail_sizes.include?(geometry)
-          to_use = thumbnails.loaded? ? thumbnails.detect { |t| t.thumbnail == geometry } : thumbnails.find_by_thumbnail(geometry)
-          to_use ||= create_dynamic_thumbnail(geometry)
-        end
-      end
-      to_use ||= self.thumbnail
 
+    return self.cached_scribd_thumbnail if self.scribd_doc #handle if it is a scribd doc, get the thumbnail from scribd's api
+
+    geometry = options[:size]
+    if self.thumbnail || geometry.present?
+      to_use = thumbnail_for_size(geometry) || self.thumbnail
       to_use.cached_s3_url
     elsif self.media_object && self.media_object.media_id
       Kaltura::ClientV3.new.thumbnail_url(self.media_object.media_id,
@@ -825,6 +825,17 @@ class Attachment < ActiveRecord::Base
     end
   end
   memoize :thumbnail_url
+
+  def thumbnail_for_size(geometry)
+    if self.class.allows_thumbnails_of_size?(geometry)
+      to_use = thumbnails.loaded? ? thumbnails.detect { |t| t.thumbnail == geometry } : thumbnails.find_by_thumbnail(geometry)
+      to_use ||= create_dynamic_thumbnail(geometry)
+    end
+  end
+
+  def self.allows_thumbnails_of_size?(geometry)
+    self.dynamic_thumbnail_sizes.include?(geometry)
+  end
 
   alias_method :original_sanitize_filename, :sanitize_filename
   def sanitize_filename(filename)
@@ -838,15 +849,21 @@ class Attachment < ActiveRecord::Base
   end
 
   def save_without_broadcasting
-    @skip_broadcasts = true
-    save
-    @skip_broadcasts = false
+    begin
+      @skip_broadcasts = true
+      save
+    ensure
+      @skip_broadcasts = false
+    end
   end
 
   def save_without_broadcasting!
-    @skip_broadcasts = true
-    save!
-    @skip_broadcasts = false
+    begin
+      @skip_broadcasts = true
+      save!
+    ensure
+      @skip_broadcasts = false
+    end
   end
 
   # called before save
@@ -963,24 +980,26 @@ class Attachment < ActiveRecord::Base
   end
 
   def cacheable_s3_urls
-    Rails.cache.fetch(['cacheable_s3_urls', self].cache_key, :expires_in => 24.hours) do
-      ascii_filename = Iconv.conv("ASCII//TRANSLIT//IGNORE", "UTF-8", display_name)
+    self.shard.activate do
+      Rails.cache.fetch(['cacheable_s3_urls', self].cache_key, :expires_in => 24.hours) do
+        ascii_filename = Iconv.conv("ASCII//TRANSLIT//IGNORE", "UTF-8", display_name)
 
-      # response-content-disposition will be url encoded in the depths of
-      # aws-s3, doesn't need to happen here. we'll be nice and ghetto http
-      # quote the filename string, though.
-      quoted_ascii = ascii_filename.gsub(/([\x00-\x1f"\x7f])/, '\\\\\\1')
+        # response-content-disposition will be url encoded in the depths of
+        # aws-s3, doesn't need to happen here. we'll be nice and ghetto http
+        # quote the filename string, though.
+        quoted_ascii = ascii_filename.gsub(/([\x00-\x1f"\x7f])/, '\\\\\\1')
 
-      # awesome browsers will use the filename* and get the proper unicode filename,
-      # everyone else will get the sanitized ascii version of the filename
-      quoted_unicode = "UTF-8''#{URI.escape(display_name, /[^A-Za-z0-9.]/)}"
-      filename = %(filename="#{quoted_ascii}"; filename*=#{quoted_unicode})
+        # awesome browsers will use the filename* and get the proper unicode filename,
+        # everyone else will get the sanitized ascii version of the filename
+        quoted_unicode = "UTF-8''#{URI.escape(display_name, /[^A-Za-z0-9.]/)}"
+        filename = %(filename="#{quoted_ascii}"; filename*=#{quoted_unicode})
 
-      # we need to have versions of the url for each content-disposition
-      {
-        'inline' => authenticated_s3_url(:expires_in => 6.days, "response-content-disposition" => "inline; " + filename),
-        'attachment' => authenticated_s3_url(:expires_in => 6.days, "response-content-disposition" => "attachment; " + filename)
-      }
+        # we need to have versions of the url for each content-disposition
+        {
+          'inline' => authenticated_s3_url(:expires_in => 6.days, "response-content-disposition" => "inline; " + filename),
+          'attachment' => authenticated_s3_url(:expires_in => 6.days, "response-content-disposition" => "attachment; " + filename)
+        }
+      end
     end
   end
   protected :cacheable_s3_urls
@@ -1244,6 +1263,8 @@ class Attachment < ActiveRecord::Base
   end
 
   def scribdable?
+    # stream items pre-serialize the return value of this method
+    return read_attribute(:scribdable?) if has_attribute?(:scribdable?)
     !!(ScribdAPI.enabled? && self.scribd_mime_type_id && self.scribd_attempts != SKIPPED_SCRIBD_ATTEMPTS)
   end
 
