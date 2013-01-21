@@ -31,6 +31,7 @@ define([
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
+  'vendor/raphael',
   'i18n!editor'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
@@ -391,9 +392,10 @@ define([
     $("#submit_quiz_form").submit(function(event) {
       $(".question_holder .paint_question canvas.paintQuestion").each(function(){
         var data = $(this)[0].toDataURL();
-        var $img = $("<img>").attr( "src", data );
+        var $img = $("<img>").attr( "src", data).addClass("paint-image");
         var $div = $("<div></div>").append($img);
         var $editor = $(this).closest(".paint_question").find(".question_input");
+        $editor.editorBox( 'set_code', "" );
         $editor.editorBox( 'insert_code', $div.html() );
 
 
@@ -512,8 +514,6 @@ define([
 
     var takePaintQuestion = (function(){
       if( $(".question.paint_question").size() === 0 ) return false;
-      console.log("paint_question")
-
       var Painter,
         sketchSetting = {
           sketchType:"paintQuestion",
@@ -526,19 +526,125 @@ define([
           appName : "sketch_app",
           appTitle : "画板"
         };
-
-
-
       $("#submit_quiz_form .paint_question").each(function(){
-
-        sketchSetting.canvasW = $(this).width();
+        sketchSetting.canvasW = $(this).find(".text").width();
         sketchSetting.canvasH = $(this).find(".text").height();
         sketchSetting.stageId = $(this).attr("id");
         Painter = new Sketcher(sketchSetting);
+      });
+    })();
+
+    var takeConnectingLeadQuestion = (function(){
+      if( $(".question.connecting_lead_question").size() === 0 ) return false;
+
+      $.fn.rotate = function(num) {
+        this.css({
+          transform: "rotate(" + num + "deg)",
+          "-webkit-transform": "rotate(" + num + "deg)",
+          "-o-transform": "rotate(" + num + "deg)",
+          "-ms-transform": "rotate(" + num + "deg)"
+        });
+
+        return this;
+      };
+
+
+
+      $("#submit_quiz_form .connecting_lead_question").each(function(){
+
+
+        var readyLine,
+            $answers = $(this).find(".answers"),
+            paper = Raphael( $answers[0], $answers.width(), $answers.height()),
+            $this = $(this),
+            drawLine = function( node ){
+              var $active = $this.find( ".active" );
+              $(node).data( "connectedTimes", $(node).data( "connectedTimes" ) + 1 );
+              $active.data( "connectedTimes", $active.data( "connectedTimes" ) + 1 );
+
+              var AP = $active.position();
+              var BP = $(node).position();
+              var x1,y1,x2,y2;
+              if( BP.left > AP.left ){
+                x2 = BP.left - 10;
+                y2 = BP.top + $(node).height()/2 + 5;
+                x1 = AP.left + $active.width() + 10;
+                y1 = AP.top + $active.height()/2 + 5;
+              }else{
+                x2 = AP.left - 10;
+                y2 = AP.top + $active.height()/2 + 5;
+                x1 = BP.left + $(node).width() + 10;
+                y1 = BP.top + $(node).height()/2 + 5;
+              }
+              var line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+              line.attr("stroke", "#ff6600");
+              line.click(function(){
+                alert("OOOOOO")
+                this.remove()
+              })
+
+            };
+
+
+        $(this).find(".connecting_lead span").each( function( i ){
+
+          $(this).data( "connectedTimes", 0 );
+
+          $(this).css({
+            position: "absolute",
+            left: 280 * (i%3),
+            top: 40 * Math.floor(i/3)
+          });
+
+          $answers.css({
+             height: 40 * Math.ceil(i/3)
+          });
+
+          $(this).bind( "click", function(){
+            console.log( $(this).data( "connectedTimes" ) )
+            if( $(this).data( "connectedTimes" ) === 1 && $(this).parent().is(".word_left")
+            ||  $(this).data( "connectedTimes" ) === 1 && $(this).parent().is(".word_right")
+            ||  $(this).data( "connectedTimes" ) === 2 && $(this).parent().is(".word_center")
+              ) return;
+
+            var thisLine = i%3;
+            if( readyLine === undefined ) {
+              $(this).addClass("active");
+              readyLine = thisLine;
+
+            }else if( readyLine != undefined && Math.abs( readyLine - thisLine ) !== 1 ) {
+
+              if( $(this).is( ".active" ) ){
+                readyLine = undefined;
+              }else{
+                $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
+              }
+              $(this).toggleClass( "active" );
+
+
+            }else{
+
+              drawLine( $(this) );
+              $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
+              readyLine = undefined;
+
+            }
+
+
+
+          });
+
+
+
+        });
+
+        $(this).bind( "mousedown", function(){
+          return false;
+        });
 
       });
-
     })();
+
 
   });
 });

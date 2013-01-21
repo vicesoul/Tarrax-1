@@ -373,7 +373,7 @@ class Quiz < ActiveRecord::Base
     return @stored_questions if @stored_questions && !hashes
     questions = hashes || self.quiz_data || []
     questions.each do |val|
-      
+
       if val[:answers]
         val[:answers] = val[:answers].sort_by{|a| rand} if self.shuffle_answers && !non_shuffled_questions.include?(val[:question_type])
         val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
@@ -399,15 +399,15 @@ class Quiz < ActiveRecord::Base
     @stored_questions = res
     res
   end
-  
+
   def single_attempt?
     self.allowed_attempts == 1
   end
-  
+
   def unlimited_attempts?
     self.allowed_attempts == -1
   end
-  
+
   def generate_submission_question(q)
     @idx ||= 1
     q[:name] = "#{t('#quiz_question.defaults.question_name', 'Question')} #{@idx}"
@@ -455,7 +455,7 @@ class Quiz < ActiveRecord::Base
     @idx += 1
     q
   end
-  
+
   def find_or_create_submission(user, temporary=false, state=nil)
     s = nil
     state ||= 'untaken'
@@ -475,7 +475,7 @@ class Quiz < ActiveRecord::Base
     end
     s
   end
-  
+
   # Generates a submission for the specified user on this quiz, based
   # on the SAVED version of the quiz.  Does not consider permissions.
   def generate_submission(user, preview=false)
@@ -490,7 +490,7 @@ class Quiz < ActiveRecord::Base
     if preview
       @submission_questions = self.stored_questions(generate_quiz_data(:persist => false))
     end
-    
+
     non_shuffled_questions = ["true_false_question", "matching_question"]
     exclude_ids = @submission_questions.map{ |q| q[:assessment_question_id] }.compact
     @submission_questions.each do |q|
@@ -546,8 +546,8 @@ class Quiz < ActiveRecord::Base
     end
     submission
   end
-  
-  # Takes the PRE-SAVED version of the quiz and uses it to generate a 
+
+  # Takes the PRE-SAVED version of the quiz and uses it to generate a
   # SAVED version.  That is, gathers the relationship entities from
   # the database and uses them to populate a static version that will
   # be held in Quiz.quiz_data
@@ -574,7 +574,7 @@ class Quiz < ActiveRecord::Base
     end
     data
   end
-  
+
   def add_assessment_questions(assessment_questions, group=nil)
     questions = assessment_questions.map do |assessment_question|
       question = self.quiz_questions.build
@@ -587,7 +587,7 @@ class Quiz < ActiveRecord::Base
     end
     questions.compact.uniq
   end
-  
+
   def quiz_title
     result = self.title
     result = t(:default_title, "Unnamed Quiz") if result == "undefined" || !result
@@ -595,7 +595,7 @@ class Quiz < ActiveRecord::Base
     result
   end
   alias_method :to_s, :quiz_title
-  
+
   def locked_for?(user=nil, opts={})
     return false if opts[:check_policies] && self.grants_right?(user, nil, :update)
     Rails.cache.fetch(locked_cache_key(user), :expires_in => 1.minute) do
@@ -624,7 +624,7 @@ class Quiz < ActiveRecord::Base
       locked
     end
   end
-  
+
   def context_module_action(user, action, points=nil)
     tags_to_update = self.context_module_tags.to_a
     if self.assignment
@@ -663,16 +663,16 @@ class Quiz < ActiveRecord::Base
     end
     write_attribute(:hide_results, val)
   end
-  
+
   def check_if_submissions_need_review
     self.quiz_submissions.each{|s| s.update_if_needs_review(self) }
   end
-  
+
   def changed_significantly_since?(version_number)
     @significant_version ||= {}
     return @significant_version[version_number] if @significant_version[version_number]
     old_version = self.versions.get(version_number).model
-    
+
     needs_review = false
     needs_review = true if old_version.points_possible != self.points_possible
     needs_review = true if (old_version.quiz_data || []).length != (self.quiz_data || []).length
@@ -682,10 +682,10 @@ class Quiz < ActiveRecord::Base
       new_data.each_with_index do |q, i|
         needs_review = true if (q[:id] || q['id']) != (old_data[i][:id] || old_data[i]['id'])
       end
-    end    
+    end
     @significant_version[version_number] = needs_review
   end
-  
+
   def migrate_content_links_by_hand(user)
     self.quiz_questions.each do |question|
       data = QuizQuestion.migrate_question_hash(question.question_data, :context => self.context, :user => user)
@@ -709,7 +709,7 @@ class Quiz < ActiveRecord::Base
     end
     self.quiz_data = data
   end
-  
+
   attr_accessor :clone_updated
   def clone_for(context, original_dup=nil, options={}, retrying = false)
     dup = original_dup
@@ -800,7 +800,7 @@ class Quiz < ActiveRecord::Base
       sort_by(&:updated_at).
       reverse
   end
-  
+
   def statistics_csv(options={})
     options ||= {}
     columns = []
@@ -879,12 +879,12 @@ class Quiz < ActiveRecord::Base
         elsif question[:question_type] == 'matching_question'
           answer_ids = question[:answers].map{|a| a[:id] }
           answer_and_matches = answer_ids.map{|id| [id, answer["answer_#{id}".to_sym].to_i] }
-          row << answer_and_matches.map{|id, match_id| 
+          row << answer_and_matches.map{|id, match_id|
             res = []
             res << (question[:answers].detect{|a| a[:id] == id } || {})[:text]
             match = question[:matches].detect{|m| m[:match_id] == match_id } || question[:answers].detect{|m| m[:match_id] == match_id} || {}
             res << (match[:right] || match[:text])
-            res.map{|s| (s || '').gsub(/=>/, '\=>')}.join('=>').gsub(/,/, '\,') 
+            res.map{|s| (s || '').gsub(/=>/, '\=>')}.join('=>').gsub(/,/, '\,')
           }.join(',')
         else
           row << ((answer_item && answer_item[:text]) || '')
@@ -970,14 +970,14 @@ class Quiz < ActiveRecord::Base
     stats[:last_submission_at] = submissions.map{|s| s.finished_at }.compact.max || self.created_at
     stats
   end
-  
+
   def stats_for_question(question, submissions)
     res = question
     res[:responses] = 0
     res[:response_values] = []
     res[:unexpected_response_values] = []
     res[:user_ids] = []
-    res[:answers] = question[:answers].map{|a| 
+    res[:answers] = question[:answers].map{|a|
       answer = a
       answer[:responses] = 0
       answer[:user_ids] = []

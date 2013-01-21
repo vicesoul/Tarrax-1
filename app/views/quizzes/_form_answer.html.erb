@@ -21,8 +21,9 @@
           <b class="short_answer_header"><%= before_label(:possible_answer, "Possible Answer") %></b>
           <input type="text" name="answer_text" placeholder="<%= t('answer_text', 'Answer Text') %>"/>
         </div>
+
         <div class="matching_answer answer_match answer_type">
-          <div class="answer_match_left">
+           <div class="answer_match_left">
             <input type="text" style="width: 95%;" name="answer_match_left" placeholder="<%= t('matching_left', 'Matching left side') %>"/>
           </div>
           <input type="hidden" name="answer_match_left_html"/>
@@ -31,6 +32,21 @@
           </div>
           <div class="answer_match_right">
             <input type="text" style="width: 95%;" name="answer_match_right" placeholder="<%= t('matching_right', 'Matching right side') %>" />
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="connecting_lead_answer answer_match answer_type">
+          <div class="answer_match_left">
+            <input type="text" name="connecting_lead_left" placeholder="连线题左侧"/>
+          </div>
+          <input type="hidden" name="answer_match_left_html"/>
+          <div class="answer_match_left_html"></div>
+          <div class="answer_match_center">
+            <input type="text" name="connecting_lead_center" placeholder="连线题中侧" />   <!-- key -->
+          </div>
+          <div class="answer_match_right">
+            <input type="text" name="connecting_lead_right" placeholder="连线题右侧" />
           </div>
           <div class="clear"></div>
         </div>

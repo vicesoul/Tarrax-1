@@ -3,7 +3,7 @@ define([
     'backbone-0.9.9',
     "jquery.ui.touch"
 ], function() {
-     window.Sketcher = Backbone.Model.extend({
+    var Sketcher = window.Sketcher = Backbone.Model.extend({
         initialize: function() {
             this.brushImg = new Image();
             this.touchSupported = Modernizr.touch;

@@ -60,9 +60,9 @@ module QuizzesHelper
       }),
       "connecting_lead_question" => OpenObject.new({
        :question_type => "connecting_lead_question",
-       :entry_type => "matching",
-       :display_answers => "single",
-       :answer_type => "text_answer"
+       :entry_type => "connecting_lead",
+       :display_answers => "multiple",
+       :answer_type => "connecting_lead_answer"      # view/quizzes/_multi_answer.html.erb
       }),
       "matching_question" => OpenObject.new({
         :question_type => "matching_question",

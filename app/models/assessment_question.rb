@@ -33,9 +33,9 @@ class AssessmentQuestion < ActiveRecord::Base
   ALL_QUESTION_TYPES = ["multiple_answers_question", "fill_in_multiple_blanks_question", 
                         "matching_question", "missing_word_question", 
                         "multiple_choice_question", "numerical_question", 
-                        "text_only_question", "short_answer_question", 
-                        "multiple_dropdowns_question", "calculated_question", 
-                        "essay_question", "true_false_question"]
+                        "text_only_question", "short_answer_question",
+                        "multiple_dropdowns_question", "calculated_question",
+                        "essay_question", "true_false_question", "connecting_lead_question"]
 
   serialize :question_data
 
@@ -289,6 +289,22 @@ class AssessmentQuestion < ActiveRecord::Base
         question[:answers] << a
         question[:matches] ||= []
         question[:matches] << {:match_id => a[:match_id], :text => check_length(answer[:answer_match_right], 'answer match', min_size) }
+      end
+      (qdata[:matching_answer_incorrect_matches] || "").split("\n").each do |other|
+        m = {:text => check_length(other[0..255], 'distractor', min_size) }
+        m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
+        m[:match_id] = unique_local_id(m[:match_id])
+        question[:matches] << m
+        end
+    elsif question[:question_type] == "connecting_lead_question"
+      answers.each do |key, answer|
+        a = {:text => check_length(answer[:connecting_lead_left], 'answer match', min_size), :left => check_length(answer[:connecting_lead_left], 'answer match', min_size), :center => check_length(answer[:connecting_lead_center], 'answer match', min_size),:right => check_length(answer[:connecting_lead_right], 'answer match', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size)}
+        a[:left_html] = a[:html] = sanitize(answer[:answer_match_left_html]) if answer[:answer_match_left_html].present?
+        a[:match_id] = unique_local_id(answer[:match_id].to_i)
+        a[:id] = unique_local_id(answer[:id].to_i)
+        question[:answers] << a
+        question[:matches] ||= []
+        question[:matches] << {:match_id => a[:match_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size) }
       end
       (qdata[:matching_answer_incorrect_matches] || "").split("\n").each do |other|
         m = {:text => check_length(other[0..255], 'distractor', min_size) }

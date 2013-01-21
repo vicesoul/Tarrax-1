@@ -35,24 +35,24 @@ module CC
       
       # These types don't stop processing response conditions once the correct
       # answer is found, so they need to show the incorrect response differently
-      MULTI_ANSWER_TYPES = ['matching_question', 
-                           'multiple_dropdowns_question', 
+      MULTI_ANSWER_TYPES = ['matching_question',
+                           'multiple_dropdowns_question',
                            'fill_in_multiple_blanks_question']
-      
+
       def add_ref_or_question(node, question)
         aq = nil
         unless question[:assessment_question_id].blank?
           if aq = AssessmentQuestion.find_by_id(question[:assessment_question_id])
-            if aq.deleted? || 
-                    !aq.assessment_question_bank || 
-                    aq.assessment_question_bank.deleted? || 
+            if aq.deleted? ||
+                    !aq.assessment_question_bank ||
+                    aq.assessment_question_bank.deleted? ||
                     aq.assessment_question_bank.context_id != @course.id ||
                     aq.assessment_question_bank.context_type != @course.class.to_s
               aq = nil
             end
           end
         end
-        
+
         if aq
           ref = CC::CCHelper::create_key(aq)
           node.itemref(:linkrefid => ref)
@@ -69,7 +69,7 @@ module CC
         add_question(node, question, true)
         true
       end
-      
+
       def add_quiz_question(node, question)
         question[:is_quiz_question] = true
         add_question(node, question)
@@ -78,7 +78,7 @@ module CC
       def add_question(node, question, for_cc=false)
         aq_mig_id = create_key("assessment_question_#{question['assessment_question_id']}")
         qq_mig_id = create_key("assessment_question_#{question['id']}")
-        question['migration_id'] = question[:is_quiz_question] ? qq_mig_id : aq_mig_id  
+        question['migration_id'] = question[:is_quiz_question] ? qq_mig_id : aq_mig_id
 
         if question['question_type'] == 'missing_word_question'
           change_missing_word(question)
@@ -97,20 +97,20 @@ module CC
               else
                 meta_field(qm_node, 'question_type', question['question_type'])
                 meta_field(qm_node, 'points_possible', question['points_possible'])
-                if question[:is_quiz_question] 
+                if question[:is_quiz_question]
                   meta_field(qm_node, 'assessment_question_identifierref', aq_mig_id)
                 end
               end
             end
           end # meta data
-          
+
           item_node.presentation do |pres_node|
             pres_node.material do |mat_node|
               html_mat_text(mat_node, "<div>#{question['question_text']}</div>", '')
             end
             presentation_options(pres_node, question)
           end # presentation
-          
+
           if question['question_type'] != 'text_only_question'
             item_node.resprocessing do |res_node|
               res_node.outcomes do |out_node|
@@ -123,9 +123,9 @@ module CC
               end
               resprocessing(res_node, question)
             end # resprocessing
-            
+
             itemproc_extenstion(node, question)
-            
+
             item_feedback(item_node, 'general_fb', question, 'neutral_comments')
             item_feedback(item_node, 'correct_fb', question, 'correct_comments')
             item_feedback(item_node, 'general_incorrect_fb', question, 'incorrect_comments')
@@ -135,9 +135,9 @@ module CC
           end
         end # item
       end
-      
+
       ## question response_str methods
-      
+
       def presentation_options(node, question)
         if ['multiple_choice_question', 'true_false_question', 'multiple_answers_question'].member? question['question_type']
           multiple_choice_response_str(node, question)
@@ -155,7 +155,7 @@ module CC
           calculated_response_str(node, question)
         end
       end
-      
+
       def multiple_choice_response_str(node, question)
         card = question['question_type'] == 'multiple_answers_question' ? 'Multiple' : 'Single'
         node.response_lid(
@@ -175,14 +175,14 @@ module CC
           end # rc_node
         end
       end
-      
+
       def matching_response_lid(node, question)
         question['answers'].each do |answer|
           node.response_lid(:ident=>"response_#{answer['id']}") do |lid_node|
             lid_node.material do |mat_node|
               html_mat_text(mat_node, answer['html'], answer['text'])
             end
-            
+
             lid_node.render_choice do |rc_node|
               next unless question['matches']
               question['matches'].each do |match|
@@ -196,7 +196,7 @@ module CC
           end #lid_node
         end
       end
-      
+
       def short_answer_response_str(node, question)
         node.response_str(
                 :ident => "response1",
@@ -205,7 +205,7 @@ module CC
           r_node.render_fib {|n| n.response_label(:ident=>'answer1', :rshuffle=>'No')}
         end
       end
-      
+
       def change_missing_word(question)
         # Convert this to a multiple_dropdowns_question then send it on its way
         question['question_text'] = "#{question['question_text'].gsub(%r{^<p>|</p>$}, '')} [drop1] #{question['text_after_answers'].gsub(%r{^<p>|</p>$}, '')}"
@@ -214,10 +214,10 @@ module CC
         end
         question['question_type'] = 'multiple_dropdowns_question'
       end
-      
+
       def multiple_dropdowns_response_lid(node, question)
         groups = question['answers'].group_by{|a|a[:blank_id]}
-        
+
         groups.each_pair do |id, answers|
           node.response_lid(:ident=>"response_#{id}") do |lid_node|
             lid_node.material do |mat_node|
@@ -235,7 +235,7 @@ module CC
           end # lid_node
         end
       end
-      
+
       def calculated_response_str(node, question)
         node.response_str(
                 :ident => "response1",
@@ -246,16 +246,16 @@ module CC
       end
 
       ## question resprocessing methods
-      
+
       def resprocessing(node, question)
         if !question['neutral_comments'].blank? || !question['neutral_comments_html'].blank?
           other_respcondition(node, 'Yes', 'general_fb')
         end
-        
+
         unless ['matching_question', 'numerical_question'].member? question['question_type']
           answer_feedback_respconditions(node, question)
         end
-        
+
         # question type specific resprocessing
         if ['multiple_choice_question', 'true_false_question'].member? question['question_type']
           multiple_choice_resprocessing(node, question)

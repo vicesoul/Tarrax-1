@@ -54,13 +54,12 @@ define([
     init: function () {
       this.$questions = $('#questions');
       this.$showDetailsWrap = $('#show_question_details_wrap').hide();
-
       return this;
     },
 
     // Determines whether or not to show the "show question details" link.
     checkShowDetails: function() {
-      var hasQuestions = this.$questions.find('div.display_question:not(.essay_question, .text_only_question, .paint_question, .connecting_lead_question)').length;
+      var hasQuestions = this.$questions.find('div.display_question:not(.essay_question, .text_only_question, .paint_question)').length;
       this.$showDetailsWrap[hasQuestions ? 'show' : 'hide'](200);
     },
 
@@ -139,7 +138,9 @@ define([
       } else if (question_type == "paint_question") {
         templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
       } else if (question_type == "connecting_lead_question") {
-        templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
+        templateData.answer_match_left_html = answer.answer_match_left_html;
+        templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
+        $answer.find(".comment_focus").attr('title', I18n.t('titles.click_to_enter_comments_on_wrong_match', 'Click to enter comments for the student if they miss this match'));
       } else if (question_type == "matching_question") {
         templateData.answer_match_left_html = answer.answer_match_left_html;
         templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
@@ -183,6 +184,9 @@ define([
       }
 
       if (question_type == "matching_question") {
+        $answer.removeClass('correct_answer');
+      }
+      if (question_type == "connecting_lead_question") {
         $answer.removeClass('correct_answer');
       }
 
@@ -240,9 +244,9 @@ define([
         question_type = "paint_question";
         n_correct = "none";
       } else if (qt == 'connecting_lead_question') {
-        answer_type = "comment";
+        answer_type = "connecting_lead_answer";
         question_type = "connecting_lead_question";
-        n_correct = "none";
+        n_correct = "all";
       } else if (qt == 'matching_question') {
         answer_type = "matching_answer";
         question_type = "matching_question";
@@ -284,7 +288,7 @@ define([
       } else if (question_type == 'paint_question') {
           result = "none";
       } else if (question_type == 'connecting_lead_question') {
-        result = "none";
+        result = "connecting_lead";
       } else if (question_type == 'matching_question') {
         result = "matching";
       } else if (question_type == 'missing_word_question') {
@@ -323,7 +327,12 @@ define([
       }
       quiz.updateDisplayQuestion($question.find(".question:first"), question, true);
     },
-
+    //*****************************************
+    //
+    //     Update display question
+    //      ( Update question )
+    //
+    //*************************************************
     updateDisplayQuestion: function($question, question, escaped) {
       fillArgs = {
         data: question,
@@ -492,6 +501,35 @@ define([
           $text.append(I18n.beforeLabel('other_incorrect_matches', "Other Incorrect Match Options") + "<ul class='matching_answer_incorrect_matches_list'>" + code + "</ul>");
         }
       }
+      if (question.question_type == 'connecting_lead_question') {
+        var $text = $question.find(".after_answers");
+        var split = [];
+        if (question.matches && question.answers) {
+          var correct_ids = {};
+          for(var idx in question.answers) {
+            correct_ids[question.answers[idx].match_id] = true;
+          }
+          for(var idx in question.matches) {
+            if (!correct_ids[question.matches[idx].match_id]) {
+              split.push(question.matches[idx].text);
+            }
+          }
+        } else {
+          var split = (question.matching_answer_incorrect_matches || "");
+          if (typeof(split) == 'string') {
+            split = split.split("\n");
+          }
+        }
+        var code = "";
+        for(var cdx in split) {
+          if(split[cdx]) {
+            code = code + "<li>" + htmlEscape(split[cdx]) + "</li>";
+          }
+        }
+        if (code) {
+          $text.append(I18n.beforeLabel('other_incorrect_matches', "Other Incorrect Match Options") + "<ul class='matching_answer_incorrect_matches_list'>" + code + "</ul>");
+        }
+      }
       $question.find(".blank_id_select").change();
       $question.fillTemplateData({
         question_type: question_type,
@@ -519,8 +557,19 @@ define([
         quiz.updateDisplayComments();
       };
     },
+    //*****************************************
+    //
+    //     Update display question
+    //        END
+    //*************************************************
 
-    // Updates the question's form when the type changes
+
+    //*****************************************
+    //
+    //     Update form question
+    //     （edit）
+    //    Updates the question's form when the type changes
+    //*************************************************
     updateFormQuestion: function($form) {
       var $formQuestion = $form.find(".question");
       var question_type = $formQuestion.find(":input[name='question_type']").val();
@@ -589,7 +638,7 @@ define([
           result.answer_type = "none";
           result.textValues = [];
           result.htmlValues = [];
-      }else if (question_type == 'paint_question') {
+      } else if (question_type == 'paint_question') {
           $formQuestion.find(".answer").remove();
           $formQuestion.removeClass('selectable');
           $formQuestion.find(".answers_header").hide().end()
@@ -599,16 +648,11 @@ define([
           result.answer_type = "none";
           result.textValues = [];
           result.htmlValues = [];
-      }else if (question_type == 'connecting_lead_question') {
-        $formQuestion.find(".answer").remove();
+      } else if (question_type == 'connecting_lead_question') {
         $formQuestion.removeClass('selectable');
-        $formQuestion.find(".answers_header").hide().end()
-          .find(".question_comment").css('display', 'none').end()
-          .find(".question_neutral_comment").css('display', '').end();
-        options.addable = false;
-        result.answer_type = "none";
-        result.textValues = [];
-        result.htmlValues = [];
+        $form.find(".matching_answer_incorrect_matches_holder").show();
+        result.answer_type = "connecting_lead_answer";
+        result.textValues = ['connecting_lead_left', 'connecting_lead_center','connecting_lead_right', 'answer_comment'];
       } else if (question_type == 'matching_question') {
         $formQuestion.removeClass('selectable');
         $form.find(".matching_answer_incorrect_matches_holder").show();
@@ -678,6 +722,11 @@ define([
       $form.find(".answer_type").hide().filter("." + result.answer_type).show();
       return result;
     },
+    //*********************
+    //       update form question
+    //        end
+    // ********** ********************
+
 
     updateDisplayComments: function() {
       this.checkShowDetails();
@@ -690,7 +739,7 @@ define([
         $(this).css('display', '').toggleClass('empty', !val);
       });
       var tally = 0;
-      $("#questions .question_holder:not(.group) .question:not(#question_new)").each(function() {     
+      $("#questions .question_holder:not(.group) .question:not(#question_new)").each(function() {
         var val = parseFloat($(this).find(".question_points:visible,.question_points.hidden").text());
         if (isNaN(val)) { val = 0; }
         tally += val;
@@ -776,7 +825,7 @@ define([
       }
       $question.find(".answers").append(makeDisplayAnswer(answer));
     }
-    $question.toggleClass('group', !!(data && data.quiz_group_id)); 
+    $question.toggleClass('group', !!(data && data.quiz_group_id));
     $question.show();
     return $question;
   }
@@ -789,7 +838,11 @@ define([
     data.answer_comment_html = data.comments_html || data.answer_comment_html;
     data.answer_match_left = data.left || data.answer_match_left;
     data.answer_match_left_html = data.left_html || data.answer_match_left_html;
+    data.answer_match_center = data.center || data.answer_match_center;
     data.answer_match_right = data.right || data.answer_match_right;
+    data.connecting_lead_left = data.left || data.connecting_lead_left;
+    data.connecting_lead_center = data.center || data.connecting_lead_center;
+    data.connecting_lead_right = data.right || data.connecting_lead_right;
     data.answer_exact = data.exact || data.answer_exact;
     data.answer_error_margin = data.answer_error_margin || data.margin;
     data.answer_range_start = data.start || data.answer_range_start;
@@ -876,7 +929,7 @@ define([
         $question.find(".answer").each(function() {
           var $answer = $(this);
           var answerData = $answer.getTemplateData({
-            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right', 'answer_comment'],
+            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right',  'answer_comment'],
             htmlValues: ['answer_html', 'answer_match_left_html', 'answer_comment_html']
           });
           var answer = $.extend({}, quiz.defaultAnswerData, answerData);
@@ -977,7 +1030,11 @@ define([
           data[jd + '[answer_weight]'] = answer.answer_weight;
           data[jd + '[answer_match_left]'] = answer.answer_match_left;
           data[jd + '[answer_match_left_html]'] = answer.answer_match_left_html;
+          data[jd + '[answer_match_center]'] = answer.answer_match_center;
           data[jd + '[answer_match_right]'] = answer.answer_match_right;
+          data[jd + '[connecting_lead_left]'] = answer.connecting_lead_left;
+          data[jd + '[connecting_lead_center]'] = answer.connecting_lead_center;
+          data[jd + '[connecting_lead_right]'] = answer.connecting_lead_right;
           data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
           data[jd + '[answer_exact]'] = answer.answer_exact;
           data[jd + '[answer_error_margin]'] = answer.answer_error_margin;
@@ -1025,7 +1082,11 @@ define([
 
   $(document).ready(function() {
     quiz.init().updateDisplayComments();
-
+    //*****************************
+    //
+    // sidebar 
+    //
+    // *******
     var $quiz_options_form = $("#quiz_options_form");
     $.scrollSidebar();
     $(".datetime_field").datetime_field();
@@ -1260,18 +1321,6 @@ define([
       $quiz_options_form.data('submit_type', 'save_and_publish').submit();
     });
 
-    $("#show_question_details").change(function(event) {
-      $("#questions").toggleClass('brief', !$(this).attr('checked'));
-    }).triggerHandler('change');
-
-    $(".start_over_link").click(function(event) {
-      event.preventDefault();
-      var result = confirm(I18n.t('confirms.scrap_and_restart', "Scrap this quiz and start from scratch?"));
-      if (result) {
-        location.href = location.href + "?fresh=1";
-      }
-    });
-
     $("#quiz_assignment_id").change(function(event) {
       var previousData = $("#quiz_options").getTemplateData({textValues: ['assignment_id', 'title']});
       var assignment_id = $("#quiz_assignment_id").val();
@@ -1299,6 +1348,22 @@ define([
       $("#quiz_title_text").text(quiz_title);
     }).change();
 
+    // ******
+    // sidebar end
+    // *******
+
+    $("#show_question_details").change(function(event) {
+      $("#questions").toggleClass('brief', !$(this).attr('checked'));
+    }).triggerHandler('change');
+
+    $(".start_over_link").click(function(event) {
+      event.preventDefault();
+      var result = confirm(I18n.t('confirms.scrap_and_restart', "Scrap this quiz and start from scratch?"));
+      if (result) {
+        location.href = location.href + "?fresh=1";
+      }
+    });
+
     $(".question_form :input").keycodes("esc", function(event) {
       $(this).parents("form").find("input[value='" + I18n.t('#buttons.cancel', "Cancel") + "']").click();
     });
@@ -1323,6 +1388,7 @@ define([
 
     $(".blank_id_select").change();
 
+    // ****** delete question 
     $(document).delegate(".delete_question_link", 'click', function(event) {
       event.preventDefault();
       $(this).parents(".question_holder").confirmDelete({
@@ -1334,7 +1400,13 @@ define([
         }
       });
     });
+    // end
 
+    // *****************************
+    //    edit 
+    //    
+    // 
+    // *************************************
     $(document).delegate(".edit_question_link", 'click', function(event) {
       event.preventDefault();
       var $question = $(this).parents(".question");
@@ -1437,9 +1509,6 @@ define([
       if ($question.hasClass('paint_question')) {
           $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
       }
-      if ($question.hasClass('connecting_lead_question')) {
-        $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
-      }
       $question.hide().after($form);
       quiz.showFormQuestion($form);
       $form.attr('action', $question.find(".update_question_url").attr('href'))
@@ -1452,6 +1521,11 @@ define([
         $formQuestion.addClass('ready');
       }, 100);
     });
+    // *****************************
+    //    edit 
+    //    END
+    // 
+    // ************************************* 
 
     $(".question_form :input[name='question_type']").change(function() {
       quiz.updateFormQuestion($(this).parents(".question_form"));
@@ -1930,10 +2004,11 @@ define([
           question_type = "paint_question";
       } else if ($question.hasClass('connecting_lead_question')) {
         var answers = [{
-          comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
+          comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
         }];
-        answer_type = "comment";
+        answer_type = "connecting_lead_answer";
         question_type = "connecting_lead_question";
+        answer_selection_type = "matching";
       } else if ($question.hasClass('matching_question')) {
         var answers = [{
           comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
@@ -2003,6 +2078,11 @@ define([
       $(this).find(".answer_comment").slideToggle();
     });
 
+    /// *****************************
+    //
+    //        update question submit
+    //
+    // *********************************
     $("#question_form_template").submit(function(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -2026,7 +2106,7 @@ define([
           error_text = I18n.t('errors.no_possible_solution', "Please generate at least one possible solution");
         }
       } else if ($answers.length === 0 || $answers.filter(".correct_answer").length === 0) {
-        if ($answers.length === 0 && questionData.question_type != "essay_question" && questionData.question_type != "text_only_question" && questionData.question_type != "paint_question" && questionData.question_type != "connecting_lead_question") {
+        if ($answers.length === 0 && questionData.question_type != "essay_question" && questionData.question_type != "text_only_question" && questionData.question_type != "paint_question" ) {
           error_text = I18n.t('errors.no_answer', "Please add at least one answer");
         } else if ($answers.filter(".correct_answer").length === 0 && (questionData.question_type == "multiple_choice_question" || questionData.question_type == "true_false_question" || questionData.question_tyep == "missing_word_question")) {
           error_text = I18n.t('errors.no_correct_answer', "Please choose a correct answer");
@@ -2116,7 +2196,7 @@ define([
         });
       }
 
-
+      // ****** key
       quiz.updateDisplayQuestion($displayQuestion, question);
 
       var details = quiz.answerTypeDetails(question.question_type);
@@ -2167,6 +2247,8 @@ define([
         $displayQuestion.formErrors(data);
       });
     });
+    // end
+
 
     $("#sort_questions").sortable({
       revert: false,

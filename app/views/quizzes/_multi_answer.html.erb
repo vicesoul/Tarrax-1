@@ -1,6 +1,7 @@
 <% answer = multi_answer %>
+
+<% if question_type.entry_type == "radio" || question_type.entry_type == "select" || question_type.entry_type == "checkbox" %>
 <div class="answer">
-  <% if question_type.entry_type == "radio" || question_type.entry_type == "select" || question_type.entry_type == "checkbox" %>
     <table>
       <tr>
         <td class="answer_input">
@@ -19,7 +20,9 @@
         </td>
       </tr>
     </table>
-  <% elsif question_type.entry_type == "matching" %>
+</div>
+<% elsif question_type.entry_type == "matching" %>
+<div class="answer">
     <div style="float: left; width: 40%; margin-top: 10px;">
       <% if answer %>
         <%= (hash_get(answer, :left_html) || hash_get(answer, :html)).present? ? (hash_get(answer, :left_html) || hash_get(answer, :html)).html_safe : (hash_get(answer, :left) || hash_get(answer, :text)) %>
@@ -50,8 +53,35 @@
       <% end %>
     </div>
     <div class="clear"></div>
+</div>
+<% elsif question_type.entry_type == "connecting_lead" %>
+<div class="connecting_lead word_left">
+  <% if answer %>
+        <span>
+        <%= hash_get(answer, :left) %>
+        </span>
   <% end %>
 </div>
+<div class="connecting_lead word_center">
+  <% if answer %>
+      <% if a = center_answers[multi_answer_counter] %>
+        <span value="<%= hash_get(a, :match_id) %>" >
+          <%= (hash_get(a, :center) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+        </span>
+      <% end %>
+  <% end %>
+</div>
+<div class="connecting_lead word_right">
+  <% if answer %>
+      <% if a = right_answers[multi_answer_counter] %>
+        <span value="<%= hash_get(a, :match_id) %>" >
+          <%= (hash_get(a, :right) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+        </span>
+      <% end %>
+  <% end %>
+</div>
+<% end %>
+
 <% if user_answer && (hash_get(user_answer, :answer_id) == hash_get(answer, :id) || (question_type.type == "matching" && hash_get(user_answer, "answer_#{hash_get(answer, :id)}").to_i != hash_get(answer, :match_id).to_i)) %>
 <div>
   <%= hash_get(answer, :comments) %>

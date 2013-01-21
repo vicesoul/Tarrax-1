@@ -41,16 +41,33 @@ div#content
   .text
     :position relative
   .paintQuestion
-    //.color_setting
-    //  :display block
-    //input[type = button]
-    //  :display block
     .container
       :border none
       :position absolute
       :top 75px
-      :left 0
+      :left 20px
       :z-index 9
+  .paint_question
+    .answers
+      display: none
+  .question_text
+    display: block
+  .connecting_lead_question
+    position: relative
+    .answers
+      position: relative
+      z-index: 1
+      .connecting_lead
+        span
+          padding: 3px
+          border: 1px solid rgba( 0, 0, 0, 0)
+          cursor: pointer
+        span.active
+          border: 1px solid rgba( 0, 0, 0, 1)
+    svg
+      position: absolute!important
+      z-index: 0
+  
 
 
 #submit_quiz_form, .question_form
@@ -268,6 +285,28 @@ div#content
     .answer_comment,.question_comment_text
       white-space: pre-wrap
 
+
+.incorrect
+  .question_text
+    display: none
+
+.question.paint_question
+  .answers
+    .quiz_response_text
+      position: relative
+      .paint_question
+        padding: 1.5em 0
+      img
+        border: none!important
+        padding: 0!important
+      img.paint-image
+        position: absolute
+        z-index: 9
+        left:  0
+        top:  3px
+
+
+
 .question
   :border 1px solid $borderColor
   :background-color #fff
@@ -472,23 +511,18 @@ div#content
   .answer_select
     :vertical-align top
     :padding-top 0.5em
-    
     .answer_weight
       :display none
-
   .answer_match
     :padding 0 0 10px 0
-
     .answer_match_left, .answer_match_left_html
       :float left
       :width 45%
       :font-weight bold
       :overflow auto
-
     .answer_match_middle
       :float left
       :width 10%
-
     .answer_match_right
       float: left
       width: 45%
@@ -498,6 +532,18 @@ div#content
           padding-left: 5px
           .answer_text
             font-weight: bold
+
+  .connecting_lead_answer.answer_match
+    overflow: hidden
+    > div
+      margin-right: 10px
+    .answer_match_left
+      :width 30%
+    .answer_match_center
+      :width 30%
+      float: left
+    .answer_match_right
+      :width 30%
 
 .form_answers
   .answer

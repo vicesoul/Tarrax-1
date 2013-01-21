@@ -35,7 +35,7 @@
     <!-- Display skipped -->
   <% else %>
     <div class="answer answer_for_<%= hash_get(answer, :blank_id) %> <%= "hide_right_arrow" if hide_right_arrow %> <%= 'skipped' if should_skip %> <%= 'wrong_answer' if wrong_answer && show_correct_answers %> <%= 'no_answer' if no_answer %> <%= "selected_answer" if selected_answer %> <%= correct_answer_class %>" id="answer_<%= hash_get(answer, :id, "template") %>" style="<%= hidden unless answer %>" title="<%= t(:selected_answer, "You selected this answer.") if selected_answer %> <%= t(:correct_answer, "This was the correct answer.") if correct_answer && show_correct_answers %>">
-    <% if !user_answer || question_type.display_answers != "xsingle" %>
+      <% if !user_answer || question_type.display_answers != "xsingle" %>
     <div class="select_answer answer_type" <%= hidden(true) unless answer_type == "select_answer" %>>
       <% if %w{radio checkbox}.include?(question_type.entry_type) %>
         <input type="<%= question_type.entry_type %>" <%= 'checked' if selected_answer %> class="question_input" />
@@ -50,7 +50,7 @@
       <div class="answer_match_left" <%= hidden(true) if (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :left) || hash_get(answer, :text)) %></div>
       <div class="answer_match_left_html" <%= hidden(true) unless (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :left_html) || hash_get(answer, :html)).to_s.html_safe %></div>
       <div class="answer_match_middle">&nbsp;</div>
-      <div class="answer_match_right">
+      <div class="answer_match_right" form="display_answer.html.erb">          <!-- key -->
         <% if user_answer %>
           <% if answer_type == 'matching_answer'
                user_answer_choice = hash_get(user_answer, "answer_#{hash_get(answer, :id)}".to_sym).to_i
@@ -84,6 +84,46 @@
       </div>
       <div class="clear"></div>
     </div>
+
+  <div class="connecting_lead_answer answer_match matching_answer answer_type" <%= hidden(true) unless answer_type == "connecting_lead_answer" %>>
+    <div class="connecting_lead_left" <%= hidden(true) if (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :left) || hash_get(answer, :text)) %></div>
+    <div class="answer_match_left_html" <%= hidden(true) unless (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :left_html) || hash_get(answer, :html)).to_s.html_safe %></div>
+    <div class="connecting_lead_center" <%= hidden(true) if (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :center) || hash_get(answer, :text)) %></div>
+    <div class="connecting_lead_right" form="display_answer.html.erb">          <!-- key -->
+      <% if user_answer %>
+          <% if answer_type == 'matching_answer'
+               user_answer_choice = hash_get(user_answer, "answer_#{hash_get(answer, :id)}".to_sym).to_i
+               display_choice = hash_get(question, :matches).find {|m| hash_get(m, :match_id) == user_answer_choice }
+          %>
+              <select class="question_input" readonly='readonly' style="max-width: 90%;">
+                <option value="" selected><%= display_choice[:text] rescue '' %></option>
+              </select>
+              <% show_comment = wrong_answer %>
+          <% else %>
+              <% if hash_get(user_answer, "answer_#{hash_get(answer,:id)}").to_i == hash_get(answer, :match_id).to_i %>
+                  <%= (hash_get(answer, :right) || (question && hash_get(question, :matches, []).find{|m| hash_get(m, :match_id).to_i == hash_get(user_answer, "answer_#{hash_get(answer, :id)}").to_i}[:text] rescue '')) %>
+              <% else %>
+                  <% matched = (hash_get(question, :matches) || hash_get(question, :answers, [])).find{|a| hash_get(a, :match_id).to_i == hash_get(user_answer, "answer_#{hash_get(answer, :id)}").to_i} %>
+                  <span class="text_box_answer <%= 'correct_text_box_answer' if matched && matched[:weight] == 100 %>">
+              <%= before_label(:your_answer, 'Your Answer') %>
+                    <% user_text = (hash_get(matched, :right) || hash_get(matched, :text))
+                       user_text = nil if user_text.blank? %>
+                    <b><%= user_text || t(:you_left_this_blank, '(You left this blank)') %></b>
+      </span>
+                  <% if show_correct_answers %>
+                      <br/>It was really: <%= (hash_get(answer, :right) || (question && hash_get(question, :matches, []).find{|m| hash_get(m, :match_id).to_i == hash_get(user_answer, :match_id).to_i}[:text] rescue '')) %>
+                  <% end %>
+              <% end %>
+          <% end %>
+      <% else %>
+  <span class="correct_answer">
+    <%= (hash_get(answer, :right) || (question && hash_get(question, :matches, []).find{|m| hash_get(m, :match_id).to_i == hash_get(answer, :match_id).to_i}[:text] rescue '')) %>
+  </span>
+      <% end %>
+    </div>
+    <div class="clear"></div>
+  </div>
+
     <div style="display: none;">
       <span class="numerical_answer_type"><%= hash_get(answer, :numerical_answer_type, "exact_answer") %></span>
       <span class="blank_id"><%= hash_get(answer, :blank_id, "none") %></span>
