@@ -32,8 +32,7 @@ define([
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
   'vendor/raphael',
-  'i18n!editor',
-  'bootstrap'
+  'i18n!editor'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
@@ -575,20 +574,15 @@ define([
           checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected";
           $towNOde.addClass( checkName );
 
-          var AP = $active.position();
-          var BP = $end.position();
           var x1,y1,x2,y2;
-          if( BP.left > AP.left ){
-            x2 = BP.left - 10;
-            y2 = BP.top + $end.height()/2 + 5;
-            x1 = AP.left + $active.width() + 10;
-            y1 = AP.top + $active.height()/2 + 5;
-          }else{
-            x2 = AP.left - 10;
-            y2 = AP.top + $active.height()/2 + 5;
-            x1 = BP.left + $end.width() + 10;
-            y1 = BP.top + $end.height()/2 + 5;
-          }
+          var normalPosition = $end.position().left > $active.position().left;
+          var $nodeB = normalPosition ? $end : $active;
+          var $nodeA = !normalPosition ? $end : $active;
+          x2 = $nodeB.position().left - 10;
+          y2 = $nodeB.position().top + $nodeB.height()/2 + 5;
+
+          x1 = $nodeA.position().left + $nodeA.width() + 10;
+          y1 = $nodeA.position().top + $nodeA.height()/2 + 5;
 
           var line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
           line.attr({
@@ -607,7 +601,6 @@ define([
               });
             deleHandle =  deleLine(this, $towNOde, checkName, $toolTip);
             $toolTipDele.bind( "click", deleHandle );
-
           });
 
         }
