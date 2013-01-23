@@ -440,7 +440,7 @@ define([
 
     setTimeout(function() { quizSubmission.updateSubmission(true) }, 15000);
 
-    var ipadInputType = (function (){
+    (function ipadInputType(){
 
       var isiPad = navigator.userAgent.match(/iPad/i) != null;
       if(!isiPad){return;}
@@ -512,20 +512,20 @@ define([
 
     })();
 
-    var takePaintQuestion = (function(){
+    (function takePaintQuestion(){
       if( $(".question.paint_question").size() === 0 ) return false;
       var Painter,
-        sketchSetting = {
-          sketchType:"paintQuestion",
-          stageId:"",
-          lineW : 1,
-          canvasW : 600,
-          canvasH : 400,
-          color : {hex:"000000",rgb:[0,0,0]},
-          tools : {type:"line",src:""},
-          appName : "sketch_app",
-          appTitle : "画板"
-        };
+          sketchSetting = {
+            sketchType:"paintQuestion",
+            stageId:"",
+            lineW : 1,
+            canvasW : 600,
+            canvasH : 400,
+            color : {hex:"000000",rgb:[0,0,0]},
+            tools : {type:"line",src:""},
+            appName : "sketch_app",
+            appTitle : "画板"
+          };
       $("#submit_quiz_form .paint_question").each(function(){
         sketchSetting.canvasW = $(this).find(".text").width();
         sketchSetting.canvasH = $(this).find(".text").height();
@@ -534,7 +534,7 @@ define([
       });
     })();
 
-    var takeConnectingLeadQuestion = (function(){
+    (function takeConnectingLeadQuestion(){
       if( $(".question.connecting_lead_question").size() === 0 ) return false;
 
       $.fn.rotate = function(num) {
@@ -544,14 +544,16 @@ define([
           "-o-transform": "rotate(" + num + "deg)",
           "-ms-transform": "rotate(" + num + "deg)"
         });
-
         return this;
       };
 
       $("#submit_quiz_form .connecting_lead_question").each(function(){
         var readyLine,
             deleHandle,
-            $answers = $(this).find(".answers"),
+            $this = $(this),
+            rows = $this.find(".word_left").length,
+            $answers = $this.find(".answers"),
+            answerHeight = 40 * rows,
             $toolTip = $("<div><h5>是否删除？</h5></div>")
               .addClass("tool-tip")
               .hide()
@@ -559,12 +561,53 @@ define([
                 e.stopPropagation();
               }).appendTo( $answers ),
             $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
-            $toolTipCancel = $("<button type=button>取消</button>").bind("click", function(){
-              resetToolTip();
+            $toolTipCancel = $("<button type=button>取消</button>")
+              .bind("click", function(){
+                resetToolTip();
+              })
+              .appendTo($toolTip),
+            paper = Raphael( $answers[0], $answers.width(), answerHeight );
 
-            }).appendTo($toolTip),
-            paper = Raphael( $answers[0], $answers.width(), $answers.height()),
-            $this = $(this);
+        $answers.css( "height", answerHeight );
+
+        $(document).click(function(){ resetToolTip() });
+
+        $(this).find(".connecting_lead").each( function( i ){
+
+          $(this).css({
+            position: "absolute",
+            left: ( $answers.width()/3 ) * (i%3),
+            top: 40 * Math.floor(i/3)
+          });
+
+          $(this).bind( "click", function(){
+
+            if( $(this).is(".word_center") && $(this).is(".leftSelected") && $(this).is(".rightSelected")
+              || $(this).is(".word_left") && $(this).is(".leftSelected")
+              || $(this).is(".word_right") && $(this).is(".rightSelected")
+              )
+              return;
+
+            var thisLine = i%3;
+            if( readyLine === undefined ) {
+              $(this).addClass("active");
+              readyLine = thisLine;
+            } else if( Math.abs( readyLine - thisLine ) !== 1 ) {
+              $(this).is( ".active" ) ? readyLine = undefined : $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
+              $(this).toggleClass( "active" );
+            } else{
+              drawLine( $(this) );
+              $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
+              readyLine = undefined;
+            }
+
+          });
+
+        });
+
+        $(this).bind( "mousedown", function(){
+          return false;
+        });
 
         function drawLine( $end ){
           var $active = $this.find( ".active" );
@@ -574,15 +617,13 @@ define([
           checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected";
           $towNOde.addClass( checkName );
 
-          var x1,y1,x2,y2;
           var normalPosition = $end.position().left > $active.position().left;
           var $nodeB = normalPosition ? $end : $active;
           var $nodeA = !normalPosition ? $end : $active;
-          x2 = $nodeB.position().left - 10;
-          y2 = $nodeB.position().top + $nodeB.height()/2 + 5;
-
-          x1 = $nodeA.position().left + $nodeA.width() + 10;
-          y1 = $nodeA.position().top + $nodeA.height()/2 + 5;
+          var x2 = $nodeB.position().left - 10;
+          var y2 = $nodeB.position().top + $nodeB.height()/2 + 5;
+          var x1 = $nodeA.position().left + $nodeA.width() + 10;
+          var y1 = $nodeA.position().top + $nodeA.height()/2 + 5;
 
           var line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
           line.attr({
@@ -592,7 +633,7 @@ define([
             e.stopPropagation();
             resetToolTip();
             this.attr({
-              "stroke-dasharray": "-"
+              "stroke-dasharray": "- "
             });
             $toolTip.show()
               .css({
@@ -621,59 +662,8 @@ define([
           });
         }
 
-        $(document).click(function(){
-          resetToolTip();
-        });
-
-        $(this).find(".connecting_lead").each( function( i ){
-
-          $(this).css({
-            position: "absolute",
-            left: 280 * (i%3),
-            top: 40 * Math.floor(i/3)
-          });
-
-          $answers.css({
-             height: 40 * Math.ceil(i/3)
-          });
-
-          $(this).bind( "click", function(){
-
-            if( $(this).is(".word_center") && $(this).is(".leftSelected") && $(this).is(".rightSelected")
-             || $(this).is(".word_left") && $(this).is(".leftSelected")
-             || $(this).is(".word_right") && $(this).is(".rightSelected")
-              )
-            return;
-
-            var thisLine = i%3;
-            if( readyLine === undefined ) {
-              $(this).addClass("active");
-              readyLine = thisLine;
-
-            }else if( readyLine != undefined && Math.abs( readyLine - thisLine ) !== 1 ) {
-
-              if( $(this).is( ".active" ) ){
-                readyLine = undefined;
-              }else{
-                $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
-              }
-              $(this).toggleClass( "active" );
-
-            }else{
-
-              drawLine( $(this) );
-              $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
-              readyLine = undefined;
-
-            }
-          });
-        });
-
-        $(this).bind( "mousedown", function(){
-          return false;
-        });
-
       });
+
     })();
 
 
