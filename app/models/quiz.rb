@@ -376,7 +376,13 @@ class Quiz < ActiveRecord::Base
 
       if val[:answers]
         val[:answers] = val[:answers].sort_by{|a| rand} if self.shuffle_answers && !non_shuffled_questions.include?(val[:question_type])
-        val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
+        case val[:matches]
+        when Array
+          val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
+        when Hash
+          val[:matches][:center] = val[:matches][:center].sort_by{|m| m[:text] || "" }
+          val[:matches][:right] = val[:matches][:right].sort_by{|m| m[:text] || "" }
+        end
       elsif val[:questions] # It's a QuizGroup
         if val[:assessment_question_bank_id]
           # It points to a question bank
@@ -386,7 +392,14 @@ class Quiz < ActiveRecord::Base
           val[:questions].each do |question|
             if question[:answers]
               question[:answers] = question[:answers].sort_by{|a| rand} if self.shuffle_answers && !non_shuffled_questions.include?(question[:question_type])
-              question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
+              case question[:matches]
+              when Array
+                question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
+                val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
+              when Hash
+                question[:matches][:center] = question[:matches][:center].sort_by{|m| m[:text] || ""}
+                question[:matches][:right] = question[:matches][:right].sort_by{|m| m[:text] || ""}
+              end
             end
             questions << question
           end
