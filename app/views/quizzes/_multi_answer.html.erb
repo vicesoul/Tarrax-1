@@ -66,7 +66,7 @@
   <% if answer %>
       <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_center" type="hidden">
       <% if a = center_answers[multi_answer_counter] %>
-        <span value="<%= hash_get(a, :match_id) %>" >
+        <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_center_id) %>" >
           <%= (hash_get(a, :center) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
         </span>
       <% end %>
@@ -76,7 +76,7 @@
   <% if answer %>
       <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_right" type="hidden">
       <% if a = right_answers[multi_answer_counter] %>
-        <span value="<%= hash_get(a, :match_id) %>" >
+        <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_rigth_id) %>" >
           <%= (hash_get(a, :right) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
         </span>
       <% end %>
