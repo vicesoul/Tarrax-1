@@ -58,15 +58,28 @@ div#content
       position: relative
       z-index: 1
       .connecting_lead
-        span
-          padding: 3px
-          border: 1px solid rgba( 0, 0, 0, 0)
-          cursor: pointer
-        span.active
-          border: 1px solid rgba( 0, 0, 0, 1)
+        padding: 3px
+        border: 1px solid rgba( 0, 0, 0, 0)
+        cursor: pointer
+      .connecting_lead.active
+        border: 1px solid rgba( 0, 0, 0, 1)
     svg
       position: absolute!important
       z-index: 0
+    .tool-tip
+      position: absolute
+      z-index: 2
+      font-size: 10px
+      border: 1px #ccc solid
+      background: #fff
+      border-radius: 4px
+      padding: 3px
+      h5
+        margin: 0
+      button
+        margin: 0 3px 0 0
+        padding: 0
+
   
 
 

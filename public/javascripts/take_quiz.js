@@ -32,7 +32,8 @@ define([
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
   'vendor/raphael',
-  'i18n!editor'
+  'i18n!editor',
+  'bootstrap'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
@@ -548,47 +549,90 @@ define([
         return this;
       };
 
-
-
       $("#submit_quiz_form .connecting_lead_question").each(function(){
-
-
         var readyLine,
+            deleHandle,
             $answers = $(this).find(".answers"),
+            $toolTip = $("<div><h5>是否删除？</h5></div>")
+              .addClass("tool-tip")
+              .hide()
+              .bind("click", function(e){
+                e.stopPropagation();
+              }).appendTo( $answers ),
+            $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
+            $toolTipCancel = $("<button type=button>取消</button>").bind("click", function(){
+              resetToolTip();
+
+            }).appendTo($toolTip),
             paper = Raphael( $answers[0], $answers.width(), $answers.height()),
-            $this = $(this),
-            drawLine = function( node ){
-              var $active = $this.find( ".active" );
-              $(node).data( "connectedTimes", $(node).data( "connectedTimes" ) + 1 );
-              $active.data( "connectedTimes", $active.data( "connectedTimes" ) + 1 );
+            $this = $(this);
 
-              var AP = $active.position();
-              var BP = $(node).position();
-              var x1,y1,x2,y2;
-              if( BP.left > AP.left ){
-                x2 = BP.left - 10;
-                y2 = BP.top + $(node).height()/2 + 5;
-                x1 = AP.left + $active.width() + 10;
-                y1 = AP.top + $active.height()/2 + 5;
-              }else{
-                x2 = AP.left - 10;
-                y2 = AP.top + $active.height()/2 + 5;
-                x1 = BP.left + $(node).width() + 10;
-                y1 = BP.top + $(node).height()/2 + 5;
-              }
-              var line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
-              line.attr("stroke", "#ff6600");
-              line.click(function(){
-                alert("OOOOOO")
-                this.remove()
-              })
+        function drawLine( $end ){
+          var $active = $this.find( ".active" );
+          var $towNOde = $end.add( $active );
+          var checkName;
 
-            };
+          checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected";
+          $towNOde.addClass( checkName );
 
+          var AP = $active.position();
+          var BP = $end.position();
+          var x1,y1,x2,y2;
+          if( BP.left > AP.left ){
+            x2 = BP.left - 10;
+            y2 = BP.top + $end.height()/2 + 5;
+            x1 = AP.left + $active.width() + 10;
+            y1 = AP.top + $active.height()/2 + 5;
+          }else{
+            x2 = AP.left - 10;
+            y2 = AP.top + $active.height()/2 + 5;
+            x1 = BP.left + $end.width() + 10;
+            y1 = BP.top + $end.height()/2 + 5;
+          }
 
-        $(this).find(".connecting_lead span").each( function( i ){
+          var line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+          line.attr({
+            "stroke": "#08c",
+            "stroke-width": 5
+          }).click(function(e){
+            e.stopPropagation();
+            resetToolTip();
+            this.attr({
+              "stroke-dasharray": "-"
+            });
+            $toolTip.show()
+              .css({
+                left: ( x1 + x2 )/2 - $toolTip.width()/2,
+                top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+              });
+            deleHandle =  deleLine(this, $towNOde, checkName, $toolTip);
+            $toolTipDele.bind( "click", deleHandle );
 
-          $(this).data( "connectedTimes", 0 );
+          });
+
+        }
+
+        function deleLine(line, leads, className, toolTip){
+          return function(){
+            line.remove();
+            leads.removeClass( className );
+            toolTip.hide();
+          }
+        }
+
+        function resetToolTip(){
+          $toolTip.hide();
+          $toolTipDele.unbind( "click", deleHandle );
+          paper.forEach(function (el) {
+            el.attr("stroke-dasharray", "");
+          });
+        }
+
+        $(document).click(function(){
+          resetToolTip();
+        });
+
+        $(this).find(".connecting_lead").each( function( i ){
 
           $(this).css({
             position: "absolute",
@@ -601,11 +645,12 @@ define([
           });
 
           $(this).bind( "click", function(){
-            console.log( $(this).data( "connectedTimes" ) )
-            if( $(this).data( "connectedTimes" ) === 1 && $(this).parent().is(".word_left")
-            ||  $(this).data( "connectedTimes" ) === 1 && $(this).parent().is(".word_right")
-            ||  $(this).data( "connectedTimes" ) === 2 && $(this).parent().is(".word_center")
-              ) return;
+
+            if( $(this).is(".word_center") && $(this).is(".leftSelected") && $(this).is(".rightSelected")
+             || $(this).is(".word_left") && $(this).is(".leftSelected")
+             || $(this).is(".word_right") && $(this).is(".rightSelected")
+              )
+            return;
 
             var thisLine = i%3;
             if( readyLine === undefined ) {
@@ -621,7 +666,6 @@ define([
               }
               $(this).toggleClass( "active" );
 
-
             }else{
 
               drawLine( $(this) );
@@ -629,13 +673,7 @@ define([
               readyLine = undefined;
 
             }
-
-
-
           });
-
-
-
         });
 
         $(this).bind( "mousedown", function(){
