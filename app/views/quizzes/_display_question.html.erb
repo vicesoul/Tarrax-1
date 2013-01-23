@@ -23,7 +23,7 @@
 
     if question_type.entry_type == "connecting_lead"
       matches = hash_get(question, :matchers)
-      center_answers = hash_get(matches, :center) || hash_get(question, :answers).sort_by{|a| rand } rescue {}
+      left_answers = hash_get(matches, :left) || hash_get(question, :answers).sort_by{|a| rand } rescue {}
       right_answers = hash_get(question, :right) || hash_get(question, :answers).sort_by{|a| rand }  rescue {}
     end
 
@@ -205,7 +205,7 @@
             <% if question_type.display_answers == "multiple" && !["missing_word_question", "fill_in_multiple_blanks_question"].include?(hash_get(question, :question_type)) %>
               <% list = hash_get(question, :answers, []) %>
               <%= render :partial => "quizzes/multi_answer", :collection => list, :locals =>
-                  {:question => question, :right_answers => right_answers, :center_answers => center_answers, :question_type => question_type, :user_answer => user_answer} %>
+                  {:question => question, :right_answers => right_answers, :left_answers => left_answers, :question_type => question_type, :user_answer => user_answer} %>
             <% elsif question_type.display_answers == "single" %>
               <%= render :partial => "quizzes/single_answer", :locals =>
                     {:question => question, :right_answers => right_answers, :question_type => question_type, :user_answer => user_answer, :editable => assessing} %>

@@ -57,18 +57,18 @@
 <% elsif question_type.entry_type == "connecting_lead" %>
 <div class="connecting_lead word_left">
   <% if answer %>
-        <span>
-        <%= hash_get(answer, :left) %>
+      <% if a = left_answers[multi_answer_counter] %>
+        <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_left_id) %>" >
+          <%= (hash_get(a, :left) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
         </span>
+      <% end %>
   <% end %>
 </div>
 <div class="connecting_lead word_center">
   <% if answer %>
-      <% if a = center_answers[multi_answer_counter] %>
-        <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_center_id) %>" >
-          <%= (hash_get(a, :center) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+        <span>
+        <%= hash_get(answer, :center) %>
         </span>
-      <% end %>
   <% end %>
 </div>
 <div class="connecting_lead word_right">

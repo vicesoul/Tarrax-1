@@ -26,13 +26,13 @@ class QuizQuestion::ConnectingLeadQuestion < QuizQuestion::Base
     correct_answers = 0
 
     @question_data[:answers].each do |answer|
-      %w(center right).each do |position|
+      %w(left right).each do |position|
         answer_match = user_answer["answer_#{answer[:id]}_#{position}"].to_s
 
         if answer_match.present?
           total_answers += 1
           found_matched = @question_data[:answers].find {|a| a["match_#{position}_id"].to_i == answer_match.to_i }
-          if found_matched == answer || (found_matched && found_matched[:right] && found_matched[:right] == answer[:right])
+          if found_matched == answer || (found_matched && found_matched[position] && found_matched[position] == answer[position])
             correct_answers += 1
             answer_match = answer["match_#{position}_id"].to_s
           end
