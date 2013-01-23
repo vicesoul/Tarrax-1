@@ -141,6 +141,10 @@ define([
         templateData.answer_match_left_html = answer.answer_match_left_html;
         templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
         $answer.find(".comment_focus").attr('title', I18n.t('titles.click_to_enter_comments_on_wrong_match', 'Click to enter comments for the student if they miss this match'));
+      } else if (question_type == "connecting_on_pic_question") {
+        templateData.answer_match_left_html = answer.answer_match_left_html;
+        templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
+        $answer.find(".comment_focus").attr('title', I18n.t('titles.click_to_enter_comments_on_wrong_match', 'Click to enter comments for the student if they miss this match'));
       } else if (question_type == "matching_question") {
         templateData.answer_match_left_html = answer.answer_match_left_html;
         templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
@@ -187,6 +191,9 @@ define([
         $answer.removeClass('correct_answer');
       }
       if (question_type == "connecting_lead_question") {
+        $answer.removeClass('correct_answer');
+      }
+      if (question_type == "connecting_on_pic_question") {
         $answer.removeClass('correct_answer');
       }
 
@@ -247,6 +254,10 @@ define([
         answer_type = "connecting_lead_answer";
         question_type = "connecting_lead_question";
         n_correct = "all";
+      } else if (qt == 'connecting_on_pic_question') {
+        answer_type = "connecting_on_pic_answer";
+        question_type = "connecting_on_pic_question";
+        n_correct = "all";
       } else if (qt == 'matching_question') {
         answer_type = "matching_answer";
         question_type = "matching_question";
@@ -289,6 +300,8 @@ define([
           result = "none";
       } else if (question_type == 'connecting_lead_question') {
         result = "connecting_lead";
+      } else if (question_type == 'connecting_on_pic_question') {
+        result = "connecting_on_pic";
       } else if (question_type == 'matching_question') {
         result = "matching";
       } else if (question_type == 'missing_word_question') {
@@ -530,6 +543,35 @@ define([
           $text.append(I18n.beforeLabel('other_incorrect_matches', "Other Incorrect Match Options") + "<ul class='matching_answer_incorrect_matches_list'>" + code + "</ul>");
         }
       }
+      if (question.question_type == 'connecting_on_pic_question') {
+        var $text = $question.find(".after_answers");
+        var split = [];
+        if (question.matches && question.answers) {
+          var correct_ids = {};
+          for(var idx in question.answers) {
+            correct_ids[question.answers[idx].match_id] = true;
+          }
+          for(var idx in question.matches) {
+            if (!correct_ids[question.matches[idx].match_id]) {
+              split.push(question.matches[idx].text);
+            }
+          }
+        } else {
+          var split = (question.matching_answer_incorrect_matches || "");
+          if (typeof(split) == 'string') {
+            split = split.split("\n");
+          }
+        }
+        var code = "";
+        for(var cdx in split) {
+          if(split[cdx]) {
+            code = code + "<li>" + htmlEscape(split[cdx]) + "</li>";
+          }
+        }
+        if (code) {
+          $text.append(I18n.beforeLabel('other_incorrect_matches', "Other Incorrect Match Options") + "<ul class='matching_answer_incorrect_matches_list'>" + code + "</ul>");
+        }
+      }
       $question.find(".blank_id_select").change();
       $question.fillTemplateData({
         question_type: question_type,
@@ -653,6 +695,11 @@ define([
         $form.find(".matching_answer_incorrect_matches_holder").show();
         result.answer_type = "connecting_lead_answer";
         result.textValues = ['connecting_lead_left', 'connecting_lead_center','connecting_lead_right', 'answer_comment'];
+      } else if (question_type == 'connecting_on_pic_question') {
+        $formQuestion.removeClass('selectable');
+        $form.find(".matching_answer_incorrect_matches_holder").show();
+        result.answer_type = "connecting_on_pic_answer";
+        result.textValues = ['connecting_on_pic_left', 'connecting_on_pic_center','connecting_on_pic_right', 'answer_comment'];
       } else if (question_type == 'matching_question') {
         $formQuestion.removeClass('selectable');
         $form.find(".matching_answer_incorrect_matches_holder").show();
@@ -843,6 +890,9 @@ define([
     data.connecting_lead_left = data.left || data.connecting_lead_left;
     data.connecting_lead_center = data.center || data.connecting_lead_center;
     data.connecting_lead_right = data.right || data.connecting_lead_right;
+    data.connecting_on_pic_left = data.left || data.connecting_on_pic_left;
+    data.connecting_on_pic_center = data.center || data.connecting_on_pic_center;
+    data.connecting_on_pic_right = data.right || data.connecting_on_pic_right;
     data.answer_exact = data.exact || data.answer_exact;
     data.answer_error_margin = data.answer_error_margin || data.margin;
     data.answer_range_start = data.start || data.answer_range_start;
@@ -929,7 +979,7 @@ define([
         $question.find(".answer").each(function() {
           var $answer = $(this);
           var answerData = $answer.getTemplateData({
-            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right',  'answer_comment'],
+            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right', 'connecting_on_pic_left','connecting_on_pic_center', 'connecting_on_pic_right',  'answer_comment'],
             htmlValues: ['answer_html', 'answer_match_left_html', 'answer_comment_html']
           });
           var answer = $.extend({}, quiz.defaultAnswerData, answerData);
@@ -1035,6 +1085,9 @@ define([
           data[jd + '[connecting_lead_left]'] = answer.connecting_lead_left;
           data[jd + '[connecting_lead_center]'] = answer.connecting_lead_center;
           data[jd + '[connecting_lead_right]'] = answer.connecting_lead_right;
+          data[jd + '[connecting_on_pic_left]'] = answer.connecting_on_pic_left;
+          data[jd + '[connecting_on_pic_center]'] = answer.connecting_on_pic_center;
+          data[jd + '[connecting_on_pic_right]'] = answer.connecting_on_pic_right;
           data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
           data[jd + '[answer_exact]'] = answer.answer_exact;
           data[jd + '[answer_error_margin]'] = answer.answer_error_margin;
@@ -2008,6 +2061,13 @@ define([
         }];
         answer_type = "connecting_lead_answer";
         question_type = "connecting_lead_question";
+        answer_selection_type = "matching";
+      } else if ($question.hasClass('connecting_on_pic_question')) {
+        var answers = [{
+          comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
+        }];
+        answer_type = "connecting_on_pic_answer";
+        question_type = "connecting_on_pic_question";
         answer_selection_type = "matching";
       } else if ($question.hasClass('matching_question')) {
         var answers = [{

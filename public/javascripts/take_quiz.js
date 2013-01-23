@@ -32,7 +32,8 @@ define([
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
   'vendor/raphael',
-  'i18n!editor'
+  'i18n!editor',
+  'bootstrap.min'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
@@ -537,16 +538,6 @@ define([
     (function takeConnectingLeadQuestion(){
       if( $(".question.connecting_lead_question").size() === 0 ) return false;
 
-      $.fn.rotate = function(num) {
-        this.css({
-          transform: "rotate(" + num + "deg)",
-          "-webkit-transform": "rotate(" + num + "deg)",
-          "-o-transform": "rotate(" + num + "deg)",
-          "-ms-transform": "rotate(" + num + "deg)"
-        });
-        return this;
-      };
-
       $("#submit_quiz_form .connecting_lead_question").each(function(){
         var readyLine,
             deleHandle,
@@ -557,14 +548,11 @@ define([
             $toolTip = $("<div><h5>是否删除？</h5></div>")
               .addClass("tool-tip")
               .hide()
-              .bind("click", function(e){
-                e.stopPropagation();
-              }).appendTo( $answers ),
+              .bind("click", function(e){ e.stopPropagation(); })
+              .appendTo( $answers ),
             $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
-            $toolTipCancel = $("<button type=button>取消</button>")
-              .bind("click", function(){
-                resetToolTip();
-              })
+            $toolTipCancel = $( "<button type=button>取消</button>" )
+              .bind("click", function(){resetToolTip();})
               .appendTo($toolTip),
             paper = Raphael( $answers[0], $answers.width(), answerHeight );
 
@@ -610,40 +598,36 @@ define([
         });
 
         function drawLine( $end ){
-          var $active = $this.find( ".active" );
-          var $towNOde = $end.add( $active );
-          var checkName;
-
-          checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected";
-          $towNOde.addClass( checkName );
-
-          var normalPosition = $end.position().left > $active.position().left;
-          var $nodeB = normalPosition ? $end : $active;
-          var $nodeA = !normalPosition ? $end : $active;
-          var x2 = $nodeB.position().left - 10;
-          var y2 = $nodeB.position().top + $nodeB.height()/2 + 5;
-          var x1 = $nodeA.position().left + $nodeA.width() + 10;
-          var y1 = $nodeA.position().top + $nodeA.height()/2 + 5;
-
-          var line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
-          line.attr({
-            "stroke": "#08c",
-            "stroke-width": 5
-          }).click(function(e){
-            e.stopPropagation();
-            resetToolTip();
-            this.attr({
-              "stroke-dasharray": "- "
-            });
-            $toolTip.show()
-              .css({
-                left: ( x1 + x2 )/2 - $toolTip.width()/2,
-                top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+          var $active = $this.find( ".active" ),
+           checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected",
+           $towNOde = $end.add( $active ).addClass( checkName ),
+           normalPosition = $end.position().left > $active.position().left,
+           $nodeB = normalPosition ? $end : $active,
+           $nodeA = !normalPosition ? $end : $active,
+           x2 = $nodeB.position().left - 10,
+           y2 = $nodeB.position().top + $nodeB.height()/2 + 5,
+           x1 = $nodeA.position().left + $nodeA.width() + 10,
+           y1 = $nodeA.position().top + $nodeA.height()/2 + 5,
+           line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2)
+            .attr({
+              "stroke": "#08c",
+              "stroke-width": 5
+            })
+            .click(function(e){
+              e.stopPropagation();
+              resetToolTip();
+              this.attr({
+                "stroke-dasharray": "- "
               });
-            deleHandle =  deleLine(this, $towNOde, checkName, $toolTip);
-            $toolTipDele.bind( "click", deleHandle );
-          });
-
+              $toolTip
+                .show()
+                .css({
+                  left: ( x1 + x2 )/2 - $toolTip.width()/2,
+                  top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+                });
+              deleHandle =  deleLine(this, $towNOde, checkName, $toolTip);
+              $toolTipDele.bind( "click", deleHandle );
+            });
         }
 
         function deleLine(line, leads, className, toolTip){
@@ -666,6 +650,16 @@ define([
 
     })();
 
+
+    /*$.fn.rotate = function(num) {
+      this.css({
+        transform: "rotate(" + num + "deg)",
+        "-webkit-transform": "rotate(" + num + "deg)",
+        "-o-transform": "rotate(" + num + "deg)",
+        "-ms-transform": "rotate(" + num + "deg)"
+      });
+      return this;
+    };*/
 
   });
 });

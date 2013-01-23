@@ -55,7 +55,7 @@
     <div class="clear"></div>
 </div>
 <% elsif question_type.entry_type == "connecting_lead" %>
-<div class="connecting_lead word_left">
+<div class="connecting_lead word_left" answerId=<%= hash_get(answer, :id) %>>
   <% if answer %>
         <span>
         <%= hash_get(answer, :left) %>
@@ -64,6 +64,7 @@
 </div>
 <div class="connecting_lead word_center">
   <% if answer %>
+      <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_center" type="hidden">
       <% if a = center_answers[multi_answer_counter] %>
         <span value="<%= hash_get(a, :match_id) %>" >
           <%= (hash_get(a, :center) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
@@ -73,6 +74,7 @@
 </div>
 <div class="connecting_lead word_right">
   <% if answer %>
+      <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_right" type="hidden">
       <% if a = right_answers[multi_answer_counter] %>
         <span value="<%= hash_get(a, :match_id) %>" >
           <%= (hash_get(a, :right) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>

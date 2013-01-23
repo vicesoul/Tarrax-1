@@ -64,6 +64,12 @@ module QuizzesHelper
        :display_answers => "multiple",
        :answer_type => "connecting_lead_answer"      # view/quizzes/_multi_answer.html.erb
       }),
+      "connecting_on_pic_question" => OpenObject.new({
+       :question_type => "connecting_on_pic_question",
+       :entry_type => "connecting_on_pic",
+       :display_answers => "multiple",
+       :answer_type => "connecting_on_pic_answer"      # view/quizzes/_multi_answer.html.erb
+      }),
       "matching_question" => OpenObject.new({
         :question_type => "matching_question",
         :entry_type => "matching",

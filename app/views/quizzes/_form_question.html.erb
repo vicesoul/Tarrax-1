@@ -25,6 +25,7 @@
       <option value="text_only_question" style="padding: 2px;"><%= t('question_type.text_only', "Text (no question)") %></option>
       <option value="paint_question" style="padding: 2px;">原题作图</option>
       <option value="connecting_lead_question" style="padding: 2px;">连线题</option>
+      <option value="connecting_on_pic_question" style="padding: 2px;">画图连线题</option>
     </select>
     <span class="question_points_holder">
       <span style="padding-left: 20px;"><%= before_label :points, 'pts' %></span>
@@ -58,6 +59,9 @@
     </div>
     <div class="connecting_lead_question_explanation explanation subheader">
       可以设置两列或三列连线题
+    </div>
+    <div class="connecting_on_pic_question_explanation explanation subheader">
+      先上传一张图片，然后在图上可以设置两列或三列连线题
     </div>
     <div class="numerical_question_explanation explanation subheader">
       <%= t('explanations.numerical', "Define the correct answer as any number within a range, or a number plus or minus some error margin.  Student will be given an empty text box to type their numerical answer.") %>
