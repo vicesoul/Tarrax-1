@@ -295,15 +295,15 @@ class AssessmentQuestion < ActiveRecord::Base
         m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
         m[:match_id] = unique_local_id(m[:match_id])
         question[:matches] << m
-        end
+      end
     elsif question[:question_type] == "connecting_lead_question"
       answers.each do |key, answer|
         a = {
-          :text     => check_length(answer[:connecting_lead_center], 'answer match', min_size),
-          :left     => check_length(answer[:connecting_lead_left], 'answer match', min_size),
-          :center   => check_length(answer[:connecting_lead_center], 'answer match', min_size),
-          :right    => check_length(answer[:connecting_lead_right], 'answer match', min_size),
-          :comments => check_length(answer[:answer_comments], 'answer comments', min_size)
+          :text     => check_length(answer[:connecting_lead_center] , 'answer match'    , min_size) ,
+          :left     => check_length(answer[:connecting_lead_left]   , 'answer match'    , min_size) ,
+          :center   => check_length(answer[:connecting_lead_center] , 'answer match'    , min_size) ,
+          :right    => check_length(answer[:connecting_lead_right]  , 'answer match'    , min_size) ,
+          :comments => check_length(answer[:answer_comments]        , 'answer comments' , min_size)
         }
         a[:center_html] = a[:html] = sanitize(answer[:answer_match_center_html]) if answer[:answer_match_center_html].present?
 
@@ -319,20 +319,20 @@ class AssessmentQuestion < ActiveRecord::Base
         question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
       end
 
-      (qdata[:matching_answer_incorrect_matches][0] || "").split("\n").each do |other|
-        m = {:text => check_length(other[0..255], 'distractor', min_size) }
-        m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
-        m[:match_id] = unique_local_id(m[:match_id])
+      #(qdata[:matching_answer_incorrect_matches][0] || "").split("\n").each do |other|
+        #m = {:text => check_length(other[0..255], 'distractor', min_size) }
+        #m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
+        #m[:match_id] = unique_local_id(m[:match_id])
 
-        question[:matchers][:left] << m
-      end
-      (qdata[:matching_answer_incorrect_matches][1] || "").split("\n").each do |other|
-        m = {:text => check_length(other[0..255], 'distractor', min_size) }
-        m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
-        m[:match_id] = unique_local_id(m[:match_id])
+        #question[:matchers][:left] << m
+      #end
+      #(qdata[:matching_answer_incorrect_matches][1] || "").split("\n").each do |other|
+        #m = {:text => check_length(other[0..255], 'distractor', min_size) }
+        #m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
+        #m[:match_id] = unique_local_id(m[:match_id])
 
-        question[:matchers][:right] << m
-      end
+        #question[:matchers][:right] << m
+      #end
     elsif question[:question_type] == "missing_word_question"
       found_correct = false
       answers.each do |key, answer|
