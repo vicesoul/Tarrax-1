@@ -380,7 +380,7 @@ class Quiz < ActiveRecord::Base
         when Array
           val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
         when Hash
-          val[:matches][:center] = val[:matches][:center].sort_by{|m| m[:text] || "" }
+          val[:matches][:left] = val[:matches][:left].sort_by{|m| m[:text] || "" }
           val[:matches][:right] = val[:matches][:right].sort_by{|m| m[:text] || "" }
         end
       elsif val[:questions] # It's a QuizGroup
@@ -397,7 +397,7 @@ class Quiz < ActiveRecord::Base
                 question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
                 val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
               when Hash
-                question[:matches][:center] = question[:matches][:center].sort_by{|m| m[:text] || ""}
+                question[:matches][:left] = question[:matches][:left].sort_by{|m| m[:text] || ""}
                 question[:matches][:right] = question[:matches][:right].sort_by{|m| m[:text] || ""}
               end
             end

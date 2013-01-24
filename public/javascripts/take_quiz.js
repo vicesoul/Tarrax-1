@@ -32,8 +32,7 @@ define([
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
   'vendor/raphael',
-  'i18n!editor',
-  'bootstrap.min'
+  'i18n!editor'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
@@ -539,6 +538,7 @@ define([
       if( $(".question.connecting_lead_question").size() === 0 ) return false;
 
       $("#submit_quiz_form .connecting_lead_question").each(function(){
+            // which line is active
         var readyLine,
             deleHandle,
             $this = $(this),
@@ -570,9 +570,11 @@ define([
 
           $(this).bind( "click", function(){
 
-            if( $(this).is(".word_center") && $(this).is(".leftSelected") && $(this).is(".rightSelected")
-              || $(this).is(".word_left") && $(this).is(".leftSelected")
-              || $(this).is(".word_right") && $(this).is(".rightSelected")
+            if(  $(this).is(".leftSelected.rightSelected")
+              || $(this).is(".word_left") && $(this).add(".active").is(".leftSelected")
+              || $(this).is(".word_right") && $(this).add(".active").is(".rightSelected")
+              || $(this).is(".word_center.leftSelected") && $(".active").is(".word_left")
+              || $(this).is(".word_center.rightSelected") && $(".active").is(".word_right")
               )
               return;
 
@@ -599,16 +601,18 @@ define([
 
         function drawLine( $end ){
           var $active = $this.find( ".active" ),
-           checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected",
-           $towNOde = $end.add( $active ).addClass( checkName ),
-           normalPosition = $end.position().left > $active.position().left,
-           $nodeB = normalPosition ? $end : $active,
-           $nodeA = !normalPosition ? $end : $active,
-           x2 = $nodeB.position().left - 10,
-           y2 = $nodeB.position().top + $nodeB.height()/2 + 5,
-           x1 = $nodeA.position().left + $nodeA.width() + 10,
-           y1 = $nodeA.position().top + $nodeA.height()/2 + 5,
-           line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2)
+            checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected",
+            $towNOde = $end.add( $active ).addClass( checkName ),
+            normalPosition = $end.position().left > $active.position().left,
+            $nodeB = normalPosition ? $end : $active,
+            $nodeA = !normalPosition ? $end : $active,
+            x2 = $nodeB.position().left - 10,
+            y2 = $nodeB.position().top + $nodeB.height()/2 + 5,
+            x1 = $nodeA.position().left + $nodeA.width() + 10,
+            y1 = $nodeA.position().top + $nodeA.height()/2 + 5,
+            line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+          line
             .attr({
               "stroke": "#08c",
               "stroke-width": 5
@@ -616,25 +620,36 @@ define([
             .click(function(e){
               e.stopPropagation();
               resetToolTip();
-              this.attr({
-                "stroke-dasharray": "- "
-              });
+              this.attr({"stroke-dasharray": "- "});
               $toolTip
                 .show()
                 .css({
                   left: ( x1 + x2 )/2 - $toolTip.width()/2,
                   top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
                 });
-              deleHandle =  deleLine(this, $towNOde, checkName, $toolTip);
+              deleHandle =  deleLine(this, $active, $end);
               $toolTipDele.bind( "click", deleHandle );
             });
+
+          var $A = $active.is( ".word_center" ) ? $active : $end;    // is center
+          var $B = !$active.is( ".word_center" ) ? $active : $end;   // is sidebar
+          var matchId = $B.find("span").attr("value");
+          $B.is( ".word_left" ) ? $A.find(".left").val(matchId).trigger("change") : $A.find(".right").val(matchId).trigger("change");
+
         }
 
-        function deleLine(line, leads, className, toolTip){
+        function deleLine(line, $leadA, $leadB){
           return function(){
+            var $nodeA = $leadA.is(".word_center") ? $leadB : $leadA;   // $nodeA is sidebar
+            var $nodeB = !$leadA.is(".word_center") ? $leadB : $leadA;  // $nodeB is center
+            // empty value
+            $nodeA.is(".word_left") ? $nodeB.find(".left").val("").trigger("change") : $nodeB.find(".right").val("").trigger("change");
+
+            // both is leftSelected or rightSelected
+            var className = $leadA.is(".leftSelected") && $leadB.is(".leftSelected") ? "leftSelected" : "rightSelected";
+            $leadA.add( $leadB ).removeClass( className );
+            $toolTip.hide();
             line.remove();
-            leads.removeClass( className );
-            toolTip.hide();
           }
         }
 

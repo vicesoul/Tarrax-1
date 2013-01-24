@@ -299,22 +299,22 @@ class AssessmentQuestion < ActiveRecord::Base
     elsif question[:question_type] == "connecting_lead_question"
       answers.each do |key, answer|
         a = {
-          :text     => check_length(answer[:connecting_lead_left], 'answer match', min_size),
+          :text     => check_length(answer[:connecting_lead_center], 'answer match', min_size),
           :left     => check_length(answer[:connecting_lead_left], 'answer match', min_size),
           :center   => check_length(answer[:connecting_lead_center], 'answer match', min_size),
           :right    => check_length(answer[:connecting_lead_right], 'answer match', min_size),
           :comments => check_length(answer[:answer_comments], 'answer comments', min_size)
         }
-        a[:left_html] = a[:html] = sanitize(answer[:answer_match_left_html]) if answer[:answer_match_left_html].present?
+        a[:center_html] = a[:html] = sanitize(answer[:answer_match_center_html]) if answer[:answer_match_center_html].present?
 
-        a[:id]              = unique_local_id(answer[:id].to_i)
-        a[:match_center_id] = unique_local_id(answer[:match_center_id].to_i)
-        a[:match_right_id]  = unique_local_id(answer[:match_right_id].to_i)
+        a[:id]             = unique_local_id(answer[:id].to_i)
+        a[:match_left_id]  = unique_local_id(answer[:match_left_id].to_i)
+        a[:match_right_id] = unique_local_id(answer[:match_right_id].to_i)
 
         question[:answers] << a
         question[:matches] ||= {}
-        question[:matches][:center] ||= []
-        question[:matches][:center] << {:match_id => a[:match_center_id], :text => check_length(answer[:connecting_lead_center], 'answer match', min_size)}
+        question[:matches][:left] ||= []
+        question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_lead_left], 'answer match', min_size)}
         question[:matches][:right] ||= []
         question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
       end
@@ -324,7 +324,7 @@ class AssessmentQuestion < ActiveRecord::Base
         m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
         m[:match_id] = unique_local_id(m[:match_id])
 
-        question[:matchers][:center] << m
+        question[:matchers][:left] << m
       end
       (qdata[:matching_answer_incorrect_matches][1] || "").split("\n").each do |other|
         m = {:text => check_length(other[0..255], 'distractor', min_size) }
