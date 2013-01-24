@@ -72,13 +72,13 @@ fr:
       canvas_login_tip: |-
           Si vous avez configuré des paramètres qui vous empêchent de vous connecter, ajoutez
             *%{url1}* à la fin de votre URL de connexion. Cela vous permettra de vous connecter
-            à l’aide de la procédure normale de connexion Canvas. Pour ce compte, l’URL est %{url2}
+            à l’aide de la procédure normale de connexion Jiaoxuebang. Pour ce compte, l’URL est %{url2}
       choose_auth_type_option: "Choisir un service d’authentification"
       current_settings_title: "Intégration actuelle"
       delete_auth_confirmation: "Êtes-vous sûr ? Les utilisateurs risquent de ne pas pouvoir se connecter si vous la supprimez."
       delete_auth_link: "Supprimer l’authentification"
       edit_auth_link: "Modifier les informations"
-      ip_address_list_description: "Si vous utilisez un service d’authentification, par exemple LDAP, qui exige que les serveurs Canvas contactent directement vos serveurs, assurez-vous que vos serveurs accepteront les connexions en provenance de ces adresses IP :"
+      ip_address_list_description: "Si vous utilisez un service d’authentification, par exemple LDAP, qui exige que les serveurs Jiaoxuebang contactent directement vos serveurs, assurez-vous que vos serveurs accepteront les connexions en provenance de ces adresses IP :"
       no_auth_type_description: "Actuellement ce compte n’est pas intégré à un fournisseur d’identités."
       page_title: "Paramètres d’authentification"
       profile_page_link_example: "Par exemple, voici votre page de profil : [%{friendlyname}](%{url})"
@@ -89,7 +89,7 @@ fr:
     ldap_settings: 
       add_secondary_ldap_server_link: "Ajouter un serveur LDAP secondaire"
       auth_type_label: Type
-      change_password_url_help: "Laisser vide pour utiliser le comportement par défaut de Canvas"
+      change_password_url_help: "Laisser vide pour utiliser le comportement par défaut de Jiaoxuebang"
       change_password_url_not_specified: "Non spécifiée"
       labels: 
         change_password_url: "URL de mot de passe oublié"
@@ -102,7 +102,7 @@ fr:
     ldap_settings_fields: 
       auth_filter_description: "Utiliser *%{placeholder}* comme espace réservé pour le nom d’utilisateur fourni par l’utilisateur. Par exemple : *(sAMAccountName=%{placeholder})*"
       auth_password_description: "Laisser vide pour continuer d’utiliser le mot de passe actuel."
-      identifer_format_description: "Attribut LDAP à utiliser pour chercher l’ID de connexion Canvas. Laissez ce champ vide pour utiliser le nom d’utilisateur fourni par l’utilisateur."
+      identifer_format_description: "Attribut LDAP à utiliser pour chercher l’ID de connexion Jiaoxuebang. Laissez ce champ vide pour utiliser le nom d’utilisateur fourni par l’utilisateur."
       labels: 
         auth_base: Base
         auth_filter: Filtre
@@ -125,14 +125,14 @@ fr:
       ldap_test_login_button: "Tester la connexion"
       test_ldap_bind_help_body: "Votre serveur LDAP a rejeté la tentative de liaison. Points à considérer :"
       test_ldap_bind_help_fixes_1: "Vérifiez la chaîne de filtrage fournie (c.-à-d., '(sAMAccountName={{login}})')."
-      test_ldap_bind_help_fixes_2: "Le nom d’utilisateur nécessite-t-il davantage d’informations ? (c.-à-d., 'cn=Canvas,ou=people,dc=example,dc=com')."
-      test_ldap_bind_help_header: "Canvas ne peut pas établir la liaison (la connexion) avec votre serveur LDAP."
+      test_ldap_bind_help_fixes_2: "Le nom d’utilisateur nécessite-t-il davantage d’informations ? (c.-à-d., 'cn=Jiaoxuebang,ou=people,dc=example,dc=com')."
+      test_ldap_bind_help_header: "Jiaoxuebang ne peut pas établir la liaison (la connexion) avec votre serveur LDAP."
       test_ldap_bind_label: "Test de la liaison LDAP..."
       test_ldap_connection_help_body: "La connexion a expiré ou a été refusée. Points à considérer :"
-      test_ldap_connection_help_fixes_1: "Canvas se connecte à %{ips}"
+      test_ldap_connection_help_fixes_1: "Jiaoxuebang se connecte à %{ips}"
       test_ldap_connection_help_fixes_2: "Cette connexion était un simple test. Les certificats SSL n’ont pas été validés."
-      test_ldap_connection_help_fixes_3: "Vérifiez les paramètres de votre pare-feu. Toutes les adresses IP Canvas sont-elles autorisées à accéder à votre serveur ?"
-      test_ldap_connection_help_header: "Canvas ne peut pas se connecter à votre serveur LDAP."
+      test_ldap_connection_help_fixes_3: "Vérifiez les paramètres de votre pare-feu. Toutes les adresses IP Jiaoxuebang sont-elles autorisées à accéder à votre serveur ?"
+      test_ldap_connection_help_header: "Jiaoxuebang ne peut pas se connecter à votre serveur LDAP."
       test_ldap_connection_label: "Test de la connexion..."
       test_ldap_dialog_close: Fermer
       test_ldap_dialog_page_title: "Test de votre configuration LDAP"
@@ -143,11 +143,11 @@ fr:
       test_ldap_search_help_fixes_1: "Vérifiez la chaîne de filtrage fournie (c.-à-d., '(sAMAccountName={{login}})')."
       test_ldap_search_help_fixes_2: "Vérifiez la base de recherche fournie (c.-à-d., 'ou=people,dc=example,dc=com')."
       test_ldap_search_help_fixes_3: "Vérifiez que l’objet utilisateur dans LDAP possède les autorisations de recherche pour la base de recherche fournie."
-      test_ldap_search_help_header: "Canvas ne peut pas effectuer de recherche dans votre instance LDAP."
+      test_ldap_search_help_header: "Jiaoxuebang ne peut pas effectuer de recherche dans votre instance LDAP."
       test_ldap_search_label: "Test de recherche LDAP..."
     ldap_timeout_error: 
       last_ldap_timeout_failure: "Dernière expiration de délai"
-      ldap_timeout_failure_help: "En cas d’expiration de délai alors que Canvas communique avec le serveur LDAP, toutes les autres tentatives d’utilisation de ce serveur seront bloquées pendant %{time}."
+      ldap_timeout_failure_help: "En cas d’expiration de délai alors que Jiaoxuebang communique avec le serveur LDAP, toutes les autres tentatives d’utilisation de ce serveur seront bloquées pendant %{time}."
     login_required: "est obligatoire"
     no_auth_mixing: "Impossible de mélanger les types d’authentification"
     no_changing_auth_types: "Impossible de changer le type de configuration des autorisations. Veuillez supprimer celle-ci et créer une nouvelle configuration."
@@ -162,7 +162,7 @@ fr:
       certificate_fingerprint: "Empreinte digitale du certificat"
       change_password_url: "Modifier le lien du mot de passe"
       discovery_url: "URL de découverte :"
-      discovery_url_description: "Si une URL de découverte est définie, Canvas renverra tous les utilisateurs sur cette URL si une authentification est nécessaire. Cette page devra alors aider l’utilisateur à déterminer où il doit aller pour se connecter. Si aucune URL de découverte n’est configurée, c’est la première configuration SAML qui sera utilisée pour tenter d’authentifier l’utilisateur."
+      discovery_url_description: "Si une URL de découverte est définie, Jiaoxuebang renverra tous les utilisateurs sur cette URL si une authentification est nécessaire. Cette page devra alors aider l’utilisateur à déterminer où il doit aller pour se connecter. Si aucune URL de découverte n’est configurée, c’est la première configuration SAML qui sera utilisée pour tenter d’authentifier l’utilisateur."
       identifier_format: "Format de l’identifiant"
       idp_entity_id: "ID d’entité IdP"
       labels: 
@@ -194,7 +194,7 @@ fr:
       auth_request_to_idp: "Demande d’authentification envoyée au fournisseur d’identités"
       auth_response_from_idp: "Réponse d’authentification du fournisseur d’identités"
       labels: 
-        canvas_login_fail_message: "Message d’échec de connexion Canvas"
+        canvas_login_fail_message: "Message d’échec de connexion Jiaoxuebang"
         fingerprint_from_idp: "Empreinte digitale du certificat IdP"
         idp_in_response_to: "IdP inResponseTo"
         idp_login_destination: "Destination de la réponse de connexion IdP"
@@ -205,10 +205,10 @@ fr:
         idp_response_encoded: "Réponse de connexion codée du fournisseur d'identité"
         idp_response_xml_decrypted: "Réponse de connexion déchiffrée du fournisseur d'identité"
         idp_response_xml_encrypted: "Réponse de connexion chiffrée du fournisseur d'identité"
-        is_valid_login_response: "Canvas pense que la réponse est valide"
+        is_valid_login_response: "Jiaoxuebang pense que la réponse est valide"
         logged_in_user_id: "Id utilisateur connecté"
         login_response_validation_error: "Erreur de validation"
-        login_to_canvas_success: "Utilisateur connecté à Canvas"
+        login_to_canvas_success: "Utilisateur connecté à Jiaoxuebang"
         logout_request_id: "Id de requête de déconnexion"
         logout_to_idp_url: "LogoutRequest encoded URL"
         logout_to_idp_xml: "LogoutRequest XML sent to IdP"
@@ -368,10 +368,10 @@ fr:
       account_reports: 
         sis_export: 
           description: 
-            text: "Ce rapport exportera toutes les informations nécessaires en rapport avec la mise en service de Canvas dans ses catégories respectives."
+            text: "Ce rapport exportera toutes les informations nécessaires en rapport avec la mise en service de Jiaoxuebang dans ses catégories respectives."
     settings: 
       about_google_docs: |-
-          Pour que les utilisateurs n’aient plus à télécharger des documents Word, PDF, Excel ou OpenOffice (ni à installer ces programmes sur leur ordinateur), Canvas offrira la possibilité d’afficher un aperçu du document en bon nombre d’endroits du site.
+          Pour que les utilisateurs n’aient plus à télécharger des documents Word, PDF, Excel ou OpenOffice (ni à installer ces programmes sur leur ordinateur), Jiaoxuebang offrira la possibilité d’afficher un aperçu du document en bon nombre d’endroits du site.
           
           Si Scribd a été activé pour ce compte, il essaiera de l’utiliser pour afficher l’aperçu. Toutefois, comme Scribd utilise FlashPaper pour afficher les documents et que de nombreux utilisateurs (à savoir, ceux qui utilisent un iPad ou un iPhone) n’ont pas installé Flash Player, l’aperçu ne s’affichera pas. Si la fonctionnalité d’affichage des aperçus Google Docs est activée, alors que Flash ou Scribd ne le sont pas dans votre navigateur, celui-ci utilisera la prévisualisation Google Docs. L’utilisation de ce service est réglementée par les [conditions d’utilisation des services](%{terms_url}) du navigateur Google.
       about_google_docs_tooltip: "À propos des aperçus Google Docs"
@@ -403,7 +403,7 @@ fr:
       default_language_description: "Les paramètres linguistiques des navigateurs/systèmes d’exploitation seront remplacés. Les langues favorites pourront toujours être définies au niveau du cours ou de l’utilisateur."
       delete: supprimer
       delete_announcement_tooltip: "Supprimer cette annonce"
-      email_notification_from_description: "Ce paramètre permet à l’administrateur d’ajouter la marque ou de libeller le texte spécifiant l’expéditeur dans toutes les notifications envoyées depuis Canvas pour ce compte."
+      email_notification_from_description: "Ce paramètre permet à l’administrateur d’ajouter la marque ou de libeller le texte spécifiant l’expéditeur dans toutes les notifications envoyées depuis Jiaoxuebang pour ce compte."
       email_notification_from_settings: "Paramètres « Expéditeur » à utiliser dans les notifications par e-mail"
       enabled_web_serices_title: "Services Web activés"
       equall_endpoint_help: "URL de votre service Equella. Elle ressemblera probablement à ceci : \"%{sample_url}\"."
@@ -429,7 +429,7 @@ fr:
         admins_can_change_passwords: "Configuration du mot de passe par l’administrateur"
         allow_sending_scores_in_emails: "Les étudiants peuvent choisir de recevoir leurs notes par messagerie"
         allow_sis_import: "Importations SIS"
-        canvas_authentication: "Authentification Canvas"
+        canvas_authentication: "Authentification Jiaoxuebang"
         default_course_storage_quota: "Quota par défaut de fichiers de cours"
         default_language: "Langue par défaut"
         default_time_zone: "Fuseau horaire par défaut"
@@ -457,7 +457,7 @@ fr:
         no_enrollments_can_create_courses: "Utilisateurs sans inscription"
         open_registration: "Enregistrement libre"
         outgoing_email_default_name_option_custom: "« Expéditeur » personnalisé"
-        outgoing_email_default_name_option_default: "Paramètre Canvas par défaut"
+        outgoing_email_default_name_option_default: "Paramètre Jiaoxuebang par défaut"
         prevent_course_renaming_by_teachers: "Ne laissez pas les enseignants renommer leurs cours"
         self_enrollment: "Autoriser l’auto-inscription"
         show_scheduler: "Activer l’outil de planification"
@@ -482,7 +482,7 @@ fr:
       never_allow_self_enrollment_option: Jamais
       no_language_preference: "Non définie (utilise l’%{language} par défaut)"
       notifications: 
-        custom_name_description: "Si cette option est sélectionnée, elle remplacera tout autre personnalisation envoyée dans les notifications Canvas."
+        custom_name_description: "Si cette option est sélectionnée, elle remplacera tout autre personnalisation envoyée dans les notifications Jiaoxuebang."
         email_date: Date
         email_reply_to: Destinataire
         email_to: À
@@ -518,7 +518,7 @@ fr:
       tab_notifications: Notifications
       tab_reports: Rapports
       tab_settings: Paramètres
-      transifex_message: "Rejoindre la [Canvas Translation Community](%{transifex_url})"
+      transifex_message: "Rejoindre la [Jiaoxuebang Translation Community](%{transifex_url})"
       turnitin_comments_help: "ces commentaires seront affichés à l’attention des étudiants lors de l’envoi d’un devoir validé par Turnitin."
       turnitin_pledge_help: "les étudiants doivent cocher une case pour marquer leur accord avec cet engagement"
       turnitin_settings_title: "Paramètres de Turnitin"
@@ -1183,14 +1183,14 @@ fr:
           text_entry: "Saisie de texte"
           website: "URL du site Web"
       messages: 
-        google_docs_auth_required: "Avant d’envoyer les devoirs directement à partir de Google Docs, vous devez autoriser Canvas à accéder à votre compte Google Docs."
+        google_docs_auth_required: "Avant d’envoyer les devoirs directement à partir de Google Docs, vous devez autoriser Jiaoxuebang à accéder à votre compte Google Docs."
         media_recording_ready: "L’envoi est prêt. Cliquez sur « Envoyer un devoir » pour terminer."
-        media_recordings_disabled: "Les enregistrements multimédias ne sont pas acceptés par le site Canvas et vous ne pourrez pas envoyer ce type de devoirs. Contactez votre formateur afin qu’il change les paramètres pour ce devoir, ou votre administrateur système afin qu’il autorise les enregistrements multimédias."
+        media_recordings_disabled: "Les enregistrements multimédias ne sont pas acceptés par le site Jiaoxuebang et vous ne pourrez pas envoyer ce type de devoirs. Contactez votre formateur afin qu’il change les paramètres pour ce devoir, ou votre administrateur système afin qu’il autorise les enregistrements multimédias."
         submitting: "Envoi en cours…"
         uploading: "Récupération d’une copie de votre Google Docs à envoyer pour ce devoir. Cette opération peut durer quelques instants en fonction de la taille du fichier..."
       no_files: "Aucun fichier"
       titles: 
-        media_recordings_disabled: "Les enregistrements multimédias ne sont pas autorisés sur le site Canvas"
+        media_recordings_disabled: "Les enregistrements multimédias ne sont pas autorisés sur le site Jiaoxuebang"
         view_in_separate_window: "Afficher dans une fenêtre séparée"
       upload_or_choose_file: "Télécharger un fichier ou choisissez un fichier que vous avez déjà téléchargé."
     syllabus: 
@@ -1597,7 +1597,7 @@ fr:
     ics_description_course: "Événements de calendrier pour le cours %{course_name}"
     ics_description_group: "Événements de calendrier pour le groupe %{group_name}"
     ics_description_user: "Événements de calendrier pour l’utilisateur %{user_name}"
-    ics_title: "Calendrier de %{course_or_group_name} (Canvas)"
+    ics_title: "Calendrier de %{course_or_group_name} (Jiaoxuebang)"
   calendars: 
     assignment_details: "Informations du devoir"
     calendar: 
@@ -1770,13 +1770,13 @@ fr:
       cannot_load_collaboration: "Impossible de télécharger la collaboration"
       create_failed: "Échec de création de la collaboration"
       no_name: "Veuillez saisir un nom pour ce document"
-      not_enabled: "Les collaborations n’ont pas été activées pour le site Canvas."
+      not_enabled: "Les collaborations n’ont pas été activées pour le site Jiaoxuebang."
       update_failed: "Échec de la mise à jour de la collaboration"
     forms: 
       buttons: 
         delete_from_canvas: |-
             Supprimer seulement  
-            de Canvas
+            de Jiaoxuebang
         delete_from_google_docs: |-
             Supprimer également de  
             Google Docs
@@ -1794,7 +1794,7 @@ fr:
         description: Description
         document_name: "Nom du document"
       messages: 
-        delete_google_doc_as_well: "Cette collaboration est stockée comme document Google Docs. Vouliez-vous simplement la supprimer de Canvas ou de Google Docs également ?"
+        delete_google_doc_as_well: "Cette collaboration est stockée comme document Google Docs. Vouliez-vous simplement la supprimer de Jiaoxuebang ou de Google Docs également ?"
       titles: 
         new: "Démarrer une nouvelle collaboration"
     index: 
@@ -1830,7 +1830,7 @@ fr:
         current: "Collaborations actuelles"
   collection_items: 
     new: 
-      pin_to_canvas_network: "Épingler sur le réseau Canvas"
+      pin_to_canvas_network: "Épingler sur le réseau Jiaoxuebang"
       saved_successfully: "Enregistrement réussi"
   coming_up_item_view: 
     assignment: 
@@ -1838,7 +1838,7 @@ fr:
     event: 
       event: Événement
   communication_channel: 
-    body: "Votre code de vérification Canvas est %{verification_code}"
+    body: "Votre code de vérification Jiaoxuebang est %{verification_code}"
     default_facebook_account: "Compte Facebook"
     default_twitter_handle: "Pseudonyme Twitter"
   communication_channels: 
@@ -1848,7 +1848,7 @@ fr:
         back: Précédent
         continue: Continuer
         create_account: "Créer mon compte"
-        have_account: "J’ai un compte Canvas"
+        have_account: "J’ai un compte Jiaoxuebang"
         login_as: "Se connecter comme %{invited_user}"
         merge: Combiner
         new_account: "Nouveau compte"
@@ -1860,7 +1860,7 @@ fr:
         : Oui
       details: 
         account_exists: "Un compte d’utilisateur est déjà associé à %{email}.⏎ ⏎ **Êtes-vous %{name} ?**"
-        account_needed: "Vous avez été invité à rejoindre **%{course}**. Pour accepter cette demande, vous avez besoin d’un compte Canvas. Cliquez sur le lien ci-dessous pour créer un compte Canvas."
+        account_needed: "Vous avez été invité à rejoindre **%{course}**. Pour accepter cette demande, vous avez besoin d’un compte Jiaoxuebang. Cliquez sur le lien ci-dessous pour créer un compte Jiaoxuebang."
         add_email: "Voulez-vous ajouter cette adresse de messagerie à votre compte actuel ?"
         choose_login: "Sélectionnez l’endroit où vous souhaitez vous connecter."
         logged_in_other_user: "**%{email}** est un nouveau compte, mais vous êtes actuellement connecté en tant que **%{user}**."
@@ -1897,7 +1897,7 @@ fr:
       close: "Voulez-vous vraiment terminer cette conférence ? Vous ne pourrez pas la rouvrir."
       delete: "Voulez-vous vraiment supprimer cette conférence ?"
       quit: "Il semblerait que vous soyez déjà en train de modifier une autre conférence. Voulez-vous continuer ? Toute modification non enregistrée sera perdue."
-    disabled_error: "Les conférences sur le Web n’ont pas été activées pour le site Canvas."
+    disabled_error: "Les conférences sur le Web n’ont pas été activées pour le site Jiaoxuebang."
     general_error: "Une erreur s’est produite lors de l’accès à la conférence."
     inactive_error: "Cette conférence n’est pas active actuellement"
     index: 
@@ -1962,7 +1962,7 @@ fr:
         finished: "Fin le %{date_and_time} (%{duration})"
         new: "N’a pas encore commencé"
         started: "Début à %{time}"
-    type_disabled_error: "Ce type de conférence n’est plus disponible sur le site Canvas"
+    type_disabled_error: "Ce type de conférence n’est plus disponible sur le site Jiaoxuebang"
   content_exports: 
     buttons: 
       process: "Traiter les données"
@@ -2108,7 +2108,7 @@ fr:
     files: 
       buttons: 
         skip: "Ignorer cette étape"
-      description: "Vous pouvez télécharger un groupe de fichiers zippés dans votre cours, et nous nous chargerons d’extraire ces fichiers pour vous. Vous disposez ainsi d’un moyen simple pour déplacer des fichiers d’un autre système vers Canvas."
+      description: "Vous pouvez télécharger un groupe de fichiers zippés dans votre cours, et nous nous chargerons d’extraire ces fichiers pour vous. Vous disposez ainsi d’un moyen simple pour déplacer des fichiers d’un autre système vers Jiaoxuebang."
       instructions: 
         webct: 
           ? "1"
@@ -2136,10 +2136,10 @@ fr:
         migrations_needing_action: "Migrations nécessitant une intervention"
         successful_migrations: "Migrations terminées"
     intro: 
-      description: "Si vous passez d’un autre système de gestion de cours à Canvas, il y a de fortes chances que vous souhaitiez déplacer des fichiers, des questionnaires ou des devoirs de ce système vers Canvas. Cet assistant vous simplifiera la tâche."
+      description: "Si vous passez d’un autre système de gestion de cours à Jiaoxuebang, il y a de fortes chances que vous souhaitiez déplacer des fichiers, des questionnaires ou des devoirs de ce système vers Jiaoxuebang. Cet assistant vous simplifiera la tâche."
       if_any: "(si besoin)"
       links: 
-        copy_course: "Copier le contenu depuis **un autre cours Canvas**"
+        copy_course: "Copier le contenu depuis **un autre cours Jiaoxuebang**"
         import_files: "Importer les fichiers"
         import_package: "Importer le contenu depuis un **groupe de contenus** ou **un autre système**"
         import_quizzes: "Importer les questionnaires"
@@ -2234,7 +2234,7 @@ fr:
         import_more: "Importer un autre fichier QTI"
       defaults: 
         unnamed_quiz: "Questionnaire sans titre"
-      details: "Canvas peut importer des questionnaires au format IMS QTI. La plupart des systèmes permettent d’importer les questionnaires dans ce format. Vous pouvez également utiliser des outils de questionnaires courants tels que Respondus pour créer et exporter les fichiers IMS QTI. Téléchargez le fichier ci-dessous et vous recevrez un e-mail lorsque l’importation sera terminée."
+      details: "Jiaoxuebang peut importer des questionnaires au format IMS QTI. La plupart des systèmes permettent d’importer les questionnaires dans ce format. Vous pouvez également utiliser des outils de questionnaires courants tels que Respondus pour créer et exporter les fichiers IMS QTI. Téléchargez le fichier ci-dessous et vous recevrez un e-mail lorsque l’importation sera terminée."
       errors: 
         choose_file: "Vous devez choisir un fichier zip à télécharger."
         upload_failed: "Échec du téléchargement, veuillez réessayer"
@@ -2330,7 +2330,7 @@ fr:
     chat: 
       titles: 
         chat: Discussion
-    chat_not_enabled: "La discussion n’a pas été activée pour le site Canvas"
+    chat_not_enabled: "La discussion n’a pas été activée pour le site Jiaoxuebang"
     communication: 
       headings: 
         discussions: Discussions
@@ -2552,7 +2552,7 @@ fr:
         users_details: "Informations de %{user}"
       help: 
         list_services: "Vous n’avez pas activé votre liste de services enregistrés. L’activation de cette liste permettra aux membres du même cours et groupe que vous de se connecter plus facilement avec vous en dehors de la classe."
-        services: "Vous n’avez pas lié votre profil utilisateur à des services externes. Vous pouvez lier votre compte Canvas à des services tels que Facebook ou Twitter. Les membres de votre cours et de votre groupe pourront se connecter avec vous en dehors de la classe."
+        services: "Vous n’avez pas lié votre profil utilisateur à des services externes. Vous pouvez lier votre compte Jiaoxuebang à des services tels que Facebook ou Twitter. Les membres de votre cours et de votre groupe pourront se connecter avec vous en dehors de la classe."
       labels: 
         public_list_services: "Laisser voir aux membres de mon cours/groupe les services liés à mon profil"
         user_privileges: Autorisations
@@ -2590,9 +2590,9 @@ fr:
         registered_services: "Services enregistrés"
         service_types: "Types de services"
       help: 
-        no_services: "Vous n’avez pas lié votre profil utilisateur à des services externes. Vous pouvez lier votre compte Canvas à des services tels que Facebook ou Twitter."
-        services_private: "Vous n’avez pas activé votre liste de services enregistrés. L’activation de cette liste permettra aux membres de votre cours ou de votre groupe d’afficher les services que vous avez liés à votre compte Canvas."
-        user_services: "Si les autres membres le souhaitent, ils peuvent vous laisser afficher les services externes qu’ils ont liés à leur compte Canvas. Cela peut simplifier la coordination des projets de groupe et la liaison en dehors de la classe."
+        no_services: "Vous n’avez pas lié votre profil utilisateur à des services externes. Vous pouvez lier votre compte Jiaoxuebang à des services tels que Facebook ou Twitter."
+        services_private: "Vous n’avez pas activé votre liste de services enregistrés. L’activation de cette liste permettra aux membres de votre cours ou de votre groupe d’afficher les services que vous avez liés à votre compte Jiaoxuebang."
+        user_services: "Si les autres membres le souhaitent, ils peuvent vous laisser afficher les services externes qu’ils ont liés à leur compte Jiaoxuebang. Cela peut simplifier la coordination des projets de groupe et la liaison en dehors de la classe."
       labels: 
         allow_view_services: "Laisser voir aux membres de mon cours/groupe les services liés à mon profil"
       links: 
@@ -2990,7 +2990,7 @@ fr:
   conversations_intro: 
     slide1: 
       paragraph1: "Consultez votre boîte de réception !"
-      paragraph2: "Conversations - le nouveau système de messagerie Canvas - est arrivé !"
+      paragraph2: "Conversations - le nouveau système de messagerie Jiaoxuebang - est arrivé !"
       paragraph3: "Utilisez « Conversations » pour envoyer un message privé à vos camarades ou pour vous adresser à un groupe de personnes."
       paragraph4: "Prêt pour une présentation rapide ? Cliquez sur la flèche de droite pour commencer."
     slide2: 
@@ -3073,7 +3073,7 @@ fr:
       assignment_groups: "Échec de l’exportation des groupes de devoirs"
       assignment_is_locked: "Impossible de copier le devoir « %{title} », car il est verrouillé."
       assignments: "Échec de l’exportation de certains devoirs"
-      canvas_meta: "Échec de l’exportation des métadonnées spécifiques à Canvas"
+      canvas_meta: "Échec de l’exportation des métadonnées spécifiques à Jiaoxuebang"
       course_export: "Erreur lors de l’exécution de l’exportation du cours."
       course_settings: "Échec de l’exportation des paramètres du cours"
       events: "Échec de l’exportation des événements du calendrier"
@@ -3227,7 +3227,7 @@ fr:
               Bien, votre cours est prêt... Oui, mais ensuite ? Eh bien, avant de le publier, vous pouvez avoir envie de vérifier que vous avez placé l’essentiel. Vérifiez les éléments de la liste située à gauche pour vous assurer que votre cours est prêt à être utilisé.
               
               *Ce cours est visible par les enseignants uniquement jusqu’à sa publication*
-          saved: "C’est terminé. Votre cours %{course} est officiellement créé. Il est visible par vous uniquement jusqu’à sa publication ; mais avant de vous lancer, commencez par vérifier la liste de gauche pour vous familiariser avec Canvas et vérifier que vous êtes prêt à enseigner."
+          saved: "C’est terminé. Votre cours %{course} est officiellement créé. Il est visible par vous uniquement jusqu’à sa publication ; mais avant de vous lancer, commencez par vérifier la liste de gauche pour vous familiariser avec Jiaoxuebang et vérifier que vous êtes prêt à enseigner."
         created: 
           not_saved: |-
               Cette classe a été créée mais pas déclarée.  En l’absence de déclaration après une semaine, elle sera supprimée. En attendant, cochez les points de la liste à votre gauche pour vérifier que vous êtes prêt à enseigner.
@@ -3236,21 +3236,21 @@ fr:
               
               **Connectez-vous** ou ***enregistrez-vous*** pour déclarer ce cours.
           saved: |-
-              C’est terminé. Votre cours %{course} est officiellement créé. Il est visible par vous uniquement jusqu’à sa publication ; mais avant de vous lancer, commencez par vérifier la liste de gauche pour vous familiariser avec Canvas et vérifier que vous êtes prêt à enseigner.
+              C’est terminé. Votre cours %{course} est officiellement créé. Il est visible par vous uniquement jusqu’à sa publication ; mais avant de vous lancer, commencez par vérifier la liste de gauche pour vous familiariser avec Jiaoxuebang et vérifier que vous êtes prêt à enseigner.
               
               Si vous souhaitez partir et revenir avant l’échéance, enregistrez *ce lien* afin de revenir ultérieurement.
               
               **Connectez-vous** ou ***enregistrez-vous*** pour déclarer ce cours.
-        files: "L’onglet Fichier permet de partager des diapositives de conférence, des documents d’exemples, des aides à l’étude -- tout ce que vos étudiants sont susceptibles de télécharger. Le téléchargement et l’organisation de vos fichiers sont des tâches simples dans Canvas. Nous vous expliquerons comment."
+        files: "L’onglet Fichier permet de partager des diapositives de conférence, des documents d’exemples, des aides à l’étude -- tout ce que vos étudiants sont susceptibles de télécharger. Le téléchargement et l’organisation de vos fichiers sont des tâches simples dans Jiaoxuebang. Nous vous expliquerons comment."
         home: "Lorsque les utilisateurs consultent le cours, voici la page qu’ils voient. Vous pouvez la configurer de manière à afficher un flux d’activités, la liste des modules du cours, un programme ou une page personnalisée écrite par vous-même. La page par défaut correspond au flux d’activités du cours. Pour la personnaliser, cliquez simplement sur %{change_layout}."
-        import: "Si vous avez utilisé un autre système de gestion des cours, il contient probablement des documents que vous souhaiterez déplacer vers Canvas. Nous pouvons vous guider au cours du processus de migration de votre contenu vers Canvas."
+        import: "Si vous avez utilisé un autre système de gestion des cours, il contient probablement des documents que vous souhaiterez déplacer vers Jiaoxuebang. Nous pouvons vous guider au cours du processus de migration de votre contenu vers Jiaoxuebang."
         navigation: "Par défaut, tous les liens d’un cours sont activés. Les étudiants ne verront pas les liens des sections vides. Par exemple, si vous n’avez pas créé de questionnaire, ils ne verront pas ce lien. Vous pouvez trier et désactiver explicitement ces liens si vous ne souhaitez pas que les étudiants accèdent à certaines zones du cours."
         publish: 
           form: |-
               Vous avez terminé ? Il est temps de publier votre cours ! Cliquez sur le bouton ci-dessous pour le rendre officiel.
               
               La publication enverra automatiquement des e-mail d’invitation à tous les utilisateurs du cours afin qu’ils puissent s’inscrire et commencer à participer.
-          not_registered: "Ce cours est déclaré et prêt, mais vous devez terminer le processus d’enregistrement avant de le publier. Vous devez avoir reçu un e-mail de Canvas contenant un lien pour terminer le processus. Pensez à vérifier votre boîte de courrier indésirable."
+          not_registered: "Ce cours est déclaré et prêt, mais vous devez terminer le processus d’enregistrement avant de le publier. Vous devez avoir reçu un e-mail de Jiaoxuebang contenant un lien pour terminer le processus. Pensez à vérifier votre boîte de courrier indésirable."
         students: "Vous en aurez besoin. Pourquoi donner des cours si personne ne vous écoute ?"
         tas: "Pour vous aider dans votre tâche, vous pouvez attribuer des aides-enseignants (AE) au cours. Les aides-enseignants peuvent noter les envois des étudiants, jouer le rôle de modérateur dans les discussions et même mettre à jour les dates d’échéance et les informations des devoirs pour vous."
       headings: 
@@ -3342,7 +3342,7 @@ fr:
       titles: 
         invitation: "Invitation à %{course}"
     open_enrollment_confirmed: 
-      details: "Vous recevrez un e-mail à %{email} dans les quelques minutes qui suivent. Cet e-mail contiendra un lien qui vous permettra de terminer le processus d’enregistrement. Après avoir configuré votre compte, vous pourrez accéder au contenu de %{course}. Bienvenue dans Canvas !"
+      details: "Vous recevrez un e-mail à %{email} dans les quelques minutes qui suivent. Cet e-mail contiendra un lien qui vous permettra de terminer le processus d’enregistrement. Après avoir configuré votre compte, vous pourrez accéder au contenu de %{course}. Bienvenue dans Jiaoxuebang !"
       headings: 
         invitation: "Invitation au cours"
         received: "Invitation reçue."
@@ -3500,7 +3500,7 @@ fr:
         course_section: "Sections du cours"
         edit_navigation: "Modifier la barre de navigation des cours"
         enrollment_type: "Type d’inscription"
-      transifex_message: "Rejoindre la [Canvas Translation Community](%{transifex_url})"
+      transifex_message: "Rejoindre la [Jiaoxuebang Translation Community](%{transifex_url})"
       turnitin: "ces commentaires seront affichés à l’attention des étudiants lors de l’envoi d’un devoir validé par Turnitin."
       unaccepted_invitations: "%{count} invitations n’ont pas encore été acceptées. Vous pouvez cliquer sur le nom d’un utilisateur pour lui renvoyer l’invitation."
       user_view: 
@@ -4113,7 +4113,7 @@ fr:
     switch_views: "Basculer les fenêtres"
     url: "URL :"
   email: 
-    default_from_name: "Instructure Canvas"
+    default_from_name: "Jiaoxuebang"
   enrollment: 
     default_course_name: Cours
     default_email: "Aucun e-mail"
@@ -4324,7 +4324,7 @@ fr:
       write_only_comments: "Les commentaires sur cette page sont privés. Vous pouvez faire des commentaires, mais seul le propriétaire du portefeuille pourra les consulter."
     show_me: montrez-moi
     static_page: 
-      created_with_canvas: "Créé dans Canvas"
+      created_with_canvas: "Créé dans Jiaoxuebang"
       headers: 
         page_comments: "Commentaires de page"
       links: 
@@ -4472,7 +4472,7 @@ fr:
       custom_fields_explanation: "(un par ligne, format : nom=valeur)"
       domain: Domaine
       email_only: "E-mail uniquement"
-      external_tools_note: "Les outils externes (LTI) permettent d’ajouter facilement de nouvelles fonctionnalités à Canvas.⏎ Ces outils peuvent être ajoutés à des cours individuels ou à tous les cours d’un compte.⏎ Une fois qu’ils sont configurés, vous pouvez créer un lien via les modules des cours et créer des devoirs pour⏎ les outils d’évaluation.⏎ ⏎ Cliquez [ici](%{lti_index_url}) pour voir quelques outils LTI tout à fait compatibles avec Canvas. Vous pouvez également consulter les rubriques de la communauté Canvas à propos des outils LTI [ici](%{lti_examples_url})."
+      external_tools_note: "Les outils externes (LTI) permettent d’ajouter facilement de nouvelles fonctionnalités à Jiaoxuebang.⏎ Ces outils peuvent être ajoutés à des cours individuels ou à tous les cours d’un compte.⏎ Une fois qu’ils sont configurés, vous pouvez créer un lien via les modules des cours et créer des devoirs pour⏎ les outils d’évaluation.⏎ ⏎ Cliquez [ici](%{lti_index_url}) pour voir quelques outils LTI tout à fait compatibles avec Jiaoxuebang. Vous pouvez également consulter les rubriques de la communauté Jiaoxuebang à propos des outils LTI [ici](%{lti_examples_url})."
       labels: 
         config_type: "Type de configuration"
         config_url: "URL de configuration"
@@ -4510,27 +4510,27 @@ fr:
       new_tab_loaded: "Cet outil a été téléchargé dans une nouvelle fenêtre du navigateur. Retéléchargez cette page pour accéder de nouveau à l’outil."
   facebook: 
     authorization_required: "Seuls les utilisateurs autorisés peuvent accéder à cette page."
-    authorization_success: "Autorisation acceptée. Canvas et Facebook sont à présent amis."
+    authorization_success: "Autorisation acceptée. Jiaoxuebang et Facebook sont à présent amis."
     deleted: Supprimé
     index: 
       all_set: "Vous avez terminé !"
-      bookmark_notice: "Si vous ajoutez cette application dans vos signets, vous pourrez voir le nombre de nouvelles notifications Canvas depuis votre page d’accueil Facebook."
-      canvas_messages: "Messages Canvas"
-      configure_notification_preferences_notice: "Après avoir *configuré vos préférences de notification*, vous verrez s’afficher ici des notifications vous informant des événements dans votre compte Canvas."
-      installation_about: "Pour installer l’application Canvas Facebook, ouvrez votre page de profil dans Canvas et cliquez sur le bouton Facebook pour vous connecter à Facebook."
+      bookmark_notice: "Si vous ajoutez cette application dans vos signets, vous pourrez voir le nombre de nouvelles notifications Jiaoxuebang depuis votre page d’accueil Facebook."
+      canvas_messages: "Messages Jiaoxuebang"
+      configure_notification_preferences_notice: "Après avoir *configuré vos préférences de notification*, vous verrez s’afficher ici des notifications vous informant des événements dans votre compte Jiaoxuebang."
+      installation_about: "Pour installer l’application Jiaoxuebang Facebook, ouvrez votre page de profil dans Jiaoxuebang et cliquez sur le bouton Facebook pour vous connecter à Facebook."
       learn_more: "Pour en savoir plus, voir instructure.com."
       more_information: "Pour plus d’informations, voir %{domain_list}."
-      no_messages_notice: "Alors que le cours évolue, vous verrez les notifications s’afficher ici pour vous informer de ce qui se passe dans votre compte Canvas."
-      notification_about: "L’application Canvas Facebook vous offre un accès plus aisé aux interactions qui ont lieu dans vos cours. Vous pouvez la paramétrer de sorte qu’elle vous envoie des notifications lorsque des devoirs sont notés, des dates d’échéance modifiées, etc. Vos données privées resteront confidentielles dans Canvas."
+      no_messages_notice: "Alors que le cours évolue, vous verrez les notifications s’afficher ici pour vous informer de ce qui se passe dans votre compte Jiaoxuebang."
+      notification_about: "L’application Jiaoxuebang Facebook vous offre un accès plus aisé aux interactions qui ont lieu dans vos cours. Vous pouvez la paramétrer de sorte qu’elle vous envoie des notifications lorsque des devoirs sont notés, des dates d’échéance modifiées, etc. Vos données privées resteront confidentielles dans Jiaoxuebang."
       notification_settings: "Paramètres de notification"
-      notifications_notice: "Ci-dessous, vous trouverez une liste de vos dernières notifications Canvas. Si vous ajoutez cette application dans vos signets, vous pourrez voir le nombre de nouvelles notifications Canvas depuis votre page d’accueil Facebook."
+      notifications_notice: "Ci-dessous, vous trouverez une liste de vos dernières notifications Jiaoxuebang. Si vous ajoutez cette application dans vos signets, vous pourrez voir le nombre de nouvelles notifications Jiaoxuebang depuis votre page d’accueil Facebook."
       welcome: "Bienvenue de retour parmi nous %{name} !"
       welcome_message: "Bienvenue dans une nouvelle génération de logiciels de formation en ligne, offerte par Instructure. Notre rôle est de vous aider à utiliser simplement le Web pour améliorer la formation. Notre interface est simple, épurée et ouverte, et nous travaillons avec les outils que vous et vos étudiants utilisez déjà -- comme Facebook par exemple -- pour offrir une expérience d’apprentissage ouverte et collaborative. Nous avons tout intégré dans un progiciel puissant et ouvert qui offre davantage qu’un suivi des devoirs. Il encourage les interactions et favorise l’apprentissage."
-      welcome_title: "Bienvenue dans Instructure Canvas."
+      welcome_title: "Bienvenue dans Jiaoxuebang."
     index_disabled: 
-      disabled_notice: "Ce site Canvas n’est pas configuré pour communiquer avec Facebook."
+      disabled_notice: "Ce site Jiaoxuebang n’est pas configuré pour communiquer avec Facebook."
       get_help: "Demandez de l’aide sur support.instructure.com"
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Jiaoxuebang"
     invalid_signature: "Signature Facebook non valide"
     message: 
       hide: Masquer
@@ -4551,9 +4551,9 @@ fr:
       weekly: Hebdomadaire
     settings: 
       back_to_messages: "Revenir aux messages"
-      link_needed: "Avant de configurer l’application Canvas Facebook, vous devez la lier à votre connexion Canvas. Pour plus d’informations, cliquez sur \"Bienvenue\"."
-      notifications_config_notice: "Les notifications de Canvas peuvent être envoyées automatiquement vers votre compte Facebook. Vous trouverez ci-dessous le type de notifications que vous pouvez envoyer. Vous pouvez modifier vos préférences de notifications à tout moment, soit ici, soit dans Canvas."
-      settings_title: "Paramètres de notification Canvas"
+      link_needed: "Avant de configurer l’application Jiaoxuebang Facebook, vous devez la lier à votre connexion Jiaoxuebang. Pour plus d’informations, cliquez sur \"Bienvenue\"."
+      notifications_config_notice: "Les notifications de Jiaoxuebang peuvent être envoyées automatiquement vers votre compte Facebook. Vous trouverez ci-dessous le type de notifications que vous pouvez envoyer. Vous pouvez modifier vos préférences de notifications à tout moment, soit ici, soit dans Jiaoxuebang."
+      settings_title: "Paramètres de notification Jiaoxuebang"
       updating_preferences: "Mise à jour des préférences..."
   files: 
     alts: 
@@ -5607,9 +5607,9 @@ fr:
     message_will_be_sent_to_all_the_teachers_tas_in_the_course: "Le message va être envoyé à tous les enseignants/assistants du cours."
     please_select_one: "Veuillez sélectionner une option..."
     report_problem: "Signaler un problème"
-    report_problem_sub: "Indiquez-nous tout comportement anormal de Canvas"
-    search_the_canvas_guides: "Rechercher dans les manuels Canvas"
-    see_if_your_issue_is_addressed_in_the_canvas_guides: "Vérifiez si votre question est traitée dans les *manuels Canvas*."
+    report_problem_sub: "Indiquez-nous tout comportement anormal de Jiaoxuebang"
+    search_the_canvas_guides: "Rechercher dans les manuels Jiaoxuebang"
+    see_if_your_issue_is_addressed_in_the_canvas_guides: "Vérifiez si votre question est traitée dans les *manuels Jiaoxuebang*."
     send_message: "Envoyer le message"
     sending: "Envoi en cours..."
     somethings_broken_but_i_can_work_around_it_for_now: "Quelque chose ne fonctionne plus, mais je peux y remédier pour le moment"
@@ -5648,15 +5648,15 @@ fr:
       error_reported: "Merci de votre collaboration. Nous nous en occupons."
     styleguide: 
       create_collection: "Créer une collection"
-      find_people: "Chercher des personnes sur Canvas"
+      find_people: "Chercher des personnes sur Jiaoxuebang"
       new_course: "Ajouter un nouveau cours"
       start_a_group: "Démarrer un groupe"
   instructions: 
-    authorize_google_docs: "Avant de collaborer sur des documents, vous devez autoriser Canvas à accéder à votre compte Google Docs :"
+    authorize_google_docs: "Avant de collaborer sur des documents, vous devez autoriser Jiaoxuebang à accéder à votre compte Google Docs :"
   instructure: 
     alerts: 
-      file_previews_disabled: "Le mode aperçu des fichiers a été désactivé sur le site Canvas."
-      kaltura_disabled: "Kaltura a été désactivé sur ce site Canvas."
+      file_previews_disabled: "Le mode aperçu des fichiers a été désactivé sur le site Jiaoxuebang."
+      kaltura_disabled: "Kaltura a été désactivé sur ce site Jiaoxuebang."
     browsers: 
       unrecognized: "Navigateur non reconnu"
     buttons: 
@@ -5802,7 +5802,7 @@ fr:
     wikis: Wikis
   layouts: 
     application: 
-      instructure_description: "Instructure, créateur du système de gestion d’apprentissage « Open Source » Canvas"
+      instructure_description: "Instructure, créateur du système de gestion d’apprentissage « Open Source » Jiaoxuebang"
       links: 
         close: Fermer
         dashboard: "Mon tableau de bord"
@@ -5830,7 +5830,7 @@ fr:
         reset_explanation: "La réinitialisation de l’étudiant test entraîne la suppression de l’ensemble de son historique, %{line_break}ce qui vous permettra de voir le cours en tant que nouvel étudiant."
         warning_title: "Vous êtes actuellement connecté en mode d’affichage étudiant"
     head: 
-      default_page_title: "Système de gestion d’apprentissage Canvas"
+      default_page_title: "Système de gestion d’apprentissage Jiaoxuebang"
     menu: 
       view_all_accounts: "Afficher tous les comptes"
       view_all_enrollments: "Afficher tous les cours"
@@ -5883,17 +5883,17 @@ fr:
     incoming_message_processor: 
       failure_message: 
         body: |-
-            Impossible de délivrer le message intitulé « %{subject} ».  Ce message a été envoyé à une boîte de messagerie inconnue. Si vous essayez de contacter quelqu’un via Canvas, vous pouvez essayer de vous connecter à votre compte et de lui envoyer un message à l’aide de l’outil Boîte de réception.
+            Impossible de délivrer le message intitulé « %{subject} ».  Ce message a été envoyé à une boîte de messagerie inconnue. Si vous essayez de contacter quelqu’un via Jiaoxuebang, vous pouvez essayer de vous connecter à votre compte et de lui envoyer un message à l’aide de l’outil Boîte de réception.
             
             Merci,
-            Assistance Canvas
+            Assistance Jiaoxuebang
         subject: "Échec de réponse au message : %{subject}"
       locked_topic: 
         body: |-
-            Le message %{subject} n’a pas pu être remis, car le sujet de discussion est verrouillé. Si vous souhaitez contacter quelqu’un via Canvas, vous pouvez essayer de vous connecter à votre compte et d’envoyer un message à cette personne avec l’outil Boîte de réception.
+            Le message %{subject} n’a pas pu être remis, car le sujet de discussion est verrouillé. Si vous souhaitez contacter quelqu’un via Jiaoxuebang, vous pouvez essayer de vous connecter à votre compte et d’envoyer un message à cette personne avec l’outil Boîte de réception.
             
                     Merci,
-                    L’assistance technique Canvas
+                    L’assistance technique Jiaoxuebang
         subject: "Échec de réponse au message : %{subject}"
     send_to_inbox: 
       default_subject: "Aucun sujet"
@@ -5949,7 +5949,7 @@ fr:
       relationships: Relations
   media_comments: 
     alerts: 
-      kaltura_disabled: "Kaltura a été désactivé sur le site Canvas"
+      kaltura_disabled: "Kaltura a été désactivé sur le site Jiaoxuebang"
     buttons: 
       submit: "Envoyer un fichier multimédia"
     cancel: Annuler
@@ -5990,7 +5990,7 @@ fr:
     managed_accounts: "Comptes gérés"
     my_courses: "Mes cours"
   message: 
-    default_subject: "Alerte Canvas"
+    default_subject: "Alerte Jiaoxuebang"
   message_students: 
     buttons: 
       send_message: "Envoyer le message"
@@ -6010,30 +6010,30 @@ fr:
         added_message: "Vous avez été ajouté comme %{role_type} au compte %{account} sur %{website}."
         email_info: "E-mail : %{email}"
         name_info: "Nom : %{name}"
-        subject: "Invitation - Administrateur de compte Canvas"
+        subject: "Invitation - Administrateur de compte Jiaoxuebang"
         url_info: |-
-            Vous devez vous enregistrer auprès de Canvas avant de participer en tant qu’administrateur de compte. Vous pouvez terminer le processus d’enregistrement ici :
+            Vous devez vous enregistrer auprès de Jiaoxuebang avant de participer en tant qu’administrateur de compte. Vous pouvez terminer le processus d’enregistrement ici :
             %{url}
         username_info: "Nom d’utilisateur : %{username}"
     added_to_conversation: 
       email: 
-        body: "%{user_name} vient de vous ajouter à une conversation dans Canvas. Pour afficher la conversation, cliquez sur le lien ci-dessous :"
-        subject: "%{user_name} vient de vous ajouter à une conversation dans Canvas."
+        body: "%{user_name} vient de vous ajouter à une conversation dans Jiaoxuebang. Pour afficher la conversation, cliquez sur le lien ci-dessous :"
+        subject: "%{user_name} vient de vous ajouter à une conversation dans Jiaoxuebang."
         unknown_user: "Utilisateur inconnu"
       facebook: 
-        body: "%{user_name} vient de vous ajouter à une conversation dans Canvas."
+        body: "%{user_name} vient de vous ajouter à une conversation dans Jiaoxuebang."
         link_text: "Afficher la conversation"
         unknown_user: "Utilisateur inconnu"
       sms: 
-        body: "%{user_name} vient de vous ajouter à une conversation dans Canvas."
+        body: "%{user_name} vient de vous ajouter à une conversation dans Jiaoxuebang."
         more_info: "Informations complémentaires sur %{url}"
         unknown_user: "Utilisateur inconnu"
       summary: 
-        body: "%{user_name} vient de vous ajouter à une conversation dans Canvas."
-        subject: "%{user_name} vient de vous ajouter à une conversation dans Canvas."
+        body: "%{user_name} vient de vous ajouter à une conversation dans Jiaoxuebang."
+        subject: "%{user_name} vient de vous ajouter à une conversation dans Jiaoxuebang."
         unknown_user: "Utilisateur inconnu"
       twitter: 
-        tweet: "Alerte Canvas - Ajouté à la conversation par %{user_name}."
+        tweet: "Alerte Jiaoxuebang - Ajouté à la conversation par %{user_name}."
         unknown_user: "Utilisateur inconnu"
     alert: 
       email: 
@@ -6126,7 +6126,7 @@ fr:
         message: "%{user} a annulé sa réservation pour « %{appointment_name} »."
         more_info: "Informations complémentaires sur %{url}"
       twitter: 
-        message: "Alerte Canvas - %{user} a annulé sa réservation pour « %{appointment_name} »."
+        message: "Alerte Jiaoxuebang - %{user} a annulé sa réservation pour « %{appointment_name} »."
     appointment_deleted_for_user: 
       email: 
         instructions: "Inscrivez-vous à un autre créneau horaire en suivant ce lien : %{link}"
@@ -6157,7 +6157,7 @@ fr:
         message: "Votre créneau horaire pour « %{appointment_name} » a été annulé."
         more_info: "Informations complémentaires sur %{url}"
       twitter: 
-        message: "Alerte Canvas - Votre créneau horaire pour « %{appointment_name} » a été annulé."
+        message: "Alerte Jiaoxuebang - Votre créneau horaire pour « %{appointment_name} » a été annulé."
     appointment_group_deleted: 
       email: 
         labels: 
@@ -6180,7 +6180,7 @@ fr:
         message: "Tous les rendez-vous concernant « %{appointment_name} » ont été annulés."
         more_info: "Informations complémentaires sur %{url}"
       twitter: 
-        message: "Alerte Canvas - Tous les rendez-vous concernant « %{appointment_name} » ont été annulés."
+        message: "Alerte Jiaoxuebang - Tous les rendez-vous concernant « %{appointment_name} » ont été annulés."
     appointment_group_published: 
       email: 
         group_signup: "Groupe (%{group_category})"
@@ -6212,7 +6212,7 @@ fr:
         message: "Les créneaux horaires pour « %{appointment_name} » sont ouverts aux inscriptions (%{dates})."
         subject: "Le rendez-vous « %{appointment_name} » est ouvert aux inscriptions (%{course})."
       twitter: 
-        message: "Alerte Canvas - Les inscriptions sont ouvertes pour « %{appointment_name} »."
+        message: "Alerte Jiaoxuebang - Les inscriptions sont ouvertes pour « %{appointment_name} »."
     appointment_group_updated: 
       email: 
         group_signup: "Groupe (%{group_category})"
@@ -6244,7 +6244,7 @@ fr:
         message: "Des créneaux horaires ont été ajoutés à « %{appointment_name} » et sont ouverts aux inscriptions (%{dates})."
         subject: "Le rendez-vous « %{appointment_name} » a été mis à jour (%{course})."
       twitter: 
-        message: "Alerte Canvas - De nouveaux créneaux horaires sont disponibles pour « %{appointment_name} »."
+        message: "Alerte Jiaoxuebang - De nouveaux créneaux horaires sont disponibles pour « %{appointment_name} »."
     appointment_reserved_by_user: 
       email: 
         instructions: "Consultez le rendez-vous à cette adresse : %{link}"
@@ -6273,7 +6273,7 @@ fr:
         message: "%{user} s’est inscrit au rendez-vous « %{appointment_name} »."
         more_info: "Informations complémentaires sur %{url}"
       twitter: 
-        message: "Alerte Canvas - %{user} s’est inscrit au rendez-vous « %{appointment_name} »."
+        message: "Alerte Jiaoxuebang - %{user} s’est inscrit au rendez-vous « %{appointment_name} »."
     appointment_reserved_for_user: 
       email: 
         instructions: "Inscrivez-vous dans un autre créneau horaire en suivant ce lien : %{link}"
@@ -6305,7 +6305,7 @@ fr:
         message: "%{user} vous a inscrit au rendez-vous « %{appointment_name} » (%{date_and_time})."
         subject: "Quelqu’un vous a inscrit au rendez-vous « %{appointment_name} » (%{course})."
       twitter: 
-        message: "Alerte Canvas - Quelqu’un vous a inscrit au rendez-vous « %{appointment_name} »."
+        message: "Alerte Jiaoxuebang - Quelqu’un vous a inscrit au rendez-vous « %{appointment_name} »."
     assignment_changed: 
       email: 
         body: |-
@@ -6324,7 +6324,7 @@ fr:
       summary: 
         subject: "Le devoir a changé : %{title}, %{course}"
       twitter: 
-        assignment_change: "Alerte Canvas - Modification : %{assignment_name}, %{course_name}"
+        assignment_change: "Alerte Jiaoxuebang - Modification : %{assignment_name}, %{course_name}"
     assignment_created: 
       email: 
         assignment_created: "Devoir créé - %{assignment_name}, %{course_name}"
@@ -6351,7 +6351,7 @@ fr:
         multiple_due_dates: "échéance : plusieurs dates d’échéance"
         no_due_date: "échéance : Pas d’échéance"
       twitter: 
-        assignment_change: "Alerte Canvas - Modification : %{assignment_name}, %{course_name}"
+        assignment_change: "Alerte Jiaoxuebang - Modification : %{assignment_name}, %{course_name}"
         due_at: "échéance : %{assignment_due_date_time}"
         multiple_due_dates: "échéance : plusieurs dates d’échéance"
         no_due_date: "échéance : Pas d’échéance"
@@ -6374,7 +6374,7 @@ fr:
         due_at: "échéance : %{assignment_due_date_time}"
         no_due_date: "échéance : Pas d’échéance"
       twitter: 
-        assignment_change: "Alerte Canvas - Modification de la date : %{assignment_name}, %{course_name}"
+        assignment_change: "Alerte Jiaoxuebang - Modification de la date : %{assignment_name}, %{course_name}"
         due_at: "échéance : %{assignment_due_date_time}"
         no_due_date: "échéance : Pas d’échéance"
     assignment_due_date_override_changed: 
@@ -6396,7 +6396,7 @@ fr:
         due_at: "échéance : %{assignment_due_date_time}"
         no_due_date: "échéance : Pas d’échéance"
       twitter: 
-        assignment_change: "Alerte Canvas - Modification de la date : %{assignment_name}, %{course_name} (%{override})"
+        assignment_change: "Alerte Jiaoxuebang - Modification de la date : %{assignment_name}, %{course_name} (%{override})"
         due_at: "échéance : %{assignment_due_date_time}"
         no_due_date: "échéance : Pas d’échéance"
     assignment_due_date_reminder: 
@@ -6414,7 +6414,7 @@ fr:
         assignment_due: "Échéance : %{assignment_name}, %{course_name}"
         assignment_is_due: "%{assignment_name}, %{course_name} est prévu pour le %{due_date}"
       twitter: 
-        assignment_is_due: "Alerte Canvas - Rappel : %{assignment_name}, %{course_name} est prévu pour le %{due_date}"
+        assignment_is_due: "Alerte Jiaoxuebang - Rappel : %{assignment_name}, %{course_name} est prévu pour le %{due_date}"
     assignment_graded: 
       email: 
         assignment_graded: "Devoir noté : %{assignment_name}, %{course_name}"
@@ -6430,7 +6430,7 @@ fr:
         assignment_graded: "Devoir noté : %{assignment_name}, %{course_name}"
         the_assignment_is_graded: "Le devoir %{assignment_name} a été noté."
       twitter: 
-        assignment_graded: "Alerte Canvas - Noté : %{assignment_name}, %{course_name}"
+        assignment_graded: "Alerte Jiaoxuebang - Noté : %{assignment_name}, %{course_name}"
     assignment_grading_reminder: 
       email: 
         labels: 
@@ -6446,7 +6446,7 @@ fr:
         not_graded: "%{assignment_name}, %{course_name} n’a pas été noté. Il était prévu pour le %{due_date}"
         ungraded_assignment: "Devoir non noté : %{assignment_name}, %{course_name}"
       twitter: 
-        not_graded: "Alerte Canvas - Rappel : noter %{assignment_name}, %{course_name}, pour le %{due_date}"
+        not_graded: "Alerte Jiaoxuebang - Rappel : noter %{assignment_name}, %{course_name}, pour le %{due_date}"
     assignment_locked: "Ce devoir est actuellement verrouillé."
     assignment_locked_at: "Ce devoir a été verrouillé le %{at}."
     assignment_locked_module: "Ce devoir fait partie du module *%{module}* et n’a pas encore été déverrouillé."
@@ -6466,7 +6466,7 @@ fr:
         ungraded_assignment: "Devoir non publié : %{assignment_name}, %{course_name}"
         ungraded_assignment_sentence: "%{assignment_name}, %{course_name} n’a pas été publié alors qu’il a été noté."
       twitter: 
-        ungraded_assignment_sentence: "Alerte Canvas - Rappel : publier %{assignment_name}, %{course_name}"
+        ungraded_assignment_sentence: "Alerte Jiaoxuebang - Rappel : publier %{assignment_name}, %{course_name}"
     assignment_resubmitted: 
       email: 
         labels: 
@@ -6483,7 +6483,7 @@ fr:
         turned_in_at: "remis : %{submission_date}"
         user_resubmitted: "Renvoi : %{user_name}, %{assignment_name}"
       twitter: 
-        user_resubmitted: "Alerte Canvas - Renvoi : %{user_name}, %{assignment_name}"
+        user_resubmitted: "Alerte Jiaoxuebang - Renvoi : %{user_name}, %{assignment_name}"
     assignment_submitted: 
       email: 
         labels: 
@@ -6500,7 +6500,7 @@ fr:
         turned_in_at: "remis : %{submission_date}"
         user_submitted: "Envoi : %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "Alerte Canvas - Envoi : %{user_name}, %{assignment_name}"
+        user_submitted: "Alerte Jiaoxuebang - Envoi : %{user_name}, %{assignment_name}"
     assignment_submitted_late: 
       email: 
         labels: 
@@ -6517,7 +6517,7 @@ fr:
         turned_in_at: "remis : %{submission_date}"
         user_submitted: "Devoir en retard : %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "Alerte Canvas - Envoi en retard : %{user_name}, %{assignment_name}"
+        user_submitted: "Alerte Jiaoxuebang - Envoi en retard : %{user_name}, %{assignment_name}"
     assignment_unmuted: 
       email: 
         body: |-
@@ -6575,21 +6575,21 @@ fr:
             dans %{service} et vous avez été invité via votre adresse de messagerie %{email}.
         subject: "Invitation de collaboration : %{course_or_group}"
       twitter: 
-        body: "Alerte Canvas - Invitation de collaboration : %{document}, %{course_or_group}"
+        body: "Alerte Jiaoxuebang - Invitation de collaboration : %{document}, %{course_or_group}"
     confirm_email_communication_channel: 
       email: 
         body: "L’enregistrement de l’adresse de messagerie %{email} est en cours sur %{website} pour l’utilisateur %{user}."
         details: "Pour confirmer cet enregistrement, consultez l’URL suivante :"
-        subject: "Confirmer l’e-mail : Canvas"
+        subject: "Confirmer l’e-mail : Jiaoxuebang"
     confirm_registration: 
       email: 
-        body: "Merci de votre enregistrement sur Canvas. Cet e-mail est une confirmation d’enregistrement de l’utilisateur %{user} pour un nouveau compte sur %{website}."
+        body: "Merci de votre enregistrement sur Jiaoxuebang. Cet e-mail est une confirmation d’enregistrement de l’utilisateur %{user} pour un nouveau compte sur %{website}."
         details: "Pour terminer le processus d’enregistrement, consultez l’URL suivante :"
-        subject: "Confirmer l’enregistrement: Canvas"
+        subject: "Confirmer l’enregistrement: Jiaoxuebang"
     confirm_sms_communication_channel: 
       sms: 
         body: |-
-            Confirmer l’enregistrement sur Canvas avec le code :
+            Confirmer l’enregistrement sur Jiaoxuebang avec le code :
             
             %{confirmation_code}
             
@@ -6612,30 +6612,30 @@ fr:
       email: 
         attached_files: "Fichiers joints :"
         audio_comment: "Ce message inclus des commentaires multimédias. Pour écouter ou répondre, cliquez sur le lien ci-dessous :"
-        body: "%{user_name} vient de vous envoyer un message dans Canvas :"
+        body: "%{user_name} vient de vous envoyer un message dans Jiaoxuebang :"
         reply_message: "Pour répondre à ce message, cliquez sur le lien ci-dessous :"
-        subject: "%{user_name} vient de vous envoyer un message dans Canvas."
+        subject: "%{user_name} vient de vous envoyer un message dans Jiaoxuebang."
         unknown_user: "Utilisateur inconnu"
       facebook: 
-        body: "%{user_name} vient de vous envoyer un message dans Canvas."
+        body: "%{user_name} vient de vous envoyer un message dans Jiaoxuebang."
         link_text: "Afficher le message"
         unknown_user: "Utilisateur inconnu"
       sms: 
-        body: "%{user_name} vient de vous envoyer un message dans Canvas :"
+        body: "%{user_name} vient de vous envoyer un message dans Jiaoxuebang :"
         more_info: "Informations complémentaires sur %{url}"
         unknown_user: "Utilisateur inconnu"
       summary: 
-        body: "%{user_name} vient de vous envoyer un message dans Canvas :"
-        subject: "%{user_name} vient de vous envoyer un message dans Canvas."
+        body: "%{user_name} vient de vous envoyer un message dans Jiaoxuebang :"
+        subject: "%{user_name} vient de vous envoyer un message dans Jiaoxuebang."
         unknown_user: "Utilisateur inconnu"
       twitter: 
-        tweet: "Alerte Canvas - Message de %{user_name}."
+        tweet: "Alerte Jiaoxuebang - Message de %{user_name}."
         unknown_user: "Utilisateur inconnu"
     dialog: 
       title: "Envoyer une réponse"
     email: 
       footer: |-
-          Vous avez reçu cet e-mail parce que vous participez à un ou plusieurs cours avec Canvas.  Pour modifier ou désactiver les notifications par e-mail, rendez-vous sur cette page :
+          Vous avez reçu cet e-mail parce que vous participez à un ou plusieurs cours avec Jiaoxuebang.  Pour modifier ou désactiver les notifications par e-mail, rendez-vous sur cette page :
           %{url}
     enrollment_accepted: 
       email: 
@@ -6667,7 +6667,7 @@ fr:
         body_teacher: "%{user} vient d’accepter l’invitation à participer au cours %{course} en tant qu’enseignant."
         subject: "%{user} a accepté l’invitation au cours"
       twitter: 
-        body: "Alerte Canvas - A accepté : %{user}, %{enrollment_type}, cours %{course}"
+        body: "Alerte Jiaoxuebang - A accepté : %{user}, %{enrollment_type}, cours %{course}"
     enrollment_invitation: 
       email: 
         body_designer: "Vous avez été invité à participer au cours %{course} en tant que concepteur."
@@ -6713,7 +6713,7 @@ fr:
         body_teacher: "Vous avez été invité à participer au cours %{course} en tant qu’enseignant."
         subject: "Invitation au cours"
       twitter: 
-        body: "Alerte Canvas - Invité : au cours en tant que %{enrollment_type}"
+        body: "Alerte Jiaoxuebang - Invité : au cours en tant que %{enrollment_type}"
     enrollment_notification: 
       email: 
         body_designer: "Vous avez été inscrit au cours %{course} en tant que concepteur."
@@ -6760,7 +6760,7 @@ fr:
         body_teacher: "Vous avez été inscrit au cours %{course} en tant qu’enseignant."
         subject: "Inscription au cours"
       twitter: 
-        body: "Alerte Canvas - Inscrit : au cours en tant que %{enrollment_type}"
+        body: "Alerte Jiaoxuebang - Inscrit : au cours en tant que %{enrollment_type}"
     enrollment_registration: 
       email: 
         body_designer: "Vous avez été invité à participer à une classe sur %{website}. La classe s’intitule %{course}, et vous avez été invité à y participer en tant que concepteur."
@@ -6768,7 +6768,7 @@ fr:
         body_student: "Vous avez été invité à participer à une classe sur %{website}. La classe s’intitule %{course}, et vous avez été invité à y participer en tant qu’étudiant."
         body_ta: "Vous avez été invité à participer à une classe sur %{website}. La classe s’intitule %{course}, et vous avez été invité à y participer en tant qu’aide-enseignant."
         body_teacher: "Vous avez été invité à participer à une classe sur %{website}. La classe s’intitule %{course}, et vous avez été invité à y participer en tant qu’enseignant."
-        details: "Vous devez vous enregistrer auprès de Canvas avant de participer à la classe. Pour commencer, consultez la page du cours ici :"
+        details: "Vous devez vous enregistrer auprès de Jiaoxuebang avant de participer à la classe. Pour commencer, consultez la page du cours ici :"
         labels: 
           email: E-mail
           name: Nom
@@ -6795,7 +6795,7 @@ fr:
         body_teacher: "Vous avez été invité à participer à une classe sur %{website}. La classe s’intitule %{course}, et vous avez été invité à y participer en tant qu’enseignant."
         subject: "Invitation au cours"
       twitter: 
-        body: "Alerte Canvas - Invité : au cours en tant que %{enrollment_type}"
+        body: "Alerte Jiaoxuebang - Invité : au cours en tant que %{enrollment_type}"
     event_date_changed: 
       email: 
         email_body: "L’heure de l’événement %{event_title}, pour le cours %{course_name}, a changé. Il est à présent à :"
@@ -6820,7 +6820,7 @@ fr:
       twitter: 
         from_to_time: "de %{start_date_time} à %{end_date_time}"
         no_time_set: "Aucune heure définie"
-        subject: "Alerte Canvas - Modification : %{event_title}, %{course_name}"
+        subject: "Alerte Jiaoxuebang - Modification : %{event_title}, %{course_name}"
     file_locked: "Ce fichier est verrouillé."
     file_locked_at: "Ce fichier a été verrouillé le %{at}."
     file_locked_module: "Ce fichier fait partie du module *%{module}* et n’a pas encore été déverrouillé."
@@ -6835,8 +6835,8 @@ fr:
         login_at_account: "%{login_email} sur %{account_name}"
         login_managed_by_account: "les informations de connexion sont gérées par %{account_name}"
         password_from_account: "Le mot de passe pour cette connexion doit vous avoir été communiqué par l’administrateur système sur %{account_name}, et Instructure n’a pas accès à votre mot de passe. Si votre mot de passe ne fonctionne pas, veuillez contacter l’administrateur système pour le vérifier ou le changer."
-        requested_password_reset: "Vous avez demandé une confirmation de votre mot de passe pour vous connecter à Canvas."
-        subject: "Mot de passe oublié : Canvas"
+        requested_password_reset: "Vous avez demandé une confirmation de votre mot de passe pour vous connecter à Jiaoxuebang."
+        subject: "Mot de passe oublié : Jiaoxuebang"
     grade_weight_changed: 
       email: 
         grade_changed: "Les règles de notation pour le cours %{course_name} ont changé."
@@ -6860,7 +6860,7 @@ fr:
           grades_based_on_percent: "La notation est basée sur le total pondéré pour chaque groupe de devoirs."
           subject: "Coefficient modifié"
       twitter: 
-        grade_changed: "Alerte Canvas - Modification des règles de notation : %{course_name}"
+        grade_changed: "Alerte Jiaoxuebang - Modification des règles de notation : %{course_name}"
     group_assignment_submitted_late: 
       email: 
         body: "Le groupe %{group_name} vient de remettre un envoi en retard pour %{assignment_name} du cours %{course_name}."
@@ -6876,7 +6876,7 @@ fr:
         body: "Le groupe %{group_name} a remis un envoi en retard pour %{assignment_name} du cours %{course_name}."
         subject: "Devoir en retard : %{group_name}, %{assignment_name}"
       twitter: 
-        subject: "Alerte Canvas - Envoi groupé en retard : %{group_name}, %{assignment_name}"
+        subject: "Alerte Jiaoxuebang - Envoi groupé en retard : %{group_name}, %{assignment_name}"
     group_membership_accepted: 
       email: 
         account_group: "Votre demande d’adhésion au groupe %{group_name} pour le compte %{account_name} a été acceptée."
@@ -6898,8 +6898,8 @@ fr:
         course_group: "Votre demande d’adhésion au groupe %{group_name} pour le cours %{course_name} a été acceptée."
         subject: "Adhésion au groupe acceptée : %{group_name}"
       twitter: 
-        account_group: "Alerte Canvas - Adhésion au groupe acceptée : %{group_name} pour le compte %{account_name}."
-        course_group: "Alerte Canvas - Adhésion au groupe acceptée : %{group_name} pour le cours %{course_name}."
+        account_group: "Alerte Jiaoxuebang - Adhésion au groupe acceptée : %{group_name} pour le compte %{account_name}."
+        course_group: "Alerte Jiaoxuebang - Adhésion au groupe acceptée : %{group_name} pour le cours %{course_name}."
     group_membership_rejected: 
       email: 
         account_group: "Votre demande d’adhésion au groupe %{group_name} pour le compte %{account_name} a été rejetée."
@@ -6920,15 +6920,15 @@ fr:
         course_group: "Votre demande d’adhésion au groupe %{group_name} pour le cours %{course_name} a été rejetée."
         subject: "Adhésion au groupe rejetée pour %{group_name}"
       twitter: 
-        account_group: "Alerte Canvas - Adhésion au groupe rejetée : %{group_name} pour le compte %{account_name}."
-        course_group: "Alerte Canvas - Adhésion au groupe rejetée : %{group_name} pour le cours %{course_name}."
+        account_group: "Alerte Jiaoxuebang - Adhésion au groupe rejetée : %{group_name} pour le compte %{account_name}."
+        course_group: "Alerte Jiaoxuebang - Adhésion au groupe rejetée : %{group_name} pour le cours %{course_name}."
     index: 
       titles: 
         messages: "Messages pour %{name}"
     merge_email_communication_channel: 
       email: 
-        body: "Un compte a été créé pour vous sur %{url} mais vous possédez déjà un compte Canvas. Si vous souhaitez les combiner, consultez l’URL suivante :"
-        subject: "Nouveau compte Canvas"
+        body: "Un compte a été créé pour vous sur %{url} mais vous possédez déjà un compte Jiaoxuebang. Si vous souhaitez les combiner, consultez l’URL suivante :"
+        subject: "Nouveau compte Jiaoxuebang"
     message: 
       actions: 
         reply: Répondre
@@ -6976,7 +6976,7 @@ fr:
         body: "L’administrateur %{user} a été ajouté au compte %{account}"
         subject: "Nouvel utilisateur du compte"
       twitter: 
-        body: "Alerte Canvas - Nouvel administrateur : %{user}, %{account}"
+        body: "Alerte Jiaoxuebang - Nouvel administrateur : %{user}, %{account}"
     new_announcement: 
       email: 
         labels: 
@@ -6987,7 +6987,7 @@ fr:
         details: "Informations complémentaires sur %{url}"
         subject: "Nouvelle annonce : %{title}, %{course}"
       twitter: 
-        body: "Alerte Canvas - Annonce : %{title}, %{course}."
+        body: "Alerte Jiaoxuebang - Annonce : %{title}, %{course}."
     new_context_group_membership: 
       email: 
         body_account: "Vous avez été ajouté à un nouveau groupe pour le compte %{account}. Le nom du groupe est %{group_name}."
@@ -7007,8 +7007,8 @@ fr:
         body_course: "Vous avez été ajouté à un nouveau groupe pour le cours %{course}. Le nom du groupe est %{group_name}."
         subject: "Nouvelle adhésion au groupe pour %{course_or_account}"
       twitter: 
-        body_account: "Alerte Canvas - Nouveau groupe : %{group} pour le compte %{account}"
-        body_course: "Alerte Canvas - Nouveau groupe : %{group} pour le cours %{course}"
+        body_account: "Alerte Jiaoxuebang - Nouveau groupe : %{group} pour le compte %{account}"
+        body_course: "Alerte Jiaoxuebang - Nouveau groupe : %{group} pour le cours %{course}"
     new_context_group_membership_invitation: 
       email: 
         body_account: "Vous avez été invité à rejoindre le groupe %{group} pour le compte %{account}."
@@ -7028,8 +7028,8 @@ fr:
         body_course: "Vous avez été invité à rejoindre le groupe %{group} pour le cours %{course}."
         subject: "Nouvelle adhésion au groupe pour %{course_or_account}"
       twitter: 
-        body_account: "Alerte Canvas - Invitation : %{group} pour le compte %{account}"
-        body_course: "Alerte Canvas - Invitation : %{group} pour le cours %{course}."
+        body_account: "Alerte Jiaoxuebang - Invitation : %{group} pour le compte %{account}"
+        body_course: "Alerte Jiaoxuebang - Invitation : %{group} pour le cours %{course}."
     new_course: 
       email: 
         body: "Le cours %{course} a été ajouté au compte %{account}."
@@ -7053,7 +7053,7 @@ fr:
           teachers: Enseignants
         subject: "Nouveau cours"
       twitter: 
-        body: "Alerte Canvas - Nouveau cours : %{course}, %{account}"
+        body: "Alerte Jiaoxuebang - Nouveau cours : %{course}, %{account}"
     new_discussion_entry: 
       email: 
         body: "%{user} a publié un nouveau commentaire sur le fil de discussion %{discussion_topic} pour %{course} :"
@@ -7067,7 +7067,7 @@ fr:
       summary: 
         subject: "Nouveau commentaire pour %{discussion_topic} : %{course}"
       twitter: 
-        body: "Alerte Canvas - Commentaire : %{discussion_topic}, %{course}."
+        body: "Alerte Jiaoxuebang - Commentaire : %{discussion_topic}, %{course}."
     new_discussion_topic: 
       email: 
         body: "Une nouvelle discussion qui a commencé peut peut-être vous intéresser :"
@@ -7083,7 +7083,7 @@ fr:
       summary: 
         subject: "Nouvelle discussion - %{discussion_topic} : %{course}"
       twitter: 
-        subject: "Alerte Canvas - Sujet : %{discussion_topic}, %{course}"
+        subject: "Alerte Jiaoxuebang - Sujet : %{discussion_topic}, %{course}"
     new_event_created: 
       email: 
         body: "Un nouvel événement vous concernant a été programmé pour %{course_name} :"
@@ -7108,7 +7108,7 @@ fr:
       twitter: 
         from_to_time: "de %{start_date_time} à %{end_date_time}"
         no_time_set: "Aucune heure définie"
-        subject: "Alerte Canvas - Événement : %{event_title}, %{course_name}"
+        subject: "Alerte Jiaoxuebang - Événement : %{event_title}, %{course_name}"
     new_student_organized_group: 
       email: 
         body_account: "Un nouveau groupe organisé par les étudiants intitulé \"%{group_name}\" a été créé pour le compte %{account}. Son premier membre est %{user}."
@@ -7127,8 +7127,8 @@ fr:
         body_account: "Un nouveau groupe organisé par les étudiants intitulé \"%{group_name}\" a été créé pour le compte %{account}. Son premier membre est %{user}."
         body_course: "Un nouveau groupe organisé par les étudiants intitulé \"%{group_name}\" a été créé pour le cours %{course}. Son premier membre est %{user}."
       twitter: 
-        body_account: "Alerte Canvas - Nouveau groupe : %{group_name} pour le compte %{account}"
-        body_course: "Alerte Canvas - Nouveau groupe : %{group_name} pour le cours %{course}"
+        body_account: "Alerte Jiaoxuebang - Nouveau groupe : %{group_name} pour le compte %{account}"
+        body_course: "Alerte Jiaoxuebang - Nouveau groupe : %{group_name} pour le cours %{course}"
     new_teacher_registration: 
       email: 
         body: "%{user} vient de s’enregistrer comme enseignant sur %{website}."
@@ -7144,7 +7144,7 @@ fr:
       sms: 
         body: "%{user} vient de s’enregistrer comme enseignant sur %{website}."
       summary: 
-        body: "%{user} vient de s’enregistrer comme enseignant sur Canvas."
+        body: "%{user} vient de s’enregistrer comme enseignant sur Jiaoxuebang."
         labels: 
           email: E-mail
           phone: Téléphone
@@ -7152,7 +7152,7 @@ fr:
           school_position: "Position de l’établissement scolaire"
         subject: "Enregistrement d’un nouvel enseignant"
       twitter: 
-        body: "Alerte Canvas - Nouvel enseignant : %{user}, %{account}"
+        body: "Alerte Jiaoxuebang - Nouvel enseignant : %{user}, %{account}"
     new_user: 
       email: 
         body: "Le nouvel utilisateur %{user} vient de s’enregistrer pour le compte %{account}."
@@ -7168,16 +7168,16 @@ fr:
         body: "Le nouvel utilisateur %{user} vient de s’enregistrer pour le compte %{account}."
         subject: "Nouvel utilisateur"
       twitter: 
-        body: "Alerte Canvas - Nouvel utilisateur : %{user}, %{account}"
+        body: "Alerte Jiaoxuebang - Nouvel utilisateur : %{user}, %{account}"
     page_locked: "Cette page est verrouillée."
     page_locked_at: "Cette page a été verrouillée le %{at}."
     page_locked_module: "Cette page fait partie du module *%{module}* et n’a pas encore été déverrouillée."
     page_locked_until: "Cette page est verrouillée jusqu’au %{date}."
     pseudonym_registration: 
       email: 
-        body: "Vous avez été enregistré pour un compte Canvas sur %{account}. Avant de vous connecter pour utiliser Canvas, vous devez terminer le processus de configuration."
+        body: "Vous avez été enregistré pour un compte Jiaoxuebang sur %{account}. Avant de vous connecter pour utiliser Jiaoxuebang, vous devez terminer le processus de configuration."
         link_message: "Pour terminer le processus d’enregistrement, consultez l’URL suivante :"
-        subject: "Terminer l’enregistrement : Canvas"
+        subject: "Terminer l’enregistrement : Jiaoxuebang"
     quiz_locked: "Ce questionnaire est verrouillé."
     quiz_locked_at: "Ce questionnaire a été verrouillé le %{at}."
     quiz_locked_module: "Ce questionnaire fait partie du module *%{module}* et n’a pas encore été déverrouillé."
@@ -7203,7 +7203,7 @@ fr:
         body: "Vous avez été invité par %{user} à évaluer son envoi pour %{rubric} :"
         subject: "Invitation d’évaluation : %{rubric}, %{context}"
       twitter: 
-        tweet: "Alerte Canvas - Invitation : évaluer %{rubric}, %{user}"
+        tweet: "Alerte Jiaoxuebang - Invitation : évaluer %{rubric}, %{user}"
     rubric_assessment_submission_reminder: 
       email: 
         body: "Vous êtes invité à évaluer : %{rubric}, %{context}:"
@@ -7218,7 +7218,7 @@ fr:
         body: "Nous vous rappelons votre évaluation : %{rubric}, %{context}:"
         subject: "Rappel d’évaluation : %{rubric}, %{context}"
       twitter: 
-        tweet: "Alerte Canvas - Rappel : évaluer %{rubric}, %{context}."
+        tweet: "Alerte Jiaoxuebang - Rappel : évaluer %{rubric}, %{context}."
     rubric_association_created: 
       email: 
         body: "Une nouvelle évaluation a été créée pour %{context} :"
@@ -7233,7 +7233,7 @@ fr:
         body: "Une nouvelle évaluation a été créée pour %{context} :"
         subject: "Nouvelle évaluation : %{title}, %{context}"
       twitter: 
-        tweet: "Alerte Canvas - Nouvelle évaluation : %{title}, %{context}."
+        tweet: "Alerte Jiaoxuebang - Nouvelle évaluation : %{title}, %{context}."
     send_form: 
       labels: 
         message_body: Message
@@ -7255,7 +7255,7 @@ fr:
         someone: Quelqu’un
         subject: "Commentaire sur l’envoi : %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "Alerte Canvas - Commentaire : %{author} pour %{assignment}, %{user}, %{context}."
+        tweet: "Alerte Jiaoxuebang - Commentaire : %{author} pour %{assignment}, %{user}, %{context}."
     submission_comment_for_teacher: 
       email: 
         body: "%{author} vient d’ajouter un commentaire sur l’envoi de %{user} pour %{assignment}."
@@ -7273,7 +7273,7 @@ fr:
         someone: Quelqu’un
         subject: "Commentaire sur l’envoi : %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "Alerte Canvas - Commentaire : %{author} pour %{assignment}, %{user}, %{context}."
+        tweet: "Alerte Jiaoxuebang - Commentaire : %{author} pour %{assignment}, %{user}, %{context}."
     submission_grade_changed: 
       email: 
         body: "La note de votre devoir %{assignment_title} a été modifiée."
@@ -7311,7 +7311,7 @@ fr:
         not_applicable: NA
         score: "note : %{score} sur %{total}"
         score_pending: "(révision en attente)"
-        tweet: "Alerte Canvas - Modification de note : %{date}"
+        tweet: "Alerte Jiaoxuebang - Modification de note : %{date}"
     submission_graded: 
       email: 
         body: "Votre devoir %{assignment} a été noté."
@@ -7349,19 +7349,19 @@ fr:
         not_applicable: NA
         score: "note : %{score} sur %{total}"
         score_pending_review: "(révision en attente)"
-        tweet: "Alerte Canvas - Noté : %{assignment}, %{context}"
+        tweet: "Alerte Jiaoxuebang - Noté : %{assignment}, %{context}"
     summaries: 
       email: 
-        daily_body: "Vous êtes inscrit pour recevoir un rapport quotidien des notifications de votre compte Canvas. Ci-dessous se trouve le rapport du %{date} :"
+        daily_body: "Vous êtes inscrit pour recevoir un rapport quotidien des notifications de votre compte Jiaoxuebang. Ci-dessous se trouve le rapport du %{date} :"
         notifications_link: "Vous pouvez modifier vos paramètres de notification dans la page suivante :"
-        subject: "Notifications Canvas récentes"
-        weekly_body: "Vous êtes inscrit pour recevoir un rapport hebdomadaire des notifications de votre compte Canvas. Ci-dessous se trouve le rapport de la semaine se terminant le %{date} :"
+        subject: "Notifications Jiaoxuebang récentes"
+        weekly_body: "Vous êtes inscrit pour recevoir un rapport hebdomadaire des notifications de votre compte Jiaoxuebang. Ci-dessous se trouve le rapport de la semaine se terminant le %{date} :"
       facebook: 
-        new_notifications: "Vous avez reçu *%{notification_count} nouvelles notifications* dans #Canvas#."
+        new_notifications: "Vous avez reçu *%{notification_count} nouvelles notifications* dans #Jiaoxuebang#."
       sms: 
         notifications_sms: "%{notifications_count} nouvelles notifications sur %{url}"
       twitter: 
-        tweet: "Alerte Canvas - %{notification_count} nouvelles notifications"
+        tweet: "Alerte Jiaoxuebang - %{notification_count} nouvelles notifications"
     topic_locked: "Ce sujet est verrouillé."
     topic_locked_at: "Ce sujet a été verrouillé le %{at}."
     topic_locked_module: "Ce sujet fait partie du module *%{module}* et n’a pas encore été déverrouillé."
@@ -7379,7 +7379,7 @@ fr:
       summary: 
         subject: "Page Wiki mise à jour : %{title}, %{user}"
       twitter: 
-        tweet: "Alerte Canvas - Page mise à jour : %{title}, %{user}."
+        tweet: "Alerte Jiaoxuebang - Page mise à jour : %{title}, %{user}."
     visit_modules_page: "*Pour obtenir des informations sur le déverrouillage de ce contenu, consultez la page des modules de ce cours.*"
     web_conference_invitation: 
       email: 
@@ -7395,7 +7395,7 @@ fr:
         body: "Vous avez été invité à participer à une conférence Web sur %{title} pour %{name}."
         subject: "Invitation à la conférence Web : %{name}"
       twitter: 
-        tweet: "Alerte Canvas - Invitation : participer à %{title}, %{name}"
+        tweet: "Alerte Jiaoxuebang - Invitation : participer à %{title}, %{name}"
   mute_dialog: 
     curving_assignments: "Courbe des devoirs"
     grade_change_notifications: "Notifications de changement de notes"
@@ -7670,7 +7670,7 @@ fr:
       instructions: 
         main: 
           manage: 
-            description: "*Les résultats sont créés ici pour suivre la progression des élèves dans un cours. Pour commencer, regardez la barre de menus en haut. Cliquez sur le bouton Nouveau pour créer un nouveau résultat, ou sur le bouton Nouveau groupe pour créer un nouveau groupe où classer vos résultats. Le bouton Chercher vous permet d’utiliser les résultats qui ont été créés par votre région ou votre institution. Lorsque vous créez et utilisez les résultats, vous pouvez utiliser le volet sur la gauche pour les parcourir. Vous pouvez les faire glisser et les déposer à différents niveaux pour créer une arborescence.* *Mieux encore : Canvas vous permet d’ajouter des résultats dans vos barèmes et ainsi d’évaluer la progression lorsque vous notez les devoirs. Une fois que vous avez défini les résultats, cliquez sur Gérer les barèmes pour commencer à utiliser vos résultats pour vos notations.*"
+            description: "*Les résultats sont créés ici pour suivre la progression des élèves dans un cours. Pour commencer, regardez la barre de menus en haut. Cliquez sur le bouton Nouveau pour créer un nouveau résultat, ou sur le bouton Nouveau groupe pour créer un nouveau groupe où classer vos résultats. Le bouton Chercher vous permet d’utiliser les résultats qui ont été créés par votre région ou votre institution. Lorsque vous créez et utilisez les résultats, vous pouvez utiliser le volet sur la gauche pour les parcourir. Vous pouvez les faire glisser et les déposer à différents niveaux pour créer une arborescence.* *Mieux encore : Jiaoxuebang vous permet d’ajouter des résultats dans vos barèmes et ainsi d’évaluer la progression lorsque vous notez les devoirs. Une fois que vous avez défini les résultats, cliquez sur Gérer les barèmes pour commencer à utiliser vos résultats pour vos notations.*"
             title: "Définition des résultats"
     mastery_error: "Doit être supérieur ou égal à 0"
     missing_outcome: "Impossible de trouver ce résultat d’apprentissage"
@@ -7792,7 +7792,7 @@ fr:
       name: "Academic Benchmark Importer"
       plugins: 
         ab: 
-          description: "Cet outil permet d’importer les critères Academic Benchmark dans Canvas."
+          description: "Cet outil permet d’importer les critères Academic Benchmark dans Jiaoxuebang."
     academic_benchmark_settings: 
       api_url_description: "(e.g. %{url})"
       common_core_guid: "(ex. %{guid})"
@@ -7825,9 +7825,9 @@ fr:
     buttons: 
       saving: "Enregistrement en cours..."
     canvas_cartridge_importer: 
-      description: "Permet de convertir une exportation Canvas au format intermédiaire json à importer"
-      file_description: "Progiciel d’exportation de cours Canvas"
-      name: "Importateur Canvas Cartridge"
+      description: "Permet de convertir une exportation Jiaoxuebang au format intermédiaire json à importer"
+      file_description: "Progiciel d’exportation de cours Jiaoxuebang"
+      name: "Importateur Jiaoxuebang Cartridge"
     common_cartridge_importer: 
       description: "Permet la conversion d’un contenu global Common Cartridge au format intermédiaire json pour l’importation"
       file_description: "Coffret Common Cartridge 1.0/1.1/1.2"
@@ -7892,7 +7892,7 @@ fr:
       sketchpad: SketchPad
       typewithme: TypeWith.me
     facebook: 
-      description: "Application Canvas Facebook"
+      description: "Application Jiaoxuebang Facebook"
       name: Facebook
     facebook_settings: 
       description: |-
@@ -7901,23 +7901,23 @@ fr:
           de votre application Facebook :
           
           * **Web Site -- Site URL :** défini sur %{site_url}
-          * **Web Site -- Site Domain :** domaine de votre site Canvas principal. Il doit correspondre au paramètre URL du site.
-          * **Facebook Integration -- Canvas Page :** prenez note de votre choix puis entrez-le dans le formulaire ci-dessous.
-          * **Facebook Integration -- Canvas URL :** défini sur %{canvas_url}
-          * Assurez-vous que **Advanced -- OAuth 2.0 for Canvas** est activé.
+          * **Web Site -- Site Domain :** domaine de votre site Jiaoxuebang principal. Il doit correspondre au paramètre URL du site.
+          * **Facebook Integration -- Jiaoxuebang Page :** prenez note de votre choix puis entrez-le dans le formulaire ci-dessous.
+          * **Facebook Integration -- Jiaoxuebang URL :** défini sur %{canvas_url}
+          * Assurez-vous que **Advanced -- OAuth 2.0 for Jiaoxuebang** est activé.
           * Après avoir enregistré votre application, prenez note de l’ID de l’application, de la clé API et du secret de l’application.
       domain_name: domaine
       headers: 
         domain_settings: "Paramètres du domaine"
       hints: 
-        canvas_domain: "domaine spécifié dans \"URL Canvas\""
-        canvas_name: "chemin spécifié dans \"Page Canvas\""
+        canvas_domain: "domaine spécifié dans \"URL Jiaoxuebang\""
+        canvas_name: "chemin spécifié dans \"Page Jiaoxuebang\""
         disable_ssl: "Utiliser uniquement pour les tests en local"
       labels: 
         api_key: "Clé API"
         app_id: "ID de l’application"
-        canvas_domain: "Domaine Canvas"
-        canvas_name: "Nom Canvas"
+        canvas_domain: "Domaine Jiaoxuebang"
+        canvas_name: "Nom Jiaoxuebang"
         disable_ssl: "Désactiver SSL"
         secret: "Secret de l’application"
     google_docs: 
@@ -7944,10 +7944,10 @@ fr:
       canvas_revision_unknown: Inconnu
       configure_plugin: Configurer
       description: Description
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Jiaoxuebang"
       name: Nom
-      no_plugins: "Aucun module d’extension Canvas installé"
-      page_title: "Modules d’extension Canvas"
+      no_plugins: "Aucun module d’extension Jiaoxuebang installé"
+      page_title: "Modules d’extension Jiaoxuebang"
       tag: Étiquette
       version: Version
       website: "Site Web"
@@ -7960,7 +7960,7 @@ fr:
           Vous aurez besoin d’un compte soit sur [Kaltura.com](%{kaltura_url})
           ou avec une instance auto-hébergée de Kaltura.
           
-          **Note :** une fois que vous avez configuré Kaltura dans Canvas,
+          **Note :** une fois que vous avez configuré Kaltura dans Jiaoxuebang,
           accédez à la console de gestion Kaltura puis sous « Paramètres-> 
           Paramètres d’intégration », activez les notifications du serveur avec une 
           URL de notification :
@@ -8194,8 +8194,8 @@ fr:
     please_select_a_year: "Sélectionnez une année."
     please_select_an_option: "Sélectionnez une option"
     profile: 
-      access_token_description: "Les jetons d’accès permettent aux autres applications de faire des appels API de votre part. Vous pouvez également générer des jetons d’accès et *utiliser l’API libre et ouverte Canvas* pour créer vos propres intégrations."
-      approved_integrations: "Ce sont des applications tierces que vous avez autorisées à accéder au site Canvas de votre part :"
+      access_token_description: "Les jetons d’accès permettent aux autres applications de faire des appels API de votre part. Vous pouvez également générer des jetons d’accès et *utiliser l’API libre et ouverte Jiaoxuebang* pour créer vos propres intégrations."
+      approved_integrations: "Ce sont des applications tierces que vous avez autorisées à accéder au site Jiaoxuebang de votre part :"
       buttons: 
         add_picture_file: "Ajouter un fichier"
         authorize_google_docs: "Autoriser l’accès à Google Docs"
@@ -8210,16 +8210,16 @@ fr:
         select_image: "Sélectionner une image"
         update_settings: "Mettre à jour les paramètres"
       confirm_email_instructions: "Pour modifier votre profil, vous devez d’abord vérifier votre adresse e-mail (%{email}) en cliquant sur le lien indiqué dans l’e-mail que nous vous avons envoyé. Si vous ne l’avez pas reçu, *cliquez ici pour renvoyer l’e-mail*, et vérifiez votre boîte de courrier indésirable."
-      delicious_description: "Delicious est un outil qui permet de stocker et de partager vos signets. L’éditeur de contenu enrichi Canvas permet d’effectuer une recherche dans les étiquettes Delicious afin d’obtenir des liens rapides de Canvas vers d’autres sources d’informations utiles."
-      diigo_description: "Diigo est un outil de création de signets sociaux adapté plus particulièrement à la recherche et à l’éducation. L’éditeur de contenu enrichi Canvas permet d’effectuer une recherche dans les étiquettes Diigo afin d’obtenir des liens rapides de Canvas vers d’autres sources d’informations utiles."
+      delicious_description: "Delicious est un outil qui permet de stocker et de partager vos signets. L’éditeur de contenu enrichi Jiaoxuebang permet d’effectuer une recherche dans les étiquettes Delicious afin d’obtenir des liens rapides de Jiaoxuebang vers d’autres sources d’informations utiles."
+      diigo_description: "Diigo est un outil de création de signets sociaux adapté plus particulièrement à la recherche et à l’éducation. L’éditeur de contenu enrichi Jiaoxuebang permet d’effectuer une recherche dans les étiquettes Diigo afin d’obtenir des liens rapides de Jiaoxuebang vers d’autres sources d’informations utiles."
       error_loading_token_details: "Erreur de chargement des informations de jeton"
-      facebook_description: "Si vous avez un compte Facebook, vous pouvez installer l’application Canvas et recevoir des notifications du cours sur votre profil. Vous pouvez spécifier les types de notifications souhaitées et la périodicité des envois."
+      facebook_description: "Si vous avez un compte Facebook, vous pouvez installer l’application Jiaoxuebang et recevoir des notifications du cours sur votre profil. Vous pouvez spécifier les types de notifications souhaitées et la périodicité des envois."
       full_token_warning: |-
           **Copiez ce jeton maintenant**. Après avoir quitté cette page, vous ne pourrez plus
           récupérer le jeton complet et devrez regénérer le jeton pour obtenir une nouvelle
           valeur.
       generate_access_token_description: |-
-          Les jetons d’accès permettent aux applications tierces d’accéder aux ressources de Canvas
+          Les jetons d’accès permettent aux applications tierces d’accéder aux ressources de Jiaoxuebang
           de votre part. Ces jetons sont normalement créé automatiquement pour
           les applications selon les besoins, mais si [vous développez un projet
           nouveau ou limité](%{documentation_url}) vous pouvez simplement générer le jeton à partir d’ici.
@@ -8299,7 +8299,7 @@ fr:
         view_facebook_app: "afficher l’application Facebook"
         view_your_profile: "afficher votre profil"
       loading_token_details: "Chargement des informations de jeton..."
-      no_approved_integrations: "Les applications tierces peuvent demander l’autorisation d’accéder au site Canvas de votre part. Au fur et à mesure que vous autorisez les applications, vous les verrez s’inscrire dans cette liste."
+      no_approved_integrations: "Les applications tierces peuvent demander l’autorisation d’accéder au site Jiaoxuebang de votre part. Au fur et à mesure que vous autorisez les applications, vous les verrez s’inscrire dans cette liste."
       no_language_preference: "Valeur par défaut du système (%{language})"
       no_registered_services: "Aucun service enregistré"
       none: Aucun
@@ -8329,7 +8329,7 @@ fr:
           Ces notifications vous seront envoyées comme messages directs dont vous serez l’expéditeur
           et le destinataire, et n’apparaîtront pas dans votre sphère publique.
       unknown_service: Inconnu
-      web_services: "Canvas peut vous simplifier la vie en se jumelant aux outils Web que vous utilisez déjà. Cliquez sur un service dans \"Autres services\" pour le constater par vous-même."
+      web_services: "Jiaoxuebang peut vous simplifier la vie en se jumelant aux outils Web que vous utilisez déjà. Cliquez sur un service dans \"Autres services\" pour le constater par vous-même."
     resending: "renvoi en cours..."
     secondary_nav: 
       links: 
@@ -8377,7 +8377,7 @@ fr:
         carrier: Opérateur
         cell_number: "Numéro de téléphone"
         email_address: "Adresse de messagerie"
-        enable_login_for_email: "Je souhaite me connecter à Canvas à l’aide de cette adresse de messagerie."
+        enable_login_for_email: "Je souhaite me connecter à Jiaoxuebang à l’aide de cette adresse de messagerie."
         sms_email: "E-mail vers SMS"
       links: 
         add_contact_method: "Ajouter un mode de contact"
@@ -8424,13 +8424,13 @@ fr:
       invalid_otp: "Code de vérification erroné. Veuillez réessayer."
       login_error: "Problème de connexion à %{institution}"
       login_errors: 
-        no_config_for_id: "Le compte Canvas n’a aucune configuration d’authentification avec cet ID."
+        no_config_for_id: "Le compte Jiaoxuebang n’a aucune configuration d’authentification avec cet ID."
         no_idp_set: "L’institution à partir de laquelle vous vous êtes connecté n’est pas configurée sur ce compte."
-        unrecognized_idp: "Canvas n’a pas reconnu votre fournisseur d’identités."
+        unrecognized_idp: "Jiaoxuebang n’a pas reconnu votre fournisseur d’identités."
       logout_errors: 
-        no_idp_found: "Canvas n’a pas pu vous déconnecter au niveau de votre fournisseur d’identités."
+        no_idp_found: "Jiaoxuebang n’a pas pu vous déconnecter au niveau de votre fournisseur d’identités."
       max_attempts: "Nombre de tentatives de connexion trop important. Réessayez plus tard ou contactez votre administrateur système."
-      no_matching_user: "Canvas ne possède pas de compte pour l’utilisateur : %{user}"
+      no_matching_user: "Jiaoxuebang ne possède pas de compte pour l’utilisateur : %{user}"
       request_failed: "Échec de la demande. Veuillez réessayer."
       user_deleted: "Ce compte utilisateur a été supprimé. Veuillez contacter votre administrateur système pour la réactivation de votre compte."
     messages: 
@@ -8441,16 +8441,16 @@ fr:
       buttons: 
         request_password: "Demander un mot de passe"
       dont_know_password: "Je ne connais mon mot de passe"
-      log_in_to_canvas: "Connexion à Canvas"
+      log_in_to_canvas: "Connexion à Jiaoxuebang"
       login: Connexion
       login_handle: "Entrez votre %{login_handle_name} et nous vous enverrons un lien pour modifier votre mot de passe."
       password: "Mot de passe"
       sending: "Envoi en cours..."
     new: 
-      details: "Avant de vous connecter, vous devez terminer le processus d’enregistrement. Vous devez avoir reçu un e-mail contenant un lien de confirmation vers Canvas. Suivez les instructions pour terminer le processus. Pensez à vérifier votre boîte de courrier indésirable."
+      details: "Avant de vous connecter, vous devez terminer le processus d’enregistrement. Vous devez avoir reçu un e-mail contenant un lien de confirmation vers Jiaoxuebang. Suivez les instructions pour terminer le processus. Pensez à vérifier votre boîte de courrier indésirable."
       links: 
         resend_email: "Renvoyer l’e-mail"
-      page_title: "Connexion à Canvas"
+      page_title: "Connexion à Jiaoxuebang"
       titles: 
         registration_complete: "Enregistrement incomplet"
     notices: 
@@ -8472,7 +8472,7 @@ fr:
       details: 
         mfa_enrollment: |-
             L’authentification multifacteur améliore la sécurité en exigeant que vous disposiez d’un outil spécifique
-            en plus de votre mot de passe pour vous connecter à Canvas. Il peut s’agir d’un appareil qui génère
+            en plus de votre mot de passe pour vous connecter à Jiaoxuebang. Il peut s’agir d’un appareil qui génère
             des codes de vérification ou d’un téléphone capable de recevoir des messages texte. Vous pouvez configurer l’application Google Authenticator pour [iPhone](%{iphone_url}) ou
             [Android](%{android_url}) en lisant le code QR ci-dessous. Vous pouvez configurer d’autres jetons en saisissant la clé secrète **%{secret_key}**.
         mfa_required: "Vous êtes invité à configurer l’authentification multifacteur."
@@ -9634,8 +9634,8 @@ fr:
       labels: 
         email: E-mail
         name: Nom
-    too_young_error: "Vous devez avoir au moins %{min_years} ans pour pouvoir utiliser Canvas sans code de participation au cours."
-    welcome_to_canvas: "Bienvenue dans Canvas !"
+    too_young_error: "Vous devez avoir au moins %{min_years} ans pour pouvoir utiliser Jiaoxuebang sans code de participation au cours."
+    welcome_to_canvas: "Bienvenue dans Jiaoxuebang !"
   retrieve_timeout: "impossible de récupérer la configuration, le délai d’attente de la réponse du serveur a expiré"
   role_override: 
     permission: 
@@ -10287,7 +10287,7 @@ fr:
       log_in: Connexion
       login_at_account: "Connexion à %{school_name}"
       login_handle: "Entrez votre %{login_handle_name} et nous vous enverrons un lien pour modifier votre mot de passe."
-      register_for_canvas: "*Vous avez besoin d’un compte Canvas ?* **Cliquez ici, c’est gratuit !**"
+      register_for_canvas: "*Vous avez besoin d’un compte Jiaoxuebang ?* **Cliquez ici, c’est gratuit !**"
     menu_assignment: 
       labels: 
         due: échéance
@@ -11203,7 +11203,7 @@ fr:
     cc_prefs: 
       buttons: 
         configure: "Configurer les préférences de communication"
-      comm_preferences_instructions: "Votre enregistrement dans Canvas étant terminé, vous pouvez configurer les notifications que vous recevrez pendant la progression de vos cours. La souplesse d’utilisation de Canvas vous permet de choisir les événements pour lesquels vous recevrez une notification et le mode de notification. Lorsque des changements se produisent dans vos cours, vous pouvez choisir de recevoir un e-mail ou un SMS immédiatement, quotidiennement ou toutes les semaines."
+      comm_preferences_instructions: "Votre enregistrement dans Jiaoxuebang étant terminé, vous pouvez configurer les notifications que vous recevrez pendant la progression de vos cours. La souplesse d’utilisation de Jiaoxuebang vous permet de choisir les événements pour lesquels vous recevrez une notification et le mode de notification. Lorsque des changements se produisent dans vos cours, vous pouvez choisir de recevoir un e-mail ou un SMS immédiatement, quotidiennement ou toutes les semaines."
       information: Informations
       titles: 
         configure_com_prefs: "Configurer les préférences de communication"
@@ -11296,9 +11296,9 @@ fr:
       buttons: 
         upgrade: "Mettre à niveau"
       consider_upgrading_browser: "pensez à faire la mise à jour"
-      ie7_really_is_old: "Vous utilisez Internet Explorer 7. Ce navigateur n’est pas entièrement pris en charge par Canvas (et de nombreux autres sites Web). Par conséquent, vous devriez %{link}. Sans la mise à jour, certaines parties de Canvas ne seront pas pleinement fonctionnelles."
+      ie7_really_is_old: "Vous utilisez Internet Explorer 7. Ce navigateur n’est pas entièrement pris en charge par Jiaoxuebang (et de nombreux autres sites Web). Par conséquent, vous devriez %{link}. Sans la mise à jour, certaines parties de Jiaoxuebang ne seront pas pleinement fonctionnelles."
       information: Informations
-      upgrade_ie7: "Vous utilisez Internet Explorer 7. Ce navigateur n’est pas totalement pris en charge par Canvas (à l’instar de nombreux autres sites Web) et vous devriez procéder à une mise à niveau. À défaut, certains composants de Canvas ne fonctionneront pas correctement."
+      upgrade_ie7: "Vous utilisez Internet Explorer 7. Ce navigateur n’est pas totalement pris en charge par Jiaoxuebang (à l’instar de nombreux autres sites Web) et vous devriez procéder à une mise à niveau. À défaut, certains composants de Jiaoxuebang ne fonctionneront pas correctement."
     index: 
       all_users: "Tous les utilisateurs"
       buttons: 
@@ -11390,11 +11390,11 @@ fr:
         name_and_email: "Nom et e-mail"
       update_instructions: "Vous pouvez mettre à jour les informations de cet utilisateur, mais il pourra les rétablir s’il le souhaite."
     new: 
-      create_a_canvas_account: "Créer un compte Canvas"
+      create_a_canvas_account: "Créer un compte Jiaoxuebang"
     new_user_dashboard: 
       course_code_example: "(semblable à BIO 100, FRA 315, etc.)"
       create_collection: "Créer une collection"
-      find_people: "Rechercher des personnes sur Canvas"
+      find_people: "Rechercher des personnes sur Jiaoxuebang"
       group_name: "Nom du groupe"
       labels: 
         course_code: "Et un code de référence plus court"
@@ -11424,11 +11424,11 @@ fr:
       almost_there: "Nous y sommes presque..."
       done_resending: "Terminé. L’envoi du message peut prendre quelques minutes."
       failed_resending: "Échec de la demande. Veuillez réessayer."
-      invite_to_read: "Nous vous invitons à regarder cette brève présentation de Canvas. Vous pouvez également *découvrir comment Canvas permet* de rapprocher les étudiants de 27 pays des amphithéâtres, de leurs formateurs et de leurs camarades de classe."
+      invite_to_read: "Nous vous invitons à regarder cette brève présentation de Jiaoxuebang. Vous pouvez également *découvrir comment Jiaoxuebang permet* de rapprocher les étudiants de 27 pays des amphithéâtres, de leurs formateurs et de leurs camarades de classe."
       links: 
         download_pdf: "télécharger le PDF"
       need_flash: "Flash Player 8+ et JavaScript doivent être activés pour voir cette vidéo."
-      overview_video: "Présentation vidéo sur Canvas"
+      overview_video: "Présentation vidéo sur Jiaoxuebang"
       registration_complete: "Enregistrement terminé"
       resending: "Renvoi en cours..."
       sent_email_paragraph: "Nous avons envoyé un e-mail à %{email_address}. *Cliquez sur le lien contenu dans le message électronique pour terminer l’enregistrement*. S’il n’apparaît pas, **cliquez pour renvoyer l’e-mail**, et vérifiez votre boîte de courrier indésirable."
@@ -11483,7 +11483,7 @@ fr:
       start_new_course: "Commencer un nouveau cours"
       user_atom_feed: "Utiliser le flux Atom (pour tous les cours)"
       user_dashboard: "Tableau de bord utilisateur"
-      welcome_to_happiness: "Bienvenue dans Canvas !"
+      welcome_to_happiness: "Bienvenue dans Jiaoxuebang !"
     user_is_deleted: "%{user_name} a été supprimé"
     user_merge_fail: "La fusion des utilisateurs a échoué. Vérifiez que vous avez les autorisations nécessaires, puis réessayez."
     user_merge_success: "Fusion des utilisateurs terminée. %{first_user} et %{second_user} ont été fusionnés en un utilisateur."
@@ -11491,7 +11491,7 @@ fr:
     user_updated: "L’utilisateur a été mis à jour."
     welcome: 
       no_courses_message: "Vous n’avez pas de cours, par conséquent cette page n’est pas très intéressante pour l’instant. Lorsque vous aurez créé un cours ou si vous vous êtes inscrit à des cours, vous verrez des conversations apparaître pour toutes vos classes."
-      welcome_to_happiness: "Bienvenue dans Canvas !"
+      welcome_to_happiness: "Bienvenue dans Jiaoxuebang !"
   validate: 
     is_required: "Ce champ est obligatoire."
   web_conference: 

@@ -68,13 +68,13 @@ ar:
       add_auth_desc: "إضافة موفر الهوية لهذا الحساب:"
       canvas_login_tip: |-
           إذا قمت بتكوين إعدادات جعلتك غير قادر على تسجيل الدخول فيمكنك إضافة
-            *%{url1}* إلى نهاية عنوان url لتسجيل الدخول. سيتيح لك ذلك تسجيل الدخول            باستخدام إجراء تسجيل الدخول العادي لـ Canvas. بالنسبة لهذا الحساب يمكن أن يكون عنوان url هو %{url2}
+            *%{url1}* إلى نهاية عنوان url لتسجيل الدخول. سيتيح لك ذلك تسجيل الدخول            باستخدام إجراء تسجيل الدخول العادي لـ Jiaoxuebang. بالنسبة لهذا الحساب يمكن أن يكون عنوان url هو %{url2}
       choose_auth_type_option: "اختيار خدمة المصادقة"
       current_settings_title: "التكامل الحالي"
       delete_auth_confirmation: "هل أنت متأكد؟ قد لا يتمكن المستخدمون من تسجيل الدخول إذا تمت إزالة هذا."
       delete_auth_link: "إزالة المصادقة"
       edit_auth_link: "تحرير التفاصيل"
-      ip_address_list_description: "إذا كنت تستخدم خدمة مصادقة تتطلب من خوادم Canvas الاتصال بخوادمك مباشرةً؛ مثل LDAP، فستحتاج للتأكد أن خوادمك يمكنها قبول الاتصلات من عناوين IP تلك:"
+      ip_address_list_description: "إذا كنت تستخدم خدمة مصادقة تتطلب من خوادم Jiaoxuebang الاتصال بخوادمك مباشرةً؛ مثل LDAP، فستحتاج للتأكد أن خوادمك يمكنها قبول الاتصلات من عناوين IP تلك:"
       no_auth_type_description: "لا يتكامل هذا الحساب حاليًا مع موفر الهوية."
       page_title: "إعدادات المصادقة"
       profile_page_link_example: "على سبيل المثال، فيما يلي صفحة ملف التعريف الخاصة بك: [%{friendlyname}](%{url})"
@@ -85,7 +85,7 @@ ar:
     ldap_settings: 
       add_secondary_ldap_server_link: "إضافة خادم LDAP ثانوي"
       auth_type_label: النوع
-      change_password_url_help: "ترك فراغ لسلوك Canvas الافتراضي"
+      change_password_url_help: "ترك فراغ لسلوك Jiaoxuebang الافتراضي"
       change_password_url_not_specified: "لم يتم تحديد URL"
       labels: 
         change_password_url: "نسيت عنوان URL لكلمة المرور"
@@ -98,7 +98,7 @@ ar:
     ldap_settings_fields: 
       auth_filter_description: "استخدم *%{placeholder}* كعنصر نائب لاسم المستخدم الذي يوفره المستخدم. على سبيل المثال: *(sAMAccountName=%{placeholder})*"
       auth_password_description: "اتركه فارغًا للمتابعة باستخدام كلمة المرور الحالية."
-      identifer_format_description: "السمة LDAP تستخدم للبحث في تسجيل دخول Canvas. اتركها فارغة لاستخدام اسم المستخدم الذي قام المستخدم بتوفيره."
+      identifer_format_description: "السمة LDAP تستخدم للبحث في تسجيل دخول Jiaoxuebang. اتركها فارغة لاستخدام اسم المستخدم الذي قام المستخدم بتوفيره."
       labels: 
         auth_base: أساس
         auth_filter: تصفية
@@ -121,14 +121,14 @@ ar:
       ldap_test_login_button: "اختبار تسجيل الدخول"
       test_ldap_bind_help_body: "رفض خادم LDAP محاولة الربط. أمور ينبغي أخذها بالاعتبار:"
       test_ldap_bind_help_fixes_1: "التحقق من سلسلة التصفية المتوفرة (أي '(sAMAccountName={{login}})')."
-      test_ldap_bind_help_fixes_2: "هل يتطلب اسم المستخدم مزيدًا من معلومات scoping؟ (أي 'cn=Canvas,ou=people,dc=example,dc=com')."
-      test_ldap_bind_help_header: "لا يمكن لـ Canvas ربط (تسجيل الدخول) بخادم LDAP لديك"
+      test_ldap_bind_help_fixes_2: "هل يتطلب اسم المستخدم مزيدًا من معلومات scoping؟ (أي 'cn=Jiaoxuebang,ou=people,dc=example,dc=com')."
+      test_ldap_bind_help_header: "لا يمكن لـ Jiaoxuebang ربط (تسجيل الدخول) بخادم LDAP لديك"
       test_ldap_bind_label: "يجري اختبار ربط LDAP..."
       test_ldap_connection_help_body: "انتهت مدة الاتصال أو تم رفضها. أمور ينبغي أخذها بالاعتبار:"
-      test_ldap_connection_help_fixes_1: "Canvas متصل بـ %{ips}"
+      test_ldap_connection_help_fixes_1: "Jiaoxuebang متصل بـ %{ips}"
       test_ldap_connection_help_fixes_2: "هذا مجرد اختبار توصيل. لم يتم اعتماد شهادات SSL."
-      test_ldap_connection_help_fixes_3: "تحقق من إعدادات جدار الحماية. هل تم السماح لكل عناوين IP لـ Canvas بالوصول إلى الخادم؟"
-      test_ldap_connection_help_header: "لا يمكن لـ Canvas الاتصال بخادم LDAP"
+      test_ldap_connection_help_fixes_3: "تحقق من إعدادات جدار الحماية. هل تم السماح لكل عناوين IP لـ Jiaoxuebang بالوصول إلى الخادم؟"
+      test_ldap_connection_help_header: "لا يمكن لـ Jiaoxuebang الاتصال بخادم LDAP"
       test_ldap_connection_label: "جارٍ اختبار الاتصال..."
       test_ldap_dialog_close: إغلاق
       test_ldap_dialog_page_title: "اختبار تكوين LDAP"
@@ -139,11 +139,11 @@ ar:
       test_ldap_search_help_fixes_1: "التحقق من سلسلة التصفية المتوفرة (أي '(sAMAccountName={{login}})')."
       test_ldap_search_help_fixes_2: "التحقق من أساس البحث المتوفر (أي 'ou=people,dc=example,dc=com')"
       test_ldap_search_help_fixes_3: "تحقق من أن كائن المستخدم الذي في LDAP يحتوي على امتيازات البحث لأساس البحث الذي تم توفيره."
-      test_ldap_search_help_header: "لا يمكن لـ Canvas البحث عن مثيل LDAP الخاص بك"
+      test_ldap_search_help_header: "لا يمكن لـ Jiaoxuebang البحث عن مثيل LDAP الخاص بك"
       test_ldap_search_label: "جارٍ اختبار بحث LDAP..."
     ldap_timeout_error: 
       last_ldap_timeout_failure: "فشل آخر مهلة"
-      ldap_timeout_failure_help: "إذا انتهت مهلة اتصال Canvas بخادم LDAP، فإنه سيمنع أي محاولات دخول أخرى من استخدام خادم LDAP ذلك لمدة %{time}."
+      ldap_timeout_failure_help: "إذا انتهت مهلة اتصال Jiaoxuebang بخادم LDAP، فإنه سيمنع أي محاولات دخول أخرى من استخدام خادم LDAP ذلك لمدة %{time}."
     login_required: "يجب أن يتم التزويد"
     no_auth_mixing: "لا يمكن مزج أنواع المصادقة"
     no_changing_auth_types: "لا يمكن تغيير نوع تهيئة التفويض، ولذا يرجى حذف وإنشاء تهيئة جديدة."
@@ -190,7 +190,7 @@ ar:
       auth_request_to_idp: "تم إرسال AuthnRequest إلى IdP"
       auth_response_from_idp: "AuthnResponse من IdP"
       labels: 
-        canvas_login_fail_message: "رسالة فشل تسجيل الدخول إلى Canvas"
+        canvas_login_fail_message: "رسالة فشل تسجيل الدخول إلى Jiaoxuebang"
         fingerprint_from_idp: "بصمة إصبع شهادة IdP"
         idp_in_response_to: "IdP inResponseTo"
         idp_login_destination: "وجهة IdP LoginResponse"
@@ -201,10 +201,10 @@ ar:
         idp_response_encoded: "تم تشفير IdP LoginResponse"
         idp_response_xml_decrypted: "تمت إزالة تشفير IdP LoginResponse"
         idp_response_xml_encrypted: "تم تشفير IdP LoginResponse"
-        is_valid_login_response: "يقرر Canvas أن الاستجابة صالحة"
+        is_valid_login_response: "يقرر Jiaoxuebang أن الاستجابة صالحة"
         logged_in_user_id: "معرف المستخدم الذي تم تسجيل الدخول به"
         login_response_validation_error: "خطأ في التحقق من الصحة"
-        login_to_canvas_success: "نجح المستخدم في تسجيل الدخول إلى Canvas"
+        login_to_canvas_success: "نجح المستخدم في تسجيل الدخول إلى Jiaoxuebang"
         logout_request_id: "معرف طلب تسجيل الخروج"
         logout_to_idp_url: "عنوان  URL المشفر لـ LogoutRequest"
         logout_to_idp_xml: "تم إرسال LogoutRequest XML إلى IdP"
@@ -370,10 +370,10 @@ ar:
       account_reports: 
         sis_export: 
           description: 
-            text: "سيقوم هذا التقرير بتصدير كل المعلومات اللازمة ذات الصلة بتزويد Canvas في الفئات المختصة."
+            text: "سيقوم هذا التقرير بتصدير كل المعلومات اللازمة ذات الصلة بتزويد Jiaoxuebang في الفئات المختصة."
     settings: 
       about_google_docs: |-
-          لتسهيل الأمر للمستخدمين، بدلاً من إجبارهم على تنزيل عناصر كمستندات Word وملفات PDF وجداول بيانات Excel وفتح مستندات Office (علاوة على ضرورة تثبيت هذه البرامج على أجهزة الكمبيوتر لديهم)، سترى في العديد من أجزاء Canvas أنه يسمح لك بمعاينة داخلية لمثل هذه المستندات.
+          لتسهيل الأمر للمستخدمين، بدلاً من إجبارهم على تنزيل عناصر كمستندات Word وملفات PDF وجداول بيانات Excel وفتح مستندات Office (علاوة على ضرورة تثبيت هذه البرامج على أجهزة الكمبيوتر لديهم)، سترى في العديد من أجزاء Jiaoxuebang أنه يسمح لك بمعاينة داخلية لمثل هذه المستندات.
           
           عند تمكين Scribd لهذا الحساب، فإنه سيحاول استخدامه لعرض المعاينة. لكن نظرًا لأن Scribd يستخدم ورقات flash لعرض المستندات، والعديد من المستخدمين ليس لديهم مثبت Flash Player (بالتحديد المستخدمين الذين يستخدمون iPad/iPhone)، فإن هذه المعاينة لن تجدي.  إذا تم ترك معاينة Google Docs مُمكنة، فعند عدم تمكين Flash على مستعرض ما، أو عند تمكين Scribd، فسوف يستخدم هذا المستعرض المعاينة المُمكنة بواسطة Google Docs. إن استخدام هذه الخدمة يخضع لشروط عارض Google [شروط الخدمة](%{terms_url})
       about_google_docs_tooltip: "نبذة حول معاينة Google Docs"
@@ -402,7 +402,7 @@ ar:
       default_language_description: "سيتجاوز ذلك أي إعدادات للغة المستعرض/نظام التشغيل. ما زال يمكن ضبط اللغات المفضلة على مستوى المساق/المستخدم."
       delete: حذف
       delete_announcement_tooltip: "حذف هذا الإعلان"
-      email_notification_from_description: "يسمح هذا الإعداد للمشرف بتمييز النص \"من\" بعلامة تجارية أو تصنيفه على جميع الإشعارات المرسلة من Canvas لهذا الحساب.\n"
+      email_notification_from_description: "يسمح هذا الإعداد للمشرف بتمييز النص \"من\" بعلامة تجارية أو تصنيفه على جميع الإشعارات المرسلة من Jiaoxuebang لهذا الحساب.\n"
       email_notification_from_settings: "إعدادات  \"من\" الخاصة بإشعارات البريد الإلكتروني "
       enabled_web_serices_title: "خدمات الويب المُمكّنة"
       equall_endpoint_help: "‏‏هذا هو عنوان URL لخدمة equella. قد يظهر هكذا \"%{sample_url}\"."
@@ -428,7 +428,7 @@ ar:
         admins_can_change_passwords: "إعداد كلمة المرور بواسطة المسؤولين"
         allow_sending_scores_in_emails: "يمكن للطلاب الاشتراك في تلقي مجموعات النقاط عبر إعلامات بريد إلكتروني"
         allow_sis_import: "عمليات استيراد SIS"
-        canvas_authentication: "مصادقة Canvas"
+        canvas_authentication: "مصادقة Jiaoxuebang"
         default_course_storage_quota: "الحصة النسبية الافتراضية لملف المساق"
         default_language: "اللغة الافتراضية"
         default_time_zone: "المنطقة الزمنيّة الافتراضية"
@@ -456,7 +456,7 @@ ar:
         no_enrollments_can_create_courses: "المستخدمون بدون تسجيلات"
         open_registration: "فتح التسجيل"
         outgoing_email_default_name_option_custom: "اسم  \"من\" المخصص"
-        outgoing_email_default_name_option_default: "إعداد Canvas الافتراضي\n"
+        outgoing_email_default_name_option_default: "إعداد Jiaoxuebang الافتراضي\n"
         prevent_course_renaming_by_teachers: "عدم السماح للمعلمين بإعادة تسمية المساقات الخاصة بهم"
         self_enrollment: "السماح بالتسجيل الذاتي"
         show_scheduler: "تمكين المجدول"
@@ -481,7 +481,7 @@ ar:
       never_allow_self_enrollment_option: مطلقًا
       no_language_preference: "غير معيّن (افتراضي على %{language})"
       notifications: 
-        custom_name_description: "في حالة التحديد، سيقوم ذلك باستبدال جميع العلامات الأخرى التي تم إرسالها في إشعارات Canvas."
+        custom_name_description: "في حالة التحديد، سيقوم ذلك باستبدال جميع العلامات الأخرى التي تم إرسالها في إشعارات Jiaoxuebang."
         email_date: التاريخ
         email_reply_to: "رد على"
         email_to: إلى
@@ -517,7 +517,7 @@ ar:
       tab_notifications: إعلامات
       tab_reports: التقارير
       tab_settings: إعدادات
-      transifex_message: "انضم إلى [مجتمع ترجمة Canvas ] (٪ {} transifex_url)\n"
+      transifex_message: "انضم إلى [مجتمع ترجمة Jiaoxuebang ] (٪ {} transifex_url)\n"
       turnitin_comments_help: "سيتم عرض هذه التعليقات للطلاب عند إرسال مهمة تم تمكين Turnitin لها"
       turnitin_pledge_help: "يجب أن يضع الطلاب علامة اختيار أمام الخانة التي تفيد بأنهم يوافقون على هذا التعهد"
       turnitin_settings_title: "إعدادات Turnitin"
@@ -1220,14 +1220,14 @@ ar:
           text_entry: "إدخال النص"
           website: "عنوان URL للموقع"
       messages: 
-        google_docs_auth_required: "قبل إرسال المهام بشكل مباشر من Google Docs ستحتاج إلى تخويل Canvas للوصول إلى حساب Google Docs لديك:"
+        google_docs_auth_required: "قبل إرسال المهام بشكل مباشر من Google Docs ستحتاج إلى تخويل Jiaoxuebang للوصول إلى حساب Google Docs لديك:"
         media_recording_ready: "استعد للإرسال! انقر فوق زر \"إرسال المهمة\" للإنهاء."
-        media_recordings_disabled: "لم يتم تمكين تسجيلات الوسائط لموقع Canvas هذا، ولن يكون بمقدورك إرسال هذه الأنواع من المهام. الرجاء الاتصال بمعلمك فيما يتعلق بتغيير إعدادات هذه المهمة، أو بمسؤول النظام فيما يتعلق بتسجيلات الوسائط."
+        media_recordings_disabled: "لم يتم تمكين تسجيلات الوسائط لموقع Jiaoxuebang هذا، ولن يكون بمقدورك إرسال هذه الأنواع من المهام. الرجاء الاتصال بمعلمك فيما يتعلق بتغيير إعدادات هذه المهمة، أو بمسؤول النظام فيما يتعلق بتسجيلات الوسائط."
         submitting: "جارٍ الإرسال..."
         uploading: "استرداد نسخة من مستند Google لإرساله لهذه المهمة. وقد يستغرق ذلك وقتًا قصيرًا، حسب حجم الملف..."
       no_files: "لا توجد ملفات"
       titles: 
-        media_recordings_disabled: "لم يتم تمكين تسجيلات الوسائط لموقع Canvas هذا"
+        media_recordings_disabled: "لم يتم تمكين تسجيلات الوسائط لموقع Jiaoxuebang هذا"
         view_in_separate_window: "عرض في نافذة منفصلة"
       upload_or_choose_file: "تحميل ملف أو اختيار ملف قمت بتحميله بالفعل."
     syllabus: 
@@ -1625,7 +1625,7 @@ ar:
     ics_description_course: "أحداث التقويم الخاصة بالمساق، %{course_name}"
     ics_description_group: "أحداث التقويم الخاصة بالمجموعة، %{group_name}"
     ics_description_user: "أحداث التقويم الخاصة بالمستخدم، %{user_name}"
-    ics_title: "تقويم %{course_or_group_name} (Canvas)"
+    ics_title: "تقويم %{course_or_group_name} (Jiaoxuebang)"
   calendars: 
     assignment_details: "تفاصيل المهمة"
     calendar: 
@@ -1804,13 +1804,13 @@ ar:
       cannot_load_collaboration: "تعذر تحميل التعاون"
       create_failed: "فشل إنشاء التعاون"
       no_name: "الرجاء إدخال اسم لهذا المستند"
-      not_enabled: "لم يتم تمكين علاقات التعاون لموقع Canvas هذا"
+      not_enabled: "لم يتم تمكين علاقات التعاون لموقع Jiaoxuebang هذا"
       update_failed: "فشل تحديث التعاون"
     forms: 
       buttons: 
         delete_from_canvas: |-
             مجرد الحذف  
-            من موقع Canvas
+            من موقع Jiaoxuebang
         delete_from_google_docs: |-
             الحذف أيضًا من  
             Google Docs
@@ -1828,7 +1828,7 @@ ar:
         description: الوصف
         document_name: "اسم المستند"
       messages: 
-        delete_google_doc_as_well: "تم تخزين هذا التعاون كـ Google Doc. هل رغبت في حذفه من موقع Canvas، أو إزالته كذلك من Google Docs؟"
+        delete_google_doc_as_well: "تم تخزين هذا التعاون كـ Google Doc. هل رغبت في حذفه من موقع Jiaoxuebang، أو إزالته كذلك من Google Docs؟"
       titles: 
         new: "بدء تعاون جديد"
     index: 
@@ -1864,10 +1864,10 @@ ar:
         current: "علاقات التعاون الحالية"
   collection_items: 
     new: 
-      pin_to_canvas_network: "تثبيت في شبكة Canvas"
+      pin_to_canvas_network: "تثبيت في شبكة Jiaoxuebang"
       saved_successfully: "تم الحفظ بنجاح"
   communication_channel: 
-    body: "كود تحقق Canvas الخاص بك هو %{verification_code}"
+    body: "كود تحقق Jiaoxuebang الخاص بك هو %{verification_code}"
     default_facebook_account: "حساب Facebook"
     default_twitter_handle: "التعامل مع Twitter"
   communication_channels: 
@@ -1877,7 +1877,7 @@ ar:
         back: عودة
         continue: متابعة
         create_account: "إنشاء حساب"
-        have_account: "لدي حساب Canvas"
+        have_account: "لدي حساب Jiaoxuebang"
         login_as: "تسجيل الدخول كـ %{invited_user}"
         merge: ضم
         new_account: "حساب جديد"
@@ -1889,7 +1889,7 @@ ar:
         : نعم
       details: 
         account_exists: "يوجد حساب بالفعل خاص بـ **%{email}**. هل تود استخدام هذا الحساب؟"
-        account_needed: "لقد تمت دعوتك للانضمام إلى **%{course}**. لقبول هذا الطلب فإنك تحتاج إلى حساب Canvas. انقر فوق الارتباط أدناه لإنشاء حساب Canvas."
+        account_needed: "لقد تمت دعوتك للانضمام إلى **%{course}**. لقبول هذا الطلب فإنك تحتاج إلى حساب Jiaoxuebang. انقر فوق الارتباط أدناه لإنشاء حساب Jiaoxuebang."
         add_email: "هل تود إضافة عنوان البريد الإلكتروني هذا إلى الحساب الحالي الخاص بك؟"
         choose_login: "حدّد المكان الذي تريد تسجيل الدخول إليه."
         logged_in_other_user: "**%{email}** هو حساب جديد، لكن تم تسجيل دخولك حاليًا كـ **%{user}**."
@@ -1926,7 +1926,7 @@ ar:
       close: "هل ترغب بالتأكيد في إنهاء هذا المؤتمر؟ لن تتمكن من إعادة فتحه مرة أخرى"
       delete: "هل ترغب بالتأكيد في حذف هذا المؤتمر؟"
       quit: "يبدو أنك قمت بتحرير مؤتمر آخر بالفعل. هل تريد المتابعة؟ سيتم فقد أي تغييرات لم يتم حفظها."
-    disabled_error: "لم يتم تمكين مؤتمر الويب لموقع Canvas هذا"
+    disabled_error: "لم يتم تمكين مؤتمر الويب لموقع Jiaoxuebang هذا"
     general_error: "حدث خطأ أثناء الانضمام للمؤتمر"
     inactive_error: "هذا المؤتمر غير نشط حاليًا"
     index: 
@@ -1995,7 +1995,7 @@ ar:
         finished: "انتهى %{date_and_time} (%{duration})"
         new: "لم يبدأ بعد"
         started: "بدأ %{time}"
-    type_disabled_error: "لم يعد هذا النوع من المؤتمرات ممكّنًا لموقع Canvas هذا"
+    type_disabled_error: "لم يعد هذا النوع من المؤتمرات ممكّنًا لموقع Jiaoxuebang هذا"
   content_exports: 
     buttons: 
       process: "بيانات العملية"
@@ -2145,7 +2145,7 @@ ar:
     files: 
       buttons: 
         skip: "تخطي هذه الخطوة"
-      description: "يمكنك تحميل مجموعة ملفات مضغوطة إلى المساق وسنقوم باستخراجها بالكامل من أجلك. وتعد هذه وسيلة سهلة لنقل الملفات من نظام آخر إلى Canvas."
+      description: "يمكنك تحميل مجموعة ملفات مضغوطة إلى المساق وسنقوم باستخراجها بالكامل من أجلك. وتعد هذه وسيلة سهلة لنقل الملفات من نظام آخر إلى Jiaoxuebang."
       instructions: 
         webct: 
           ? "1"
@@ -2173,10 +2173,10 @@ ar:
         migrations_needing_action: "عمليات الترحيل التي تحتاج إجراءً"
         successful_migrations: "عمليات ترحيل ناجحة"
     intro: 
-      description: "إذا انتقلت إلى موقع Canvas من نظام إدارة مساق آخر، فإن المتاح سيكون عبارة عن ملفات واختبارات ومهام ونحو ذلك من أشياء سترغب في إجراء نقلها إلى هنا. يجب أن يعمل هذا المعالج على جعل هذه العملية سهلة للغاية."
+      description: "إذا انتقلت إلى موقع Jiaoxuebang من نظام إدارة مساق آخر، فإن المتاح سيكون عبارة عن ملفات واختبارات ومهام ونحو ذلك من أشياء سترغب في إجراء نقلها إلى هنا. يجب أن يعمل هذا المعالج على جعل هذه العملية سهلة للغاية."
       if_any: "(في حالة وجودها)"
       links: 
-        copy_course: "نسخ المحتوى من **مساق Canvas آخر**"
+        copy_course: "نسخ المحتوى من **مساق Jiaoxuebang آخر**"
         import_files: "استيراد الملفات"
         import_package: "استيراد المحتوى من **مجموعة المحتوى** أو من **نظام آخر**"
         import_quizzes: "استيراد الاختبارات"
@@ -2271,7 +2271,7 @@ ar:
         import_more: "استيراد ملف QTI آخر"
       defaults: 
         unnamed_quiz: "اختبار بدون اسم"
-      details: "يمكن لموقع Canvas استيراد اختبارات بتنسيق IMS QTI. تسمح لك معظم الأنظمة بتصدير الاختبارات بهذا التنسيق. يمكنك أيضًا استخدام أدوات اختبار مشهورة مثل Respondus لإنشاء وتصدير IMS QTI. قم بتحميل الملف أدناه وستتلقى بريدًا إلكترونيًا عند استكمال الاستيراد."
+      details: "يمكن لموقع Jiaoxuebang استيراد اختبارات بتنسيق IMS QTI. تسمح لك معظم الأنظمة بتصدير الاختبارات بهذا التنسيق. يمكنك أيضًا استخدام أدوات اختبار مشهورة مثل Respondus لإنشاء وتصدير IMS QTI. قم بتحميل الملف أدناه وستتلقى بريدًا إلكترونيًا عند استكمال الاستيراد."
       errors: 
         choose_file: "يجب اختيار ملف مضغوط zip. لتحميله"
         upload_failed: "فشل التحميل، الرجاء المحاولة مرة أخرى"
@@ -2371,7 +2371,7 @@ ar:
     chat: 
       titles: 
         chat: الدردشة
-    chat_not_enabled: "لم يتم تمكين الدردشة لموقع Canvas هذا"
+    chat_not_enabled: "لم يتم تمكين الدردشة لموقع Jiaoxuebang هذا"
     communication: 
       headings: 
         discussions: المناقشات
@@ -2492,7 +2492,7 @@ ar:
         users_details: "تفاصيل %{user}"
       help: 
         list_services: "لم تقم بتمكين قائمة الخدمات المسجلة. إن تمكين هذه القائمة سيتيح للزملاء في المساق وأعضاء المجموعة بالتواصل معك بسهولة أكبر خارج الفصل."
-        services: "لم تقم بربط الملف الشخصي للمستخدم بأية خدمات خارجية. يمكنك ربط حساب Canvas بالخدمات مثل Facebook وTwitter. وهذا يجعل من السهل للزملاء في المساق وأعضاء المجموعة بالتواصل معك خارج غرفة الدراسة."
+        services: "لم تقم بربط الملف الشخصي للمستخدم بأية خدمات خارجية. يمكنك ربط حساب Jiaoxuebang بالخدمات مثل Facebook وTwitter. وهذا يجعل من السهل للزملاء في المساق وأعضاء المجموعة بالتواصل معك خارج غرفة الدراسة."
       labels: 
         public_list_services: "اسمح للزملاء في المساق/أعضاء المجموعة برؤية أي الخدمات قمت بربطها بملف التعريف الخاص بي"
         user_privileges: امتيازات
@@ -2530,9 +2530,9 @@ ar:
         registered_services: "الخدمات المسجّلة"
         service_types: "أنواع الخدمة"
       help: 
-        no_services: "لم تقم بربط الملف الشخصي للمستخدم بأية خدمات خارجية. يمكنك ربط حساب Canvas بخدمات مثل Facebook وTwitter."
-        services_private: "لم تقم بتمكين قائمة الخدمات المسجَلة. إن تمكين هذه القائمة سيتيح للزملاء في المساق وأعضاء المجموعة مشاهدة أي الخدمات قمت بربطها بحساب Canvas."
-        user_services: "يمكن للأعضاء الآخرين السماح لك ـ حسب اختيارهم ـ بمشاهدة أي الخدمات الخارجية قاموا بربطها بحساب Canvas الخاص بهم. وهذا يجعل من السهل تنسيق مشروعات المجموعة والربط أيضًا بخارج غرفة التدريس."
+        no_services: "لم تقم بربط الملف الشخصي للمستخدم بأية خدمات خارجية. يمكنك ربط حساب Jiaoxuebang بخدمات مثل Facebook وTwitter."
+        services_private: "لم تقم بتمكين قائمة الخدمات المسجَلة. إن تمكين هذه القائمة سيتيح للزملاء في المساق وأعضاء المجموعة مشاهدة أي الخدمات قمت بربطها بحساب Jiaoxuebang."
+        user_services: "يمكن للأعضاء الآخرين السماح لك ـ حسب اختيارهم ـ بمشاهدة أي الخدمات الخارجية قاموا بربطها بحساب Jiaoxuebang الخاص بهم. وهذا يجعل من السهل تنسيق مشروعات المجموعة والربط أيضًا بخارج غرفة التدريس."
       labels: 
         allow_view_services: "اسمح للزملاء في المساق/أعضاء المجموعة رؤية أي الخدمات قمت بربطها بملف التعريف الخاص بي"
       links: 
@@ -2948,7 +2948,7 @@ ar:
   conversations_intro: 
     slide1: 
       paragraph1: "ألقِ نظرة على صندوق البريد لديك!"
-      paragraph2: "أخيرًا جاءت المحادثات! نظام المراسلة الجديد من Canvas!"
+      paragraph2: "أخيرًا جاءت المحادثات! نظام المراسلة الجديد من Jiaoxuebang!"
       paragraph3: "استخدم المحادثات لإرسال رسالة خاصة إلى رفيقك في الفصل أو استخدم المحادثات للتحدث مع مجموعة أشخاص كاملة."
       paragraph4: "هل أنت مستعد لمقدمة قصيرة؟ انقر فوق السهم الأيمن للبدء."
     slide2: 
@@ -3186,7 +3186,7 @@ ar:
               رائع، أصبح لديك مساق الآن...  وماذا بعد هذا؟  حسنًا، قبل أن تقوم بنشره للعالم، قد ترغب في التحقق والتأكد أنك حصلت على الأساسيات المخطط لها.  واصل العمل من القائمة الموجودة على اليمين لضمان أن المساق جاهز للاستخدام.
               
               *يظهر هذا المساق فقط للمعلمين حتى يتم نشره*
-          saved: "حسنًا لقد تم!  تم الآن إنشاء المساق الخاص بك %{course} رسميًا. لن يظهر لك حتى يتم نشره، لكن قبل أن تسارع بالبدء، ستحتاج إلى الاطلاع على القائمة الموجودة على اليمين لمعرفة كيفية عمل Canvas والتأكد من أنك جاهز بالفعل للتعليم."
+          saved: "حسنًا لقد تم!  تم الآن إنشاء المساق الخاص بك %{course} رسميًا. لن يظهر لك حتى يتم نشره، لكن قبل أن تسارع بالبدء، ستحتاج إلى الاطلاع على القائمة الموجودة على اليمين لمعرفة كيفية عمل Jiaoxuebang والتأكد من أنك جاهز بالفعل للتعليم."
         created: 
           not_saved: |-
               تم إنشاء هذا الفصل، لكنه ليس مطلوبًا.  سيتم حذفه إذا لم يكن مطلوبًا خلال أسبوع.  في نفس الوقت، قم بوضع علامة في القائمة الموجودة على اليمين للتأكد من أنك جاهز للمتابعة.
@@ -3195,21 +3195,21 @@ ar:
               
               الرجاء **تسجيل الدخول** أو ***التسجيل*** للمطالبة بهذا المساق.
           saved: |-
-              حسنًا لقد تم!  تم الآن إنشاء المساق الخاص بك %{course} رسميًا.  لن يظهر لك حتى يتم نشره، لكن قبل أن تسارع بالبدء، ستحتاج إلى الاطلاع على القائمة الموجودة على اليمين لمعرفة كيفية عمل Canvas والتأكد من أنك جاهز بالفعل للتعليم.
+              حسنًا لقد تم!  تم الآن إنشاء المساق الخاص بك %{course} رسميًا.  لن يظهر لك حتى يتم نشره، لكن قبل أن تسارع بالبدء، ستحتاج إلى الاطلاع على القائمة الموجودة على اليمين لمعرفة كيفية عمل Jiaoxuebang والتأكد من أنك جاهز بالفعل للتعليم.
               
               إذا كنت بحاجة إلى المغادرة والرجوع، فقم بحفظ *هذا الارتباط* للرجوع هنا لاحقًا.
               
               الرجاء **تسجيل الدخول** أو ***التسجيل*** للمطالبة بهذا المساق.
-        files: "تعتبر علامة التبويب الملفات هي المكان المناسب لمشاركة شرائح المحاضرة ومستندات الأمثلة وتعليمات الدراسة؛ وأي شيء يريد الطلاب تنزيله. إن تحميل الملفات وتنظيمها صار سهلا ً عبر Canvas. وسنوضح لك كيف ذلك."
+        files: "تعتبر علامة التبويب الملفات هي المكان المناسب لمشاركة شرائح المحاضرة ومستندات الأمثلة وتعليمات الدراسة؛ وأي شيء يريد الطلاب تنزيله. إن تحميل الملفات وتنظيمها صار سهلا ً عبر Jiaoxuebang. وسنوضح لك كيف ذلك."
         home: "عندما يزور الأشخاص المساق، فهذه هي الصفحة التي سيشاهدونها. يمكنك ضبطها لعرض تدفق نشاط، أو قائمة وحدات المساق، أو منهج، أو صفحة مخصصة كتبتها بنفسك. والإعداد الافتراضي هو تدفق نشاط المساق. لتخصيص ذلك، انقر فقط فوق %{change_layout}."
-        import: "إذا كنت تستخدم نظام إدارة مساق آخر، فربما يكون لديك بعض الأشياء تريد نقلها إلى Canvas. يمكننا إرشادك عبر عملية ترحيل المحتوى بسهولة إلى داخل موقع Canvas."
+        import: "إذا كنت تستخدم نظام إدارة مساق آخر، فربما يكون لديك بعض الأشياء تريد نقلها إلى Jiaoxuebang. يمكننا إرشادك عبر عملية ترحيل المحتوى بسهولة إلى داخل موقع Jiaoxuebang."
         navigation: "وقد تم تمكين كل الارتباطات الخاصة بالمساق افتراضيًا. لن يرى الطلاب الارتباطات الخاصة بالأقسام التي ليس بها محتوى. على سبيل المثال، إذا لم تقم بإنشاء أي اختبارات، فإنهم لن يروا ارتباط الاختبارات. يمكنك فرز هذه الارتباطات وتعطيلها بشكل صريح إذا كانت هناك مناطق في المساق لا تريد أن يصل إليها الطلاب."
         publish: 
           form: |-
               هل تم كل شيء؟  إذن حان وقت نشر المساق!  انقر فوق الزرّ أدناه لتجعله رسميًا!
               
               سيؤدي النشر إلى دعوات بالبريد الإلكتروني لكل مستخدمي المساق وبذلك يمكنهم تسجيل الخروج وبدء المشاركة.
-          not_registered: "يكون هذا المساق مطلوبًا وجاهزًا، لكنك ستحتاج إلى إنهاء عملية التسجيل قبل أن تتمكن من نشر المساق. كان يجب أن تتلقى بريدًا إلكترونيًا من موقع Canvas فيه ارتباط لإنهاء العملية. تأكد من مراجعة صندوق البريد العشوائي لديك."
+          not_registered: "يكون هذا المساق مطلوبًا وجاهزًا، لكنك ستحتاج إلى إنهاء عملية التسجيل قبل أن تتمكن من نشر المساق. كان يجب أن تتلقى بريدًا إلكترونيًا من موقع Jiaoxuebang فيه ارتباط لإنهاء العملية. تأكد من مراجعة صندوق البريد العشوائي لديك."
         students: "سترغب بالتأكيد في بعض هذه الرسائل. ما المتعة في تدريس مساق لا يسمعني فيه أحد؟"
         tas: "قد ترغب في تعيين بعض مساعدي المعلمين لمساعدتك في هذا المساق. يمكن لمساعدي المعلمين تقييم إرسالات الطالب، والمساعدة في إدارة المناقشات، وتحديث مواعيد الاستحقاق وتفاصيل المهمة نيابة عنك."
       headings: 
@@ -3301,7 +3301,7 @@ ar:
       titles: 
         invitation: "الدعوة إلى %{course}"
     open_enrollment_confirmed: 
-      details: "يجب أن تحصل على بريد إلكتروني على %{email} في الدقائق القليلة القادمة. يحتوي هذا البريد الإلكتروني على ارتباط يمكنك استخدامه لإنهاء عملية التسجيل. بمجرد إعداد الحساب سيكون بمقدورك الوصول إلى المحتوى من %{course}. أهلاً بكم في Canvas!"
+      details: "يجب أن تحصل على بريد إلكتروني على %{email} في الدقائق القليلة القادمة. يحتوي هذا البريد الإلكتروني على ارتباط يمكنك استخدامه لإنهاء عملية التسجيل. بمجرد إعداد الحساب سيكون بمقدورك الوصول إلى المحتوى من %{course}. أهلاً بكم في Jiaoxuebang!"
       headings: 
         invitation: "دعوة المساق"
         received: "تم تلقي الدعوة!"
@@ -3460,7 +3460,7 @@ ar:
         course_section: "قسم المساق"
         edit_navigation: "تحرير تنقل المساق"
         enrollment_type: "نوع التسجيل"
-      transifex_message: "انضم إلى [مجتمع ترجمة Canvas ] (٪ {} transifex_url)\n"
+      transifex_message: "انضم إلى [مجتمع ترجمة Jiaoxuebang ] (٪ {} transifex_url)\n"
       turnitin: "سيتم عرض هذه التعليقات للطلاب عند إرسال مهمة تم تمكين Turnitin لها"
       unaccepted_invitations: "لم يتم قبول %{count} دعوة/دعوات. يمكنك النقر فوق اسم المستخدم لإعادة إرسال الدعوة الخاصة به."
       user_view: 
@@ -4119,7 +4119,7 @@ ar:
     switch_views: "تبديل العروض"
     url: "URL:"
   email: 
-    default_from_name: "Instructure Canvas"
+    default_from_name: "Jiaoxuebang"
   enrollment: 
     default_course_name: المساق
     default_email: "لا يوجد بريد إلكتروني"
@@ -4342,7 +4342,7 @@ ar:
       write_only_comments: "التعليقات الخاصة بهذه الصفحة خاصة. يمكنك إنشاء تعليقات، لكن سيكون مالك المحفظة فقط هو الشخص الوحيد الذي يمكنه عرضها."
     show_me: إظهار
     static_page: 
-      created_with_canvas: "تم الإنشاء بواسطة Canvas"
+      created_with_canvas: "تم الإنشاء بواسطة Jiaoxuebang"
       headers: 
         page_comments: "تعليقات الصفحة"
       links: 
@@ -4488,7 +4488,7 @@ ar:
       custom_fields_explanation: "(واحد لكل خط، تنسيق: اسم=قيمة)"
       domain: المجال
       email_only: "بريد إلكتروني فقط"
-      external_tools_note: "تعتبر الأدوات الخارجية أدوات خارج موقع Canvas حيث تدعم عمليات تكامل LTI الأساسية. ستحتاج للمراجعة مع مؤلف الأداة بشأن إضافة معلمات التكوين الصحيحة. يتم تكوين الأدوات على مستوى الحساب، وبعد ذلك يمكن إضافتها كمحتوى في وحدات المساق الخاصة بالمساقات في الحساب."
+      external_tools_note: "تعتبر الأدوات الخارجية أدوات خارج موقع Jiaoxuebang حيث تدعم عمليات تكامل LTI الأساسية. ستحتاج للمراجعة مع مؤلف الأداة بشأن إضافة معلمات التكوين الصحيحة. يتم تكوين الأدوات على مستوى الحساب، وبعد ذلك يمكن إضافتها كمحتوى في وحدات المساق الخاصة بالمساقات في الحساب."
       labels: 
         config_type: "نوع التكوين"
         config_url: "URL للتكوين"
@@ -4526,27 +4526,27 @@ ar:
       new_tab_loaded: "تم تحميل هذه الأداة بنجاح في نافذة مستعرض جديدة. أعد تحميل الصفحة للوصول إلى الأداة مرة أخرى."
   facebook: 
     authorization_required: "يمكن للمستخدمين المخولين فقط الوصول لهذه الصفحة"
-    authorization_success: "تخويل ناجح!  Canvas وFacebook أصدقاء الآن."
+    authorization_success: "تخويل ناجح!  Jiaoxuebang وFacebook أصدقاء الآن."
     deleted: محذوف
     index: 
       all_set: "تم إعدادك بالكامل!"
-      bookmark_notice: "يمكنك عرض عدد الإعلامات الجديدة لموقع Canvas من الصفحة الرئيسية لـ Facebook إذا وضعت علامة مرجعية لهذا التطبيق."
-      canvas_messages: "رسائل Canvas"
-      configure_notification_preferences_notice: "بعد *تكوين تفضيلات الإعلام* يجب بدء عرض ظهور الإعلامات هنا مما يسمح لك بمعرفة الأمور التي تحدث في حساب Canvas."
-      installation_about: "لتثبيت تطبيق Canvas Facebook، انتقل لصفحة ملف التعريف في موقع Canvas وانقر فوق زر Facebook لتوصيل حسابك بـ Facebook."
+      bookmark_notice: "يمكنك عرض عدد الإعلامات الجديدة لموقع Jiaoxuebang من الصفحة الرئيسية لـ Facebook إذا وضعت علامة مرجعية لهذا التطبيق."
+      canvas_messages: "رسائل Jiaoxuebang"
+      configure_notification_preferences_notice: "بعد *تكوين تفضيلات الإعلام* يجب بدء عرض ظهور الإعلامات هنا مما يسمح لك بمعرفة الأمور التي تحدث في حساب Jiaoxuebang."
+      installation_about: "لتثبيت تطبيق Jiaoxuebang Facebook، انتقل لصفحة ملف التعريف في موقع Jiaoxuebang وانقر فوق زر Facebook لتوصيل حسابك بـ Facebook."
       learn_more: "معرفة المزيد في موقع instructure.com"
       more_information: "مزيد من المعلومات في %{domain_list}"
-      no_messages_notice: "مع توالي الأحداث في المساق سوف تبدأ ترى ظهور إعلامات هنا مما يسمح لك بمعرفة الأمور التي تحدث في حساب Canvas الخاص بك."
-      notification_about: "يهدف تطبيق Canvas Facebook هنا إلى منحك وصولا أسهل للتفاعلات التي تحدث داخل المساقات الخاصة بك. يمكنك ضبطه لإرسال الإعلامات عند تقييم درجات المهام، وعند تغيير مواعيد الاستحقاق إلخ. وستظل البيانات الخاصة في الموقع Canvas."
+      no_messages_notice: "مع توالي الأحداث في المساق سوف تبدأ ترى ظهور إعلامات هنا مما يسمح لك بمعرفة الأمور التي تحدث في حساب Jiaoxuebang الخاص بك."
+      notification_about: "يهدف تطبيق Jiaoxuebang Facebook هنا إلى منحك وصولا أسهل للتفاعلات التي تحدث داخل المساقات الخاصة بك. يمكنك ضبطه لإرسال الإعلامات عند تقييم درجات المهام، وعند تغيير مواعيد الاستحقاق إلخ. وستظل البيانات الخاصة في الموقع Jiaoxuebang."
       notification_settings: "إعدادات الإعلام"
-      notifications_notice: "يمكنك عرض قائمة بأحدث الإعلامات من Canvas أدناه. يمكنك عرض عدد الإعلامات الجديدة لموقع Canvas من الصفحة الرئيسية لـ Facebook إذا وضعت علامة مرجعية لهذا التطبيق."
+      notifications_notice: "يمكنك عرض قائمة بأحدث الإعلامات من Jiaoxuebang أدناه. يمكنك عرض عدد الإعلامات الجديدة لموقع Jiaoxuebang من الصفحة الرئيسية لـ Facebook إذا وضعت علامة مرجعية لهذا التطبيق."
       welcome: "مرحبًا بعودتك، %{name}!"
       welcome_message: "مرحبًا بك في إصدار جديد من برنامج التعليم عبر الإنترنت، عبر Instructure. إن مهمتنا أن نجعل استخدام الويب أسهل بالنسبة لك لتحسين عملية التعليم. فالواجهة الخاصة بنا سهلة وواضحة ومفتوحة ونعمل بالأدوات التي تستخدمها أنت والطلاب بالفعل - مثل Facebook - لتقديم خبرة تعليم مفتوحة وتعاونية بشكل أكبر. وقمنا بتجميعها في مجموعة رائعة ومفتوحة لإنجاز أشياء أكثر من مجرد تتبع المهام. فهي تشجع التفاعل وتدعم التعليم."
-      welcome_title: "مرحبًا بكم في Instructure Canvas"
+      welcome_title: "مرحبًا بكم في Jiaoxuebang"
     index_disabled: 
-      disabled_notice: "لم يتم تكوين موقع Canvas هذا للاتصال بـ Facebook."
+      disabled_notice: "لم يتم تكوين موقع Jiaoxuebang هذا للاتصال بـ Facebook."
       get_help: "الحصول على المساعدة من خلال موقع support.instructure.com"
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Jiaoxuebang"
     invalid_signature: "توقيع Facebook غير صالح"
     message: 
       hide: إخفاء
@@ -4567,9 +4567,9 @@ ar:
       weekly: أسبوعيًا
     settings: 
       back_to_messages: "العودة إلى الرسائل"
-      link_needed: "قبل أن تتمكن من تمكين تطبيق Canvas Facebook فإنك تحتاج إلى ربطه بتسجيل دخول Canvas. الرجاء النقر فوق \"مرحبًا\" للحصول على مزيد من المعلومات."
-      notifications_config_notice: "يمكن إرسال إعلامات من Canvas تلقائيًا من خلال حساب Facebook الخاص بك. ستشاهد أدناه أنواع الإعلامات التي يمكنك إرسالها. يمكنك تغيير تفضيلات الإعلام في أي وقت، سواء هنا أو في Canvas."
-      settings_title: "إعدادات إعلام Canvas"
+      link_needed: "قبل أن تتمكن من تمكين تطبيق Jiaoxuebang Facebook فإنك تحتاج إلى ربطه بتسجيل دخول Jiaoxuebang. الرجاء النقر فوق \"مرحبًا\" للحصول على مزيد من المعلومات."
+      notifications_config_notice: "يمكن إرسال إعلامات من Jiaoxuebang تلقائيًا من خلال حساب Facebook الخاص بك. ستشاهد أدناه أنواع الإعلامات التي يمكنك إرسالها. يمكنك تغيير تفضيلات الإعلام في أي وقت، سواء هنا أو في Jiaoxuebang."
+      settings_title: "إعدادات إعلام Jiaoxuebang"
       updating_preferences: "جارٍ تحديث التفضيلات..."
   files: 
     alts: 
@@ -5672,9 +5672,9 @@ ar:
     message_will_be_sent_to_all_the_teachers_tas_in_the_course: "سيتم إرسال الرسالة إلى كل المدرسين/مساعدي المدرسين الذين في المساق."
     please_select_one: "الرجاء تحديد واحدة..."
     report_problem: "إبلاغ عن مشكلة"
-    report_problem_sub: "إذا لم يعمل Canvas على ما يرام، فأخبرنا بهذا"
-    search_the_canvas_guides: "بحث في أدلة Canvas"
-    see_if_your_issue_is_addressed_in_the_canvas_guides: "انظر لعل مشكلتك قد تم حلها في *أدلة Canvas*."
+    report_problem_sub: "إذا لم يعمل Jiaoxuebang على ما يرام، فأخبرنا بهذا"
+    search_the_canvas_guides: "بحث في أدلة Jiaoxuebang"
+    see_if_your_issue_is_addressed_in_the_canvas_guides: "انظر لعل مشكلتك قد تم حلها في *أدلة Jiaoxuebang*."
     send_message: "إرسال رسالة"
     sending: "جارٍ الإرسال..."
     somethings_broken_but_i_can_work_around_it_for_now: "حدث تلف بشيء ما لكني أستطيع تدبير الأمر الآن"
@@ -5722,15 +5722,15 @@ ar:
       error_reported: "شكرًا لمساعدتك!  سنتخذ اللازم فورًا"
     styleguide: 
       create_collection: "إنشاء مجموعة"
-      find_people: "العثور على أشخاص في Canvas"
+      find_people: "العثور على أشخاص في Jiaoxuebang"
       new_course: "إضافة مساق جديد"
       start_a_group: "بدء مجموعة"
   instructions: 
-    authorize_google_docs: "قبل أن تستطيع التعاون في العمل مع المستندات، يلزم تخويلك من Canvas للوصول إلى حساب Google Docs:"
+    authorize_google_docs: "قبل أن تستطيع التعاون في العمل مع المستندات، يلزم تخويلك من Jiaoxuebang للوصول إلى حساب Google Docs:"
   instructure: 
     alerts: 
-      file_previews_disabled: "تم تعطيل معايانات الملف لموقع Canvas هذا"
-      kaltura_disabled: "تم تعطيل Kaltura لموقع Canvas هذا"
+      file_previews_disabled: "تم تعطيل معايانات الملف لموقع Jiaoxuebang هذا"
+      kaltura_disabled: "تم تعطيل Kaltura لموقع Jiaoxuebang هذا"
     browsers: 
       unrecognized: "مستعرض غير معروف"
     buttons: 
@@ -5861,7 +5861,7 @@ ar:
     wikis: Wikis
   layouts: 
     application: 
-      instructure_description: "شركة Instructure: صاحبة نظام إدارة التعليم بالمصدر المفتوح؛ Canvas"
+      instructure_description: "شركة Instructure: صاحبة نظام إدارة التعليم بالمصدر المفتوح؛ Jiaoxuebang"
       links: 
         close: إغلاق
         dashboard: "لوحة معلوماتي"
@@ -5889,7 +5889,7 @@ ar:
         reset_explanation: "إن إعادة ضبط طالب الاختبار سيؤدي إلى مسح كل المحفوظات لهذا الطالب، %{line_break}مما يسمح لك بعرض المساق كطالب جديد تمامًا."
         warning_title: "لقد قمت بتسجيل الدخول إلى عرض الطالب حاليًا"
     head: 
-      default_page_title: "Canvas LMS"
+      default_page_title: "Jiaoxuebang LMS"
     menu: 
       view_all_accounts: "عرض كافة الحسابات"
       view_all_enrollments: "عرض كافة المساقات"
@@ -5924,13 +5924,13 @@ ar:
     incoming_message_processor: 
       failure_message: 
         body: |-
-            تعذر تسليم الرسالة المعنونة "%{subject}".  تم إرسالة الرسالة إلى عنوان صندوق بريد غير معروف.  إذا كنت تحاول الاتصال بشخص ما من خلال Canvas، فيمكنك محاولة تسجيل الدخول إلى حسابك وإرسال رسالة إليه باستخدام أداة Inbox.
+            تعذر تسليم الرسالة المعنونة "%{subject}".  تم إرسالة الرسالة إلى عنوان صندوق بريد غير معروف.  إذا كنت تحاول الاتصال بشخص ما من خلال Jiaoxuebang، فيمكنك محاولة تسجيل الدخول إلى حسابك وإرسال رسالة إليه باستخدام أداة Inbox.
             
             شكرًا،
-            دعم Canvas
+            دعم Jiaoxuebang
         subject: "فشل رد الرسالة: %{subject}"
       locked_topic: 
-        body: "لا يمكن تسليم الرسالة بعنوان \"%{subject}\" لأنه تم حظر موضوع المناقشة. إذا كنت تحاول الاتصال بشخص ما من خلال Canvas فيمكنك محاولة تسجيل الدخول إلى حسابك، وإرسال رسالة باستخدام أداة البريد الوارد. ⏎ ⏎  شكرًا لك، ⏎ ، دعم Canvas⏎\n"
+        body: "لا يمكن تسليم الرسالة بعنوان \"%{subject}\" لأنه تم حظر موضوع المناقشة. إذا كنت تحاول الاتصال بشخص ما من خلال Jiaoxuebang فيمكنك محاولة تسجيل الدخول إلى حسابك، وإرسال رسالة باستخدام أداة البريد الوارد. ⏎ ⏎  شكرًا لك، ⏎ ، دعم Jiaoxuebang⏎\n"
         subject: "فشل رد الرسالة: %{subject}"
     send_to_inbox: 
       default_subject: "بلا موضوع"
@@ -6015,7 +6015,7 @@ ar:
     managed_accounts: "الحسابات المدارة"
     my_courses: مساقاتي
   message: 
-    default_subject: "تنبيه Canvas"
+    default_subject: "تنبيه Jiaoxuebang"
   message_students: 
     buttons: 
       send_message: "إرسال رسالة"
@@ -6035,30 +6035,30 @@ ar:
         added_message: "لقد تمت إضافتك كـ %{role_type} إلى الحساب %{account} على %{website}."
         email_info: "البريد الإلكتروني: %{email}"
         name_info: "الاسم: %{name}"
-        subject: "دعوة مسؤول حساب Canvas"
+        subject: "دعوة مسؤول حساب Jiaoxuebang"
         url_info: |-
-            ستحتاج إلى التسجيل مع Canvas قبل أن تتمكن من المشاركة كمسؤول حساب.  ويمكنك إنهاء عملية التسجيل هنا:
+            ستحتاج إلى التسجيل مع Jiaoxuebang قبل أن تتمكن من المشاركة كمسؤول حساب.  ويمكنك إنهاء عملية التسجيل هنا:
             %{url}
         username_info: "اسم المستخدم: %{username}"
     added_to_conversation: 
       email: 
-        body: "أضافك %{user_name} لتوه في محادثة في Canvas. لعرض المحادثة، انقر فوق الارتباط أدناه:"
-        subject: "أضافك %{user_name} لتوه في محادثة في Canvas."
+        body: "أضافك %{user_name} لتوه في محادثة في Jiaoxuebang. لعرض المحادثة، انقر فوق الارتباط أدناه:"
+        subject: "أضافك %{user_name} لتوه في محادثة في Jiaoxuebang."
         unknown_user: "مستخدم غير معروف"
       facebook: 
-        body: "أضافك %{user_name} لتوه في محادثة في Canvas."
+        body: "أضافك %{user_name} لتوه في محادثة في Jiaoxuebang."
         link_text: "عرض المحادثة"
         unknown_user: "مستخدم غير معروف"
       sms: 
-        body: "أضافك %{user_name} لتوه في محادثة في Canvas."
+        body: "أضافك %{user_name} لتوه في محادثة في Jiaoxuebang."
         more_info: "مزيد من المعلومات على %{url}"
         unknown_user: "مستخدم غير معروف"
       summary: 
-        body: "أضافك %{user_name} لتوه في محادثة في Canvas."
-        subject: "أضافك %{user_name} لتوه في محادثة في Canvas."
+        body: "أضافك %{user_name} لتوه في محادثة في Jiaoxuebang."
+        subject: "أضافك %{user_name} لتوه في محادثة في Jiaoxuebang."
         unknown_user: "مستخدم غير معروف"
       twitter: 
-        tweet: "تنبيه Canvas - تمت الإضافة إلى المحادثة من قِبل %{user_name}."
+        tweet: "تنبيه Jiaoxuebang - تمت الإضافة إلى المحادثة من قِبل %{user_name}."
         unknown_user: "مستخدم غير معروف"
     alert: 
       email: 
@@ -6207,7 +6207,7 @@ ar:
         message: "قام %{user} بإلغاء حجزه في \"%{appointment_name}\"."
         more_info: "مزيد من المعلومات على %{url}"
       twitter: 
-        message: "تنبيه Canvas - قام %{user} بإلغاء حجزه في \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang - قام %{user} بإلغاء حجزه في \"%{appointment_name}\"."
     appointment_deleted_for_user: 
       email: 
         instructions: "تسجيل الاشتراك في جزء زمني مختلف على الارتباط التالي:%{link}"
@@ -6238,7 +6238,7 @@ ar:
         message: "تم إلغاء الجزء الزمني الخاص بك لـ \"%{appointment_name}\"."
         more_info: "مزيد من المعلومات على %{url}"
       twitter: 
-        message: "تنبيه Canvas - تم إلغاء الجزء الزمني الخاص بك لـ \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang - تم إلغاء الجزء الزمني الخاص بك لـ \"%{appointment_name}\"."
     appointment_group_deleted: 
       email: 
         labels: 
@@ -6261,7 +6261,7 @@ ar:
         message: "تم إلغاء كل المواعيد الخاصة بـ \"%{appointment_name}\"."
         more_info: "مزيد من المعلومات على %{url}"
       twitter: 
-        message: "تنبيه Canvas - تم إلغاء كل المواعيد لـ \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang - تم إلغاء كل المواعيد لـ \"%{appointment_name}\"."
     appointment_group_published: 
       email: 
         group_signup: "المجموعة (%{group_category})"
@@ -6293,7 +6293,7 @@ ar:
         message: "الأجزاء الزمنية لـ \"%{appointment_name}\" متاحة الآن للتسجيل (%{dates})."
         subject: "الموعد \"%{appointment_name}\" متاح للتسجيل (%{course})"
       twitter: 
-        message: "تنبيه Canvas - عمليات التسجيل مفتوحة لـ \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang - عمليات التسجيل مفتوحة لـ \"%{appointment_name}\"."
     appointment_group_updated: 
       email: 
         group_signup: "المجموعة (%{group_category})"
@@ -6325,7 +6325,7 @@ ar:
         message: "تمت إضافة أجزاء زمنية إلى \"%{appointment_name}\" وهي متاحة للتسجيل (%{dates})."
         subject: "الموعد \"%{appointment_name}\" تم تحديثه (%{course})"
       twitter: 
-        message: "تنبيه Canvas  - توجد أجزاء زمنية جديدة متاحة لـ \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang  - توجد أجزاء زمنية جديدة متاحة لـ \"%{appointment_name}\"."
     appointment_reserved_by_user: 
       email: 
         instructions: "عرض الموعد على الرابط التالي: %{link}"
@@ -6354,7 +6354,7 @@ ar:
         message: "قام %{user} بالتسجيل في \"%{appointment_name}\"."
         more_info: "مزيد من المعلومات على %{url}"
       twitter: 
-        message: "تنبيه Canvas - قام %{user} بالتسجيل في \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang - قام %{user} بالتسجيل في \"%{appointment_name}\"."
     appointment_reserved_for_user: 
       email: 
         instructions: "تسجيل جزء زمني مختلف على الرابط التالي: %{user}"
@@ -6386,7 +6386,7 @@ ar:
         message: "قام %{user} بتسجيلك في \"%{appointment_name}\" (%{date_and_time})."
         subject: "لقد تم تسجيلك في \"%{appointment_name}\" (%{course})"
       twitter: 
-        message: "تنبيه Canvas- تم تسجيلك في \"%{appointment_name}\"."
+        message: "تنبيه Jiaoxuebang- تم تسجيلك في \"%{appointment_name}\"."
     assignment_changed: 
       email: 
         body: |-
@@ -6405,7 +6405,7 @@ ar:
       summary: 
         subject: "تم تغيير المهمة: %{title}, %{course}"
       twitter: 
-        assignment_change: "تنبيه Canvas - التغيير: %{assignment_name}, %{course_name}"
+        assignment_change: "تنبيه Jiaoxuebang - التغيير: %{assignment_name}, %{course_name}"
     assignment_created: 
       email: 
         assignment_created: "تم إنشاء المهمة - %{assignment_name}، %{course_name}"
@@ -6432,7 +6432,7 @@ ar:
         multiple_due_dates: "موعد الاستحقاق: تواريخ عديدة"
         no_due_date: "موعد الاستحقاق: بلا تاريخ استحقاق"
       twitter: 
-        assignment_change: "تنبيه Canvas - التغيير: %{assignment_name}, %{course_name}"
+        assignment_change: "تنبيه Jiaoxuebang - التغيير: %{assignment_name}, %{course_name}"
         due_at: "موعد الاستحقاق: %{assignment_due_date_time}"
         multiple_due_dates: "موعد الاستحقاق: تواريخ عديدة"
         no_due_date: "موعد الاستحقاق: بلا تاريخ استحقاق"
@@ -6455,7 +6455,7 @@ ar:
         due_at: "موعد الاستحقاق: %{assignment_due_date_time}"
         no_due_date: "موعد الاستحقاق: بلا تاريخ استحقاق"
       twitter: 
-        assignment_change: "تنبيه Canvas - تغيير التاريخ: %{assignment_name}, %{course_name}"
+        assignment_change: "تنبيه Jiaoxuebang - تغيير التاريخ: %{assignment_name}, %{course_name}"
         due_at: "موعد الاستحقاق: %{assignment_due_date_time}"
         no_due_date: "موعد الاستحقاق: بلا تاريخ استحقاق"
     assignment_due_date_override_changed: 
@@ -6477,7 +6477,7 @@ ar:
         due_at: "موعد الاستحقاق: %{assignment_due_date_time}"
         no_due_date: "موعد الاستحقاق: بلا تاريخ استحقاق"
       twitter: 
-        assignment_change: "تنبيه Canvas - تغيير التاريخ: %{assignment_name}, %{course_name} (%{override})"
+        assignment_change: "تنبيه Jiaoxuebang - تغيير التاريخ: %{assignment_name}, %{course_name} (%{override})"
         due_at: "موعد الاستحقاق: %{assignment_due_date_time}"
         no_due_date: "موعد الاستحقاق: بلا تاريخ استحقاق"
     assignment_graded: 
@@ -6495,7 +6495,7 @@ ar:
         assignment_graded: "تم تقييم درجات للمهمة: %{assignment_name}, %{course_name}"
         the_assignment_is_graded: "تم تقييم درجات للمهمة, %{assignment_name}."
       twitter: 
-        assignment_graded: "تنبيه Canvas - تم تقييم الدرجات: %{assignment_name}, %{course_name}"
+        assignment_graded: "تنبيه Jiaoxuebang - تم تقييم الدرجات: %{assignment_name}, %{course_name}"
     assignment_locked: "تم تأمين هذه المهمة حاليًا."
     assignment_locked_at: "تم تأمين هذه المهمة %{at}."
     assignment_locked_module: "تعد هذه المهمة جزءًا من الوحدة *%{module}* ولم يتم تأمينها بعد."
@@ -6516,7 +6516,7 @@ ar:
         turned_in_at: "تم التسليم: %{submission_date}"
         user_resubmitted: "إعادة الإرسال: %{user_name}, %{assignment_name}"
       twitter: 
-        user_resubmitted: "تنبيه Canvas - إعادة الإرسال: %{user_name}, %{assignment_name}"
+        user_resubmitted: "تنبيه Jiaoxuebang - إعادة الإرسال: %{user_name}, %{assignment_name}"
     assignment_submitted: 
       email: 
         labels: 
@@ -6533,7 +6533,7 @@ ar:
         turned_in_at: "تم التسليم: %{submission_date}"
         user_submitted: "الإرسال: %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "تنبيه Canvas - الإرسال: %{user_name}, %{assignment_name}"
+        user_submitted: "تنبيه Jiaoxuebang - الإرسال: %{user_name}, %{assignment_name}"
     assignment_submitted_late: 
       email: 
         labels: 
@@ -6550,7 +6550,7 @@ ar:
         turned_in_at: "تم التسليم: %{submission_date}"
         user_submitted: "المهمة المتأخرة: %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "تنبيه Canvas - الإرسال المتأخر: %{user_name}, %{assignment_name}"
+        user_submitted: "تنبيه Jiaoxuebang - الإرسال المتأخر: %{user_name}, %{assignment_name}"
     assignment_unmuted: 
       email: 
         body: |-
@@ -6607,21 +6607,21 @@ ar:
             في %{service} وتمت دعوتك باستخدام عنوان بريدك الإلكتروني, %{email}.
         subject: "دعوة التعاون: %{course_or_group}"
       twitter: 
-        body: "تنبيه Canvas - دعوة التعاون: %{document}, %{course_or_group}"
+        body: "تنبيه Jiaoxuebang - دعوة التعاون: %{document}, %{course_or_group}"
     confirm_email_communication_channel: 
       email: 
         body: "يجري تسجيل عنوان البريد الإلكتروني %{email} على الموقع %{website} للمستخدم, %{user}."
         details: "لتأكيد هذا التسجيل، تفضل بزيارة عنوان url التالي:"
-        subject: "تأكيد البريد الإلكتروني: Canvas"
+        subject: "تأكيد البريد الإلكتروني: Jiaoxuebang"
     confirm_registration: 
       email: 
-        body: "شكرًا لك على التسجيل مع Canvas!  يعد هذا البريد الإلكتروني تأكيدًا بأن المستخدم %{user} يقوم بتسجيل حساب جديد على %{website}."
+        body: "شكرًا لك على التسجيل مع Jiaoxuebang!  يعد هذا البريد الإلكتروني تأكيدًا بأن المستخدم %{user} يقوم بتسجيل حساب جديد على %{website}."
         details: "لإنهاء عملية التسجيل هذه، تفضل بزيارة عنوان url التالي:"
-        subject: "تأكيد التسجيل: Canvas"
+        subject: "تأكيد التسجيل: Jiaoxuebang"
     confirm_sms_communication_channel: 
       sms: 
         body: |-
-            تأكيد تسجيل Canvas مع الرمز:
+            تأكيد تسجيل Jiaoxuebang مع الرمز:
             
             %{confirmation_code}
             
@@ -6644,29 +6644,29 @@ ar:
       email: 
         attached_files: "الملفات المرفقة:"
         audio_comment: "تشتمل هذه الرسالة على تعليقات الوسائط. للاستماع أو الرد، انقر فوق الارتباط أدناه:"
-        body: "أرسل %{user_name} لتوه رسالة لك في Canvas:"
+        body: "أرسل %{user_name} لتوه رسالة لك في Jiaoxuebang:"
         reply_message: "للرد على هذه الرسالة، انقر فوق الارتباط أدناه:"
-        subject: "أرسل %{user_name} لتوه رسالة لك في Canvas."
+        subject: "أرسل %{user_name} لتوه رسالة لك في Jiaoxuebang."
         unknown_user: "مستخدم غير معروف"
       facebook: 
-        body: "أرسل %{user_name} لتوه رسالة لك في Canvas."
+        body: "أرسل %{user_name} لتوه رسالة لك في Jiaoxuebang."
         link_text: "عرض الرسالة"
         unknown_user: "مستخدم غير معروف"
       sms: 
-        body: "%{user_name} أرسل لتوه رسالة لك في Canvas:"
+        body: "%{user_name} أرسل لتوه رسالة لك في Jiaoxuebang:"
         more_info: "مزيد من المعلومات على %{url}"
         unknown_user: "مستخدم غير معروف"
       summary: 
-        body: "أرسل %{user_name} لتوه رسالة لك في Canvas:"
-        subject: "أرسل %{user_name} لتوه رسالة لك في Canvas."
+        body: "أرسل %{user_name} لتوه رسالة لك في Jiaoxuebang:"
+        subject: "أرسل %{user_name} لتوه رسالة لك في Jiaoxuebang."
         unknown_user: "مستخدم غير معروف"
       twitter: 
-        tweet: "تنبيه Canvas - الرسالة من %{user_name}."
+        tweet: "تنبيه Jiaoxuebang - الرسالة من %{user_name}."
         unknown_user: "مستخدم غير معروف"
     dialog: 
       title: "إرسال رسالة رد"
     email: 
-      footer: "لقد تلقيت هذه الرسالة الإلكترونية لأنك تشارك في فصل أو أكثر من الفصول التي تستخدم Canvas. لتغيير الإخطار بالبريد الإلكتروني أو إيقاف تشغيله، انتقل إلى ⏎ %{url}"
+      footer: "لقد تلقيت هذه الرسالة الإلكترونية لأنك تشارك في فصل أو أكثر من الفصول التي تستخدم Jiaoxuebang. لتغيير الإخطار بالبريد الإلكتروني أو إيقاف تشغيله، انتقل إلى ⏎ %{url}"
     enrollment_accepted: 
       email: 
         body_designer: "قام %{user} بقبول دعوتهم للمشاركة في المساق %{course}, بوصفه مصممًا فقط."
@@ -6697,7 +6697,7 @@ ar:
         body_teacher: "قام %{user} لتوه بقبول دعوتهم للمشاركة في المساق %{course}, بوصفه معلمًا."
         subject: "قام %{user} بقبول دعوة المساق"
       twitter: 
-        body: "تنبيه Canvas - مقبول: %{user}, %{enrollment_type}, المساق, %{course}"
+        body: "تنبيه Jiaoxuebang - مقبول: %{user}, %{enrollment_type}, المساق, %{course}"
     enrollment_invitation: 
       email: 
         body_designer: "لقد تمت دعوتك للمشاركة في المساق، %{course}, بوصفك مصممًا."
@@ -6743,7 +6743,7 @@ ar:
         body_teacher: "لقد تمت دعوتك للمشاركة في المساق، %{course}, بوصفك معلمًا."
         subject: "دعوة المساق"
       twitter: 
-        body: "تنبيه Canvas - تمت الدعوة: المساق باعتباره %{enrollment_type}"
+        body: "تنبيه Jiaoxuebang - تمت الدعوة: المساق باعتباره %{enrollment_type}"
     enrollment_notification: 
       email: 
         body_designer: "لقد تم تسجيلك في المساق، %{course}, بوصفك مصمم."
@@ -6790,7 +6790,7 @@ ar:
         body_teacher: "لقد تم تسجيلك في المساق، %{course}, بوصفك معلمًا."
         subject: "تسجيل المساق"
       twitter: 
-        body: "تنبيه Canvas - تم التسجيل: المساق باعتباره %{enrollment_type}"
+        body: "تنبيه Jiaoxuebang - تم التسجيل: المساق باعتباره %{enrollment_type}"
     enrollment_registration: 
       email: 
         body_designer: "لقد تمت دعوتك للمشاركة في فصل على الموقع %{website}.  الفصل يسمى %{course}, وقد تمت دعوتك للمشاركة بوصفك مصممًا."
@@ -6798,7 +6798,7 @@ ar:
         body_student: "لقد تمت دعوتك للمشاركة في فصل على الموقع %{website}.  الفصل يسمى %{course}, وقد تمت دعوتك للمشاركة بوصفك طالبًا."
         body_ta: "لقد تمت دعوتك للمشاركة في فصل على الموقع %{website}.  الفصل يسمى %{course}, وقد تمت دعوتك للمشاركة بوصفك مساعد معلم."
         body_teacher: "لقد تمت دعوتك للمشاركة في فصل على الموقع %{website}.  الفصل يسمى %{course}, وقد تمت دعوتك للمشاركة بوصفك معلمًا."
-        details: "ستحتاج إلى التسجيل مع Canvas قبل أن تتمكن من المشاركة في الفصل.  للشروع في العمل، تفضل بزيارة صفحة المساق هنا:"
+        details: "ستحتاج إلى التسجيل مع Jiaoxuebang قبل أن تتمكن من المشاركة في الفصل.  للشروع في العمل، تفضل بزيارة صفحة المساق هنا:"
         labels: 
           email: "البريد الإلكتروني"
           name: الاسم
@@ -6825,7 +6825,7 @@ ar:
         body_teacher: "لقد تمت دعوتك للمشاركة في فصل على الموقع %{website}.  الفصل يسمى %{course}, وقد تمت دعوتك للمشاركة بوصفك معلمًا."
         subject: "دعوة المساق"
       twitter: 
-        body: "تنبيه Canvas - تمت الدعوة:: المساق باعتباره %{enrollment_type}"
+        body: "تنبيه Jiaoxuebang - تمت الدعوة:: المساق باعتباره %{enrollment_type}"
     event_date_changed: 
       email: 
         email_body: "الحدث, %{event_title}, للمساق, %{course_name}, قد تغير عدة مرات. إنه الآن:"
@@ -6850,7 +6850,7 @@ ar:
       twitter: 
         from_to_time: "من %{start_date_time} إلى %{end_date_time}"
         no_time_set: "لم يتم تعيين وقت"
-        subject: "تنبيه Canvas - تم التغيير: %{event_title}, %{course_name}"
+        subject: "تنبيه Jiaoxuebang - تم التغيير: %{event_title}, %{course_name}"
     file_locked: "تم تأمين هذا الملف حاليًا."
     file_locked_at: "لقد تم تأمين هذا الملف في %{at}."
     file_locked_module: "يعد هذا الملف جزءًا من الوحدة *%{module}* ولم يتم إلغاء تأمينه بعد."
@@ -6865,8 +6865,8 @@ ar:
         login_at_account: "%{login_email} في %{account_name}"
         login_managed_by_account: "تتم إدارة بيانات اعتماد تسجيل الدخول بواسطة %{account_name}"
         password_from_account: "يجب إعطاؤك كلمة المرور الخاصة بتسجيل الدخول هذا من قِبل مسؤولي النظام على %{account_name}، ولا يتمتع المعلم بحق الوصول إلى كلمة المرور الخاصة بك.  وإذا كانت كلمة المرور الخاصة بك لا تعمل، فيرجى الاتصال بمسؤولي النظام لمعرفة كيفية تغيير كلمة المرور أو التحقق منها."
-        requested_password_reset: "لقد طلبت تأكيدًا لكلمة المرور الخاصة بك من أجل تسجيل الدخول إلى Canvas."
-        subject: "نسيت كلمة المرور: Canvas"
+        requested_password_reset: "لقد طلبت تأكيدًا لكلمة المرور الخاصة بك من أجل تسجيل الدخول إلى Jiaoxuebang."
+        subject: "نسيت كلمة المرور: Jiaoxuebang"
     grade_weight_changed: 
       email: 
         grade_changed: "لقد تغيرت سياسة تقييم الدرجات للمساق, %{course_name}."
@@ -6890,7 +6890,7 @@ ar:
           grades_based_on_percent: "يعتمد تقييم الدرجات على الإجمالي المقدر لكل مجموعة مهام"
           subject: "لقد تغير تقدير الدرجات"
       twitter: 
-        grade_changed: "تنبيه Canvas - تغيرت سياسة تقييم الدرجات: %{course_name}"
+        grade_changed: "تنبيه Jiaoxuebang - تغيرت سياسة تقييم الدرجات: %{course_name}"
     group_assignment_submitted_late: 
       email: 
         body: "قامت المجموعة %{group_name} لتوها بتسليم إرسال متأخر لـ %{assignment_name} في المساق %{course_name}."
@@ -6906,7 +6906,7 @@ ar:
         body: "قامت المجموعة %{group_name} بتسليم إرسال متأخر لـ %{assignment_name} في المساق %{course_name}."
         subject: "المهمة المتأخرة: %{group_name}, %{assignment_name}"
       twitter: 
-        subject: "تنبيه Canvas - إرسال المجموعة المتأخر: %{group_name}, %{assignment_name}"
+        subject: "تنبيه Jiaoxuebang - إرسال المجموعة المتأخر: %{group_name}, %{assignment_name}"
     group_membership_accepted: 
       email: 
         account_group: "تم قبول طلبك للانضمام إلى المجموعة %{group_name} للحساب %{account_name}."
@@ -6928,8 +6928,8 @@ ar:
         course_group: "تم قبول طلبك للانضمام إلى المجموعة %{group_name} للمساق %{course_name}."
         subject: "عضوية المجموعة المقبولة: %{group_name}"
       twitter: 
-        account_group: "تنبيه Canvas - عضوية المجموعة المقبولة: %{group_name} للحساب %{account_name}."
-        course_group: "تنبيه Canvas - عضوية المجموعة المقبولة: %{group_name} للمساق %{course_name}."
+        account_group: "تنبيه Jiaoxuebang - عضوية المجموعة المقبولة: %{group_name} للحساب %{account_name}."
+        course_group: "تنبيه Jiaoxuebang - عضوية المجموعة المقبولة: %{group_name} للمساق %{course_name}."
     group_membership_rejected: 
       email: 
         account_group: "تم رفض طلبك للانضمام إلى المجموعة %{group_name} للحساب %{account_name}."
@@ -6950,15 +6950,15 @@ ar:
         course_group: "تم رفض طلبك للانضمام إلى المجموعة %{group_name} للمساق %{course_name}."
         subject: "تم رفض عضوية المجموعة لـ %{group_name}"
       twitter: 
-        account_group: "تنبيه Canvas - عضوية المجموعة المرفوضة: %{group_name} للحساب %{account_name}."
-        course_group: "تنبيه Canvas - عضوية المجموعة المرفوضة: %{group_name} للمساق %{course_name}."
+        account_group: "تنبيه Jiaoxuebang - عضوية المجموعة المرفوضة: %{group_name} للحساب %{account_name}."
+        course_group: "تنبيه Jiaoxuebang - عضوية المجموعة المرفوضة: %{group_name} للمساق %{course_name}."
     index: 
       titles: 
         messages: "رسائل لـ  %{name}"
     merge_email_communication_channel: 
       email: 
-        body: "تم إنشاء حساب لك على عنوان %{url}, ولكن لديك بالفعل حساب Canvas.  وإذا كنت تود دمجهما معًا، فيرجى زيارة عنوان url التالي:"
-        subject: "حساب Canvas جديد"
+        body: "تم إنشاء حساب لك على عنوان %{url}, ولكن لديك بالفعل حساب Jiaoxuebang.  وإذا كنت تود دمجهما معًا، فيرجى زيارة عنوان url التالي:"
+        subject: "حساب Jiaoxuebang جديد"
     message: 
       actions: 
         reply: رد
@@ -7004,7 +7004,7 @@ ar:
         body: "تمت إضافة مسؤول جديد, %{user}, للحساب %{account}"
         subject: "مستخدم الحساب الجديد"
       twitter: 
-        body: "تنبيه Canvas - المسؤول الجديد: %{user}, %{account}"
+        body: "تنبيه Jiaoxuebang - المسؤول الجديد: %{user}, %{account}"
     new_announcement: 
       email: 
         labels: 
@@ -7015,7 +7015,7 @@ ar:
         details: "مزيد من المعلومات على %{url}"
         subject: "الإعلان الجديد: %{title}, %{course}"
       twitter: 
-        body: "تنبيه Canvas - الإعلان: %{title}, %{course}."
+        body: "تنبيه Jiaoxuebang - الإعلان: %{title}, %{course}."
     new_context_group_membership: 
       email: 
         body_account: "لقد تمت إضافتك إلى مجموعة جديدة للحساب %{account}.  اسم المجموعة هو %{group_name}."
@@ -7035,8 +7035,8 @@ ar:
         body_course: "لقد تمت إضافتك إلى مجموعة جديدة للمساق %{course}.  اسم المجموعة هو %{group_name}."
         subject: "عضوية مجموعة جديدة لـ %{course_or_account}"
       twitter: 
-        body_account: "تنبيه Canvas - المجموعة الجديدة: %{group} للحساب %{account}"
-        body_course: "تنبيه Canvas - المجموعة الجديدة: %{group} للمساق %{course}"
+        body_account: "تنبيه Jiaoxuebang - المجموعة الجديدة: %{group} للحساب %{account}"
+        body_course: "تنبيه Jiaoxuebang - المجموعة الجديدة: %{group} للمساق %{course}"
     new_context_group_membership_invitation: 
       email: 
         body_account: "لقد تمت دعوتك للانضمام إلى المجموعة %{group} للحساب %{account}."
@@ -7056,8 +7056,8 @@ ar:
         body_course: "لقد تمت دعوتك للانضمام إلى المجموعة %{group} للمساق %{course}."
         subject: "عضوية مجموعة جديدة لـ %{course_or_account}"
       twitter: 
-        body_account: "تنبيه Canvas - الدعوة: %{group} للحساب %{account}"
-        body_course: "تنبيه Canvas - الدعوة: %{group} للمساق %{course}."
+        body_account: "تنبيه Jiaoxuebang - الدعوة: %{group} للحساب %{account}"
+        body_course: "تنبيه Jiaoxuebang - الدعوة: %{group} للمساق %{course}."
     new_course: 
       email: 
         body: "تمت إضافة مساق, %{course}, للحساب %{account}"
@@ -7081,7 +7081,7 @@ ar:
           teachers: المعلمون
         subject: "المساق الجديد"
       twitter: 
-        body: "تنبيه Canvas - المساق الجديد: %{course}, %{account}"
+        body: "تنبيه Jiaoxuebang - المساق الجديد: %{course}, %{account}"
     new_discussion_entry: 
       email: 
         body: "نشر %{user} تعليقًا جديدًا على سلسلة المناقشة %{discussion_topic} لـ %{course}:"
@@ -7095,7 +7095,7 @@ ar:
       summary: 
         subject: "التعليق الجديد لـ %{discussion_topic}: %{course}"
       twitter: 
-        body: "تنبيه Canvas - التعليق: %{discussion_topic}, %{course}."
+        body: "تنبيه Jiaoxuebang - التعليق: %{discussion_topic}, %{course}."
     new_discussion_topic: 
       email: 
         body: "لقد تم بدء مناقشة جديدة قد تكون شيقة بالنسبة لك: "
@@ -7111,7 +7111,7 @@ ar:
       summary: 
         subject: "المناقشة الجديدة - %{discussion_topic}: %{course}"
       twitter: 
-        subject: "تنبيه Canvas - الموضوع: %{discussion_topic}, %{course}"
+        subject: "تنبيه Jiaoxuebang - الموضوع: %{discussion_topic}, %{course}"
     new_event_created: 
       email: 
         body: "يوجد حدث جديد تمت جدولته لـ %{course_name} يجب أن تكون على علم به:"
@@ -7136,7 +7136,7 @@ ar:
       twitter: 
         from_to_time: "من %{start_date_time} إلى %{end_date_time}"
         no_time_set: "لم يتم تعيين وقت"
-        subject: "تنبيه Canvas - الحدث: %{event_title}, %{course_name}"
+        subject: "تنبيه Jiaoxuebang - الحدث: %{event_title}, %{course_name}"
     new_student_organized_group: 
       email: 
         body_account: "تم إنشاء مجموعة طلاب جديدة منظمة تسمى \"%{group_name}\" للحساب %{account}. العضو الأول هو %{user}."
@@ -7155,8 +7155,8 @@ ar:
         body_account: "تم إنشاء مجموعة طلاب جديدة منظمة تسمى \"%{group_name}\" للحساب %{account}. العضو الأول هو %{user}."
         body_course: "تم إنشاء مجموعة طلاب جديدة منظمة تسمى \"%{group_name}\" للمساق %{course}. العضو الأول هو %{user}."
       twitter: 
-        body_account: "تنبيه Canvas - المجموعة الجديدة: %{group_name} للحساب %{account}"
-        body_course: "تنبيه Canvas - المجموعة الجديدة: %{group_name} للمساق %{course}"
+        body_account: "تنبيه Jiaoxuebang - المجموعة الجديدة: %{group_name} للحساب %{account}"
+        body_course: "تنبيه Jiaoxuebang - المجموعة الجديدة: %{group_name} للمساق %{course}"
     new_teacher_registration: 
       email: 
         body: "قام %{user} بالتسجيل كمعلم فقط على موقع %{website}."
@@ -7172,7 +7172,7 @@ ar:
       sms: 
         body: "قام %{user} بالتسجيل كمعلم فقط على موقع %{website}."
       summary: 
-        body: "قام %{user} بالتسجيل كمعلم فقط في Canvas."
+        body: "قام %{user} بالتسجيل كمعلم فقط في Jiaoxuebang."
         labels: 
           email: "البريد الإلكتروني"
           phone: الهاتف
@@ -7180,7 +7180,7 @@ ar:
           school_position: "موضع المدرسة"
         subject: "تسجيل المعلم الجديد"
       twitter: 
-        body: "تنبيه Canvas - المعلم الجديد: %{user}, %{account}"
+        body: "تنبيه Jiaoxuebang - المعلم الجديد: %{user}, %{account}"
     new_user: 
       email: 
         body: "قام مستخدم جديد, %{user}, لتوه بالتسجيل للحساب %{account}"
@@ -7196,16 +7196,16 @@ ar:
         body: "قام مستخدم جديد, %{user}, لتوه بالتسجيل للحساب %{account}"
         subject: "المستخدم الجديد"
       twitter: 
-        body: "تنبيه Canvas - المستخدم الجديد: %{user}, %{account}"
+        body: "تنبيه Jiaoxuebang - المستخدم الجديد: %{user}, %{account}"
     page_locked: "تم تأمين هذه الصفحة حاليًا."
     page_locked_at: "تم تأمين هذه الصفحة %{at}."
     page_locked_module: "تعد هذه الصفحة جزءًا من الوحدة *%{module}* ولم يتم إلغاء تأمينها بعد."
     page_locked_until: "تم تأمين هذه الصفحة حتى %{date}."
     pseudonym_registration: 
       email: 
-        body: "لقد تم تسجيلك لحساب Canvas على %{account}!  قبل أن تتمكن من تسجيل الدخول وبدء استخدام Canvas، سيلزم إنهاء عملية التكوين."
+        body: "لقد تم تسجيلك لحساب Jiaoxuebang على %{account}!  قبل أن تتمكن من تسجيل الدخول وبدء استخدام Jiaoxuebang، سيلزم إنهاء عملية التكوين."
         link_message: "لإنهاء عملية التسجيل هذه، تفضل بزيارة عنوان url التالي:"
-        subject: "إنهاء التسجيل: Canvas"
+        subject: "إنهاء التسجيل: Jiaoxuebang"
     quiz_locked: "تم تأمين هذا الاختبار حاليًا."
     quiz_locked_at: "تم تأمين هذا الاختبار %{at}."
     quiz_locked_module: "يعد هذا الاختبار جزءًا من الوحدة *%{module}* ولم يتم إلغاء تأمينه بعد."
@@ -7231,7 +7231,7 @@ ar:
         body: "لقد تمت دعوتك بواسطة %{user} لتقييم الإرسال الخاص بهم لـ %{rubric}:"
         subject: "دعوة التقييم: %{rubric}, %{context}"
       twitter: 
-        tweet: "تنبيه Canvas - دعوة: تقييم %{rubric}, %{user}"
+        tweet: "تنبيه Jiaoxuebang - دعوة: تقييم %{rubric}, %{user}"
     rubric_assessment_submission_reminder: 
       email: 
         body: "لقد تم تذكيرك بالتقييم: %{rubric}, %{context}:"
@@ -7246,7 +7246,7 @@ ar:
         body: "لقد تم تذكيرك بالتقييم: %{rubric}, %{context}:"
         subject: "تذكير بالتقييم: %{rubric}, %{context}"
       twitter: 
-        tweet: "تنبيه Canvas - التذكير: تقييم %{rubric}, %{context}"
+        tweet: "تنبيه Jiaoxuebang - التذكير: تقييم %{rubric}, %{context}"
     rubric_association_created: 
       email: 
         body: "لقد تم إنشاء تقييم جديد لـ %{context}:"
@@ -7261,7 +7261,7 @@ ar:
         body: "لقد تم إنشاء تقييم جديد لـ %{context}:"
         subject: "التقييم الجديد: %{title}, %{context}"
       twitter: 
-        tweet: "تنبيه Canvas - التقييم الجديد: %{title}, %{context}."
+        tweet: "تنبيه Jiaoxuebang - التقييم الجديد: %{title}, %{context}."
     send_form: 
       labels: 
         message_body: الرسالة
@@ -7283,7 +7283,7 @@ ar:
         someone: "شخص ما"
         subject: "تعليق الإرسال: %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "تنبيه Canvas - التعليق: %{author} لـ %{assignment}, %{user}, %{context}."
+        tweet: "تنبيه Jiaoxuebang - التعليق: %{author} لـ %{assignment}, %{user}, %{context}."
     submission_comment_for_teacher: 
       email: 
         body: "وضع %{author} لتوه تعليقًا جديدًا على الإرسال الخاص بـ %{user} لـ %{assignment}."
@@ -7301,7 +7301,7 @@ ar:
         someone: "شخص ما"
         subject: "تعليق الإرسال: %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "تنبيه Canvas - التعليق: %{author} لـ %{assignment}, %{user}, %{context}."
+        tweet: "تنبيه Jiaoxuebang - التعليق: %{author} لـ %{assignment}, %{user}, %{context}."
     submission_grade_changed: 
       email: 
         body: "لقد تم تغيير الدرجة الخاصة بمهمتك %{assignment_title}."
@@ -7339,7 +7339,7 @@ ar:
         not_applicable: "لا يوجد"
         score: "النقاط:  %{score} من  %{total}"
         score_pending: "(تعليق المراجعة)"
-        tweet: "تنبيه Canvas - تغيير الدرجة: %{date}"
+        tweet: "تنبيه Jiaoxuebang - تغيير الدرجة: %{date}"
     submission_graded: 
       email: 
         body: "لقد تم تقييم درجات لمهمتك, %{assignment}."
@@ -7377,19 +7377,19 @@ ar:
         not_applicable: "لا يوجد"
         score: "النقاط:  %{score} من  %{total}"
         score_pending_review: "(تعليق المراجعة)"
-        tweet: "تنبيه Canvas - تم تقييم الدرجات: %{assignment}, %{context}"
+        tweet: "تنبيه Jiaoxuebang - تم تقييم الدرجات: %{assignment}, %{context}"
     summaries: 
       email: 
-        daily_body: "تم تسجيلك لاستلام تقرير يومي خاص ببعض الإعلامات الواردة من حساب Canvas.  فيما يلي التقرير بتاريخ %{date}:"
+        daily_body: "تم تسجيلك لاستلام تقرير يومي خاص ببعض الإعلامات الواردة من حساب Jiaoxuebang.  فيما يلي التقرير بتاريخ %{date}:"
         notifications_link: "يمكنك تغيير إعدادات الإعلام عن طريق زيارة الصفحة التالية:"
-        subject: "إعلامات Canvas الأخيرة"
-        weekly_body: "تم تسجيلك لاستلام تقرير أسبوعي خاص ببعض الإعلامات الواردة من حساب Canvas.  فيما يلي التقرير الخاص بنهاية الأسبوع %{date}:"
+        subject: "إعلامات Jiaoxuebang الأخيرة"
+        weekly_body: "تم تسجيلك لاستلام تقرير أسبوعي خاص ببعض الإعلامات الواردة من حساب Jiaoxuebang.  فيما يلي التقرير الخاص بنهاية الأسبوع %{date}:"
       facebook: 
-        new_notifications: "لقد تلقيت *%{notification_count} إعلامًا جديدًا* في #Canvas#."
+        new_notifications: "لقد تلقيت *%{notification_count} إعلامًا جديدًا* في #Jiaoxuebang#."
       sms: 
         notifications_sms: "%{notifications_count} إعلامًا جديدًا على %{url}"
       twitter: 
-        tweet: "تنبيه Canvas - %{notification_count} إعلامًا جديدًا"
+        tweet: "تنبيه Jiaoxuebang - %{notification_count} إعلامًا جديدًا"
     topic_locked: "تم تأمين هذا الموضوع حاليًا."
     topic_locked_at: "تم تأمين هذا الموضوع في %{at}."
     topic_locked_module: "يعد هذا الموضوع جزءًا من الوحدة *%{module}* ولم يتم إلغاء تأمينه بعد."
@@ -7407,7 +7407,7 @@ ar:
       summary: 
         subject: "صفحة Wiki المحدثة: %{title}, %{user}"
       twitter: 
-        tweet: "تنبيه Canvas - الصفحة المحدثة: %{title}, %{user}."
+        tweet: "تنبيه Jiaoxuebang - الصفحة المحدثة: %{title}, %{user}."
     visit_modules_page: "*تفضل بزيارة صفحة وحدات المساق للحصول على معلومات حول كيفية إلغاء تأمين هذا المحتوى.*"
     web_conference_invitation: 
       email: 
@@ -7423,7 +7423,7 @@ ar:
         body: "لقد تمت دعوتك للمشاركة في مؤتمر عبر الويب، %{title} لـ %{name}."
         subject: "دعوة لمؤتمر عبر الويب: %{name}"
       twitter: 
-        tweet: "تنبيه Canvas - دعوة: حضور %{title}, %{name}"
+        tweet: "تنبيه Jiaoxuebang - دعوة: حضور %{title}, %{name}"
   mute_dialog: 
     curving_assignments: "المهام المنحنية"
     grade_change_notifications: "إعلامات تغيير الدرجات"
@@ -7690,7 +7690,7 @@ ar:
       instructions: 
         main: 
           manage: 
-            description: "* يتم إنشاء النتائج هنا لتتبع درجة الإتقان في الدورة التدريبية. للبدء، افحص شريط القائمة على طول الجزء العلوي. انقر على الزر \"جديد\" لإنشاء نتيجة جديدة، أو على الزر \"مجموعة جديدة\" لإنشاء مجموعة جديدة لتنظيم النتائج الخاصة بك. سيتيح لك الزر \"عثور\" استخدام النتائج التي تم إنشاؤها من قبل الولاية أو المؤسسة. ولأنه يمكنك إنشاء واستخدام النتائج، ستتمكن من استخدام اللوحة على اليسار للتنقل خلال النتائج الخاصة بك. يمكنك سحب النتائج وإسقاطها بين المستويات المختلفة لإنشاء بنية. ** الأهم من ذلك، تتيح Canvas إضافة نتائج لعناوين التصنيف بحيث يمكنك تقييم درجة الإتقان كما كنت تقوم بتصنيف المهام. بمجرد إعداد النتائج، انقر فوق \"إدارة العناوين\" لبدء استخدام النتائج للتصنيف. *\n"
+            description: "* يتم إنشاء النتائج هنا لتتبع درجة الإتقان في الدورة التدريبية. للبدء، افحص شريط القائمة على طول الجزء العلوي. انقر على الزر \"جديد\" لإنشاء نتيجة جديدة، أو على الزر \"مجموعة جديدة\" لإنشاء مجموعة جديدة لتنظيم النتائج الخاصة بك. سيتيح لك الزر \"عثور\" استخدام النتائج التي تم إنشاؤها من قبل الولاية أو المؤسسة. ولأنه يمكنك إنشاء واستخدام النتائج، ستتمكن من استخدام اللوحة على اليسار للتنقل خلال النتائج الخاصة بك. يمكنك سحب النتائج وإسقاطها بين المستويات المختلفة لإنشاء بنية. ** الأهم من ذلك، تتيح Jiaoxuebang إضافة نتائج لعناوين التصنيف بحيث يمكنك تقييم درجة الإتقان كما كنت تقوم بتصنيف المهام. بمجرد إعداد النتائج، انقر فوق \"إدارة العناوين\" لبدء استخدام النتائج للتصنيف. *\n"
             title: "إعداد النتائج"
     mastery_error: "يجب أن تكون أكبر من أو تساوي 0"
     missing_outcome: "تعذر العثور على ناتج التعلم ذلك"
@@ -7794,7 +7794,7 @@ ar:
       name: "مستورد القياس الأكاديمي"
       plugins: 
         ab: 
-          description: "يقوم هذا بتمكين استيراد معايير القياس الأكاديمي إلى Canvas."
+          description: "يقوم هذا بتمكين استيراد معايير القياس الأكاديمي إلى Jiaoxuebang."
     academic_benchmark_settings: 
       api_url_description: "(على سبيل المثال. %{url})"
       common_core_guid: "(مثال. %{guid})"
@@ -7826,8 +7826,8 @@ ar:
       saving: "جارٍ الحفظ..."
     canvas_cartridge_importer: 
       description: "وهذا يؤدي إلى إمكانية تحويل تصدير canvas إلى تنسيق json وسيط ليتم استيراده"
-      file_description: "حزمة تصدير مساق Canvas"
-      name: "مستورد كارتريدج Canvas"
+      file_description: "حزمة تصدير مساق Jiaoxuebang"
+      name: "مستورد كارتريدج Jiaoxuebang"
     common_cartridge_importer: 
       description: "يقوم هذا الإجراء بتمكين تحويل حِزم الكارتريدج المشتركة الموجودة بتنسيق json الوسيط ليتم استيرادها"
       file_description: "حزمة ‎1.0/1.1/1.2 للكارتريدج المشتركة"
@@ -7892,7 +7892,7 @@ ar:
       sketchpad: SketchPad
       typewithme: TypeWith.me
     facebook: 
-      description: "تطبيق Canvas Facebook"
+      description: "تطبيق Jiaoxuebang Facebook"
       name: Facebook
     facebook_settings: 
       description: |-
@@ -7900,23 +7900,23 @@ ar:
           قم بتعيين خيارات التكوين التالية لضمان عمل تطبيق Facebook بشكل صحيح:
           
           * **Web Site -- Site URL:** تم التعيين إلى %{site_url}
-          * **Web Site -- Site Domain:** مجال موقع Canvas الرئيسي الخاص بك:  ويجب أن يتوافق هذا مع إعداد URL للموقع
-          * **Facebook Integration -- Canvas Page:** تدوين ملاحظة عن أي شيء تختاره وإدخاله في النموذج أدناه
-          * **Facebook Integration -- Canvas URL:** تم التعيين إلى %{canvas_url}
-          * تأكد من أنه تم تمكين **OAuth 2.0 لـ Canvas -- متطور**
+          * **Web Site -- Site Domain:** مجال موقع Jiaoxuebang الرئيسي الخاص بك:  ويجب أن يتوافق هذا مع إعداد URL للموقع
+          * **Facebook Integration -- Jiaoxuebang Page:** تدوين ملاحظة عن أي شيء تختاره وإدخاله في النموذج أدناه
+          * **Facebook Integration -- Jiaoxuebang URL:** تم التعيين إلى %{canvas_url}
+          * تأكد من أنه تم تمكين **OAuth 2.0 لـ Jiaoxuebang -- متطور**
           * بعد حفظ التطبيق، قم بتدوين ملاحظة عن المعرّف App ID ومفتاح API والكلمة السرية للتطبيق
       domain_name: مجال
       headers: 
         domain_settings: "إعدادات المجال"
       hints: 
-        canvas_domain: "هذا هو المجال المحدد في \"عنوان URL لـ Canvas\""
-        canvas_name: "هذا هو المسار المحدد في \"صفحة Canvas\""
+        canvas_domain: "هذا هو المجال المحدد في \"عنوان URL لـ Jiaoxuebang\""
+        canvas_name: "هذا هو المسار المحدد في \"صفحة Jiaoxuebang\""
         disable_ssl: "استخدام الاختبارات المحلية"
       labels: 
         api_key: "مفتاح واجهة برمجة التطبيقات (API)"
         app_id: "معرف التطبيق"
-        canvas_domain: "مجال Canvas"
-        canvas_name: "اسم Canvas"
+        canvas_domain: "مجال Jiaoxuebang"
+        canvas_name: "اسم Jiaoxuebang"
         disable_ssl: "تعطيل SSL"
         secret: "كلمة سر التطبيق"
     google_docs: 
@@ -7942,10 +7942,10 @@ ar:
       canvas_revision_unknown: "غير معروف"
       configure_plugin: التكوين
       description: الوصف
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Jiaoxuebang"
       name: الاسم
-      no_plugins: "لا توجد مكونات إضافية لـ Canvas مثبتة"
-      page_title: "المكونات الإضافية لـ Canvas"
+      no_plugins: "لا توجد مكونات إضافية لـ Jiaoxuebang مثبتة"
+      page_title: "المكونات الإضافية لـ Jiaoxuebang"
       tag: "وضع علامة"
       version: الإصدار
       website: "موقع ويب"
@@ -7958,7 +7958,7 @@ ar:
           سيلزم وجود حساب إما على [Kaltura.com](%{kaltura_url})
           أو باستخدام مثيل تمت استضافته ذاتيًا خاص بـ Kaltura.
           
-          **Note:** بمجرد تكوين Kaltura من 	Canvas،          سيلزمك الانتقال إلى وحدة التحكم بالإدارة لـ Kaltura وفي "إعدادات -> إعدادات التكامل"، قم بتمكين إعلامات الخادم من خلال 
+          **Note:** بمجرد تكوين Kaltura من 	Jiaoxuebang،          سيلزمك الانتقال إلى وحدة التحكم بالإدارة لـ Kaltura وفي "إعدادات -> إعدادات التكامل"، قم بتمكين إعلامات الخادم من خلال 
           عنوان URL للإعلام الخاص بـ: 
           
           %{notification_url}
@@ -8189,8 +8189,8 @@ ar:
     please_select_a_year: "الرجاء تحديد سنة"
     please_select_an_option: "الرجاء تحديد خيار"
     profile: 
-      access_token_description: "يمكن استخدام رموز الوصول للسماح للتطبيقات الأخرى بإجراء مكالمات API نيابة عنك. ويمكنك كذلك إنشاء رموز الوصول و*استخدام API المفتوحة لـ Canvas* لمسايرة عمليات التكامل الخاصة بك."
-      approved_integrations: "وهي تطبيقات من جهات أخرى قمت أنت بتخويلها للوصول إلى موقع Canvas نيابة عنك:"
+      access_token_description: "يمكن استخدام رموز الوصول للسماح للتطبيقات الأخرى بإجراء مكالمات API نيابة عنك. ويمكنك كذلك إنشاء رموز الوصول و*استخدام API المفتوحة لـ Jiaoxuebang* لمسايرة عمليات التكامل الخاصة بك."
+      approved_integrations: "وهي تطبيقات من جهات أخرى قمت أنت بتخويلها للوصول إلى موقع Jiaoxuebang نيابة عنك:"
       buttons: 
         add_picture_file: "إضافة ملف"
         authorize_google_docs: "تخويل الوصول إلى Google Docs"
@@ -8205,16 +8205,16 @@ ar:
         select_image: "تحديد صورة"
         update_settings: "تحديث الإعدادات"
       confirm_email_instructions: "حتى تتمكن من تحرير ملف تعريفك، تحتاج إلى التحقق من عنوان بريدك الإلكتروني (%{email}) بالنقر فوق الارتباط الذي في البريد الإلكتروني الذي أرسلناه إليك."
-      delicious_description: "تعد Delicious أداة تتيح لك تخزين إشاراتك المرجعية ومشاركتها مع الآخرين. وسيتيح لك محرر محتوى Canvas الثري بالخيارات البحث في علامات Delicious لسهولة إجراء ارتباط من داخل Canvas إلى الموارد الأخرى التي تراها مفيدة."
-      diigo_description: "تعد Diigo أداة لوضع إشارات مرجعية اجتماعية تم تصميمها خصيصًا للأبحاث والتعليم. وسيتيح لك محرر محتوى Canvas الثري بالخيارات البحث في علامات Diigo لسهولة إجراء ارتباط من داخل Canvas إلى الموارد الأخرى التي تراها مفيدة."
+      delicious_description: "تعد Delicious أداة تتيح لك تخزين إشاراتك المرجعية ومشاركتها مع الآخرين. وسيتيح لك محرر محتوى Jiaoxuebang الثري بالخيارات البحث في علامات Delicious لسهولة إجراء ارتباط من داخل Jiaoxuebang إلى الموارد الأخرى التي تراها مفيدة."
+      diigo_description: "تعد Diigo أداة لوضع إشارات مرجعية اجتماعية تم تصميمها خصيصًا للأبحاث والتعليم. وسيتيح لك محرر محتوى Jiaoxuebang الثري بالخيارات البحث في علامات Diigo لسهولة إجراء ارتباط من داخل Jiaoxuebang إلى الموارد الأخرى التي تراها مفيدة."
       error_loading_token_details: "خطأ أثناء تحميل تفاصيل الرمز المميز"
-      facebook_description: "إذا كان لديك حساب Facebook، فيمكنك تثبيت تطبيق Canvas وتلقي إعلامات المساق على ملف التعريف الخاص بك. ويمكنك تحديد أنواع الإعلامات التي تريدها وعدد مرات إرسالها كما ترغب."
+      facebook_description: "إذا كان لديك حساب Facebook، فيمكنك تثبيت تطبيق Jiaoxuebang وتلقي إعلامات المساق على ملف التعريف الخاص بك. ويمكنك تحديد أنواع الإعلامات التي تريدها وعدد مرات إرسالها كما ترغب."
       full_token_warning: |-
           **انسخ هذا الرمز المميز الآن"". وبمجرد أن تترك هذه الصفحة، لن تستطيع
           استرداد الرمز المميز الكامل بعد ذلك، وسيلزم إعادة إنشائه للحصول على قيمة
           جديدة.
       generate_access_token_description: |-
-          إن رموز الوصول هي ما يسمح لتطبيقات الجهات الأخرى بالوصول إلى موارد Canvas
+          إن رموز الوصول هي ما يسمح لتطبيقات الجهات الأخرى بالوصول إلى موارد Jiaoxuebang
           نيابة عنك. ويتم إنشاء هذه الرموز بشكل طبيعي تلقائيًا          للتطبيقات بحسب الحاجة، ولكن إذا كنت تقوم بتطوير مشروع
           جديد أو محدد(%{documentation_url}) فما عليك سوى إنشاء الرمز المميز من هنا.
       google_docs_description: "وبمجرد تخويلك لرؤية Google Docs، ستستطيع إرسال مهامك مباشرة من Google Docs، وإنشاء مستنداتك ومشاركتها مع أفراد من فصلك."
@@ -8293,7 +8293,7 @@ ar:
         view_facebook_app: "عرض تطبيق Facebook"
         view_your_profile: "عرض ملف تعريفك"
       loading_token_details: "جارٍ تحميل تفاصيل الرمز المميز..."
-      no_approved_integrations: "يمكن لتطبيقات من جهات خارجية طلب الإذن للوصول إلى موقع Canvas نيابة عنك. وعندما تبدأ في تخويل التطبيقات، فإنك ستراها مسرودة هنا."
+      no_approved_integrations: "يمكن لتطبيقات من جهات خارجية طلب الإذن للوصول إلى موقع Jiaoxuebang نيابة عنك. وعندما تبدأ في تخويل التطبيقات، فإنك ستراها مسرودة هنا."
       no_language_preference: "النظام الافتراضي (%{language})"
       no_registered_services: "لا توجد خدمات مسجلة"
       none: بلا
@@ -8321,7 +8321,7 @@ ar:
           يمكنك كذلك التسجيل للحصول على إعلامات تم إرسالها إلى حساب Twitter الخاص بك.
           سيتم إرسال هذه الإعلامات كرسائل مباشرة إليك من          نفسك، ولكنها لن تظهر في التدفق العام.
       unknown_service: "غير معروف"
-      web_services: "يستطيع Canvas أن يجعل حياتك أسهل حيث يتم إدخاله أدوات الويب التي تستخدمها بالفعل. انقر فوق أي من الخدمات الموجودة في \"الخدمات الأخرى\" لرؤية ما نعنيه."
+      web_services: "يستطيع Jiaoxuebang أن يجعل حياتك أسهل حيث يتم إدخاله أدوات الويب التي تستخدمها بالفعل. انقر فوق أي من الخدمات الموجودة في \"الخدمات الأخرى\" لرؤية ما نعنيه."
     resending: "تجري إعادة الإرسال..."
     secondary_nav: 
       links: 
@@ -8369,7 +8369,7 @@ ar:
         carrier: الحامل
         cell_number: "رقم الهاتف الخلوي"
         email_address: "عنوان البريد الإلكتروني"
-        enable_login_for_email: "أريد تسجيل الدخول إلى Canvas باستخدام عنوان البريد الإلكتروني هذا"
+        enable_login_for_email: "أريد تسجيل الدخول إلى Jiaoxuebang باستخدام عنوان البريد الإلكتروني هذا"
         sms_email: "بريد إلكتروني كرسالة SMS"
       links: 
         add_contact_method: "أسلوب إضافة جهة اتصال"
@@ -8416,13 +8416,13 @@ ar:
       invalid_otp: "كود تحقق غير صالح، الرجاء إعادة المحاولة"
       login_error: "حدثت مشكلة أثناء تسجيل الدخول إلى %{institution}"
       login_errors: 
-        no_config_for_id: "ليس لدى حساب Canvas تهيئة مصادقة مع هذا المعرف"
+        no_config_for_id: "ليس لدى حساب Jiaoxuebang تهيئة مصادقة مع هذا المعرف"
         no_idp_set: "لم يتم تهيئة المؤسسة التي تم تسجيل الدخول منها على هذا الحساب."
-        unrecognized_idp: "لم يتعرف Canvas على موفر الهوية"
+        unrecognized_idp: "لم يتعرف Jiaoxuebang على موفر الهوية"
       logout_errors: 
-        no_idp_found: "لم يتمكن Canvas من تسجيل خروجك من موفر الهوية\n"
+        no_idp_found: "لم يتمكن Jiaoxuebang من تسجيل خروجك من موفر الهوية\n"
       max_attempts: "عدد كبير للغاية من محاولات تسجيل الدخول الفاشلة. الرجاء المحاولة مرة أخرى لاحقًا أو اتصل بمسؤول النظام."
-      no_matching_user: "لا يحتوي Canvas على حساب للمستخدم: %{user}"
+      no_matching_user: "لا يحتوي Jiaoxuebang على حساب للمستخدم: %{user}"
       request_failed: "فشل الطلب. حاول مرة أخرى."
       user_deleted: "لقد تم حذف حساب المستخدم ذاك.  الرجاء الاتصال بمسؤول النظام لإعادة تنشيط حسابك."
     messages: 
@@ -8433,16 +8433,16 @@ ar:
       buttons: 
         request_password: "طلب كلمة المرور"
       dont_know_password: "لا أعرف كلمة مروري"
-      log_in_to_canvas: "تسجيل الدخول إلى Canvas"
+      log_in_to_canvas: "تسجيل الدخول إلى Jiaoxuebang"
       login: "تسجيل الدخول"
       login_handle: "أدخل %{login_handle_name} وسنرسل لك ارتباطًا لتغيير كلمة المرور لديك."
       password: "كلمة المرور"
       sending: "جارٍ الإرسال..."
     new: 
-      details: "قبل أن تستطيع تسجيل الدخول، سيلزم إنهاء عملية التسجيل. ينبغي أن تكون قد تلقيت بريدًا إلكترونيًا مع ارتباط تأكيد يقوم بإرجاعك إلى Canvas. ثم اتبع ذلك الارتباط لإكمال العملية. وتأكد من مراجعة صندوق البريد العشوائي ربما يصل البريد هناك."
+      details: "قبل أن تستطيع تسجيل الدخول، سيلزم إنهاء عملية التسجيل. ينبغي أن تكون قد تلقيت بريدًا إلكترونيًا مع ارتباط تأكيد يقوم بإرجاعك إلى Jiaoxuebang. ثم اتبع ذلك الارتباط لإكمال العملية. وتأكد من مراجعة صندوق البريد العشوائي ربما يصل البريد هناك."
       links: 
         resend_email: "إعادة إرسال البريد الإلكتروني"
-      page_title: "تسجيل الدخول إلى Canvas"
+      page_title: "تسجيل الدخول إلى Jiaoxuebang"
       titles: 
         registration_complete: "عملية التسجيل غير كاملة"
     notices: 
@@ -8462,7 +8462,7 @@ ar:
         send: إرسال
         verify: التحقق
       details: 
-        mfa_enrollment: "إن المصادقة متعددة العوامل تزيد الأمان من خلال مطالبتك بتوفر جهاز في حوزتك، ⏎ بالإضافة إلى معرفة كلمة المرور الخاصة بك، وذلك لتسجيل الدخول إلى Canvas. وهذا قد يكون جهازًا يقوم بإنشاء أكواد التحقق ⏎، أو هاتفًا يمكنه استقبال الرسائل النصية. إن تطبيق Google Authenticator لـ [iPhone](%{iphone_url}) أو ⏎ [Android](%{android_url}) يمكن تكوينه عبر فحص QR Code أدناه. يمكن تكوين الرموز المميزة tokens بواسطة إدخال ⏎ المفتاح السري **%{secret_key}**."
+        mfa_enrollment: "إن المصادقة متعددة العوامل تزيد الأمان من خلال مطالبتك بتوفر جهاز في حوزتك، ⏎ بالإضافة إلى معرفة كلمة المرور الخاصة بك، وذلك لتسجيل الدخول إلى Jiaoxuebang. وهذا قد يكون جهازًا يقوم بإنشاء أكواد التحقق ⏎، أو هاتفًا يمكنه استقبال الرسائل النصية. إن تطبيق Google Authenticator لـ [iPhone](%{iphone_url}) أو ⏎ [Android](%{android_url}) يمكن تكوينه عبر فحص QR Code أدناه. يمكن تكوين الرموز المميزة tokens بواسطة إدخال ⏎ المفتاح السري **%{secret_key}**."
         mfa_required: "مطلوب منك إعداد مصادقة متعددة العوامل."
         otp_on_device: "الرجاء إدخال كود التحقق المعروض بواسطة الرمز المميز token الخاص بك."
         otp_sent_to_phone: "تم إرسال كود تحقق إلى هاتفك. الرجاء إدخاله هنا."
@@ -9740,7 +9740,7 @@ ar:
         email: "البريد الإلكتروني"
         name: الاسم
     too_young_error: "يجب أن يكون عمرك %{min_years} على الأقل لاستخدام Canva بدون كود انضمام للمساق."
-    welcome_to_canvas: "مرحبًا بك في Canvas!"
+    welcome_to_canvas: "مرحبًا بك في Jiaoxuebang!"
   retrieve_timeout: "تعذرت استعادة التكوين، انتهت مهلة استجابة الخادم"
   role_override: 
     permission: 
@@ -10396,7 +10396,7 @@ ar:
       log_in: الدخول
       login_at_account: "تسجيل الدخول إلى %{school_name}"
       login_handle: "أدخل %{login_handle_name} وسنرسل لك ارتباطًا لتغيير كلمة المرور لديك."
-      register_for_canvas: "*هل تحتاج إلى حساب Canvas؟* **انقر هنا، فهو مجاني!**"
+      register_for_canvas: "*هل تحتاج إلى حساب Jiaoxuebang؟* **انقر هنا، فهو مجاني!**"
     menu_assignment: 
       labels: 
         due: "موعد الاستحقاق"
@@ -11347,7 +11347,7 @@ ar:
     cc_prefs: 
       buttons: 
         configure: "تكوين تفضيلات الاتصال"
-      comm_preferences_instructions: "بما أنك الآن مسجَل مع Canvas، لعلك ترغب في تكوين نوعية الإعلامات التي تريد تلقيها أثناء تقدم المساقات الخاصة بك. ويعد Canvas مرنًا بدرجة كافية تسمح لك باختيار أي الأحداث تود أن يتم إعلامك بها وكيف. وأثناء حدوث الأشياء في مساقك، يمكنك اختيار أن تجري مراسلتك عبر البريد الإلكتروني أو مراسلتك نصيًا عبر جهازك الخلوي على الفور، يوميًا أو أسبوعيًا. "
+      comm_preferences_instructions: "بما أنك الآن مسجَل مع Jiaoxuebang، لعلك ترغب في تكوين نوعية الإعلامات التي تريد تلقيها أثناء تقدم المساقات الخاصة بك. ويعد Jiaoxuebang مرنًا بدرجة كافية تسمح لك باختيار أي الأحداث تود أن يتم إعلامك بها وكيف. وأثناء حدوث الأشياء في مساقك، يمكنك اختيار أن تجري مراسلتك عبر البريد الإلكتروني أو مراسلتك نصيًا عبر جهازك الخلوي على الفور، يوميًا أو أسبوعيًا. "
       titles: 
         configure_com_prefs: "تكوين تفضيلات الاتصال"
     confirm_merge: 
@@ -11446,7 +11446,7 @@ ar:
       browser_upgrade: "يجب عليك ترقية المستعرض"
       buttons: 
         upgrade: ترقية
-      upgrade_ie7: "أنت تستخدم Internet Explorer 7. لا يتم دعم هذا المتصفح بشكل كامل في Canvas (والعديد من مواقع الويب الأخرى) ويجب أن تفكر في الترقية. وحتى إجراء الترقية، فإن بعض أجزاء من Canvas لا تعمل بكامل وظيفتها.\n"
+      upgrade_ie7: "أنت تستخدم Internet Explorer 7. لا يتم دعم هذا المتصفح بشكل كامل في Jiaoxuebang (والعديد من مواقع الويب الأخرى) ويجب أن تفكر في الترقية. وحتى إجراء الترقية، فإن بعض أجزاء من Jiaoxuebang لا تعمل بكامل وظيفتها.\n"
     index: 
       all_users: "كافة المستخدمين"
       buttons: 
@@ -11537,7 +11537,7 @@ ar:
         name_and_email: "الاسم والبريد الإلكتروني"
       update_instructions: "يمكنك تحديث بعض من معلومات هذا المستخدم، إلا أنه يمكنه تغييرها مرة أخرى إن شاء."
     new: 
-      create_a_canvas_account: "إنشاء حساب في Canvas "
+      create_a_canvas_account: "إنشاء حساب في Jiaoxuebang "
     no_deleting_sis_user: "لا يمكنك حذف مستخدم تم إنشاؤه بواسطة النظام"
     no_open_registration: "لم يتم تمكين التسجيل المفتوح لهذا الحساب"
     oauth_fail: "فشل طلب OAuth. تعذر العثور على طلب صالح"
@@ -11557,11 +11557,11 @@ ar:
       almost_there: "أنت تقريبًا وصلت..."
       done_resending: "تم! قد تستغرق الرسالة بضع دقائق."
       failed_resending: "فشل الطلب. حاول مرة أخرى."
-      invite_to_read: "نحن ندعوك لمشاهدة هذه النظرة العامة المختصرة حول Canvas. ربما *تقرأ كذلك حول كيف يساعد* Canvas في التقريب بين طلاب يعيشون في 27 دولة متفرقة عبر قاعات محاضرات ومعلمين وأصدقائهم في الدراسة."
+      invite_to_read: "نحن ندعوك لمشاهدة هذه النظرة العامة المختصرة حول Jiaoxuebang. ربما *تقرأ كذلك حول كيف يساعد* Jiaoxuebang في التقريب بين طلاب يعيشون في 27 دولة متفرقة عبر قاعات محاضرات ومعلمين وأصدقائهم في الدراسة."
       links: 
         download_pdf: "تنزيل PDF"
       need_flash: "يلزم تمكين Flash player 8+ وJavaScript لعرض هذا الفيديو."
-      overview_video: "فيديو خاص بنظرة عامة حول Canvas"
+      overview_video: "فيديو خاص بنظرة عامة حول Jiaoxuebang"
       registration_complete: "إكمال التسجيل"
       resending: "جارٍ إعادة الإرسال..."
       sent_email_paragraph: "أرسلنا بريدًا إلكترونيًا إلى %{email_address}. *انقر فوق الارتباط الموجود في البريد الإلكتروني لإنهاء التسجيل*. وإذا كنت لا تراه، **فانقر لإعادة إرسال البريد الإلكتروني**، وتأكد من مراجعة مربع البريد العشوائي كل حين."
@@ -11619,7 +11619,7 @@ ar:
     user_updated: "تم تحديث المستخدم بنجاح."
     welcome: 
       no_courses_message: "ليس لديك أي مساقات، لذا لن تكون هذه الصفحة مثيرة جدًا الآن. بمجرد أن قمت بإنشاء المساقات أو توقيعها، ستبدأ في رؤية المحادثات الواردة من كافة الفصول."
-      welcome_to_happiness: "مرحبًا بك في Canvas!"
+      welcome_to_happiness: "مرحبًا بك في Jiaoxuebang!"
   validate: 
     is_required: "هذا الحقل مطلوب"
   web_conference: 
