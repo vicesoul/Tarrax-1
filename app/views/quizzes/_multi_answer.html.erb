@@ -55,11 +55,12 @@
     <div class="clear"></div>
 </div>
 <% elsif question_type.entry_type == "connecting_lead" %>
+<% matches = hash_get(question, :matches, {}) %>
 <div class="connecting_lead word_left" >
   <% if answer %>
       <% if a = left_answers[multi_answer_counter] %>
         <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_left_id) %>" >
-          <%= (hash_get(a, :left) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+          <%= (hash_get(a, :left) || (hash_get(matches, :left).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
         </span>
       <% end %>
   <% end %>
@@ -77,7 +78,7 @@
   <% if answer %>
       <% if a = right_answers[multi_answer_counter] %>
         <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_right_id) %>" >
-          <%= (hash_get(a, :right) || (hash_get(question, :matches).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+          <%= (hash_get(a, :right) || (hash_get(matches, :right).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
         </span>
       <% end %>
   <% end %>

@@ -22,9 +22,9 @@
     right_answers = (hash_get(question, :matches) || hash_get(question, :answers).sort_by{|a| rand }) if question_type.entry_type == "matching" rescue {}
 
     if question_type.entry_type == "connecting_lead"
-      matches = hash_get(question, :matchers)
+      matches = hash_get(question, :matches)
       left_answers = hash_get(matches, :left) || hash_get(question, :answers).sort_by{|a| rand } rescue {}
-      right_answers = hash_get(question, :right) || hash_get(question, :answers).sort_by{|a| rand }  rescue {}
+      right_answers = hash_get(matches, :right) || hash_get(question, :answers).sort_by{|a| rand }  rescue {}
     end
 
   end
