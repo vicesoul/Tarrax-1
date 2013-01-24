@@ -5,9 +5,9 @@ window['SCRIPT_LOADER_URL'] = 'http://' + kdomain +'/html5/html5lib/v1.5.9/Resou
 // end
 
 KALTURA_LOADER_VERSION = '1.5.9';
-if (typeof console != 'undefined' && console.log) {
+/*if (typeof console != 'undefined' && console.log) {
     console.log('Kaltura HTML5 Version: ' + KALTURA_LOADER_VERSION);
-}
+}*/
 if (!window['mw']) {
     window['mw'] = {};
 }

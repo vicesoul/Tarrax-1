@@ -5,4 +5,7 @@ zh-CN:
       connecting_lead_left: 第一结点
       connecting_lead_center: 第二结点
       connecting_lead_right: 第三结点
+  take_quiz:
+    line:
+      dele_line: 是否删除？
 

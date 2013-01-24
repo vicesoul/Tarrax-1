@@ -8937,7 +8937,7 @@ zh-CN:
         other: "%{count}提交的其他文件"
     statistics_crumb: 统计
     statistics_filename: "%{title} %{type} 报告"
-    take_quiz: 
+    take_quiz:
       buttons: 
         out_of_time_submit: 好的
         submit_answer: 提交答案

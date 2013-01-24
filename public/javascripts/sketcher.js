@@ -1,5 +1,6 @@
 define([
     "modernizr.custom.34982",
+    'underscore',
     'backbone-0.9.9',
     "jquery.ui.touch"
 ], function() {

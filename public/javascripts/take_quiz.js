@@ -32,7 +32,9 @@ define([
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
   'vendor/raphael',
-  'i18n!editor'
+  'i18n!editor',
+  'vendor/underscore',
+  'backbone-0.9.9'
 ], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
 
   var lastAnswerSelected = null;
@@ -545,7 +547,7 @@ define([
             rows = $this.find(".word_left").length,
             $answers = $this.find(".answers"),
             answerHeight = 40 * rows,
-            $toolTip = $("<div><h5>是否删除？</h5></div>")
+            $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
               .addClass("tool-tip")
               .hide()
               .bind("click", function(e){ e.stopPropagation(); })
@@ -645,7 +647,7 @@ define([
             // empty value
             $nodeA.is(".word_left") ? $nodeB.find(".left").val("").trigger("change") : $nodeB.find(".right").val("").trigger("change");
 
-            // both is leftSelected or rightSelected
+            // both is leftSelected or rightSelected,  coz both is already shared the same className
             var className = $leadA.is(".leftSelected") && $leadB.is(".leftSelected") ? "leftSelected" : "rightSelected";
             $leadA.add( $leadB ).removeClass( className );
             $toolTip.hide();
