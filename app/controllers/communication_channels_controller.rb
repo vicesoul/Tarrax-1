@@ -150,7 +150,7 @@ class CommunicationChannelsController < ApplicationController
       @enrollment = @user.enrollments.find_by_uuid_and_workflow_state(params[:enrollment], 'invited') if params[:enrollment].present?
       @course = @enrollment && @enrollment.course
       #@root_account = @course.root_account if @course
-      @root_account = @domain_root_account  # create pseudonym under default domain root account
+      @root_account = LoadAccount.default_domain_root_account  # pseudonyms should all be created under default domain root account
       @root_account ||= @user.pseudonyms.first.try(:account) if @user.pre_registered?
       @root_account ||= @user.enrollments.first.try(:root_account) if @user.creation_pending?
       unless @root_account
