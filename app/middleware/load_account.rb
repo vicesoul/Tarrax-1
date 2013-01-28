@@ -28,7 +28,7 @@ class LoadAccount
   end
 
   def self.default_domain_root_account
-    Rails.cache.fetch('default_domain_root_account', :expires_in => (1.day.from_now.midnight - Time.zone.now).to_i) do
+    Rails.cache.fetch('default_domain_root_account') do
       Account.default
     end
   end
