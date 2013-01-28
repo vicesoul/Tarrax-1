@@ -39,7 +39,9 @@ class SortsAssignments
   def self.vdd_map(assignments, user)
     assignments ||= []
     assignments.map do |assignment|
-      VDDAssignment.new(assignment.id, VariedDueDate.due_at_for?(assignment, user))
+      Rails.cache.fetch( [user, assignment].cache_key ) do
+        VDDAssignment.new(assignment.id, VariedDueDate.due_at_for?(assignment, user))
+      end
     end
   end
 
