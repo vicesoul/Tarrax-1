@@ -671,13 +671,15 @@ class UsersController < ApplicationController
   # @argument pseudonym[sis_user_id] [Optional] [Integer] SIS ID for the user's account. To set this parameter, the caller must be able to manage SIS permissions.
   # @argument pseudonym[send_confirmation] [Optional, 0|1] [Integer] Send user notification of account creation if set to 1.
   #
+  # Addition
+  # @argument user[account_id] [Optional] Special whitch account belongs to. Add by sam
+  #
   # @returns User
   def create
     # Look for an incomplete registration with this pseudonym
     @pseudonym = @context.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # Setting it to nil will cause us to try and create a new one, and give user the login already exists error
     @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
-
     manage_user_logins = @context.grants_right?(@current_user, session, :manage_user_logins)
     self_enrollment = params[:self_enrollment].present?
     allow_non_email_pseudonyms = manage_user_logins || self_enrollment && params[:pseudonym_type] == 'username'
@@ -765,6 +767,12 @@ class UsersController < ApplicationController
         @pseudonym.send(:skip_session_maintenance=, true)
       end
       @user.save!
+
+      if params[:user][:account_id]
+        special_account = Account.find(params[:user][:account_id].to_i)
+        @user.associated_accounts << special_account
+      end
+
       message_sent = false
       if notify == :self_registration
         unless @user.pending_approval? || @user.registered?
@@ -1141,7 +1149,7 @@ class UsersController < ApplicationController
   def require_open_registration
     get_context
     @context = @domain_root_account || Account.default unless @context.is_a?(Account)
-    @context = @context.root_account
+    # @context = @context.root_account
     unless @context.grants_right?(@current_user, session, :manage_user_logins) || @context.open_registration?
       flash[:error] = t('no_open_registration', "Open registration has not been enabled for this account")
       respond_to do |format|
