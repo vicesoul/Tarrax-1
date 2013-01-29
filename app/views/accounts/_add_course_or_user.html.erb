@@ -1,7 +1,8 @@
 <%
   hide_add_course ||= false; hide_add_user ||= false
   show_course = !hide_add_course && can_do(@account, @current_user, :manage_courses)
-  show_user = !hide_add_user && can_do(@account.root_account, @current_user, :manage_user_logins)
+  # show_user = !hide_add_user && can_do(@account.root_account, @current_user, :manage_user_logins)
+  show_user = !hide_add_user && can_do(@account, @current_user, :manage_user_logins)
 %>
 
 <% if show_course || show_user %>
@@ -56,6 +57,10 @@
           <td><%= text_field :pseudonym, :sis_user_id %></td>
         </tr>
       <% end %>
+      <tr>
+        <td><%= f.blabel :account_id, :en => "Department" %></td>
+        <td><%= f.select :account_id, @account.sub_accounts_as_options, :selected => @account.id %></td>
+      </tr>
       <tr>
         <td colspan="2">
           <%= check_box :pseudonym, :send_confirmation, :checked => true %>
