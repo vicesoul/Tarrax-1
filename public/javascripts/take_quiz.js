@@ -540,24 +540,26 @@ define([
       if( $(".question.connecting_lead_question").size() === 0 ) return false;
 
       $("#submit_quiz_form .connecting_lead_question").each(function(){
-            // which line is active
-        var readyLine,
-            deleHandle,
-            $this = $(this),
-            rows = $this.find(".word_left").length,
-            $answers = $this.find(".answers"),
-            answerHeight = 40 * rows,
-            $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
-              .addClass("tool-tip")
-              .hide()
-              .bind("click", function(e){ e.stopPropagation(); })
-              .appendTo( $answers ),
-            $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
-            $toolTipCancel = $( "<button type=button>取消</button>" )
-              .bind("click", function(){resetToolTip();})
-              .appendTo($toolTip),
-            paper = Raphael( $answers[0], $answers.width(), answerHeight );
 
+        var readyLine,             // the line that is active
+          deleHandle,
+          $question = $(this),
+          linesNum = $question.find(".connecting_lead_linesNum").text(),
+          rows = $question.find(".word_left").length,
+          $answers = $question.find(".answers"),
+          answerHeight = 40 * rows,
+          $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
+            .addClass("tool-tip")
+            .hide()
+            .bind("click", function(e){ e.stopPropagation(); })
+            .appendTo( $answers ),
+          $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
+          $toolTipCancel = $( "<button type=button>取消</button>" )
+            .bind("click", function(){resetToolTip();})
+            .appendTo($toolTip),
+          paper = Raphael( $answers[0], $answers.width(), answerHeight );
+
+        if( linesNum == 2 ) $question.addClass("twoLines");
         $answers.css( "height", answerHeight );
 
         $(document).click(function(){ resetToolTip() });
@@ -588,7 +590,8 @@ define([
               $(this).is( ".active" ) ? readyLine = undefined : $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
               $(this).toggleClass( "active" );
             } else{
-              drawLine( $(this) );
+              var active = $question.find( ".active" );
+              drawLine( active, $(this) );
               $(this).closest( ".answers" ).find( ".active").toggleClass( "active" );
               readyLine = undefined;
             }
@@ -597,13 +600,23 @@ define([
 
         });
 
+        // ****** when reload, redraw the lines
+        $(this).find(".word_center").each(function(){
+          var $wordCenter = $(this);
+          $(this).find(".question_input").each(function(){
+            var matchId = $(this).val();
+            if(matchId === "0")return;
+            var $match = $question.find("span[value='" + matchId +"']").parent();
+            drawLine($wordCenter, $match );
+          });
+        });
+
         $(this).bind( "mousedown", function(){
           return false;
         });
 
-        function drawLine( $end ){
-          var $active = $this.find( ".active" ),
-            checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected",
+        function drawLine($active, $end ){
+          var checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected",
             $towNOde = $end.add( $active ).addClass( checkName ),
             normalPosition = $end.position().left > $active.position().left,
             $nodeB = normalPosition ? $end : $active,

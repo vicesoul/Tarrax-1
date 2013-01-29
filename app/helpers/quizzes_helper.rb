@@ -209,4 +209,25 @@ module QuizzesHelper
         :other => "%{count} minutes" },
       :count => duration_minutes)
   end
+
+  def get_answer_left(hash, id)
+    get_answer(hash, "#{id}_left")
+  end
+
+  def get_answer_right(hash, id)
+    get_answer(hash, "#{id}_right")
+  end
+
+  def get_answer(hash, id)
+    hash_get(hash, "answer_#{id}").to_i
+  end
+
+  def get_question_answer_left(hash, qid, aid)
+    hash_get(hash, "question_#{qid}_answer_#{aid}_left").to_i
+  end
+
+  def get_question_answer_right(hash, qid, aid)
+    hash_get(hash, "question_#{qid}_answer_#{aid}_right").to_i
+  end
+
 end

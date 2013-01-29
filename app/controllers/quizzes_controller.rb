@@ -151,7 +151,7 @@ class QuizzesController < ApplicationController
         @just_graded = true
       end
       managed_quiz_data if @quiz.grants_right?(@current_user, session, :grade) || @quiz.grants_right?(@current_user, session, :read_statistics)
-      @stored_params = (@submission.temporary_data rescue nil) if params[:take] && @submission && @submission.untaken?
+      @stored_params = (@submission.temporary_data rescue nil) if params[:take] && @submission && (@submission.untaken? || @submission.preview?)
       @stored_params ||= {}
       log_asset_access(@quiz, "quizzes", "quizzes")
       if params[:take] && can_take_quiz?

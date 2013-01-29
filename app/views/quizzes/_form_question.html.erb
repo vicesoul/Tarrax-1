@@ -98,6 +98,12 @@
       <textarea style="width: 90%; height: 120px;" class="question_content" name="question_text"></textarea>
     </div>
     <b class="answers_header"><%= before_label(:answers, "Answers") %></b>
+    <div class="btn-group changeLines" data-toggle="buttons-radio" style="display: none;">
+      <button type="button" class="btn two btn-primary">两排</button>
+      <button type="button" class="btn three btn-primary">三排</button>
+      <input type="hidden" name="connecting_lead_linesNum" class="connecting_lead_linesNum">
+    </div>
+
     <div style="display: none;">
     <select class="answer_selection_type" name="answer_selection_type">
       <option value="single_answer"><%= t('options.only_one_correct', "Only One Correct Answer") %></option>

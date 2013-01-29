@@ -4,6 +4,9 @@
   user_answer ||= nil
   user_answer_hash ||= {}
   user_answer ||= user_answer_hash[hash_get(question, :id)]
+  assessment_results ||= false
+  show_correct_answers = @quiz && @quiz.display_correct_answers?(@current_user, @submission) || (!assessment_results && !user_answer)
+  show_correct_answers = false if @quiz.try(:survey?)
   assessing ||= false
   assessment_results ||= false
   editable ||= false
@@ -39,6 +42,7 @@
     <% end %>
     <div class="header" <%= hidden(true) if (assessing || assessment_results) && question_type && question_type.entry_type == "none" %>>
       <span class="name question_name"><%= hash_get(question, :question_name) %></span>
+      <span class="connecting_lead_linesNum" style="display: none;"><%= hash_get(question, :connecting_lead_linesNum) %></span>
       <span class="question_points_holder" style="<%= hidden if question_type && question_type.entry_type == "none" %>">
       <% if user_answer %>
         <div class="user_points" <%= hidden(true) if (assessing || assessment_results) && question_type && question_type.entry_type == "none" %>>
@@ -298,9 +302,20 @@
             <% if question && (user_answer || assessment_results || !@quiz || display_correct_answers || (!assessment_results && !user_answer)) %>
               <% show_headers = @quiz && display_correct_answers && user_answer && question_type.display_answers == "single" && hash_get(question, :question_type) != "essay_question" %>
               <% if editing || show_headers || !question_type.entry_type.match(/text_box/) %>
+                <% if hash_get(question, :question_type) == 'connecting_lead_question' && !editing %>
+                <h5 class="answer-title">你的答案：</h5>
+                <% end %>
                 <div class="answers_wrapper">
+
                   <%= render :partial => "quizzes/display_answer", :collection => hash_get(question, :answers), :locals => {:assessment_results => assessment_results, :question_type => question_type, :user_answer => user_answer, :question => question} %>
                 </div>
+                <% if hash_get(question, :question_type) == 'connecting_lead_question' && show_correct_answers && !editing %>
+                  <h5 class="answer-title">正确答案：</h5>
+                  <div class="answers_wrapper_correct">
+
+                    <%= render :partial => "quizzes/display_answer", :collection => hash_get(question, :answers), :locals => {:assessment_results => assessment_results, :question_type => question_type, :user_answer => user_answer, :question => question} %>
+                  </div>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>

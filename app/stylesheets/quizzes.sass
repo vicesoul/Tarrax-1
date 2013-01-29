@@ -82,7 +82,9 @@ div#content
         margin: 0 3px 0 0
         padding: 0
 
-  
+.twoLines
+  .word_right, .connecting_lead_right, .answer_match_right
+    display: none
 
 
 #submit_quiz_form, .question_form
@@ -299,6 +301,12 @@ div#content
       :display none
     .answer_comment,.question_comment_text
       white-space: pre-wrap
+  .connecting_lead_question.question
+    .btn-group
+      display: block!important
+  .twoLines.question
+    .answer_match_right
+      display: none
 
 
 .incorrect
@@ -320,6 +328,15 @@ div#content
         left:  0
         top:  3px
 
+.question.connecting_lead_question
+  .answers
+    .answer
+      margin: 0!important
+      padding: 0!important
+      .answer_match
+        padding: 0
+    svg
+      position: absolute!important
 
 
 .question
@@ -1196,6 +1213,8 @@ ul#quiz_versions
   margin: 8px 0
 
 .answers_wrapper
+  position: relative
+.answers_wrapper_correct
   position: relative
 
 .question, .answer

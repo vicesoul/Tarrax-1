@@ -25,7 +25,8 @@ define([
   'jqueryui/dialog',
   'jquery.instructure_misc_helpers' /* scrollSidebar */,
   'jquery.instructure_misc_plugins' /* ifExists, confirmDelete */,
-  'message_students' /* messageStudents */
+  'message_students', /* messageStudents */
+  'vendor/raphael'
 ], function(I18n, $, showAnswerArrows, inputMethods) {
 
 $(document).ready(function () {
@@ -121,6 +122,89 @@ $(document).ready(function () {
       }
     }).find('.datetime_field').datetime_field();
   });
+
+  (function connectingLeadQuestionShow(){
+    if( $(".question.connecting_lead_question").size() === 0 ) return false;
+
+    $(".question.connecting_lead_question").each(function(){
+
+      var $question = $(this),
+        linesNum = $question.find(".connecting_lead_linesNum").text(),
+        $answers_wrapper = $question.find(".answers_wrapper"),
+        rows = $answers_wrapper.find(".connecting_lead_left").length,
+        $answers = $question.find(".answers"),
+
+        answerHeight = 40 * rows,
+        paper = Raphael( $answers_wrapper[0], $answers_wrapper.width(), answerHeight );
+
+      $answers_wrapper.css( "height", answerHeight );
+      if( linesNum == 2 ) $question.addClass("twoLines");
+
+      $answers_wrapper.add(".answers_wrapper_correct").each(function(){
+        $(this).find(".connecting_lead_answer > div").each( function( i ){
+
+          $(this).css({
+            position: "absolute",
+            left: ( $answers.width()/3 ) * (i%3),
+            top: 40 * Math.floor(i/3)
+          });
+
+
+        });
+      });
+
+
+      $answers_wrapper.find(".connecting_lead_center").each(function(){
+        var $wordCenter = $(this);
+
+        $(this).find(".question_input").each(function(){
+          var matchId = $(this).val(),
+           real_answer_Str = $(this).is(".left") ? ".real_answer.left" : ".real_answer.right",
+           correctMatchId = $(this).parent().find( real_answer_Str ).val(),
+           $match = $answers_wrapper.find("span[value='" + matchId +"']").parent(),
+           colorStr = matchId === correctMatchId ? "green" : "red";
+          if(matchId === "0" )return;
+          drawLine(paper, $wordCenter, $match, colorStr );
+        });
+
+      });
+
+      // ********   correct answer
+      var $correctAnswer = $(this).find(".answers_wrapper_correct");
+      $correctAnswer.css( "height", answerHeight );
+      $correctAnswer.find("svg").remove();
+      var newPaper = Raphael( $correctAnswer[0], $answers.width(), answerHeight );
+      $correctAnswer.find(".connecting_lead_center").each(function(){
+        var $wordCenter = $(this);
+        $(this).find(".real_answer").each(function(){
+          if( linesNum === "2" && $(this).is(".right") )return;
+          var matchId = $(this).val();
+          if(matchId === "0")return;
+          var $match = $correctAnswer.find("span[value='" + matchId +"']").parent();
+          drawLine(newPaper, $wordCenter, $match, "green" );
+        });
+      });
+
+      function drawLine(svg, $active, $end, color ){
+        var normalPosition = $end.position().left > $active.position().left,
+          $nodeB = normalPosition ? $end : $active,
+          $nodeA = !normalPosition ? $end : $active,
+          x2 = $nodeB.position().left - 10,
+          y2 = $nodeB.position().top + $nodeB.height()/2,
+          x1 = $nodeA.position().left + $nodeA.width() + 10,
+          y1 = $nodeA.position().top + $nodeA.height()/2,
+          line = svg.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+        color = color === undefined ? "#08c" : color;
+        line
+          .attr({
+            "stroke": color,
+            "stroke-width": 5
+          });
+      }
+
+    });
+  })();
 
 });
 

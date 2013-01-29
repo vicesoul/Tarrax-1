@@ -317,6 +317,7 @@ class AssessmentQuestion < ActiveRecord::Base
         question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_lead_left], 'answer match', min_size)}
         question[:matches][:right] ||= []
         question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
+        question[:connecting_lead_linesNum] = qdata[:connecting_lead_linesNum]
       end
 
       #(qdata[:matching_answer_incorrect_matches][0] || "").split("\n").each do |other|

@@ -952,7 +952,7 @@ define([
     $list.each(function(i) {
       var $question = $(this);
       var questionData = $question.getTemplateData({
-        textValues: ['question_name', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
+        textValues: ['question_name','connecting_lead_linesNum', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
         htmlValues: ['question_text', 'text_before_answers', 'text_after_answers', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html']
       });
       questionData = $.extend(questionData, $question.find(".original_question_text").getFormData());
@@ -1036,6 +1036,7 @@ define([
     return data;
   }
 
+  //
   function generateFormQuiz(quiz) {
     var data = {};
     var quizAssignmentId = quizAssignmentId || null;
@@ -1047,6 +1048,7 @@ define([
       var question = quiz.questions[idx];
       var id = "questions[question_" + idx + "]";
       data[id + '[question_name]'] = question.question_name;
+      data[id + '[connecting_lead_linesNum]'] = question.connecting_lead_linesNum;
       data[id + '[assessment_question_id]'] = question.assessment_question_id;
       data[id + '[question_type]'] = question.question_type;
       data[id + '[points_possible]'] = question.question_points;
@@ -1464,7 +1466,7 @@ define([
       event.preventDefault();
       var $question = $(this).parents(".question");
       var question = $question.getTemplateData({
-        textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'question_points', 'answer_selection_type', 'blank_id'],
+        textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'connecting_lead_linesNum','question_points', 'answer_selection_type', 'blank_id'],
         htmlValues: ['question_text', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html']
       });
       question.question_text = $question.find("textarea[name='question_text']").val();
@@ -2152,7 +2154,7 @@ define([
       var $question = $(this).find(".question");
       var answers = [];
       var questionData = $question.getFormData({
-        values: ['question_type', 'question_name', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
+        values: ['question_type', 'question_name', 'connecting_lead_linesNum', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
           'question_text', 'answer_selection_type', 'text_after_answers', 'matching_answer_incorrect_matches']
       });
 
@@ -2672,6 +2674,21 @@ define([
 
     $("#equations_dialog_tabs").tabs();
 
+    $(".question.connecting_lead_question").each(function(){
+      var linesNum = $(this).find(".connecting_lead_linesNum").text();
+      if(linesNum == 2) $(this).parent(".question_holder").addClass("twoLines");
+
+    });
+
+    $(document).delegate('.changeLines button.two', 'click', function(){
+      $(this).closest(".question_holder ").addClass("twoLines");
+      $(this).closest(".question_holder ").find(".connecting_lead_linesNum").val("2");
+    });
+    $(document).delegate('.changeLines button.three', 'click', function(){
+      $(this).closest(".question_holder ").find(".answer_match_right input[type='text']").val("");
+      $(this).closest(".question_holder ").removeClass("twoLines");
+      $(this).closest(".question_holder ").find(".connecting_lead_linesNum").val("3");
+    });
 
 
   });
@@ -3043,6 +3060,90 @@ define([
     toggler.toggle();
   });
 
+  !function ($) {
 
+    "use strict"; // jshint ;_;
+
+
+    /* BUTTON PUBLIC CLASS DEFINITION
+     * ============================== */
+
+    var Button = function (element, options) {
+      this.$element = $(element)
+      this.options = $.extend({}, $.fn.button.defaults, options)
+    }
+
+    Button.prototype.setState = function (state) {
+      var d = 'disabled'
+        , $el = this.$element
+        , data = $el.data()
+        , val = $el.is('input') ? 'val' : 'html'
+
+      state = state + 'Text'
+      data.resetText || $el.data('resetText', $el[val]())
+
+      $el[val](data[state] || this.options[state])
+
+      // push to event loop to allow forms to submit
+      setTimeout(function () {
+        state == 'loadingText' ?
+          $el.addClass(d).attr(d, d) :
+          $el.removeClass(d).removeAttr(d)
+      }, 0)
+    }
+
+    Button.prototype.toggle = function () {
+      var $parent = this.$element.closest('[data-toggle="buttons-radio"]')
+
+      $parent && $parent
+        .find('.active')
+        .removeClass('active')
+
+      this.$element.toggleClass('active')
+    }
+
+
+    /* BUTTON PLUGIN DEFINITION
+     * ======================== */
+
+    var old = $.fn.button
+
+    $.fn.button = function (option) {
+      return this.each(function () {
+        var $this = $(this)
+          , data = $this.data('button')
+          , options = typeof option == 'object' && option
+        if (!data) $this.data('button', (data = new Button(this, options)))
+        if (option == 'toggle') data.toggle()
+        else if (option) data.setState(option)
+      })
+    }
+
+    $.fn.button.defaults = {
+      loadingText: 'loading...'
+    }
+
+    $.fn.button.Constructor = Button
+
+
+    /* BUTTON NO CONFLICT
+     * ================== */
+
+    $.fn.button.noConflict = function () {
+      $.fn.button = old
+      return this
+    }
+
+
+    /* BUTTON DATA-API
+     * =============== */
+
+    $(document).on('click.button.data-api', '[data-toggle^=button]', function (e) {
+      var $btn = $(e.target)
+      if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
+      $btn.button('toggle')
+    })
+
+  }(window.jQuery);
 
 });
