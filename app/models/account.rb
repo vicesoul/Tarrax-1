@@ -87,6 +87,8 @@ class Account < ActiveRecord::Base
   has_many :user_account_associations
   has_many :report_snapshots
 
+  has_one  :homepage, :class_name => 'Jxb::Page', :dependent => :destroy
+
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
   before_save :set_update_account_associations_if_changed
@@ -321,6 +323,24 @@ class Account < ActiveRecord::Base
     res
   end
   
+  def sub_accounts_as_tree_with_user_emails(preloaded_accounts = nil)
+    unless preloaded_accounts
+      preloaded_accounts = {}
+      self.root_account.all_accounts.active.each do |account|
+        (preloaded_accounts[account.parent_account_id] ||= []) << account
+      end
+    end
+    user_emails = self.all_users.map{|u| u.email}
+    title = "<a href='javascript:void(0)' class='node-title' id='account_#{self.id}'><ins>&nbsp;</ins>#{self.name}(#{user_emails.size})</a>".html_safe
+    res = [{ :label => title, :id => self.id, :children => [] }]
+    if preloaded_accounts[self.id]
+      preloaded_accounts[self.id].each do |account|
+        res[0][:children] += account.sub_accounts_as_tree_with_user_emails(preloaded_accounts)
+      end
+    end
+    res
+  end
+
   def users_name_like(query="")
     @cached_users_name_like ||= {}
     @cached_users_name_like[query] ||= self.fast_all_users.name_like(query)
@@ -912,6 +932,7 @@ class Account < ActiveRecord::Base
   TAB_SIS_IMPORT = 11
   TAB_GRADING_STANDARDS = 12
   TAB_QUESTION_BANKS = 13
+  TAB_HOMEPAGE = 17
   # site admin tabs
   TAB_PLUGINS = 14
   TAB_JOBS = 15
@@ -943,7 +964,8 @@ class Account < ActiveRecord::Base
       tabs << { :id => TAB_DEVELOPER_KEYS, :label => t("#account.tab_developer_keys", "Developer Keys"), :css_class => "developer_keys", :href => :developer_keys_path, :no_args => true } if self.grants_right?(user, nil, :manage_developer_keys)
     else
       tabs = []
-      tabs << { :id => TAB_COURSES, :label => t('#account.tab_courses', "Courses"), :css_class => 'courses', :href => :account_path } if user && self.grants_right?(user, nil, :read_course_list)
+      tabs << { :id => TAB_HOMEPAGE, :label => t('#account.tab_homepage', "Homepage"), :css_class => 'homepage', :href => :account_homepage_path } if user && self.grants_right?(user, nil, :read_homepage_list)
+      tabs << { :id => TAB_COURSES, :label => t('#account.tab_courses', "Courses"), :css_class => 'courses', :href => :account_path } if user && self.grants_right?(user, nil, :manage_homepage)
       tabs << { :id => TAB_USERS, :label => t('#account.tab_users', "Users"), :css_class => 'users', :href => :account_users_path } if user && self.grants_right?(user, nil, :read_roster)
       tabs << { :id => TAB_STATISTICS, :label => t('#account.tab_statistics', "Statistics"), :css_class => 'statistics', :href => :statistics_account_path } if user && self.grants_right?(user, nil, :view_statistics)
       tabs << { :id => TAB_PERMISSIONS, :label => t('#account.tab_permissions', "Permissions"), :css_class => 'permissions', :href => :account_permissions_path } if user && self.grants_right?(user, nil, :manage_role_overrides)
@@ -1205,5 +1227,14 @@ class Account < ActiveRecord::Base
     migration.progress=100
     migration.workflow_state = :imported
     migration.save
+  end
+
+  def self.all_users_with_ids(ids = [])
+    return [] if ids.blank?
+    User.find(:all,
+              :conditions => [ "user_account_associations.account_id IN (?)", ids ],
+              :include => [:associated_accounts],
+              :select => "DISTINCT id"
+             )
   end
 end
