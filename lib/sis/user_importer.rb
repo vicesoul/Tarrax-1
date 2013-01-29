@@ -60,14 +60,14 @@ module SIS
         @users_to_update_account_associations = []
       end
 
-      def add_user(user_id, login_id, status, first_name, last_name, email=nil, password=nil, ssha_password=nil)
-        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password].inspect}")
+      def add_user(user_id, login_id, status, first_name, last_name, email=nil, password=nil, ssha_password=nil, account=nil, enrollment_type=nil)
+        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password,account,enrollment_type].inspect}")
 
         raise ImportError, "No user_id given for a user" if user_id.blank?
         raise ImportError, "No login_id given for user #{user_id}" if login_id.blank?
         raise ImportError, "Improper status for user #{user_id}" unless status =~ /\A(active|deleted)/i
 
-        @batched_users << [user_id, login_id, status, first_name, last_name, email, password, ssha_password]
+        @batched_users << [user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type]
         process_batch if @batched_users.size >= @updates_every
       end
 
@@ -84,7 +84,7 @@ module SIS
           while !@batched_users.empty? && tx_end_time > Time.now
             user_row = @batched_users.shift
             @logger.debug("Processing User #{user_row.inspect}")
-            user_id, login_id, status, first_name, last_name, email, password, ssha_password = user_row
+            user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type = user_row
 
             pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id)
             pseudo_by_login = @root_account.pseudonyms.active.by_unique_id(login_id).first
@@ -115,7 +115,7 @@ module SIS
             # we just leave all users registered now
             # since we've deleted users though, we need to do this to be
             # backwards compatible with the data
-            user.workflow_state = 'registered'
+            user.workflow_state = 'pre_registered'
 
             should_add_account_associations = false
             should_update_account_associations = false
@@ -173,6 +173,26 @@ module SIS
             rescue => e
               @messages << "Failed saving user. Internal error: #{e}"
               next
+            end
+
+            if account
+              begin
+                associate_account = user.associated_accounts.find_by_name(account)
+                unless associate_account
+                  associate_account = Account.find_by_name(account)
+                  user.associated_accounts << associate_account
+                end
+
+                UserAccountAssociation.find(:first, :conditions => {
+                  :user_id => user.id,
+                  :account_id => associate_account.id
+                }).update_attributes({
+                  :enrollment_type => enrollment_type
+                }) if enrollment_type
+
+              rescue => e
+                @messages << "Failed associating account #{account}, skipping."
+              end
             end
 
             @users_to_add_account_associations << user.id if should_add_account_associations
