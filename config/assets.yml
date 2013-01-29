@@ -170,4 +170,6 @@ stylesheets:
     - public/stylesheets/static/bootstrap.css
   messages:
     - public/stylesheets/compiled/messages.css
+  account_homepage:
+    - public/stylesheets/compiled/account_homepage.css
   <%= plugin_assets.anchors_yml %>
