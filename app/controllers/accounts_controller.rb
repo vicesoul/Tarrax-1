@@ -18,7 +18,7 @@
 
 # @API Accounts
 class AccountsController < ApplicationController
-  before_filter :require_user, :only => [:index]
+  before_filter :require_user, :only => [:index, :homepage]
   before_filter :reject_student_view_student
   before_filter :get_context
 
@@ -439,6 +439,29 @@ class AccountsController < ApplicationController
       respond_to do |format|
         format.json {render :json => {:student_report_id=>student_report.id, :success=>true}.to_json}
       end
+    end
+  end
+
+  def pickup
+    respond_to do |format|
+      format.json {render :json => @context.sub_accounts_as_tree_with_user_emails }
+    end
+  end
+
+  def select_users
+    respond_to do |format|
+      format.json {
+        render :json => Account.all_users_with_ids( params[:ids].split('-').map{|id| id.to_i} ).map { |user| 
+          { :name => user.name, :email => user.email }
+        }
+      }
+    end
+  end
+
+  def homepage
+    if @account.grants_right?(@current_user, nil, :manage_homepage)
+      @homepage = @account.homepage || @account.create_homepage(:name => 'homepage')
+      prepend_view_path Jxb::Theme.path(@homepage.theme)
     end
   end
 
