@@ -26,8 +26,8 @@ class User < ActiveRecord::Base
   include Context
   include UserFollow::FollowedItem
 
-  attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type
-  attr_accessor :original_id, :menu_data
+  attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type, :account_id
+  attr_accessor :original_id, :menu_data, :account_id
 
   before_save :infer_defaults
   serialize :preferences
@@ -464,8 +464,14 @@ class User < ActiveRecord::Base
           end
         end
       end
-
-      to_delete += current_associations.map { |k, v| v[0] }
+      
+      # - Notice:
+      # Because we have some users can not calculate form user#calculate_account_associations,
+      # those users are not included in enrollments, pseudonyms or account users.
+      # So i commit below line, it may be change in the further.
+      # - by sam
+      #
+      # to_delete += current_associations.map { |k, v| v[0] }
       UserAccountAssociation.delete_all(:id => to_delete) unless incremental || to_delete.empty?
     end
   end
