@@ -17,6 +17,8 @@
 #
 
 module AccountsHelper
+  include Jxb::Widget::Helper
+
   def show_last_batch
     @last_batch && !(@current_batch && @current_batch.importing?)
   end
@@ -36,4 +38,5 @@ module AccountsHelper
     show_code = course.course_code != course.name
     "#{course.course_code if show_code}#{', ' if show_term && show_code}#{course.enrollment_term.name if show_term}"
   end
+
 end
