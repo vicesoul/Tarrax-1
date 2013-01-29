@@ -18,7 +18,8 @@
 
 class QuizQuestion::ConnectingLeadQuestion < QuizQuestion::Base
   def total_answer_parts
-    @question_data[:answers].length
+    length = @question_data[:answers].length
+    @question_data[:connecting_lead_linesNum] == '2' ? length : length * 2
   end
 
   def correct_answer_parts(user_answer)
