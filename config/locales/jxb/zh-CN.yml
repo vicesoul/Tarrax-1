@@ -70,6 +70,8 @@ zh-CN:
       period: 期间
     recent_event:
       due: 到期日
+    settings:
+      pick_up_from_accounts: 从组织架构中挑选
   jxb:
     gradebook: 成绩册
     question_banks: 题库
