@@ -1,5 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.select_users 'accounts/select/users/ids', :controller => 'accounts', :action => 'select_users'
+
   map.resources :submission_comments, :only => :destroy
 
   map.mark_inbox_as_read 'inbox', :controller => 'context', :action => 'mark_inbox_as_read', :conditions => {:method => :delete}
@@ -418,6 +420,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
     account.settings 'settings', :controller => 'accounts', :action => 'settings'
     account.add_account_user 'account_users', :controller => 'accounts', :action => 'add_account_user', :conditions => {:method => :post}
     account.remove_account_user 'account_users/:id', :controller => 'accounts', :action => 'remove_account_user', :conditions => {:method => :delete}
@@ -439,6 +442,8 @@ ActionController::Routing::Routes.draw do |map|
     account.confirm_delete_user 'users/:user_id/delete', :controller => 'accounts', :action => 'confirm_delete_user'
     account.delete_user 'users/:user_id', :controller => 'accounts', :action => 'remove_user', :conditions => {:method => :delete}
     account.resources :users
+    account.resources :pages, :controller => 'jxb/pages'
+    account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)
     account.resources :assignments
