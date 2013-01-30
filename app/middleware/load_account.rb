@@ -27,7 +27,11 @@ class LoadAccount
     Subdomain.find_by_subdomain(subdomain).try(:account)
   end
 
-  def self.default_domain_root_account; Account.default; end
+  def self.default_domain_root_account
+    Rails.cache.fetch('default_domain_root_account') do
+      Account.default
+    end
+  end
 
   protected
 

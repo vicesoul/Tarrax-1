@@ -69,13 +69,13 @@ zh-CN:
       canvas_login_tip: |-
           如果您配置的设置导致您无法登录，可以在登录 URL 末尾添加
           *%{url1}*。这会让您
-          使用一般的 Canvas 登录步骤进行登录。对于此帐户，URL 为 %{url2}
+          使用一般的 教学邦 登录步骤进行登录。对于此帐户，URL 为 %{url2}
       choose_auth_type_option: 选择一个身份认证服务
       current_settings_title: 当前集成
       delete_auth_confirmation: 是否确定?如果删除，用户可能无法登录。
       delete_auth_link: 删除身份验证
       edit_auth_link: 编辑详细信息
-      ip_address_list_description: "如果使用的身份验证服务要求 Canvas 服务器与您的服务器直接连接，例如 LDAP，则需确保您的服务器可以接受来自以下 IP 地址的连接:"
+      ip_address_list_description: "如果使用的身份验证服务要求 教学邦 服务器与您的服务器直接连接，例如 LDAP，则需确保您的服务器可以接受来自以下 IP 地址的连接:"
       no_auth_type_description: 此帐户目前未与身份提供商集成。
       page_title: 身份验证设置
       profile_page_link_example: "例如，下面是您的配置文件页面: [%{friendlyname}](%{url})"
@@ -86,7 +86,7 @@ zh-CN:
     ldap_settings: 
       add_secondary_ldap_server_link: "添加第二 LDAP 服务器"
       auth_type_label: 类型
-      change_password_url_help: "留空则采用默认的 Canvas 行为"
+      change_password_url_help: "留空则采用默认的 教学邦 行为"
       change_password_url_not_specified: 未指定
       labels: 
         change_password_url: "忘记密码 URL"
@@ -99,7 +99,7 @@ zh-CN:
     ldap_settings_fields: 
       auth_filter_description: "使用 *%{placeholder}* 作为用户所提供的用户名的占位符。ÀýÈç: *(sAMAccountName=%{placeholder})*"
       auth_password_description: 留空则继续使用当前密码。
-      identifer_format_description: "LDAP 属性用于查看 Canvas 登录。保留为空可使用用户提供的用户名。"
+      identifer_format_description: "LDAP 属性用于查看 教学邦 登录。保留为空可使用用户提供的用户名。"
       labels: 
         auth_base: 库
         auth_filter: 过滤
@@ -122,14 +122,14 @@ zh-CN:
       ldap_test_login_button: 测试登录
       test_ldap_bind_help_body: "LDAP 服务器拒绝了绑定尝试。要考虑:"
       test_ldap_bind_help_fixes_1: "验证提供的过滤器字符串（例如 '(sAMAccountName={{login}})'）。"
-      test_ldap_bind_help_fixes_2: "用户名是否需要更多范围信息?（例如 'cn=Canvas,ou=people,dc=example,dc=com'）。"
-      test_ldap_bind_help_header: "Canvas 无法绑定（登录）到您的 LDAP 服务器"
+      test_ldap_bind_help_fixes_2: "用户名是否需要更多范围信息?（例如 'cn=JXB,ou=people,dc=example,dc=com'）。"
+      test_ldap_bind_help_header: "教学邦 无法绑定（登录）到您的 LDAP 服务器"
       test_ldap_bind_label: "正在测试 LDAP 绑定..."
       test_ldap_connection_help_body: "连接超时或被拒绝。要考虑:"
-      test_ldap_connection_help_fixes_1: "Canvas 正在连接到 %{ips}"
+      test_ldap_connection_help_fixes_1: "教学邦 正在连接到 %{ips}"
       test_ldap_connection_help_fixes_2: "这只是连接测试。SSL 证书未验证。"
-      test_ldap_connection_help_fixes_3: "请检查防火墙设置。是否所有 Canvas IP 地址都可以访问您的服务器?"
-      test_ldap_connection_help_header: "Canvas 无法连接到您的 LDAP 服务器"
+      test_ldap_connection_help_fixes_3: "请检查防火墙设置。是否所有 教学邦 IP 地址都可以访问您的服务器?"
+      test_ldap_connection_help_header: "教学邦 无法连接到您的 LDAP 服务器"
       test_ldap_connection_label: 正在测试连接...
       test_ldap_dialog_close: 关闭
       test_ldap_dialog_page_title: "正在测试 LDAP 配置"
@@ -140,11 +140,11 @@ zh-CN:
       test_ldap_search_help_fixes_1: "验证提供的过滤器字符串（例如 '(sAMAccountName={{login}})'）。"
       test_ldap_search_help_fixes_2: "验证提供的搜索库（例如 'ou=people,dc=example,dc=com'）。"
       test_ldap_search_help_fixes_3: "验证 LDAP 中对提供的搜索库具有搜索权限的用户对象。"
-      test_ldap_search_help_header: "Canvas 无法搜索 LDAP 实例"
+      test_ldap_search_help_header: "教学邦 无法搜索 LDAP 实例"
       test_ldap_search_label: "正在测试 LDAP 搜索..."
     ldap_timeout_error: 
       last_ldap_timeout_failure: 上次超时失效
-      ldap_timeout_failure_help: "如果 Canvas 与 LDAP 服务器通信超时，那么它将在接下来 %{time} 分钟内阻止用户使用 LDAP 服务器登录。"
+      ldap_timeout_failure_help: "如果 教学邦 与 LDAP 服务器通信超时，那么它将在接下来 %{time} 分钟内阻止用户使用 LDAP 服务器登录。"
     login_required: 必须提供
     no_auth_mixing: 无法混用身份验证类型
     no_changing_auth_types: 无法更改授权配置类型，请删除，然后创建新的配置。
@@ -159,7 +159,7 @@ zh-CN:
       certificate_fingerprint: 证书指纹
       change_password_url: 更改密码链接
       discovery_url: "发现 URL:"
-      discovery_url_description: "如果设置了发现 URL，当需要对用户进行身份验证时，Canvas 会将所有用户转到该 URL。之后该页面需要帮助用户了解去哪里才能登录。如果没有配置发现 URL，则将使用第一个 SAML 配置尝试对用户进行身份验证。"
+      discovery_url_description: "如果设置了发现 URL，当需要对用户进行身份验证时，教学邦 会将所有用户转到该 URL。之后该页面需要帮助用户了解去哪里才能登录。如果没有配置发现 URL，则将使用第一个 SAML 配置尝试对用户进行身份验证。"
       identifier_format: 标识符格式
       idp_entity_id: "IdP 实体 ID"
       labels: 
@@ -191,7 +191,7 @@ zh-CN:
       auth_request_to_idp: "已向 IdP 发送 AuthnRequest"
       auth_response_from_idp: "来自 IdP 的 AuthnResponse"
       labels: 
-        canvas_login_fail_message: "Canvas 登录失败消息"
+        canvas_login_fail_message: "教学邦 登录失败消息"
         fingerprint_from_idp: "IdP 认证指纹"
         idp_in_response_to: "IdP inResponseTo"
         idp_login_destination: "IdP LoginResponse 目标"
@@ -202,10 +202,10 @@ zh-CN:
         idp_response_encoded: "IdP LoginResponse 编码"
         idp_response_xml_decrypted: "IdP LoginResponse 解密"
         idp_response_xml_encrypted: "IdP LoginResponse 加密"
-        is_valid_login_response: "Canvas 将响应视作有效"
+        is_valid_login_response: "教学邦 将响应视作有效"
         logged_in_user_id: "登录用户 ID"
         login_response_validation_error: 验证错误
-        login_to_canvas_success: "用户成功登录到 Canvas"
+        login_to_canvas_success: "用户成功登录到 教学邦"
         logout_request_id: "退出请求 ID"
         logout_to_idp_url: "LogoutRequest 编码 URL"
         logout_to_idp_xml: "已向 IdP 发送 LogoutRequest XML"
@@ -363,10 +363,10 @@ zh-CN:
       account_reports: 
         sis_export: 
           description: 
-            text: "本报告将导出设置 Canvas 各个类别所涉及的全部所需信息。"
+            text: "本报告将导出设置 教学邦 各个类别所涉及的全部所需信息。"
     settings: 
       about_google_docs: |-
-          为了让用户更方便，而不强制他们下载诸如 Word 文档、PDF、Excel 电子表格等内容以及打开办公文档（此外还需要在其计算机上安装这些程序），在整个 Canvas 的许多区域，用户可以内联预览文档。
+          为了让用户更方便，而不强制他们下载诸如 Word 文档、PDF、Excel 电子表格等内容以及打开办公文档（此外还需要在其计算机上安装这些程序），在整个 教学邦 的许多区域，用户可以内联预览文档。
           
           如果已为此帐户启用 Scribd，将会尝试用其显示预览。但由于 Scribd 使用 flash 显示文档，而许多用户（例如使用 iPad/iPhone 的用户）没有安装 Flash Player，因此无法预览。在启用 Google Docs Previews 后，若浏览器未启用 Flash，或者 Scribd 未启用，将会使用 Google Docs 提供的预览功能。使用此服务需遵守 Google 的浏览器 [使用条款](%{terms_url})
       about_google_docs_tooltip: "关于 Google Docs Previews"
@@ -395,7 +395,7 @@ zh-CN:
       default_language_description: 这将覆盖所有浏览器/操作系统语言设置。首选的语言仍可在课程/用户级设置。
       delete: 删除
       delete_announcement_tooltip: 删除此条公告
-      email_notification_from_description: "此设置允许管理员对从 Canvas 的此帐户发送的所有通知加上标签“发件人”。"
+      email_notification_from_description: "此设置允许管理员对从 教学邦 的此帐户发送的所有通知加上标签“发件人”。"
       email_notification_from_settings: 电子邮件通知“发件人”设置
       enabled_web_serices_title: "已启用 Web 服务"
       equall_endpoint_help: "这是指向 equella 服务的 URL。它看起来可能像 \"%{sample_url}\"。"
@@ -421,7 +421,7 @@ zh-CN:
         admins_can_change_passwords: 管理员的密码设置
         allow_sending_scores_in_emails: 学生可以选择通过电子邮件通知接收分数
         allow_sis_import: "SIS 导入"
-        canvas_authentication: "Canvas 身份验证"
+        canvas_authentication: "教学邦 身份验证"
         default_course_storage_quota: 默认课程文件配额
         default_language: 默认语言
         default_time_zone: 默认时区
@@ -449,7 +449,7 @@ zh-CN:
         no_enrollments_can_create_courses: 未注册用户
         open_registration: 开放注册
         outgoing_email_default_name_option_custom: 自定义“发件人”名称
-        outgoing_email_default_name_option_default: "默认 Canvas 设置"
+        outgoing_email_default_name_option_default: "默认 教学邦 设置"
         prevent_course_renaming_by_teachers: 不要让教师重命名其课程
         self_enrollment: 允许自我注册
         show_scheduler: 启用计划程序
@@ -474,7 +474,7 @@ zh-CN:
       never_allow_self_enrollment_option: 从不
       no_language_preference: "未设置（默认使用 %{language}）"
       notifications: 
-        custom_name_description: "如果选中，此设置将替代 Canvas 通知中发送的所有其他品牌标识。"
+        custom_name_description: "如果选中，此设置将替代 教学邦 通知中发送的所有其他品牌标识。"
         email_date: 日期
         email_reply_to: 回复
         email_to: 收件人
@@ -510,7 +510,7 @@ zh-CN:
       tab_notifications: 通知
       tab_reports: 报告
       tab_settings: 设置
-      transifex_message: "加入 [Canvas 翻译社区](%{transifex_url})"
+      transifex_message: "加入 [教学邦 翻译社区](%{transifex_url})"
       turnitin_comments_help: "这些评论在提交 Turnitin 启用的任务时显示给学生"
       turnitin_pledge_help: 学生必须勾选相关框以确认他们同意此保证
       turnitin_settings_title: "Turnitin 设置"
@@ -1174,14 +1174,14 @@ zh-CN:
           text_entry: 文本输入
           website: "网站 URL"
       messages: 
-        google_docs_auth_required: "必须授权 Canvas 访问您的 Google Docs 帐户，然后才可直接从 Google Docs 提交作业:"
+        google_docs_auth_required: "必须授权 教学邦 访问您的 Google Docs 帐户，然后才可直接从 Google Docs 提交作业:"
         media_recording_ready: 可以提交!单击"提交作业"按钮以完成。
-        media_recordings_disabled: "没有为此 Canvas 网站启用媒体记录，您无法提交这些类型的作业。请联系教师更改此作业的设置，或者要求系统管理员启用媒体记录。"
+        media_recordings_disabled: "没有为此 教学邦 网站启用媒体记录，您无法提交这些类型的作业。请联系教师更改此作业的设置，或者要求系统管理员启用媒体记录。"
         submitting: 正在提交...
         uploading: "检索要为此作业提交的 Google Doc 副本。这可能需要一段时间，具体取决于文件大小..."
       no_files: 无文件
       titles: 
-        media_recordings_disabled: "没有为此 Canvas 网站启用媒体记录"
+        media_recordings_disabled: "没有为此 教学邦 网站启用媒体记录"
         view_in_separate_window: 在单独的窗口中查看
       upload_or_choose_file: 上传文件，或选择您已上传的文件。
     syllabus: 
@@ -1580,7 +1580,7 @@ zh-CN:
     ics_description_course: "课程 %{course_name} 的日历事件"
     ics_description_group: "组 %{group_name} 的日历事件"
     ics_description_user: "用户 %{user_name} 的日历事件"
-    ics_title: "%{course_or_group_name} 日历 (Canvas)"
+    ics_title: "%{course_or_group_name} 日历 (教学邦)"
   calendars: 
     assignment_details: 作业详细信息
     calendar: 
@@ -1751,13 +1751,13 @@ zh-CN:
       cannot_load_collaboration: 无法加载协作
       create_failed: 协作创建失败
       no_name: 请输入此文档的名称
-      not_enabled: "协作尚未为此 Canvas 网站启用"
+      not_enabled: "协作尚未为此 教学邦 网站启用"
       update_failed: 协作更新失败
     forms: 
       buttons: 
         delete_from_canvas: |-
             只删除  
-            从 Canvas
+            从 教学邦
         delete_from_google_docs: |-
             同时删除自  
             Google Docs
@@ -1775,7 +1775,7 @@ zh-CN:
         description: 说明
         document_name: 文档名称
       messages: 
-        delete_google_doc_as_well: "此协作将存储为 Google Doc。您是仅将其从 Canvas 删除，还是同时将其从 Google Docs 删除?"
+        delete_google_doc_as_well: "此协作将存储为 Google Doc。您是仅将其从 教学邦 删除，还是同时将其从 Google Docs 删除?"
       titles: 
         new: 开始新协作
     index: 
@@ -1811,10 +1811,10 @@ zh-CN:
         current: 当前协作
   collection_items: 
     new: 
-      pin_to_canvas_network: "固定到 Canvas 网络"
+      pin_to_canvas_network: "固定到 教学邦 网络"
       saved_successfully: 已成功保存
   communication_channel: 
-    body: "您的 Canvas 验证码为 %{verification_code}"
+    body: "您的 教学邦 验证码为 %{verification_code}"
     default_facebook_account: "Facebook 帐户"
     default_twitter_handle: "Twitter 处理"
   communication_channels: 
@@ -1824,7 +1824,7 @@ zh-CN:
         back: 返回
         continue: 继续
         create_account: 创建我的帐户
-        have_account: "我有 Canvas 帐户"
+        have_account: "我有 教学邦 帐户"
         login_as: "登录为 %{invited_user}"
         merge: 合并
         new_account: 新帐户
@@ -1836,7 +1836,7 @@ zh-CN:
         : 是
       details: 
         account_exists: "已存在用于 **%{email}** 的帐户。是否要使用此帐户?"
-        account_needed: "您已获邀请参加 **%{course}**。要接受此请求，您需要 Canvas 帐户。单击下面的链接创建 Canvas 帐户。"
+        account_needed: "您已获邀请参加 **%{course}**。要接受此请求，您需要 教学邦 帐户。单击下面的链接创建 教学邦 帐户。"
         add_email: 是否要将此电子邮件地址添加到您当前的帐户?
         choose_login: 选择要登录的位置。
         logged_in_other_user: "**%{email}** 是一个新帐户，而您目前登录为 **%{user}**。"
@@ -1850,7 +1850,7 @@ zh-CN:
         wrong_account: "对 %{course} 的邀请已发送到 **%{invited_user}**，而您目前登录为 **%{current_user}**"
       labels: 
         password: 密码
-        subscribe_to_emails: "我要从 Instructure 接收信息、新闻和提示"
+        subscribe_to_emails: "我要从 教学邦 接收信息、新闻和提示"
         time_zone: 时区
         unique_id: 电子邮件地址
       page_title: "注册 %{email}"
@@ -1873,7 +1873,7 @@ zh-CN:
       close: 是否确定要结束此会议?您无法将其重新打开
       delete: 是否确定要删除此会议?
       quit: 看起来好像您在编辑另一个会议。是否要继续?任何未保存的更改将会丢失。
-    disabled_error: "Web 会议尚未为此 Canvas 网站启用"
+    disabled_error: "Web 会议尚未为此 教学邦 网站启用"
     general_error: 参加会议出错
     inactive_error: 该会议当前未活动
     index: 
@@ -1938,7 +1938,7 @@ zh-CN:
         finished: "已完成 %{date_and_time} (%{duration})"
         new: 尚未开始
         started: "开始于 %{time}"
-    type_disabled_error: "此类会议不再为此 Canvas 网站启用"
+    type_disabled_error: "此类会议不再为此 教学邦 网站启用"
   content_exports: 
     buttons: 
       process: 处理数据
@@ -2084,7 +2084,7 @@ zh-CN:
     files: 
       buttons: 
         skip: 跳过此步骤
-      description: "可以将压缩的文件集上传至您的课程，我们将为您全部解压缩。这是一种将文件从其他系统移到 Canvas 的简便方式。"
+      description: "可以将压缩的文件集上传至您的课程，我们将为您全部解压缩。这是一种将文件从其他系统移到 教学邦 的简便方式。"
       instructions: 
         webct: 
           ? "1"
@@ -2112,10 +2112,10 @@ zh-CN:
         migrations_needing_action: 迁移需要操作
         successful_migrations: 成功的迁移
     intro: 
-      description: "如果从其他课程管理系统转换到 Canvas，则可能还有文件、测验、作业和事项需要移动。此向导应可轻松地完成此过程。"
+      description: "如果从其他课程管理系统转换到 教学邦，则可能还有文件、测验、作业和事项需要移动。此向导应可轻松地完成此过程。"
       if_any: （如有）
       links: 
-        copy_course: "从**其他 Canvas 课程**复制内容"
+        copy_course: "从**其他 教学邦 课程**复制内容"
         import_files: 导入文件
         import_package: 从**内容包**或**其他系统**导入内容
         import_quizzes: 导入测验
@@ -2210,7 +2210,7 @@ zh-CN:
         import_more: "导入其他 QTI 文件"
       defaults: 
         unnamed_quiz: 未命名测验
-      details: "Canvas 能够以 IMS QTI 格式导入测验。大多数系统允许您以此格式导出测验。您也可以使用常用的测验工具（如 Respondus）创建和导出 IMS QTI。上传下面的文件，您在导入完成时将会收到一封电子邮件。"
+      details: "教学邦 能够以 IMS QTI 格式导入测验。大多数系统允许您以此格式导出测验。您也可以使用常用的测验工具（如 Respondus）创建和导出 IMS QTI。上传下面的文件，您在导入完成时将会收到一封电子邮件。"
       errors: 
         choose_file: "必须选择要上传的 .zip 文件"
         upload_failed: 上传失败，请重试
@@ -2306,7 +2306,7 @@ zh-CN:
     chat: 
       titles: 
         chat: 聊天
-    chat_not_enabled: "聊天尚未为此 Canvas 网站启用"
+    chat_not_enabled: "聊天尚未为此 教学邦 网站启用"
     communication: 
       headings: 
         discussions: 讨论
@@ -2427,7 +2427,7 @@ zh-CN:
         users_details: "%{user} 的详细信息"
       help: 
         list_services: 您未启用已注册服务的列表。启用此列表可让课程和组的同伴成员在课外更轻松地与您链接。
-        services: "您没有将用户配置文件链接到任何外部服务。您可以将 Canvas 帐户链接到 Facebook 和 Twitter 等服务。这更便于课程和组同伴成员在课外与您链接。"
+        services: "您没有将用户配置文件链接到任何外部服务。您可以将 教学邦 帐户链接到 Facebook 和 Twitter 等服务。这更便于课程和组同伴成员在课外与您链接。"
       labels: 
         public_list_services: 让课程/组同伴成员查看我已将哪些服务链接到配置文件
         user_privileges: 权限
@@ -2465,9 +2465,9 @@ zh-CN:
         registered_services: 注册的服务
         service_types: 服务类型
       help: 
-        no_services: "您没有将用户配置文件链接到任何外部服务。您可以将 Canvas 帐户链接到 Facebook 和 Twitter 等服务。"
-        services_private: "您未启用已注册服务的列表。启用此列表可让课程和组同伴成员查看您已将哪些服务链接至您的 Canvas 帐户。"
-        user_services: "如果其他成员选择，他们可让您查看他们已将哪些外部服务链接至其 Canvas 帐户。这样更便于协调组项目以及链接课堂外部。"
+        no_services: "您没有将用户配置文件链接到任何外部服务。您可以将 教学邦 帐户链接到 Facebook 和 Twitter 等服务。"
+        services_private: "您未启用已注册服务的列表。启用此列表可让课程和组同伴成员查看您已将哪些服务链接至您的 教学邦 帐户。"
+        user_services: "如果其他成员选择，他们可让您查看他们已将哪些外部服务链接至其 教学邦 帐户。这样更便于协调组项目以及链接课堂外部。"
       labels: 
         allow_view_services: 让课程/组同伴成员查看我已将哪些服务链接到配置文件
       links: 
@@ -2859,7 +2859,7 @@ zh-CN:
   conversations_intro: 
     slide1: 
       paragraph1: 请查看收件箱!
-      paragraph2: "会话 - Canvas 的新消息系统 - 已经发布!"
+      paragraph2: "会话 - 教学邦 的新消息系统 - 已经发布!"
       paragraph3: 使用会话向一名同学发送私人信息，或者使用会话与小组中的所有人交谈。
       paragraph4: "准备好要做个简短的介绍了? 那就单击向右箭头开始吧。"
     slide2: 
@@ -2942,7 +2942,7 @@ zh-CN:
       assignment_groups: 无法导出作业组
       assignment_is_locked: "由于作业 \"%{title}\" 已经被锁定，所以无法复制。"
       assignments: 无法导出某些作业
-      canvas_meta: "无法导出 Canvas 特定元数据"
+      canvas_meta: "无法导出 教学邦 特定元数据"
       course_export: 运行课程导出时出错。
       course_settings: 无法导出课程设置
       events: 无法导出日历事件
@@ -3093,7 +3093,7 @@ zh-CN:
               好，您的课程已经设置完毕...接下来该干什么呢?在您发布课程之前，可能需要检查课程，确保您了解基本框架。逐步检查左侧的列表，确保您的课程可以使用。
               
               *本课程在发布之前只有教师可以查看*
-          saved: "完成！您已正式创建课程 %{course}。该课程在发布之前只有您本人才能查看 – 但在发布之前，您应该认真查看左侧的列表，以熟悉 Canvas 的使用方法并确保您做好了授课准备。"
+          saved: "完成！您已正式创建课程 %{course}。该课程在发布之前只有您本人才能查看 – 但在发布之前，您应该认真查看左侧的列表，以熟悉 教学邦 的使用方法并确保您做好了授课准备。"
         created: 
           not_saved: |-
               本课程已创建，但未被领受。在一周内未被领受的课程将被删除。在此期间，请勾选左侧的列表，确保您已经做好准备。
@@ -3102,21 +3102,21 @@ zh-CN:
               
               请**登录**或***注册***以领受本课程。
           saved: |-
-              完成！您已正式创建课程 %{course}。该课程在发布之前只有您本人才能查看 – 但在发布之前，您应该认真查看左侧的列表，以熟悉 Canvas 的使用方法并确保您做好了授课准备。
+              完成！您已正式创建课程 %{course}。该课程在发布之前只有您本人才能查看 – 但在发布之前，您应该认真查看左侧的列表，以熟悉 教学邦 的使用方法并确保您做好了授课准备。
               
               如果您暂时需要离开，只需保存*此链接*以便在有效满之前返回此处。
               
               请**登录**或***注册***以领受本课程。
-        files: "\"文件\"选项卡是用来分享讲义的区域，例如文档、学习帮助等 – 学生需要下载的任何文件。在 Canvas 中，上传和组织文件是轻而易举的事情。我们会告诉您如何操作。"
+        files: "\"文件\"选项卡是用来分享讲义的区域，例如文档、学习帮助等 – 学生需要下载的任何文件。在 教学邦 中，上传和组织文件是轻而易举的事情。我们会告诉您如何操作。"
         home: "此页面是用户访问本课程时看到的页面。您可以设置它显示活动流、课程单元列表、提纲或自己编写的自定义页面。默认显示为课程活动流。要自定义此显示，只需单击 %{change_layout}。"
-        import: "如果您曾使用其他课程管理系统，您可能需要将其中的材料转移到 Canvas 中。我们可以引导您轻松将内容迁移到 Canvas。"
+        import: "如果您曾使用其他课程管理系统，您可能需要将其中的材料转移到 教学邦 中。我们可以引导您轻松将内容迁移到 教学邦。"
         navigation: 默认情况下会启用课程的所有相关链接。对于没有内容的部分，学生将无法看到其链接。例如，如果您尚未创建任何测验，学生将无法看到测验链接。对于您不希望学生访问的课程部分，您可以归类并明确禁用这些链接。
         publish: 
           form: |-
               全部完成了吗?可以发布您的课程了！单击下面的按钮，正式发布课程！
               
               发布课程时会向所有课程用户发送电子邮件邀请，以便他们能够注册并开始学习该课程。
-          not_registered: "本课程已被领受并准备就绪，但需要完成注册过程后才能发布。您应该收到了来自 Canvas 的电子邮件，其中包含完成该过程的链接。确保检查您的垃圾邮件箱。"
+          not_registered: "本课程已被领受并准备就绪，但需要完成注册过程后才能发布。您应该收到了来自 教学邦 的电子邮件，其中包含完成该过程的链接。确保检查您的垃圾邮件箱。"
         students: 您肯定对学生感兴趣。试想，没有学生参与的课程有什么趣味呢?
         tas: 您可能要指定一些助教帮助您教授课程。助教可以帮助您批改学生作业、引导讨论以及更新到期日期和作业详细信息。
       headings: 
@@ -3208,7 +3208,7 @@ zh-CN:
       titles: 
         invitation: "邀请参与 %{course}"
     open_enrollment_confirmed: 
-      details: "几分钟内您的 %{email} 中会收到一封电子邮件。该电子邮件中含有链接，可用于完成注册过程。在设置帐户之后，您就可以访问 %{course} 的内容。欢迎使用 Canvas！"
+      details: "几分钟内您的 %{email} 中会收到一封电子邮件。该电子邮件中含有链接，可用于完成注册过程。在设置帐户之后，您就可以访问 %{course} 的内容。欢迎使用 教学邦！"
       headings: 
         invitation: 课程邀请
         received: 邀请已收到！
@@ -3363,7 +3363,7 @@ zh-CN:
         course_section: 课程章节
         edit_navigation: 编辑课程导航
         enrollment_type: 注册类型
-      transifex_message: "加入 [Canvas 翻译社区](%{transifex_url})"
+      transifex_message: "加入 [教学邦 翻译社区](%{transifex_url})"
       turnitin: "这些评论在提交 Turnitin 启用的任务时显示给学生"
       unaccepted_invitations: "%{count} 个邀请未被接受。您可以单击用户名称以重新发送邀请。"
       user_view: 
@@ -3956,7 +3956,7 @@ zh-CN:
     switch_views: 切换视图
     url: "URL:"
   email: 
-    default_from_name: "Instructure Canvas"
+    default_from_name: "教学邦"
   enrollment: 
     default_course_name: 课程
     default_email: 无电子邮件
@@ -4166,7 +4166,7 @@ zh-CN:
       write_only_comments: 此页的评论为私人可见。您可以发表评论，但只有文件包的所有者能够看到它们。
     show_me: 给我看看
     static_page: 
-      created_with_canvas: "使用 Canvas 创建"
+      created_with_canvas: "使用 教学邦 创建"
       headers: 
         page_comments: 页面评论
       links: 
@@ -4314,7 +4314,7 @@ zh-CN:
       custom_fields_explanation: "（每行一个，格式:名称=值）"
       domain: 域
       email_only: 仅限电子邮件
-      external_tools_note: "外部工具是指 Canvas 外部支持 Basic LTI 集成的工具。您需要联系工具作者，以便添加正确配置的参数。工具在帐户级别配置，然后可作为内容添加到课程的单元中。"
+      external_tools_note: "外部工具是指 教学邦 外部支持 Basic LTI 集成的工具。您需要联系工具作者，以便添加正确配置的参数。工具在帐户级别配置，然后可作为内容添加到课程的单元中。"
       labels: 
         config_type: 配置类型
         config_url: "配置 URL"
@@ -4352,27 +4352,27 @@ zh-CN:
       new_tab_loaded: 此工具在新的浏览器窗口中成功加载。重新加载页面可再次访问工具。
   facebook: 
     authorization_required: 只有经授权的用户才能访问该页面。
-    authorization_success: "授权成功！Canvas 和 Facebook 现在是盟友。"
+    authorization_success: "授权成功！教学邦 和 Facebook 现在是盟友。"
     deleted: 已删除
     index: 
       all_set: 已设置完毕！
-      bookmark_notice: "您可以从 Facebook 主页查看 Canvas 新通知的数量（如果您制作了此应用程序的书签）。"
-      canvas_messages: "Canvas 消息"
-      configure_notification_preferences_notice: "在*配置您的通知首选项*之后，就可以在此处看到通知，从而知道您的 Canvas 帐户中发生的事情。"
-      installation_about: "要安装 Canvas Facebook 应用程序，请转至 Canvas 中的配置文件页面，然后单击 Facebook 按钮将您的帐户连接到 Facebook。"
+      bookmark_notice: "您可以从 Facebook 主页查看 教学邦 新通知的数量（如果您制作了此应用程序的书签）。"
+      canvas_messages: "教学邦 消息"
+      configure_notification_preferences_notice: "在*配置您的通知首选项*之后，就可以在此处看到通知，从而知道您的 教学邦 帐户中发生的事情。"
+      installation_about: "要安装 教学邦 Facebook 应用程序，请转至 教学邦 中的配置文件页面，然后单击 Facebook 按钮将您的帐户连接到 Facebook。"
       learn_more: "更多信息请参阅 instructure.com"
       more_information: "更多信息请参阅 %{domain_list}"
-      no_messages_notice: "当课程中发生事情时，您将在此处看到通知，从而知道您的 Canvas 帐户中发生的事情。"
-      notification_about: "Canvas Facebook 应用程序旨在方便您访问课程中的互动信息。您可以设置为当您的作业被评分、当期日期更改等事件时向您发送通知。您的私人数据在 Canvas 中仍然保持私密性。"
+      no_messages_notice: "当课程中发生事情时，您将在此处看到通知，从而知道您的 教学邦 帐户中发生的事情。"
+      notification_about: "教学邦 Facebook 应用程序旨在方便您访问课程中的互动信息。您可以设置为当您的作业被评分、当期日期更改等事件时向您发送通知。您的私人数据在 教学邦 中仍然保持私密性。"
       notification_settings: 通知设置
-      notifications_notice: "下面您可以看到来自 Canvas 的最近通知列表。您可以从 Facebook 主页查看 Canvas 新通知的数量（如果您制作了此应用程序的书签）。"
+      notifications_notice: "下面您可以看到来自 教学邦 的最近通知列表。您可以从 Facebook 主页查看 教学邦 新通知的数量（如果您制作了此应用程序的书签）。"
       welcome: "欢迎回来，%{name}！"
-      welcome_message: "欢迎使用 Instructure 免费提供的新款在线学习软件。这款软件旨在帮助您更好地利用网络提高学习。我们的界面简洁、清爽且开放，我们充分利用您和您的学生已在使用的工具（例如 Facebook）提供更开放、更协作的学习体验。我们将它融合成一个强大、开放的软件包，而不仅仅一款跟踪作业的软件。它鼓励互动并促进学习。"
-      welcome_title: "欢迎使用 Instructure Canvas"
+      welcome_message: "欢迎使用 教学邦 免费提供的新款在线学习软件。这款软件旨在帮助您更好地利用网络提高学习。我们的界面简洁、清爽且开放，我们充分利用您和您的学生已在使用的工具（例如 Facebook）提供更开放、更协作的学习体验。我们将它融合成一个强大、开放的软件包，而不仅仅一款跟踪作业的软件。它鼓励互动并促进学习。"
+      welcome_title: "欢迎使用 教学邦"
     index_disabled: 
-      disabled_notice: "此 Canvas 网站未配置为与 Facebook 通信。"
+      disabled_notice: "此 教学邦 网站未配置为与 Facebook 通信。"
       get_help: "请登录 support.instructure.com 获取帮助"
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "教学邦"
     invalid_signature: "无效的 Facebook 签名"
     message: 
       hide: 隐藏
@@ -4393,9 +4393,9 @@ zh-CN:
       weekly: 每周
     settings: 
       back_to_messages: 返回到消息
-      link_needed: "在配置 Canvas Facebook 应用程序之前需要将其链接到您的 Canvas 登录。请单击 \"欢迎\" 了解更多信息。"
-      notifications_config_notice: "来自 Canvas 的通知可自动发送到您的 Facebook 帐户。下面您会看到可发送的通知类型。您可以在此处或 Canvas 中随时更改您的通知首选项。"
-      settings_title: "Canvas 通知设置"
+      link_needed: "在配置 教学邦 Facebook 应用程序之前需要将其链接到您的 教学邦 登录。请单击 \"欢迎\" 了解更多信息。"
+      notifications_config_notice: "来自 教学邦 的通知可自动发送到您的 Facebook 帐户。下面您会看到可发送的通知类型。您可以在此处或 教学邦 中随时更改您的通知首选项。"
+      settings_title: "教学邦 通知设置"
       updating_preferences: 正在更新首选项...
   files: 
     alts: 
@@ -5446,9 +5446,9 @@ zh-CN:
     message_will_be_sent_to_all_the_teachers_tas_in_the_course: 消息将发送给课程中所有的老师/助教。
     please_select_one: 请选择一个...
     report_problem: 报告问题
-    report_problem_sub: "如果 Canvas 出现意外情况，请通知我们"
-    search_the_canvas_guides: "搜索 Canvas 指南"
-    see_if_your_issue_is_addressed_in_the_canvas_guides: "看看能否在 *Canvas 指南*中找到您的问题答案。"
+    report_problem_sub: "如果 教学邦 出现意外情况，请通知我们"
+    search_the_canvas_guides: "搜索 教学邦 指南"
+    see_if_your_issue_is_addressed_in_the_canvas_guides: "看看能否在 *教学邦 指南*中找到您的问题答案。"
     send_message: 发送邮件
     sending: 正在发送...
     somethings_broken_but_i_can_work_around_it_for_now: 有些内容已损坏，不过现在我可以自己解决了
@@ -5480,15 +5480,15 @@ zh-CN:
       error_reported: 感谢您的帮助！我们马上解决。
     styleguide: 
       create_collection: 创建集合
-      find_people: "通过 Canvas 查找人员"
+      find_people: "通过 教学邦 查找人员"
       new_course: 新增课程
       start_a_group: 启动组
   instructions: 
-    authorize_google_docs: "需要授权 Canvas 访问您的 Google Docs 帐户之后才能协作处理文档:"
+    authorize_google_docs: "需要授权 教学邦 访问您的 Google Docs 帐户之后才能协作处理文档:"
   instructure: 
     alerts: 
-      file_previews_disabled: "此 Canvas 网站已禁用文件预览"
-      kaltura_disabled: "此 Canvas 网站已禁用 Kaltura"
+      file_previews_disabled: "此 教学邦 网站已禁用文件预览"
+      kaltura_disabled: "此 教学邦 网站已禁用 Kaltura"
     browsers: 
       unrecognized: 无法识别的浏览器
     buttons: 
@@ -5619,7 +5619,7 @@ zh-CN:
     wikis: 维基
   layouts: 
     application: 
-      instructure_description: "Instructure 是开源学习管理系统 Canvas 的制造商"
+      instructure_description: 教学邦 是开源学习管理系统 教学邦 的制造商"
       links: 
         close: 关闭
         dashboard: 我的面板
@@ -5647,7 +5647,7 @@ zh-CN:
         reset_explanation: "重置该测试学生将清除其所有历史记录，%{line_break}允许您作为全新学生查看课程。"
         warning_title: 您当前已登录到学生视图
     head: 
-      default_page_title: "Canvas LMS"
+      default_page_title: "教学邦 LMS"
     menu: 
       view_all_accounts: 查看所有帐户
       view_all_enrollments: 查看所有课程
@@ -5678,17 +5678,17 @@ zh-CN:
       standard: 
         failed_to_convert_qti: "无法导入评估 %{file_identifier}"
     google_docs: 
-      default_document_name: "Instructure Doc"
+      default_document_name: "教学邦 Doc"
     incoming_message_processor: 
       failure_message: 
         body: |-
-            标题为"%{subject}"的邮件无法送达。该邮件被发送到一个未知的邮箱地址。如果您尝试通过 Canvas 联系某人，可以尝试登录到您的帐户并使用"收件箱"工具向其发送邮件。
+            标题为"%{subject}"的邮件无法送达。该邮件被发送到一个未知的邮箱地址。如果您尝试通过 教学邦 联系某人，可以尝试登录到您的帐户并使用"收件箱"工具向其发送邮件。
             
             谢谢！
-            Canvas 支持部门
+            教学邦 支持部门
         subject: "邮件回复失败: %{subject}"
       locked_topic: 
-        body: "标题为“%{subject}”的邮件无法传递，因为讨论主题被锁定。如果您尝试通过 Canvas 联系某人，可以尝试登录您的帐户，使用收件箱工具向其发送邮件。⏎ ⏎ 谢谢！⏎ Canvas 支持"
+        body: "标题为“%{subject}”的邮件无法传递，因为讨论主题被锁定。如果您尝试通过 教学邦 联系某人，可以尝试登录您的帐户，使用收件箱工具向其发送邮件。⏎ ⏎ 谢谢！⏎ 教学邦 支持"
         subject: "邮件回复失败: %{subject}"
     send_to_inbox: 
       default_subject: 无主题
@@ -5774,7 +5774,7 @@ zh-CN:
     managed_accounts: 管理的帐户
     my_courses: 我的课程
   message: 
-    default_subject: "Canvas 警报"
+    default_subject: "教学邦 警报"
   message_students: 
     buttons: 
       send_message: 发送邮件
@@ -5794,30 +5794,30 @@ zh-CN:
         added_message: "您已作为 %{role_type} 添加到 %{website} 上的帐户 %{account}。"
         email_info: "电子邮件: %{email}"
         name_info: "名称: %{name}"
-        subject: "Canvas 帐户管理员邀请"
+        subject: "教学邦 帐户管理员邀请"
         url_info: |-
-            您将需要向 Canvas 注册，然后才能作为帐户管理员参与。您可在此处完成注册过程:
+            您将需要向 教学邦 注册，然后才能作为帐户管理员参与。您可在此处完成注册过程:
             %{url}
         username_info: "用户名: %{username}"
     added_to_conversation: 
       email: 
-        body: "%{user_name} 仅将您添加到 Canvas 中的会话。要查看会话，单击下面的链接:"
-        subject: "%{user_name} 仅将您添加到 Canvas 中的会话。"
+        body: "%{user_name} 仅将您添加到 教学邦 中的会话。要查看会话，单击下面的链接:"
+        subject: "%{user_name} 仅将您添加到 教学邦 中的会话。"
         unknown_user: 未知用户
       facebook: 
-        body: "%{user_name} 仅将您添加到 Canvas 中的会话。"
+        body: "%{user_name} 仅将您添加到 教学邦 中的会话。"
         link_text: 查看会话
         unknown_user: 未知用户
       sms: 
-        body: "%{user_name} 仅将您添加到 Canvas 中的会话。"
+        body: "%{user_name} 仅将您添加到 教学邦 中的会话。"
         more_info: "更多信息请访问 %{url}"
         unknown_user: 未知用户
       summary: 
-        body: "%{user_name} 仅将您添加到 Canvas 中的会话。"
-        subject: "%{user_name} 仅将您添加到 Canvas 中的会话。"
+        body: "%{user_name} 仅将您添加到 教学邦 中的会话。"
+        subject: "%{user_name} 仅将您添加到 教学邦 中的会话。"
         unknown_user: 未知用户
       twitter: 
-        tweet: "Canvas 警报 - 通过 %{user_name} 添加到会话。"
+        tweet: "教学邦 警报 - 通过 %{user_name} 添加到会话。"
         unknown_user: 未知用户
     alert: 
       email: 
@@ -5910,7 +5910,7 @@ zh-CN:
         message: "%{user} 已取消他/她的 \"%{appointment_name}\" 预订。"
         more_info: "更多信息请访问 %{url}"
       twitter: 
-        message: "Canvas 警报 - %{user} 已取消他/她的 \"%{appointment_name}\" 预订。"
+        message: "教学邦 警报 - %{user} 已取消他/她的 \"%{appointment_name}\" 预订。"
     appointment_deleted_for_user: 
       email: 
         instructions: "从以下链接注册其他时段: %{link}"
@@ -5941,7 +5941,7 @@ zh-CN:
         message: "您的 \"%{appointment_name}\" 时段已取消。"
         more_info: "更多信息请访问 %{url}"
       twitter: 
-        message: "Canvas 警报 - 您的 \"%{appointment_name}\" 时段已取消。"
+        message: "教学邦 警报 - 您的 \"%{appointment_name}\" 时段已取消。"
     appointment_group_deleted: 
       email: 
         labels: 
@@ -5964,7 +5964,7 @@ zh-CN:
         message: "针对 \"%{appointment_name}\" 的所有约会已取消。"
         more_info: "更多信息请访问 %{url}"
       twitter: 
-        message: "Canvas 警报 - 针对 \"%{appointment_name}\" 的所有约会已取消。"
+        message: "教学邦 警报 - 针对 \"%{appointment_name}\" 的所有约会已取消。"
     appointment_group_published: 
       email: 
         group_signup: "组 (%{group_category})"
@@ -5996,7 +5996,7 @@ zh-CN:
         message: "针对 \"%{appointment_name}\" 的时段现在可用于注册 (%{dates})。"
         subject: "约会 \"%{appointment_name}\" 可用于注册 (%{course})"
       twitter: 
-        message: "Canvas 警报 - 针对 \"%{appointment_name}\" 的注册已开启。"
+        message: "教学邦 警报 - 针对 \"%{appointment_name}\" 的注册已开启。"
     appointment_group_updated: 
       email: 
         group_signup: "组 (%{group_category})"
@@ -6028,7 +6028,7 @@ zh-CN:
         message: "时段已添加到 \"%{appointment_name}\"，可用于注册 (%{dates})。"
         subject: "约会 \"%{appointment_name}\" 已更新 (%{course})"
       twitter: 
-        message: "Canvas 警报 - 新的时段可用于 \"%{appointment_name}\"。"
+        message: "教学邦 警报 - 新的时段可用于 \"%{appointment_name}\"。"
     appointment_reserved_by_user: 
       email: 
         instructions: "从以下链接查看约会: %{link}"
@@ -6057,7 +6057,7 @@ zh-CN:
         message: "%{user} 已注册 \"%{appointment_name}\"。"
         more_info: "更多信息请访问 %{url}"
       twitter: 
-        message: "Canvas 警报 - %{user} 已注册 \"%{appointment_name}\"。"
+        message: "教学邦 警报 - %{user} 已注册 \"%{appointment_name}\"。"
     appointment_reserved_for_user: 
       email: 
         instructions: "从以下链接注册其他时段: %{link}"
@@ -6089,7 +6089,7 @@ zh-CN:
         message: "%{user} 已为您注册了 \"%{appointment_name}\" (%{date_and_time})。"
         subject: "已为您注册了 \"%{appointment_name}\" (%{course})"
       twitter: 
-        message: "Canvas 警报 - 已为您注册了 \"%{appointment_name}\"。"
+        message: "教学邦 警报 - 已为您注册了 \"%{appointment_name}\"。"
     assignment_changed: 
       email: 
         body: |-
@@ -6108,7 +6108,7 @@ zh-CN:
       summary: 
         subject: "作业已更改:%{title}，%{course}"
       twitter: 
-        assignment_change: "Canvas 警报 - 更改:%{assignment_name}，%{course_name}"
+        assignment_change: "教学邦 警报 - 更改:%{assignment_name}，%{course_name}"
     assignment_created: 
       email: 
         assignment_created: "作业已创建 - %{assignment_name}，%{course_name}"
@@ -6135,7 +6135,7 @@ zh-CN:
         multiple_due_dates: "到期日期: 多个日期"
         no_due_date: "到期日期:无到期日期"
       twitter: 
-        assignment_change: "Canvas 警报 - 更改:%{assignment_name}，%{course_name}"
+        assignment_change: "教学邦 警报 - 更改:%{assignment_name}，%{course_name}"
         due_at: "到期日期: %{assignment_due_date_time}"
         multiple_due_dates: "到期日期: 多个日期"
         no_due_date: "到期日期:无到期日期"
@@ -6158,7 +6158,7 @@ zh-CN:
         due_at: "到期日期: %{assignment_due_date_time}"
         no_due_date: "到期日期:无到期日期"
       twitter: 
-        assignment_change: "Canvas 警报 - 日期更改:%{assignment_name}，%{course_name}"
+        assignment_change: "教学邦 警报 - 日期更改:%{assignment_name}，%{course_name}"
         due_at: "到期日期: %{assignment_due_date_time}"
         no_due_date: "到期日期:无到期日期"
     assignment_due_date_override_changed: 
@@ -6180,7 +6180,7 @@ zh-CN:
         due_at: "到期日期: %{assignment_due_date_time}"
         no_due_date: "到期日期: 无到期日期"
       twitter: 
-        assignment_change: "Canvas 警报 - 日期更改: %{assignment_name}，%{course_name} (%{override})"
+        assignment_change: "教学邦 警报 - 日期更改: %{assignment_name}，%{course_name} (%{override})"
         due_at: "到期日期: %{assignment_due_date_time}"
         no_due_date: "到期日期: 无到期日期"
     assignment_graded: 
@@ -6198,7 +6198,7 @@ zh-CN:
         assignment_graded: "作业已评分:%{assignment_name}，%{course_name}"
         the_assignment_is_graded: "作业 %{assignment_name} 已评分。"
       twitter: 
-        assignment_graded: "Canvas 警报 - 已评分:%{assignment_name}，%{course_name}"
+        assignment_graded: "教学邦 警报 - 已评分:%{assignment_name}，%{course_name}"
     assignment_locked: 此作业当前锁定。
     assignment_locked_at: "此作业锁定于 %{at}。"
     assignment_locked_module: "此作业是单元 *%{module}* 的一部分，尚未解锁。"
@@ -6219,7 +6219,7 @@ zh-CN:
         turned_in_at: "提交日期: %{submission_date}"
         user_resubmitted: "重新提交文件:%{user_name}，%{assignment_name}"
       twitter: 
-        user_resubmitted: "Canvas 警报 - 重新提交文件:%{user_name}，%{assignment_name}"
+        user_resubmitted: "教学邦 警报 - 重新提交文件:%{user_name}，%{assignment_name}"
     assignment_submitted: 
       email: 
         labels: 
@@ -6236,7 +6236,7 @@ zh-CN:
         turned_in_at: "提交日期: %{submission_date}"
         user_submitted: "提交文件:%{user_name}，%{assignment_name}"
       twitter: 
-        user_submitted: "Canvas 警报 - 提交文件:%{user_name}，%{assignment_name}"
+        user_submitted: "教学邦 警报 - 提交文件:%{user_name}，%{assignment_name}"
     assignment_submitted_late: 
       email: 
         labels: 
@@ -6253,7 +6253,7 @@ zh-CN:
         turned_in_at: "提交日期: %{submission_date}"
         user_submitted: "最近作业:%{user_name}，%{assignment_name}"
       twitter: 
-        user_submitted: "Canvas 警报 - 最近提交文件:%{user_name}，%{assignment_name}"
+        user_submitted: "教学邦 警报 - 最近提交文件:%{user_name}，%{assignment_name}"
     assignment_unmuted: 
       email: 
         body: |-
@@ -6311,21 +6311,21 @@ zh-CN:
             在 %{service} 中创建并通过您的电子邮件地址 %{email} 邀请您。
         subject: "协作邀请: %{course_or_group}"
       twitter: 
-        body: "Canvas 警报 - 协作邀请:%{document}，%{course_or_group}"
+        body: "教学邦 警报 - 协作邀请:%{document}，%{course_or_group}"
     confirm_email_communication_channel: 
       email: 
         body: "电子邮件地址 %{email} 已在 %{website} 为用户 %{user} 注册。"
         details: "要确认此注册，请访问以下 url:"
-        subject: "确认电子邮件:Canvas"
+        subject: "确认电子邮件:教学邦"
     confirm_registration: 
       email: 
-        body: "感谢您注册 Canvas！此电子邮件用于确认用户 %{user} 在 %{website} 注册的新帐户。"
+        body: "感谢您注册 教学邦！此电子邮件用于确认用户 %{user} 在 %{website} 注册的新帐户。"
         details: "要完成注册过程，请访问以下 url:"
-        subject: "确认注册:Canvas"
+        subject: "确认注册:教学邦"
     confirm_sms_communication_channel: 
       sms: 
         body: |-
-            通过代码确认 Canvas 注册:
+            通过代码确认 教学邦 注册:
             
             %{confirmation_code}
             
@@ -6348,29 +6348,29 @@ zh-CN:
       email: 
         attached_files: "附加的文件:"
         audio_comment: "此邮件包括媒体评论。要收听或回复，单击下面的链接:"
-        body: "%{user_name} 刚刚在 Canvas 中向您发送了一封邮件:"
+        body: "%{user_name} 刚刚在 教学邦 中向您发送了一封邮件:"
         reply_message: "要回复此邮件，单击下面的链接:"
-        subject: "%{user_name} 刚刚在 Canvas 中向您发送了一封邮件。"
+        subject: "%{user_name} 刚刚在 教学邦 中向您发送了一封邮件。"
         unknown_user: 未知用户
       facebook: 
-        body: "%{user_name} 刚刚在 Canvas 中向您发送了一封邮件。"
+        body: "%{user_name} 刚刚在 教学邦 中向您发送了一封邮件。"
         link_text: 查看邮件
         unknown_user: 未知用户
       sms: 
-        body: "%{user_name} 刚刚在 Canvas 中向您发送了一封邮件:"
+        body: "%{user_name} 刚刚在 教学邦 中向您发送了一封邮件:"
         more_info: "更多信息请访问 %{url}"
         unknown_user: 未知用户
       summary: 
-        body: "%{user_name} 刚刚在 Canvas 中向您发送了一封邮件:"
-        subject: "%{user_name} 刚刚在 Canvas 中向您发送了一封邮件。"
+        body: "%{user_name} 刚刚在 教学邦 中向您发送了一封邮件:"
+        subject: "%{user_name} 刚刚在 教学邦 中向您发送了一封邮件。"
         unknown_user: 未知用户
       twitter: 
-        tweet: "Canvas 警报 - 来自 %{user_name} 的邮件。"
+        tweet: "教学邦 警报 - 来自 %{user_name} 的邮件。"
         unknown_user: 未知用户
     dialog: 
       title: 发送回复邮件
     email: 
-      footer: "您收到此电子邮件的原因是您使用 Canvas 参加了一个或多个课程。要更改或关闭电子邮件通知，请访问：⏎ %{url}"
+      footer: "您收到此电子邮件的原因是您使用 教学邦 参加了一个或多个课程。要更改或关闭电子邮件通知，请访问：⏎ %{url}"
     enrollment_accepted: 
       email: 
         body_designer: "%{user} 刚刚接受了作为设计者参与课程 %{course} 的邀请。"
@@ -6401,7 +6401,7 @@ zh-CN:
         body_teacher: "%{user} 刚刚接受了作为教师参与课程 %{course} 的邀请。"
         subject: "%{user} 接受了课程邀请"
       twitter: 
-        body: "Canvas 警报 - 已接受:%{user}，%{enrollment_type}，课程，%{course}"
+        body: "教学邦 警报 - 已接受:%{user}，%{enrollment_type}，课程，%{course}"
     enrollment_invitation: 
       email: 
         body_designer: "我们邀请您作为设计者参与课程 %{course}。"
@@ -6447,7 +6447,7 @@ zh-CN:
         body_teacher: "我们邀请您作为教师参与课程 %{course}。"
         subject: 课程邀请
       twitter: 
-        body: "Canvas 警报 - 已邀请:作为 %{enrollment_type} 参与课程"
+        body: "教学邦 警报 - 已邀请:作为 %{enrollment_type} 参与课程"
     enrollment_notification: 
       email: 
         body_designer: "您已作为设计者注册课程 %{course}。"
@@ -6494,7 +6494,7 @@ zh-CN:
         body_teacher: "您已作为教师注册课程 %{course}。"
         subject: 课程注册
       twitter: 
-        body: "Canvas 警报 - 已注册:作为 %{enrollment_type} 参与课程"
+        body: "教学邦 警报 - 已注册:作为 %{enrollment_type} 参与课程"
     enrollment_registration: 
       email: 
         body_designer: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为设计者参与。"
@@ -6502,7 +6502,7 @@ zh-CN:
         body_student: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为学生参与。"
         body_ta: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为助教参与。"
         body_teacher: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为教师参与。"
-        details: "您将需要向 Canvas 注册，然后才能参与班级。要开始使用，请在此处访问课程页面:"
+        details: "您将需要向 教学邦 注册，然后才能参与班级。要开始使用，请在此处访问课程页面:"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6529,7 +6529,7 @@ zh-CN:
         body_teacher: "我们邀请您参与 %{website} 上的班级。该班级名为 %{course}，我们邀请您作为教师参与。"
         subject: 课程邀请
       twitter: 
-        body: "Canvas 警报 - 已邀请:作为 %{enrollment_type} 参与课程"
+        body: "教学邦 警报 - 已邀请:作为 %{enrollment_type} 参与课程"
     event_date_changed: 
       email: 
         email_body: "课程 %{course_name} 的活动 %{event_title} 已更改时间。时间现在为:"
@@ -6554,7 +6554,7 @@ zh-CN:
       twitter: 
         from_to_time: "从 %{start_date_time} 到 %{end_date_time}"
         no_time_set: 没有设置时间
-        subject: "Canvas 警报 - 已更改:%{event_title}，%{course_name}"
+        subject: "教学邦 警报 - 已更改:%{event_title}，%{course_name}"
     file_locked: 此文件当前锁定。
     file_locked_at: "此文件锁定于 %{at}。"
     file_locked_module: "此文件是单元 *%{module}* 的一部分，尚未解锁。"
@@ -6568,9 +6568,9 @@ zh-CN:
           click_to_reset: 要设置新密码，请单击以下链接
         login_at_account: "%{login_email} at %{account_name}"
         login_managed_by_account: "此登录信息的证书通过 %{account_name} 进行管理"
-        password_from_account: "此登录信息的密码应由 %{account_name} 的系统管理员提供，并且 Instructure 没有权限访问您的密码。如果您的密码无效，请联系系统管理员有关更改或确认密码。"
-        requested_password_reset: "您已请求确认登录到 Canvas 的密码。"
-        subject: "忘记密码:Canvas"
+        password_from_account: "此登录信息的密码应由 %{account_name} 的系统管理员提供，并且 教学邦 没有权限访问您的密码。如果您的密码无效，请联系系统管理员有关更改或确认密码。"
+        requested_password_reset: "您已请求确认登录到 教学邦 的密码。"
+        subject: "忘记密码:教学邦"
     grade_weight_changed: 
       email: 
         grade_changed: "课程 %{course_name} 的评分政策已更改。"
@@ -6594,7 +6594,7 @@ zh-CN:
           grades_based_on_percent: 评分基于每个作业组的加权总计
           subject: 评分加权已更改
       twitter: 
-        grade_changed: "Canvas 警报 - 评分政策已更改: %{course_name}"
+        grade_changed: "教学邦 警报 - 评分政策已更改: %{course_name}"
     group_assignment_submitted_late: 
       email: 
         body: "组 %{group_name} 刚刚提交课程 %{course_name} 中 %{assignment_name} 的最近提交文件。"
@@ -6610,7 +6610,7 @@ zh-CN:
         body: "组 %{group_name} 已提交课程 %{course_name} 中 %{assignment_name} 的最近提交文件。"
         subject: "最近作业:%{group_name}，%{assignment_name}"
       twitter: 
-        subject: "Canvas 警报 - 最近组提交文件:%{group_name}，%{assignment_name}"
+        subject: "教学邦 警报 - 最近组提交文件:%{group_name}，%{assignment_name}"
     group_membership_accepted: 
       email: 
         account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被接受。"
@@ -6632,8 +6632,8 @@ zh-CN:
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被接受。"
         subject: "组成员资格已接受: %{group_name}"
       twitter: 
-        account_group: "Canvas 警报 - 组成员资格已接受:%{group_name}（帐户 %{account_name}）。"
-        course_group: "Canvas 警报 - 组成员资格已接受:%{group_name}（课程 %{course_name}）。"
+        account_group: "教学邦 警报 - 组成员资格已接受:%{group_name}（帐户 %{account_name}）。"
+        course_group: "教学邦 警报 - 组成员资格已接受:%{group_name}（课程 %{course_name}）。"
     group_membership_rejected: 
       email: 
         account_group: "帐户 %{account_name} 加入组 %{group_name} 的请求已被拒绝。"
@@ -6654,15 +6654,15 @@ zh-CN:
         course_group: "课程 %{course_name} 加入组 %{group_name} 的请求已被拒绝。"
         subject: "%{group_name} 的组成员资格已拒绝"
       twitter: 
-        account_group: "Canvas 警报 - 组成员资格已拒绝:%{group_name}（帐户 %{account_name}）。"
-        course_group: "Canvas 警报 - 组成员资格已拒绝:%{group_name}（课程 %{course_name}）。"
+        account_group: "教学邦 警报 - 组成员资格已拒绝:%{group_name}（帐户 %{account_name}）。"
+        course_group: "教学邦 警报 - 组成员资格已拒绝:%{group_name}（课程 %{course_name}）。"
     index: 
       titles: 
         messages: "%{name} 的邮件"
     merge_email_communication_channel: 
       email: 
-        body: "已在 %{url} 为您创建一个帐户，但您已有 Canvas 帐户。如果想要将其合并在一起，请访问以下 url:"
-        subject: "新 Canvas 帐户"
+        body: "已在 %{url} 为您创建一个帐户，但您已有 教学邦 帐户。如果想要将其合并在一起，请访问以下 url:"
+        subject: "新 教学邦 帐户"
     message: 
       actions: 
         reply: 回复
@@ -6708,7 +6708,7 @@ zh-CN:
         body: "已添加帐户 %{account} 的新管理员 %{user}"
         subject: 新帐户用户
       twitter: 
-        body: "Canvas 警报 - 新管理员:%{user}，%{account}"
+        body: "教学邦 警报 - 新管理员:%{user}，%{account}"
     new_announcement: 
       email: 
         labels: 
@@ -6719,7 +6719,7 @@ zh-CN:
         details: "更多信息请访问 %{url}"
         subject: "新通告:%{title}，%{course}"
       twitter: 
-        body: "Canvas 警报 - 通告:%{title}，%{course}。"
+        body: "教学邦 警报 - 通告:%{title}，%{course}。"
     new_context_group_membership: 
       email: 
         body_account: "您已被添加到帐户 %{account} 的新组。组名称为 %{group_name}。"
@@ -6739,8 +6739,8 @@ zh-CN:
         body_course: "您已被添加到课程 %{course} 的新组。组名称为 %{group_name}。"
         subject: "%{course_or_account} 的新组成员资格"
       twitter: 
-        body_account: "Canvas 警报 - 新组:%{group} （帐户 %{account}）"
-        body_course: "Canvas 警报 - 新组:%{group} （课程 %{course}）"
+        body_account: "教学邦 警报 - 新组:%{group} （帐户 %{account}）"
+        body_course: "教学邦 警报 - 新组:%{group} （课程 %{course}）"
     new_context_group_membership_invitation: 
       email: 
         body_account: "您已被邀请加入帐户 %{account} 的组 %{group}。"
@@ -6760,8 +6760,8 @@ zh-CN:
         body_course: "您已被邀请加入课程 %{course} 的组 %{group}。"
         subject: "%{course_or_account} 的新组成员资格"
       twitter: 
-        body_account: "Canvas 警报 - 邀请:%{group} （帐户 %{account}）"
-        body_course: "Canvas 警报 - 邀请:%{group}（课程 %{course}）。"
+        body_account: "教学邦 警报 - 邀请:%{group} （帐户 %{account}）"
+        body_course: "教学邦 警报 - 邀请:%{group}（课程 %{course}）。"
     new_course: 
       email: 
         body: "已添加帐户 %{account} 的课程 %{course}"
@@ -6785,7 +6785,7 @@ zh-CN:
           teachers: 教师
         subject: 新课程
       twitter: 
-        body: "Canvas 警报 - 新课程:%{course}，%{account}"
+        body: "教学邦 警报 - 新课程:%{course}，%{account}"
     new_discussion_entry: 
       email: 
         body: "%{user} 已发布有关 %{course} 话题 %{discussion_topic} 的新评论:"
@@ -6799,7 +6799,7 @@ zh-CN:
       summary: 
         subject: "%{discussion_topic}: %{course} 的新评论"
       twitter: 
-        body: "Canvas 警报 - 评论:%{discussion_topic}，%{course}。"
+        body: "教学邦 警报 - 评论:%{discussion_topic}，%{course}。"
     new_discussion_topic: 
       email: 
         body: "您可能会感兴趣的一个新讨论已经开始:"
@@ -6815,7 +6815,7 @@ zh-CN:
       summary: 
         subject: "新讨论 - %{discussion_topic}: %{course}"
       twitter: 
-        subject: "Canvas 警报 - 主题:%{discussion_topic}，%{course}"
+        subject: "教学邦 警报 - 主题:%{discussion_topic}，%{course}"
     new_event_created: 
       email: 
         body: "%{course_name} 有一个预定的新活动应该通知您:"
@@ -6840,7 +6840,7 @@ zh-CN:
       twitter: 
         from_to_time: "从 %{start_date_time} 到 %{end_date_time}"
         no_time_set: 没有设置时间
-        subject: "Canvas 警报 - 活动:%{event_title}，%{course_name}"
+        subject: "教学邦 警报 - 活动:%{event_title}，%{course_name}"
     new_student_organized_group: 
       email: 
         body_account: "已为帐户 %{account} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
@@ -6859,8 +6859,8 @@ zh-CN:
         body_account: "已为帐户 %{account} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
         body_course: "已为课程 %{course} 创建名为\"%{group_name}\"的新学生组织组。第一位成员是 %{user}。"
       twitter: 
-        body_account: "Canvas 警报 - 新组:%{group_name} （帐户 %{account}）"
-        body_course: "Canvas 警报 - 新组:%{group_name} （课程 %{course}）"
+        body_account: "教学邦 警报 - 新组:%{group_name} （帐户 %{account}）"
+        body_course: "教学邦 警报 - 新组:%{group_name} （课程 %{course}）"
     new_teacher_registration: 
       email: 
         body: "%{user} 刚刚在 %{website} 注册为教师。"
@@ -6876,7 +6876,7 @@ zh-CN:
       sms: 
         body: "%{user} 刚刚在 %{website} 注册为教师。"
       summary: 
-        body: "%{user} 刚刚在 Canvas 注册为教师。"
+        body: "%{user} 刚刚在 教学邦 注册为教师。"
         labels: 
           email: 电子邮件
           phone: 电话
@@ -6884,7 +6884,7 @@ zh-CN:
           school_position: 学校位置
         subject: 新教师注册
       twitter: 
-        body: "Canvas 警报 - 新教师:%{user}，%{account}"
+        body: "教学邦 警报 - 新教师:%{user}，%{account}"
     new_user: 
       email: 
         body: "刚刚注册帐户 %{account} 的新用户 %{user}"
@@ -6900,16 +6900,16 @@ zh-CN:
         body: "刚刚注册帐户 %{account} 的新用户 %{user}"
         subject: 新用户
       twitter: 
-        body: "Canvas 警报 - 新用户:%{user}，%{account}"
+        body: "教学邦 警报 - 新用户:%{user}，%{account}"
     page_locked: 此页面当前锁定。
     page_locked_at: "此页面锁定于 %{at}。"
     page_locked_module: "此页面是单元 *%{module}* 的一部分，尚未解锁。"
     page_locked_until: "此页面锁定至 %{date}。"
     pseudonym_registration: 
       email: 
-        body: "您已在 %{account} 注册 Canvas 帐户！您将需要完成配置过程，然后才能登录和开始使用 Canvas。"
+        body: "您已在 %{account} 注册 教学邦 帐户！您将需要完成配置过程，然后才能登录和开始使用 教学邦。"
         link_message: "要完成注册过程，请访问以下 url:"
-        subject: "完成注册:Canvas"
+        subject: "完成注册:教学邦"
     quiz_locked: 此测验当前锁定。
     quiz_locked_at: "此测验锁定于 %{at}。"
     quiz_locked_module: "此测验是单元 *%{module}* 的一部分，尚未解锁。"
@@ -6935,7 +6935,7 @@ zh-CN:
         body: "您已被 %{user} 邀请评估其 %{rubric} 的提交文件:"
         subject: "评估邀请:%{rubric}，%{context}"
       twitter: 
-        tweet: "Canvas 警报 - 邀请:评估 %{rubric}，%{user}"
+        tweet: "教学邦 警报 - 邀请:评估 %{rubric}，%{user}"
     rubric_assessment_submission_reminder: 
       email: 
         body: "系统已提醒您评估:%{rubric}，%{context}:"
@@ -6950,7 +6950,7 @@ zh-CN:
         body: "系统已提醒您评估:%{rubric}，%{context}:"
         subject: "评估提醒:%{rubric}，%{context}"
       twitter: 
-        tweet: "Canvas 警报 - 提醒:评估 %{rubric}，%{context}"
+        tweet: "教学邦 警报 - 提醒:评估 %{rubric}，%{context}"
     rubric_association_created: 
       email: 
         body: "已创建针对 %{context} 的新评估:"
@@ -6965,7 +6965,7 @@ zh-CN:
         body: "已创建针对 %{context} 的新评估:"
         subject: "新评估:%{title}，%{context}"
       twitter: 
-        tweet: "Canvas 警报 - 新评估:%{title}，%{context}。"
+        tweet: "教学邦 警报 - 新评估:%{title}，%{context}。"
     send_form: 
       labels: 
         message_body: 消息
@@ -6987,7 +6987,7 @@ zh-CN:
         someone: 某人
         subject: "提交评论:%{user}，%{assignment}，%{context}"
       twitter: 
-        tweet: "Canvas 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
+        tweet: "教学邦 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
     submission_comment_for_teacher: 
       email: 
         body: "%{author} 刚刚对 %{user} 的 %{assignment} 的提交文件进行了新评论。"
@@ -7005,7 +7005,7 @@ zh-CN:
         someone: 某人
         subject: "提交评论:%{user}，%{assignment}，%{context}"
       twitter: 
-        tweet: "Canvas 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
+        tweet: "教学邦 警报 - 评论:%{author}（%{assignment}，%{user}，%{context}）。"
     submission_grade_changed: 
       email: 
         body: "您的作业 %{assignment_title} 的评分已更改。"
@@ -7043,7 +7043,7 @@ zh-CN:
         not_applicable: 不适用
         score: "分数:%{score}，满分 %{total}"
         score_pending: （待审阅）
-        tweet: "Canvas 警报 - 评分更改: %{date}"
+        tweet: "教学邦 警报 - 评分更改: %{date}"
     submission_graded: 
       email: 
         body: "您的作业 %{assignment} 已评分。"
@@ -7081,19 +7081,19 @@ zh-CN:
         not_applicable: 不适用
         score: "分数:%{score}，满分 %{total}"
         score_pending_review: （待审阅）
-        tweet: "Canvas 警报 - 已评分:%{assignment}，%{context}"
+        tweet: "教学邦 警报 - 已评分:%{assignment}，%{context}"
     summaries: 
       email: 
-        daily_body: "您已注册接收来自 Canvas 帐户的一些通知的每日报告。下面是 %{date} 的报告:"
+        daily_body: "您已注册接收来自 教学邦 帐户的一些通知的每日报告。下面是 %{date} 的报告:"
         notifications_link: "您可通过访问以下页面更改通知设置:"
-        subject: "最近 Canvas 通知"
-        weekly_body: "您已注册接收来自 Canvas 帐户的一些通知的每周报告。下面是一周结束 %{date} 的报告:"
+        subject: "最近 教学邦 通知"
+        weekly_body: "您已注册接收来自 教学邦 帐户的一些通知的每周报告。下面是一周结束 %{date} 的报告:"
       facebook: 
-        new_notifications: "您已收到 #Canvas# 中的 *%{notification_count} 个新通知*。"
+        new_notifications: "您已收到 #教学邦# 中的 *%{notification_count} 个新通知*。"
       sms: 
         notifications_sms: "%{notifications_count} 新通知，位于 %{url}"
       twitter: 
-        tweet: "Canvas 警报 - %{notification_count} 个新通知"
+        tweet: "教学邦 警报 - %{notification_count} 个新通知"
     topic_locked: 此主题当前已锁定。
     topic_locked_at: "此主题锁定于 %{at}。"
     topic_locked_module: "此主题是单元 *%{module}* 的一部分，尚未解锁。"
@@ -7111,7 +7111,7 @@ zh-CN:
       summary: 
         subject: "更新的维基页面:%{title}，%{user}"
       twitter: 
-        tweet: "Canvas 警报 - 页面更新:%{title}，%{user}。"
+        tweet: "教学邦 警报 - 页面更新:%{title}，%{user}。"
     visit_modules_page: "*有关如何解锁此内容的信息，请访问课程单元页面。*"
     web_conference_invitation: 
       email: 
@@ -7127,7 +7127,7 @@ zh-CN:
         body: "我们邀请您参与 %{name} 的 Web 会议 %{title}。"
         subject: "Web 会议邀请: %{name}"
       twitter: 
-        tweet: "Canvas 警报 - 邀请:参加 %{title}，%{name}"
+        tweet: "教学邦 警报 - 邀请:参加 %{title}，%{name}"
   mute_dialog: 
     curving_assignments: 曲线作业
     grade_change_notifications: 评分更改通知
@@ -7390,7 +7390,7 @@ zh-CN:
       instructions: 
         main: 
           manage: 
-            description: "*结果是在此处创建的，以跟踪课程的掌握程度。要开始创建，请查看顶部的菜单栏。单击”新建“按钮，创建一个新的结果，或单击”新建组“按钮创建一个新的组，将您的结果放在其中。”查找“按钮将允许您使用您所在的州或学校创建的结果。在您创建和使用结果时，您将可以使用左侧的面板在结果中导航。您可以在不同的级别之间拖放结果以创建结构。* *更重要的是，Canvas 允许您将结果添加到您的评分准则，这样您就可以在对作业评分时评估自己的掌握程度。在您设置结果后，单击”管理准则“开始使用结果继续评分。*"
+            description: "*结果是在此处创建的，以跟踪课程的掌握程度。要开始创建，请查看顶部的菜单栏。单击”新建“按钮，创建一个新的结果，或单击”新建组“按钮创建一个新的组，将您的结果放在其中。”查找“按钮将允许您使用您所在的州或学校创建的结果。在您创建和使用结果时，您将可以使用左侧的面板在结果中导航。您可以在不同的级别之间拖放结果以创建结构。* *更重要的是，教学邦 允许您将结果添加到您的评分准则，这样您就可以在对作业评分时评估自己的掌握程度。在您设置结果后，单击”管理准则“开始使用结果继续评分。*"
             title: 设置结果
     mastery_error: "必须大于或等于 0"
     missing_outcome: 无法找到该学习结果
@@ -7486,7 +7486,7 @@ zh-CN:
       name: 学术基准导入器
       plugins: 
         ab: 
-          description: "此工具使您能将学术基准标准导入到 Canvas 中。"
+          description: "此工具使您能将学术基准标准导入到 教学邦 中。"
     academic_benchmark_settings: 
       api_url_description: "（例如 %{url}）"
       common_core_guid: "（例如 %{guid}）"
@@ -7517,9 +7517,9 @@ zh-CN:
     buttons: 
       saving: 正在保存...
     canvas_cartridge_importer: 
-      description: "这可以将 canvas 导出转换为要导入的中间 json 格式"
-      file_description: "Canvas 课程导出包"
-      name: "Canvas Cartridge 导入器"
+      description: "这可以将 教学邦 导出转换为要导入的中间 json 格式"
+      file_description: "教学邦 课程导出包"
+      name: "教学邦 Cartridge 导入器"
     common_cartridge_importer: 
       description: "这可以将 Common Cartridge 包转换为要导入的中间 json 格式"
       file_description: "Common Cartridge 1.0/1.1/1.2 包"
@@ -7584,7 +7584,7 @@ zh-CN:
       sketchpad: SketchPad
       typewithme: TypeWith.me
     facebook: 
-      description: "Canvas Facebook 应用程序"
+      description: "教学邦 Facebook 应用程序"
       name: Facebook
     facebook_settings: 
       description: |-
@@ -7593,23 +7593,23 @@ zh-CN:
           正常工作:
           
           * **网站 -- 站点 URL:** 设置为 %{site_url}
-          * **网站 -- 站点域:** 您的 Canvas 主站点的域。此项必须匹配站点 URL 设置
-          * **Facebook 集成 -- Canvas 页面:** 记下您的选择并在下面的表单中输入
-          * **Facebook 集成 -- Canvas URL:** 设置为 %{canvas_url}
-          * 确保已启用**高级 -- OAuth 2.0 for Canvas**
+          * **网站 -- 站点域:** 您的 教学邦 主站点的域。此项必须匹配站点 URL 设置
+          * **Facebook 集成 -- 教学邦 页面:** 记下您的选择并在下面的表单中输入
+          * **Facebook 集成 -- 教学邦 URL:** 设置为 %{canvas_url}
+          * 确保已启用**高级 -- OAuth 2.0 for 教学邦**
           * 保存应用程序之后，记下应用程序 ID、API 密钥和应用程序密码
       domain_name: 域
       headers: 
         domain_settings: 域设置
       hints: 
-        canvas_domain: "此项是\"Canvas URL\"中指定的域"
-        canvas_name: "此项是\"Canvas 页面\"中指定的路径"
+        canvas_domain: "此项是\"教学邦 URL\"中指定的域"
+        canvas_name: "此项是\"教学邦 页面\"中指定的路径"
         disable_ssl: 仅用于本地测试
       labels: 
         api_key: "API 密钥"
         app_id: "应用程序 ID"
-        canvas_domain: "Canvas 域"
-        canvas_name: "Canvas 名称"
+        canvas_domain: "教学邦 域"
+        canvas_name: "教学邦 名称"
         disable_ssl: "禁用 SSL"
         secret: 应用程序密码
     google_docs: 
@@ -7636,10 +7636,10 @@ zh-CN:
       canvas_revision_unknown: 未知
       configure_plugin: 配置
       description: 说明
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "教学邦"
       name: 名称
-      no_plugins: "没有安装 Canvas 插件"
-      page_title: "Canvas 插件"
+      no_plugins: "没有安装 教学邦 插件"
+      page_title: "教学邦 插件"
       tag: 标签
       version: 版本
       website: 网站
@@ -7652,7 +7652,7 @@ zh-CN:
           您将需要 [Kaltura.com](%{kaltura_url}) 的帐户
           或 Kaltura 的自托管实例。
           
-          **注:** 一旦在 Canvas 内配置 Kaltura 后，
+          **注:** 一旦在 教学邦 内配置 Kaltura 后，
           您需要转到 Kaltura 管理控制台并在\"设置 -> 
           集成设置\"下启用服务器通知， 
           通知 URL 为:
@@ -7886,8 +7886,8 @@ zh-CN:
     please_select_a_year: 请选择年
     please_select_an_option: 请选择选项
     profile: 
-      access_token_description: "访问令牌可用于允许其他应用程序代表您进行 API 调用。您还可以生成访问令牌和*使用 Canvas Open API* 启动您自己的集成。"
-      approved_integrations: "您可授权第三方应用程序代表您访问 Canvas 网站:"
+      access_token_description: "访问令牌可用于允许其他应用程序代表您进行 API 调用。您还可以生成访问令牌和*使用 教学邦 Open API* 启动您自己的集成。"
+      approved_integrations: "您可授权第三方应用程序代表您访问 教学邦 网站:"
       buttons: 
         add_picture_file: 添加文件
         authorize_google_docs: "授权 Google Docs 访问"
@@ -7902,16 +7902,16 @@ zh-CN:
         select_image: 选择图像
         update_settings: 更新设置
       confirm_email_instructions: "在编辑个人资料之前，您需要确认电子邮件地址 (%{email})，方法是单击我们给您发送的电子邮件中的链接。如果您没有看到电子邮件，*单击以重新发送电子邮件*，然后确保检查您的垃圾邮件箱。"
-      delicious_description: "Delicious 是一个工具，可让您存储和与其他人分享您的书签。Canvas 的丰富内容编辑器可让您搜索 Delicious 标记，从而轻松地从 Canvas 内链接到您觉得有用的其他资源。"
-      diigo_description: "Diigo 是专为研究和教育人士量身打造的一款社交书签工具。Canvas 的丰富内容编辑器可让您搜索 Diigo 标记，从而轻松地从 Canvas 内链接到您觉得有用的其他资源。"
+      delicious_description: "Delicious 是一个工具，可让您存储和与其他人分享您的书签。教学邦 的丰富内容编辑器可让您搜索 Delicious 标记，从而轻松地从 教学邦 内链接到您觉得有用的其他资源。"
+      diigo_description: "Diigo 是专为研究和教育人士量身打造的一款社交书签工具。教学邦 的丰富内容编辑器可让您搜索 Diigo 标记，从而轻松地从 教学邦 内链接到您觉得有用的其他资源。"
       error_loading_token_details: 加载令牌详细信息时出错
-      facebook_description: "如果您有 Facebook 帐户，您可以安装 Canvas 应用程序并在个人资料中接收课程通知。您可以指定要接收哪些类型的通知以及多久发送一次。"
+      facebook_description: "如果您有 Facebook 帐户，您可以安装 教学邦 应用程序并在个人资料中接收课程通知。您可以指定要接收哪些类型的通知以及多久发送一次。"
       full_token_warning: |-
           **立即复制此令牌**。一旦离开此页面，您将无法
           再检索完整的令牌，您将不得不重新生成令牌以获取一个新
           值。
       generate_access_token_description: |-
-          访问令牌是允许第三方应用程序代表您访问 Canvas
+          访问令牌是允许第三方应用程序代表您访问 教学邦
           资源的功能。这些令牌通常根据需要自动
           为应用程序创建，但如果 [您正在部署新的或受限制的
           项目](%{documentation_url})，您可以恰好从此处生成该令牌。
@@ -7962,7 +7962,7 @@ zh-CN:
         show_user_services: 让课程/组同伴成员查看我已将哪些服务链接到配置文件
         skype_name: "Skype 名称"
         sortable_name: 可分类的名称
-        subscribe_to_emails: "我要从 Instructure 接收信息、新闻和提示"
+        subscribe_to_emails: "我要从 教学邦 接收信息、新闻和提示"
         time_zone: 时区
         token: 令牌
         token_application: 应用程序
@@ -7991,7 +7991,7 @@ zh-CN:
         view_facebook_app: "查看 Facebook 应用程序"
         view_your_profile: 查看您的个人资料
       loading_token_details: 正在加载令牌详细信息...
-      no_approved_integrations: "第三方应用程序可以请求权限以代表您访问 Canvas 网站。当您开始授权应用程序后，您将看到它们在此处列出。"
+      no_approved_integrations: "第三方应用程序可以请求权限以代表您访问 教学邦 网站。当您开始授权应用程序后，您将看到它们在此处列出。"
       no_language_preference: "系统默认值 (%{language})"
       no_registered_services: 没有注册的服务
       none: 无
@@ -8021,7 +8021,7 @@ zh-CN:
           这些通知将作为直接消息让您自己发送给
           自己，并且将不会在公共流中出现。
       unknown_service: 未知
-      web_services: "通过将 Canvas 绑定到您已经使用的 Web 工具，它可以让您的生活轻松许多。单击\"其他服务\"中的任何服务，您就会了解我们的意思。"
+      web_services: "通过将 教学邦 绑定到您已经使用的 Web 工具，它可以让您的生活轻松许多。单击\"其他服务\"中的任何服务，您就会了解我们的意思。"
     resending: 正在重新发送...
     secondary_nav: 
       links: 
@@ -8069,7 +8069,7 @@ zh-CN:
         carrier: 运营商
         cell_number: 手机号码
         email_address: 电子邮件地址
-        enable_login_for_email: "我要使用此电子邮件地址登录 Canvas"
+        enable_login_for_email: "我要使用此电子邮件地址登录 教学邦"
         sms_email: "SMS 电子邮件"
       links: 
         add_contact_method: 添加联系方式
@@ -8116,13 +8116,13 @@ zh-CN:
       invalid_otp: 验证码无效，请重试
       login_error: "在 %{institution} 登录时出现问题"
       login_errors: 
-        no_config_for_id: "Canvas 帐户没有具有该 ID 的身份验证配置"
+        no_config_for_id: "教学邦 帐户没有具有该 ID 的身份验证配置"
         no_idp_set: 您登录的学校未在此帐户上配置。
-        unrecognized_idp: "Canvas 未识别您的身份提供程序"
+        unrecognized_idp: "教学邦 未识别您的身份提供程序"
       logout_errors: 
-        no_idp_found: "Canvas 无法退出您的身份提供程序"
+        no_idp_found: "教学邦 无法退出您的身份提供程序"
       max_attempts: 登录尝试失败次数过多。请稍后重试或联系您的系统管理员。
-      no_matching_user: "Canvas 没有以下用户的帐户: %{user}"
+      no_matching_user: "教学邦 没有以下用户的帐户: %{user}"
       request_failed: 请求失败。请重试。
       user_deleted: 该用户帐户已被删除。请联系您的系统管理员以重新激活您的帐户。
     messages: 
@@ -8133,16 +8133,16 @@ zh-CN:
       buttons: 
         request_password: 请求密码
       dont_know_password: 我不知道我的密码
-      log_in_to_canvas: "登录到 Canvas"
+      log_in_to_canvas: "登录到 教学邦"
       login: 登录
       login_handle: "输入您的 %{login_handle_name}，我们将向您发送更改密码的链接。"
       password: 密码
       sending: 正在发送...
     new: 
-      details: "您需要完成注册过程，然后才能登录。您应已收到包含返回 Canvas 的确认链接的电子邮件。按照该链接进行操作以完成该过程。确保检查您的垃圾邮件箱。"
+      details: "您需要完成注册过程，然后才能登录。您应已收到包含返回 教学邦 的确认链接的电子邮件。按照该链接进行操作以完成该过程。确保检查您的垃圾邮件箱。"
       links: 
         resend_email: 重新发送电子邮件
-      page_title: "登录到 Canvas"
+      page_title: "登录到 教学邦"
       titles: 
         registration_complete: 注册未完成
     notices: 
@@ -8163,7 +8163,7 @@ zh-CN:
         verify: 验证
       details: 
         mfa_enrollment: |-
-            除密码外，多重身份验证还要求您拥有物理设备，才能登录到 Canvas，因而提高了安全性。这可以是能生成验证码的设备，也可以是能接收短信的手机。用于 [iPhone](%{iphone_url}) 或
+            除密码外，多重身份验证还要求您拥有物理设备，才能登录到 教学邦，因而提高了安全性。这可以是能生成验证码的设备，也可以是能接收短信的手机。用于 [iPhone](%{iphone_url}) 或
             [Android](%{android_url}) 的 Google Authenticator  应用程序的配置方法是扫描以下的 QR 代码。其他令牌的配置方法是输入密钥 **%{secret_key}**。
         mfa_required: 您需要设置多重身份验证。
         otp_on_device: 请输入您的令牌显示的验证码。
@@ -9311,8 +9311,8 @@ zh-CN:
       labels: 
         email: 电子邮件
         name: 名称
-    too_young_error: "您必须至少达到 %{min_years} 岁，才可在没有课程加入代码的情况下使用 Canvas。"
-    welcome_to_canvas: "欢迎使用 Canvas！"
+    too_young_error: "您必须至少达到 %{min_years} 岁，才可在没有课程加入代码的情况下使用 教学邦。"
+    welcome_to_canvas: "欢迎使用 教学邦！"
   retrieve_timeout: 无法检索配置，服务器响应超时
   role_override: 
     permission: 
@@ -9944,7 +9944,7 @@ zh-CN:
       log_in: 登录
       login_at_account: "在 %{school_name} 登录"
       login_handle: "输入您的 %{login_handle_name}，我们将向您发送更改密码的链接。"
-      register_for_canvas: "*需要 Canvas 帐户?* **单击此处免费获取!**"
+      register_for_canvas: "*需要 教学邦 帐户?* **单击此处免费获取!**"
     menu_assignment: 
       labels: 
         due: 到期日期
@@ -10341,7 +10341,7 @@ zh-CN:
   sis_batch: 
     errors: 
       unrecorgnized_type: 无法识别的导入类型
-    instructure_csv: "Instructure 格式的 CSV 或 CSV 的压缩文件"
+    instructure_csv: "教学邦 格式的 CSV 或 CSV 的压缩文件"
     upload_filename: "sis_upload_%{id}.zip"
   sis_import: 
     buttons: 
@@ -10829,7 +10829,7 @@ zh-CN:
     cc_prefs: 
       buttons: 
         configure: 配置通信首选项
-      comm_preferences_instructions: "既然您已注册 Canvas，您可能会想要配置随着课程的进展将收到哪些通知。Canvas 足够灵活，可让您选择想要的通知方式和通知哪些事件。您的课程中有事情发生时，您可以选择立即、每天或每周发送电子邮件或文本到您的手机。"
+      comm_preferences_instructions: "既然您已注册 教学邦，您可能会想要配置随着课程的进展将收到哪些通知。教学邦 足够灵活，可让您选择想要的通知方式和通知哪些事件。您的课程中有事情发生时，您可以选择立即、每天或每周发送电子邮件或文本到您的手机。"
       titles: 
         configure_com_prefs: 配置通信首选项
     confirm_merge: 
@@ -10920,7 +10920,7 @@ zh-CN:
       browser_upgrade: 您应该升级您的浏览器
       buttons: 
         upgrade: 升级
-      upgrade_ie7: "您正在使用 Internet Explorer 7。Canvas（及许多其他网站）不完全支持此浏览器，您应该考虑升级。在您升级之前，Canvasd 的有些部分将不会完全正常运行。"
+      upgrade_ie7: "您正在使用 Internet Explorer 7。教学邦（及许多其他网站）不完全支持此浏览器，您应该考虑升级。在您升级之前，教学邦 的有些部分将不会完全正常运行。"
     index: 
       all_users: 所有用户
       buttons: 
@@ -11011,7 +11011,7 @@ zh-CN:
         name_and_email: 名称和电子邮件
       update_instructions: 您可以更新此用户的部分信息，但他们可以选择改回来。
     new: 
-      create_a_canvas_account: "创建一个 Canvas 帐户"
+      create_a_canvas_account: "创建一个 教学邦 帐户"
     no_deleting_sis_user: 您不能删除系统生成的用户
     no_open_registration: 此帐户未启用开放注册
     oauth_fail: "OAuth 请求失败。无法找到有效的请求"
@@ -11031,11 +11031,11 @@ zh-CN:
       almost_there: 您几乎已经...
       done_resending: 完成！收到消息可能需要几分钟。
       failed_resending: 请求失败。请重试。
-      invite_to_read: "我们邀请您观看 Canvas 的这一简要概览。您可能还会*了解 Canvas 如何帮助*位于 27 个国家/地区的学生们更接近演讲厅、教师和同学。"
+      invite_to_read: "我们邀请您观看 教学邦 的这一简要概览。您可能还会*了解 教学邦 如何帮助*位于 27 个国家/地区的学生们更接近演讲厅、教师和同学。"
       links: 
         download_pdf: "下载 PDF"
       need_flash: "您需要启用 Flash player 8+ 和 JavaScript 才能查看此视频。"
-      overview_video: "Canvas 的概览视频"
+      overview_video: "教学邦 的概览视频"
       registration_complete: 注册完成
       resending: 正在重新发送...
       sent_email_paragraph: "我们已发送电子邮件到 %{email_address}。*单击该电子邮件中的链接以完成注册*。如果您没有看到电子邮件，**单击以重新发送电子邮件**，然后确保检查您的垃圾邮件箱。"
@@ -11093,7 +11093,7 @@ zh-CN:
     user_updated: 用户已成功更新。
     welcome: 
       no_courses_message: 您没有任何课程，因此此页面现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
-      welcome_to_happiness: "欢迎使用 Canvas!"
+      welcome_to_happiness: "欢迎使用 教学邦!"
   validate: 
     is_required: 此字段为必填字段
   web_conference: 
