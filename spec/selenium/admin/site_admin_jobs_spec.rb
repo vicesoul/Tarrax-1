@@ -59,7 +59,7 @@ describe "site admin jobs ui" do
       2.times { "present".send_later :reverse }
       "future".send_at Time.now + 30.days, :capitalize
       job = "failure".send_at Time.now, :downcase
-      job.fail!
+      @failed_job = job.fail!
     end
     @all_jobs = created_jobs.dup
     # tweak these settings to speed up the test run
@@ -78,6 +78,27 @@ describe "site admin jobs ui" do
       wait_for_ajax_requests
       j.reload.locked_by.should == 'on hold'
       @all_jobs.count { |j| (j.reload rescue nil).try(:locked_by) == 'on hold' }.should == 1
+    end
+
+    it "should load handler via ajax" do
+      Delayed::Job.delete_all
+      job = "test".send_later :to_s
+      load_jobs_page
+      fj('#jobs-grid .slick-row .l0.r0').click()
+      fj('#job-id').text.should == job.id.to_s
+      fj('#job-handler-show').click()
+      wait_for_ajax_requests
+      get_value('#job-handler').should == job.handler
+      fj('a.ui-dialog-titlebar-close').click()
+
+      # also for failed job
+      filter_jobs(FlavorTags::FAILED)
+      wait_for_ajax_requests
+      fj('#jobs-grid .slick-row .l0.r0').click()
+      fj('#job-id').text.should == @failed_job.id.to_s
+      fj('#job-handler-show').click()
+      wait_for_ajax_requests
+      get_value('#job-handler').should == @failed_job.handler
     end
 
     context "all jobs" do
@@ -164,6 +185,29 @@ describe "site admin jobs ui" do
         wait_for_ajax_requests
         ff("#jobs-grid .slick-row").count.should == 1
         f("#jobs-grid .r1").text.should include_text "String#downcase"
+      end
+
+      it "should confirm that clicking on delete button should delete all future jobs" do
+        2.times { "test".send_at 2.hours.from_now, :to_s }
+        filter_jobs(FlavorTags::FUTURE)
+        validate_all_jobs_selected
+        f("#jobs-grid .odd").should be_displayed
+        f("#jobs-grid .even").should be_displayed
+        f("#jobs-total").text.should == "3"
+        Delayed::Job.all.count.should == 5
+        num_of_jobs = Delayed::Job.all.count
+
+         keep_trying_until do
+            f("#delete-jobs").click
+            driver.switch_to.alert.should_not be_nil
+            driver.switch_to.alert.accept
+           true
+         end
+        wait_for_ajaximations
+        Delayed::Job.count.should == num_of_jobs - 3
+
+        fj("#jobs-grid .odd").should be_nil # using fj to bypass selenium cache
+        fj("#jobs-grid .even").should be_nil #using fj to bypass selenium cache
       end
     end
   end

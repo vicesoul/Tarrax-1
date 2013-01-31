@@ -53,7 +53,8 @@ describe "discussions" do
 
       it "should validate closing the discussion for comments" do
         create_and_go_to_topic
-        expect_new_page_load { f('.discussion_locked_toggler').click }
+        f("#discussion-toolbar .al-trigger-inner").click
+        expect_new_page_load { f("#ui-id-4").click }
         f('.discussion-fyi').text.should == 'This topic is closed for comments'
         ff('.discussion-reply-label').should be_empty
         DiscussionTopic.last.workflow_state.should == 'locked'
@@ -61,7 +62,8 @@ describe "discussions" do
 
       it "should validate reopening the discussion for comments" do
         create_and_go_to_topic('closed discussion', 'side_comment', true)
-        expect_new_page_load { f('.discussion_locked_toggler').click }
+        f("#discussion-toolbar .al-trigger-inner").click
+        expect_new_page_load { f("#ui-id-4").click }
         ff('.discussion-reply-label').should_not be_empty
         DiscussionTopic.last.workflow_state.should == 'active'
       end
@@ -72,6 +74,43 @@ describe "discussions" do
         add_reply(message, 'graded.png')
         @last_entry.find_element(:css, '.message').text.should == message
       end
+
+      it "should show attachments after showing hidden replies" do
+        @topic = @course.discussion_topics.create!(:title => 'test', :message => 'attachment test', :user => @user)
+        @entry = @topic.discussion_entries.create!(:user => @user, :message => 'blah')
+        @replies = []
+        5.times do
+          attachment = @course.attachments.create!(:context => @course, :filename => "text.txt", :user => @user, :uploaded_data => StringIO.new("testing"))
+          reply = @entry.discussion_subentries.create!(
+            :user => @user, :message => 'i haz attachments', :discussion_topic => @topic, :attachment => attachment)
+          @replies << reply
+        end
+        @topic.create_materialized_view
+        go_to_topic
+        ffj('.comment_attachments').count.should == 3
+        fj('.showMore').click
+        wait_for_ajaximations
+        ffj('.comment_attachments').count.should == @replies.count
+      end
+
+      it "should show only 10 root replies per page"
+      it "should paginate root entries"
+      it "should show only three levels deep"
+      it "should show only three children of a parent"
+      it "should display unrendered unread and total counts accurately"
+      it "should expand descendents"
+      it "should expand children"
+      it "should deep link to an entry rendered on the first page"
+      it "should deep link to an entry rendered on a different page"
+      it "should deep link to a non-rendered child entry of a rendered parent"
+      it "should deep link to a child entry of a non-rendered parent"
+      it "should allow users to 'go to parent'"
+      it "should collapse a thread"
+      it "should filter entries by user display name search term"
+      it "should filter entries by content search term"
+      it "should filter entries by unread"
+      it "should filter entries by unread and search term"
+      it "should link to an entry in context of the discussion when clicked in result view"
     end
 
     context "main page" do
@@ -262,7 +301,7 @@ describe "discussions" do
       pending "figure out delayed jobs"
       entry = @topic.discussion_entries.create!(:user => @student, :message => 'new entry from student')
       get "/courses/#{@course.id}/discussion_topics/#{@topic.id}"
-      fj("[data-id=#{entry.id}]").should include_text('new entry from student')
+      f("#entry-#{entry.id}").should include_text('new entry from student')
     end
 
     it "should embed user content in an iframe" do
@@ -316,23 +355,27 @@ describe "discussions" do
         f('.add-side-comment-wrap .discussion-reply-label').click
         type_in_tiny '.reply-textarea', side_comment_text
         submit_form('.add-side-comment-wrap')
-        wait_for_ajax_requests
+        wait_for_ajaximations
 
         last_entry = DiscussionEntry.last
         last_entry.depth.should == 2
         last_entry.message.should include_text(side_comment_text)
-
-        ff("#discussion_subentries .message")[1].should include_text(side_comment_text)
+        keep_trying_until do
+          f("#entry-#{last_entry.id}").should include_text(side_comment_text)
+        end
       end
 
-      it "should create multiple side comments" do
+      it "should create multiple side comments but only show 3 and expand the rest" do
         side_comment_number = 10
         side_comment_number.times { |i| @topic.discussion_entries.create!(:user => @student, :message => "new side comment #{i} from student", :parent_entry => @entry) }
         get "/courses/#{@course.id}/discussion_topics/#{@topic.id}"
-        wait_for_ajax_requests
-
-        ff('.discussion-entries .entry').count.should == (side_comment_number + 1) # +1 because of the initial entry
+        wait_for_ajaximations
         DiscussionEntry.last.depth.should == 2
+        keep_trying_until do
+          ff('.discussion-entries .entry').count.should == 4 # +1 because of the initial entry
+        end
+        f('.showMore').click
+        ff('.discussion-entries .entry').count.should == (side_comment_number + 1) # +1 because of the initial entry
       end
 
       it "should delete a side comment" do
@@ -347,11 +390,20 @@ describe "discussions" do
         edit_text = 'this has been edited '
         text = "new side comment from student"
         entry = @topic.discussion_entries.create!(:user => @student, :message => "new side comment from student", :parent_entry => @entry)
+        @topic.discussion_entries.last.message.should == text
         get "/courses/#{@course.id}/discussion_topics/#{@topic.id}"
-        wait_for_js
+        sleep 5
         validate_entry_text(entry, text)
         edit_entry(entry, edit_text)
       end
+
+      it "should put order by date, descending"
+      it "should flatten threaded replies into their root entries"
+      it "should show the latest three entries"
+      it "should deep link to an entry rendered on the first page"
+      it "should deep link to an entry rendered on a different page"
+      it "should deep link to a non-rendered child entry of a rendered parent"
+      it "should deep link to a child entry of a non-rendered parent"
     end
   end
 
@@ -365,21 +417,21 @@ describe "discussions" do
 
       # make sure everything looks unread
       get("/courses/#{@course.id}/discussion_topics/#{@topic.id}", false)
-      ff('.can_be_marked_as_read.unread').length.should eql(reply_count + 1)
-      f('.new-and-total-badge .new-items').text.should eql(reply_count.to_s)
+      ff('.can_be_marked_as_read.unread').length.should == reply_count + 1
+      f('.new-and-total-badge .new-items').text.should == reply_count.to_s
 
       #wait for the discussionEntryReadMarker to run, make sure it marks everything as .just_read
       sleep 2
       ff('.can_be_marked_as_read.unread').should be_empty
-      ff('.can_be_marked_as_read.just_read').length.should eql(reply_count + 1)
-      f('.new-and-total-badge .new-items').text.should eql('')
+      ff('.can_be_marked_as_read.just_read').length.should == reply_count + 1
+      f('.new-and-total-badge .new-items').text.should == ''
 
       # refresh page and make sure nothing is unread/just_read and everthing is .read
       get("/courses/#{@course.id}/discussion_topics/#{@topic.id}", false)
       ['unread', 'just_read'].each do |state|
         ff(".can_be_marked_as_read.#{state}").should be_empty
       end
-      f('.new-and-total-badge .new-items').text.should eql('')
+      f('.new-and-total-badge .new-items').text.should == ''
     end
   end
 end

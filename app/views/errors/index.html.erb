@@ -11,7 +11,7 @@
   <select name="category">
     <%= options_for_select([[t(:all_categories, " - All Categories -"), nil]] + ErrorReport.categories, params[:category]) %>
   </select>
-  <button type="submit" class="button"><%= t "#buttons.search", "Search" %></button>
+  <button type="submit" class="btn"><%= t "#buttons.search", "Search" %></button>
 <% end %>
 
 <% content_for :pagination do %>
@@ -42,7 +42,9 @@
       <% if report.user_id %>
         <%= before_label :user, "user" %> <%= link_to report.user.try(:name), user_url(report.user_id) %><br />
       <% end %>
-      <%= before_label :url, "url" %> <%= report.url %><br/>
+      <% if report.url.present? %>
+        <%= before_label :url, "url" %> <%= link_to report.url, report.url %><br/>
+      <% end %>
       <% if report.request_context_id %>
         <%= before_label :request_context_id, "request context id" %> <%= report.request_context_id %>
       <% end %>

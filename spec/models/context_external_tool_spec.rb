@@ -156,7 +156,29 @@ describe ContextExternalTool do
       @found_tool = ContextExternalTool.find_external_tool("http://www.google.com/coolness", Course.find(@course.id))
       @found_tool.should eql(@tool)
     end
-    
+
+    it "should match on url ignoring query parameters" do
+      @tool = @course.context_external_tools.create!(:name => "a", :url => "http://www.google.com/coolness", :consumer_key => '12345', :shared_secret => 'secret')
+      @found_tool = ContextExternalTool.find_external_tool("http://www.google.com/coolness?a=1", Course.find(@course.id))
+      @found_tool.should eql(@tool)
+      @found_tool = ContextExternalTool.find_external_tool("http://www.google.com/coolness?a=1&b=2", Course.find(@course.id))
+      @found_tool.should eql(@tool)
+    end
+
+    it "should match on url even when tool url contains query parameters" do
+      @tool = @course.context_external_tools.create!(:name => "a", :url => "http://www.google.com/coolness?a=1&b=2", :consumer_key => '12345', :shared_secret => 'secret')
+      @found_tool = ContextExternalTool.find_external_tool("http://www.google.com/coolness?b=2&a=1", Course.find(@course.id))
+      @found_tool.should eql(@tool)
+      @found_tool = ContextExternalTool.find_external_tool("http://www.google.com/coolness?c=3&b=2&d=4&a=1", Course.find(@course.id))
+      @found_tool.should eql(@tool)
+    end
+
+    it "should not match on url if the tool url contains query parameters that the search url doesn't" do
+      @tool = @course.context_external_tools.create!(:name => "a", :url => "http://www.google.com/coolness?a=1", :consumer_key => '12345', :shared_secret => 'secret')
+      @found_tool = ContextExternalTool.find_external_tool("http://www.google.com/coolness?a=2", Course.find(@course.id))
+      @found_tool.should be_nil
+    end
+
     it "should not match on url before matching on domain" do
       @tool = @course.context_external_tools.create!(:name => "a", :url => "http://www.google.com/coolness", :consumer_key => '12345', :shared_secret => 'secret')
       @tool2 = @course.context_external_tools.create!(:name => "a", :domain => "www.google.com", :consumer_key => '12345', :shared_secret => 'secret')
@@ -274,7 +296,8 @@ describe ContextExternalTool do
     
     it "should return custom_fields_string as a text-formatted field" do
       tool = @course.context_external_tools.create!(:name => "a", :url => "http://www.google.com", :consumer_key => '12345', :shared_secret => 'secret', :custom_fields => {'a' => '123', 'b' => '456'})
-      tool.custom_fields_string.should == "a=123\nb=456"
+      fields_string = tool.custom_fields_string
+      fields_string.should == "a=123\nb=456"
     end
 
     it "should merge custom fields for extension launches" do

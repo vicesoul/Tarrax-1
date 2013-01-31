@@ -24,6 +24,26 @@ class ActiveRecord::Base
     end
   end
 
+  def self.all_models
+    return @all_models if @all_models.present?
+    @all_models = (ActiveRecord::Base.send(:subclasses) +
+                   ActiveRecord::Base.models_from_files +
+                   [Version]).compact.uniq.reject { |model|
+      model.superclass != ActiveRecord::Base || (model.respond_to?(:tableless?) && model.tableless?)
+    }
+  end
+
+  def self.models_from_files
+    @from_files ||= Dir[
+      "#{RAILS_ROOT}/app/models/*",
+      "#{RAILS_ROOT}/vendor/plugins/*/app/models/*"
+    ].collect { |file|
+      model = File.basename(file, ".*").camelize.constantize
+      next unless model < ActiveRecord::Base
+      model
+    }
+  end
+
   def self.maximum_text_length
     @maximum_text_length ||= 64.kilobytes-1
   end
@@ -55,23 +75,28 @@ class ActiveRecord::Base
 
   def self.parse_asset_string(str)
     code = asset_string_components(str)
-    [code.first.classify, code.last.to_i]
+    [code.first.classify, code.last.try(:to_i)]
   end
 
   def self.asset_string_components(str)
-    str.split(/_(\d+)\z/)
+    components = str.split('_', -1)
+    id = components.pop
+    [components.join('_'), id.presence]
   end
 
   def self.initialize_by_asset_string(string, asset_types)
-    code = string.split("_")
-    id = code.pop
-    res = code.join("_").classify.constantize rescue nil
+    type, id = asset_string_components(string)
+    res = type.classify.constantize rescue nil
     res.id = id if res
     res
   end
 
   def asset_string
-    @asset_string ||= "#{self.class.base_ar_class.name.underscore}_#{id.to_s}"
+    @asset_string ||= "#{self.class.base_ar_class.name.underscore}_#{id}"
+  end
+
+  def global_asset_string
+    @global_asset_string ||= "#{self.class.base_ar_class.name.underscore}_#{global_id}"
   end
 
   # little helper to keep checks concise and avoid a db lookup
@@ -81,6 +106,36 @@ class ActiveRecord::Base
 
   def context_string(field = :context)
     send("#{field}_type").underscore + "_" + send("#{field}_id").to_s if send("#{field}_type")
+  end
+
+  def self.define_asset_string_backcompat_method(string_version_name, association_version_name = string_version_name, method = nil)
+    # just chain to the two methods
+    unless method
+      # this is weird, but gets the instance methods defined so they can be chained
+      begin
+        self.new.send("#{association_version_name}_id")
+      rescue
+        # the db doesn't exist yet; no need to bother with backcompat methods anyway
+        return
+      end
+      define_asset_string_backcompat_method(string_version_name, association_version_name, 'id')
+      define_asset_string_backcompat_method(string_version_name, association_version_name, 'type')
+      return
+    end
+
+    self.class_eval <<-CODE
+      def #{association_version_name}_#{method}_with_backcompat
+        res = #{association_version_name}_#{method}_without_backcompat
+        if !res && #{string_version_name}.present?
+          type, id = ActiveRecord::Base.parse_asset_string(#{string_version_name})
+          write_attribute(:#{association_version_name}_type, type)
+          write_attribute(:#{association_version_name}_id, id)
+          res = #{association_version_name}_#{method}_without_backcompat
+        end
+        res
+      end
+    CODE
+    self.alias_method_chain "#{association_version_name}_#{method}".to_sym, :backcompat
   end
 
   def export_columns(format = nil)
@@ -147,8 +202,14 @@ class ActiveRecord::Base
 
   def touch_user
     if self.respond_to?(:user_id) && self.user_id
+      shard = self.user.shard
       User.update_all({ :updated_at => Time.now.utc }, { :id => self.user_id })
-      User.invalidate_cache(self.user_id)
+      User.connection.after_transaction_commit do
+        shard.activate do
+          User.update_all({ :updated_at => Time.now.utc }, { :id => self.user_id })
+        end if shard != Shard.current
+        User.invalidate_cache(self.user_id)
+      end
     end
     true
   rescue
@@ -281,28 +342,13 @@ class ActiveRecord::Base
   class << self
     def construct_attributes_from_arguments_with_type_cast(attribute_names, arguments)
       log_dynamic_finder_nil_arguments(attribute_names) if current_scoped_methods.nil? && arguments.flatten.compact.empty?
-      attributes = construct_attributes_from_arguments_without_type_cast(attribute_names, arguments)
-      attributes.each_pair do |attribute, value|
-        next unless column = columns.detect{ |col| col.name == attribute.to_s }
-        next if [value].flatten.compact.empty?
-        cast_value = [value].flatten.map{ |v| v.respond_to?(:quoted_id) ? v : column.type_cast(v) }
-        cast_value = cast_value.first unless value.is_a?(Array)
-        next if [value].flatten.map(&:to_s) == [cast_value].flatten.map(&:to_s)
-        log_dynamic_finder_type_cast(value, column)
-        attributes[attribute] = cast_value
-      end
+      construct_attributes_from_arguments_without_type_cast(attribute_names, arguments)
     end
     alias_method_chain :construct_attributes_from_arguments, :type_cast
 
     def log_dynamic_finder_nil_arguments(attribute_names)
       error = "No non-nil arguments passed to #{self.base_class}.find_by_#{attribute_names.join('_and_')}"
       raise DynamicFinderTypeError, error if Canvas.dynamic_finder_nil_arguments_error == :raise
-      logger.debug "WARNING: " + error
-    end
-
-    def log_dynamic_finder_type_cast(value, column)
-      error = "Cannot cleanly cast #{value.inspect} to #{column.type} (#{self.base_class}\##{column.name})"
-      raise DynamicFinderTypeError, error if Canvas.dynamic_finder_type_cast_error == :raise
       logger.debug "WARNING: " + error
     end
   end
@@ -389,15 +435,18 @@ class ActiveRecord::Base
 
   # convenience method to add a (computed) field to :select/:order(/:group) all
   # at once
-  def self.add_sort_key!(options, field)
+  def self.add_sort_key!(options, qualified_field)
+    unqualified_field = qualified_field.sub(/\s+(ASC|DESC)\s*$/, '')
+    direction = $1 == 'DESC' ? 'DESC' : 'ASC'
+    sort_clause = "#{unqualified_field} #{direction}, #{quoted_table_name}.id #{direction}"
     options[:select] ||= "#{quoted_table_name}.*"
-    options[:select] << ", #{field}"
+    options[:select] << ", #{unqualified_field}"
     if options[:order]
-      options[:order] << ", #{field}, #{quoted_table_name}.id"
+      options[:order] << ", #{sort_clause}"
     else
-      options[:order] = "#{field}, #{quoted_table_name}.id"
+      options[:order] = sort_clause
     end
-    options[:group] << ", #{field}" if options[:group]
+    options[:group] << ", #{unqualified_field}" if options[:group]
     options
   end
 
@@ -445,7 +494,7 @@ class ActiveRecord::Base
 
   def self.add_polymorph_methods(generic, specifics)
     specifics.each do |specific|
-      next if instance_methods.include?(specific.to_s)
+      next if method_defined?(specific.to_sym)
       class_name = specific.to_s.classify
       correct_type = "#{generic}_type && self.class.send(:compute_type, #{generic}_type) <= #{class_name}"
 
@@ -474,7 +523,7 @@ class ActiveRecord::Base
   module UniqueConstraintViolation
     def self.===(error)
       ActiveRecord::StatementInvalid === error &&
-      error.message.match(/PGError: ERROR: +duplicate key value violates unique constraint|Mysql::Error: Duplicate entry .* for key|SQLite3::ConstraintException: columns .* not unique/)
+      error.message.match(/PG(?:::)?Error: ERROR: +duplicate key value violates unique constraint|Mysql::Error: Duplicate entry .* for key|SQLite3::ConstraintException: columns .* not unique/)
     end
   end
 
@@ -517,7 +566,7 @@ class ActiveRecord::Base
 
     ids = connection.select_rows("select min(id), max(id) from (#{self.send(:construct_finder_sql, :select => "#{quoted_table_name}.#{primary_key} as id", :order => primary_key, :limit => batch_size)}) as subquery").first
     while ids.first.present?
-      yield *ids
+      yield(*ids)
       last_value = ids.last
       ids = connection.select_rows("select min(id), max(id) from (#{self.send(:construct_finder_sql, :select => "#{quoted_table_name}.#{primary_key} as id", :conditions => ["#{quoted_table_name}.#{primary_key}>?", last_value], :order => primary_key, :limit => batch_size)}) as subquery").first
     end
@@ -606,6 +655,11 @@ if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
       if Hash === options # legacy support, since this param was a string
         index_type = options[:unique] ? "UNIQUE" : ""
         index_name = options[:name].to_s if options[:name]
+        concurrently = "CONCURRENTLY " if options[:concurrently]
+        conditions = options[:conditions]
+        if conditions
+          conditions = " WHERE #{ActiveRecord::Base.send(:sanitize_sql, conditions, table_name.to_s.dup)}"
+        end
       else
         index_type = options
       end
@@ -620,7 +674,7 @@ if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
       end
       quoted_column_names = quoted_columns_for_index(column_names, options).join(", ")
 
-      execute "CREATE #{index_type} INDEX #{"CONCURRENTLY " if options[:concurrently]}#{quote_column_name(index_name)} ON #{quote_table_name(table_name)} (#{quoted_column_names})"
+      execute "CREATE #{index_type} INDEX #{concurrently}#{quote_column_name(index_name)} ON #{quote_table_name(table_name)} (#{quoted_column_names})#{conditions}"
     end
   end
 end
@@ -895,6 +949,10 @@ if defined?(ActiveRecord::ConnectionAdapters::PostgreSQLAdapter)
 end
 
 class ActiveRecord::Migration
+  VALID_TAGS = [:predeploy, :postdeploy, :cassandra]
+  # at least one of these tags is required
+  DEPLOY_TAGS = [:predeploy, :postdeploy]
+
   class << self
     def transactional?
       @transactional != false
@@ -904,7 +962,7 @@ class ActiveRecord::Migration
     end
 
     def tag(*tags)
-      raise "invalid tags #{tags.inspect}" unless tags - [:predeploy, :postdeploy] == []
+      raise "invalid tags #{tags.inspect}" unless tags - VALID_TAGS == []
       (@tags ||= []).concat(tags).uniq!
     end
 
@@ -925,10 +983,14 @@ end
 class ActiveRecord::MigrationProxy
   delegate :connection, :transactional?, :tags, :to => :migration
 
+  def runnable?
+    !migration.respond_to?(:runnable?) || migration.runnable?
+  end
+
   def load_migration
     load(filename)
     @migration = name.constantize
-    raise "#{self.name} (#{self.version}) is not tagged as predeploy or postdeploy!" if @migration.tags.empty? && self.version > 20120217214153
+    raise "#{self.name} (#{self.version}) is not tagged as predeploy or postdeploy!" if (@migration.tags & ActiveRecord::Migration::DEPLOY_TAGS).empty? && self.version > 20120217214153
     @migration
   end
 end
@@ -968,6 +1030,11 @@ class ActiveRecord::Migrator
     end
   end
 
+  def pending_migrations_with_runnable
+    pending_migrations_without_runnable.reject { |m| !m.runnable? }
+  end
+  alias_method_chain :pending_migrations, :runnable
+
   def migrate(tag = nil)
     current = migrations.detect { |m| m.version == current_version }
     target = migrations.detect { |m| m.version == @target_version }
@@ -996,8 +1063,17 @@ class ActiveRecord::Migrator
       end
 
       next if !tag.nil? && !migration.tags.include?(tag)
+      next if !migration.runnable?
 
       begin
+        if down? && !Rails.env.test? && !$confirmed_migrate_down
+          require 'highline'
+          if HighLine.new.ask("Revert migration #{migration.name} (#{migration.version}) ? [y/N/a] > ") !~ /^([ya])/i
+            raise("Revert not confirmed")
+          end
+          $confirmed_migrate_down = true if $1.downcase == 'a'
+        end
+
         ddl_transaction(migration) do
           migration.migrate(@direction)
           record_version_state_after_migrating(migration.version) unless tag == :predeploy && migration.tags.include?(:postdeploy)
@@ -1045,7 +1121,7 @@ ActiveRecord::ConnectionAdapters::SchemaStatements.class_eval do
       begin
         add_foreign_key(from_table, to_table, options)
       rescue ActiveRecord::StatementInvalid => e
-        raise unless e.message =~ /PGError: ERROR:.+already exists/
+        raise unless e.message =~ /PG(?:::)?Error: ERROR:.+already exists/
       end
     else
       column  = options[:column] || "#{to_table.to_s.singularize}_id"
@@ -1059,7 +1135,7 @@ ActiveRecord::ConnectionAdapters::SchemaStatements.class_eval do
     begin
       remove_foreign_key(table, options)
     rescue ActiveRecord::StatementInvalid => e
-      raise unless e.message =~ /PGError: ERROR:.+does not exist|Mysql::Error: Error on rename/
+      raise unless e.message =~ /PG(?:::)?Error: ERROR:.+does not exist|Mysql::Error: Error on rename/
     end
   end
 end

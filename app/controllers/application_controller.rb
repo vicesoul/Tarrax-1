@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 Instructure, Inc.
+# Copyright (C) 2011 - 2012 Instructure, Inc.
 #
 # This file is part of Canvas.
 #
@@ -47,9 +47,10 @@ class ApplicationController < ActionController::Base
   after_filter :set_user_id_header
   before_filter :fix_xhr_requests
   before_filter :init_body_classes
-  before_filter :set_ua_header
+  after_filter :set_response_headers
+  before_filter :load_all_models if RAILS_ENV == 'development' # load all models before initialize instance from cache store
 
-  add_crumb(proc { I18n.t('links.dashboard', "My Dashboard") }, :root_path, :class => "home")
+  add_crumb(proc { %Q{<i title="#{I18n.t('links.dashboard', "My Dashboard")}" class="icon-home standalone-icon"></i>}.html_safe }, :root_path, :class => "home")
 
   ##
   # Sends data from rails to JavaScript
@@ -119,10 +120,6 @@ class ApplicationController < ActionController::Base
     @body_classes = []
   end
 
-  def set_ua_header
-    headers['X-UA-Compatible'] = 'IE=edge,chrome=1'
-  end
-
   def set_user_id_header
     headers['X-Canvas-User-Id'] ||= @current_user.global_id.to_s if @current_user
     headers['X-Canvas-Real-User-Id'] ||= @real_current_user.global_id.to_s if @real_current_user
@@ -146,17 +143,30 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def load_all_models
+    Dir.glob('app/models/*.rb') { |f| File.basename(f, '.rb').camelize.constantize }
+  end
+
   # retrieves the root account for the given domain
   def load_account
     @domain_root_account = request.env['canvas.domain_root_account'] || LoadAccount.default_domain_root_account
     @files_domain = request.host_with_port != HostUrl.context_host(@domain_root_account) && HostUrl.is_file_host?(request.host_with_port)
+    @domain_root_account
+  end
+
+  def set_response_headers
+    headers['X-UA-Compatible'] = 'IE=edge,chrome=1'
     # we can't block frames on the files domain, since files domain requests
     # are typically embedded in an iframe in canvas, but the hostname is
     # different
-    if !@files_domain && Setting.get_cached('block_html_frames', 'false') == 'true'
-      response['X-Frame-Options'] = 'SAMEORIGIN'
+    if !files_domain? && Setting.get_cached('block_html_frames', 'true') == 'true' && !@embeddable
+      headers['X-Frame-Options'] = 'SAMEORIGIN'
     end
-    @domain_root_account
+    true
+  end
+
+  def files_domain?
+    !!@files_domain
   end
 
   def check_pending_otp
@@ -184,7 +194,7 @@ class ApplicationController < ActionController::Base
     end
     self.send name, *opts
   end
-  
+
   def user_url(*opts)
     opts[0] == @current_user && !@current_user.grants_right?(@current_user, session, :view_statistics) ?
       user_profile_url(@current_user) :
@@ -230,7 +240,7 @@ class ApplicationController < ActionController::Base
     render_unauthorized_action(object) unless can_do
     can_do
   end
-  
+
   def is_authorized_action?(object, *opts)
     user = opts.shift
     action_session = nil
@@ -250,7 +260,7 @@ class ApplicationController < ActionController::Base
     end
     can_do
   end
-  
+
   def render_unauthorized_action(object=nil)
     object ||= User.new
     object.errors.add_to_base(t "#application.errors.unauthorized.generic", "You are not authorized to perform this action")
@@ -275,7 +285,8 @@ class ApplicationController < ActionController::Base
           end
         end
 
-        render :template => "shared/unauthorized", :layout => "application", :status => :unauthorized 
+        @is_delegated = @domain_root_account.delegated_authentication? && !@domain_root_account.ldap_authentication? && !request.params[:canvas_login]
+        render :template => "shared/unauthorized", :layout => "application", :status => :unauthorized
       }
       format.zip { redirect_to(url_for(params)) }
       format.json { render :json => { 'status' => 'unauthorized', 'message' => 'You are not authorized to perform that action.' }, :status => :unauthorized }
@@ -283,7 +294,7 @@ class ApplicationController < ActionController::Base
     response.headers["Pragma"] = "no-cache"
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
   end
-  
+
   # To be used as a before_filter, requires controller or controller actions
   # to have their urls scoped to a context in order to be valid.
   # So /courses/5/assignments or groups/1/assignments would be valid, but
@@ -302,7 +313,7 @@ class ApplicationController < ActionController::Base
     end
     return @context != nil
   end
-  
+
   def clean_return_to(url)
     return nil if url.blank?
     uri = URI.parse(url)
@@ -310,7 +321,7 @@ class ApplicationController < ActionController::Base
     return "#{request.protocol}#{request.host_with_port}#{uri.path}#{uri.query && "?#{uri.query}"}#{uri.fragment && "##{uri.fragment}"}"
   end
   helper_method :clean_return_to
-  
+
   def return_to(url, fallback)
     url = clean_return_to(url) || clean_return_to(fallback)
     redirect_to url
@@ -403,6 +414,7 @@ class ApplicationController < ActionController::Base
           end
         end
       end
+      set_badge_counts_for(@context, @current_user, @current_enrollment)
       assign_localizer if @context.present?
       add_crumb(@context.short_name, named_context_url(@context, :context_url), :id => "crumb_#{@context.asset_string}") if @context && @context.respond_to?(:short_name)
     end
@@ -452,98 +464,108 @@ class ApplicationController < ActionController::Base
     @context_membership = @context_enrollment
   end
 
+  def set_badge_counts_for(context, user, enrollment=nil)
+    return if @js_env && @js_env[:badge_counts].present?
+    return unless context.present? && user.present?
+    return unless context.respond_to?(:content_participation_counts) # just Course and Group so far
+    js_env(:badge_counts => badge_counts_for(context, user, enrollment))
+  end
+
+  def badge_counts_for(context, user, enrollment=nil)
+    badge_counts = {}
+    ['Submission'].each do |type|
+      participation_count = context.content_participation_counts.find(:first, {
+        :conditions => { :user_id => user.id, :content_type => type },
+      })
+      participation_count ||= ContentParticipationCount.create_or_update({
+        :context => context,
+        :user => user,
+        :content_type => type,
+      })
+      badge_counts[type.underscore.pluralize] = participation_count.unread_count
+    end
+    badge_counts
+  end
+
   # Retrieves all assignments for all contexts held in the @contexts variable.
   # Also retrieves submissions and sorts the assignments based on
   # their due dates and submission status for the given user.
   def get_sorted_assignments
-    @assignment_groups    = []
-    @upcoming_assignments = []
-    @assignments          = []
-    @submissions          = []
-    @overdue_assignments  = []
     @courses = @contexts.select{ |c| c.is_a?(Course) }
     @just_viewing_one_course = @context.is_a?(Course) && @courses.length == 1
     @context_codes = @courses.map(&:asset_string)
     @context = @courses.first
+
     if @just_viewing_one_course
-      @courses.each do |course|
-        # if there is just one context this will leave @groups set up for the view group by assignment group
-        @groups = course.assignment_groups.active(:include => :active_assignments)
-        assignments_for_this_course = @groups.map(&:active_assignments).flatten
-        @assignments += assignments_for_this_course
-        @upcoming_assignments += assignments_for_this_course.select{ |a| 
-          a.due_at && 
-          a.due_at <= 1.weeks.from_now && 
-          a.due_at >= Time.now
-        }
-        log_asset_access("assignments:#{course.asset_string}", "assignments", "other")
-      end
+      @groups = @courses.first.assignment_groups.active.scoped(:include => :active_assignments)
+      @assignments = @groups.map(&:active_assignments).flatten
     else
-      @groups = AssignmentGroup.for_context_codes(@context_codes).active(:include => {:active_assignments => {:submissions => {}, :quiz => {}, :discussion_topic => {}} })
+      @groups = AssignmentGroup.for_context_codes(@context_codes).active
       @assignments = Assignment.active.for_context_codes(@context_codes)
-      @courses.each do |course|
-        log_asset_access("assignments:#{course.asset_string}", "assignments", "other")
-      end
     end
-    @upcoming_assignments = @assignments.select{|a|
-      a.due_at &&
-      a.due_at <= 1.weeks.from_now &&
-      a.due_at >= Time.now
-    }
-    @submissions = @current_user.submissions(:include => {:submission_comments => {}, :rubric_assessment => {}}).to_a if @current_user
-    @submissions_hash = {}
-    @submissions.each{|s|
-      @submissions_hash[s.assignment_id] = s
-      assignment = @assignments.select { |a| a.id == s.assignment_id }[0]
-      if assignment && assignment.muted?
-        submission = @submissions_hash[s.assignment_id]
-        submission.published_score = submission.published_grade = submission.graded_at = submission.grade = submission.score = nil
-      end
-    }
-    @ungraded_assignments = @assignments.select{|a| 
-      a.grants_right?(@current_user, session, :grade) && 
-      a.expects_submission? &&
-      a.needs_grading_count > 0
-    }
     @assignment_groups = @groups
-    @past_assignments = @assignments.select{ |a| a.due_at && a.due_at < Time.now }
-    @undated_assignments = @assignments.select{ |a| !a.due_at }
-    @past_assignments.each do |assignment|
-      submission = @submissions_hash[assignment.id]
-      if assignment.overdue? && 
-         assignment.expects_submission? && 
-         ( !submission || (!submission.has_submission? && !submission.graded?) ) &&
-         assignment.grants_right?(@current_user, session, :submit)
-      
-        @overdue_assignments << assignment
-      end
-    end
-    @future_assignments = @assignments - @past_assignments
-    if request.path.match(/\A\/assignments/)
-      if @future_assignments.length > 5
-        @future_assignments = @future_assignments.select{|a| a.due_at && a.due_at < 2.weeks.from_now }
-      else
-        @future_assignments = @future_assignments.select{|a| a.due_at && a.due_at < 4.weeks.from_now }
-      end
-      if @past_assignments.length > 5
-        @past_assignments = @past_assignments.select{|a| a.due_at && a.due_at > 2.weeks.ago }
-      else
-        @past_assignments = @past_assignments.select{|a| a.due_at && a.due_at > 4.weeks.ago }
-      end
-      @overdue_assignments = @overdue_assignments.select{|a| a.due_at && a.due_at > 2.weeks.ago }
-      @ungraded_assignments = @ungraded_assignments.select{|a| a.due_at && a.due_at > 2.weeks.ago }
-    end
-    
-    [@assignments, @upcoming_assignments, @past_assignments, @overdue_assignments, @ungraded_assignments, @undated_assignments, @future_assignments].map(&:sort!)
+
+    @courses.each { |course| log_course(course) }
+
+    @submissions = @current_user.try(:submissions).to_a
+    @submissions.each{ |s| s.mute if s.muted_assignment? }
+
+    sorted_by_vdd = SortsAssignments.by_varied_due_date({
+      :assignments => @assignments,
+      :user => @current_user,
+      :session => session,
+      :upcoming_limit => 1.week.from_now,
+      :submissions => @submissions
+    })
+
+    @past_assignments = sorted_by_vdd.past
+    @undated_assignments = sorted_by_vdd.undated
+    @ungraded_assignments = sorted_by_vdd.ungraded
+    @upcoming_assignments = sorted_by_vdd.upcoming
+    @future_assignments = sorted_by_vdd.future
+    @overdue_assignments = sorted_by_vdd.overdue
+
+    condense_assignments if requesting_main_assignments_page?
+
+    categorized_assignments.each(&:sort!)
   end
-  
+
+  def categorized_assignments
+    [
+      @assignments,
+      @upcoming_assignments,
+      @past_assignments,
+      @ungraded_assignments,
+      @undated_assignments,
+      @future_assignments
+    ]
+  end
+
+  def condense_assignments
+    num_weeks = @future_assignments.length > 5 ? 2 : 4
+    @future_assignments = SortsAssignments.up_to(@future_assignments, num_weeks.weeks.from_now)
+    num_weeks = @past_assignments.length < 5 ? 2 : 4
+    @past_assignments = SortsAssignments.down_to(@past_assignments, num_weeks.weeks.ago)
+
+    @overdue_assignments = SortsAssignments.down_to(@overdue_assignments, 4.weeks.ago)
+    @ungraded_assignments = SortsAssignments.down_to(@ungraded_assignments, 4.weeks.ago)
+  end
+
+  def log_course(course)
+    log_asset_access("assignments:#{course.asset_string}", "assignments", "other")
+  end
+
+  def requesting_main_assignments_page?
+    request.path.match(/\A\/assignments/)
+  end
+
   # Calculates the file storage quota for @context
   def get_quota
     quota_params = Attachment.get_quota(@context)
     @quota = quota_params[:quota]
     @quota_used = quota_params[:quota_used]
   end
-  
+
   # Renders a quota exceeded message if the @context's quota is exceeded
   def quota_exceeded(redirect=nil)
     redirect ||= root_url
@@ -593,7 +615,7 @@ class ApplicationController < ActionController::Base
       @context = @enrollment.course unless @problem
       @current_user = @enrollment.user unless @problem
     elsif pieces[0] == 'group_membership'
-      @membership = GroupMembership.find_by_uuid(pieces[1]) if pieces[1]
+      @membership = GroupMembership.active.find_by_uuid(pieces[1]) if pieces[1]
       @context_type = "Group"
       if !@membership
         @problem = t "#application.errors.mismatched_verification_code", "The verification code does not match any currently enrolled user."
@@ -654,7 +676,7 @@ class ApplicationController < ActionController::Base
     ActiveRecord::Base.clear_cached_contexts
     RoleOverride.clear_cached_contexts
   end
-  
+
   def set_page_view
     return true if !page_views_enabled?
 
@@ -666,17 +688,14 @@ class ApplicationController < ActionController::Base
       generate_page_view
     end
   end
-  
+
   def generate_page_view
-    @page_view = PageView.new(:url => request.url[0,255], :user => @current_user, :controller => request.path_parameters['controller'], :action => request.path_parameters['action'], :session_id => request.session_options[:id], :developer_key => @developer_key, :user_agent => request.headers['User-Agent'], :real_user => @real_current_user)
-    @page_view.interaction_seconds = 5
+    attributes = { :user => @current_user, :developer_key => @developer_key, :real_user => @real_current_user }
+    @page_view = PageView.generate(request, attributes)
     @page_view.user_request = true if params[:user_request] || (@current_user && !request.xhr? && request.method == :get)
-    @page_view.created_at = Time.now
-    @page_view.updated_at = Time.now
     @page_before_render = Time.now.utc
-    @page_view.id = RequestContextGenerator.request_id
   end
-  
+
   def generate_new_page_view
     return true if !page_views_enabled?
 
@@ -688,7 +707,7 @@ class ApplicationController < ActionController::Base
     @log_page_views = false
     true
   end
-  
+
   # Asset accesses are used for generating usage statistics.  This is how
   # we say, "the user just downloaded this file" or "the user just
   # viewed this wiki page".  We can then after-the-fact build statistics
@@ -704,7 +723,7 @@ class ApplicationController < ActionController::Base
       :level => level
     }
   end
-  
+
   def log_page_view
     return true if !page_views_enabled?
 
@@ -730,34 +749,16 @@ class ApplicationController < ActionController::Base
       # it's not an update because if the page_view already existed, we don't want to 
       # double-count it as multiple views when it's really just a single view.
       if @current_user && @accessed_asset && (@accessed_asset[:level] == 'participate' || !@page_view_update)
-        @access = AssetUserAccess.find_by_user_id_and_asset_code(@current_user.id, @accessed_asset[:code])
-        @access ||= AssetUserAccess.new(:user => @current_user, :asset_code => @accessed_asset[:code])
+        @access = AssetUserAccess.find_or_initialize_by_user_id_and_asset_code(@current_user.id, @accessed_asset[:code])
         @accessed_asset[:level] ||= 'view'
-        if @accessed_asset[:level] == 'view'
-          @access.view_score ||= 0
-          @access.view_score += 1
-          @access.action_level ||= 'view'
-        elsif @accessed_asset[:level] == 'participate'
-          @access.view_score ||= 0
-          @access.view_score += 1
-          @access.participate_score ||= 0
-          @access.participate_score += 1
-          @access.action_level = 'participate'
-          @page_view.participated = true if @page_view
-        elsif @accessed_asset[:level] == 'submit'
-          @access.participate_score ||= 0
-          @access.participate_score += 1
-          @access.action_level = 'participate'
-          @page_view.participated = true if @page_view
+        access_context = @context.is_a?(UserProfile) ? @context.user : @context
+        @access.log access_context, @accessed_asset
+
+        if @page_view
+          @page_view.participated = %w{participate submit}.include?(@accessed_asset[:level])
+          @page_view.asset_user_access = @access
         end
-        @access.asset_category ||= @accessed_asset[:category]
-        @access.asset_group_code ||= @accessed_asset[:group_code]
-        @access.membership_type ||= @accessed_asset[:membership_type]
-        @access.context = @context.is_a?(UserProfile) ? @context.user : @context
-        @access.summarized_at = nil
-        @access.last_access = Time.now.utc
-        @access.save
-        @page_view.asset_user_access_id = @access.id if @page_view
+
         @page_view_update = true
       end
       if @page_view && !request.xhr? && request.get? && (response.content_type || "").match(/html/)
@@ -774,7 +775,7 @@ class ApplicationController < ActionController::Base
     end
   rescue => e
     logger.error "Pageview error!"
-    raise e if Rails.env == 'development'
+    raise e if Rails.env.development?
     true
   end
 
@@ -911,7 +912,7 @@ class ApplicationController < ActionController::Base
   def session_loaded?
     session.send(:loaded?) rescue false
   end
-  
+
   # Retrieving wiki pages needs to search either using the id or 
   # the page title.
   def get_wiki_page
@@ -936,7 +937,7 @@ class ApplicationController < ActionController::Base
       @page.body = t "#application.wiki_front_page_default_content_group", "Welcome to your new group wiki!" if @context.is_a?(Group)
     end
   end
-  
+
   def context_wiki_page_url
     page_name = @page.url
     named_context_url(@context, :context_wiki_page_url, page_name)
@@ -978,7 +979,7 @@ class ApplicationController < ActionController::Base
       else
         @return_url = named_context_url(@context, :context_external_tool_finished_url, @tool.id, :include_host => true)
         @launch = BasicLTI::ToolLaunch.new(:url => @resource_url, :tool => @tool, :user => @current_user, :context => @context, :link_code => @opaque_id, :return_url => @return_url)
-        if @assignment && @context.students.include?(@current_user)
+        if @assignment && @context.includes_student?(@current_user)
           @launch.for_assignment!(@tag.context, lti_grade_passback_api_url(@tool), blti_legacy_grade_passback_api_url(@tool))
         end
         @tool_settings = @launch.generate
@@ -1042,46 +1043,53 @@ class ApplicationController < ActionController::Base
   
   # escape everything but slashes, see http://code.google.com/p/phusion-passenger/issues/detail?id=113
   FILE_PATH_ESCAPE_PATTERN = Regexp.new("[^#{URI::PATTERN::UNRESERVED}/]")
-  def safe_domain_file_url(attachment, host=nil, verifier = nil, download = false) # TODO: generalize this
-    res = "#{request.protocol}#{host || HostUrl.file_host(@domain_root_account || Account.default, request.host_with_port)}"
-    ts, sig = @current_user && @current_user.access_verifier
-
-    # add parameters so that the other domain can create a session that 
-    # will authorize file access but not full app access.  We need this in 
-    # case there are relative URLs in the file that point to other pieces 
-    # of content.
-    opts = { :user_id => @current_user.try(:id), :ts => ts, :sf_verifier => sig }
-    opts[:verifier] = verifier if verifier.present?
-
-    if download
-      # download "for realz, dude" (see later comments about :download)
-      opts[:download_frd] = 1
-    else
-      # don't set :download here, because file_download_url won't like it. see
-      # comment below for why we'd want to set :download
-      opts[:inline] = 1
+  def safe_domain_file_url(attachment, host_and_shard=nil, verifier = nil, download = false) # TODO: generalize this
+    if !host_and_shard
+      host_and_shard = HostUrl.file_host_with_shard(@domain_root_account || Account.default, request.host_with_port)
     end
+    host, shard = host_and_shard
+    res = "#{request.protocol}#{host}"
 
-    if @context && Attachment.relative_context?(@context.class.base_ar_class) && @context == attachment.context
-      # so yeah, this is right. :inline=>1 wants :download=>1 to go along with
-      # it, so we're setting :download=>1 *because* we want to display inline.
-      opts[:download] = 1 unless download
+    shard.activate do
+      ts, sig = @current_user && @current_user.access_verifier
 
-      # if the context is one that supports relative paths (which requires extra
-      # routes and stuff), then we'll build an actual named_context_url with the
-      # params for show_relative
-      res += named_context_url(@context, :context_file_url, attachment)
-      res += '/' + URI.escape(attachment.full_display_path, FILE_PATH_ESCAPE_PATTERN)
-      res += '?' + opts.to_query
-    else
-      # otherwise, just redirect to /files/:id
-      res += file_download_url(attachment, opts.merge(:only_path => true))
+      # add parameters so that the other domain can create a session that
+      # will authorize file access but not full app access.  We need this in
+      # case there are relative URLs in the file that point to other pieces
+      # of content.
+      opts = { :user_id => @current_user.try(:id), :ts => ts, :sf_verifier => sig }
+      opts[:verifier] = verifier if verifier.present?
+
+      if download
+        # download "for realz, dude" (see later comments about :download)
+        opts[:download_frd] = 1
+      else
+        # don't set :download here, because file_download_url won't like it. see
+        # comment below for why we'd want to set :download
+        opts[:inline] = 1
+      end
+
+      if @context && Attachment.relative_context?(@context.class.base_ar_class) && @context == attachment.context
+        # so yeah, this is right. :inline=>1 wants :download=>1 to go along with
+        # it, so we're setting :download=>1 *because* we want to display inline.
+        opts[:download] = 1 unless download
+
+        # if the context is one that supports relative paths (which requires extra
+        # routes and stuff), then we'll build an actual named_context_url with the
+        # params for show_relative
+        res += named_context_url(@context, :context_file_url, attachment)
+        res += '/' + URI.escape(attachment.full_display_path, FILE_PATH_ESCAPE_PATTERN)
+        res += '?' + opts.to_query
+      else
+        # otherwise, just redirect to /files/:id
+        res += file_download_url(attachment, opts.merge(:only_path => true))
+      end
     end
 
     res
   end
   helper_method :safe_domain_file_url
-  
+
   def feature_enabled?(feature)
     @features_enabled ||= {}
     feature = feature.to_sym
@@ -1117,17 +1125,17 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :feature_enabled?
-  
+
   def service_enabled?(service)
     @domain_root_account && @domain_root_account.service_enabled?(service)
   end
   helper_method :service_enabled?
-  
+
   def feature_and_service_enabled?(feature)
     feature_enabled?(feature) && service_enabled?(feature)
   end
   helper_method :feature_and_service_enabled?
-  
+
   def show_new_dashboard?
     @current_user && @current_user.preferences[:new_dashboard]
   end
@@ -1172,6 +1180,12 @@ class ApplicationController < ActionController::Base
         format.json { render :json => { 'status' => 'unauthorized', 'message' => t('#errors.registration_incomplete', 'You need to confirm your email address before you can view this page') }, :status => :unauthorized }
       end
       return false
+    end
+  end
+
+  def check_incomplete_registration
+    if @current_user
+      js_env :INCOMPLETE_REGISTRATION => params[:registration_success] && @current_user.pre_registered?, :USER_EMAIL => @current_user.email
     end
   end
 
@@ -1235,7 +1249,21 @@ class ApplicationController < ActionController::Base
     (params[:format].to_s != 'json' || in_app?)
   end
 
+  def reset_session
+    # when doing login/logout via ajax, we need to have the new csrf token
+    # for subsequent requests.
+    @resend_csrf_token_if_json = true
+    super
+  end
+
+  def set_layout_options
+    @embedded_view = params[:embedded]
+    @headers = false if params[:no_headers] || @embedded_view
+    (@body_classes ||= []) << 'embedded' if @embedded_view
+  end
+
   def render(options = nil, extra_options = {}, &block)
+    set_layout_options
     if options && options.key?(:json)
       json = options.delete(:json)
       json = ActiveSupport::JSON.encode(json) unless json.is_a?(String)
@@ -1243,6 +1271,10 @@ class ApplicationController < ActionController::Base
       # call that didn't use session auth, or a non-GET request.
       if prepend_json_csrf?
         json = "while(1);#{json}"
+      end
+
+      if @resend_csrf_token_if_json
+        response.headers['X-CSRF-Token'] = form_authenticity_token
       end
 
       # fix for some browsers not properly handling json responses to multipart

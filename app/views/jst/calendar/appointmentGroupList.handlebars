@@ -1,31 +1,31 @@
 {{#if appointment_groups}}
   <div class="scheduler-header">
     <h2 id="appointment-group-list-header">{{#t "my_appointment_groups"}}My Appointment Groups{{/t}}</h2>
-    <button class="button single_item_done_button">Done, Go Back To List</button>
+    <button class="btn single_item_done_button">{{#t "done"}}Done, Go Back To List{{/t}}</button>
   </div>
   <ul class="scheduler-content" id="appointment-group-list">
     {{#each appointment_groups}}
       <li class='appointment-group-item admin-link-hover-area {{#if requiring_action}}requiring-action{{/if}} {{#unless published}}unpublished-ag{{/unless}}' data-appointment-group-id='{{id}}'>
         {{#if is_manageable}}
           <div class="admin-links">
-            <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage</span></button>
+            <button class="al-trigger ui-button"><span class="al-trigger-inner">{{#t "manage"}}Manage{{/t}}</span></button>
             <ul class="al-options">
-              <li><a class="edit_link" href="#"><span class="ui-icon ui-icon-pencil" />Edit</a></li>
+              <li><a class="edit_link" href="#"><span class="ui-icon ui-icon-pencil" />{{#t "edit"}}Edit{{/t}}</a></li>
               <li><a class="message_link" href="#"><span class="ui-icon ui-icon-mail-closed" />{{#ifEqual participant_type "Group"}}{{#t "message_groups"}}Message Groups Who...{{/t}}{{else}}{{#t "message_students"}}Message Students Who...{{/t}}{{/ifEqual}}</a></li>
-              <li><a class="delete_link" href="#"><span class="ui-icon ui-icon-trash" />Delete</a></li>
+                <li><a class="delete_link" href="#"><span class="ui-icon ui-icon-trash" />{{#t "delete"}}Delete{{/t}}</a></li>
             </ul>
           </div>
         {{/if}}
         {{#if requiring_action}}
           <div class="alert alert-warning">
             <div>
-              You can <a class="view_calendar_link" href="#">sign up</a> for this.
+              {{#t "you_can"}}You can{{/t}} <a class="view_calendar_link" href="#">{{#t "sign_up"}}sign up{{/t}}</a> {{#t "for_this"}}for this.{{/t}}
             </div>
           </div>
         {{else}}
           {{#if signed_up_times}}
             <div class="alert alert-success">
-              <div>You're signed up for</div>
+              <div>{{#t "you_sign_up_for"}}You're signed up for{{/t}}</div>
               {{#each signed_up_times}}
                 <div><strong><a href="#" class="show_event_link" data-event-id="{{id}}">{{{formatted_time}}}</a></strong></div>
               {{/each}}
@@ -57,7 +57,7 @@
                 {{signed_up}} people have signed up
               {{/t}}
             {{/ifEqual}}
-            {{#unless published}}(unpublished){{/unless}}
+            {{#unless published}}({{#t "unpublished"}}unpublished{{/t}}){{/unless}}
           </div>
         {{/if}}
       </li>

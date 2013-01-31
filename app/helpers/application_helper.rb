@@ -366,6 +366,7 @@ module ApplicationHelper
   def include_css_bundles
     unless jammit_css_bundles.empty?
       bundles = jammit_css_bundles.map{ |(bundle,plugin)| plugin ? "plugins_#{plugin}_#{bundle}" : bundle }
+      bundles << {:media => 'all'}
       include_stylesheets(*bundles)
     end
   end
@@ -405,7 +406,7 @@ module ApplicationHelper
           hide = tab[:hidden] || tab[:hidden_unused]
           class_name = tab[:css_class].to_css_class
           class_name += ' active' if @active_tab == tab[:css_class]
-          html << "<li class='section #{"hidden" if hide }'>" + link_to(tab[:label], path, :class => class_name) + "</li>" if tab[:href]
+          html << "<li class='section #{"hidden" if hide }'>" + link_to(content_tag(:span, tab[:label]), path, :class => class_name) + "</li>" if tab[:href]
         end
         html << "</ul></nav>"
         html.join("")
@@ -452,8 +453,8 @@ module ApplicationHelper
   #
   # Returns an HTML string.
   def sidebar_button(url, label, img = nil)
-    link_to(url, :class => 'button button-sidebar-wide') do
-      img ? image_tag(img) + label : label
+    link_to(url, :class => 'btn button-sidebar-wide') do
+      img ? ("<i class='icon-" + img + "'></i> ").html_safe + label : label
     end
   end
 
@@ -789,6 +790,19 @@ module ApplicationHelper
     Digest::MD5.hexdigest(keys.join('/'))
   end
 
+  def translated_due_date(assignment)
+    due_date = VariedDueDate.new assignment, @current_user
+    if due_date.multiple?
+      t('#due_dates.multiple_due_dates', 'due: Multiple Due Dates')
+    elsif due_date.due_at
+      t('#due_dates.due_at', 'due: %{assignment_due_date_time}', {
+        :assignment_due_date_time => datetime_string(force_zone(due_date.due_at))
+      })
+    else
+      t('#due_dates.no_due_date', 'due: No Due Date')
+    end
+  end
+
   def add_uri_scheme_name(uri)
     noSchemeName = !uri.match(/^(.+):\/\/(.+)/)
     uri = 'http://' + uri if noSchemeName
@@ -808,5 +822,13 @@ module ApplicationHelper
 
     content_tag(:div, '', :id => 'kaltura-info', 'data-domain' => config['domain'], 'data-partner_id' => config['partner_id'],
       'data-player_ui_conf' => config['player_ui_conf'], 'style' => 'display: none;')
+  end
+
+  def agree_to_terms
+    # may be overridden by a plugin
+    @agree_to_terms ||
+    t("#user.registration.agree_to_terms",
+      "You agree to the *terms of use*.",
+      :wrapper => link_to('\1', "http://www.instructure.com/terms-of-use", :target => "_new"))
   end
 end

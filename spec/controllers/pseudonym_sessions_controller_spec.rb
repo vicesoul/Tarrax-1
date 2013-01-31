@@ -20,31 +20,38 @@ require File.expand_path(File.dirname(__FILE__) + '/../sharding_spec_helper')
 
 describe PseudonymSessionsController do
 
-  it "should render normal layout if not iphone/ipod" do
-    get 'new'
-    response.should render_template("pseudonym_sessions/new.html.erb")
-  end
+  describe 'mobile layout decision' do
+    let(:mobile_agents) do
+      [
+        "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5",
+        "Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5",
+        "Mozilla/5.0 (Linux; U; Android 2.2; en-us; SCH-I800 Build/FROYO) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+        "Mozilla/5.0 (Linux; U; Android 2.2; en-us; Sprint APA9292KT Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
+        "Mozilla/5.0 (Linux; U; Android 2.2; en-us; Nexus One Build/FRF91) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1"
+      ]
+    end
 
-  it "should render special iPhone/iPod layout if coming from one of those" do
-    [
-      "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5",
-      "Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"
-    ].each do |user_agent|
-      request.env['HTTP_USER_AGENT'] = user_agent
+    def confirm_mobile_layout
+      mobile_agents.each do |agent|
+        request.env['HTTP_USER_AGENT'] = agent
+        yield
+        response.should render_template("pseudonym_sessions/mobile_login")
+      end
+    end
+
+    it "should render normal layout if not iphone/ipod" do
       get 'new'
-      response.should render_template("pseudonym_sessions/mobile_login")
+      response.should render_template("pseudonym_sessions/new.html.erb")
     end
-  end
 
-  it "should render special iPhone/iPod layout if coming from one of those and it's the wrong password'" do
-    [
-      "Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5",
-      "Mozilla/5.0 (iPod; U; CPU iPhone OS 4_3_3 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8J2 Safari/6533.18.5"
-    ].each do |user_agent|
-      request.env['HTTP_USER_AGENT'] = user_agent
-      post 'create'
-      response.should render_template("pseudonym_sessions/mobile_login")
+    it "should render special iPhone/iPod layout if coming from one of those" do
+      confirm_mobile_layout { get 'new' }
     end
+
+    it "should render special iPhone/iPod layout if coming from one of those and it's the wrong password'" do
+      confirm_mobile_layout { post 'create' }
+    end
+
   end
 
   it "should re-render if no user" do
@@ -93,6 +100,16 @@ describe PseudonymSessionsController do
       post 'create', :pseudonym_session => { :unique_id => 'username', :password => 'password'}
       response.status.should == '400 Bad Request'
       response.should render_template('new')
+    end
+
+    it "should not treat ldap without canvas as delegated for purposes of rendering the login screen" do
+      aac = Account.default.account_authorization_configs.create!(:auth_type => 'ldap', :identifier_format => 'uid')
+      Account.default.settings[:canvas_authentication] = false
+      Account.default.save!
+      get 'new'
+      response.should render_template('new')
+      response.should be_success
+      assigns[:is_delegated].should == false
     end
   end
 
@@ -969,4 +986,62 @@ describe PseudonymSessionsController do
       @other_user.otp_communication_channel.should be_nil
     end
   end
+
+  describe 'GET oauth2_auth' do
+    let(:key) { DeveloperKey.create! }
+
+    it 'renders a 400 when there is no client_id' do
+      get :oauth2_auth
+      response.status.should == '400 Bad Request'
+      response.body.should =~ /invalid client_id/
+    end
+
+    it 'renders 400 on a bad redirect_uri' do
+      get :oauth2_auth, :client_id => key.id
+      response.status.should == '400 Bad Request'
+      response.body.should =~ /invalid redirect_uri/
+    end
+
+    it 'redirects to the login url' do
+      get :oauth2_auth, :client_id => key.id, :redirect_uri => Canvas::Oauth::Provider::OAUTH2_OOB_URI
+      response.should redirect_to(login_url)
+    end
+
+    it 'passes on canvas_login if provided' do
+      get :oauth2_auth, :client_id => key.id, :redirect_uri => Canvas::Oauth::Provider::OAUTH2_OOB_URI, :canvas_login => 1
+      response.should redirect_to(login_url(:canvas_login => 1))
+    end
+  end
+
+  describe 'GET oauth2_token' do
+    let(:key) { DeveloperKey.create! }
+
+    it 'renders a 400 if theres no client_id' do
+      get :oauth2_token
+      response.status.should == '400 Bad Request'
+      response.body.should =~ /invalid client_id/
+    end
+
+    it 'renders a 400 if the secret is invalid' do
+      get :oauth2_token, :client_id => key.id, :client_secret => key.api_key + "123"
+      response.status.should == '400 Bad Request'
+      response.body.should =~ /invalid client_secret/
+    end
+
+    it 'renders a 400 if the provided code does not match a token' do
+      Canvas.stubs(:redis => stub(:get => nil))
+      get :oauth2_token, :client_id => key.id, :client_secret => key.api_key, :code => "NotALegitCode"
+      response.status.should == '400 Bad Request'
+      response.body.should =~ /invalid code/
+    end
+
+    it 'outputs the token json if everything checks out' do
+      user = User.create!
+      Canvas.stubs(:redis => stub(:get => %Q{{"client_id": #{key.id}, "user": #{user.id}}}))
+      get :oauth2_token, :client_id => key.id, :client_secret => key.api_key, :code => "thecode"
+      response.should be_success
+      JSON.parse(response.body).keys.sort.should == ['access_token', 'user']
+    end
+  end
+
 end

@@ -20,26 +20,6 @@ require File.expand_path(File.dirname(__FILE__) + '/reports_helper')
 
 describe "Default Account Reports" do
 
-  def run_report(report_type, parameters = {}, column = 0)
-
-    account_report = AccountReport.new(:user => @admin, :account => @account, :report_type => report_type)
-    account_report.parameters = {}
-    account_report.parameters = parameters
-    account_report.save
-    csv_report = Canvas::AccountReports::Default.send(report_type, account_report)
-    if csv_report.is_a? Hash
-      csv_report.inject({}) do |result, (key, csv)|
-        all_parsed = FasterCSV.parse(csv).to_a
-        all_parsed[1..-1].sort_by { |r| r[column] }
-        result[key] = all_parsed
-        result
-      end
-    else
-      all_parsed = FasterCSV.parse(csv_report).to_a
-      all_parsed[1..-1].sort_by { |r| r[column] }
-    end
-  end
-
   describe "SIS export reports and Provisioning reports" do
 
     it "should run the SIS and Provisioning Users reports" do
@@ -60,7 +40,7 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["users"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
 
       parsed[0].should == ["user_sis_id_01", "john@stclair.com", nil, "John St.", "Clair", "john@stclair.com", "active"]
@@ -68,13 +48,13 @@ describe "Default Account Reports" do
 
       parameters = {}
       parameters["users"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
 
       parsed[0].should == ["user_sis_id_01", "john@stclair.com", nil, "John St.", "Clair", "john@stclair.com", "active"]
       parsed[1].should == ["user_sis_id_02", "micheal@michaelbolton.com", nil, "Michael", "Bolton", "micheal@michaelbolton.com", "active"]
 
-      parsed = run_report("provisioning_csv", parameters,2)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters,2)
       parsed.length.should == 3
 
       parsed[0].should == [user1.id.to_s, "user_sis_id_01", "john@stclair.com", "John St.", "Clair", "john@stclair.com", "active"]
@@ -101,7 +81,7 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["accounts"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 3
 
       parsed[0].should == ["sub1", nil, "English", "active"]
@@ -110,18 +90,19 @@ describe "Default Account Reports" do
 
       parameters = {}
       parameters["accounts"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 3
       parsed[0].should == ["sub1", nil, "English", "active"]
       parsed[1].should == ["sub2", nil, "Math", "active"]
       parsed[2].should == ["subsub1", "sub1", "sESL", "active"]
 
-      parsed = run_report("provisioning_csv", parameters, 3)
+      parameters["enrollment_term"] = ''
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters, 4)
       parsed.length.should == 4
-      parsed[0].should == [sub_account.id.to_s, "sub1", nil, "English", "active"]
-      parsed[1].should == [sub_account2.id.to_s, "sub2", nil, "Math", "active"]
-      parsed[2].should == [sub_account3.id.to_s, nil, nil, "other", "active"]
-      parsed[3].should == [sub_sub_account.id.to_s, "subsub1", "sub1", "sESL", "active"]
+      parsed[0].should == [sub_account.id.to_s, "sub1", @account.id.to_s, nil, "English", "active"]
+      parsed[1].should == [sub_account2.id.to_s, "sub2", @account.id.to_s, nil, "Math", "active"]
+      parsed[2].should == [sub_account3.id.to_s, nil, @account.id.to_s, nil, "other", "active"]
+      parsed[3].should == [sub_sub_account.id.to_s, "subsub1", sub_account.id.to_s, "sub1", "sESL", "active"]
 
     end
 
@@ -130,11 +111,11 @@ describe "Default Account Reports" do
       Notification.find_or_create_by_name("Report Generation Failed")
 
       @account = Account.default
-      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => '20-12-2012')
+      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => 1.year.from_now)
       term1.root_account = @account
       term1.sis_source_id = 'fall12'
       term1.save!
-      term2 = EnrollmentTerm.create(:name => 'Winter', :start_at => '07-01-2013', :end_at => '28-04-2013')
+      term2 = EnrollmentTerm.create(:name => 'Winter', :start_at => '07-01-2013', :end_at => 2.years.from_now)
       term2.root_account = @account
       term2.sis_source_id = 'winter13'
       term2.save!
@@ -143,7 +124,7 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = term3.id
       parameters["terms"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
 
       parsed[0][0].should == term1.sis_source_id
@@ -160,16 +141,16 @@ describe "Default Account Reports" do
 
       parameters = {}
       parameters["terms"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
-      parsed[0].should == ["fall12", "Fall", "active", "2012-08-20T00:00:00Z", "2012-12-20T00:00:00Z"]
-      parsed[1].should == ["winter13", "Winter", "active", "2013-01-07T00:00:00Z", "2013-04-28T00:00:00Z"]
+      parsed[0].should == ["fall12", "Fall", "active", "2012-08-20T00:00:00Z", term1.end_at.iso8601]
+      parsed[1].should == ["winter13", "Winter", "active", "2013-01-07T00:00:00Z", term2.end_at.iso8601]
 
-      parsed = run_report("provisioning_csv", parameters, 2)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters, 2)
       parsed.length.should == 3
       parsed[0].should == [term3.id.to_s, nil, "Default Term", "active", nil, nil]
-      parsed[1].should == [term1.id.to_s, "fall12", "Fall", "active", "2012-08-20T00:00:00Z", "2012-12-20T00:00:00Z"]
-      parsed[2].should == [term2.id.to_s, "winter13", "Winter", "active", "2013-01-07T00:00:00Z", "2013-04-28T00:00:00Z"]
+      parsed[1].should == [term1.id.to_s, "fall12", "Fall", "active", "2012-08-20T00:00:00Z", term1.end_at.iso8601]
+      parsed[2].should == [term2.id.to_s, "winter13", "Winter", "active", "2013-01-07T00:00:00Z", term2.end_at.iso8601]
     end
 
     it "should run the SIS and Provisioning Course reports" do
@@ -181,7 +162,7 @@ describe "Default Account Reports" do
       sub_account.sis_source_id = 'sub1'
       sub_account.save!
 
-      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => '20-12-2012')
+      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => 1.year.from_now)
       term1.root_account = @account
       term1.sis_source_id = 'fall12'
       term1.save!
@@ -224,15 +205,16 @@ describe "Default Account Reports" do
       course6.workflow_state = 'completed'
       course6.save!
       parameters = {}
+      parameters["enrollment_term"] = ''
       parameters["courses"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 3
 
       parsed[0].should == [course1.sis_source_id, course1.course_code, course1.name, sub_account.sis_source_id, term1.sis_source_id, "active", start_at.iso8601, end_at.iso8601]
       parsed[1].should == ["SIS_COURSE_ID_2", "MAT101", "Math 101", nil, nil, "active", nil, end_at.iso8601]
       parsed[2].should == ["SIS_COURSE_ID_3", "SCI101", "Science 101", nil, nil, "active", nil, nil]
 
-      parsed = run_report("provisioning_csv", parameters,3)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters,3)
       parsed.length.should == 5
       parsed[0].should == [course1.id.to_s, course1.sis_source_id, course1.course_code, course1.name, sub_account.sis_source_id, term1.sis_source_id, "active", start_at.iso8601, end_at.iso8601]
       parsed[1].should == [course2.id.to_s, "SIS_COURSE_ID_2", "MAT101", "Math 101", nil, nil, "active", nil, end_at.iso8601]
@@ -243,7 +225,7 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["courses"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
       parsed[0].should == ["SIS_COURSE_ID_2", "MAT101", "Math 101", nil, nil, "active", nil, end_at.iso8601]
       parsed[1].should == ["SIS_COURSE_ID_3", "SCI101", "Science 101", nil, nil, "active", nil, nil]
@@ -259,7 +241,7 @@ describe "Default Account Reports" do
       sub_account = Account.create(:parent_account => @account, :name => 'English')
       sub_account.sis_source_id = 'sub1'
       sub_account.save!
-      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => '20-12-2012')
+      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => 1.year.from_now)
       term1.root_account = @account
       term1.sis_source_id = 'fall12'
       term1.save!
@@ -302,7 +284,7 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["sections"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
 
       parsed.length.should == 2
       parsed[0].should ==[section1.sis_source_id, course1.sis_source_id, section1.name, "active", start_at.iso8601, end_at.iso8601, sub_account.sis_source_id]
@@ -310,14 +292,14 @@ describe "Default Account Reports" do
 
       parameters = {}
       parameters["sections"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
 
       parsed.length.should == 3
       parsed[0].should ==[section1.sis_source_id, course1.sis_source_id, section1.name, "active", start_at.iso8601, end_at.iso8601, sub_account.sis_source_id]
       parsed[1].should == [section2.sis_source_id, course1.sis_source_id, section2.name, "active", nil, end_at.iso8601, nil]
       parsed[2].should == ["english_section_3", "SIS_COURSE_ID_2", "Math_01", "active", nil, end_at.iso8601, nil]
 
-      parsed = run_report("provisioning_csv", parameters,5)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters,5)
       parsed.length.should == 4
       parsed[0].should ==[section1.id.to_s, section1.sis_source_id, course1.id.to_s, course1.sis_source_id, section1.name, "active", start_at.iso8601, end_at.iso8601, sub_account.id.to_s, sub_account.sis_source_id]
       parsed[1].should == [section2.id.to_s, section2.sis_source_id, course1.id.to_s, course1.sis_source_id, section2.name, "active", nil, end_at.iso8601, nil, nil]
@@ -330,8 +312,11 @@ describe "Default Account Reports" do
       Notification.find_or_create_by_name("Report Generation Failed")
 
       @account = Account.default
+      role = @account.roles.build :name => 'Pixel Engineer'
+      role.base_role_type = 'DesignerEnrollment'
+      role.save!
 
-      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => '20-12-2012')
+      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => 1.year.from_now)
       term1.root_account = @account
       term1.sis_source_id = 'fall12'
       term1.save!
@@ -372,7 +357,9 @@ describe "Default Account Reports" do
       user6 = user_with_pseudonym(:active_all => true, :username => 'john@smith.com', :name => 'John Smith',:sortable_name => "Smith, John", :account => @account)
       @user.pseudonym.sis_user_id = "user_sis_id_06"
       @user.pseudonym.save!
-
+      user7 = user_with_pseudonym(:active_all => true, :username => 'jony@apple.com', :name => 'Jony Ive', :account => @account)
+      @user.pseudonym.sis_user_id = "user_sis_id_07"
+      @user.pseudonym.save!
       enrollment1 = course1.enroll_user(user1, 'ObserverEnrollment')
       enrollment1.invite
       enrollment1.accept
@@ -417,22 +404,23 @@ describe "Default Account Reports" do
       enrollment10.workflow_state = 'completed'
       enrollment10.save!
       user6.reload
+      enrollment11 = course2.enroll_user(user7, 'DesignerEnrollment', :role_name => 'Pixel Engineer', :enrollment_state => :active)
 
       parameters = {}
       parameters["enrollments"] = true
-      parsed = run_report("sis_export_csv", parameters, 1)
-      parsed.length.should == 7
-
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters, [1, 0])
+      parsed.length.should == 8
       parsed[0].should == ["SIS_COURSE_ID_1", "user_sis_id_01", "observer", nil, "active", nil]
       parsed[1].should == ["SIS_COURSE_ID_2", "user_sis_id_01", "observer", nil, "active", "user_sis_id_03"]
       parsed[2].should == ["SIS_COURSE_ID_1", "user_sis_id_02", "ta", nil, "active", nil]
       parsed[3].should == ["SIS_COURSE_ID_1", "user_sis_id_03", "student", nil, "active", nil]
       parsed[4].should == ["SIS_COURSE_ID_2", "user_sis_id_03", "student", nil, "active", nil]
-      parsed[5].should == ["SIS_COURSE_ID_1", "user_sis_id_04", "teacher", nil, "active", nil]
-      parsed[6].should == [nil, "user_sis_id_04", "teacher", "science_section_1", "active", nil]
+      parsed[5].should == [nil, "user_sis_id_04", "teacher", "science_section_1", "active", nil]
+      parsed[6].should == ["SIS_COURSE_ID_1", "user_sis_id_04", "teacher", nil, "active", nil]
+      parsed[7].should == ["SIS_COURSE_ID_2", "user_sis_id_07", "Pixel Engineer", nil, "active", nil]
 
-      parsed = run_report("provisioning_csv", parameters, 3)
-      parsed.length.should == 9
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters, [3, 1])
+      parsed.length.should == 10
 
       parsed[0].should == [course1.id.to_s, "SIS_COURSE_ID_1", user1.id.to_s, "user_sis_id_01", "observer", enrollment1.course_section_id.to_s, nil, "active", nil, nil]
       parsed[1].should == [course2.id.to_s, "SIS_COURSE_ID_2", user1.id.to_s, "user_sis_id_01", "observer", enrollment7.course_section_id.to_s, nil, "active", user3.id.to_s, "user_sis_id_03"]
@@ -440,21 +428,22 @@ describe "Default Account Reports" do
       parsed[3].should == [course1.id.to_s, "SIS_COURSE_ID_1", user2.id.to_s, "user_sis_id_02", "ta", enrollment3.course_section_id.to_s, nil, "active", nil, nil]
       parsed[4].should == [course1.id.to_s, "SIS_COURSE_ID_1", user3.id.to_s, "user_sis_id_03", "student", enrollment4.course_section_id.to_s, nil, "active", nil, nil]
       parsed[5].should == [course2.id.to_s, "SIS_COURSE_ID_2", user3.id.to_s, "user_sis_id_03", "student", enrollment5.course_section_id.to_s, nil, "active", nil, nil]
-      parsed[6].should == [course1.id.to_s, "SIS_COURSE_ID_1", user4.id.to_s, "user_sis_id_04", "teacher", enrollment6.course_section_id.to_s, nil, "active", nil, nil]
-      parsed[7].should == [course3.id.to_s, nil, user4.id.to_s, "user_sis_id_04", "teacher", enrollment9.course_section_id.to_s, "science_section_1", "active", nil, nil]
+      parsed[6].should == [course3.id.to_s, nil, user4.id.to_s, "user_sis_id_04", "teacher", enrollment9.course_section_id.to_s, "science_section_1", "active", nil, nil]
+      parsed[7].should == [course1.id.to_s, "SIS_COURSE_ID_1", user4.id.to_s, "user_sis_id_04", "teacher", enrollment6.course_section_id.to_s, nil, "active", nil, nil]
       parsed[8].should == [course4.id.to_s, nil, user5.id.to_s, "user_sis_id_05", "teacher", enrollment8.course_section_id.to_s, nil, "active", nil, nil]
+      parsed[9].should == [course2.id.to_s, "SIS_COURSE_ID_2", user7.id.to_s, "user_sis_id_07", "Pixel Engineer", enrollment11.course_section_id.to_s, nil, "active", nil, nil]
 
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["enrollments"] = true
-      parsed = run_report("sis_export_csv", parameters, 1)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters, [1, 0])
       parsed.length.should == 5
 
       parsed[0].should == ["SIS_COURSE_ID_1", "user_sis_id_01", "observer", nil, "active", nil]
       parsed[1].should == ["SIS_COURSE_ID_1", "user_sis_id_02", "ta", nil, "active", nil]
       parsed[2].should == ["SIS_COURSE_ID_1", "user_sis_id_03", "student", nil, "active", nil]
-      parsed[3].should == ["SIS_COURSE_ID_1", "user_sis_id_04", "teacher", nil, "active", nil]
-      parsed[4].should == [nil, "user_sis_id_04", "teacher", "science_section_1", "active", nil]
+      parsed[3].should == [nil, "user_sis_id_04", "teacher", "science_section_1", "active", nil]
+      parsed[4].should == ["SIS_COURSE_ID_1", "user_sis_id_04", "teacher", nil, "active", nil]
 
     end
 
@@ -478,19 +467,19 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["groups"] = true
-      parsed = run_report("sis_export_csv", parameters, 2)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters, 2)
       parsed.length.should == 2
       parsed[0].should == ["group1sis", nil, "group1name", "available"]
       parsed[1].should == ["group2sis", "sub1", "group2name", "available"]
 
       parameters = {}
       parameters["groups"] = true
-      parsed = run_report("sis_export_csv", parameters, 2)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters, 2)
       parsed.length.should == 2
       parsed[0].should == ["group1sis", nil, "group1name", "available"]
       parsed[1].should == ["group2sis", "sub1", "group2name", "available"]
 
-      parsed = run_report("provisioning_csv", parameters, 4)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters, 4)
       parsed.length.should == 3
       parsed[0].should == [group1.id.to_s, "group1sis", @account.id.to_s, nil, "group1name", "available"]
       parsed[1].should == [group2.id.to_s, "group2sis", sub_account.id.to_s, "sub1", "group2name", "available"]
@@ -535,19 +524,19 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["group_membership"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
       parsed[0].should == [group1.sis_source_id, "user_sis_id_01", "accepted"]
       parsed[1].should == [group2.sis_source_id, "user_sis_id_02", "accepted"]
 
       parameters = {}
       parameters["group_membership"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
       parsed[0].should == [group1.sis_source_id, "user_sis_id_01", "accepted"]
       parsed[1].should == [group2.sis_source_id, "user_sis_id_02", "accepted"]
 
-      parsed = run_report("provisioning_csv", parameters, 1)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters, 1)
       parsed.length.should == 3
       parsed[0].should == [group1.id.to_s, group1.sis_source_id, user1.id.to_s, "user_sis_id_01", "accepted"]
       parsed[1].should == [group2.id.to_s, group2.sis_source_id, user2.id.to_s, "user_sis_id_02", "accepted"]
@@ -559,7 +548,7 @@ describe "Default Account Reports" do
       Notification.find_or_create_by_name("Report Generation Failed")
 
       @account = Account.default
-      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => '20-12-2012')
+      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => 1.year.from_now)
       term1.root_account = @account
       term1.sis_source_id = 'fall12'
       term1.save!
@@ -612,18 +601,18 @@ describe "Default Account Reports" do
       parameters = {}
       parameters["enrollment_term"] = @account.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME).id
       parameters["xlist"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 1
       parsed[0].should == ["SIS_COURSE_ID_4", "english_section_3", "active"]
 
       parameters = {}
       parameters["xlist"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
       parsed.length.should == 2
       parsed[0].should == ["SIS_COURSE_ID_2", "english_section_1", "active"]
       parsed[1].should == ["SIS_COURSE_ID_4", "english_section_3", "active"]
 
-      parsed = run_report("provisioning_csv", parameters,1)
+      parsed = ReportsSpecHelper.run_report(@account,"provisioning_csv", parameters,1)
       parsed.length.should == 3
       parsed[0].should == [course2.id.to_s, "SIS_COURSE_ID_2", section1.id.to_s, "english_section_1", "active"]
       parsed[1].should == [course4.id.to_s, "SIS_COURSE_ID_4", section3.id.to_s, "english_section_3", "active"]
@@ -649,11 +638,11 @@ describe "Default Account Reports" do
       sub_account2 = Account.create(:parent_account => @account, :name => 'Math')
       sub_account2.sis_source_id = 'sub2'
       sub_account2.save!
-      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => '20-12-2012')
+      term1 = EnrollmentTerm.create(:name => 'Fall', :start_at => '20-08-2012', :end_at => 1.year.from_now)
       term1.root_account = @account
       term1.sis_source_id = 'fall12'
       term1.save!
-      term2 = EnrollmentTerm.create(:name => 'Winter', :start_at => '07-01-2013', :end_at => '28-04-2013')
+      term2 = EnrollmentTerm.create(:name => 'Winter', :start_at => '07-01-2013', :end_at => 2.years.from_now)
       term2.root_account = @account
       term2.sis_source_id = 'winter13'
       term2.save!
@@ -688,7 +677,7 @@ describe "Default Account Reports" do
       parameters["accounts"] = true
       parameters["users"] = true
       parameters["courses"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
 
       accounts_report = parsed["accounts"][1..-1].sort_by { |r| r[0] }
       accounts_report[0].should == ["sub1", nil, "English", "active"]
@@ -707,7 +696,7 @@ describe "Default Account Reports" do
       parameters["accounts"] = true
       parameters["users"] = true
       parameters["courses"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
 
       accounts_report = parsed["accounts"][1..-1].sort_by { |r| r[0] }
       accounts_report[0].should == ["sub1", nil, "English", "active"]
@@ -739,7 +728,7 @@ describe "Default Account Reports" do
       parameters["groups"] = true
       parameters["group_membership"] = true
       parameters["xlist"] = true
-      parsed = run_report("sis_export_csv", parameters)
+      parsed = ReportsSpecHelper.run_report(@account,"sis_export_csv", parameters)
 
       parsed["accounts"].should == [["account_id", "parent_account_id", "name", "status"]]
       parsed["terms"].should == [["term_id", "name", "status", "start_date", "end_date"]]

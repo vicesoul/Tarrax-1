@@ -38,8 +38,8 @@
     <div class="controls">
       <label class="checkbox">
         <%= f.check_box :is_public %>
-        Make course publicly visible
-        <div>(student data will remain private)</div>
+        <%= t('make_course_publicly_visible', 'Make course publicly visible') %>
+        <div>(<%= t('student_data_will_remain_private', 'student data will remain private') %>)</div>
       </label>
     </div>
   </div>
@@ -48,8 +48,8 @@
   <div class="button-container">
     <button type="button"
             data-text-while-loading="<%= t 'cancel', "Cancel" %>"
-            class="button dialog_closer"><%= t 'cancel', "Cancel" %></button>
-    <button class="button btn-primary"
+            class="btn dialog_closer"><%= t 'cancel', "Cancel" %></button>
+    <button class="btn btn-primary"
             data-text-while-loading="<%= t 'creating_course', 'Creating course...' %>"
             type="submit"><%= t 'create_course', 'Create course' %></button>
   </div>

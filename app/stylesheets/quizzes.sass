@@ -4,6 +4,10 @@ $backgroundColor: #dfe9f0
 $borderColor: #AAA
 $questionHeaderBackground: #F5F5F5
 
+#content
+  background-color: $backgroundColor
+
+
 #wrapper-container
   overflow: visible
 
@@ -36,12 +40,26 @@ div#content
 #submit_quiz_form
   .question_holder
     overflow: hidden
+  .button-container .btn, #submit_quiz_button
+    min-width: 120px
   .button-container
     padding-right: 10%
-
-#submit_quiz_form, .question_form
-  .button-container
-    text-align: right
+    padding-left: 10%
+    .next-question
+      float: right
+    .next-question:after, .previous-question:before
+      position: absolute
+      font-size: 10px
+    .btn-secondary.next-question:after, .btn-secondary.previous-question:before
+      color: #666
+    .btn-primary.next-question:after, .btn-primary.previous-question:before
+      color: #fff
+    .next-question:after
+      content: '▶'
+      right: 5px
+    .previous-question:before
+      content: '◀'
+      left: 5px
 
 #sort_questions
   :max-height 250px
@@ -120,8 +138,8 @@ div#content
 
 #questions.assessing
   background: $backgroundColor
-  border: 1px solid #fff
   padding: 16px
+  min-height: 225px
   .answer
     :padding 5px 5px
     :margin 0
@@ -144,6 +162,15 @@ div#content
     :display none
 
 #questions
+  .sketch_app.comment
+    position: absolute
+    left: 0
+    top: 0
+    .ink,.big_brush,.clear_all
+      display: none
+    .color_setting
+      height: 30px
+      width: 100%
   .add_question_group_link
     :display none
   .group_placeholder
@@ -297,6 +324,8 @@ div#content
       .text_before_answers
         display: block
         margin-bottom: 10px
+      span,p,div
+        white-space: normal!important
     .variable_definitions
       width: 100%
     .calculated_question_answers_header
@@ -404,7 +433,11 @@ div#content
   .links
     float: right
     margin: 8px 8px 0 0
-    visibility: hidden
+    a
+      position: relative
+      left: -100000px
+      &:focus
+        left: 0
   .flag_question
     :background url(/images/answers_sprite.png) -48px top
     :cursor pointer
@@ -423,8 +456,8 @@ div#content
       :background-color #fff
       .move_icon
         :display inline
-    .links
-      :visibility visible
+    .links a
+      left: 0
     .flag_question
       :background-color #fff
       .flag_icon
@@ -593,10 +626,11 @@ form.question_form
       :-moz-border-radius 5px
     .answer.hover
       :border 1px solid #ddd
-    .answer .question_actions
-      display: none
-    .answer.hover .question_actions
-      display: block
+    .answer .question_actions a
+      position: relative
+      left: -100000px
+    .answer.hover .question_actions a, .question_actions a:focus
+      left: 0
     .answer_comments
       :-moz-border-radius 5px
       :border 2px solid #faa
@@ -677,9 +711,14 @@ ul#question_list
   li
     &.answered a
       color: #a1bfe0
+    &.answered.current_question a
+      color: #396eb2
     &.marked
       :font-weight bold
       :list-style-image url(/images/flagged_question.png)
+    &.current_question
+      :color $right_side_text_color !important
+      :font-weight bold
     &.correct
       :color #080
       a
@@ -688,6 +727,11 @@ ul#question_list
       :color #800
       a
         :color #800
+  &.read_only
+    li
+      &.seen
+        :color #ccc
+
 .quiz_score
   .score_value
     :font-size 1.2em
@@ -714,6 +758,14 @@ ul#quiz_versions
   td
     vertical-align: top
 #quiz_options_form,#quiz_content_links
+  .options_header
+    font-weight: bold
+    font-size: 1.2em
+    a
+      margin-right: 10px
+      margin-top: 0.35em
+      float: right
+      font-size: 0.8em
 .options_header
   font-weight: bold
   font-size: 1.2em
@@ -891,7 +943,8 @@ ul#quiz_versions
       font-weight: bold
 
 #last_saved_indicator
-  margin-bottom: 10px
+  color: #666
+  padding-right: 10px
 
 .muted-notice
   background: #f1f1f1
@@ -915,11 +968,11 @@ ul#quiz_versions
 .edit-html-done
   float: right
 
-.question_actions .atr-edit
+.question_actions .edit_html
   display: none
 
-.multiple_choice_question .question_actions .atr-edit,
-.multiple_answers_question .question_actions .atr-edit
+.multiple_choice_question .question_actions .edit_html,
+.multiple_answers_question .question_actions .edit_html
   display: inline-block
 
 // styles for the correct/incorrect arrows on the quiz
@@ -1117,6 +1170,7 @@ ul#quiz_versions
     max-width: 100%
 
 #questions
+  position: relative
   .short_answer_question, .numerical_question
     .answers_wrapper
       border-top: 1px solid #ddd
@@ -1141,3 +1195,24 @@ ul#quiz_versions
 
 #left-side
   position: absolute
+
+#questions
+  .sketch
+    position: absolute
+    left: 0
+    top: 0
+    z-index: 1
+  .comment_menu
+    position: absolute
+    right: 10px
+    top: -30px
+    z-index: 2
+
+.ghost
+  pointer-events: none
+
+
+.form-actions
+  border: 1px solid #999
+  margin: 18px -1px -1px
+  @include background-image(linear-gradient(#f3f3f3, #e3e3e3))

@@ -139,14 +139,14 @@ describe DiscussionTopic do
       course_with_student(:active_all => true)
       @user.register
       topic = @course.discussion_topics.create!(:title => "this should not be delayed", :message => "content here")
-      StreamItem.find_by_item_asset_string(topic.asset_string).should_not be_nil
+      topic.stream_item.should_not be_nil
 
       topic = delayed_discussion_topic(:title => "this should be delayed", :message => "content here", :delayed_post_at => Time.now + 1.day)
-      StreamItem.find_by_item_asset_string(topic.asset_string).should be_nil
+      topic.stream_item.should be_nil
 
       topic.message = "content changed!"
       topic.save
-      StreamItem.find_by_item_asset_string(topic.asset_string).should be_nil
+      topic.stream_item.should be_nil
     end
 
     it "should send to streams on update from delayed to active" do
@@ -154,13 +154,13 @@ describe DiscussionTopic do
       @user.register
       topic = delayed_discussion_topic(:title => "this should be delayed", :message => "content here", :delayed_post_at => Time.now + 1.day)
       topic.workflow_state.should == 'post_delayed'
-      StreamItem.find_by_item_asset_string(topic.asset_string).should be_nil
+      topic.stream_item.should be_nil
 
       topic.delayed_post_at = nil
       topic.title = "this isn't delayed any more"
       topic.workflow_state = 'active'
       topic.save!
-      StreamItem.find_by_item_asset_string(topic.asset_string).should_not be_nil
+      topic.stream_item.should_not be_nil
     end
   end
 
@@ -388,13 +388,13 @@ describe DiscussionTopic do
 
       topic = @course.discussion_topics.create!(:title => "secret topic", :user => @teacher)
 
-      StreamItem.for_user(@student).count.should == 0
-      StreamItem.for_user(@teacher).count.should == 1
+      @student.stream_item_instances.count.should == 0
+      @teacher.stream_item_instances.count.should == 1
 
       topic.discussion_entries.create!
 
-      StreamItem.for_user(@student).count.should == 0
-      StreamItem.for_user(@teacher).count.should == 1
+      @student.stream_item_instances.count.should == 0
+      @teacher.stream_item_instances.count.should == 1
     end
 
   end
@@ -412,6 +412,18 @@ describe DiscussionTopic do
 
     it "should allow admins to see posts without posting" do
       @topic.user_can_see_posts?(@teacher).should == true
+    end
+
+    it "should only allow active admins to see posts without posting" do
+      @ta_enrollment = course_with_ta(:course => @course, :active_enrollment => true)
+      # TA should be able to see
+      @topic.user_can_see_posts?(@ta).should == true
+      # Remove user as TA and enroll as student, should not be able to see
+      @ta_enrollment.destroy
+      # enroll as a student.
+      course_with_student(:course => @course, :user => @ta, :active_enrollment => true)
+      @topic.reload
+      @topic.user_can_see_posts?(@ta).should == false
     end
 
     it "shouldn't allow student (and observer) who hasn't posted to see" do
@@ -647,12 +659,14 @@ describe DiscussionTopic do
 
     it "should allow being marked unread" do
       @topic.change_read_state("unread", @teacher)
+      @topic.reload
       @topic.read?(@teacher).should be_false
       @topic.unread_count(@teacher).should == 0
     end
 
     it "should allow being marked read" do
       @topic.change_read_state("read", @student)
+      @topic.reload
       @topic.read?(@student).should be_true
       @topic.unread_count(@student).should == 0
     end
@@ -660,6 +674,7 @@ describe DiscussionTopic do
     it "should allow mark all as unread" do
       @entry = @topic.discussion_entries.create!(:message => "Hello!", :user => @teacher)
       @topic.change_all_read_state("unread", @teacher)
+      @topic.reload
 
       @topic.read?(@student).should be_false
       @entry.read?(@student).should be_false
@@ -669,6 +684,7 @@ describe DiscussionTopic do
     it "should allow mark all as read" do
       @entry = @topic.discussion_entries.create!(:message => "Hello!", :user => @teacher)
       @topic.change_all_read_state("read", @student)
+      @topic.reload
 
       @topic.read?(@student).should be_true
       @entry.read?(@student).should be_true
@@ -683,6 +699,20 @@ describe DiscussionTopic do
     it "should use unique_constaint_retry when updating all read state" do
       DiscussionTopic.expects(:unique_constraint_retry).once
       @topic.change_all_read_state("unread", @student)
+    end
+
+    it "should sync unread state with the stream item" do
+      @stream_item = @topic.stream_item(true)
+      @stream_item.stream_item_instances.detect{|sii| sii.user_id == @teacher.id}.should be_read
+      @stream_item.stream_item_instances.detect{|sii| sii.user_id == @student.id}.should be_unread
+
+      @topic.change_all_read_state("unread", @teacher)
+      @topic.change_all_read_state("read", @student)
+      @topic.reload
+
+      @stream_item = @topic.stream_item
+      @stream_item.stream_item_instances.detect{|sii| sii.user_id == @teacher.id}.should be_unread
+      @stream_item.stream_item_instances.detect{|sii| sii.user_id == @student.id}.should be_read
     end
   end
 
@@ -755,7 +785,24 @@ describe DiscussionTopic do
       @context = @course
       discussion_topic_model(:user => @teacher)
       account.destroy
-      @topic.reply_from(:user => @teacher, :text => "entry").should be_nil
+      lambda { @topic.reply_from(:user => @teacher, :text => "entry") }.should raise_error(IncomingMessageProcessor::UnknownAddressError)
     end
+
+    it "should prefer html to text" do
+      course_with_teacher
+      discussion_topic_model
+      msg = @topic.reply_from(:user => @teacher, :text => "text body", :html => "<p>html body</p>")
+      msg.should_not be_nil
+      msg.message.should == "<p>html body</p>"
+    end
+
+    it "should not allow replies to locked topics" do
+      course_with_teacher
+      discussion_topic_model
+      @topic.lock!
+      lambda { @topic.reply_from(:user => @teacher, :text => "reply") }.should raise_error(IncomingMessageProcessor::ReplyToLockedTopicError)
+    end
+
   end
+
 end

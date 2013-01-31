@@ -42,11 +42,13 @@ namespace :jxb do
   task :setup_config do
     run "#{try_sudo} chown -R #{user}:#{user} #{deploy_to}"
     run "mkdir -p #{shared_path}/config"
+    run "mkdir -p #{shared_path}/tmp"
 
     %w(cache_store database delayed_jobs 
        domain external_migration file_store
        outgoing_mail redis security session_store).each do |conf|
       upload "config/#{conf}.yml", "#{shared_path}/config/#{conf}.yml"
+      run "touch #{shared_path}/config/GEM_HOME"
     end
   end
 
@@ -58,6 +60,9 @@ namespace :jxb do
          outgoing_mail redis security session_store).each do |conf|
         run "ln -s #{shared_path}/config/#{conf}.yml #{release_path}/config/#{conf}.yml"
       end
+
+      run "ln -s #{shared_path}/config/GEM_HOME #{release_path}/config/GEM_HOME"
+      run "ln -s #{shared_path}/tmp #{release_path}/tmp"
     end
   end
 end
@@ -84,6 +89,23 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
+
+    # restart job
+    job.restart
+  end
+end
+
+namespace :job do
+  task :start do
+    run "#{try_sudo} /etc/init.d/canvas_init start"
+  end
+
+  task :stop do
+    run "#{try_sudo} /etc/init.d/canvas_init stop"
+  end
+
+  task :restart do
+    run "#{try_sudo} /etc/init.d/canvas_init restart"
   end
 end
 

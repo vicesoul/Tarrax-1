@@ -17,7 +17,6 @@
  */
 
 define([
-  'ENV',
   'INST' /* INST */,
   'i18n!instructure',
   'jquery' /* $ */,
@@ -50,9 +49,10 @@ define([
   'jqueryui/sortable' /* /\.sortable/ */,
   'jqueryui/tabs' /* /\.tabs/ */,
   'compiled/behaviors/trackEvent',
+  'compiled/badge_counts',
   'vendor/scribd.view' /* scribd */,
   'vendor/jquery.placeholder'
-], function(ENV, INST, I18n, $, _, userSettings, htmlEscape, wikiSidebar) {
+], function(INST, I18n, $, _, userSettings, htmlEscape, wikiSidebar) {
 
   $.trackEvent('Route', location.pathname.replace(/\/$/, '').replace(/\d+/g, '--') || '/');
 
@@ -1043,7 +1043,6 @@ define([
           .append('<span class="ui-icon ui-icon-extlink ui-icon-inline" title="' + htmlEscape(I18n.t('titles.external_link', 'Links to an external site.')) + '"/>');
       });
     }, 2000);
-
   });
 
   $('input[placeholder], textarea[placeholder]').placeholder();

@@ -27,6 +27,7 @@ class Mailer < ActionMailer::Base
     from ("#{m.from_name || HostUrl.outgoing_email_default_name} <" + HostUrl.outgoing_email_address + ">")
     reply_to m.reply_to_address
     subject m.subject
-    body m.body
+    content_type "text/html"
+    body MailerHelper.text_to_html(m.body)
   end
 end

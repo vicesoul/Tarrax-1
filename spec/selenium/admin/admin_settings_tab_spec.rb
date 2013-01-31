@@ -24,6 +24,9 @@ describe "admin settings tab" do
 
   def check_box_verifier (css_selectors, features, checker = true)
     is_symbol = false
+
+    css_selectors = [css_selectors] unless (css_selectors.is_a? Array)
+
     if features.is_a? Symbol
       is_symbol = true
       if features == :all_selectors
@@ -57,7 +60,7 @@ describe "admin settings tab" do
           default_selectors.push("#account_services_#{feature.to_s}")
         end
         if (checker)
-          default_selectors.push css_selectors
+          default_selectors += css_selectors
         end
         css_selectors = default_selectors
       else
@@ -264,7 +267,7 @@ describe "admin settings tab" do
   context "enabled web services" do
 
     it "should click on the google help dialog" do
-      f("a.help").click
+      fj("label['for'='account_services_google_docs_previews'] .icon-question").click
       fj(".ui-dialog-title:visible").should include_text("About Google Docs Previews")
     end
 

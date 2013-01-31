@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper.rb')
 describe Account do
   context "subdomain" do
     let!(:domain) {
-      Subdomain.create!(:subdomain => 'edu123', :account => Account.default)
+      Account.default.create_subdomain(:subdomain => 'edu123')
     }
 
     it 'should return subdomain related with root account' do

@@ -136,7 +136,7 @@ define [
       onlyGraded: -> @get 'assignment_id'
       onlyUnread: -> (@get('read_state') is 'unread') or @get('unread_count')
       searchTerm: (term) ->
-        words = term.match(/\w+/ig)
+        words = term.match(/(\w|[\u4E00-\u9FA5])+/ig)
         pattern = "(#{_.uniq(words).join('|')})"
         regexp = new RegExp(pattern, "igm")
 

@@ -11,6 +11,15 @@ describe "help dialog" do
       wait_for_ajaximations
       f("#help-dialog-options").should be_displayed
     end
+
+    it "should no longer show a browser warning for IE" do
+      Setting.set('show_feedback_link', 'true')
+      get "/logout"
+      driver.execute_script("window.INST.browser = {ie: true, version: 8}")
+      f('#footer .help_dialog_trigger').click
+      wait_for_ajaximations
+      element_exists(".ui-state-error").should be_false
+    end
   end
 
   context "help as a student" do
@@ -18,7 +27,7 @@ describe "help dialog" do
       course_with_student_logged_in(:active_all => true)
     end
 
-    it "should show the Help dialog when 'help' is clicked and feedback is enabled" do
+    it "should show the Help dialog when help is clicked and feedback is enabled" do
       get "/dashboard"
       element_exists("#help-dialog").should be_false
       ff('.help_dialog_trigger').length.should == 0
@@ -99,7 +108,7 @@ describe "help dialog" do
       er.subject.should == 'test subject'
       er.comments.should == 'test comments'
       er.data['user_perceived_severity'].should == severity
-      er.guess_email.should eql @user.email
+      er.guess_email.should == @user.email
     end
   end
 
@@ -108,7 +117,7 @@ describe "help dialog" do
       course_with_teacher_logged_in(:active_all => true)
     end
 
-    it "should not show the 'Message teacher' button if not a student" do
+    it "should not show the Message teacher button if not a student" do
       Setting.set('show_feedback_link', 'true')
       get "/dashboard"
       f('.help_dialog_trigger').click
@@ -117,7 +126,7 @@ describe "help dialog" do
       element_exists("#help-dialog a[href='#teacher_feedback']").should be_false
     end
 
-    it "should show the Help dialog on the speedGrader when 'help' is clicked and feedback is enabled" do
+    it "should show the Help dialog on the speedGrader when help is clicked and feedback is enabled" do
       @course.enroll_student(User.create).accept!
       @assignment = @course.assignments.create
 

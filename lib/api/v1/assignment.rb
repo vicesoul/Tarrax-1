@@ -33,7 +33,7 @@ module Api::V1::Assignment
     end
 
     if assignment.grants_right?(user, :grade)
-      hash['needs_grading_count'] = assignment.needs_grading_count
+      hash['needs_grading_count'] = assignment.needs_grading_count_for_user(user)
     end
 
     hash['submission_types'] = assignment.submission_types.split(',')
@@ -80,17 +80,17 @@ module Api::V1::Assignment
 
   API_ALLOWED_ASSIGNMENT_FIELDS = %w(name position points_possible grading_type due_at description)
 
-  def create_api_assignment(context, assignment_params)
-    assignment = context.assignments.build
-    update_api_assignment(assignment, assignment_params)
-  end
-
-  def update_api_assignment(assignment, assignment_params)
+  def update_api_assignment(assignment, assignment_params, save = true)
     return nil unless assignment_params.is_a?(Hash)
     update_params = assignment_params.slice(*API_ALLOWED_ASSIGNMENT_FIELDS)
     update_params["time_zone_edited"] = Time.zone.name if update_params["due_at"]
 
-    assignment.update_attributes(update_params)
+    assignment.assignment_group = assignment.context.assignment_groups.find(assignment_params[:assignment_group_id]) if assignment_params[:assignment_group_id]
+    if save
+      assignment.update_attributes(update_params)
+    else
+      assignment.attributes = update_params
+    end
     assignment.infer_due_at
     # TODO: allow rubric creation
 

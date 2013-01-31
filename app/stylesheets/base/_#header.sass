@@ -45,7 +45,9 @@
 #header
   position: relative
   z-index: 11 /* IE7 needs this o so the menu-item-drops get stuck above #main */
-  background: #6a7177 url("/images/canvas/header_bg.png") repeat-x left bottom
+  //*** 2012-12-07 rupert 
+  //background: #7aa3cf url("/images/canvas/header_bg.pngY") repeat-x left bottom 
+  background: #7aa3cf
   &.no-user
     background-position: 0 -25px
     min-height: 45px
@@ -101,12 +103,8 @@
         text-decoration: underline
 
     .unread-messages-count
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
-      +border-radius(8px)
-      background-color: $highlight-color
-      padding: 1px 6px
+      +count-bubble
   #identity-help-container a
-    color: $help-link-color
     padding: 1px 8px
 
 #menu
@@ -134,12 +132,8 @@
 
   .menu-item-no-drop:hover
     text-decoration: underline
-  .menu-item-title
-    background: url("/images/canvas/menu_arrow_white.png") no-repeat right 17px
-    padding-right: 27px
   &.hover
     .menu-item-title
-      background-image: url("/images/canvas/menu_arrow.png")
       text-shadow: none
       color: $menu-text-color
       border-top-color: $menu-border-color

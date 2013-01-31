@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2012 Instructure, Inc.
+# Copyright (C) 2011 - 2012 Instructure, Inc.
 #
 # This file is part of Canvas.
 #
@@ -146,50 +146,67 @@ class GroupsController < ApplicationController
   # @returns [Group]
   def index
     return context_index if @context
-    scope = @current_user.try(:current_groups)
+    @groups = @current_user.try(:current_groups)
+    # can't use #try, cause it's not defined on the association class,
+    # so it will try to load the association and call it on the resulting array'
+    @groups = @groups.with_each_shard({ :include => :group_category, :order => "groups.id ASC" }) if @groups
+    @groups ||= []
     respond_to do |format|
-      format.html do
-        @groups = scope || []
-      end
+      format.html {}
       format.json do
-        scope = scope.scoped({
-          :include => :group_category,
-          :order => "groups.id ASC",
-        })
-        route = polymorphic_url([:api_v1, :groups])
-        @groups = Api.paginate(scope, self, route)
+        @groups = Api.paginate(@groups, self, api_v1_current_user_groups_url)
         render :json => @groups.map { |g| group_json(g, @current_user, session) }
       end
     end
   end
 
+  # @API List the groups available in a context.
+  #
+  # Returns the list of active groups in the given context that are visible to user.
+  #
+  # @example_request
+  #     curl https://<canvas>/api/v1/courses/1/groups \ 
+  #          -H 'Authorization: Bearer <token>'
+  #
+  # @returns [Group]
   def context_index
-    add_crumb (@context.is_a?(Account) ? t('#crumbs.users', "Users") : t('#crumbs.people', "People")), named_context_url(@context, :context_users_url)
-    add_crumb t('#crumbs.groups', "Groups"), named_context_url(@context, :context_groups_url)
-    @active_tab = @context.is_a?(Account) ? "users" : "people"
-    @groups = @context.groups.active
-    @categories = @context.group_categories
-    group_ids = @groups.map(&:id)
+    return unless authorized_action(@context, @current_user, :read_roster)
 
-    @user_groups = @current_user.group_memberships_for(@context).select{|g| group_ids.include?(g.id) } if @current_user
-    @user_groups ||= []
+    @groups      = @context.groups.active.scoped(:order => 'name, created_at')
+    @categories  = @context.group_categories.scoped(:order => "role <> 'student_organized', name")
+    @user_groups = @current_user.group_memberships_for(@context) if @current_user
 
-    @available_groups = (@groups - @user_groups).select{|g| g.grants_right?(@current_user, :join) }
-    if !@context.grants_right?(@current_user, session, :manage_groups)
+    unless api_request?
+      add_crumb (@context.is_a?(Account) ? t('#crumbs.users', "Users") : t('#crumbs.people', "People")), named_context_url(@context, :context_users_url)
+      add_crumb t('#crumbs.groups', "Groups"), named_context_url(@context, :context_groups_url)
+      @active_tab = @context.is_a?(Account) ? "users" : "people"
+
+      @user_groups = @groups & (@user_groups || [])
+
+      @available_groups = (@groups - @user_groups).select do |group|
+        group.grants_right?(@current_user, :join)
+      end
+    end
+
+    unless @context.grants_right?(@current_user, session, :manage_groups)
       @groups = @user_groups
     end
-    # sort by name, but with the student organized category in the back
-    @categories = @categories.sort_by{|c| [ (c.student_organized? ? 1 : 0), c.name ] }
-    @groups = @groups.sort_by{ |g| [(g.name || '').downcase, g.created_at]  }
 
-    if authorized_action(@context, @current_user, :read_roster)
-      respond_to do |format|
+    respond_to do |format|
+      format.html do
         if @context.grants_right?(@current_user, session, :manage_groups)
-          format.html { render :action => 'context_manage_groups' }
+          render :action => 'context_manage_groups'
         else
-          format.html { render :action => 'context_groups' }
+          render :action => 'context_groups'
         end
-        format.atom { render :xml => @groups.to_atom.to_xml }
+      end
+
+      format.atom { render :xml => @groups.to_atom.to_xml }
+
+      format.json do
+        path = send("api_v1_#{@context.class.to_s.downcase}_user_groups_url")
+        paginated_groups = Api.paginate(@groups, self, path)
+        render :json => paginated_groups.map { |g| group_json(g, @current_user, session) }
       end
     end
   end
@@ -221,6 +238,7 @@ class GroupsController < ApplicationController
           return
         end
         @current_conferences = @group.web_conferences.select{|c| c.active? && c.users.include?(@current_user) } rescue []
+        @stream_items = @current_user.try(:cached_recent_stream_items, { :contexts => @context }) || []
         if params[:join] && @group.grants_right?(@current_user, :join)
           @group.request_user(@current_user)
           if !@group.grants_right?(@current_user, session, :read)
@@ -242,13 +260,8 @@ class GroupsController < ApplicationController
           end
         end
         if authorized_action(@group, @current_user, :read)
-          #if show_new_dashboard?
-          #  @use_new_styles = true
-          #  js_env :GROUP_ID => @group.id
-          #  return render :action => :dashboard
-          #else
+          set_badge_counts_for(@group, @current_user)
           @home_page = @group.wiki.wiki_page
-          #end
         end
       end
       format.json do
@@ -469,7 +482,7 @@ class GroupsController < ApplicationController
     find_group
     if authorized_action(@group, @current_user, :manage)
       root_account = @group.context.try(:root_account) || @domain_root_account
-      ul = UserList.new(params[:invitees], root_account, :preferred)
+      ul = UserList.new(params[:invitees], :root_account => root_account, :search_method => :preferred)
       @memberships = []
       ul.users.each{ |u| @memberships << @group.invite_user(u) }
       render :json => @memberships.map{ |gm| group_membership_json(gm, @current_user, session) }
@@ -550,11 +563,26 @@ class GroupsController < ApplicationController
     @group = @context
     if authorized_action(@group, @current_user, :manage)
       @membership = @group.group_memberships.find_by_user_id(params[:user_id])
-      @membership.group_id = nil
       @membership.destroy
-      @group.touch
       render :json => @membership.to_json
     end
+  end
+
+  include Api::V1::User
+  # @API List group's users
+  #
+  # Returns a list of users in the group.
+  #
+  # @example_request
+  #     curl https://<canvas>/api/v1/groups/1/users \ 
+  #          -H 'Authorization: Bearer <token>'
+  #
+  # @returns [User]
+  def users
+    return unless authorized_action(@context, @current_user, :read)
+    @users = Api.paginate(@context.users, self, api_v1_group_users_url)
+
+    render :json => @users.map { |u| user_json(u, @current_user, session) }
   end
 
   def edit
@@ -571,23 +599,6 @@ class GroupsController < ApplicationController
     if authorized_action(@group, @current_user, :update)
       render :action => :edit
     end
-  end
-
-  def profile
-    account = @context.root_account
-    raise ActiveRecord::RecordNotFound unless account.canvas_network_enabled?
-
-    @use_new_styles = true
-    @active_tab = 'profile'
-    @group = Group.find(params[:group_id])
-
-    # FIXME: there are probably some permissions that could override the
-    # public/private setting on groups (school admins or something?)
-    @can_join = %(parent_context_auto_join
-                  parent_context_request).include? @group.join_level
-    @in_group = @current_user && @current_user.groups.include?(@group)
-
-    render :action => :profile
   end
 
   def public_feed
@@ -686,6 +697,9 @@ class GroupsController < ApplicationController
     elsif @context.group_categories.other_than(@group_category).find_by_name(name)
       render :json => { 'category[name]' => t('errors.category_name_unavailable', "%{category_name} is already in use.", :category_name => name) }, :status => :bad_request
       return false
+    elsif name.length >= 250 && params[:category][:split_group_count].to_i > 0
+      render :json => { 'category[name]' => t('errors.category_name_too_long', "Enter a shorter category name to split students into groups") }, :status => :bad_request
+      return false
     end
 
     enable_self_signup = params[:category][:enable_self_signup] == "1"
@@ -709,6 +723,7 @@ class GroupsController < ApplicationController
     count_field = self_signup ? :create_group_count : :split_group_count
     count = params[:category][count_field].to_i
     count = 0 if count < 0
+    count = [count, Setting.get_cached('max_groups_in_new_category', '200').to_i].min
     count = potential_members.length if distribute_members && count > potential_members.length
     return if count.zero?
 

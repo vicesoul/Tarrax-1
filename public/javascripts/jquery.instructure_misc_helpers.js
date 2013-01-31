@@ -41,57 +41,6 @@ define([
     return result;
   };
 
-  $.mimeClass = function(contentType){
-    return {
-      "video/mp4": "video",
-      "application/x-rar-compressed": "zip",
-      "application/vnd.oasis.opendocument.spreadsheet": "xls",
-      "application/x-docx": "doc",
-      "application/x-shockwave-flash": "flash",
-      "audio/x-mpegurl": "audio",
-      "image/png": "image",
-      "text/xml": "code",
-      "video/x-ms-asf": "video",
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xls",
-      "text/html": "html",
-      "video/x-msvideo": "video",
-      "audio/x-pn-realaudio": "audio",
-      "application/x-zip-compressed": "zip",
-      "text/css": "code",
-      "video/x-sgi-movie": "video",
-      "audio/x-aiff": "audio",
-      "application/zip": "zip",
-      "application/xml": "code",
-      "application/x-zip": "zip",
-      "text/rtf": "doc",
-      "text": "text",
-      "video/mpeg": "video",
-      "video/quicktime": "video",
-      "audio/3gpp": "audio",
-      "audio/mid": "audio",
-      "application/x-rar": "zip",
-      "image/x-psd": "image",
-      "application/vnd.ms-excel": "xls",
-      "application/msword": "doc",
-      "video/x-la-asf": "video",
-      "image/gif": "image",
-      "application/rtf": "doc",
-      "video/3gpp": "video",
-      "image/pjpeg": "image",
-      "image/jpeg": "image",
-      "application/vnd.oasis.opendocument.text": "doc",
-      "audio/x-wav": "audio",
-      "audio/basic": "audio",
-      "audio/mpeg": "audio",
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation": "ppt",
-      "application/vnd.ms-powerpoint": "ppt",
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "doc",
-      "application/pdf": "pdf",
-      "text/plain": "text",
-      "text/x-csharp": "code"
-    }[contentType] || 'file'
-  }
-
   $.encodeToHex = function(str) {
     var hex = "";
     var e = str.length;
@@ -259,7 +208,7 @@ define([
       $dialog.append("<form id='bookmark_search_form' style='margin-bottom: 5px;'>" +
                        "<img src='/images/blank.png'/>&nbsp;&nbsp;" +
                        "<input type='text' class='query' style='width: 230px;'/>" +
-                       "<button class='button search_button' type='submit'>" +
+                       "<button class='btn search_button' type='submit'>" +
                        htmlEscape(I18n.t('buttons.search', "Search")) + "</button></form>");
       $dialog.append("<div class='results' style='max-height: 200px; overflow: auto;'/>");
       $dialog.find("form").submit(function(event) {
@@ -339,7 +288,7 @@ define([
                             "<img src='/images/flickr_creative_commons_small_icon.png'/>&nbsp;&nbsp;" + 
                             "<input type='text' class='query' style='width: 250px;' title='" +
                             htmlEscape(I18n.t('tooltips.enter_search_terms', "enter search terms")) + "'/>" + 
-                            "<button class='button' type='submit'>" +
+                            "<button class='btn' type='submit'>" +
                             htmlEscape(I18n.t('buttons.search', "Search")) + "</button></form>")
                   .append("<div class='results' style='max-height: 240px; overflow: auto;'/>");
 

@@ -25,16 +25,18 @@ class Quiz < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
   include ContextModuleItem
+  include DatesOverridable
 
   attr_accessible :title, :description, :points_possible, :assignment_id, :shuffle_answers,
     :show_correct_answers, :time_limit, :allowed_attempts, :scoring_policy, :quiz_type,
     :lock_at, :unlock_at, :due_at, :access_code, :anonymous_submissions, :assignment_group_id,
     :hide_results, :locked, :ip_filter, :require_lockdown_browser,
-    :require_lockdown_browser_for_results, :context, :notify_of_update
+    :require_lockdown_browser_for_results, :context, :notify_of_update,
+    :one_question_at_a_time, :cant_go_back
 
   attr_readonly :context_id, :context_type
   attr_accessor :notify_of_update
-  
+
   has_many :quiz_questions, :dependent => :destroy, :order => 'position'
   has_many :quiz_submissions, :dependent => :destroy
   has_many :quiz_groups, :dependent => :destroy, :order => 'position'
@@ -45,16 +47,17 @@ class Quiz < ActiveRecord::Base
   validates_length_of :title, :maximum => maximum_string_length, :allow_nil => true
   validates_presence_of :context_id
   validates_presence_of :context_type
-  
+
   sanitize_field :description, Instructure::SanitizeField::SANITIZE
   copy_authorized_links(:description) { [self.context, nil] }
   before_save :build_assignment
   before_save :set_defaults
   after_save :update_assignment
   after_save :touch_context
-  
+  after_save :link_assignment_overrides, :if => :new_assignment_id?
+
   serialize :quiz_data
-  
+
   simply_versioned
 
   def infer_times
@@ -64,6 +67,8 @@ class Quiz < ActiveRecord::Base
   end
 
   def set_defaults
+    self.one_question_at_a_time = false if self.one_question_at_a_time == nil
+    self.cant_go_back = false if self.cant_go_back == nil || self.one_question_at_a_time == false
     self.shuffle_answers = false if self.shuffle_answers == nil
     self.show_correct_answers = true if self.show_correct_answers == nil
     self.allowed_attempts = 1 if self.allowed_attempts == nil
@@ -87,6 +92,19 @@ class Quiz < ActiveRecord::Base
   end
   protected :set_defaults
   
+  def new_assignment_id?
+    last_assignment_id != assignment_id
+  end
+
+  def link_assignment_overrides
+    collections = [assignment_overrides, assignment_override_students]
+    collections += [assignment.assignment_overrides, assignment.assignment_override_students] if assignment
+
+    collections.each do |collection|
+      collection.update_all({ :assignment_id => assignment_id, :quiz_id => id })
+    end
+  end
+
   def build_assignment
     if self.available? && !self.assignment_id && self.graded? && @saved_by != :assignment && @saved_by != :clone
       assignment = self.assignment
@@ -302,21 +320,21 @@ class Quiz < ActiveRecord::Base
     state :created do
       event :did_edit, :transitions_to => :edited
     end
-    
+
     state :edited do
       event :offer, :transitions_to => :available
     end
-    
+
     state :available
     state :deleted
   end
-  
+
   def root_entries_max_position
     question_max = self.quiz_questions.maximum(:position, :conditions => 'quiz_group_id is null')
     group_max = self.quiz_groups.maximum(:position)
     [question_max, group_max, 0].compact.max
   end
-  
+
   # Returns the list of all "root" entries, either questions or question
   # groups for this quiz.  This is PRE-SAVED data.  Once the quiz has 
   # been saved, all the data can be found in Quiz.quiz_data
@@ -368,14 +386,13 @@ class Quiz < ActiveRecord::Base
   # but the version being held in Quiz.quiz_data.  Caches the result
   # in @stored_questions.
   def stored_questions(hashes=nil)
-    non_shuffled_questions = ["true_false_question", "matching_question"]
     res = []
     return @stored_questions if @stored_questions && !hashes
     questions = hashes || self.quiz_data || []
     questions.each do |val|
       
       if val[:answers]
-        val[:answers] = val[:answers].sort_by{|a| rand} if self.shuffle_answers && !non_shuffled_questions.include?(val[:question_type])
+        val[:answers] = prepare_answers(val)
         val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
       elsif val[:questions] # It's a QuizGroup
         if val[:assessment_question_bank_id]
@@ -385,7 +402,7 @@ class Quiz < ActiveRecord::Base
           questions = []
           val[:questions].each do |question|
             if question[:answers]
-              question[:answers] = question[:answers].sort_by{|a| rand} if self.shuffle_answers && !non_shuffled_questions.include?(question[:question_type])
+              question[:answers] = prepare_answers(question)
               question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
             end
             questions << question
@@ -410,7 +427,7 @@ class Quiz < ActiveRecord::Base
   
   def generate_submission_question(q)
     @idx ||= 1
-    q[:name] = "Question #{@idx}"
+    q[:name] = "#{t('#quiz_question.defaults.question_name', 'Question')} #{@idx}"
     if q[:question_type] == 'text_only_question'
       q[:name] = "Spacer"
       @idx -= 1
@@ -491,7 +508,6 @@ class Quiz < ActiveRecord::Base
       @submission_questions = self.stored_questions(generate_quiz_data(:persist => false))
     end
     
-    non_shuffled_questions = ["true_false_question", "matching_question"]
     exclude_ids = @submission_questions.map{ |q| q[:assessment_question_id] }.compact
     @submission_questions.each do |q|
       if q[:pick_count] #QuizGroup
@@ -502,7 +518,7 @@ class Quiz < ActiveRecord::Base
             questions = questions.map{|aq| aq.data}
             questions.each do |question|
               if question[:answers]
-                question[:answers] = question[:answers].sort_by{|a| rand} if self.shuffle_answers && !non_shuffled_questions.include?(question[:question_type])
+                question[:answers] = prepare_answers(question)
                 question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
               end
               question[:points_possible] = q[:question_points]
@@ -545,6 +561,16 @@ class Quiz < ActiveRecord::Base
       submission.with_versioning(true, &:save!)
     end
     submission
+  end
+
+  def prepare_answers(question)
+    if answers = question[:answers]
+      if shuffle_answers && Quiz.shuffleable_question_type?(question[:question_type])
+        answers.sort_by { |a| rand }
+      else
+        answers
+      end
+    end
   end
   
   # Takes the PRE-SAVED version of the quiz and uses it to generate a 
@@ -600,15 +626,16 @@ class Quiz < ActiveRecord::Base
     return false if opts[:check_policies] && self.grants_right?(user, nil, :update)
     Rails.cache.fetch(locked_cache_key(user), :expires_in => 1.minute) do
       locked = false
-      if (self.unlock_at && self.unlock_at > Time.now)
+      quiz_for_user = self.overridden_for(user)
+      if (quiz_for_user.unlock_at && quiz_for_user.unlock_at > Time.now)
         sub = user && quiz_submissions.find_by_user_id(user.id)
         if !sub || !sub.manually_unlocked
-          locked = {:asset_string => self.asset_string, :unlock_at => self.unlock_at}
+          locked = {:asset_string => self.asset_string, :unlock_at => quiz_for_user.unlock_at}
         end
-      elsif (self.lock_at && self.lock_at <= Time.now)
+      elsif (quiz_for_user.lock_at && quiz_for_user.lock_at <= Time.now)
         sub = user && quiz_submissions.find_by_user_id(user.id)
         if !sub || !sub.manually_unlocked
-          locked = {:asset_string => self.asset_string, :lock_at => self.lock_at}
+          locked = {:asset_string => self.asset_string, :lock_at => quiz_for_user.lock_at}
         end
       elsif (self.for_assignment? && l = self.assignment.locked_for?(user, opts))
         sub = user && quiz_submissions.find_by_user_id(user.id)
@@ -791,16 +818,18 @@ class Quiz < ActiveRecord::Base
   end
 
   def submissions_for_statistics(include_all_versions=true)
-    for_users = self.context.students.map(&:id)
-    self.quiz_submissions.scoped(:include => [:versions], :conditions => { :user_id => for_users }).
-      map { |qs| if include_all_versions then qs.submitted_versions else qs.latest_submitted_version end }.
-      flatten.
-      compact.
-      select{ |s| s.completed? && s.submission_data.is_a?(Array) }.
-      sort_by(&:updated_at).
-      reverse
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      for_users = context.student_ids
+      self.quiz_submissions.scoped(:include => [:versions], :conditions => { :user_id => for_users }).
+        map { |qs| if include_all_versions then qs.submitted_versions else qs.latest_submitted_version end }.
+        flatten.
+        compact.
+        select{ |s| s.completed? && s.submission_data.is_a?(Array) }.
+        sort_by(&:updated_at).
+        reverse
+    end
   end
-  
+
   def statistics_csv(options={})
     options ||= {}
     columns = []
@@ -886,6 +915,8 @@ class Quiz < ActiveRecord::Base
             res << (match[:right] || match[:text])
             res.map{|s| (s || '').gsub(/=>/, '\=>')}.join('=>').gsub(/,/, '\,') 
           }.join(',')
+        elsif question[:question_type] == 'numerical_question'
+          row << (answer && answer[:text])
         else
           row << ((answer_item && answer_item[:text]) || '')
         end
@@ -970,7 +1001,7 @@ class Quiz < ActiveRecord::Base
     stats[:last_submission_at] = submissions.map{|s| s.finished_at }.compact.max || self.created_at
     stats
   end
-  
+
   def stats_for_question(question, submissions)
     res = question
     res[:responses] = 0
@@ -1114,7 +1145,7 @@ class Quiz < ActiveRecord::Base
             end
           end
           if !found
-            
+
             if ['numerical_question', 'short_answer_question'].include?(question[:question_type]) && response_hash_id
               answer = {:id => response_hash_id, :responses => 1, :user_ids => [submission.user_id], :text => response[:text]}
               res[:answers] << answer
@@ -1133,13 +1164,13 @@ class Quiz < ActiveRecord::Base
     res[:answers] << none if none && none[:responses] > 0
     res
   end
-  
+
   def unpublished_changes?
     self.last_edited_at && self.published_at && self.last_edited_at > self.published_at
   end
-  
+
   def has_student_submissions?
-    self.quiz_submissions.any?{|s| !s.settings_only? && self.context.students.include?(s.user) }
+    self.quiz_submissions.any?{|s| !s.settings_only? && context.includes_student?(s.user) }
   end
 
   # clear out all questions so that the quiz can be replaced. this is currently
@@ -1192,7 +1223,6 @@ class Quiz < ActiveRecord::Base
         item.workflow_state = hash[:available] ? 'available' : 'created'
         item.save
       end
-      return
     end
     item ||= context.quizzes.new
 
@@ -1207,14 +1237,22 @@ class Quiz < ActiveRecord::Base
      :shuffle_answers, :show_correct_answers, :points_possible, :hide_results,
      :access_code, :ip_filter, :scoring_policy, :require_lockdown_browser,
      :require_lockdown_browser_for_results, :anonymous_submissions, 
-     :could_be_locked, :quiz_type].each do |attr|
+     :could_be_locked, :quiz_type, :one_question_at_a_time,
+     :cant_go_back].each do |attr|
       item.send("#{attr}=", hash[attr]) if hash.key?(attr)
     end
     
     item.save!
-
-    if item.quiz_questions.count == 0 && question_data
+    if question_data
       hash[:questions] ||= []
+
+      if question_data[:qq_data]
+        questions_to_update = item.quiz_questions.scoped(:conditions => {:migration_id => question_data[:qq_data].keys})
+        questions_to_update.each do |question_to_update|
+          question_data[:qq_data].values.find{|q| q['migration_id'].eql?(question_to_update.migration_id)}['quiz_question_id'] = question_to_update.id
+        end
+      end
+
       hash[:questions].each_with_index do |question, i|
         case question[:question_type]
           when "question_reference"
@@ -1334,4 +1372,12 @@ class Quiz < ActiveRecord::Base
     self[:require_lockdown_browser_for_results] && Quiz.lockdown_browser_plugin_enabled?
   end
   alias :require_lockdown_browser_for_results? :require_lockdown_browser_for_results
+
+  def self.non_shuffled_questions
+    ["true_false_question", "matching_question", "fill_in_multiple_blanks_question"]
+  end
+
+  def self.shuffleable_question_type?(question_type)
+    !non_shuffled_questions.include?(question_type)
+  end
 end

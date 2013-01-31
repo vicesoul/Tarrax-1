@@ -164,12 +164,15 @@ define([
   // of the browser. We want to display times in the timezone of their profile. Use
   // unfudgeDateForProfileTimezone to remove the correction before sending dates back to the server.
   $.fudgeDateForProfileTimezone = function(date, unfudge) {
-    var today = new Date();
-    var user_offset = parseInt($("#time_zone_offset").text(), 10) * -1; // in minutes
+    var today, user_offset, minutes_shift, time, newDate;
+
+    if (!date) return;
+    today = new Date();
+    user_offset = parseInt($("#time_zone_offset").text(), 10) * -1; // in minutes
     if (date.getTimezoneOffset() != today.getTimezoneOffset()) {
       user_offset = user_offset - (date.getTimezoneOffset() - today.getTimezoneOffset());
     }
-    var minutes_shift = user_offset + date.getTimezoneOffset();
+    minutes_shift = user_offset + date.getTimezoneOffset();
 
     if (minutes_shift == 0) {
       return date;
@@ -177,14 +180,15 @@ define([
 
     time = date.getTime(); // in ms
     time += minutes_shift * 60 * 1000 * (unfudge === true ? -1 : 1);
-    var newDate = new Date();
+    newDate = new Date();
     newDate.setTime(time);
     return newDate;
   }
+
   $.unfudgeDateForProfileTimezone = function(date) {
     return $.fudgeDateForProfileTimezone(date, true);
   }
-  
+
   // The following method is simply a helper to use the logic from $.parseFromISO on
   // an existing Date() object. This is not the right solution and should be replaced.
   $.parseFromDateUTC = function(date, datetime_type) {
@@ -278,7 +282,7 @@ define([
       var ampm = inst.input.data('time-ampm') || "";
       var selectedAM = (ampm == "am") ? "selected" : "";
       var selectedPM = (ampm == "pm") ? "selected" : "";
-      html += "<div class='ui-datepicker-time ui-corner-bottom'><label for='ui-datepicker-time-hour'>" + htmlEscape(I18n.beforeLabel('datepicker.time', "Time")) + "</label> <input id='ui-datepicker-time-hour' type='text' value='" + hr + "' title='hr' class='ui-datepicker-time-hour' style='width: 20px;'/>:<input type='text' value='" + min + "' title='min' class='ui-datepicker-time-minute' style='width: 20px;'/> <select class='ui-datepicker-time-ampm' title='" + htmlEscape(I18n.t('datepicker.titles.am_pm', "am/pm")) + "'><option value=''>&nbsp;</option><option value='am' " + selectedAM + ">" + htmlEscape(I18n.t('#time.am', "am")) + "</option><option value='pm' " + selectedPM + ">" + htmlEscape(I18n.t('#time.pm', "pm")) + "</option></select>&nbsp;&nbsp;&nbsp;<button type='button' class='button btn-mini ui-datepicker-ok'>" + htmlEscape(I18n.t('#buttons.done', "Done")) + "</button></div>";
+      html += "<div class='ui-datepicker-time ui-corner-bottom'><label for='ui-datepicker-time-hour'>" + htmlEscape(I18n.beforeLabel('datepicker.time', "Time")) + "</label> <input id='ui-datepicker-time-hour' type='text' value='" + hr + "' title='hr' class='ui-datepicker-time-hour' style='width: 20px;'/>:<input type='text' value='" + min + "' title='min' class='ui-datepicker-time-minute' style='width: 20px;'/> <select class='ui-datepicker-time-ampm' title='" + htmlEscape(I18n.t('datepicker.titles.am_pm', "am/pm")) + "'><option value=''>&nbsp;</option><option value='am' " + selectedAM + ">" + htmlEscape(I18n.t('#time.am', "am")) + "</option><option value='pm' " + selectedPM + ">" + htmlEscape(I18n.t('#time.pm', "pm")) + "</option></select>&nbsp;&nbsp;&nbsp;<button type='button' class='btn btn-mini ui-datepicker-ok'>" + htmlEscape(I18n.t('#buttons.done', "Done")) + "</button></div>";
     }
     return html;
   };

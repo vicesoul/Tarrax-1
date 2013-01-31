@@ -83,6 +83,7 @@ module CCHelper
   WEB_RESOURCES_FOLDER = 'web_resources'
   WIKI_FOLDER = 'wiki_content'
   MEDIA_OBJECTS_FOLDER = 'media_objects'
+  CANVAS_EXPORT_FLAG = 'canvas_export.txt'
   
   def create_key(object, prepend="")
     CCHelper.create_key(object, prepend)
@@ -213,6 +214,12 @@ module CCHelper
         end
         new_url
       end
+
+      protocol = HostUrl.protocol
+      host = HostUrl.context_host(@course)
+      port = Setting.from_config("domain").try(:[], :domain).try(:split, ':').try(:[], 1)
+      @url_prefix = "#{protocol}://#{host}"
+      @url_prefix += ":#{port}" if !host.include?(':') && port.present?
     end
 
     attr_reader :course, :user
@@ -227,6 +234,8 @@ module CCHelper
 
       %{<html>\n<head>\n<meta http-equiv="Content-Type" content="text/html; charset=utf-8">\n<title>#{title}</title>\n#{meta_html}</head>\n<body>\n#{content}\n</body>\n</html>}
     end
+
+    UrlAttributes = Instructure::SanitizeField::SANITIZE[:protocols].inject({}) { |h,(k,v)| h[k] = v.keys; h }
 
     def html_content(html)
       html = @rewriter.translate_content(html)
@@ -245,6 +254,26 @@ module CCHelper
           info = CCHelper.media_object_info(obj, nil, media_object_flavor)
           @media_object_infos[obj.id] = info
           anchor['href'] = File.join(WEB_CONTENT_TOKEN, MEDIA_OBJECTS_FOLDER, info[:filename])
+        end
+      end
+
+      # prepend the Canvas domain to remaining absolute paths that are missing the host
+      # (those in the course are already "$CANVAS_COURSE_REFERENCE$/...", but links
+      #  outside the course need a domain to be meaningful in the export)
+      # see also Api#api_user_content, which does a similar thing
+      UrlAttributes.each do |tag, attributes|
+        doc.css(tag).each do |element|
+          attributes.each do |attribute|
+            url_str = element[attribute]
+            begin
+              url = URI.parse(url_str)
+              if !url.host && url_str[0] == '/'[0]
+                element[attribute] = "#{@url_prefix}#{url_str}"
+              end
+            rescue URI::Error => e
+              # leave it as is
+            end
+          end
         end
       end
 

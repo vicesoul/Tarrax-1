@@ -28,6 +28,7 @@ describe "/gradebooks/grade_summary" do
     assigns[:assignments] = [a]
     assigns[:submissions] = []
     assigns[:courses_with_grades] = []
+    assigns[:submissions_by_assignment] = {}
     render "gradebooks/grade_summary"
     response.should_not be_nil
   end
@@ -41,13 +42,14 @@ describe "/gradebooks/grade_summary" do
     assigns[:assignments] = [a]
     assigns[:submissions] = []
     assigns[:courses_with_grades] = []
+    assigns[:submissions_by_assignment] = {}
     render "gradebooks/grade_summary"
     response.should_not be_nil
     page = Nokogiri('<document>' + response.body + '</document>')
     page.css(".final_grade").length.should == 0
   end
 
-  it "should not show what if if not the student" do
+  it "should not show 'what if' if not the student" do
     course_with_teacher
     student_in_course
     @student = @user
@@ -58,6 +60,7 @@ describe "/gradebooks/grade_summary" do
     assigns[:assignments] = [a]
     assigns[:submissions] = []
     assigns[:courses_with_grades] = []
+    assigns[:submissions_by_assignment] = {}
     render "gradebooks/grade_summary"
     response.should_not be_nil
     response.body.should_not match /Click any score/

@@ -13,8 +13,8 @@
 {{#if assignment_grading_type_is_pass_fail}}
   <select name="default_grade" class="grading_value grading_box pass_fail" id="student_grading_<%= assignment.id %>">
     <option value="">---</option>
-    <option value="complete">{{#t "#gradebooks.grades.complete"}}Complete{{/t}}</option>
-    <option value="incomplete">{{#t "#gradebooks.grades.incomplete"}}Incomplete{{/t}}</option>
+    <option value="complete">{{#t "##gradebooks.grades.complete"}}Complete{{/t}}</option>
+    <option value="incomplete">{{#t "##gradebooks.grades.incomplete"}}Incomplete{{/t}}</option>
   </select>
 {{/if}}
 {{#if showPointsPossible}}

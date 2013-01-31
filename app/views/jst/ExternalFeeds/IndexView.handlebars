@@ -18,12 +18,6 @@
       </a>
     </li>
   {{/each}}
-  <li>
-    <a href="#" class="element_toggler" aria-controls="add_external_feed_form">
-      <i class="icon-rss-add"></i>
-      {{#t "links.add_external_feed"}}Add External Feed{{/t}}
-    </a>
-  </li>
 </ul>
 
 <form class="boostrap-form" id="add_external_feed_form" style="display: none; font-size: 11px">
@@ -60,6 +54,8 @@
            placeholder="{{#t "phrase_to_look_for"}}Phrase to look for{{/t}}">
   </div>
   <div>
-    <button type="submit" data-text-while-loading="Adding feed..." class="btn">Add Feed</button>
+    <button type="submit"
+            data-text-while-loading="{{#t "buttons.adding_feed"}}Adding feed...{{/t}}"
+            class="btn btn-small">{{#t "buttons.add_feed"}}Add Feed{{/t}}</button>
   </div>
 </form>

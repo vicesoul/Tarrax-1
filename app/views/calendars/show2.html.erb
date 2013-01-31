@@ -6,7 +6,8 @@
     :SELECTED_CONTEXTS => @selected_contexts,
     :ACTIVE_EVENT => @active_event_id,
     :VIEW_START => @view_start,
-    :CAL2_ONLY => @domain_root_account.calendar2_only?
+    :CAL2_ONLY => @domain_root_account.calendar2_only?,
+    :SHOW_SCHEDULER => @domain_root_account.show_scheduler?
   }
   js_bundle :calendar2
   jammit_css :calendar2
@@ -32,8 +33,8 @@
 <% end %>
 <div style="display: none" id="calendar_feed_box" title="<%= t('feed_dialog_title', 'Calendar Feed') %>">
   <p id="calendar-feed-message">
-    Copy the link below and paste it into any calendar app that takes
-    iCal feeds (Google Calendar, iCal, Outlook, etc.)
+    <%= t 'instructions.ics_link', "Copy the link below and paste it into any calendar app that takes
+    iCal feeds (Google Calendar, iCal, Outlook, etc.)" %>
   </p>
   <p id="calendar-feed-box-lower">
     <input value="<%= @feed_url%>.ics"><br>

@@ -69,7 +69,7 @@ class CommunicationChannelsController < ApplicationController
     return unless authorized_action(@user, @current_user, :read)
 
     channels = Api.paginate(@user.communication_channels.unretired, self,
-      api_v1_communication_channels_path).map do |cc|
+      api_v1_communication_channels_url).map do |cc|
         communication_channel_json(cc, @current_user, session)
       end
 
@@ -141,8 +141,8 @@ class CommunicationChannelsController < ApplicationController
   end
 
   def confirm
-    nonce = params[:nonce]
-    cc = CommunicationChannel.unretired.find_by_confirmation_code(nonce)
+    @nonce = params[:nonce]
+    cc = CommunicationChannel.unretired.find_by_confirmation_code(@nonce)
     @headers = false
     if cc
       @communication_channel = cc
@@ -154,7 +154,7 @@ class CommunicationChannelsController < ApplicationController
       @root_account ||= @user.pseudonyms.first.try(:account) if @user.pre_registered?
       @root_account ||= @user.enrollments.first.try(:root_account) if @user.creation_pending?
       unless @root_account
-        account = @user.account_users.first.try(:account)
+        account = @user.accounts.first
         @root_account = account.try(:root_account)
       end
       @root_account ||= @domain_root_account
@@ -181,11 +181,8 @@ class CommunicationChannelsController < ApplicationController
       end
 
       # load merge opportunities
-      other_ccs = CommunicationChannel.active.by_path(cc.path).of_type(cc.path_type).find(:all, :conditions => ["communication_channels.id<>?", cc.id], :include => :user)
-      merge_users = (other_ccs.map(&:user)).uniq
+      merge_users = cc.merge_candidates
       merge_users << @current_user if @current_user && !@user.registered? && !merge_users.include?(@current_user)
-      User.send(:preload_associations, merge_users, { :pseudonyms => :account })
-      merge_users.reject! { |u| u != @current_user && u.pseudonyms.all? { |p| p.deleted? } }
       # remove users that don't have a pseudonym for this account, or one can't be created
       merge_users = merge_users.select { |u| u.find_or_initialize_pseudonym_for_account(@root_account, @domain_root_account) }
       @merge_opportunities = []
@@ -195,8 +192,7 @@ class CommunicationChannelsController < ApplicationController
         if root_account_pseudonym
           @merge_opportunities << [user, [root_account_pseudonym]]
         else
-          user.pseudonyms.each do |p|
-            next unless p.active?
+          user.all_active_pseudonyms.each do |p|
             # populate reverse association
             p.user = user
             (account_to_pseudonyms_hash[p.account] ||= []) << p
@@ -210,20 +206,29 @@ class CommunicationChannelsController < ApplicationController
       @merge_opportunities.sort! { |a, b| [a.first == @current_user ? 0 : 1, a.first.name] <=> [b.first == @current_user ? 0 : 1, b.first.name] }
 
       if @current_user && params[:confirm].present? && @merge_opportunities.find { |opp| opp.first == @current_user }
-        cc.confirm
-        @enrollment.accept if @enrollment
-        @user.move_to_user(@current_user) if @user != @current_user
-        # create a new pseudonym if necessary and possible
-        pseudonym = @current_user.find_or_initialize_pseudonym_for_account(@root_account, @domain_root_account)
-        pseudonym.save! if pseudonym && pseudonym.changed?
+        @user.transaction do
+          @current_user.transaction do
+            cc.confirm
+            @enrollment.accept if @enrollment
+            @user.move_to_user(@current_user) if @user != @current_user
+            # create a new pseudonym if necessary and possible
+            pseudonym = @current_user.find_or_initialize_pseudonym_for_account(@root_account, @domain_root_account)
+            pseudonym.save! if pseudonym && pseudonym.changed?
+          end
+        end
       elsif @current_user && @current_user != @user && @enrollment && @user.registered?
+
         if params[:transfer_enrollment].present?
-          cc.active? || cc.confirm
-          @enrollment.user = @current_user
-          # accept will save it
-          @enrollment.accept
-          @user.touch
-          @current_user.touch
+          @user.transaction do
+            @current_user.transaction do
+              cc.active? || cc.confirm
+              @enrollment.user = @current_user
+              # accept will save it
+              @enrollment.accept
+              @user.touch
+              @current_user.touch
+            end
+          end
         else
           # render
           return
@@ -239,10 +244,9 @@ class CommunicationChannelsController < ApplicationController
       else
         # Open registration and admin-created users are pre-registered, and have already claimed a CC, but haven't
         # set up a password yet
-        @pseudonym = @user.pseudonyms.active.find(:first, :conditions => {:password_auto_generated => true, :account_id => @root_account.id} ) if @user.pre_registered? || @user.creation_pending?
+        @pseudonym = @root_account.pseudonyms.active.find(:first, :conditions => {:password_auto_generated => true, :user_id => @user.id} ) if @user.pre_registered? || @user.creation_pending?
         # Users implicitly created via course enrollment or account admin creation are creation pending, and don't have a pseudonym yet
-        #@pseudonym ||= @user.pseudonyms.build(:account => @root_account, :unique_id => cc.path) if @user.creation_pending?
-        @pseudonym ||= @user.pseudonyms.build(:account => @domain_root_account, :unique_id => cc.path) if @user.creation_pending?
+        @pseudonym ||= @root_account.pseudonyms.build(:user => @user, :unique_id => cc.path) if @user.creation_pending?
         # We create the pseudonym with unique_id = cc.path, but if that unique_id is taken, just nil it out and make the user come
         # up with something new
         @pseudonym.unique_id = '' if @pseudonym && @pseudonym.new_record? && @root_account.pseudonyms.active.custom_find_by_unique_id(@pseudonym.unique_id)
@@ -255,6 +259,7 @@ class CommunicationChannelsController < ApplicationController
           if Canvas.redis_enabled? && @merge_opportunities.length == 1
             Canvas.redis.rpush('single_user_registered_new_account_stats', {:user_id => @user.id, :registered_at => Time.now.utc }.to_json)
           end
+          @user.require_acceptance_of_terms = require_terms?
           @user.attributes = params[:user]
           @pseudonym.attributes = params[:pseudonym]
           @pseudonym.communication_channel = cc
@@ -263,7 +268,7 @@ class CommunicationChannelsController < ApplicationController
           @pseudonym.require_password = true
           @pseudonym.password_confirmation = @pseudonym.password = params[:pseudonym][:password] if params[:pseudonym]
 
-          return unless @pseudonym.valid?
+          return unless @pseudonym.valid? && @user.valid?
 
           # They may have switched e-mail address when they logged in; create a CC if so
           if @pseudonym.unique_id != cc.path
@@ -359,4 +364,10 @@ class CommunicationChannelsController < ApplicationController
     @user == @current_user ||
       @user.grants_right?(@current_user, session, :manage_user_details)
   end
+
+  def require_terms?
+    # a plugin could potentially set this
+    @require_terms
+  end
+  helper_method :require_terms?
 end

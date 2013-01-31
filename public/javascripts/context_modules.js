@@ -24,6 +24,7 @@ define([
   'jquery.instructure_date_and_time' /* parseFromISO, time_field, datetime_field */,
   'jquery.instructure_forms' /* formSubmit, fillFormData, formErrors, errorBox */,
   'jqueryui/dialog',
+  'compiled/jquery/fixDialogButtons' /* fix dialog formatting */,
   'jquery.instructure_misc_helpers' /* /\$\.underscore/ */,
   'jquery.instructure_misc_plugins' /* .dim, confirmDelete, fragmentChange, showIf */,
   'jquery.keycodes' /* keycodes */,
@@ -248,7 +249,7 @@ define([
           close: function() {
             modules.hideEditModule(true);
           }
-        }).dialog('option', {title: (isNew ? I18n.t('titles.add', "Add Module") : I18n.t('titles.edit', "Edit Module Settings")), width: (isNew ? 'auto' : 600)}).dialog('open'); //show();
+        }).fixDialogButtons().dialog('option', {title: (isNew ? I18n.t('titles.add', "Add Module") : I18n.t('titles.edit', "Edit Module Settings")), width: (isNew ? 'auto' : 600)}).dialog('open'); //show();
         $module.removeClass('dont_remove');
         $form.find(":text:visible:first").focus().select();
       },
@@ -308,7 +309,9 @@ define([
           var $option = $(document.createElement('option'));
           $option.val(data.id);
           // data.id could come back as undefined, so calling $option.val(data.id) would return an "", which is not chainable, so $option.val(data.id).text... would die.
-          $option.text("the module, " + data.name).addClass('context_module_' + data.id).addClass('context_module_option');
+          // TODO: I18n
+          //$option.text("the module, " + data.name).addClass('context_module_' + data.id).addClass('context_module_option');
+          $option.text(data.name).addClass('context_module_' + data.id).addClass('context_module_option');
           $("#module_list").append($option);
         });
       },
@@ -653,7 +656,7 @@ define([
       $("#edit_item_form").fillFormData(data, {object_name: 'content_tag'});
       $("#edit_item_form").dialog({
         title: I18n.t('titles.edit_item', "Edit Item Details")
-      });
+      }).fixDialogButtons();
     });
     $("#edit_item_form .cancel_button").click(function(event) {
       $("#edit_item_form").dialog('close');

@@ -36,7 +36,7 @@ class User < ActiveRecord::Base
   # Internal: SQL fragments used to return enrollments in their respective workflow
   # states. Where needed, these consider the state of the course to ensure that
   # students do not see their enrollments on unpublished courses.
-  # 
+  #
   # strict_course_state can be used to bypass the course state checks. This is
   # useful in places like the course settings UI, where we use these conditions
   # to search users in the course (rather than as an association on a
@@ -76,6 +76,8 @@ class User < ActiveRecord::Base
   has_many :invited_enrollments, :class_name => 'Enrollment', :include => [:course, :course_section], :conditions => enrollment_conditions(:invited), :order => 'enrollments.created_at'
   has_many :current_and_invited_enrollments, :class_name => 'Enrollment', :include => [:course], :order => 'enrollments.created_at',
            :conditions => enrollment_conditions(:current_and_invited)
+  has_many :current_and_future_enrollments, :class_name => 'Enrollment', :include => [:course], :order => 'enrollments.created_at',
+           :conditions => enrollment_conditions(:current_and_invited, false)
   has_many :not_ended_enrollments, :class_name => 'Enrollment', :conditions => "enrollments.workflow_state NOT IN ('rejected', 'completed', 'deleted')", :order => 'enrollments.created_at'
   has_many :concluded_enrollments, :class_name => 'Enrollment', :include => [:course, :course_section], :conditions => enrollment_conditions(:completed), :order => 'enrollments.created_at'
   has_many :observer_enrollments
@@ -104,10 +106,11 @@ class User < ActiveRecord::Base
 
   has_many :student_enrollments
   has_many :ta_enrollments
-  has_many :teacher_enrollments
+  has_many :teacher_enrollments, :class_name => 'TeacherEnrollment', :conditions => ["enrollments.type = 'TeacherEnrollment'"]
   has_many :submissions, :include => [:assignment, :submission_comments], :order => 'submissions.updated_at DESC', :dependent => :destroy
   has_many :pseudonyms_with_channels, :class_name => 'Pseudonym', :order => 'position', :include => :communication_channels
   has_many :pseudonyms, :order => 'position', :dependent => :destroy
+  has_many :active_pseudonyms, :class_name => 'Pseudonym', :conditions => ['pseudonyms.workflow_state != ?', 'deleted']
   has_many :pseudonym_accounts, :source => :account, :through => :pseudonyms
   has_one :pseudonym, :conditions => ['pseudonyms.workflow_state != ?', 'deleted'], :order => 'position'
   has_many :attachments, :as => 'context', :dependent => :destroy
@@ -128,9 +131,8 @@ class User < ActiveRecord::Base
   has_many :rubric_associations, :as => :context, :include => :rubric, :order => 'rubric_associations.created_at DESC'
   has_many :rubrics
   has_many :context_rubrics, :as => :context, :class_name => 'Rubric'
-  has_many :grading_standards
+  has_many :grading_standards, :conditions => ['workflow_state != ?', 'deleted']
   has_many :context_module_progressions
-  has_many :assignment_reminders
   has_many :assessment_question_bank_users
   has_many :assessment_question_banks, :through => :assessment_question_bank_users
   has_many :learning_outcome_results
@@ -145,10 +147,8 @@ class User < ActiveRecord::Base
   has_many :web_conference_participants
   has_many :web_conferences, :through => :web_conference_participants
   has_many :account_users
-  has_many :accounts, :through => :account_users
   has_many :media_objects, :as => :context
   has_many :user_generated_media_objects, :class_name => 'MediaObject'
-  has_many :page_views
   has_many :user_notes
   has_many :account_reports
   has_many :stream_item_instances, :dependent => :delete_all
@@ -164,6 +164,7 @@ class User < ActiveRecord::Base
 
   has_many :collections, :as => :context
   has_many :collection_items, :through => :collections
+  has_many :collection_item_upvotes
 
   has_one :profile, :class_name => 'UserProfile'
   alias :orig_profile :profile
@@ -176,6 +177,10 @@ class User < ActiveRecord::Base
   def conversations
     # i.e. exclude any where the user has deleted all the messages
     all_conversations.visible.scoped(:order => "last_message_at DESC, conversation_id DESC")
+  end
+
+  def page_views
+    PageView.for_user(self)
   end
 
   named_scope :of_account, lambda { |account|
@@ -215,7 +220,9 @@ class User < ActiveRecord::Base
   # NOTE: if :order is passed in, sortable name will be tacked onto the end
   # rather than prepending or replacing it
   def self.order_by_sortable_name(options = {})
-    add_sort_key!(options, sortable_name_order_by_clause)
+    direction = options.delete(:direction) || :ascending
+    sort_clause = "#{sortable_name_order_by_clause} #{direction == :descending ? "DESC" : "ASC"}"
+    add_sort_key!(options, sort_clause)
     uber_scope(options)
   end
 
@@ -283,8 +290,15 @@ class User < ActiveRecord::Base
     if value.blank?
       record.errors.add(attr, "blank")
     elsif record.validation_root_account
-      record.self_enrollment_course = record.validation_root_account.all_courses.find_by_self_enrollment_code(value)
-      record.errors.add(attr, "invalid") unless record.self_enrollment_course
+      course = record.validation_root_account.self_enrollment_course_for(value)
+      record.self_enrollment_course = course
+      if course
+        record.errors.add(attr, "full") if course.self_enrollment_limit_met?
+        record.errors.add(attr, "already_enrolled") if course.user_is_student?(record, :include_future => true)
+        record.errors.add(:birthdate, "too_young") if course.self_enrollment_min_age && record.birthdate && record.birthdate > course.self_enrollment_min_age.years.ago
+      else
+        record.errors.add(attr, "invalid")
+      end
     else
       record.errors.add(attr, "account_required")
     end
@@ -292,7 +306,6 @@ class User < ActiveRecord::Base
 
   before_save :assign_uuid
   before_save :update_avatar_image
-  after_save :generate_reminders_if_changed
   after_save :update_account_associations_if_necessary
   after_save :self_enroll_if_necessary
 
@@ -316,6 +329,10 @@ class User < ActiveRecord::Base
 
   def update_account_associations(opts = {})
     User.update_account_associations([self], opts)
+  end
+
+  def observer_of_course?(course)
+    self.observer_enrollments.map{ |e| e.course_id }.uniq.include?(course.id)
   end
 
   def self.add_to_account_chain_cache(account_id, account_chain_cache)
@@ -453,9 +470,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  # These two methods can be overridden by a plugin if you want to have an approval process for new teachers
+  # These methods can be overridden by a plugin if you want to have an approval
+  # process or implement additional tracking for new users
   def registration_approval_required?; false; end
-  def new_teacher_registration(form_params = {}); end
+  def new_registration(form_params = {}); end
+  # DEPRECATED, override new_registration instead
+  def new_teacher_registration(form_params = {}); new_registration(form_params); end
 
   set_broadcast_policy do |p|
     p.dispatch :new_teacher_registration
@@ -472,10 +492,6 @@ class User < ActiveRecord::Base
   end
   protected :assign_uuid
 
-  def hashtag
-    nil
-  end
-
   named_scope :with_service, lambda { |service|
     if service.is_a?(UserService)
       {:include => :user_services, :conditions => ['user_services.service = ?', service.service]}
@@ -488,14 +504,10 @@ class User < ActiveRecord::Base
   }
 
   def group_memberships_for(context)
-    return [] unless context
-    self.group_memberships.select do |m|
-      m.group &&
-      m.group.context_id == context.id &&
-      m.group.context_type == context.class.to_s &&
-      !m.group.deleted? &&
-      m.accepted?
-    end.map(&:group)
+    groups.scoped(:conditions => { 'groups.context_id' => context.id,
+      'groups.context_type' => context.class.to_s,
+      'group_memberships.workflow_state' => 'accepted' }).
+    scoped(:conditions => "groups.workflow_state <> 'deleted'")
   end
 
   def <=>(other)
@@ -604,7 +616,6 @@ class User < ActiveRecord::Base
     self.reminder_time_for_grading ||= 0
     self.initial_enrollment_type = nil unless ['student', 'teacher', 'ta', 'observer'].include?(initial_enrollment_type)
     User.invalidate_cache(self.id) if self.id
-    @reminder_times_changed = self.reminder_time_for_due_dates_changed? || self.reminder_time_for_grading_changed?
     true
   end
 
@@ -757,24 +768,32 @@ class User < ActiveRecord::Base
     self.update_account_associations
   end
 
+  def associate_with_shard(shard)
+  end
+
+  def self.clone_communication_channel(cc, new_user, max_position)
+    new_cc = cc.clone
+    new_cc.shard = new_user.shard
+    new_cc.position += max_position
+    new_cc.user = new_user
+    new_cc.save!
+    cc.notification_policies.each do |np|
+      new_np = np.clone
+      new_np.shard = new_user.shard
+      new_np.communication_channel = new_cc
+      new_np.save!
+    end
+  end
+
   def move_to_user(new_user)
     return unless new_user
     return if new_user == self
-    max_position = (new_user.pseudonyms.last.position || 0) rescue 0
-    new_user.save
-    updates = []
-    self.pseudonyms.each do |p|
-      max_position += 1
-      updates << "WHEN id=#{p.id} THEN #{max_position}"
-    end
-    Pseudonym.connection.execute("UPDATE pseudonyms SET user_id=#{new_user.id}, position=CASE #{updates.join(" ")} ELSE NULL END WHERE id IN (#{self.pseudonyms.map(&:id).join(',')})") unless self.pseudonyms.empty?
+    new_user.save if new_user.changed?
+    new_user.associate_with_shard(self.shard)
 
-    max_position = (new_user.communication_channels.last.position || 0) rescue 0
-    position_updates = []
+    max_position = new_user.communication_channels.last.try(:position) || 0
     to_retire_ids = []
     self.communication_channels.each do |cc|
-      max_position += 1
-      position_updates << "WHEN id=#{cc.id} THEN #{max_position}"
       source_cc = cc
       # have to find conflicting CCs, and make sure we don't have conflicts
       # To avoid the case where a user has duplicate CCs and one of them is retired, don't look for retired ccs
@@ -784,6 +803,10 @@ class User < ActiveRecord::Base
       # validations, but could be there due to older code that didn't enforce the uniqueness.  The results would
       # simply be that they'll continue to have duplicate unretired CCs
       target_cc = new_user.communication_channels.detect { |cc| cc.path.downcase == source_cc.path.downcase && cc.path_type == source_cc.path_type && !cc.retired? }
+
+      if !target_cc && self.shard != new_user.shard
+        User.clone_communication_channel(source_cc, new_user, max_position)
+      end
       next unless target_cc
 
       # we prefer keeping the "most" active one, preferring the target user if they're equal
@@ -799,161 +822,194 @@ class User < ActiveRecord::Base
         # active, unconfirmed*
         # active, retired
         to_retire = target_cc
+        if self.shard != new_user.shard
+          target_cc.retire unless target_cc.retired?
+          User.clone_communication_channel(source_cc, new_user, max_position)
+        end
       elsif target_cc.unconfirmed?
         # unconfirmed*, unconfirmed
         # retired, unconfirmed
         to_retire = source_cc
-      end
-      #elsif
+      elsif source_cc.unconfirmed? && self.shard != new_user.shard
         # unconfirmed, retired
-        # retired, retired
-      #end
-
-      to_retire_ids << to_retire.id if to_retire && !to_retire.retired?
-    end
-    CommunicationChannel.update_all("user_id=#{new_user.id}, position=CASE #{position_updates.join(" ")} ELSE NULL END", :id => self.communication_channels.map(&:id)) unless self.communication_channels.empty?
-    CommunicationChannel.update_all({:workflow_state => 'retired'}, :id => to_retire_ids) unless to_retire_ids.empty?
-
-    to_delete_ids = []
-    self.enrollments.each do |enrollment|
-      source_enrollment = enrollment
-      # non-deleted enrollments should be unique per [course_section, type]
-      target_enrollment = new_user.enrollments.detect { |enrollment| enrollment.course_section_id == source_enrollment.course_section_id && enrollment.type == source_enrollment.type && !['deleted', 'inactive', 'rejected'].include?(enrollment.workflow_state) }
-      next unless target_enrollment
-
-      # we prefer keeping the "most" active one, preferring the target user if they're equal
-      # the comments inline show all the different cases, with the source enrollment on the left,
-      # target enrollment on the right.  The * indicates the enrollment that will be deleted in order
-      # to resolve the conflict.
-      if target_enrollment.active?
-        # deleted, active
-        # inactive, active
-        # rejected, active
-        # invited*, active
-        # creation_pending*, active
-        # active*, active
-        # completed*, active
-        to_delete = source_enrollment
-      elsif source_enrollment.active?
-        # active, deleted
-        # active, inactive
-        # active, rejected
-        # active, invited*
-        # active, creation_pending*
-        # active, completed*
-        to_delete = target_enrollment
-      elsif target_enrollment.completed?
-        # deleted, completed
-        # inactive, completed
-        # rejected, completed
-        # invited*, completed
-        # creation_pending*, completed
-        # completed*, completed
-        to_delete = source_enrollment
-      elsif source_enrollment.completed?
-        # completed, deleted
-        # completed, inactive
-        # completed, rejected
-        # completed, invited*
-        # completed, creation_pending*
-        to_delete = target_enrollment
-      elsif target_enrollment.invited?
-        # deleted, invited
-        # inactive, invited
-        # rejected, invited
-        # creation_pending*, invited
-        # invited*, invited
-        to_delete = source_enrollment
-      elsif source_enrollment.invited?
-        # invited, deleted
-        # invited, inactive
-        # invited, rejected
-        # invited, creation_pending*
-        to_delete = target_enrollment
-      elsif target_enrollment.creation_pending?
-        # deleted, creation_pending
-        # inactive, creation_pending
-        # rejected, creation_pending
-        # creation_pending*, creation_pending
-        to_delete = source_enrollment
+        User.clone_communication_channel(source_cc, new_user, max_position)
       end
       #elsif
-        # creation_pending, deleted
-        # creation_pending, inactive
-        # creation_pending, rejected
-        # deleted, rejected
-        # inactive, rejected
-        # rejected, rejected
-        # rejected, deleted
-        # rejected, inactive
-        # deleted, inactive
-        # inactive, inactive
-        # inactive, deleted
-        # deleted, deleted
+      # retired, retired
       #end
 
-      to_delete_ids << to_delete.id if to_delete && !['deleted', 'inactive', 'rejected'].include?(to_delete.workflow_state)
-    end
-    Enrollment.update_all({:workflow_state => 'deleted'}, :id => to_delete_ids) unless to_delete_ids.empty?
-
-    [
-      [:quiz_id, :quiz_submissions],
-      [:assignment_id, :submissions]
-    ].each do |unique_id, table|
-      begin
-        # Submissions are a special case since there's a unique index
-        # on the table, and if both the old user and the new user
-        # have a submission for the same assignment there will be
-        # a conflict.
-        already_there_ids = table.to_s.classify.constantize.find_all_by_user_id(new_user.id).map(&unique_id)
-        already_there_ids = [0] if already_there_ids.empty?
-        table.to_s.classify.constantize.update_all({:user_id => new_user.id}, "user_id=#{self.id} AND #{unique_id} NOT IN (#{already_there_ids.join(',')})")
-      rescue => e
-        logger.error "migrating #{table} column user_id failed: #{e.to_s}"
+      if to_retire && !to_retire.retired?
+        to_retire_ids << to_retire.id
       end
     end
-    all_conversations.find_each{ |c| c.move_to_user(new_user) }
-    updates = {}
-    ['account_users','asset_user_accesses',
-      'assignment_reminders','attachments',
-      'calendar_events','collaborations',
-      'context_module_progressions','discussion_entries','discussion_topics',
-      'enrollments','group_memberships','page_comments',
-      'rubric_assessments','short_messages',
-      'submission_comment_participants','user_services','web_conferences',
-      'web_conference_participants','wiki_pages'].each do |key|
-      updates[key] = "user_id"
+
+    if self.shard != new_user.shard
+      self.communication_channels.update_all(:workflow_state => 'retired') unless self.communication_channels.empty?
+
+      self.user_services.each do |us|
+        new_us = us.clone
+        new_us.shard = new_user.shard
+        new_us.user = new_user
+        new_us.save!
+      end
+      self.user_services.delete_all
+    else
+      self.shard.activate do
+        CommunicationChannel.update_all({:workflow_state => 'retired'}, :id => to_retire_ids) unless to_retire_ids.empty?
+      end
+      self.communication_channels.update_all("user_id=#{new_user.id}, position=position+#{max_position}") unless self.communication_channels.empty?
     end
-    updates['submission_comments'] = 'author_id'
-    updates['conversation_messages'] = 'author_id'
-    updates = updates.to_a
-    updates << ['enrollments', 'associated_user_id']
-    updates.each do |table, column|
-      begin
-        klass = table.classify.constantize
-        if klass.new.respond_to?("#{column}=".to_sym)
-          klass.connection.execute("UPDATE #{table} SET #{column}=#{new_user.id} WHERE #{column}=#{self.id}")
+
+    Shard.with_each_shard(self.associated_shards) do
+      max_position = Pseudonym.find(:last, :conditions => { :user_id => new_user.id }, :order => 'position').try(:position) || 0
+      Pseudonym.update_all("position=position+#{max_position}, user_id=#{new_user.id}", :user_id => self.id)
+
+      to_delete_ids = []
+      new_user_enrollments = Enrollment.find(:all, :conditions => { :user_id => new_user.id })
+      Enrollment.scoped(:conditions => { :user_id => self.id }).each do |enrollment|
+        source_enrollment = enrollment
+        # non-deleted enrollments should be unique per [course_section, type]
+        target_enrollment = new_user_enrollments.detect { |enrollment| enrollment.course_section_id == source_enrollment.course_section_id && enrollment.type == source_enrollment.type && !['deleted', 'inactive', 'rejected'].include?(enrollment.workflow_state) }
+        next unless target_enrollment
+
+        # we prefer keeping the "most" active one, preferring the target user if they're equal
+        # the comments inline show all the different cases, with the source enrollment on the left,
+        # target enrollment on the right.  The * indicates the enrollment that will be deleted in order
+        # to resolve the conflict.
+        if target_enrollment.active?
+          # deleted, active
+          # inactive, active
+          # rejected, active
+          # invited*, active
+          # creation_pending*, active
+          # active*, active
+          # completed*, active
+          to_delete = source_enrollment
+        elsif source_enrollment.active?
+          # active, deleted
+          # active, inactive
+          # active, rejected
+          # active, invited*
+          # active, creation_pending*
+          # active, completed*
+          to_delete = target_enrollment
+        elsif target_enrollment.completed?
+          # deleted, completed
+          # inactive, completed
+          # rejected, completed
+          # invited*, completed
+          # creation_pending*, completed
+          # completed*, completed
+          to_delete = source_enrollment
+        elsif source_enrollment.completed?
+          # completed, deleted
+          # completed, inactive
+          # completed, rejected
+          # completed, invited*
+          # completed, creation_pending*
+          to_delete = target_enrollment
+        elsif target_enrollment.invited?
+          # deleted, invited
+          # inactive, invited
+          # rejected, invited
+          # creation_pending*, invited
+          # invited*, invited
+          to_delete = source_enrollment
+        elsif source_enrollment.invited?
+          # invited, deleted
+          # invited, inactive
+          # invited, rejected
+          # invited, creation_pending*
+          to_delete = target_enrollment
+        elsif target_enrollment.creation_pending?
+          # deleted, creation_pending
+          # inactive, creation_pending
+          # rejected, creation_pending
+          # creation_pending*, creation_pending
+          to_delete = source_enrollment
         end
-      rescue => e
-        logger.error "migrating #{table} column #{column} failed: #{e.to_s}"
-      end
-    end
-    # delete duplicate enrollments where this user is the observee
-    new_user.observee_enrollments.remove_duplicates!
+        #elsif
+          # creation_pending, deleted
+          # creation_pending, inactive
+          # creation_pending, rejected
+          # deleted, rejected
+          # inactive, rejected
+          # rejected, rejected
+          # rejected, deleted
+          # rejected, inactive
+          # deleted, inactive
+          # inactive, inactive
+          # inactive, deleted
+          # deleted, deleted
+        #end
 
-    # delete duplicate observers/observees, move the rest
-    user_observees.where(:user_id => new_user.user_observees.map(&:user_id)).delete_all
-    user_observees.update_all(:observer_id => new_user.id)
-    xor_observer_ids = (Set.new(user_observers.map(&:observer_id)) ^ new_user.user_observers.map(&:observer_id)).to_a
-    user_observers.where(:observer_id => new_user.user_observers.map(&:observer_id)).delete_all
-    user_observers.update_all(:user_id => new_user.id)
-    # for any observers not already watching both users, make sure they have
-    # any missing observer enrollments added
-    new_user.user_observers.where(:observer_id => xor_observer_ids).each(&:create_linked_enrollments)
+        to_delete_ids << to_delete.id if to_delete && !['deleted', 'inactive', 'rejected'].include?(to_delete.workflow_state)
+      end
+      Enrollment.update_all({:workflow_state => 'deleted'}, :id => to_delete_ids) unless to_delete_ids.empty?
+
+      [
+        [:quiz_id, :quiz_submissions],
+        [:assignment_id, :submissions]
+      ].each do |unique_id, table|
+        begin
+          # Submissions are a special case since there's a unique index
+          # on the table, and if both the old user and the new user
+          # have a submission for the same assignment there will be
+          # a conflict.
+          already_there_ids = table.to_s.classify.constantize.find_all_by_user_id(new_user.id).map(&unique_id)
+          already_there_ids = [0] if already_there_ids.empty?
+          table.to_s.classify.constantize.update_all({:user_id => new_user.id}, "user_id=#{self.id} AND #{unique_id} NOT IN (#{already_there_ids.join(',')})")
+        rescue => e
+          logger.error "migrating #{table} column user_id failed: #{e.to_s}"
+        end
+      end
+      all_conversations.find_each{ |c| c.move_to_user(new_user) } unless Shard.current != new_user.shard
+      updates = {}
+      ['account_users','asset_user_accesses',
+        'attachments',
+        'calendar_events','collaborations',
+        'context_module_progressions','discussion_entries','discussion_topics',
+        'enrollments','group_memberships','page_comments',
+        'rubric_assessments',
+        'submission_comment_participants','user_services','web_conferences',
+        'web_conference_participants','wiki_pages'].each do |key|
+        updates[key] = "user_id"
+      end
+      updates['submission_comments'] = 'author_id'
+      updates['conversation_messages'] = 'author_id'
+      updates = updates.to_a
+      updates << ['enrollments', 'associated_user_id']
+      updates.each do |table, column|
+        begin
+          klass = table.classify.constantize
+          if klass.new.respond_to?("#{column}=".to_sym)
+            klass.connection.execute("UPDATE #{table} SET #{column}=#{new_user.id} WHERE #{column}=#{self.id}")
+          end
+        rescue => e
+          logger.error "migrating #{table} column #{column} failed: #{e.to_s}"
+        end
+      end
+
+      unless Shard.current != new_user.shard
+        # delete duplicate enrollments where this user is the observee
+        new_user.observee_enrollments.remove_duplicates!
+
+        # delete duplicate observers/observees, move the rest
+        user_observees.where(:user_id => new_user.user_observees.map(&:user_id)).delete_all
+        user_observees.update_all(:observer_id => new_user.id)
+        xor_observer_ids = (Set.new(user_observers.map(&:observer_id)) ^ new_user.user_observers.map(&:observer_id)).to_a
+        user_observers.where(:observer_id => new_user.user_observers.map(&:observer_id)).delete_all
+        user_observers.update_all(:user_id => new_user.id)
+        # for any observers not already watching both users, make sure they have
+        # any missing observer enrollments added
+        new_user.user_observers.where(:observer_id => xor_observer_ids).each(&:create_linked_enrollments)
+      end
+
+      Enrollment.send_later(:recompute_final_scores, new_user.id)
+      new_user.update_account_associations
+    end
 
     self.reload
-    Enrollment.send_later(:recompute_final_scores, new_user.id)
-    new_user.update_account_associations
     new_user.touch
     self.destroy
   end
@@ -1010,10 +1066,12 @@ class User < ActiveRecord::Base
   def sis_pseudonym_for(context)
     root_account = context.root_account
     raise "could not resolve root account" unless root_account.is_a?(Account)
-    if self.pseudonyms.loaded?
+    if self.pseudonyms.loaded? && self.shard == root_account.shard
       self.pseudonyms.detect { |p| p.active? && p.sis_user_id && p.account_id == root_account.id }
     else
-      self.pseudonyms.active.find_by_account_id(root_account.id, :conditions => ["sis_user_id IS NOT NULL"])
+      root_account.shard.activate do
+        root_account.pseudonyms.active.find_by_user_id(self.id, :conditions => "sis_user_id IS NOT NULL")
+      end
     end
   end
 
@@ -1027,7 +1085,7 @@ class User < ActiveRecord::Base
     given { |user| user == self && user.user_can_edit_name? }
     can :rename
 
-    given {|user| self.courses.any?{|c| c.user_is_teacher?(user)}}
+    given {|user| self.courses.any?{|c| c.user_is_instructor?(user)}}
     can :rename and can :create_user_notes and can :read_user_notes
 
     given do |user|
@@ -1339,12 +1397,13 @@ class User < ActiveRecord::Base
     return fallback if fallback == '%{fallback}'
     if fallback and uri = URI.parse(fallback) rescue nil
       uri.scheme ||= request ? request.protocol[0..-4] : "https" # -4 to chop off the ://
-      if request && !uri.host
+      if HostUrl.cdn_host
+        uri.host = HostUrl.cdn_host
+      elsif request && !uri.host
         uri.host = request.host
         uri.port = request.port if ![80, 443].include?(request.port)
       elsif !uri.host
-        uri.host = HostUrl.default_host.split(/:/)[0]
-        uri.port = HostUrl.default_host.split(/:/)[1]
+        uri.host, uri.port = HostUrl.default_host.split(/:/)
       end
       uri.to_s
     else
@@ -1401,7 +1460,9 @@ class User < ActiveRecord::Base
   end
 
   def watched_conversations_intro?
-    preferences[:watched_conversations_intro] == true
+    #TODO: Need add JiaoXueBang implement
+    true
+    #preferences[:watched_conversations_intro] == true
   end
 
   def watched_conversations_intro(value=true)
@@ -1451,33 +1512,41 @@ class User < ActiveRecord::Base
   end
 
   def assignments_needing_submitting(opts={})
-    course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_student_enrollment_course_codes) : current_student_enrollment_course_codes
-    ignored_ids = ignored_items(:submitting).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
-    Assignment.for_context_codes(course_codes).active.due_before(1.week.from_now).
-      expecting_submission.due_after(opts[:due_after] || 4.weeks.ago).
-      need_submitting_info(id, opts[:limit] || 15, ignored_ids).
-      not_locked
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_student_enrollment_course_codes) : current_student_enrollment_course_codes
+      ignored_ids = ignored_items(:submitting).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
+      Assignment.for_context_codes(course_codes).active.due_before(opts[:due_before] || 1.week.from_now).
+        expecting_submission.due_after(opts[:due_after] || 4.weeks.ago).
+        need_submitting_info(id, opts[:limit] || 15, ignored_ids, opts[:order]).
+        not_locked
+    end
   end
   memoize :assignments_needing_submitting
 
   def assignments_needing_submitting_total_count(opts={})
-    course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_student_enrollment_course_codes) : current_student_enrollment_course_codes
-    ignored_ids = ignored_items(:submitting).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
-    Assignment.for_context_codes(course_codes).active.due_before(1.week.from_now).expecting_submission.due_after(4.weeks.ago).need_submitting_info(id, nil, ignored_ids).size
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_student_enrollment_course_codes) : current_student_enrollment_course_codes
+      ignored_ids = ignored_items(:submitting).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
+      Assignment.for_context_codes(course_codes).active.due_before(1.week.from_now).expecting_submission.due_after(4.weeks.ago).need_submitting_info(id, nil, ignored_ids, nil).size
+    end
   end
   memoize :assignments_needing_submitting_total_count
 
   def assignments_needing_grading(opts={})
-    course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_admin_enrollment_course_codes) : current_admin_enrollment_course_codes
-    ignored_ids = ignored_items(:grading).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
-    Assignment.for_context_codes(course_codes).active.expecting_submission.need_grading_info(opts[:limit] || 15, ignored_ids)
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_admin_enrollment_course_codes) : current_admin_enrollment_course_codes
+      ignored_ids = ignored_items(:grading).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
+      Assignment.for_context_codes(course_codes).active.expecting_submission.need_grading_info(opts[:limit] || 15, ignored_ids).reject{|a| a.needs_grading_count_for_user(self) == 0}
+    end
   end
   memoize :assignments_needing_grading
 
   def assignments_needing_grading_total_count(opts={})
-    course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_admin_enrollment_course_codes) : current_admin_enrollment_course_codes
-    ignored_ids = ignored_items(:grading).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
-    Assignment.for_context_codes(course_codes).active.expecting_submission.need_grading_info(nil, ignored_ids).size
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      course_codes = opts[:contexts] ? (Array(opts[:contexts]).map(&:asset_string) & current_admin_enrollment_course_codes) : current_admin_enrollment_course_codes
+      ignored_ids = ignored_items(:grading).select{|key, val| key.match(/\Aassignment_/) }.map{|key, val| key.sub(/\Aassignment_/, "") }
+      Assignment.for_context_codes(course_codes).active.expecting_submission.need_grading_info(nil, ignored_ids).reject{|a| a.needs_grading_count_for_user(self) == 0}.size
+    end
   end
   memoize :assignments_needing_grading_total_count
 
@@ -1504,7 +1573,17 @@ class User < ActiveRecord::Base
     read_attribute(:uuid)
   end
 
-  def self.serialization_excludes; [:uuid,:phone,:features_used,:otp_communication_channel_id,:otp_secret_key_enc,:otp_secret_key_salt]; end
+  def self.serialization_excludes
+    [
+      :uuid,
+      :phone,
+      :features_used,
+      :otp_communication_channel_id,
+      :otp_secret_key_enc,
+      :otp_secret_key_salt,
+      :collkey
+    ]
+  end
 
   def migrate_content_links(html, from_course)
     Course.migrate_content_links(html, from_course, self)
@@ -1555,41 +1634,6 @@ class User < ActiveRecord::Base
 
     results[:folders] = results[:folders].sort_by{|f| [f.parent_folder_id || 0, f.position || 0, f.name || "", f.created_at]}
     results
-  end
-
-  def generate_reminders_if_changed
-    send_later(:generate_reminders!) if @reminder_times_changed
-  end
-
-  def generate_reminders!
-    enrollments = self.current_enrollments
-    mgmt_course_ids = enrollments.select{|e| e.instructor? }.map(&:course_id).uniq
-    student_course_ids = enrollments.select{|e| !e.admin? }.map(&:course_id).uniq
-    assignments = Assignment.for_courses(mgmt_course_ids + student_course_ids).active.due_after(Time.now)
-    student_assignments = assignments.select{|a| student_course_ids.include?(a.context_id) }
-    mgmt_assignments = assignments - student_assignments
-
-    due_assignment_ids = []
-    grading_assignment_ids = []
-    assignment_reminders.each do |r|
-      res = r.update_for(self)
-      if r.reminder_type == 'grading' && res
-        grading_assignment_ids << r.assignment_id
-      elsif r.reminder_type == 'due_at' && res
-        due_assignment_ids << r.assignment_id
-      end
-    end
-    needed_ids = student_assignments.map(&:id) - due_assignment_ids
-    student_assignments.select{|a| needed_ids.include?(a.id) }.each do |assignment|
-      r = assignment_reminders.build(:user => self, :assignment => assignment, :reminder_type => 'due_at')
-      r.update_for(assignment)
-    end
-    needed_ids = mgmt_assignments.map(&:id) - grading_assignment_ids
-    mgmt_assignments.select{|a| needed_ids.include?(a.id) }.each do |assignment|
-      r = assignment_reminders.build(:user => self, :assignment => assignment, :reminder_type => 'grading')
-      r.update_for(assignment)
-    end
-    save
   end
 
   def self_enroll_if_necessary
@@ -1660,16 +1704,20 @@ class User < ActiveRecord::Base
   end
 
   def courses_with_primary_enrollment(association = :current_and_invited_courses, enrollment_uuid = nil, options = {})
-    res = Rails.cache.fetch([self, 'courses_with_primary_enrollment', association, options].cache_key, :expires_in => 15.minutes) do
-      courses = send(association).distinct_on(["courses.id"],
-        :select => "courses.*, enrollments.id AS primary_enrollment_id, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
-        :order => "courses.id, #{Enrollment.type_rank_sql}, #{Enrollment.state_rank_sql}")
-      unless options[:include_completed_courses]
-        date_restricted = Enrollment.find(:all, :conditions => { :id => courses.map(&:primary_enrollment_id) }).select{ |e| e.completed? || e.inactive? }.map(&:id)
-        courses.reject! { |course| date_restricted.include?(course.primary_enrollment_id.to_i) }
-      end
-      courses
-    end.dup
+    res = self.shard.activate do
+      Rails.cache.fetch([self, 'courses_with_primary_enrollment', association, options].cache_key, :expires_in => 15.minutes) do
+        courses = send(association).with_each_shard do |scope|
+          scope.distinct_on(["courses.id"],
+            :select => "courses.*, enrollments.id AS primary_enrollment_id, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
+            :order => "courses.id, #{Enrollment.type_rank_sql}, #{Enrollment.state_rank_sql}")
+        end
+        unless options[:include_completed_courses]
+          date_restricted = Enrollment.find(:all, :conditions => { :id => courses.map(&:primary_enrollment_id) }).select{ |e| e.completed? || e.inactive? }.map(&:id)
+          courses.reject! { |course| date_restricted.include?(course.primary_enrollment_id.to_i) }
+        end
+        courses
+      end.dup
+    end
     if association == :current_and_invited_courses
       if enrollment_uuid && pending_course = Course.find(:first,
         :select => "courses.*, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
@@ -1689,8 +1737,10 @@ class User < ActiveRecord::Base
   memoize :courses_with_primary_enrollment
 
   def cached_active_emails
-    Rails.cache.fetch([self, 'active_emails'].cache_key) do
-      self.communication_channels.active.email.map(&:path)
+    self.shard.activate do
+      Rails.cache.fetch([self, 'active_emails'].cache_key) do
+        self.communication_channels.active.email.map(&:path)
+      end
     end
   end
 
@@ -1704,26 +1754,32 @@ class User < ActiveRecord::Base
 
   # this method takes an optional {:include_enrollment_uuid => uuid}   so that you can pass it the session[:enrollment_uuid] and it will include it.
   def cached_current_enrollments(opts={})
-    res = Rails.cache.fetch([self, 'current_enrollments', opts[:include_enrollment_uuid] ].cache_key) do
-      res = self.current_and_invited_enrollments(true).to_a.dup
-      if opts[:include_enrollment_uuid] && pending_enrollment = Enrollment.find_by_uuid_and_workflow_state(opts[:include_enrollment_uuid], "invited")
-        res << pending_enrollment
-        res.uniq!
+    self.shard.activate do
+      res = Rails.cache.fetch([self, 'current_enrollments2', opts[:include_enrollment_uuid], opts[:include_future] ].cache_key) do
+        res = (opts[:include_future] ? current_and_future_enrollments : current_and_invited_enrollments).with_each_shard
+        if opts[:include_enrollment_uuid] && pending_enrollment = Enrollment.find_by_uuid_and_workflow_state(opts[:include_enrollment_uuid], "invited")
+          res << pending_enrollment
+          res.uniq!
+        end
+        res
       end
-      res
     end + temporary_invitations
   end
   memoize :cached_current_enrollments
 
   def cached_not_ended_enrollments
-    @cached_all_enrollments = Rails.cache.fetch([self, 'not_ended_enrollments'].cache_key) do
-      self.not_ended_enrollments.to_a
+    self.shard.activate do
+      @cached_all_enrollments = Rails.cache.fetch([self, 'not_ended_enrollments2'].cache_key) do
+        self.not_ended_enrollments.with_each_shard
+      end
     end
   end
 
   def cached_current_group_memberships
-    @cached_current_group_memberships = Rails.cache.fetch([self, 'current_group_memberships'].cache_key) do
-      self.current_group_memberships.to_a
+    self.shard.activate do
+      @cached_current_group_memberships = Rails.cache.fetch([self, 'current_group_memberships'].cache_key) do
+        self.current_group_memberships.with_each_shard
+      end
     end
   end
 
@@ -1757,40 +1813,42 @@ class User < ActiveRecord::Base
     opts[:start_at] ||= 2.weeks.ago
     opts[:limit] ||= 20
 
-    submissions = []
-    submissions += self.submissions.after(opts[:start_at]).for_context_codes(context_codes).find(
-      :all,
-      :conditions => ["submissions.score IS NOT NULL AND assignments.workflow_state != ? AND assignments.muted = ?", 'deleted', false],
-      :include => [:assignment, :user, :submission_comments],
-      :order => 'submissions.created_at DESC',
-      :limit => opts[:limit]
-    )
+    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+      submissions = []
+      submissions += self.submissions.after(opts[:start_at]).for_context_codes(context_codes).find(
+        :all,
+        :conditions => ["submissions.score IS NOT NULL AND assignments.workflow_state != ? AND assignments.muted = ?", 'deleted', false],
+        :include => [:assignment, :user, :submission_comments],
+        :order => 'submissions.created_at DESC',
+        :limit => opts[:limit]
+      )
 
-    # THIS IS SLOW, it takes ~230ms for mike
-    submissions += Submission.for_context_codes(context_codes).find(
-      :all,
-      :select => "submissions.*, last_updated_at_from_db",
-      :joins => self.class.send(:sanitize_sql_array, [<<-SQL, opts[:start_at], self.id, self.id]),
-                INNER JOIN (
-                  SELECT MAX(submission_comments.created_at) AS last_updated_at_from_db, submission_id
-                  FROM submission_comments, submission_comment_participants
-                  WHERE submission_comments.id = submission_comment_id
-                    AND (submission_comments.created_at > ?)
-                    AND (submission_comment_participants.user_id = ?)
-                    AND (submission_comments.author_id <> ?)
-                  GROUP BY submission_id
-                ) AS relevant_submission_comments ON submissions.id = submission_id
-                INNER JOIN assignments ON assignments.id = submissions.assignment_id AND assignments.workflow_state <> 'deleted'
-                SQL
-      :order => 'last_updated_at_from_db DESC',
-      :limit => opts[:limit],
-      :conditions => { "assignments.muted" => false }
-    )
+      # THIS IS SLOW, it takes ~230ms for mike
+      submissions += Submission.for_context_codes(context_codes).find(
+        :all,
+        :select => "submissions.*, last_updated_at_from_db",
+        :joins => self.class.send(:sanitize_sql_array, [<<-SQL, opts[:start_at], self.id, self.id]),
+                  INNER JOIN (
+                    SELECT MAX(submission_comments.created_at) AS last_updated_at_from_db, submission_id
+                    FROM submission_comments, submission_comment_participants
+                    WHERE submission_comments.id = submission_comment_id
+                      AND (submission_comments.created_at > ?)
+                      AND (submission_comment_participants.user_id = ?)
+                      AND (submission_comments.author_id <> ?)
+                    GROUP BY submission_id
+                  ) AS relevant_submission_comments ON submissions.id = submission_id
+                  INNER JOIN assignments ON assignments.id = submissions.assignment_id AND assignments.workflow_state <> 'deleted'
+                  SQL
+        :order => 'last_updated_at_from_db DESC',
+        :limit => opts[:limit],
+        :conditions => { "assignments.muted" => false }
+      )
 
-    submissions = submissions.sort_by{|t| (t.last_updated_at_from_db.to_datetime.in_time_zone rescue nil)  || t.created_at}.reverse
-    submissions = submissions.uniq
-    submissions.first(opts[:limit])
-    submissions
+      submissions = submissions.sort_by{|t| (t.last_updated_at_from_db.to_datetime.in_time_zone rescue nil)  || t.created_at}.reverse
+      submissions = submissions.uniq
+      submissions.first(opts[:limit])
+      submissions
+    end
   end
   memoize :submissions_for_context_codes
 
@@ -1802,7 +1860,10 @@ class User < ActiveRecord::Base
   memoize :recent_feedback
 
   def visible_stream_item_instances(opts={})
-    instances = stream_item_instances.scoped(:conditions => { 'stream_item_instances.hidden' => false }, :order => 'stream_item_instances.id desc', :include => :stream_item)
+    instances = stream_item_instances.scoped({
+      :conditions => { :hidden => false },
+      :order => 'stream_item_instances.id desc',
+    })
 
     # dont make the query do an stream_item_instances.context_code IN
     # ('course_20033','course_20237','course_20247' ...) if they dont pass any
@@ -1811,20 +1872,55 @@ class User < ActiveRecord::Base
       # still need to optimize the query to use a root_context_code.  that way a
       # users course dashboard even if they have groups does a query with
       # "context_code=..." instead of "context_code IN ..."
-      instances = instances.scoped(:conditions => ['stream_item_instances.context_code in (?)', setup_context_lookups(opts[:contexts])])
+      conditions = setup_context_association_lookups("stream_item_instances.context", opts[:contexts])
+      instances = instances.scoped(:conditions => conditions) unless conditions.first.empty?
+    elsif opts[:context]
+      instances = instances.scoped(:conditions => {:context_type => opts[:context].class.base_class.name, :context_id => opts[:context].id})
     end
 
     instances
   end
 
-  def recent_stream_items(opts={})
-    # cross-shard stream items need a *lot* of work; just disable them for now
-    return [] if self.shard != Shard.current
-    ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
-      visible_stream_item_instances(opts).scoped(:include => :stream_item, :limit => 21).map(&:stream_item).compact
+  # NOTE: excludes submission stream items
+  def cached_recent_stream_items(opts={})
+    expires_in = 1.day
+
+    if opts[:contexts]
+      items = []
+      Array(opts[:contexts]).each do |context|
+        items.concat(
+                   Rails.cache.fetch(StreamItemCache.recent_stream_items_key(self, context.class.base_class.name, context.id),
+                                     :expires_in => expires_in) {
+                     recent_stream_items(:context => context)
+                   })
+      end
+      items.sort { |a,b| b.id <=> a.id }
+    else
+      # no context in cache key
+      Rails.cache.fetch(StreamItemCache.recent_stream_items_key(self), :expires_in => expires_in) {
+        recent_stream_items
+      }
     end
   end
-  memoize :recent_stream_items
+
+  # NOTE: excludes submission stream items
+  def recent_stream_items(opts={})
+    self.shard.activate do
+      ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
+        visible_instances = visible_stream_item_instances(opts).scoped({
+          :include => :stream_item,
+          :limit => Setting.get('recent_stream_item_limit', 100),
+        })
+        visible_instances.map do |sii|
+          si = sii.stream_item
+          next unless si.present?
+          next if si.asset_type == 'Submission'
+          si.data.write_attribute(:unread, sii.unread?)
+          si
+        end.compact
+      end
+    end
+  end
 
   def calendar_events_for_calendar(opts={})
     opts = opts.dup
@@ -1873,6 +1969,23 @@ class User < ActiveRecord::Base
     Array(contexts || cached_contexts).map(&:asset_string)
   end
   memoize :setup_context_lookups
+
+  def setup_context_association_lookups(column, contexts=nil, opts = {})
+    contexts = Array(contexts || cached_contexts)
+    conditions = [[]]
+    backcompat = opts[:backcompat]
+    contexts.map do |context|
+      if backcompat
+        conditions.first << "((#{column}_type=? AND #{column}_id=?) OR (#{column}_code=? AND #{column}_type IS NULL))"
+      else
+        conditions.first << "(#{column}_type=? AND #{column}_id=?)"
+      end
+      conditions.concat [context.class.base_class.name, context.id]
+      conditions << context.asset_string if backcompat
+    end
+    conditions[0] = conditions[0].join(" OR ")
+    conditions
+  end
 
   # TODO: doesn't actually cache, needs to be optimized
   def cached_contexts
@@ -2466,7 +2579,12 @@ class User < ActiveRecord::Base
   end
 
   def find_pseudonym_for_account(account, allow_implicit = false)
-    self.pseudonyms.detect { |p| p.active? && p.works_for_account?(account, allow_implicit) }
+    # try to find one that's already loaded if possible
+    if self.pseudonyms.loaded?
+      p = self.pseudonyms.detect { |p| p.active? && p.works_for_account?(account, allow_implicit) }
+      return p if p
+    end
+    self.all_active_pseudonyms.detect { |p| p.works_for_account?(account, allow_implicit) }
   end
 
   # account = the account that you want a pseudonym for
@@ -2477,7 +2595,7 @@ class User < ActiveRecord::Base
     pseudonym = find_pseudonym_for_account(account)
     if !pseudonym
       # list of copyable pseudonyms
-      active_pseudonyms = self.pseudonyms.select { |p| p.active? && !p.password_auto_generated? && !p.account.delegated_authentication? }
+      active_pseudonyms = self.all_active_pseudonyms(:reload).select { |p|!p.password_auto_generated? && !p.account.delegated_authentication? }
       templates = []
       # re-arrange in the order we prefer
       templates.concat active_pseudonyms.select { |p| p.account_id == preferred_template_account.id } if preferred_template_account
@@ -2582,7 +2700,7 @@ class User < ActiveRecord::Base
   # mfa settings for a user are the most restrictive of any pseudonyms the user has
   # a login for
   def mfa_settings
-    result = self.pseudonyms(:include => :account).map(&:account).uniq.map do |account|
+    result = self.all_pseudonyms(:include => :account).map(&:account).uniq.map do |account|
       case account.mfa_settings
         when :disabled
           0
@@ -2649,5 +2767,40 @@ class User < ActiveRecord::Base
     end_hour = start_hour + 2.hours
 
     [start_hour, end_hour]
+  end
+
+  # Given a text string, return a value suitable for the user's initial_enrollment_type.
+  # It supports strings formatted as enrollment types like "StudentEnrollment" and
+  # it also supports text like "student", "teacher", "observer" and "ta".
+  #
+  # Any unsupported types have +nil+ returned.
+  def self.initial_enrollment_type_from_text(type)
+    # Convert the string "StudentEnrollment" to "student".
+    # Return only valid matching types. Otherwise, nil.
+    type = type.to_s.downcase.sub(/(view)?enrollment/, '')
+    %w{student teacher ta observer}.include?(type) ? type : nil
+  end
+
+  def associated_shards
+    [Shard.default]
+  end
+
+  def accounts
+    self.account_users.with_each_shard(:include => :account).map(&:account).uniq
+  end
+  memoize :accounts
+
+  def all_pseudonyms(options = {})
+    self.pseudonyms.with_each_shard(options)
+  end
+  memoize :all_pseudonyms
+
+  def all_active_pseudonyms(*args)
+    args.unshift(:conditions => {:workflow_state => 'active'})
+    all_pseudonyms(*args)
+  end
+
+  def prefers_gradebook2?
+    preferences[:use_gradebook2] != false
   end
 end

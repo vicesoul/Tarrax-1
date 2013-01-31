@@ -54,8 +54,6 @@ class Group < ActiveRecord::Base
   has_many :web_conferences, :as => :context, :dependent => :destroy
   has_many :collaborations, :as => :context, :order => 'title, created_at', :dependent => :destroy
   has_one :scribd_account, :as => :scribdable
-  has_many :short_message_associations, :as => :context, :include => :short_message, :dependent => :destroy
-  has_many :short_messages, :through => :short_message_associations, :dependent => :destroy
   has_many :media_objects, :as => :context
   has_many :zip_file_imports, :as => :context
   has_many :collections, :as => :context
@@ -323,7 +321,7 @@ class Group < ActiveRecord::Base
     can :delete and
     can :manage and
     can :manage_admin_users and
-    can :manage_students and 
+    can :manage_students and
     can :moderate_forum and
     can :update
 
@@ -416,7 +414,7 @@ class Group < ActiveRecord::Base
       { :id => TAB_HOME,          :label => t("#group.tabs.home", "Home"), :css_class => 'home', :href => :group_path },
       { :id => TAB_ANNOUNCEMENTS, :label => t('#tabs.announcements', "Announcements"), :css_class => 'announcements', :href => :group_announcements_path },
       { :id => TAB_PAGES,         :label => t("#group.tabs.pages", "Pages"), :css_class => 'pages', :href => :group_wiki_pages_path },
-      { :id => TAB_PEOPLE,        :label => t("#group.tabs.people", "People"), :css_class => 'peopel', :href => :group_users_path },
+      { :id => TAB_PEOPLE,        :label => t("#group.tabs.people", "People"), :css_class => 'people', :href => :group_users_path },
       { :id => TAB_DISCUSSIONS,   :label => t("#group.tabs.discussions", "Discussions"), :css_class => 'discussions', :href => :group_discussion_topics_path },
       { :id => TAB_CHAT,          :label => t("#group.tabs.chat", "Chat"), :css_class => 'chat', :href => :group_chat_path },
       { :id => TAB_FILES,         :label => t("#group.tabs.files", "Files"), :css_class => 'files', :href => :group_files_path },
@@ -516,5 +514,9 @@ class Group < ActiveRecord::Base
 
   def default_collection_name
     t "#group.default_collection_name", "%{group_name}'s Collection", :group_name => self.name
+  end
+
+  def associated_shards
+    [Shard.default]
   end
 end
