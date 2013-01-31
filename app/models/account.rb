@@ -692,7 +692,7 @@ class Account < ActiveRecord::Base
   end
 
   def destroy_subdomain
-    subdomain.destroy! if root_account?
+    subdomain.destroy if root_account?
   end
 
   # return root account's subdomain

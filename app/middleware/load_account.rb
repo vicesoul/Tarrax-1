@@ -24,7 +24,7 @@ class LoadAccount
   def account_from_request(request)
     subdomain = request.subdomains.join(".")
     # TODO redirect to Account.default url if not found
-    Subdomain.find_by_subdomain(subdomain).try(:account)
+    Subdomain.find_by_name(subdomain).try(:account)
   end
 
   def self.default_domain_root_account; Account.default; end
