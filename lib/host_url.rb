@@ -55,12 +55,11 @@ class HostUrl
     end
 
     def context_host(context=nil, current_host=nil)
-      p context
       subdomain = case context
       when Account
         context.subdomain
       else
-        context.try(:account).try(:subdomain)
+        context.try(:account).try(:subdomain) rescue nil
       end
       return default_host if subdomain.blank?
 
