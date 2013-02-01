@@ -2,6 +2,7 @@ class Subdomain < ActiveRecord::Base
   PREFIX = 'edu'
 
   attr_accessible :name, :account
+  validates_uniqueness_of :name
 
   belongs_to :account
 
