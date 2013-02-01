@@ -23,6 +23,41 @@ describe CommunicationChannelsController do
 
   describe "GET 'confirm'" do
     describe "open registration" do
+
+      it "should not forget the account when registering for a non-default account" do
+        # should create pseudonym under default account
+        #@account = Account.create!
+        @account = Account.default
+        @course = Course.create!(:account => @account) { |c| c.workflow_state = 'available' }
+        user_with_pseudonym(:account => @account, :password => :autogenerate)
+        @enrollment = @course.enroll_user(@user)
+        @pseudonym.account.should == @account
+        @user.should be_pre_registered
+
+        post 'confirm', :nonce => @cc.confirmation_code, :enrollment => @enrollment.uuid, :register => 1, :pseudonym => {:password => 'asdfasdf', :password_confirmation => 'asdfasdf'}
+        response.should be_redirect
+        @user.reload
+        @user.should be_registered
+        @pseudonym.reload
+        @pseudonym.account.should == @account
+      end
+
+      it "should figure out the correct domain when registering" do
+        # should create pseudonym under default account
+        #@account = Account.create!
+        @account = Account.default
+        user_with_pseudonym(:account => @account, :password => :autogenerate)
+        @pseudonym.account.should == @account
+        @user.should be_pre_registered
+
+        # @domain_root_account == Account.default
+        post 'confirm', :nonce => @cc.confirmation_code
+        response.should be_success
+        response.should render_template('confirm')
+        assigns[:pseudonym].should == @pseudonym
+        assigns[:root_account].should == @account
+      end
+
       it "should register creation_pending user in the correct account" do
         @account = Account.create!
         course(:active_all => 1, :account => @account)
@@ -89,39 +124,6 @@ describe CommunicationChannelsController do
         @pseudonym.account.should == default_account
         # communication_channel is redefed to do a lookup
         @pseudonym.communication_channel_id.should == @cc.id
-      end
-      it "should not forget the account when registering for a non-default account" do
-        # should create pseudonym under default account
-        #@account = Account.create!
-        @account = Account.default
-        @course = Course.create!(:account => @account) { |c| c.workflow_state = 'available' }
-        user_with_pseudonym(:account => @account, :password => :autogenerate)
-        @enrollment = @course.enroll_user(@user)
-        @pseudonym.account.should == @account
-        @user.should be_pre_registered
-
-        post 'confirm', :nonce => @cc.confirmation_code, :enrollment => @enrollment.uuid, :register => 1, :pseudonym => {:password => 'asdfasdf', :password_confirmation => 'asdfasdf'}
-        response.should be_redirect
-        @user.reload
-        @user.should be_registered
-        @pseudonym.reload
-        @pseudonym.account.should == @account
-      end
-
-      it "should figure out the correct domain when registering" do
-        # should create pseudonym under default account
-        #@account = Account.create!
-        @account = Account.default
-        user_with_pseudonym(:account => @account, :password => :autogenerate)
-        @pseudonym.account.should == @account
-        @user.should be_pre_registered
-
-        # @domain_root_account == Account.default
-        post 'confirm', :nonce => @cc.confirmation_code
-        response.should be_success
-        response.should render_template('confirm')
-        assigns[:pseudonym].should == @pseudonym
-        assigns[:root_account].should == @account
       end
     end
   end

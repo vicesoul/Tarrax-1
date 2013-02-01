@@ -146,6 +146,8 @@ describe CommunicationChannelsController do
         u1.should_not be_registered
       end
 
+      # see spec under jxb/
+      #
       #it "should not forget the account when registering for a non-default account" do
       #  @account = Account.create!
       #  @course = Course.create!(:account => @account) { |c| c.workflow_state = 'available' }
@@ -161,6 +163,8 @@ describe CommunicationChannelsController do
       #  @pseudonym.reload
       #  @pseudonym.account.should == @account
       #end
+
+      # see spec under jxb/
       #
       #it "should figure out the correct domain when registering" do
       #  @account = Account.create!
@@ -241,6 +245,8 @@ describe CommunicationChannelsController do
         @pseudonym.communication_channel_id.should == @cc.id
       end
 
+      # see spec under jxb/
+      #
       #it "should register creation_pending user in the correct account" do # create pseudonym under defautl-domain-root-account
         #@account = Account.create!
         #course(:active_all => 1, :account => @account)
@@ -274,6 +280,8 @@ describe CommunicationChannelsController do
         #@pseudonym.communication_channel_id.should == @cc.id
       #end
 
+      # see spec under jxb/
+      #
       #it "should register creation_pending user in the correct account (admin)" do
       #  @account = Account.create!
       #  user
