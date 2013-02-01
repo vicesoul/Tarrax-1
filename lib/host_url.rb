@@ -55,7 +55,17 @@ class HostUrl
     end
 
     def context_host(context=nil, current_host=nil)
-      default_host
+      p context
+      subdomain = case context
+      when Account
+        context.subdomain
+      else
+        context.try(:account).try(:subdomain)
+      end
+      return default_host if subdomain.blank?
+
+      domain = default_host.split('.').last(2).join('.')
+      "#{subdomain}.#{domain}"
     end
 
     def context_hosts(context=nil, current_host=nil)
