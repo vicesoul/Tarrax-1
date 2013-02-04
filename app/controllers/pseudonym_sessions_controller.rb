@@ -44,28 +44,28 @@ class PseudonymSessionsController < ApplicationController
 
     @pseudonym_session = PseudonymSession.new
     @headers = false
-    @is_delegated = @domain_root_account.delegated_authentication? && !@domain_root_account.ldap_authentication? && !params[:canvas_login]
-    @is_cas = @domain_root_account.cas_authentication? && @is_delegated
-    @is_saml = @domain_root_account.saml_authentication? && @is_delegated
+    @is_delegated = default_domain_root_account.delegated_authentication? && !default_domain_root_account.ldap_authentication? && !params[:canvas_login]
+    @is_cas = default_domain_root_account.cas_authentication? && @is_delegated
+    @is_saml = default_domain_root_account.saml_authentication? && @is_delegated
     if @is_cas && !params[:no_auto]
       if params[:ticket]
         # handle the callback from CAS
-        logger.info "Attempting CAS login with ticket #{params[:ticket]} in account #{@domain_root_account.id}"
+        logger.info "Attempting CAS login with ticket #{params[:ticket]} in account #{default_domain_root_account.id}"
         st = CASClient::ServiceTicket.new(params[:ticket], cas_login_url)
         begin
           cas_client.validate_service_ticket(st)
         rescue => e
           logger.warn "Failed to validate CAS ticket: #{e.inspect}"
-          flash[:delegated_message] = t 'errors.login_error', "There was a problem logging in at %{institution}", :institution => @domain_root_account.display_name
+          flash[:delegated_message] = t 'errors.login_error', "There was a problem logging in at %{institution}", :institution => default_domain_root_account.display_name
           redirect_to cas_login_url(:no_auto=>'true')
           return
         end
         if st.is_valid?
           @pseudonym = nil
-          @pseudonym = @domain_root_account.pseudonyms.custom_find_by_unique_id(st.response.user)
+          @pseudonym = default_domain_root_account.pseudonyms.custom_find_by_unique_id(st.response.user)
           if @pseudonym
             # Successful login and we have a user
-            @domain_root_account.pseudonym_sessions.create!(@pseudonym, false)
+            default_domain_root_account.pseudonym_sessions.create!(@pseudonym, false)
             session[:cas_login] = true
             @user = @pseudonym.login_assertions_for_user
 
@@ -80,7 +80,7 @@ class PseudonymSessionsController < ApplicationController
           end
         else
           logger.warn "Failed CAS login attempt."
-          flash[:delegated_message] = t 'errors.login_error', "There was a problem logging in at %{institution}", :institution => @domain_root_account.display_name
+          flash[:delegated_message] = t 'errors.login_error', "There was a problem logging in at %{institution}", :institution => default_domain_root_account.display_name
           redirect_to cas_login_url(:no_auto=>'true')
           return
         end
@@ -89,20 +89,20 @@ class PseudonymSessionsController < ApplicationController
       initiate_cas_login(cas_client)
     elsif @is_saml && !params[:no_auto]
       if params[:account_authorization_config_id]
-        if aac = @domain_root_account.account_authorization_configs.find_by_id(params[:account_authorization_config_id])
+        if aac = default_domain_root_account.account_authorization_configs.find_by_id(params[:account_authorization_config_id])
           initiate_saml_login(request.host_with_port, aac)
         else
           message = t('errors.login_errors.no_config_for_id', "The Canvas account has no authentication configuration with that id")
-          if @domain_root_account.auth_discovery_url
-            redirect_to @domain_root_account.auth_discovery_url + "?message=#{URI.escape message}"
+          if default_domain_root_account.auth_discovery_url
+            redirect_to default_domain_root_account.auth_discovery_url + "?message=#{URI.escape message}"
           else
             flash[:delegated_message] = message
             redirect_to login_url(:no_auto=>'true')
           end
         end
       else
-        if @domain_root_account.auth_discovery_url
-          redirect_to @domain_root_account.auth_discovery_url
+        if default_domain_root_account.auth_discovery_url
+          redirect_to default_domain_root_account.auth_discovery_url
         else
           initiate_saml_login(request.host_with_port)
         end
@@ -115,7 +115,7 @@ class PseudonymSessionsController < ApplicationController
 
   def maybe_render_mobile_login(status = nil)
     if params[:mobile] || request.user_agent.to_s =~ /ipod|iphone|ipad|Android/i
-      @login_handle_name = @domain_root_account.login_handle_name rescue AccountAuthorizationConfig.default_login_handle_name
+      @login_handle_name = default_domain_root_account.login_handle_name rescue AccountAuthorizationConfig.default_login_handle_name
       @login_handle_is_email = @login_handle_name == AccountAuthorizationConfig.default_login_handle_name
       @shared_js_vars = {
         :GOOGLE_ANALYTICS_KEY => Setting.get_cached('google_analytics_key', nil),
@@ -134,18 +134,19 @@ class PseudonymSessionsController < ApplicationController
     reset_session_for_login
 
     # Try to use authlogic's built-in login approach first
-    @pseudonym_session = @domain_root_account.pseudonym_sessions.new(params[:pseudonym_session])
+    #@pseudonym_session = @domain_root_account.pseudonym_sessions.new(params[:pseudonym_session])
+    @pseudonym_session = default_domain_root_account.pseudonym_sessions.new(params[:pseudonym_session])
     @pseudonym_session.remote_ip = request.remote_ip
     found = @pseudonym_session.save
 
     # look for LDAP pseudonyms where we get the unique_id back from LDAP
     if !found && !@pseudonym_session.attempted_record
-      @domain_root_account.account_authorization_configs.each do |aac|
+      default_domain_root_account.account_authorization_configs.each do |aac|
         next unless aac.ldap_authentication?
         next unless aac.identifier_format.present?
         res = aac.ldap_bind_result(params[:pseudonym_session][:unique_id], params[:pseudonym_session][:password])
         unique_id = res.first[aac.identifier_format].first if res
-        if unique_id && pseudonym = @domain_root_account.pseudonyms.active.by_unique_id(unique_id).first
+        if unique_id && pseudonym = default_domain_root_account.pseudonyms.active.by_unique_id(unique_id).first
           pseudonym.instance_variable_set(:@ldap_result, res.first)
           @pseudonym_session = PseudonymSession.new(pseudonym, params[:pseudonym_session][:remember_me] == "1")
           found = @pseudonym_session.save
@@ -155,7 +156,7 @@ class PseudonymSessionsController < ApplicationController
     end
 
     if !found && params[:pseudonym_session]
-      pseudonym = Pseudonym.authenticate(params[:pseudonym_session], @domain_root_account.trusted_account_ids, request.remote_ip)
+      pseudonym = Pseudonym.authenticate(params[:pseudonym_session], default_domain_root_account.trusted_account_ids, request.remote_ip)
       if pseudonym && pseudonym != :too_many_attempts
         @pseudonym_session = PseudonymSession.new(pseudonym, params[:pseudonym_session][:remember_me] == "1")
         found = @pseudonym_session.save
@@ -190,10 +191,10 @@ class PseudonymSessionsController < ApplicationController
     message = session[:delegated_message]
     @pseudonym_session.destroy rescue true
 
-    if @domain_root_account.saml_authentication? and session[:saml_unique_id]
+    if default_domain_root_account.saml_authentication? and session[:saml_unique_id]
       # logout at the saml identity provider
       # once logged out it'll be redirected to here again
-      if aac = @domain_root_account.account_authorization_configs.find_by_id(session[:saml_aac_id])
+      if aac = default_domain_root_account.account_authorization_configs.find_by_id(session[:saml_aac_id])
         settings = aac.saml_settings(request.host_with_port)
         request = Onelogin::Saml::LogOutRequest.new(settings, session)
         forward_url = request.generate_request
@@ -213,7 +214,7 @@ class PseudonymSessionsController < ApplicationController
         reset_session
         flash[:message] = t('errors.logout_errors.no_idp_found', "Canvas was unable to log you out at your identity provider")
       end
-    elsif @domain_root_account.cas_authentication? and session[:cas_login]
+    elsif default_domain_root_account.cas_authentication? and session[:cas_login]
       reset_session
       session[:delegated_message] = message if message
       redirect_to(cas_client.logout_url(cas_login_url))
@@ -226,7 +227,7 @@ class PseudonymSessionsController < ApplicationController
     flash[:logged_out] = true
     respond_to do |format|
       session.delete(:return_to)
-      if @domain_root_account.delegated_authentication? && !@domain_root_account.ldap_authentication?
+      if default_domain_root_account.delegated_authentication? && !default_domain_root_account.ldap_authentication?
         format.html { redirect_to login_url(:no_auto=>'true') }
       else
         format.html { redirect_to login_url }
@@ -242,7 +243,7 @@ class PseudonymSessionsController < ApplicationController
   end
 
   def saml_consume
-    if @domain_root_account.saml_authentication? && params[:SAMLResponse]
+    if default_domain_root_account.saml_authentication? && params[:SAMLResponse]
       # Break up the SAMLResponse into chunks for logging (a truncated version was probably already
       # logged with the request when using syslog)
       chunks = params[:SAMLResponse].scan(/.{1,1024}/)
@@ -252,15 +253,15 @@ class PseudonymSessionsController < ApplicationController
 
       response = saml_response(params[:SAMLResponse])
 
-      if @domain_root_account.account_authorization_configs.count > 1
-        aac = @domain_root_account.account_authorization_configs.find_by_idp_entity_id(response.issuer)
+      if default_domain_root_account.account_authorization_configs.count > 1
+        aac = default_domain_root_account.account_authorization_configs.find_by_idp_entity_id(response.issuer)
         if aac.nil?
           logger.error "Attempted SAML login for #{response.issuer} on account without that IdP"
           @pseudonym_session.destroy rescue true
           reset_session
-          if @domain_root_account.auth_discovery_url
+          if default_domain_root_account.auth_discovery_url
             message = t('errors.login_errors.unrecognized_idp', "Canvas did not recognize your identity provider")
-            redirect_to @domain_root_account.auth_discovery_url + "?message=#{URI.escape message}"
+            redirect_to default_domain_root_account.auth_discovery_url + "?message=#{URI.escape message}"
           else
             flash[:delegated_message] = t 'errors.login_errors.no_idp_set', "The institution you logged in from is not configured on this account."
             redirect_to login_url(:no_auto=>'true')
@@ -268,7 +269,7 @@ class PseudonymSessionsController < ApplicationController
           return
         end
       else
-        aac = @domain_root_account.account_authorization_config
+        aac = default_domain_root_account.account_authorization_config
       end
 
       settings = aac.saml_settings(request.host_with_port)
@@ -284,7 +285,7 @@ class PseudonymSessionsController < ApplicationController
         unique_id = unique_id.split('@', 2)[0]
       end
 
-      logger.info "Attempting SAML login for #{aac.login_attribute} #{unique_id} in account #{@domain_root_account.id}"
+      logger.info "Attempting SAML login for #{aac.login_attribute} #{unique_id} in account #{default_domain_root_account.id}"
 
       debugging = aac.debugging? && aac.debug_get(:request_id) == response.in_response_to
       if debugging
@@ -298,13 +299,13 @@ class PseudonymSessionsController < ApplicationController
         aac.debug_set(:login_to_canvas_success, 'false')
       end
 
-      login_error_message = t 'errors.login_error', "There was a problem logging in at %{institution}", :institution => @domain_root_account.display_name
+      login_error_message = t 'errors.login_error', "There was a problem logging in at %{institution}", :institution => default_domain_root_account.display_name
 
       if response.is_valid?
         aac.debug_set(:is_valid_login_response, 'true') if debugging
 
         if response.success_status?
-          @pseudonym = @domain_root_account.pseudonyms.custom_find_by_unique_id(unique_id)
+          @pseudonym = default_domain_root_account.pseudonyms.custom_find_by_unique_id(unique_id)
 
           if @pseudonym
             # We have to reset the session again here -- it's possible to do a
@@ -312,7 +313,7 @@ class PseudonymSessionsController < ApplicationController
             # school's setup.
             reset_session_for_login
             #Successful login and we have a user
-            @domain_root_account.pseudonym_sessions.create!(@pseudonym, false)
+            default_domain_root_account.pseudonym_sessions.create!(@pseudonym, false)
             @user = @pseudonym.login_assertions_for_user
 
             if debugging
@@ -381,9 +382,9 @@ class PseudonymSessionsController < ApplicationController
   end
 
   def saml_logout
-    if @domain_root_account.saml_authentication? && params[:SAMLResponse]
+    if default_domain_root_account.saml_authentication? && params[:SAMLResponse]
       response = saml_logout_response(params[:SAMLResponse])
-      if  aac = @domain_root_account.account_authorization_configs.find_by_idp_entity_id(response.issuer)
+      if  aac = default_domain_root_account.account_authorization_configs.find_by_idp_entity_id(response.issuer)
         settings = aac.saml_settings(request.host_with_port)
         response.process(settings)
 
@@ -401,7 +402,7 @@ class PseudonymSessionsController < ApplicationController
 
   def cas_client
     return @cas_client if @cas_client
-    config = { :cas_base_url => @domain_root_account.account_authorization_config.auth_base }
+    config = { :cas_base_url => default_domain_root_account.account_authorization_config.auth_base }
     @cas_client = CASClient::Client.new(config)
   end
 
