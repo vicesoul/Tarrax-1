@@ -209,7 +209,8 @@ describe PseudonymSessionsController do
         stub('response', :is_valid? => true, :success_status? => true, :name_id => unique_id, :name_qualifier => nil, :session_index => nil, :process => nil)
       )
 
-      controller.request.env['canvas.domain_root_account'] = account1
+      #controller.request.env['canvas.domain_root_account'] = account1
+      controller.stubs(:default_domain_root_account).returns( account1 )
       get 'saml_consume', :SAMLResponse => "foo"
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:saml_unique_id].should == unique_id
@@ -222,7 +223,8 @@ describe PseudonymSessionsController do
         stub('response', :is_valid? => true, :success_status? => true, :name_id => unique_id, :name_qualifier => nil, :session_index => nil, :process => nil)
       )
 
-      controller.request.env['canvas.domain_root_account'] = account2
+      #controller.request.env['canvas.domain_root_account'] = account2
+      controller.stubs(:default_domain_root_account).returns( account2 )
       get 'saml_consume', :SAMLResponse => "bar"
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:saml_unique_id].should == unique_id
@@ -258,6 +260,7 @@ describe PseudonymSessionsController do
           )
 
           controller.request.env['canvas.domain_root_account'] = @account
+          controller.stubs(:default_domain_root_account).returns( @account )
           get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
         end
 
@@ -294,6 +297,7 @@ describe PseudonymSessionsController do
       context "/new" do
         def get_new(aac_id=nil)
           controller.request.env['canvas.domain_root_account'] = @account
+          controller.stubs(:default_domain_root_account).returns( @account )
           if aac_id
             get 'new', :account_authorization_config_id => aac_id
           else
@@ -343,6 +347,7 @@ describe PseudonymSessionsController do
           )
 
           controller.request.env['canvas.domain_root_account'] = @account
+          controller.stubs(:default_domain_root_account).returns( @account )
           get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
 
           response.should redirect_to(courses_url)
@@ -423,6 +428,7 @@ describe PseudonymSessionsController do
         )
 
         controller.request.env['canvas.domain_root_account'] = @account
+        controller.stubs(:default_domain_root_account).returns( @account )
         get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
         response.should redirect_to(courses_url)
         session[:saml_unique_id].should == @unique_id
@@ -437,6 +443,7 @@ describe PseudonymSessionsController do
         )
 
         controller.request.env['canvas.domain_root_account'] = @account
+        controller.stubs(:default_domain_root_account).returns( @account )
         get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
         response.should redirect_to(courses_url)
         session[:saml_unique_id].should == @unique_id
@@ -464,6 +471,7 @@ describe PseudonymSessionsController do
       )
 
       controller.request.env['canvas.domain_root_account'] = account
+      controller.stubs(:default_domain_root_account).returns( account )
       get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
       response.should redirect_to(courses_url)
       session[:saml_unique_id].should == unique_id
@@ -483,6 +491,7 @@ describe PseudonymSessionsController do
       )
 
       controller.request.env['canvas.domain_root_account'] = account
+      controller.stubs(:default_domain_root_account).returns( account )
       get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
       response.should redirect_to(courses_url)
       session[:saml_unique_id].should == unique_id
@@ -504,6 +513,7 @@ describe PseudonymSessionsController do
       @pseudonym.save!
 
       controller.request.env['canvas.domain_root_account'] = @account
+      controller.stubs(:default_domain_root_account).returns( @account )
       get 'saml_consume', :SAMLResponse => <<-SAML
         PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6cHJv
         dG9jb2wiIHhtbG5zOnNhbWw9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iIElE
@@ -637,6 +647,7 @@ describe PseudonymSessionsController do
       stubby("yes\n#{unique_id}\n")
 
       controller.request.env['canvas.domain_root_account'] = account1
+      controller.stubs(:default_domain_root_account).returns( account1 )
       get 'new', :ticket => 'ST-abcd'
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:cas_login].should == true
@@ -648,6 +659,7 @@ describe PseudonymSessionsController do
       stubby("yes\n#{unique_id}\n")
 
       controller.request.env['canvas.domain_root_account'] = account2
+      controller.stubs(:default_domain_root_account).returns( account2 )
       get 'new', :ticket => 'ST-efgh'
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:cas_login].should == true

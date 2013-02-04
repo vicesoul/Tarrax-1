@@ -674,9 +674,13 @@ class UsersController < ApplicationController
   # @returns User
   def create
     # Look for an incomplete registration with this pseudonym
-    @pseudonym = @context.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
+    #@pseudonym = @context.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
+    # create pseudonym under default-domain-root-account
+    @pseudonym = @domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # Setting it to nil will cause us to try and create a new one, and give user the login already exists error
-    @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
+    # link to pseudonym if already exists
+    @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state) and
+      ( params[:account_id].nil? or params[:account_id] && @domain_root_account == @context )
 
     manage_user_logins = @context.grants_right?(@current_user, session, :manage_user_logins)
     self_enrollment = params[:self_enrollment].present?
@@ -731,7 +735,7 @@ class UsersController < ApplicationController
       end
     end
 
-    @pseudonym ||= @user.pseudonyms.build(:account => @context)
+    @pseudonym ||= @user.pseudonyms.build(:account => LoadAccount.default_domain_root_account)
     @pseudonym.require_password = require_password
     # pre-populate the reverse association
     @pseudonym.user = @user
@@ -746,7 +750,8 @@ class UsersController < ApplicationController
     @pseudonym.attributes = params[:pseudonym]
     @pseudonym.sis_user_id = sis_user_id
 
-    @pseudonym.account = @context
+    #@pseudonym.account = @context
+    @pseudonym.account = @domain_root_account
     @pseudonym.workflow_state = 'active'
     @cc = @user.communication_channels.email.by_path(email).first
     @cc ||= @user.communication_channels.build(:path => email)
@@ -765,6 +770,13 @@ class UsersController < ApplicationController
         @pseudonym.send(:skip_session_maintenance=, true)
       end
       @user.save!
+
+      # update user-account-associations if account_id given
+      if params[:account_id]
+        associations = User.calculate_account_associations_from_accounts([params[:account_id]])
+        @user.update_account_associations(:incremental => true, :precalculated_associations => associations)
+      end
+
       message_sent = false
       if notify == :self_registration
         unless @user.pending_approval? || @user.registered?

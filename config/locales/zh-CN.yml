@@ -277,6 +277,11 @@ zh-CN:
     add_user_dialog_title: 新增用户
     adding_course_message: 正在添加课程...
     adding_user_message: 正在添加用户...
+    associated:
+      accounts_crumb: 我的网校
+      no_accounts_message: 无网校
+      page_title: 我的网校
+      title: "我的网校"
     avatars: 
       all_link: 
         one: "所有 %{count}"

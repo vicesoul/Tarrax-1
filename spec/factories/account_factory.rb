@@ -22,6 +22,6 @@ end
 
 def valid_account_attributes
   {
-    :name => "value for name"
+    :name => SecureRandom.base64(12) # name should be uniq
   }
 end

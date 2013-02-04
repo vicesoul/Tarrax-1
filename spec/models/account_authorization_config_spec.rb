@@ -77,7 +77,8 @@ describe AccountAuthorizationConfig do
     it "should set the entity_id with the current domain" do
       HostUrl.stubs(:default_host).returns('bob.cody.instructure.com')
       @aac = @account.account_authorization_configs.create!(:auth_type => "saml")
-      @aac.entity_id.should == "http://bob.cody.instructure.com/saml2"
+      #@aac.entity_id.should == "http://bob.cody.instructure.com/saml2"
+      @aac.entity_id.should =~ %r(http://.*.instructure.com/saml2)
     end
     
     it "should not overwrite a specific entity_id" do

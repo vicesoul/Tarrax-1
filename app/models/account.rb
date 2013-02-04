@@ -86,11 +86,15 @@ class Account < ActiveRecord::Base
   has_many :associated_alerts, :through => :associated_courses, :source => :alerts, :include => :criteria
   has_many :user_account_associations
   has_many :report_snapshots
+  has_one  :subdomain
 
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
   before_save :set_update_account_associations_if_changed
+  before_create :auto_create_name if RAILS_ENV == 'test'
   after_save :update_account_associations_if_changed
+  after_create :auto_create_subdomain
+  before_destroy :destroy_subdomain
   after_create :default_enrollment_term
   
   serialize :settings, Hash
@@ -100,6 +104,7 @@ class Account < ActiveRecord::Base
   validates_locale :default_locale, :allow_nil => true
   validate :account_chain_loop, :if => :parent_account_id_changed?
   validate :validate_auth_discovery_url
+  validates_uniqueness_of :name, :scope => :parent_account_id
 
   include StickySisFields
   are_sis_sticky :name
@@ -674,7 +679,29 @@ class Account < ActiveRecord::Base
       @default_enrollment_term = self.enrollment_terms.active.find_or_create_by_name(EnrollmentTerm::DEFAULT_TERM_NAME)
     end
   end
-  
+
+  def auto_create_name
+    self.name = SecureRandom.base64(12) if name.nil?
+  end
+
+  def auto_create_subdomain
+    if subdomain.nil? and root_account? and not (Account.first == Account.last or Account.default == self) # not Account.default
+      Subdomain.create!(:account => self)
+      reload
+    end
+  end
+
+  def destroy_subdomain
+    subdomain.destroy if root_account?
+  end
+
+  # return root account's subdomain
+  def subdomain_with_self
+    root_account? ? subdomain_without_self : root_account.subdomain
+  end
+  alias_method_chain :subdomain, :self
+
+
   def add_user(user, membership_type = nil)
     return nil unless user && user.is_a?(User)
     membership_type ||= 'AccountAdmin'
@@ -1191,11 +1218,6 @@ class Account < ActiveRecord::Base
 
   def canvas_network_enabled?
     false
-  end
-
-  # return root account's subdomain
-  def subdomain
-    Subdomain.find_by_account_id(root_account.id) || 'www'
   end
 
   def import_from_migration(data, params, migration)
