@@ -38,7 +38,11 @@ class LoadAccount
     (a.nil? && Rails.env.test?) ? LoadAccount.default_domain_root_account : a
   end
 
-  def self.default_domain_root_account; Account.default; end
+  def self.default_domain_root_account
+    Rails.cache.fetch('default_domain_root_account') do
+      Account.default
+    end
+  end
 
   protected
 
