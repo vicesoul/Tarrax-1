@@ -1,0 +1,13 @@
+<% content_for :page_title do %><%= "#{t(:homepage, "Homepage")} | #{@account.name}"%><% end %>
+
+<% jammit_css :account_homepage %>
+
+<% content_for :right_side do %>
+  <%= render :partial => 'homepage_right_side' %>
+<% end if @can_manage_homepage %>
+
+<h2><%= t(:homepage, "homepage") %> theme: <%= @page.theme %></h2>
+
+<%= render 'homepage_content' %>
+
+<% js_bundle :account_homepage %>

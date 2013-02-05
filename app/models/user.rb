@@ -418,7 +418,8 @@ class User < ActiveRecord::Base
     UserAccountAssociation.transaction do
       current_associations = {}
       to_delete = []
-      UserAccountAssociation.find(:all, :conditions => { :user_id => user_ids }).each do |aa|
+      UserAccountAssociation.where(:user_id => user_ids).where("fake IS NOT TRUE").each do |aa|
+      #UserAccountAssociation.find(:all, :conditions => { :user_id => user_ids }).each do |aa|
         key = [aa.user_id, aa.account_id]
         # duplicates
         if current_associations.has_key?(key)
@@ -465,13 +466,8 @@ class User < ActiveRecord::Base
         end
       end
       
-      # - Notice:
-      # Because we have some users can not calculate form user#calculate_account_associations,
-      # those users are not included in enrollments, pseudonyms or account users.
-      # So i commit below line, it may be change in the further.
-      # - by sam
-      #
-      # to_delete += current_associations.map { |k, v| v[0] }
+      to_delete += current_associations.map { |k, v| v[0] }
+      
       UserAccountAssociation.delete_all(:id => to_delete) unless incremental || to_delete.empty?
     end
   end

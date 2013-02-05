@@ -768,9 +768,10 @@ class UsersController < ApplicationController
       end
       @user.save!
 
-      if params[:user][:account_id]
-        special_account = Account.find(params[:user][:account_id].to_i)
-        @user.associated_accounts << special_account
+      if params[:user][:account_id] && Account.find(params[:user][:account_id].to_i)
+        ua = UserAccountAssociation.new(:account_id => params[:user][:account_id].to_i, :fake => true)
+        ua.user_id = @user.id
+        ua.save
       end
 
       message_sent = false

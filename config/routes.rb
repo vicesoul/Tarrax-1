@@ -442,7 +442,10 @@ ActionController::Routing::Routes.draw do |map|
     account.confirm_delete_user 'users/:user_id/delete', :controller => 'accounts', :action => 'confirm_delete_user'
     account.delete_user 'users/:user_id', :controller => 'accounts', :action => 'remove_user', :conditions => {:method => :delete}
     account.resources :users
-    account.resources :pages, :controller => 'jxb/pages'
+    account.resources :pages, :controller => 'jxb/pages' do |page|
+      #page.widget 'widget', :action => 'widget', :controller => 'jxb/pages'
+      page.resources :widgets, :controller => 'jxb/widgets'
+    end
     account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)

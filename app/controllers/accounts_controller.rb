@@ -459,10 +459,19 @@ class AccountsController < ApplicationController
   end
 
   def homepage
-    if @account.grants_right?(@current_user, nil, :manage_homepage)
-      @homepage = @account.homepage || @account.create_homepage(:name => 'homepage')
-      prepend_view_path Jxb::Theme.path(@homepage.theme)
+    @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
+    @page = @account.homepage || @account.create_homepage(:name => 'homepage')
+
+    if @can_manage_homepage
+      @active_tab = "homepage"
+      add_crumb t(:homepage, "Homepage"), account_homepage_path(@account)
+    elsif authorized_action(@page, @current_user, session, :read)
+      clear_crumbs
+      @show_left_side = false
     end
+    
+    prepend_view_path Jxb::Theme.path(@page.theme)
+
   end
 
 end

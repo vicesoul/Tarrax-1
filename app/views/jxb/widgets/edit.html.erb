@@ -1,0 +1,40 @@
+<h1>Editing widget</h1>
+
+<% form_for(@widget) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :cell_name %><br />
+    <%= f.text_field :cell_name %>
+  </p>
+  <p>
+    <%= f.label :cell_action %><br />
+    <%= f.text_field :cell_action %>
+  </p>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :body %><br />
+    <%= f.text_area :body %>
+  </p>
+  <p>
+    <%= f.label :position %><br />
+    <%= f.text_field :position %>
+  </p>
+  <p>
+    <%= f.label :seq %><br />
+    <%= f.text_field :seq %>
+  </p>
+  <p>
+    <%= f.label :page_id %><br />
+    <%= f.text_field :page_id %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @widget %> |
+<%= link_to 'Back', widgets_path %>

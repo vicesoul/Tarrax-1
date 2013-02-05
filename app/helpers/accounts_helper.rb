@@ -17,7 +17,7 @@
 #
 
 module AccountsHelper
-  include Jxb::Widget::Helper
+  include Jxb::WidgetsHelper
 
   def show_last_batch
     @last_batch && !(@current_batch && @current_batch.importing?)
