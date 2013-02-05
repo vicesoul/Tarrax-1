@@ -157,6 +157,7 @@ class ApplicationController < ActionController::Base
   def default_domain_root_account
     @default_domain_root_account ||= LoadAccount.default_domain_root_account
   end
+  helper_method :default_domain_root_account
 
   def set_response_headers
     headers['X-UA-Compatible'] = 'IE=edge,chrome=1'

@@ -1848,7 +1848,7 @@ zh-CN:
         logged_in_other_user_course: "对 %{course} 的邀请已发送到 **%{email}**，而您目前登录为 **%{user}**。"
         merge_multiple: "选择要与 **%{current_user}** 合并的帐户。"
         merge_one: "是否要合并 **%{current_user}** 与 **%{other_user}**?"
-        multiple_accounts_course: "对 %{course} 的邀请已发送到 **%{email}**。有 %{count} 个帐户使用此电子邮件地址。"
+        multiple_accounts_course: "已经有 %{count} 个帐户关联此电子邮件地址，哪位是您？"
         none_of_these: 以上情况都不符合，我是一个新用户
         register: 要完成注册，我们需要更多信息。
         register_with_course: "要完成对课程 **%{course}** 的注册，我们需要更多信息。"

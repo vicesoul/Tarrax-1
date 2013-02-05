@@ -25,7 +25,7 @@
     <%= render :partial => "shared/event_list", :object => @recent_feedback, :locals => {:title => t('recent_feedback', "Recent Feedback"), :display_count => 3, :period => :two_weeks, :show_context => true, :is_recent_feedback => true} %>
   <% end %>
   <div class="rs-margin-lr">
-    <% if @current_user.accounts.include? @domain_root_account %>
+    <% if @current_user.accounts.include? Account.site_admin %>
       <button type="button"
               id="create_new_account"
               class="element_toggler button button-sidebar-wide"
