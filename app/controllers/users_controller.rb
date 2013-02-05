@@ -676,16 +676,17 @@ class UsersController < ApplicationController
     # Look for an incomplete registration with this pseudonym
     #@pseudonym = @context.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # create pseudonym under default-domain-root-account
-    @pseudonym = @domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
+    #@pseudonym = @domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
+    # pseudonym always exists in default domain root account
+    @pseudonym = default_domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # Setting it to nil will cause us to try and create a new one, and give user the login already exists error
-    # link to pseudonym if already exists
-    @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state) and
-      ( params[:account_id].nil? or params[:account_id] && @domain_root_account == @context )
+    @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
 
     manage_user_logins = @context.grants_right?(@current_user, session, :manage_user_logins)
     self_enrollment = params[:self_enrollment].present?
     allow_non_email_pseudonyms = manage_user_logins || self_enrollment && params[:pseudonym_type] == 'username'
-    @domain_root_account.email_pseudonyms = !allow_non_email_pseudonyms
+    #@domain_root_account.email_pseudonyms = !allow_non_email_pseudonyms
+    default_domain_root_account.email_pseudonyms = !allow_non_email_pseudonyms
     require_password = self_enrollment && allow_non_email_pseudonyms
     allow_password = require_password || manage_user_logins
 
@@ -727,7 +728,8 @@ class UsersController < ApplicationController
     if @user.initial_enrollment_type == 'observer'
       # TODO: SAML/CAS support
       if observee = Pseudonym.authenticate(params[:observee] || {},
-          [@domain_root_account.id] + @domain_root_account.trusted_account_ids)
+          #[@domain_root_account.id] + @domain_root_account.trusted_account_ids)
+          [default_domain_root_account.id] + default_domain_root_account.trusted_account_ids)
         @user.observed_users << observee.user unless @user.observed_users.include?(observee.user)
       else
         @observee = Pseudonym.new
@@ -735,7 +737,7 @@ class UsersController < ApplicationController
       end
     end
 
-    @pseudonym ||= @user.pseudonyms.build(:account => LoadAccount.default_domain_root_account)
+    @pseudonym ||= @user.pseudonyms.build(:account => default_domain_root_account)
     @pseudonym.require_password = require_password
     # pre-populate the reverse association
     @pseudonym.user = @user
@@ -751,7 +753,7 @@ class UsersController < ApplicationController
     @pseudonym.sis_user_id = sis_user_id
 
     #@pseudonym.account = @context
-    @pseudonym.account = @domain_root_account
+    @pseudonym.account = default_domain_root_account
     @pseudonym.workflow_state = 'active'
     @cc = @user.communication_channels.email.by_path(email).first
     @cc ||= @user.communication_channels.build(:path => email)
