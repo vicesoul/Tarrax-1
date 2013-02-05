@@ -34,4 +34,40 @@ describe AccountsController do
     end
 
   end
+
+  describe "homepage" do
+    
+    it "should return 401 if user do not belong to account" do
+      rescue_action_in_public!
+      account_model
+      user_with_pseudonym(:active_all => true)
+      user_session(@user, @pseudonym)
+      get 'homepage', :account_id => @account.id
+      assert_unauthorized
+    end
+
+    it "should not manage homepage if user have no right" do
+      rescue_action_in_public!
+      account_model
+      user_with_pseudonym(:active_all => true)
+      ua = UserAccountAssociation.new
+      ua.account_id = @account.id
+      ua.user_id = @user.id
+      ua.save
+      user_session(@user, @pseudonym)
+      get 'homepage', :account_id => @account.id
+      assigns(:can_manage_homepage).should == false
+      assigns(:show_left_side).should == false
+      response.should be_success
+    end
+
+    it "should use different theme" do
+      account_with_admin_logged_in
+      get 'homepage', :account_id => @account.id
+      response.should render_template("accounts/homepage")
+      controller.view_paths.first.to_s.should match(/themes\/jxb/)
+    end
+
+  end
+
 end

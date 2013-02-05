@@ -309,7 +309,8 @@ s2,test_1,section2,active},
       @course = @section.course
       @enrollment1 = @course.student_enrollments.find_by_user_id(@user.id)
 
-      @user.should be_registered
+      #@user.should be_registered
+      @user.should_not be_registered
       @section.should be_active
       @course.should be_claimed
       @enrollment1.should be_active
@@ -320,7 +321,8 @@ s2,test_1,section2,active},
           section_1,user_1,teacher,active}],
           :batch_mode => true, :batch_mode_term => @term)
 
-      @user.reload.should be_registered
+      #@user.reload.should be_registered
+      @user.reload.should_not be_registered
       @section.reload.should be_active
       @course.reload.should be_claimed
       @enrollment1.reload.should be_deleted
@@ -331,7 +333,8 @@ s2,test_1,section2,active},
       process_csv_data(
           [%{section_id,course_id,name}],
           :batch_mode => true, :batch_mode_term => @term)
-      @user.reload.should be_registered
+      #@user.reload.should be_registered
+      @user.reload.should_not be_registered
       @section.reload.should be_deleted
       @course.reload.should be_claimed
 
