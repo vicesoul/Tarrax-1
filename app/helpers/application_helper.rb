@@ -603,6 +603,7 @@ module ApplicationHelper
                   before_label('#shared.menu_enrollment.labels.enrolled_as', "Enrolled as")
                  ) + " " + Enrollment.readable_type(course.primary_enrollment)
       {
+        :root_account => course.root_account.name,
         :longName => "#{course.name} - #{course.short_name}",
         :shortName => course.name,
         :href => course_path(course, :invitation => course.read_attribute(:invitation)),
@@ -648,6 +649,19 @@ module ApplicationHelper
       :max_to_show => 8,
       :more_link_for_over_max => accounts_path,
       :title => t('#menu.managed_accounts', "Managed Accounts"),
+      :link_text => raw(t('#layouts.menu.view_all_accounts', 'View all accounts'))
+    }
+  end
+
+  def menu_switch_accounts_locals
+    accounts = @current_user.associated_root_accounts rescue []
+    {
+      :collection => accounts,
+      :collection_size => accounts.size,
+      :partial => "shared/menu_associated_account",
+      :max_to_show => 8,
+      :more_link_for_over_max => associated_accounts_path,
+      :title => t('#menu.associated_accounts', "Associated Accounts"),
       :link_text => raw(t('#layouts.menu.view_all_accounts', 'View all accounts'))
     }
   end

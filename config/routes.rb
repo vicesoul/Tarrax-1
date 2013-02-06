@@ -490,6 +490,7 @@ ActionController::Routing::Routes.draw do |map|
     add_question_banks(account)
     account.resources :user_lists, :only => :create
   end
+  map.associated_accounts 'associated_accounts', :controller => 'accounts', :action => 'associated', :conditions => { :method => :get }
   map.avatar_image 'images/users/:user_id', :controller => 'users', :action => 'avatar_image', :conditions => {:method => :get}
   map.thumbnail_image 'images/thumbnails/:id/:uuid', :controller => 'files', :action => 'image_thumbnail'
   map.show_thumbnail_image 'images/thumbnails/show/:id/:uuid', :controller => 'files', :action => 'show_thumbnail'
@@ -830,6 +831,7 @@ ActionController::Routing::Routes.draw do |map|
 
     api.with_options(:controller => :accounts) do |accounts|
       accounts.get 'accounts', :action => :index, :path_name => :accounts
+      accounts.get 'associated_accounts', :action => :associated, :path_name => :accounts
       accounts.get 'accounts/:id', :action => :show
       accounts.get 'accounts/:account_id/courses', :action => :courses_api, :path_name => 'account_courses'
     end

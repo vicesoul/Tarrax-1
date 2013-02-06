@@ -37,7 +37,7 @@ describe "enrollment_date_restrictions" do
 
     get "/"
     page = Nokogiri::HTML(response.body)
-    list = page.css(".menu-item-drop-column-list li")
+    list = page.css("#courses_menu_item .menu-item-drop-column-list li")
     list.length.should == 2 # view all courses should always show up
     list[0].text.should match /Course 1/
     list[1].text.should match /View all courses/
@@ -70,7 +70,7 @@ describe "enrollment_date_restrictions" do
 
     get "/"
     page = Nokogiri::HTML(response.body)
-    list = page.css(".menu-item-drop-column-list li").to_a
+    list = page.css("#courses_menu_item .menu-item-drop-column-list li").to_a
     # course lis are still there and view all groups should always show up when
     # there's at least one 'visible' group
     list.size.should == 4

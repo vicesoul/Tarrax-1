@@ -1,13 +1,18 @@
 class Subdomain < ActiveRecord::Base
   PREFIX = 'edu'
 
-  attr_accessible :subdomain
+  attr_accessible :name, :account
+  validates_uniqueness_of :name
 
   belongs_to :account
 
-  after_save :create_subdomain_string
-  def create_subdomain_string
-    self.subdomain = "#{PREFIX}#{id}"  if subdomain.nil?
+  after_create :create_name
+  def to_s
+    name
   end
-  private :create_subdomain_string
+
+  private
+  def create_name
+    update_attribute :name, "#{Subdomain::PREFIX}#{id}"  if name.nil?
+  end
 end

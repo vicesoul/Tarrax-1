@@ -29,6 +29,7 @@ class ApplicationController < ActionController::Base
   around_filter :set_locale
 
   helper :all
+  include UrlHelper
 
   include AuthenticationMethods
   protect_from_forgery
@@ -148,10 +149,15 @@ class ApplicationController < ActionController::Base
 
   # retrieves the root account for the given domain
   def load_account
-    @domain_root_account = request.env['canvas.domain_root_account'] || LoadAccount.default_domain_root_account
+    @domain_root_account = request.env['canvas.domain_root_account'] || default_domain_root_account
     @files_domain = request.host_with_port != HostUrl.context_host(@domain_root_account) && HostUrl.is_file_host?(request.host_with_port)
     @domain_root_account
   end
+
+  def default_domain_root_account
+    @default_domain_root_account ||= LoadAccount.default_domain_root_account
+  end
+  helper_method :default_domain_root_account
 
   def set_response_headers
     headers['X-UA-Compatible'] = 'IE=edge,chrome=1'
