@@ -33,9 +33,8 @@ define([
   'sketcher',
   'vendor/raphael',
   'i18n!editor',
-  'vendor/underscore',
-  'backbone-0.9.9'
-], function(I18n, $, timing, autoBlurActiveInput, tinymce) {
+  'bootstrap'
+], function(I18n, $, timing, autoBlurActiveInput) {
 
   var lastAnswerSelected = null;
   var quizSubmission = (function() {
@@ -536,10 +535,9 @@ define([
       });
     })();
 
-    (function takeConnectingLeadQuestion(){
-      if( $(".question.connecting_lead_question").size() === 0 ) return false;
+    (function ConnectingLead(){
 
-      $("#submit_quiz_form .connecting_lead_question").each(function(){
+      $("#submit_quiz_form .question.connecting_lead_question").each(function(){
 
         var readyLine,             // the line that is active
           deleHandle,
@@ -598,6 +596,14 @@ define([
 
           });
 
+          var $btn = $(this).find("span.btn");
+          if( $(this).find("span.btn").text().trim().length > 15 ){
+            $(this).find("span.btn").popover({
+              placement: "top",
+              trigger: "hover"
+            });
+          }else{}
+
         });
 
         // ****** when reload, redraw the lines
@@ -611,11 +617,14 @@ define([
           });
         });
 
+        // show answer after drawing lines
+        $answers.css("opacity", 1);
+
         $(this).bind( "mousedown", function(){
           return false;
         });
 
-        function drawLine($active, $end ){
+        function drawLine( $active, $end ){
           var checkName = $end.is(".word_left") || $active.is(".word_left") ? "leftSelected" : "rightSelected",
             $towNOde = $end.add( $active ).addClass( checkName ),
             normalPosition = $end.position().left > $active.position().left,
@@ -680,6 +689,188 @@ define([
 
     })();
 
+    (function ConnectingOnPic(){
+
+      $("#submit_quiz_form .question.connecting_on_pic_question").each(function(){
+
+        var deleHandle,
+          $question = $(this),
+          imageSrc = $question.find(".connecting_on_pic_image").text(),
+          positionData = stringToObject( $question.find(".connecting_on_pic_position").text() ),
+          $answers = $question.find(".answers"),
+          $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
+          $main = $factory.find(".main"),
+          $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
+            .addClass("tool-tip")
+            .hide()
+            .bind("click", function(e){ e.stopPropagation(); })
+            .appendTo( $answers ),
+          $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
+          $toolTipCancel = $( "<button type=button>取消</button>" )
+            .bind("click", function(){resetToolTip();})
+            .appendTo($toolTip),
+          paper = Raphael( $main[0], $answers.width(), 500 );
+
+        $factory.prependTo($answers);
+        //$answers.css( "height", 500 );
+
+        // reload image
+        var bgImage = $("<img>").attr("src", imageSrc);
+        $main.find(".bg").append(bgImage);
+
+        // reload balls
+        $.each(positionData, function(i,val){
+          var $ball = $("<span></span>");
+          var color = val.Grey ? "grey" : "yellow";
+          $ball.addClass(color)
+            .css({
+              position: "absolute",
+              left: val.x,
+              top: val.y
+            })
+            .attr("ball-id", i)
+            .appendTo( $main )
+            .bind( "click", ballHandle );
+
+
+
+        });
+
+        updateLines();
+
+        $(document).click(function(){ resetToolTip() });
+
+
+        // show answer after drawing lines
+        $answers.css("opacity", 1);
+
+        $(this).bind( "mousedown", function(){
+          return false;
+        });
+
+        function ballHandle(){
+          var $active = $main.find( ".active"),
+            $greyBall = $active.is(".grey") ? $active : $(this),
+            $yellowBall = $active.is(".grey") ? $(this) : $active,
+            connected = false;
+
+          // check if they are connected
+          $question.find(".answer .connecting_on_pic_answer").each(function( i ){
+            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val(),
+              rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
+              greyBallId = $greyBall.attr("ball-id"),
+              yellowBallId = $yellowBall.attr("ball-id");
+            if( leftVal == greyBallId && rightVal == yellowBallId ) {
+              connected = true;
+              return false;
+            }
+          });
+
+          // toggle class: active
+          if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
+            || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
+            || connected
+            ){
+            $active.removeClass("active");
+            $(this).addClass("active");
+            return;
+          }
+
+          if( $main.find(".active").size() !== 0 ){
+            if( !$(this).is(".active") ) {
+              drawLine($greyBall, $yellowBall);
+              addAnswer($greyBall, $yellowBall);
+              $active.removeClass( "active" );
+            }else{
+              $(this).removeClass( "active" )
+            }
+          }else{
+            // $active is not found
+            $(this).addClass("active");
+          }
+
+        }
+
+        function updateLines(){
+          paper.clear();
+          $question.find(".answer .connecting_on_pic_answer").each(function(){
+            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val();
+            var rightVal = $(this).find("input[name=connecting_on_pic_right]").val();
+            var $leftBall = $question.find(".factory .main span[ball-id = " + leftVal + "]");
+            var $rightBall = $question.find(".factory .main span[ball-id = " + rightVal + "]");
+
+            drawLine( $leftBall, $rightBall );
+          });
+        }
+
+        function drawLine($active, $end ){
+          var strokeWidth = 5,
+            strokeColor = "#08c",
+            x1 = $active.position().left + $active.width()/2,
+            y1 = $active.position().top + $active.height()/2 ,
+            x2 = $end.position().left + $end.width()/2,
+            y2 = $end.position().top + $end.height()/2 ,
+            line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+          line
+            .attr({
+              "stroke": strokeColor,
+              "stroke-width": strokeWidth
+            })
+            .click(function(e){
+              e.stopPropagation();
+              resetToolTip();
+              this.attr({"stroke-dasharray": "- "});
+              $toolTip
+                .show()
+                .css({
+                  left: ( x1 + x2 )/2 - $toolTip.width()/2,
+                  top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+                });
+              deleHandle =  deleLine(this, $active, $end);
+              $toolTipDele.bind( "click", deleHandle );
+            });
+
+        }
+
+        function addAnswer($greyBall, $yellowBall){
+          $question.closest(".question_holder").find(".add_answer_link").trigger("click");
+          var greyBallId = $greyBall.attr("ball-id");
+          var yellowBallId = $yellowBall.attr("ball-id");
+          $question.find(".answer input[name=connecting_on_pic_left]:last").val(greyBallId );
+          $question.find(".answer input[name=connecting_on_pic_right]:last").val(yellowBallId );
+
+        }
+
+        function deleLine(line, $leadA, $leadB){
+          return function(){
+            var $nodeA = $leadA.is(".word_center") ? $leadB : $leadA;   // $nodeA is sidebar
+            var $nodeB = !$leadA.is(".word_center") ? $leadB : $leadA;  // $nodeB is center
+            // empty value
+            $nodeA.is(".word_left") ? $nodeB.find(".left").val("").trigger("change") : $nodeB.find(".right").val("").trigger("change");
+
+            // both is leftSelected or rightSelected,  coz both is already shared the same className
+            var className = $leadA.is(".leftSelected") && $leadB.is(".leftSelected") ? "leftSelected" : "rightSelected";
+            $leadA.add( $leadB ).removeClass( className );
+            $toolTip.hide();
+            line.remove();
+          }
+        }
+
+        function resetToolTip(){
+          $toolTip.hide();
+          $toolTipDele.unbind( "click", deleHandle );
+          paper.forEach(function (el) {
+            el.attr("stroke-dasharray", "");
+          });
+        }
+
+        function stringToObject(str) {
+          return eval("(" + str + ")");
+        }
+
+        });
+
+    })();
 
     /*$.fn.rotate = function(num) {
       this.css({
@@ -692,6 +883,8 @@ define([
     };*/
 
   });
+
+
 });
 
 

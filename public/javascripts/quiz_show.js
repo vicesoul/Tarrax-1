@@ -184,7 +184,7 @@ $(document).ready(function () {
           drawLine(newPaper, $wordCenter, $match, "green" );
         });
       });
-
+      $answers.css("opacity", 1);
       function drawLine(svg, $active, $end, color ){
         var normalPosition = $end.position().left > $active.position().left,
           $nodeB = normalPosition ? $end : $active,

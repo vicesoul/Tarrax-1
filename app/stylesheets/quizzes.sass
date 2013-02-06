@@ -61,6 +61,15 @@ div#content
         padding: 3px
         border: 1px solid rgba( 0, 0, 0, 0)
         cursor: pointer
+        float: left
+        span.btn
+          overflow: hidden
+          max-width: 160px
+          text-overflow: ellipsis
+          white-space: nowrap
+        .popover
+          .popover-title
+            display: none
         input
           display: none
       .connecting_lead.active
@@ -68,14 +77,6 @@ div#content
     svg
       position: absolute!important
       z-index: 0
-    .tool-tip
-      position: absolute
-      z-index: 2
-      font-size: 10px
-      border: 1px #ccc solid
-      background: #fff
-      border-radius: 4px
-      padding: 3px
       h5
         margin: 0
       button
@@ -85,7 +86,16 @@ div#content
 .twoLines
   .word_right, .connecting_lead_right, .answer_match_right
     display: none
-
+.tool-tip
+  position: absolute
+  left: 0
+  top: 0
+  z-index: 3
+  font-size: 10px
+  border: 1px #ccc solid
+  background: #fff
+  border-radius: 4px
+  padding: 3px
 
 #submit_quiz_form, .question_form
   .button-container
@@ -330,6 +340,7 @@ div#content
 
 .question.connecting_lead_question
   .answers
+    opacity: 0
     .answer
       margin: 0!important
       padding: 0!important
@@ -568,7 +579,7 @@ div#content
   .connecting_lead_answer.answer_match
     overflow: hidden
     > div
-      margin-right: 10px
+      float: left
     .answer_match_left
       :width 30%
     .answer_match_center
@@ -691,6 +702,8 @@ form.question_form
     font-size: 0.8em
     margin-bottom: 5px
   .form_answers
+    .factory
+      display: block
     .answer
       :border 1px solid #fff
       :-moz-border-radius 5px
@@ -735,6 +748,68 @@ form.question_form
         :border-color #4a4
         .comment_top 
           :background-image url(/images/comment_top_correct.png)
+  .connecting_on_pic_question
+    .answer
+      display: none
+.factory
+  display: block
+  .menu:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
+  .menu
+    li
+      margin: 10px
+      float: left
+      list-style: none
+  span
+    display: inline-block
+    width: 30px
+    height:  30px
+    border-radius: 50%
+    opacity: 0.8
+    border: 2px dotted rgba(0,0,0,0)
+    b
+      display: none
+      cursor: pointer
+      position: absolute
+      right: -8px
+      top: -8px
+  .grey
+    background: grey
+  .yellow
+    background: yellow
+  .menu
+    position: relative
+    z-index: 1
+  .main
+    position: relative
+    height: 500px
+    border: 2px dotted #999
+    svg
+      position: absolute!important
+      left: 0
+      top: 0
+      z-index: 1
+    .bg
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 500px
+      z-index: 0
+    span
+      z-index: 2
+      position: absolute
+    span.active
+      border: 2px dotted #000
+    span:hover
+      b
+        display: block
+
   .question_comment
     :font-size 0.8em
     :position relative
@@ -1220,6 +1295,7 @@ ul#quiz_versions
 .question, .answer
   img
     max-width: 100%
+    max-height: 100%
 
 #questions
   position: relative

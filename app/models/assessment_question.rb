@@ -35,7 +35,7 @@ class AssessmentQuestion < ActiveRecord::Base
                         "multiple_choice_question", "numerical_question", 
                         "text_only_question", "short_answer_question",
                         "multiple_dropdowns_question", "calculated_question",
-                        "essay_question", "true_false_question", "connecting_lead_question"]
+                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question"]
 
   serialize :question_data
 
@@ -318,6 +318,28 @@ class AssessmentQuestion < ActiveRecord::Base
         question[:matches][:right] ||= []
         question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
         question[:connecting_lead_linesNum] = qdata[:connecting_lead_linesNum]
+      end
+
+    elsif question[:question_type] == "connecting_on_pic_question"
+      answers.each do |key, answer|
+        a = {
+          :left     => check_length(answer[:connecting_on_pic_left]   , 'answer match'    , min_size) ,
+          :right    => check_length(answer[:connecting_on_pic_right]  , 'answer match'    , min_size) ,
+          :comments => check_length(answer[:answer_comments]        , 'answer comments' , min_size)
+        }
+
+        a[:id]             = unique_local_id(answer[:id].to_i)
+        a[:match_left_id]  = unique_local_id(answer[:match_left_id].to_i)
+        a[:match_right_id] = unique_local_id(answer[:match_right_id].to_i)
+
+        question[:answers] << a
+        question[:matches] ||= {}
+        question[:matches][:left] ||= []
+        question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_on_pic_left], 'answer match', min_size)}
+        question[:matches][:right] ||= []
+        question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_on_pic_right], 'answer match', min_size)}
+        question[:connecting_on_pic_position] = qdata[:connecting_on_pic_position]
+        question[:connecting_on_pic_image] = qdata[:connecting_on_pic_image]
       end
 
       #(qdata[:matching_answer_incorrect_matches][0] || "").split("\n").each do |other|

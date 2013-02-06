@@ -25,7 +25,7 @@
       <option value="text_only_question" style="padding: 2px;"><%= t('question_type.text_only', "Text (no question)") %></option>
       <option value="paint_question" style="padding: 2px;">原题作图</option>
       <option value="connecting_lead_question" style="padding: 2px;">连线题</option>
-      <option value="connecting_on_pic_question" style="padding: 2px;">画图连线题</option>
+      <option value="connecting_on_pic_question" style="padding: 2px;">图画连线题</option>
     </select>
     <span class="question_points_holder">
       <span style="padding-left: 20px;"><%= before_label :points, 'pts' %></span>
@@ -99,11 +99,12 @@
     </div>
     <b class="answers_header"><%= before_label(:answers, "Answers") %></b>
     <div class="btn-group changeLines" data-toggle="buttons-radio" style="display: none;">
-      <button type="button" class="btn two btn-primary">两排</button>
-      <button type="button" class="btn three btn-primary">三排</button>
+      <button type="button" class="btn two btn-primary">两列</button>
+      <button type="button" class="btn three btn-primary">三列</button>
       <input type="hidden" name="connecting_lead_linesNum" class="connecting_lead_linesNum">
     </div>
-
+    <input type="hidden" name="connecting_on_pic_position" class="connecting_on_pic_position">
+    <input type="hidden" name="connecting_on_pic_image" class="connecting_on_pic_image">
     <div style="display: none;">
     <select class="answer_selection_type" name="answer_selection_type">
       <option value="single_answer"><%= t('options.only_one_correct', "Only One Correct Answer") %></option>

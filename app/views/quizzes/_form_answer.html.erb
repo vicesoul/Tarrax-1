@@ -50,6 +50,17 @@
           </div>
           <div class="clear"></div>
         </div>
+
+        <div class="connecting_on_pic_answer  answer_type">
+          <div class="answer_match_left">
+            <input type="text" name="connecting_on_pic_left" placeholder="<%= t('connecting_on_pic_left', 'Connecting left side') %>"/>
+          </div>
+          <div class="answer_match_right">
+            <input type="text" name="connecting_on_pic_right" placeholder="<%= t('connecting_on_pic_right', 'Connecting right side') %>" />
+          </div>
+          <div class="clear"></div>
+        </div>
+
         <div class="numerical_answer answer_type">
           <select style="font-weight: bold;" class="numerical_answer_type" name="numerical_answer_type">
             <option value="exact_answer"><%= before_label(:exact_answer, "Exact Answer") %></option>

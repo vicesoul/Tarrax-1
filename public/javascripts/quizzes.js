@@ -40,7 +40,9 @@ define([
     'vendor/jquery.placeholder' /* /\.placeholder/ */,
     'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
     'jqueryui/sortable' /* /\.sortable/ */,
-    'jqueryui/tabs' /* /\.tabs/ */
+    'jqueryui/tabs' /* /\.tabs/ */,
+    'jqueryui/droppable',
+    'vendor/raphael'
 ], function(I18n, $, calcCmd, htmlEscape, pluralize, wikiSidebar, MultipleChoiceToggle, TextHelper, tinymce) {
 
   // TODO: refactor this... it's not going to be horrible, but it will
@@ -699,7 +701,7 @@ define([
         $formQuestion.removeClass('selectable');
         $form.find(".matching_answer_incorrect_matches_holder").show();
         result.answer_type = "connecting_on_pic_answer";
-        result.textValues = ['connecting_on_pic_left', 'connecting_on_pic_center','connecting_on_pic_right', 'answer_comment'];
+        result.textValues = ['connecting_on_pic_left', 'connecting_on_pic_right', 'answer_comment'];
       } else if (question_type == 'matching_question') {
         $formQuestion.removeClass('selectable');
         $form.find(".matching_answer_incorrect_matches_holder").show();
@@ -891,7 +893,6 @@ define([
     data.connecting_lead_center = data.center || data.connecting_lead_center;
     data.connecting_lead_right = data.right || data.connecting_lead_right;
     data.connecting_on_pic_left = data.left || data.connecting_on_pic_left;
-    data.connecting_on_pic_center = data.center || data.connecting_on_pic_center;
     data.connecting_on_pic_right = data.right || data.connecting_on_pic_right;
     data.answer_exact = data.exact || data.answer_exact;
     data.answer_error_margin = data.answer_error_margin || data.margin;
@@ -952,7 +953,7 @@ define([
     $list.each(function(i) {
       var $question = $(this);
       var questionData = $question.getTemplateData({
-        textValues: ['question_name','connecting_lead_linesNum', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
+        textValues: ['question_name','connecting_lead_linesNum','connecting_on_pic_position', 'connecting_on_pic_image', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
         htmlValues: ['question_text', 'text_before_answers', 'text_after_answers', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html']
       });
       questionData = $.extend(questionData, $question.find(".original_question_text").getFormData());
@@ -979,7 +980,7 @@ define([
         $question.find(".answer").each(function() {
           var $answer = $(this);
           var answerData = $answer.getTemplateData({
-            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right', 'connecting_on_pic_left','connecting_on_pic_center', 'connecting_on_pic_right',  'answer_comment'],
+            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right', 'connecting_on_pic_left', 'connecting_on_pic_right',  'answer_comment'],
             htmlValues: ['answer_html', 'answer_match_left_html', 'answer_comment_html']
           });
           var answer = $.extend({}, quiz.defaultAnswerData, answerData);
@@ -1049,6 +1050,8 @@ define([
       var id = "questions[question_" + idx + "]";
       data[id + '[question_name]'] = question.question_name;
       data[id + '[connecting_lead_linesNum]'] = question.connecting_lead_linesNum;
+      data[id + '[connecting_on_pic_position]'] = question.connecting_on_pic_position;
+      data[id + '[connecting_on_pic_image]'] = question.connecting_on_pic_image;
       data[id + '[assessment_question_id]'] = question.assessment_question_id;
       data[id + '[question_type]'] = question.question_type;
       data[id + '[points_possible]'] = question.question_points;
@@ -1088,7 +1091,6 @@ define([
           data[jd + '[connecting_lead_center]'] = answer.connecting_lead_center;
           data[jd + '[connecting_lead_right]'] = answer.connecting_lead_right;
           data[jd + '[connecting_on_pic_left]'] = answer.connecting_on_pic_left;
-          data[jd + '[connecting_on_pic_center]'] = answer.connecting_on_pic_center;
           data[jd + '[connecting_on_pic_right]'] = answer.connecting_on_pic_right;
           data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
           data[jd + '[answer_exact]'] = answer.answer_exact;
@@ -1466,7 +1468,7 @@ define([
       event.preventDefault();
       var $question = $(this).parents(".question");
       var question = $question.getTemplateData({
-        textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'connecting_lead_linesNum','question_points', 'answer_selection_type', 'blank_id'],
+        textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'connecting_lead_linesNum','connecting_on_pic_position','connecting_on_pic_image','question_points', 'answer_selection_type', 'blank_id'],
         htmlValues: ['question_text', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html']
       });
       question.question_text = $question.find("textarea[name='question_text']").val();
@@ -1566,6 +1568,313 @@ define([
       }
       $question.hide().after($form);
       quiz.showFormQuestion($form);
+      //*****************************
+      //
+      //     connecting on pic
+      //
+      // *****************************
+      (function connectingOnPicFactory(){
+        if( data.answer_type !== "connecting_on_pic_answer" ) return;
+
+        // generate HTML
+        var $factory = $("<div class='factory'><div class='menu'><ul><li><span class='grey'><b>⊗</b></span></li><li><span class='yellow'><b>⊗</b></span></li></ul></div><div class='main'><div class='bg'></div></div></div>");
+        var $formAnswers = $form.find(".form_answers");
+        $factory.prependTo($formAnswers);
+        var $main = $factory.find(".main");
+        var textWidth = parseFloat( $(".text").width() );
+        var paper = Raphael( $main[0], textWidth, 500 );
+        var deleHandle,
+          positionData = stringToObject( $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text() ) || {},
+          imageSrc = $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").text(),
+          ballId = 0,
+          $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
+            .addClass("tool-tip")
+            .hide()
+            .bind("click", function(e){ e.stopPropagation(); })
+            .appendTo( $main ),
+          $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
+          $toolTipCancel = $( "<button type=button>取消</button>" )
+            .bind("click", function(){resetToolTip();})
+            .appendTo($toolTip);
+
+        // show the available images
+        $(".link_to_content_link").trigger("click");
+        $("#ui-id-3").trigger("click");
+
+        // semi radical
+        var spanWidth = $factory.find(".menu span:first").css("width");
+        var r = parseFloat(spanWidth)/2;
+
+        // init balls
+        $factory.find(".menu span").draggable({
+          helper: "clone",
+          zIndex: 100,
+          cursorAt: { left: r, top: r }
+        });
+
+        // init images
+        $(".image_list").mouseover(function(){
+          $(this).find("img").draggable({
+            helper: "clone"
+          });
+        });
+
+        // init image container
+        $(".factory .main .bg").droppable({
+          accept: ".image_list img",
+          activeClass: "ui-state-highlight",
+          drop: function( event, ui ) {
+            console.log(ui);
+            var imgSrc = ui.helper.attr("data-url");
+            var $img = $("<img>").attr("src",imgSrc);
+            $img.appendTo( $(this).empty())
+              .mousedown(function(){
+                return false;
+              });
+
+            $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( imgSrc );
+          }
+        });
+
+        // init balls container
+        $(".factory .main").droppable({
+            accept: ".factory .menu span",
+            activeClass: "ui-state-highlight",
+            drop: function( event, ui ) {
+              var $ball = ui.draggable.clone();
+              $ball.css({
+                position: "absolute",
+                left: event.pageX - $(this).offset().left - r,
+                top: event.pageY - $(this).offset().top - r
+                })
+                .draggable({
+                  containment: "parent",
+                  stop: function( event, ui ) {
+                    updatePosition();
+                  },
+                  drag: function( event, ui ) {
+                    updateLines();
+                  }
+                })
+                .attr("ball-id", ballId)
+                .appendTo( $(this) )
+                .bind( "click", ballHandle )
+                .find("b")
+                .bind( "click", deleBall );
+              ballId ++;
+              updatePosition();
+            }
+          });
+
+        // reload balls
+        $.each(positionData, function(i,val){
+          console.log(i)
+          console.log(val)
+          var $ball = $("<span><b>⊗</b></span>");
+          var color = val.Grey ? "grey" : "yellow";
+          $ball.addClass(color)
+            .css({
+              position: "absolute",
+              left: val.x,
+              top: val.y
+            })
+            .draggable({
+              containment: "parent",
+              stop: function( event, ui ) {
+                updatePosition();
+              },
+              drag: function( event, ui ) {
+                updateLines();
+              }
+            })
+            .attr("ball-id", i)
+            .appendTo( $main )
+            .bind( "click", ballHandle )
+            .find("b")
+            .bind( "click", deleBall );
+
+          ballId = ballId > i ? ballId : i;
+
+        });
+        ballId ++;
+
+        // reload lines
+        updateLines();
+
+        // reload image
+        var bgImage = $("<img>").attr("src", imageSrc);
+        $main.find(".bg").append(bgImage);
+
+        // close tooltip when click document
+        $(document).click(function(){ resetToolTip() });
+
+        function stringToObject(str) {
+          return eval("(" + str + ")");
+        }
+
+        function updateLines(){
+          paper.clear();
+          $formAnswers.find(".answer .connecting_on_pic_answer").each(function(){
+            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val();
+            var rightVal = $(this).find("input[name=connecting_on_pic_right]").val();
+            var $leftBall = $formAnswers.find(".factory .main span[ball-id = " + leftVal + "]");
+            var $rightBall = $formAnswers.find(".factory .main span[ball-id = " + rightVal + "]");
+
+            drawLine( $leftBall, $rightBall );
+          });
+        }
+
+        function ballHandle(){
+          var $active = $main.find( ".active"),
+            $greyBall = $active.is(".grey") ? $active : $(this),
+            $yellowBall = $active.is(".grey") ? $(this) : $active,
+            connected = false;
+
+          // check if they are connected
+          $formAnswers.find(".answer .connecting_on_pic_answer").each(function( i ){
+            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val(),
+              rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
+              greyBallId = $greyBall.attr("ball-id"),
+              yellowBallId = $yellowBall.attr("ball-id");
+            if( leftVal == greyBallId && rightVal == yellowBallId ) {
+              connected = true;
+              return false;
+            }
+          });
+
+          // toggle class: active
+          if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
+            || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
+            || connected
+            ){
+            $active.removeClass("active");
+            $(this).addClass("active");
+            return;
+          }
+
+
+          if( $main.find(".active").size() !== 0 ){
+            if( !$(this).is(".active") ) {
+              drawLine($greyBall, $yellowBall);
+              addAnswer($greyBall, $yellowBall);
+              $active.removeClass( "active" );
+            }else{
+              $(this).removeClass( "active" )
+            }
+          }else{
+            // $active is not found
+            $(this).addClass("active");
+          }
+
+        }
+
+        function deleBall(){
+          var $ball = $(this).parent("span");
+          var ballId = $ball.attr("ball-id");
+          $formAnswers.find(".answer .connecting_on_pic_answer").find("input[name=connecting_on_pic_left], input[name=connecting_on_pic_right]").each(function(){
+            var inputId = $(this).val();
+            if( ballId == inputId ){
+              $(this).parents(".answer").remove();
+            }
+          });
+          updateLines();
+          updatePosition();
+          $ball.remove();
+        }
+
+        function drawLine($active, $end ){
+          var strokeWidth = 5,
+            strokeColor = "#08c",
+            x1 = $active.position().left + $active.width()/2,
+            y1 = $active.position().top + $active.height()/2 ,
+            x2 = $end.position().left + $end.width()/2,
+            y2 = $end.position().top + $end.height()/2 ,
+            line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+          line
+            .attr({
+              "stroke": strokeColor,
+              "stroke-width": strokeWidth
+            })
+            .click(function(e){
+              e.stopPropagation();
+              resetToolTip();
+              this.attr({"stroke-dasharray": "- "});
+              $toolTip
+                .show()
+                .css({
+                  left: ( x1 + x2 )/2 - $toolTip.width()/2,
+                  top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+                });
+              deleHandle =  deleLine(this, $active, $end);
+              $toolTipDele.bind( "click", deleHandle );
+            });
+
+        }
+
+        function addAnswer($greyBall, $yellowBall){
+          $formAnswers.closest(".question_holder").find(".add_answer_link").trigger("click");
+          var greyBallId = $greyBall.attr("ball-id");
+          var yellowBallId = $yellowBall.attr("ball-id");
+          $formAnswers.find(".answer input[name=connecting_on_pic_left]:last").val(greyBallId );
+          $formAnswers.find(".answer input[name=connecting_on_pic_right]:last").val(yellowBallId );
+
+        }
+
+        function updatePosition(){
+          positionData = {};
+//          if( typeof positionData == "string" )positionData = stringToObject( positionData );
+          $main.find("span.ui-draggable").each(function(){
+            var ballId = $(this).attr("ball-id");
+            var ballX =  parseInt( $(this).css("left") );
+            var ballY =  parseInt( $(this).css("top") );
+            var isGrey = $(this).is(".grey");
+            positionData[ballId] = {x:ballX, y:ballY,Grey:isGrey};
+          });
+          positionData = JSON.stringify(positionData);
+          $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        }
+
+        function deleLine(line, a, b){
+          return function(){
+            $toolTip.hide();
+            line.remove();
+
+            // delete match answer
+            var $greyBall = a.is(".grey") ? a : b;
+            var $yellowBall = a.is(".grey") ? b : a;
+            $formAnswers.find(".answer").each(function( i ){
+              var leftVal = $(this).find("input[name=connecting_on_pic_left]").val();
+              var rightVal = $(this).find("input[name=connecting_on_pic_right]").val();
+              var greyBallId = $greyBall.attr("ball-id");
+              var yellowBallId = $yellowBall.attr("ball-id");
+
+              if( leftVal == greyBallId && rightVal == yellowBallId ) {
+                $(this).remove();
+                return false;
+              }
+            });
+
+          }
+        }
+
+        function resetToolTip(){
+          $toolTip.hide();
+          $toolTipDele.unbind( "click", deleHandle );
+          paper.forEach(function (el) {
+            el.attr("stroke-dasharray", "");
+          });
+        }
+
+
+
+      })();
+      //*****************************
+      //     connecting on pic
+      //     END
+      // *****************************
+
+
+
       $form.attr('action', $question.find(".update_question_url").attr('href'))
         .attr('method', 'POST')
         .find('.submit_button').text(I18n.t('buttons.update_question', 'Update Question'));
@@ -1575,6 +1884,9 @@ define([
         $formQuestion.find(".question_content").triggerHandler('change');
         $formQuestion.addClass('ready');
       }, 100);
+
+
+
     });
     // *****************************
     //    edit 
@@ -2154,7 +2466,7 @@ define([
       var $question = $(this).find(".question");
       var answers = [];
       var questionData = $question.getFormData({
-        values: ['question_type', 'question_name', 'connecting_lead_linesNum', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
+        values: ['question_type', 'question_name', 'connecting_lead_linesNum','connecting_on_pic_position', 'connecting_on_pic_image', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
           'question_text', 'answer_selection_type', 'text_after_answers', 'matching_answer_incorrect_matches']
       });
 
