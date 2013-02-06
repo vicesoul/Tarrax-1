@@ -775,18 +775,11 @@ class UsersController < ApplicationController
       end
       @user.save!
 
-#<<<<<<< HEAD
-      #if params[:user][:account_id] && Account.find(params[:user][:account_id].to_i)
-        #ua = UserAccountAssociation.new(:account_id => params[:user][:account_id].to_i, :fake => true)
-        #ua.user_id = @user.id
-        #ua.save
-#=======
       # update user-account-associations if account_id given
       associate_account_id = params[:user][:account_id] || params[:account_id]
       if associate_account_id
         associations = User.calculate_account_associations_from_accounts([associate_account_id])
         @user.update_account_associations(:incremental => true, :precalculated_associations => associations)
-#>>>>>>> origin/dev
       end
 
       message_sent = false
@@ -1165,7 +1158,7 @@ class UsersController < ApplicationController
   def require_open_registration
     get_context
     @context = @domain_root_account || Account.default unless @context.is_a?(Account)
-    # @context = @context.root_account
+    @context = @context.root_account
     unless @context.grants_right?(@current_user, session, :manage_user_logins) || @context.open_registration?
       flash[:error] = t('no_open_registration', "Open registration has not been enabled for this account")
       respond_to do |format|
