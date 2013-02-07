@@ -18,7 +18,7 @@ class Jxb::Widget < ActiveRecord::Base
   TYPE = %w(user_index course_index banner_index)
   
   def cell_data
-    [cell_name, cell_action, id, title, body].join(',')
+    [cell_name, cell_action, id].join(',')
   end
 
 end

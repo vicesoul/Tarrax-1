@@ -1,7 +1,8 @@
 <ul <%= data_widget %> >
-<h1>Course#index</h1>
+<h1 class="data-widget-title"><%= widget.title %></h1>
 <% @courses.each do |course| %>
   <li><%= course.name %></li>
   <br />
 <% end %>
+<div class="data-widget-body"><%= widget.body && widget.body.html_safe %></div>
 </ul>

@@ -568,6 +568,7 @@ ActionController::Routing::Routes.draw do |map|
   map.toggle_dashboard 'toggle_dashboard', :controller => 'users', :action => 'toggle_dashboard', :conditions => {:method => :post}
   map.styleguide 'styleguide', :controller => 'info', :action => 'styleguide', :conditions => {:method => :get}
   map.root :dashboard
+  map.homepage 'homepage', :controller => 'accounts', :action => 'homepage'
   # backwards compatibility with the old /dashboard url
   map.dashboard_redirect 'dashboard', :controller => 'users', :action => 'user_dashboard', :conditions => {:method => :get}
 

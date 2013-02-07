@@ -453,6 +453,7 @@ class User < ActiveRecord::Base
               aa.user_id = user_id
               aa.account_id = account_id
               aa.depth = depth
+              aa.fake = true if opts[:fake]
             end
           else
             # for incremental, only update the old association if it is deeper than the new one

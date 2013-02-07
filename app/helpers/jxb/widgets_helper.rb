@@ -3,7 +3,7 @@ module Jxb::WidgetsHelper
   def widgets_at_position(position)
     @widgets = @page.widgets.where(:position => position)
     return if @widgets.blank?
-    
+
     html = ''
     @widgets.each do |widget|
       html += render_widget(widget)

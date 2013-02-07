@@ -1,5 +1,5 @@
 class ApplicationCell < ::Cell::Base
-  helper_method :data_widget
+  helper_method :data_widget, :widget
 
   def data_widget
     "data-widget='#{widget.cell_data}'"

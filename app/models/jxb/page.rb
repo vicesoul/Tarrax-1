@@ -27,17 +27,15 @@ class Jxb::Page < ActiveRecord::Base
     can :read
 
   end
-
+  
+  # positions => { '1_0' => {'body' => '', 'title' => '', 'widget' => ''} }
   def positions=(positions)
     cache_widgets = self.widgets.inject({}){ |h,widget| h[widget.id.to_s] = widget;h }
-    positions.each do |position, arr|
-      arr.each_with_index do |data, index|
-        params = {}
-        params[:cell_name], params[:cell_action], params[:id], params[:title], params[:body] = data.split(',')
-        id = params.delete(:id)
-        widget = id && cache_widgets[id] || self.widgets.build
-        widget.attributes = params.merge(:seq => index, :position => position)
-      end
+    positions.each do |position, data|
+      data[:cell_name], data[:cell_action], id = data.delete('widget').split(',')
+      data[:position], data[:seq] = position.split('_')
+      widget = id && cache_widgets[id] || self.widgets.build
+      widget.attributes = data
     end # End of positions#each
   end
 

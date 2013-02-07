@@ -180,9 +180,8 @@ module SIS
                 associate_account = user.associated_accounts.find_by_name(account)
                 unless associate_account
                   associate_account = Account.find_by_name(account)
-                  UserAccountAssociation.create(:account_id => associate_account.id, 
-                                                :fake => true,
-                                                :user_id => user.id)
+                  associations = User.calculate_account_associations_from_accounts([associate_account.id])
+                  user.update_account_associations(:incremental => true, :precalculated_associations => associations, :fake => true)
                 end
 
                 UserAccountAssociation.find(:first, :conditions => {
