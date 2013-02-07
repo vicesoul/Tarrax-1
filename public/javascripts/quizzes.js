@@ -1584,7 +1584,8 @@ define([
         var textWidth = parseFloat( $(".text").width() );
         var paper = Raphael( $main[0], textWidth, 500 );
         var deleHandle,
-          positionData = stringToObject( $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text() ) || {},
+          positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
+          positionData = positionStr == "" ? {} : stringToObject( positionStr ),
           imageSrc = $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").text(),
           ballId = 0,
           $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
@@ -1661,6 +1662,7 @@ define([
                 .bind( "click", ballHandle )
                 .find("b")
                 .bind( "click", deleBall );
+
               ballId ++;
               updatePosition();
             }
@@ -1668,8 +1670,6 @@ define([
 
         // reload balls
         $.each(positionData, function(i,val){
-          console.log(i)
-          console.log(val)
           var $ball = $("<span><b>⊗</b></span>");
           var color = val.Grey ? "grey" : "yellow";
           $ball.addClass(color)
@@ -1693,7 +1693,7 @@ define([
             .find("b")
             .bind( "click", deleBall );
 
-          ballId = ballId > i ? ballId : i;
+          ballId = parseInt(ballId) > parseInt(i) ? ballId : i;
 
         });
         ballId ++;
@@ -1714,14 +1714,22 @@ define([
 
         function updateLines(){
           paper.clear();
-          $formAnswers.find(".answer .connecting_on_pic_answer").each(function(){
-            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val();
-            var rightVal = $(this).find("input[name=connecting_on_pic_right]").val();
-            var $leftBall = $formAnswers.find(".factory .main span[ball-id = " + leftVal + "]");
-            var $rightBall = $formAnswers.find(".factory .main span[ball-id = " + rightVal + "]");
 
-            drawLine( $leftBall, $rightBall );
+          $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+            var greyBallId = $(this).val().slice(5);
+            var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
+            var rightInput = $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input");
+            var rightVal = rightInput.val();
+            if(rightVal == "")return;
+            var yellowBalls = rightVal.split("ball-");
+            $.each(yellowBalls, function(i,val){
+              if(val == "")return;
+              var $yellow = $main.find("> span[ball-id="+ val + "]");
+              drawLine( $grey, $yellow );
+            });
+
           });
+
         }
 
         function ballHandle(){
@@ -1736,7 +1744,7 @@ define([
               rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
               greyBallId = $greyBall.attr("ball-id"),
               yellowBallId = $yellowBall.attr("ball-id");
-            if( leftVal == greyBallId && rightVal == yellowBallId ) {
+            if( leftVal.slice(5) == greyBallId && rightVal.indexOf("ball-" + yellowBallId) != -1 ) {
               connected = true;
               return false;
             }
@@ -1771,15 +1779,23 @@ define([
         function deleBall(){
           var $ball = $(this).parent("span");
           var ballId = $ball.attr("ball-id");
-          $formAnswers.find(".answer .connecting_on_pic_answer").find("input[name=connecting_on_pic_left], input[name=connecting_on_pic_right]").each(function(){
-            var inputId = $(this).val();
-            if( ballId == inputId ){
-              $(this).parents(".answer").remove();
+          var isGrey = $ball.is(".grey");
+          $ball.remove();
+          delete positionData[ballId];
+          updatePosition();
+
+          // dele answers
+          $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+            if(isGrey){
+              if( $(this).val() == "ball-" + ballId ){
+                $(this).closest(".answer").find(".delete_answer_link").trigger("click");
+              }
+            } else{
+              $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub", ballId)
             }
+
           });
           updateLines();
-          updatePosition();
-          $ball.remove();
         }
 
         function drawLine($active, $end ){
@@ -1811,12 +1827,45 @@ define([
 
         }
 
+        function deleLine(line, a, b){
+          return function(){
+            $toolTip.hide();
+            line.remove();
+
+            // delete match answer
+            var $grey = a.is(".grey") ? a : b;
+            var $yellow = a.is(".grey") ? b : a;
+            var greyBallId = $grey.attr("ball-id");
+            var yellowBallId = $yellow.attr("ball-id");
+            $formAnswers.find(".answer_match_left input").each(function(){
+              var inputVal = $(this).val();
+              if("ball-" + greyBallId == inputVal){
+                $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub",yellowBallId);
+                return false;
+              }
+
+            });
+          }
+        }
+
         function addAnswer($greyBall, $yellowBall){
-          $formAnswers.closest(".question_holder").find(".add_answer_link").trigger("click");
           var greyBallId = $greyBall.attr("ball-id");
           var yellowBallId = $yellowBall.attr("ball-id");
-          $formAnswers.find(".answer input[name=connecting_on_pic_left]:last").val(greyBallId );
-          $formAnswers.find(".answer input[name=connecting_on_pic_right]:last").val(yellowBallId );
+          var isNewBall = true;
+
+          $formAnswers.find(".answer_match_left input").each(function(){
+            var value = $(this).val();
+            if( "ball-" + greyBallId == value){
+              isNewBall = false;
+              $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("add",yellowBallId);
+            }
+          });
+
+          if( isNewBall ){
+            $formAnswers.closest(".question_holder").find(".add_answer_link").trigger("click");
+            $formAnswers.find(".answer input[name=connecting_on_pic_left]:last").val("ball-" + greyBallId );
+            $formAnswers.find(".answer input[name=connecting_on_pic_right]:last").val("ball-" + yellowBallId );
+          }
 
         }
 
@@ -1828,34 +1877,19 @@ define([
             var ballX =  parseInt( $(this).css("left") );
             var ballY =  parseInt( $(this).css("top") );
             var isGrey = $(this).is(".grey");
+
             positionData[ballId] = {x:ballX, y:ballY,Grey:isGrey};
+            if(isGrey && $(this).find("i").attr("class") != undefined ){
+              console.log( $(this).find("i").attr("class") );
+              positionData[ballId]["lines"] = $(this).find("i").attr("class").split(" ");
+            }
           });
           positionData = JSON.stringify(positionData);
           $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+          positionData = stringToObject(positionData);
         }
 
-        function deleLine(line, a, b){
-          return function(){
-            $toolTip.hide();
-            line.remove();
 
-            // delete match answer
-            var $greyBall = a.is(".grey") ? a : b;
-            var $yellowBall = a.is(".grey") ? b : a;
-            $formAnswers.find(".answer").each(function( i ){
-              var leftVal = $(this).find("input[name=connecting_on_pic_left]").val();
-              var rightVal = $(this).find("input[name=connecting_on_pic_right]").val();
-              var greyBallId = $greyBall.attr("ball-id");
-              var yellowBallId = $yellowBall.attr("ball-id");
-
-              if( leftVal == greyBallId && rightVal == yellowBallId ) {
-                $(this).remove();
-                return false;
-              }
-            });
-
-          }
-        }
 
         function resetToolTip(){
           $toolTip.hide();
@@ -1865,7 +1899,22 @@ define([
           });
         }
 
+        $.fn.doVal = function(type, yellowId) {
+          var inputVal = $(this).val();
+          if(type == "add"){
+            if(inputVal.indexOf("ball-" + yellowId) !== -1){
+            }else{
+              $(this).val( inputVal + "ball-" + yellowId );
+            }
 
+          }else if( type == "sub" ){
+
+            inputVal = inputVal.replace("ball-" + yellowId, "");
+            $(this).val(inputVal);
+
+          }
+          return this;
+        };
 
       })();
       //*****************************

@@ -752,15 +752,15 @@ define([
           var $active = $main.find( ".active"),
             $greyBall = $active.is(".grey") ? $active : $(this),
             $yellowBall = $active.is(".grey") ? $(this) : $active,
+            greyBallId = $greyBall.attr("ball-id"),
+            yellowBallId = $yellowBall.attr("ball-id"),
             connected = false;
 
           // check if they are connected
-          $question.find(".answer .connecting_on_pic_answer").each(function( i ){
-            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val(),
-              rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
-              greyBallId = $greyBall.attr("ball-id"),
-              yellowBallId = $yellowBall.attr("ball-id");
-            if( leftVal == greyBallId && rightVal == yellowBallId ) {
+          $question.find(".answers .word_left").each(function( i ){
+            var answerId = $(this).find("span").text().trim().slice(5),
+              answerVal = $(this).next(".word_right").find("input.left").val();
+            if( answerId == greyBallId && answerVal.indexOf("ball-" + yellowBallId) != -1 ) {
               connected = true;
               return false;
             }
@@ -793,14 +793,21 @@ define([
 
         function updateLines(){
           paper.clear();
-          $question.find(".answer .connecting_on_pic_answer").each(function(){
-            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val();
-            var rightVal = $(this).find("input[name=connecting_on_pic_right]").val();
-            var $leftBall = $question.find(".factory .main span[ball-id = " + leftVal + "]");
-            var $rightBall = $question.find(".factory .main span[ball-id = " + rightVal + "]");
 
-            drawLine( $leftBall, $rightBall );
+          $question.find(".answers .word_left").each(function(){
+            var greyBallId = $(this).find("span").text().trim().slice(5);
+            var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
+            var rightInput = $(this).next(".word_right").find("input.left");
+            var rightVal = rightInput.val();
+            if(rightVal == "" || rightVal == "0")return;
+            var yellowBalls = rightVal.split("ball-");
+            $.each(yellowBalls, function(i,val){
+              if(val == "")return;
+              var $yellow = $main.find("> span[ball-id="+ val + "]");
+              drawLine( $grey, $yellow );
+            });
           });
+
         }
 
         function drawLine($active, $end ){
@@ -833,26 +840,35 @@ define([
         }
 
         function addAnswer($greyBall, $yellowBall){
-          $question.closest(".question_holder").find(".add_answer_link").trigger("click");
           var greyBallId = $greyBall.attr("ball-id");
           var yellowBallId = $yellowBall.attr("ball-id");
-          $question.find(".answer input[name=connecting_on_pic_left]:last").val(greyBallId );
-          $question.find(".answer input[name=connecting_on_pic_right]:last").val(yellowBallId );
-
+          $question.find(".answers .word_left").each(function(){
+            var answerId = $(this).find("span").text().trim().slice(5);
+            if(greyBallId ==  answerId){
+              $(this).next(".word_right").find("input.left").doVal("add", yellowBallId);
+              return false;
+            }
+          });
         }
 
-        function deleLine(line, $leadA, $leadB){
+        function deleLine(line, a, b){
           return function(){
-            var $nodeA = $leadA.is(".word_center") ? $leadB : $leadA;   // $nodeA is sidebar
-            var $nodeB = !$leadA.is(".word_center") ? $leadB : $leadA;  // $nodeB is center
-            // empty value
-            $nodeA.is(".word_left") ? $nodeB.find(".left").val("").trigger("change") : $nodeB.find(".right").val("").trigger("change");
-
-            // both is leftSelected or rightSelected,  coz both is already shared the same className
-            var className = $leadA.is(".leftSelected") && $leadB.is(".leftSelected") ? "leftSelected" : "rightSelected";
-            $leadA.add( $leadB ).removeClass( className );
             $toolTip.hide();
             line.remove();
+
+            // delete match answer
+            var $grey = a.is(".grey") ? a : b;
+            var $yellow = a.is(".grey") ? b : a;
+            var greyBallId = $grey.attr("ball-id");
+            var yellowBallId = $yellow.attr("ball-id");
+            $question.find(".answers .word_left").each(function(){
+              var answerId = $(this).find("span").text().trim().slice(5);
+              if(greyBallId ==  answerId){
+                $(this).next(".word_right").find("input.left").doVal("sub", yellowBallId);
+                return false;
+              }
+
+            });
           }
         }
 
@@ -872,6 +888,23 @@ define([
 
     })();
 
+    $.fn.doVal = function(type, yellowId) {
+      var inputVal = $(this).val();
+      inputVal = inputVal == "0" ? "" : inputVal;
+      if(type == "add"){
+        if(inputVal.indexOf("ball-" + yellowId) !== -1){
+        }else{
+          $(this).val( inputVal + "ball-" + yellowId ).trigger("change");
+        }
+
+      }else if( type == "sub" ){
+
+        inputVal = inputVal.replace("ball-" + yellowId, "");
+        $(this).val(inputVal).trigger("change");
+
+      }
+      return this;
+    };
     /*$.fn.rotate = function(num) {
       this.css({
         transform: "rotate(" + num + "deg)",

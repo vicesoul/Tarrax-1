@@ -123,9 +123,7 @@ $(document).ready(function () {
     }).find('.datetime_field').datetime_field();
   });
 
-  (function connectingLeadQuestionShow(){
-    if( $(".question.connecting_lead_question").size() === 0 ) return false;
-
+  (function connectingLead(){
     $(".question.connecting_lead_question").each(function(){
 
       var $question = $(this),
@@ -201,6 +199,112 @@ $(document).ready(function () {
             "stroke": color,
             "stroke-width": 5
           });
+      }
+
+    });
+  })();
+
+  (function connectingOnPic(){
+    $(".question.connecting_on_pic_question").each(function(){
+      var $question = $(this),
+        imageSrc = $question.find(".connecting_on_pic_image").text(),
+        positionData = stringToObject( $question.find(".connecting_on_pic_position").text() ),
+        $answers_wrapper = $question.find(".answers_wrapper"),
+        $answers = $question.find(".answers"),
+        $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
+        $main = $factory.find(".main");
+
+
+
+      // reload image
+      var bgImage = $("<img>").attr("src", imageSrc);
+      $main.find(".bg").append(bgImage);
+
+      // reload balls
+      $.each(positionData, function(i,val){
+        var $ball = $("<span></span>");
+        var color = val.Grey ? "grey" : "yellow";
+        $ball.addClass(color)
+          .css({
+            position: "absolute",
+            left: val.x,
+            top: val.y
+          })
+          .attr("ball-id", i)
+          .appendTo( $main );
+
+
+
+      });
+
+      $factory.prependTo($answers_wrapper);
+
+      // ********   correct answer
+      var $correctAnswersWrapper = $(this).find(".answers_wrapper_correct"),
+        $cloneFactory = $factory.clone();
+      $cloneFactory.prependTo($correctAnswersWrapper);
+
+      var paper = Raphael( $main[0], $answers.width(), 500 );
+      var newPaper = Raphael( $cloneFactory.find(".main")[0], $answers.width(), 500 );
+      updateUserAnswerLines();
+
+      function updateUserAnswerLines(){
+        $question.find(".answers .connecting_on_pic_left").each(function(){
+          var greyBallId = $(this).find("span").text().trim().slice(5);
+          var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
+          var rightInput = $(this).next(".connecting_on_pic_right").find("input.left");
+          var rightVal = rightInput.val();
+          if(rightVal == "" || rightVal == "0")return;
+          var yellowBalls = rightVal.split("ball-");
+          $.each(yellowBalls, function(i,val){
+            if(val == "")return;
+            var $yellow = $main.find("> span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow, paper );
+          });
+        });
+
+      }
+
+      function drawLine($active, $end, which ){
+        var strokeWidth = 5,
+          strokeColor = "#08c",
+          x1 = $active.position().left + $active.width()/2,
+          y1 = $active.position().top + $active.height()/2 ,
+          x2 = $end.position().left + $end.width()/2,
+          y2 = $end.position().top + $end.height()/2 ,
+          line = which.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+        line
+          .attr({
+            "stroke": strokeColor,
+            "stroke-width": strokeWidth
+          });
+
+      }
+
+      function stringToObject(str) {
+        return eval("(" + str + ")");
+      }
+
+
+
+
+      updateLines();
+
+      function updateLines(){
+        $correctAnswersWrapper.find(".connecting_on_pic_answer .connecting_on_pic_left").each(function(){
+          var greyBallId = $(this).find("span").text().trim().slice(5);
+          var $grey = $correctAnswersWrapper.find(".main > span[ball-id="+ greyBallId + "]");
+          var rightInput = $(this).next(".connecting_on_pic_right").find("span");
+          var rightVal = rightInput.text().trim();
+          if(rightVal == "" || rightVal == "0")return;
+          var yellowBalls = rightVal.split("ball-");
+          $.each(yellowBalls, function(i,val){
+            if(val == "")return;
+            var $yellow = $correctAnswersWrapper.find(".main > span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow, newPaper );
+          });
+        });
+
       }
 
     });
