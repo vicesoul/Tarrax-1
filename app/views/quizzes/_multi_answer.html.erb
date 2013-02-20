@@ -97,7 +97,7 @@
 <% elsif question_type.entry_type == "connecting_on_pic" %>
   <div class="connecting_lead word_left" >
     <% if answer %>
-          <span value="<%= hash_get(a, :match_id) || hash_get(a, :match_left_id) || hash_get(answer, :id) %>" >
+          <span>
             <%= hash_get(answer, :left) %>
           </span>
     <% end %>
@@ -106,7 +106,6 @@
     <%  questionId = hash_get(question, :id) %>
   <div class="connecting_lead word_right" answerId=<%= answerId %> >
     <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_left" type="text" class="question_input left" value="<%= hash_get(@stored_params, "question_#{questionId}_answer_#{answerId}_left") %>"  >
-    <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_right" type="text" class="question_input right"  value="<%= hash_get(@stored_params, "question_#{questionId}_answer_#{answerId}_right")  %>" >
     <% if answer %>
       <span  value=<%= hash_get(answer, :id) %> >
         <%= hash_get(answer, :right) %>
