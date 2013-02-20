@@ -249,33 +249,41 @@ $(document).ready(function () {
       updateUserAnswerLines();
 
       function updateUserAnswerLines(){
-        $question.find(".answers .connecting_on_pic_left").each(function(){
+        $question.find(".answers .answers_wrapper .connecting_on_pic_left").each(function(){
           var greyBallId = $(this).find("span").text().trim().slice(5);
           var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
           var rightInput = $(this).next(".connecting_on_pic_right").find("input.left");
           var rightVal = rightInput.val();
           if(rightVal == "" || rightVal == "0")return;
           var yellowBalls = rightVal.split("ball-");
+
+          var rightSpan = $(this).next(".connecting_on_pic_right").find("span");
+          var rightText = rightSpan.text().trim();
+          var answerYellowBalls = rightText.split("ball-");
+
           $.each(yellowBalls, function(i,val){
             if(val == "")return;
+            var hasLine = $.inArray(val, answerYellowBalls) !== -1;
+            var color = hasLine ? "green" : "red";
             var $yellow = $main.find("> span[ball-id="+ val + "]");
-            drawLine( $grey, $yellow, paper );
+            drawLine( $grey, $yellow, paper, color );
           });
         });
 
       }
 
-      function drawLine($active, $end, which ){
+      function drawLine($active, $end, which, color ){
         var strokeWidth = 5,
-          strokeColor = "#08c",
           x1 = $active.position().left + $active.width()/2,
           y1 = $active.position().top + $active.height()/2 ,
           x2 = $end.position().left + $end.width()/2,
           y2 = $end.position().top + $end.height()/2 ,
           line = which.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+        color = color === undefined ? "#08c" : color;
         line
           .attr({
-            "stroke": strokeColor,
+            "stroke": color,
             "stroke-width": strokeWidth
           });
 
@@ -294,10 +302,10 @@ $(document).ready(function () {
         $correctAnswersWrapper.find(".connecting_on_pic_answer .connecting_on_pic_left").each(function(){
           var greyBallId = $(this).find("span").text().trim().slice(5);
           var $grey = $correctAnswersWrapper.find(".main > span[ball-id="+ greyBallId + "]");
-          var rightInput = $(this).next(".connecting_on_pic_right").find("span");
-          var rightVal = rightInput.text().trim();
-          if(rightVal == "" || rightVal == "0")return;
-          var yellowBalls = rightVal.split("ball-");
+          var rightSpan = $(this).next(".connecting_on_pic_right").find("span");
+          var rightText = rightSpan.text().trim();
+          if(rightText == "" || rightText == "0")return;
+          var yellowBalls = rightText.split("ball-");
           $.each(yellowBalls, function(i,val){
             if(val == "")return;
             var $yellow = $correctAnswersWrapper.find(".main > span[ball-id="+ val + "]");
