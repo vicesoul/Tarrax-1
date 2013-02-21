@@ -25,7 +25,7 @@ require 'webrat'
 require 'mocha_standalone'
 require File.dirname(__FILE__) + '/mocha_extensions'
 
-Dir.glob("#{File.dirname(__FILE__).gsub(/\\/, "/")}/factories/*.rb").each { |file| require file }
+Dir.glob("#{File.dirname(__FILE__).gsub(/\\/, "/")}/factories/**/*.rb").each { |file| require file }
 
 ALL_MODELS = (ActiveRecord::Base.send(:subclasses) +
     Dir["#{RAILS_ROOT}/app/models/*", "#{RAILS_ROOT}/vendor/plugins/*/app/models/*"].collect { |file|
