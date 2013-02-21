@@ -147,27 +147,15 @@
   <div class="connecting_on_pic_answer answer_match matching_answer answer_type" <%= hidden(true) unless answer_type == "connecting_on_pic_answer" %>>
     <div class="connecting_on_pic_left">
       <% if user_answer %>
-        <%	if  answer_type == "connecting_on_pic_answer"
-              matches = hash_get(question, :matches, {})
-              match_left = hash_get(matches, :left)
-              match_right = hash_get(matches, :right)
-        %>
-          <%  a = match_left[display_answer_counter] %>
-          <span value="<%= hash_get(a, :match_id) %>" >
-            <%= hash_get(a, :text)  %>
-          </span>
-        <% else %>
-        <% end %>
-      <% else %>
-        <%= hash_get(answer, :left) %>
+
       <% end %>
+      <span>
+        <%= hash_get(answer, :left) %>
+      </span>
     </div>
     <%  answerId = hash_get(answer, :id) %>
     <div class="connecting_on_pic_right" answerId=<%= answerId %> left="<%= hash_get(user_answer, "answer_#{answerId}_left") %>" right="<%= hash_get(user_answer, "answer_#{answerId}_right") %>"  >
       <input type="hidden" value="<%= hash_get(user_answer, "answer_#{answerId}_left") %>" class="left question_input">
-      <input type="hidden" value="<%= hash_get(user_answer, "answer_#{answerId}_right") %>" class="right question_input">
-      <input type="hidden" value="<%= hash_get(answer, :match_left_id) %>" class="left real_answer">
-      <input type="hidden" value="<%= hash_get(answer, :match_right_id) %>" class="right real_answer">
       <span>
         <%= hash_get(answer, :right) %>
       </span>

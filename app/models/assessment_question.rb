@@ -333,11 +333,6 @@ class AssessmentQuestion < ActiveRecord::Base
         a[:match_right_id] = unique_local_id(answer[:match_right_id].to_i)
 
         question[:answers] << a
-        question[:matches] ||= {}
-        question[:matches][:left] ||= []
-        question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_on_pic_left], 'answer match', min_size)}
-        question[:matches][:right] ||= []
-        question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_on_pic_right], 'answer match', min_size)}
         question[:connecting_on_pic_position] = qdata[:connecting_on_pic_position]
         question[:connecting_on_pic_image] = qdata[:connecting_on_pic_image]
       end
