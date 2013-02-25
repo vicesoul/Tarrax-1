@@ -6,13 +6,13 @@ module Jxb::WidgetsHelper
 
     html = ''
     @widgets.each do |widget|
-      html += render_widget(widget)
+      html += render_widget( widget, :courses => Account.uniq_courses_of_account_ids(@page.accounts << @page.context_id) )
     end
     html.html_safe
   end
 
-  def render_widget(widget)
-    render_cell widget.cell_name, widget.cell_action, :widget  => widget
+  def render_widget(widget, options = {})
+    render_cell( widget.cell_name, widget.cell_action, options.merge(:widget  => widget) )
   end
 
   def new_widget(name)

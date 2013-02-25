@@ -54,10 +54,13 @@ describe Jxb::Page do
     it "should save widgets" do
       params = { :name => 'foo', 
                  :theme => 'bar', 
-                 :positions => { 'p1' => [ 'user,index,,title1,<h1>i am logo</h1>', 'ch,ina,,fly,barbarbar' ] }
+                 :positions => { 'p1_0' => {'body' => '<h1>i am logo</h1>', 'title' => 'title1', 'widget' => 'user,index'},
+                                 'p1_1' => {'body' => 'barbarbar', 'title' => 'fly', 'widget' => 'ch,ina'}
+                  }
       }
 
       page = Jxb::Page.create(params)
+      page.reload # Need reload to refresh order. maybe it's a rails bug
       page.name.should == 'foo'
       page.theme.should == 'bar'
       page.widgets.size.should == 2
@@ -73,7 +76,7 @@ describe Jxb::Page do
     it "should update widgets when privoid id" do
       page = Jxb::Page.create(:name => 'foo', :theme => 'bar')
       widget = page.widgets.create :cell_name => 'oo', :cell_action => 'aa'
-      params = { :positions => { 'p1' => [ "user,index,#{widget.id},title1,<h1>i am logo</h1>" ] } }
+      params = { :positions => { 'p1_0' => {'widget' => "user,index,#{widget.id}",'body' => '<h1>i am logo</h1>','title' => 'title1'} } }
       page.update_attributes(params)
       page.widgets.size.should == 1
       widget.position.should == 'p1'
@@ -87,6 +90,16 @@ describe Jxb::Page do
 
     it "should not save widgets if save page error" do
       pending
+    end
+
+    it "should delete widget" do
+      page = Jxb::Page.create(:name => 'foo', :theme => 'bar')
+      widget = page.widgets.create :cell_name => 'oo', :cell_action => 'aa'
+      params = { :positions => { 'p1_0' => {'widget' => "user,index,#{widget.id}", :delete => '1', 'body' => '<h1>i am logo</h1>','title' => 'title1'} } }
+      page.update_attributes(params)
+      page.reload
+      page.widgets.size.should == 0
+      Jxb::Widget.find_by_id(widget.id).should be_nil
     end
 
   end

@@ -7,7 +7,7 @@ require [
 ], ($)->
   
   synToDialog = ($obj) ->
-    $("#widget_title").val $obj.find(".data-widget-title").text()
+    $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
     #$("#widget_body").val $obj.find(".data-widget-body").html()
     $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
 
@@ -19,25 +19,32 @@ require [
     $(".jxb_page_position").remove()
     $("[data-position]").each ->
       position = $(this).attr("data-position")
-      widgets  = $(this).find("[data-widget]:visible")
+      widgets  = $(this).find("[data-widget]")
       if widgets.length
         $.each widgets, (index, widget) ->
-          $(".edit_jxb_page").append hiddenPosition( "#{position}_#{index}", $(widget) )
+          $(".edit_jxb_page").append widgetAttributes( "#{position}_#{index}", $(widget) )
 
-  hiddenPosition = (position, widget) ->
+  widgetAttributes = (position, widget) ->
     data  = widget.attr("data-widget")
-    title = widget.find(".data-widget-title").text()
-    body  = widget.find(".data-widget-body").html()
-    """
-    <input class="jxb_page_position" name="jxb_page[positions][#{position}][widget]" type="hidden" value="#{data}" />
-    <input class="jxb_page_position" name="jxb_page[positions][#{position}][title]" type="hidden" value="#{title}" />
-    <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][body]" style="display:none;">#{body}</textarea>
-    """
+    if widget.hasClass("deleted")
+      """
+      <input class="jxb_page_position" name="jxb_page[positions][#{position}][widget]" type="hidden" value="#{data}" />
+      <input class="jxb_page_position" name="jxb_page[positions][#{position}][delete]" type="hidden" value="1" />
+      """
+    else
+      title = widget.find(".data-widget-title").text()
+      body  = widget.find(".data-widget-body").html()
+      """
+      <input class="jxb_page_position" name="jxb_page[positions][#{position}][widget]" type="hidden" value="#{data}" />
+      <input class="jxb_page_position" name="jxb_page[positions][#{position}][title]" type="hidden" value="#{title}" />
+      <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][body]" style="display:none;">#{body}</textarea>
+      """
 
   makeWidgetsDeletable = ->
     $widgets = $("[data-widget]").not(".deletable")
     $deleteImg = $("<img src='/images/delete.png' title='delete' class='delete_widget' />").click ->
       $widget = $(this).parent(".deletable")
+      $widget.addClass("deleted")
       $widget.hide()
     $editImg = $("<img src='/images/edit.png' title='edit' class='edit_widget' />").click ->
       $widget = $(this).parent("[data-widget]")
@@ -47,7 +54,7 @@ require [
     $widgets.addClass("deletable").append($deleteImg).append($editImg)
     
   revertWidgets = ->
-    $("[data-widget]").removeClass("deletable").show()
+    $("[data-widget]").removeClass("deletable").removeClass("deleted").show()
     $(".delete_widget").remove()
     $(".edit_widget").remove()
 

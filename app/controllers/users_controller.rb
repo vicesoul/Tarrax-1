@@ -302,6 +302,9 @@ class UsersController < ApplicationController
     @announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
     @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
     @stream_items = @current_user.try(:cached_recent_stream_items) || []
+    
+    # Each user has a dashboard page
+    @dashboard_page = @current_user.find_or_create_dashboard_page
   end
 
   def toggle_dashboard

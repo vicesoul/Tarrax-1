@@ -1,0 +1,16 @@
+<div <%= data_widget %> >
+  <div id="carousel" class="carousel slide">
+    <% imgs = extract_images(widget.body) %>
+    <ol class="carousel-indicators">
+      <% imgs.size.times do |i| %>
+        <li data-target="#carousel" data-slide-to="<%= i %>"></li>
+      <% end %>
+    </ol>
+    <div class="carousel-inner">
+      <% imgs.each do |img| %>
+        <div class="item"><%= img.html_safe %></div>
+      <% end %>
+    </div>
+  </div>
+  <div class="data-widget-body" style="display:none;"><%= widget.body && widget.body.html_safe%></div>
+</div>

@@ -1,8 +1,0 @@
-<ul <%= data_widget %> >
-<h1 class="data-widget-title"><%= widget.title %></h1>
-<% @users.each do |user| %>
-  <li><%= user.email %></li>
-  <br />
-<% end %>
-<div class="data-widget-body"><%= widget.body && widget.body.html_safe %></div>
-</ul>

@@ -1,6 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.select_users 'accounts/select/users/ids', :controller => 'accounts', :action => 'select_users'
+  map.resources :widget, :only => :update, :controller => 'jxb/widgets'
 
   map.resources :submission_comments, :only => :destroy
 

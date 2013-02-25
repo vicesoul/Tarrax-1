@@ -10,6 +10,7 @@ class CreateJxbWidgets < ActiveRecord::Migration
       t.string :position
       t.integer :seq
       t.integer :page_id, :limit => 8
+      t.string :courses
 
       t.timestamps
     end

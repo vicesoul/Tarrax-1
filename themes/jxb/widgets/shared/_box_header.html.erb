@@ -1,0 +1,12 @@
+<div class="box-header data-widget-title">
+  <h4 class="left"><%= title(header_title) %></h4>
+  <% if @opts[:can_select_course] %>
+    <div class="right courses-selector">
+      <% context.courses.each do |course| %>
+        <%= link_to course.name, "javascript:void(0)", 'data-link-course-id' => course.id %>
+      <% end %>
+      <%= link_to 'save', widget_path(widget), :class => "save_selector" %>
+    </div>
+  <% end # End of can_select_course%>
+  <div class="clear"></div>
+</div>

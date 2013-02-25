@@ -25,6 +25,8 @@ class Account < ActiveRecord::Base
     :default_user_storage_quota_mb
 
   include Workflow
+  include Jxb::CommonBehavior
+
   belongs_to :parent_account, :class_name => 'Account'
   belongs_to :root_account, :class_name => 'Account'
   authenticates_many :pseudonym_sessions
@@ -88,7 +90,7 @@ class Account < ActiveRecord::Base
   has_many :report_snapshots
   has_one  :subdomain
 
-  has_one  :homepage, :class_name => 'Jxb::Page', :dependent => :destroy
+  has_one  :homepage, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
 
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
@@ -224,6 +226,20 @@ class Account < ActiveRecord::Base
 
   def open_registration?
     !!settings[:open_registration] && canvas_authentication?
+  end
+
+  def active_announcements
+    ids = self.courses.map{|c| c.id}
+    Announcement.where(:context_type => "Course", :type => "Announcement",  :workflow_state => "active").where("context_id IN (?)", ids)
+  end
+
+  def self.uniq_courses_of_accounts(accounts)
+    ids = accounts.map{|account| account.id}
+    uniq_courses_of_account_ids(ids)
+  end
+
+  def self.uniq_courses_of_account_ids(account_ids)
+    Course.where("account_id IN (?)", account_ids)
   end
 
   def ip_filters=(params)

@@ -1,0 +1,13 @@
+<% theme_name = page.theme || 'jxb' %>
+
+<% content_for :head do %>
+  <%= stylesheet_link_tag( Jxb::Theme.css_path('app.css', theme_name) ) %>
+<% end %>
+
+<% content_for :foot do %>
+  <%= javascript_include_tag "/themes/#{theme_name}/javascripts/app" %>
+<% end %>
+
+<% cache([page.context, "#{page.id}-content"], :expires_in => 15.minutes) do %>
+  <%= render(partial_name) %>
+<% end %>

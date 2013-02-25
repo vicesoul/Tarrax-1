@@ -1,0 +1,3 @@
+<% @dashboard_page.widgets.each do |widget| %>
+  <%= render_cell widget.cell_name, widget.cell_action, :widget  => widget, :theme => 'jxb', :can_select_course => true %>
+<% end %>

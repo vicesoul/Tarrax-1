@@ -1,22 +1,19 @@
-<% content_for :page_title do %><%= "#{t(:homepage, "Homepage")} | #{@account.name}"%><% end %>
+<% content_for :page_title do %><%= "#{t(:home_page, "Homepage")} | #{@account.name}"%><% end %>
 
-<% jammit_css :account_homepage %>
-<% js_bundle :account_homepage %>
+<% jammit_css :tinymce, :account_homepage %>
+<% js_bundle  :account_homepage %>
 
 <% content_for :right_side do %>
   <%= render :partial => 'homepage_right_side' %>
 <% end if @can_manage_homepage %>
 
-<h2><%= t(:homepage, "homepage") %> theme: <%= @page.theme %></h2>
-
-<%= render 'homepage_content' %>
+<%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
 <div id="edit_widget_dialog" style='display:none;'>
   <div class="edit_widget_section">
-    title: <input type="text" name="widget_title" id="widget_title" value="" /><br />
-    body: <textarea name="widget_body" id="widget_body" rows="8" cols="40"></textarea><br />
-    <button type="submit" class="save_widget_button btn">Save</button>
-    <a href="javascript:$('#edit_widget_dialog').dialog('close');" title="cancel">cancel</a>
+    <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" /><br />
+    <%= t :body, 'Body' %>: <textarea name="widget_body" id="widget_body" rows="8" cols="40"></textarea><br />
+    <button type="submit" class="save_widget_button btn"><%= t :save, 'Save' %></button>
+    <a href="javascript:$('#edit_widget_dialog').dialog('close');" title="cancel"><%= t :cancel, 'Cancel' %></a>
   </div>
 </div>
-

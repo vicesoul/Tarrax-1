@@ -58,11 +58,9 @@ class Jxb::WidgetsController < ApplicationController
 
     respond_to do |format|
       if @widget.update_attributes(params[:widget])
-        format.html { redirect_to(@widget, :notice => 'Jxb::Widget was successfully updated.') }
-        format.xml  { head :ok }
+        format.js { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @widget.errors, :status => :unprocessable_entity }
+        format.js { head :error }
       end
     end
   end

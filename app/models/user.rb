@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
 
   include Context
   include UserFollow::FollowedItem
+  include Jxb::CommonBehavior
 
   attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type, :account_id
   attr_accessor :original_id, :menu_data, :account_id
@@ -168,6 +169,18 @@ class User < ActiveRecord::Base
 
   has_one :profile, :class_name => 'UserProfile'
   alias :orig_profile :profile
+
+  has_one :dashboard_page, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
+  def find_or_create_dashboard_page
+    self.dashboard_page || begin
+      page = self.build_dashboard_page(:name => 'dashboard')
+      page.widgets.build(:cell_name => "activity", :cell_action => "index")
+      page.widgets.build(:cell_name => "assignment", :cell_action => "index")
+      page.widgets.build(:cell_name => "discussion", :cell_action => "index")
+      page.save
+      page
+    end
+  end
 
   belongs_to :otp_communication_channel, :class_name => 'CommunicationChannel'
 

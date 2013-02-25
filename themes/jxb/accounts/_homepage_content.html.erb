@@ -1,6 +1,13 @@
-<div id="user-index" data-position="0" class="sortable">
-  <%= widgets_at_position('0') %>
-</div>
-<div id="course-index" data-position="1" class="sortable">
-  <%= widgets_at_position('1') %>
+<div id="dashboard">
+  
+  <div id="activity-index" data-position="activity"><%= widgets_at_position("activity") %></div>
+
+  <div data-position="0" class="sortable">
+    <%= widgets_at_position('0') %>
+  </div>
+
+  <div data-position="1" class="sortable">
+    <%= widgets_at_position('1') %>
+  </div>
+
 </div>

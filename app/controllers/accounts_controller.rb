@@ -501,7 +501,7 @@ class AccountsController < ApplicationController
 
     if @can_manage_homepage
       @active_tab = "homepage"
-      add_crumb t(:homepage, "Homepage"), account_homepage_path(@account)
+      add_crumb t(:homepages, "Homepage"), account_homepage_path(@account)
     elsif authorized_action(@page, @current_user, session, :read)
       clear_crumbs
       @show_left_side = false

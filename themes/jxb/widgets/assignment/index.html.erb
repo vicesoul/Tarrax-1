@@ -1,0 +1,27 @@
+<div <%= data_widget %> >
+  <div class="x box">
+    <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.assignment.title', 'Assignment') } %>
+    <div class="box-body">
+      <table class="table table-striped table-bordered bootstrap-datatable datatable">
+        <thead>
+          <tr>
+            <td><%= t '#cells.assignment.name', 'Name' %></td>
+            <td><%= t '#cells.assignment.created_at', 'Created at' %></td>
+            <td><%= t '#cells.assignment.due_at', 'Due at' %></td>
+          </tr>
+        </thead>  
+        <tbody>
+        <% ids = widget.courses && widget.courses.split(",").map(&:to_i) || [] %>
+        <% @assignments.each do |assignment| %>
+        <% style = ids.include?(assignment.context.id) ? '' : "style='display:none;'" %>
+          <tr data-course-id=<%= assignment.context.id%> <%= style %> >
+            <td><a href=<%= "/course/#{assignment.context.id}/assignments/#{assignment.id}" %>><%= assignment.title %></a></td>
+            <td><%= assignment.created_at %></td>
+            <td><%= assignment.due_at %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
