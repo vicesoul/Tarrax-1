@@ -87,11 +87,6 @@
               <td>
                 <% no_language = t(:no_language_preference, "Not set (defaults to %{language})", :language => available_locales[infer_locale(:context => @context.parent_account)]) %>
                 <%= f.select :default_locale, [[no_language, nil]] + available_locales.invert.sort, :selected => @context.default_locale %>
-                <span><%= mt :transifex_message, <<-TEXT, :transifex_url => "https://www.transifex.com/projects/p/canvas-lms/"
-Join the [Canvas Translation Community](%{transifex_url})
-TEXT
-                %>
-                </span>
                 <p style="font-size: 0.9em;"><%= t(:default_language_description, "This will override any browser/OS language settings. Preferred languages can still be set at the course/user level.") %></p>
               </td>
             </tr>
@@ -467,7 +462,7 @@ TEXT
                 <table class="formtable" style='margin-left: 1.5em;'>
                 <tr>
                   <td><%= t 'notifications.from', 'From' %></td>
-                  <td><%= HostUrl.outgoing_email_default_name %> <%= '<notifications@instructure.com>' %></td>
+                  <td><%= HostUrl.outgoing_email_default_name %> <%= '<notifications@jiaoxuebang.com>' %></td>
                 </tr>
                 <tr>
                   <td><%= t 'notifications.subject', 'Subject' %></td>
@@ -479,11 +474,11 @@ TEXT
                 </tr>
                 <tr>
                   <td><%= t 'notifications.email_to', 'To' %></td>
-                  <td><%= 'recipient@instructure.com' %></td>
+                  <td><%= 'recipient@jiaoxuebang.com' %></td>
                 </tr>
                 <tr>
                   <td><%= t 'notifications.email_reply_to', 'Reply-To' %></td>
-                  <td><%= 'notifications+e79df3ljk09s3jkl09ssljk3lkj2l-10191633@instructure.com' %></td>
+                  <td><%= 'notifications+e79df3ljk09s3jkl09ssljk3lkj2l-10191633@jiaoxuebang.com' %></td>
                 </tr>
               </table>
               </blockquote>
@@ -507,7 +502,7 @@ TEXT
               <table class="formtable" style='margin-left: 1.5em;'>
                 <tr>
                   <td><%= t 'notifications.from', 'From' %></td>
-                  <td><strong id='custom_default_name_display'></strong> <%= '<notifications@instructure.com>' %></td>
+                  <td><strong id='custom_default_name_display'></strong> <%= '<notifications@jiaoxuebang.com>' %></td>
                 </tr>
                 <tr>
                   <td><%= t 'notifications.subject', 'Subject' %></td>
@@ -519,11 +514,11 @@ TEXT
                 </tr>
                 <tr>
                   <td><%= t 'notifications.email_to', 'To' %></td>
-                  <td><%= 'recipient@instructure.com' %></td>
+                  <td><%= 'recipient@jiaoxuebang.com' %></td>
                 </tr>
                 <tr>
                   <td><%= t 'notifications.email_reply_to', 'Reply-To' %></td>
-                  <td><%= 'notifications+e79df3ljk09s3jkl09ssljk3lkj2l-10191633@instructure.com' %></td>
+                  <td><%= 'notifications+e79df3ljk09s3jkl09ssljk3lkj2l-10191633@jiaoxuebang.com' %></td>
                 </tr>
               </table>
               </blockquote>
