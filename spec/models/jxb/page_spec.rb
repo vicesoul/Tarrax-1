@@ -11,8 +11,8 @@ describe Jxb::Page do
     @homepage.widgets << @widget2
   end
 
-  it "should belong to a account" do
-    @homepage.account_id.should == @account.id
+  it "should belong to a context" do
+    @homepage.context_id.should == @account.id
   end
 
   it "should have many widgets" do
@@ -31,16 +31,16 @@ describe Jxb::Page do
 
   it "should validate uniqueness of name under account scope" do
     page1 = Jxb::Page.new(:name => 'foo')
-    page1.account_id = 1
+    page1.context_id = 1
     page1.save!
     lambda { 
       page2 = Jxb::Page.new(:name => 'foo')
-      page2.account_id = 1
+      page2.context_id = 1
       page2.save!
     }.should raise_error(ActiveRecord::RecordInvalid, "Validation failed: Name has already been taken")
     lambda { 
       page3 = Jxb::Page.new(:name => 'foo')
-      page3.account_id = 2
+      page3.context_id = 2
       page3.save!
     }.should_not raise_error
   end

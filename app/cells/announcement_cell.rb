@@ -1,7 +1,7 @@
 class AnnouncementCell < ApplicationCell
 
   def index
-    @announcements = account.active_announcements
+    @announcements = context.active_announcements_of_courses
     prepend_view_path Jxb::Theme.widget_path(theme)
 
     render

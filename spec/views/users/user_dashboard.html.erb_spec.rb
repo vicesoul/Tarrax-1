@@ -29,6 +29,7 @@ describe "/users/user_dashboard" do
     assigns[:topics] = []
     assigns[:upcoming_events] = []
     assigns[:stream_items] = []
+    assigns[:dashboard_page] = user.find_or_create_dashboard_page
 
     render "users/user_dashboard"
     response.should_not be_nil
@@ -44,7 +45,9 @@ describe "/users/user_dashboard" do
     assigns[:upcoming_events] = []
     assigns[:stream_items] = []
     assigns[:announcements] = [AccountNotification.new(:subject => "My Global Announcement", :account => Account.default)]
+    assigns[:dashboard_page] = user.find_or_create_dashboard_page
+
     render "users/user_dashboard"
-    response.body.should match /My Global Announcement/
+    response.body.should match(/My Global Announcement/)
   end
 end

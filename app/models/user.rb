@@ -174,9 +174,10 @@ class User < ActiveRecord::Base
   def find_or_create_dashboard_page
     self.dashboard_page || begin
       page = self.build_dashboard_page(:name => 'dashboard')
-      page.widgets.build(:cell_name => "activity", :cell_action => "index")
-      page.widgets.build(:cell_name => "assignment", :cell_action => "index")
-      page.widgets.build(:cell_name => "discussion", :cell_action => "index")
+      page.widgets.build(:cell_name => "activity",     :cell_action => "index", :seq => 0)
+      page.widgets.build(:cell_name => "assignment",   :cell_action => "index", :seq => 1)
+      page.widgets.build(:cell_name => "discussion",   :cell_action => "index", :seq => 2)
+      page.widgets.build(:cell_name => "announcement", :cell_action => "index", :seq => 3)
       page.save
       page
     end

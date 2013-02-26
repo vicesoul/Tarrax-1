@@ -27,10 +27,6 @@ class ApplicationCell < ::Cell::Base
     @opts[:page] || widget.page
   end
 
-  def account
-    @opts[:account] || page.account
-  end
-
   def context
     @opts[:context] || page.context
   end

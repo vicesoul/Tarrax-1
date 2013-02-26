@@ -7,7 +7,7 @@ class CreateJxbPages < ActiveRecord::Migration
       t.string  :theme,      :default => "jxb"
       t.integer :context_id, :limit => 8
       t.string  :context_type
-      t.string  :accounts
+      t.string  :courses
 
       t.timestamps
     end

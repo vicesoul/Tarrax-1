@@ -15,8 +15,8 @@ class Jxb::Page < ActiveRecord::Base
 
   belongs_to :context, :polymorphic => true
 
-  attr_accessible :name, :theme, :positions, :accounts
-  serialize :accounts
+  attr_accessible :name, :theme, :positions, :courses
+  serialize :courses
   
   after_update :save_widgets
   after_update :clear_cache
@@ -27,7 +27,13 @@ class Jxb::Page < ActiveRecord::Base
   set_policy do
     
     # any user with an association to this page's account can read
-    given { |user,session| user && self.account.user_account_associations.find_by_user_id(user.id) }
+    given { |user,session| 
+      if self.context.is_a?(Account)
+        user && self.context.user_account_associations.find_by_user_id(user.id) 
+      elsif self.context.is_a?(User)
+        user == self.context
+      end
+    }
     can :read
 
   end

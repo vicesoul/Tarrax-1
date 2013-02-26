@@ -6,7 +6,8 @@ module Jxb::WidgetsHelper
 
     html = ''
     @widgets.each do |widget|
-      html += render_widget( widget, :courses => Account.uniq_courses_of_account_ids(@page.accounts << @page.context_id) )
+      courses = Course.find(@page.courses) rescue nil
+      html += render_widget( widget, :courses => courses )
     end
     html.html_safe
   end
@@ -20,5 +21,5 @@ module Jxb::WidgetsHelper
     widget = @page.widgets.build(:cell_name => cell_name, :cell_action => cell_action)
     render_widget(widget)
   end
-  
+
 end

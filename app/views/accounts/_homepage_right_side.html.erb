@@ -12,10 +12,11 @@
         <td><%= before_label(:add_new_widget, 'New widget') %></td>
         <td><%= select "widget", "name", Jxb::Widget::TYPE %> <%= link_to t(:add, 'add'), '#', :id => 'add_widget' %></td>
       </tr><tr>
-        <td><%= before_label(:accounts, 'Accounts') %></td>
+        <td><%= before_label(:courses, 'Courses') %></td>
         <td>
-          <% @account.sub_accounts.each do |account| %>
-            <%= check_box_tag "jxb_page[accounts][]", account.id, @page.accounts.include?(account.id.to_s) %> <%= account.name %>
+          <% @account.fast_all_courses.each do |course| %>
+            <% courses = @page.courses || [] %>
+            <%= check_box_tag "jxb_page[courses][]", course.id, courses.include?(course.id.to_s) %> <%= course.name %>
           <% end %>
         </td>
       </tr></tbody>
