@@ -26,6 +26,7 @@
       <option value="paint_question" style="padding: 2px;">原题作图</option>
       <option value="connecting_lead_question" style="padding: 2px;">连线题</option>
       <option value="connecting_on_pic_question" style="padding: 2px;">图画连线题</option>
+      <option value="dragAndDrop_question" style="padding: 2px;">拖拽题</option>
     </select>
     <span class="question_points_holder">
       <span style="padding-left: 20px;"><%= before_label :points, 'pts' %></span>
@@ -59,6 +60,9 @@
     </div>
     <div class="connecting_lead_question_explanation explanation subheader">
       可以设置两列或三列连线题
+    </div>
+    <div class="dragAndDrop_question_explanation explanation subheader">
+      答案可拖动，把答案拖进空格里
     </div>
     <div class="connecting_on_pic_question_explanation explanation subheader">
       先上传一张图片，然后在图上可以设置两列或三列连线题
@@ -105,6 +109,9 @@
     </div>
     <input type="hidden" name="connecting_on_pic_position" class="connecting_on_pic_position">
     <input type="hidden" name="connecting_on_pic_image" class="connecting_on_pic_image">
+    <div class="connecting_on_pic_factory" style="display: none;">
+      <div class='factory'><div class='menu'><ul><li><span class='grey'><b>⊗</b><textarea></textarea></span></li><li><span class='yellow'><b>⊗</b><textarea></textarea></span></li></ul></div><div class='main'><div class='bg'></div><div class="tool-tip" style="display: none;"><h5>Delete this line?</h5><button type="button">确认</button><button type="button">取消</button></div></div></div>
+    </div>
     <div style="display: none;">
     <select class="answer_selection_type" name="answer_selection_type">
       <option value="single_answer"><%= t('options.only_one_correct', "Only One Correct Answer") %></option>

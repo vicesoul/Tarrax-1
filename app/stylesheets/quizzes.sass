@@ -52,6 +52,11 @@ div#content
       display: none
   .question_text
     display: block
+    .blueText
+      .receive
+        border: 1px solid #eee
+        width: 100px
+        height: 35px
   .connecting_lead_question
     position: relative
     .answers
@@ -313,6 +318,9 @@ div#content
       white-space: pre-wrap
   .connecting_lead_question.question
     .btn-group
+      display: block!important
+  .connecting_on_pic_question.question
+    .connecting_on_pic_factory
       display: block!important
   .twoLines.question
     .answer_match_right
@@ -693,7 +701,7 @@ form.question_form
     overflow: hidden
   .multi_answer_sets
     display: none
-  .fill_in_multiple_blanks_question,.multiple_dropdowns_question
+  .fill_in_multiple_blanks_question,.multiple_dropdowns_question,.dragAndDrop_question
     .multi_answer_sets
       display: block
     .multi_answer_sets_subheader
@@ -765,6 +773,8 @@ form.question_form
       margin: 10px
       float: left
       list-style: none
+    textarea
+      display: none
   span
     display: inline-block
     width: 30px
@@ -778,6 +788,22 @@ form.question_form
       position: absolute
       right: -8px
       top: -8px
+    textarea, p
+      border: 1px solid #ddd
+      border-radius: 5px
+      padding: 5px
+      width: 100px
+      min-height: 30px
+      position: absolute
+      left: 0
+      top: 0
+      margin: 0 0 0 40px
+      background: rgba(255,255,255,0.5)
+  span.grey
+    textarea, p
+      right: 0
+      left: auto
+      margin: 0 40px 0 0
   .grey
     background: grey
   .yellow

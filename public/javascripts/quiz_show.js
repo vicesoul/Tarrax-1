@@ -21,13 +21,14 @@ define([
   'jquery' /* $ */,
   'quiz_arrows',
   'quiz_inputs',
+  'underscore',
   'jquery.instructure_date_and_time' /* dateString, time_field, datetime_field */,
   'jqueryui/dialog',
   'jquery.instructure_misc_helpers' /* scrollSidebar */,
   'jquery.instructure_misc_plugins' /* ifExists, confirmDelete */,
   'message_students', /* messageStudents */
   'vendor/raphael'
-], function(I18n, $, showAnswerArrows, inputMethods) {
+], function(I18n, $, showAnswerArrows, inputMethods, _) {
 
 $(document).ready(function () {
 
@@ -214,15 +215,16 @@ $(document).ready(function () {
         $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
         $main = $factory.find(".main");
 
-
-
       // reload image
       var bgImage = $("<img>").attr("src", imageSrc);
       $main.find(".bg").append(bgImage);
 
       // reload balls
       $.each(positionData, function(i,val){
-        var $ball = $("<span></span>");
+        var text = val.text ? val.text : "";
+        var $ball = $("<span><p>" +
+          text +
+          "</p></span>");
         var color = val.Grey ? "grey" : "yellow";
         $ball.addClass(color)
           .css({
@@ -232,20 +234,12 @@ $(document).ready(function () {
           })
           .attr("ball-id", i)
           .appendTo( $main );
-
-
-
       });
 
       $factory.prependTo($answers_wrapper);
 
-      // ********   correct answer
-      var $correctAnswersWrapper = $(this).find(".answers_wrapper_correct"),
-        $cloneFactory = $factory.clone();
-      $cloneFactory.prependTo($correctAnswersWrapper);
-
       var paper = Raphael( $main[0], $answers.width(), 500 );
-      var newPaper = Raphael( $cloneFactory.find(".main")[0], $answers.width(), 500 );
+
       updateUserAnswerLines();
 
       function updateUserAnswerLines(){
@@ -261,6 +255,13 @@ $(document).ready(function () {
           var rightText = rightSpan.text().trim();
           var answerYellowBalls = rightText.split("ball-");
 
+          var missingYellowBalls = _.difference(answerYellowBalls, yellowBalls);
+          $.each(missingYellowBalls, function(i,val){
+            if(val == "")return;
+            var $yellow = $main.find("> span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow, paper, "blue", true );
+          });
+
           $.each(yellowBalls, function(i,val){
             if(val == "")return;
             var hasLine = $.inArray(val, answerYellowBalls) !== -1;
@@ -272,7 +273,7 @@ $(document).ready(function () {
 
       }
 
-      function drawLine($active, $end, which, color ){
+      function drawLine($active, $end, which, color, dash ){
         var strokeWidth = 5,
           x1 = $active.position().left + $active.width()/2,
           y1 = $active.position().top + $active.height()/2 ,
@@ -281,38 +282,18 @@ $(document).ready(function () {
           line = which.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
 
         color = color === undefined ? "#08c" : color;
+        var lineType = dash ? "- " : "";
         line
           .attr({
             "stroke": color,
-            "stroke-width": strokeWidth
+            "stroke-width": strokeWidth,
+            "stroke-dasharray": lineType
           });
 
       }
 
       function stringToObject(str) {
         return eval("(" + str + ")");
-      }
-
-
-
-
-      updateLines();
-
-      function updateLines(){
-        $correctAnswersWrapper.find(".connecting_on_pic_answer .connecting_on_pic_left").each(function(){
-          var greyBallId = $(this).find("span").text().trim().slice(5);
-          var $grey = $correctAnswersWrapper.find(".main > span[ball-id="+ greyBallId + "]");
-          var rightSpan = $(this).next(".connecting_on_pic_right").find("span");
-          var rightText = rightSpan.text().trim();
-          if(rightText == "" || rightText == "0")return;
-          var yellowBalls = rightText.split("ball-");
-          $.each(yellowBalls, function(i,val){
-            if(val == "")return;
-            var $yellow = $correctAnswersWrapper.find(".main > span[ball-id="+ val + "]");
-            drawLine( $grey, $yellow, newPaper );
-          });
-        });
-
       }
 
     });

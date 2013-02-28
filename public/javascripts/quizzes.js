@@ -16,33 +16,33 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 define([
-    'i18n!quizzes',
-    'jquery' /* $ */,
-    'calcCmd',
-    'str/htmlEscape',
-    'str/pluralize',
-    'wikiSidebar',
-    'compiled/editor/MultipleChoiceToggle',
-    'compiled/str/TextHelper',
-    'compiled/tinymce',
-    'tinymce.editor_box' /* editorBox */,
-    'jquery.ajaxJSON' /* ajaxJSON */,
-    'jquery.instructure_date_and_time' /* time_field, datetime_field */,
-    'jquery.instructure_forms' /* formSubmit, fillFormData, getFormData, formErrors, errorBox */,
-    'jqueryui/dialog',
-    'jquery.instructure_misc_helpers' /* replaceTags, scrollSidebar, /\$\.underscore/ */,
-    'jquery.instructure_misc_plugins' /* .dim, confirmDelete, showIf */,
-    'jquery.keycodes' /* keycodes */,
-    'jquery.loadingImg' /* loadingImage */,
-    'compiled/jquery.rails_flash_notifications',
-    'jquery.templateData' /* fillTemplateData, getTemplateData */,
-    'supercalc' /* superCalc */,
-    'vendor/jquery.placeholder' /* /\.placeholder/ */,
-    'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
-    'jqueryui/sortable' /* /\.sortable/ */,
-    'jqueryui/tabs' /* /\.tabs/ */,
-    'jqueryui/droppable',
-    'vendor/raphael'
+  'i18n!quizzes',
+  'jquery' /* $ */,
+  'calcCmd',
+  'str/htmlEscape',
+  'str/pluralize',
+  'wikiSidebar',
+  'compiled/editor/MultipleChoiceToggle',
+  'compiled/str/TextHelper',
+  'compiled/tinymce',
+  'tinymce.editor_box' /* editorBox */,
+  'jquery.ajaxJSON' /* ajaxJSON */,
+  'jquery.instructure_date_and_time' /* time_field, datetime_field */,
+  'jquery.instructure_forms' /* formSubmit, fillFormData, getFormData, formErrors, errorBox */,
+  'jqueryui/dialog',
+  'jquery.instructure_misc_helpers' /* replaceTags, scrollSidebar, /\$\.underscore/ */,
+  'jquery.instructure_misc_plugins' /* .dim, confirmDelete, showIf */,
+  'jquery.keycodes' /* keycodes */,
+  'jquery.loadingImg' /* loadingImage */,
+  'compiled/jquery.rails_flash_notifications',
+  'jquery.templateData' /* fillTemplateData, getTemplateData */,
+  'supercalc' /* superCalc */,
+  'vendor/jquery.placeholder' /* /\.placeholder/ */,
+  'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
+  'jqueryui/sortable' /* /\.sortable/ */,
+  'jqueryui/tabs' /* /\.tabs/ */,
+  'jqueryui/droppable',
+  'vendor/raphael'
 ], function(I18n, $, calcCmd, htmlEscape, pluralize, wikiSidebar, MultipleChoiceToggle, TextHelper, tinymce) {
 
   // TODO: refactor this... it's not going to be horrible, but it will
@@ -136,7 +136,7 @@ define([
       $answer.find(".comment_focus").attr('title', I18n.t('titles.click_to_enter_comments_on_answer', 'Click to enter comments for the student if they choose this answer'));
 
       if (question_type == "essay_question") {
-          templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
+        templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
       } else if (question_type == "paint_question") {
         templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
       } else if (question_type == "connecting_lead_question") {
@@ -161,6 +161,9 @@ define([
       } else if (question_type == "fill_in_multiple_blanks_question") {
         templateData.blank_id = answer.blank_id;
       } else if (question_type == "multiple_dropdowns_question") {
+        templateData.short_answer_header = I18n.t('answer_text', "Answer text");
+        templateData.blank_id = answer.blank_id;
+      } else if (question_type == "dragAndDrop_question") {
         templateData.short_answer_header = I18n.t('answer_text', "Answer text");
         templateData.blank_id = answer.blank_id;
       }
@@ -271,6 +274,10 @@ define([
         answer_type = "select_answer";
         question_type = "multiple_dropdowns_question";
         n_correct = "multiple";
+      } else if (qt == 'dragAndDrop_question') {
+        answer_type = "select_answer";
+        question_type = "dragAndDrop_question";
+        n_correct = "multiple";
       } else if (qt == 'numerical_question') {
         answer_type = "numerical_answer";
         question_type = "numerical_question";
@@ -297,9 +304,9 @@ define([
       } else if (question_type == 'short_answer_question') {
         result = "any_answer";
       } else if (question_type == 'essay_question') {
-          result = "none";
+        result = "none";
       } else if (question_type == 'paint_question') {
-          result = "none";
+        result = "none";
       } else if (question_type == 'connecting_lead_question') {
         result = "connecting_lead";
       } else if (question_type == 'connecting_on_pic_question') {
@@ -312,6 +319,7 @@ define([
       } else if (question_type == 'calculated_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_dropdowns_question') {
+      } else if (question_type == 'dragAndDrop_question') {
       } else if (question_type == 'fill_in_multiple_blanks_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_answers_question') {
@@ -325,7 +333,7 @@ define([
     addExistingQuestion: function(question) {
       var $group = $("#group_top_" + question.quiz_group_id);
       var $bottom = null;
-      if ($group.length > 0) { 
+      if ($group.length > 0) {
         $bottom = $group.next();
         while($bottom.length> 0 && !$bottom.hasClass('group_bottom')) {
           $bottom = $bottom.next();
@@ -373,14 +381,16 @@ define([
       $question.find('.question_points').text(question.points_possible);
       var details = quiz.answerTypeDetails(question.question_type);
       var answer_type = details.answer_type,
-          question_type = details.question_type,
-          n_correct = details.n_correct;
+        question_type = details.question_type,
+        n_correct = details.n_correct;
 
       $question.attr('class', 'question display_question').addClass(question_type || 'text_only_question');
 
       if (question.question_type == 'fill_in_multiple_blanks_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       } else if (question.question_type == 'multiple_dropdowns_question') {
+        $question.find(".multiple_answer_sets_holder").css('display', '');
+      } else if (question.question_type == 'dragAndDrop_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       }
       var $select = $(document.createElement("select")).addClass('answer_select');
@@ -440,7 +450,7 @@ define([
             }
             $td.html(answer);
             $tr.append($td);
-            $question.find(".equation_combinations tbody").append($tr);          
+            $question.find(".equation_combinations tbody").append($tr);
           });
         }
       } else {
@@ -471,7 +481,7 @@ define([
         $text.html("<span class='text_before_answers'>" + question.question_text + "</span> ");
         $text.append($select);
         $text.append(" <span class='text_after_answers'>" + question.text_after_answers + "</span>");
-      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question') {
+      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question' || question.question_type == 'dragAndDrop_question') {
         var variables = {}
         $.each(question.answers, function(i, data) {
           variables[data.blank_id] = true;
@@ -634,7 +644,7 @@ define([
       }
       $formQuestion.find(".question_header").text("Question:");
       $formQuestion.addClass(question_type);
-        $formQuestion.find(".question_points_holder").showIf(!$formQuestion.closest(".question_holder").hasClass('group') && question_type != 'text_only_question');
+      $formQuestion.find(".question_points_holder").showIf(!$formQuestion.closest(".question_holder").hasClass('group') && question_type != 'text_only_question');
       $formQuestion.find("textarea.comments").each(function() {
         $(this).val($.trim($(this).val()));
         if ($(this).val()) {
@@ -673,25 +683,25 @@ define([
         $formQuestion.removeClass('selectable');
         result.answer_type = "short_answer";
       } else if (question_type == 'essay_question') {
-          $formQuestion.find(".answer").remove();
-          $formQuestion.removeClass('selectable');
-          $formQuestion.find(".answers_header").hide().end()
-              .find(".question_comment").css('display', 'none').end()
-              .find(".question_neutral_comment").css('display', '').end();
-          options.addable = false;
-          result.answer_type = "none";
-          result.textValues = [];
-          result.htmlValues = [];
+        $formQuestion.find(".answer").remove();
+        $formQuestion.removeClass('selectable');
+        $formQuestion.find(".answers_header").hide().end()
+          .find(".question_comment").css('display', 'none').end()
+          .find(".question_neutral_comment").css('display', '').end();
+        options.addable = false;
+        result.answer_type = "none";
+        result.textValues = [];
+        result.htmlValues = [];
       } else if (question_type == 'paint_question') {
-          $formQuestion.find(".answer").remove();
-          $formQuestion.removeClass('selectable');
-          $formQuestion.find(".answers_header").hide().end()
-              .find(".question_comment").css('display', 'none').end()
-              .find(".question_neutral_comment").css('display', '').end();
-          options.addable = false;
-          result.answer_type = "none";
-          result.textValues = [];
-          result.htmlValues = [];
+        $formQuestion.find(".answer").remove();
+        $formQuestion.removeClass('selectable');
+        $formQuestion.find(".answers_header").hide().end()
+          .find(".question_comment").css('display', 'none').end()
+          .find(".question_neutral_comment").css('display', '').end();
+        options.addable = false;
+        result.answer_type = "none";
+        result.textValues = [];
+        result.htmlValues = [];
       } else if (question_type == 'connecting_lead_question') {
         $formQuestion.removeClass('selectable');
         $form.find(".matching_answer_incorrect_matches_holder").show();
@@ -723,6 +733,9 @@ define([
         result.html_values = [];
         $formQuestion.formulaQuestion();
       } else if (question_type == 'multiple_dropdowns_question') {
+        result.answer_type = "select_answer";
+        $formQuestion.multipleAnswerSetsQuestion();
+      } else if (question_type == 'dragAndDrop_question') {
         result.answer_type = "select_answer";
         $formQuestion.multipleAnswerSetsQuestion();
       } else if (question_type == 'fill_in_multiple_blanks_question') {
@@ -776,6 +789,386 @@ define([
     //        end
     // ********** ********************
 
+    connectingOnPic: function($form){
+
+      // generate HTML
+      var $factory = $form.find(".factory");
+      var $formAnswers = $form.find(".form_answers");
+      var $main = $factory.find(".main");
+      var textWidth = parseFloat( $(".text").width() );
+      if($main.find("svg").size() === 1){$main.find("svg").remove()}
+      var paper = Raphael( $main[0], textWidth, 500 );
+
+      var deleHandle,
+        positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
+        positionData = positionStr == "" ? {} : stringToObject( positionStr ),
+        imageSrc = $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").text(),
+        ballId = 0,
+        $toolTip = $main.find(".tool-tip")
+          .bind("click", function(e){ e.stopPropagation(); }),
+        $toolTipDele = $toolTip.find("button:first"),
+        $toolTipCancel = $toolTip.find("button:last")
+          .bind("click", function(){resetToolTip();});
+
+      if( $("#quiz_content_links").is(":hidden") ){
+        $(".link_to_content_link").trigger("click");
+        $("#ui-id-3").trigger("click");
+      }
+
+
+      // semi radical
+      var spanWidth = $factory.find(".menu span:first").css("width");
+      var r = parseFloat(spanWidth)/2;
+
+      // init balls
+      $factory.find(".menu span").draggable({
+        helper: "clone",
+        zIndex: 100,
+        cursorAt: { left: r, top: r }
+      });
+
+      // init images
+      $(".image_list").mouseover(function(){
+        $(this).find("img").draggable({
+          helper: "clone"
+        });
+      });
+
+      // init image container
+      $main.find(".bg")
+        .droppable({
+          accept: ".image_list img",
+          activeClass: "ui-state-highlight",
+          drop: function( event, ui ) {
+            console.log(ui);
+            var imgSrc = ui.helper.attr("data-url");
+            var $img = $("<img>").attr("src",imgSrc);
+            $img.appendTo( $(this).empty())
+              .mousedown(function(){
+                return false;
+              });
+
+            $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( imgSrc );
+          }
+        });
+
+      // init balls container
+      $main.droppable({
+        accept: $factory.find(".menu span"),
+        activeClass: "ui-state-highlight",
+        drop: function( event, ui ) {
+          var $ball = ui.draggable.clone();
+          $ball.css({
+            position: "absolute",
+            left: event.pageX - $(this).offset().left - r,
+            top: event.pageY - $(this).offset().top - r
+          })
+            .draggable({
+              containment: "parent",
+              stop: function( event, ui ) {
+                updatePosition();
+              },
+              drag: function( event, ui ) {
+                updateLines();
+              }
+            })
+            .attr("ball-id", ballId)
+            .appendTo( $(this) )
+            .bind( "click", ballHandle )
+            .find("b")
+            .bind( "click", deleBall );
+
+          $ball.find("textarea").click(function(e){
+            e.stopPropagation();
+          })
+            .blur(function(){
+              saveText( this );
+            });
+
+          ballId ++;
+          updatePosition();
+
+        }
+      });
+
+      // reload balls
+      $.each(positionData, function(i,val){
+        var text = val.text ? val.text : "";
+        var $ball = $("<span><b>⊗</b><textarea>" +
+          text +
+          "</textarea></span>");
+        var color = val.Grey ? "grey" : "yellow";
+        $ball.addClass(color)
+          .css({
+            position: "absolute",
+            left: val.x,
+            top: val.y
+          })
+          .draggable({
+            containment: "parent",
+            stop: function( event, ui ) {
+              updatePosition();
+            },
+            drag: function( event, ui ) {
+              updateLines();
+            }
+          })
+          .attr("ball-id", i)
+          .appendTo( $main )
+          .bind( "click", ballHandle )
+          .find("b")
+          .bind( "click", deleBall );
+
+        $ball.find("textarea").click(function(e){
+          e.stopPropagation();
+        })
+          .blur(function(){
+            saveText( this );
+          });
+
+        ballId = parseInt(ballId) > parseInt(i) ? ballId : i;
+
+      });
+      ballId ++;
+
+      // reload lines
+      updateLines();
+
+      // reload image
+      var bgImage = $("<img>").attr("src", imageSrc);
+      $main.find(".bg").append(bgImage);
+
+      // reload text
+
+      // close tooltip when click document
+      $(document).click(function(){ resetToolTip() });
+
+      function stringToObject(str) {
+        return eval("(" + str + ")");
+      }
+
+      function updateLines(){
+        paper.clear();
+
+        $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+          var greyBallId = $(this).val().slice(5);
+          var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
+          var rightInput = $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input");
+          var rightVal = rightInput.val();
+          if(rightVal == "")return;
+          var yellowBalls = rightVal.split("ball-");
+          $.each(yellowBalls, function(i,val){
+            if(val == "")return;
+            var $yellow = $main.find("> span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow );
+          });
+
+        });
+
+      }
+
+      function ballHandle(){
+        var $active = $main.find( ".active"),
+          $greyBall = $active.is(".grey") ? $active : $(this),
+          $yellowBall = $active.is(".grey") ? $(this) : $active,
+          connected = false;
+
+        // check if they are connected
+        $formAnswers.find(".answer .connecting_on_pic_answer").each(function( i ){
+          var leftVal = $(this).find("input[name=connecting_on_pic_left]").val(),
+            rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
+            greyBallId = $greyBall.attr("ball-id"),
+            yellowBallId = $yellowBall.attr("ball-id");
+          if( leftVal.slice(5) == greyBallId && rightVal.indexOf("ball-" + yellowBallId) != -1 ) {
+            connected = true;
+            return false;
+          }
+        });
+
+        // toggle class: active
+        if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
+          || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
+          || connected
+          ){
+          $active.removeClass("active");
+          $(this).addClass("active");
+          return;
+        }
+
+
+        if( $main.find(".active").size() !== 0 ){
+          if( !$(this).is(".active") ) {
+            drawLine($greyBall, $yellowBall);
+            addAnswer($greyBall, $yellowBall);
+            $active.removeClass( "active" );
+          }else{
+            $(this).removeClass( "active" )
+          }
+        }else{
+          // $active is not found
+          $(this).addClass("active");
+        }
+
+      }
+
+      function deleBall(){
+        var $ball = $(this).parent("span");
+        var ballId = $ball.attr("ball-id");
+        var isGrey = $ball.is(".grey");
+        deleText($ball.find("textarea"));
+        $ball.remove();
+        delete positionData[ballId];
+
+        updatePosition();
+
+        // dele answers
+        $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+          if(isGrey){
+            if( $(this).val() == "ball-" + ballId ){
+              $(this).closest(".answer").find(".delete_answer_link").trigger("click");
+            }
+          } else{
+            $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub", ballId)
+          }
+
+        });
+        updateLines();
+      }
+
+      function drawLine($active, $end ){
+        var strokeWidth = 5,
+          strokeColor = "#08c",
+          x1 = $active.position().left + $active.width()/2,
+          y1 = $active.position().top + $active.height()/2 ,
+          x2 = $end.position().left + $end.width()/2,
+          y2 = $end.position().top + $end.height()/2 ,
+          line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+        line
+          .attr({
+            "stroke": strokeColor,
+            "stroke-width": strokeWidth
+          })
+          .click(function(e){
+            e.stopPropagation();
+            resetToolTip();
+            this.attr({"stroke-dasharray": "- "});
+            $toolTip
+              .show()
+              .css({
+                left: ( x1 + x2 )/2 - $toolTip.width()/2,
+                top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+              });
+            deleHandle =  deleLine(this, $active, $end);
+            $toolTipDele.bind( "click", deleHandle );
+          });
+
+      }
+
+      function deleLine(line, a, b){
+        return function(){
+          $toolTip.hide();
+          line.remove();
+
+          // delete match answer
+          var $grey = a.is(".grey") ? a : b;
+          var $yellow = a.is(".grey") ? b : a;
+          var greyBallId = $grey.attr("ball-id");
+          var yellowBallId = $yellow.attr("ball-id");
+          $formAnswers.find(".answer_match_left input").each(function(){
+            var inputVal = $(this).val();
+            if("ball-" + greyBallId == inputVal){
+              $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub",yellowBallId);
+              return false;
+            }
+
+          });
+        }
+      }
+
+      function addAnswer($greyBall, $yellowBall){
+        var greyBallId = $greyBall.attr("ball-id");
+        var yellowBallId = $yellowBall.attr("ball-id");
+        var isNewBall = true;
+        $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+          var value = $(this).val();
+          if( "ball-" + greyBallId == value || value == "" ){
+            isNewBall = false;
+            if( value == "" ){
+              $(this).val("ball-" + greyBallId);
+            }
+            $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("add",yellowBallId);
+            return false;
+          }
+        });
+
+        if( isNewBall ){
+          $formAnswers.closest(".question_holder").find(".add_answer_link").trigger("click");
+          $formAnswers.find(".answer input[name=connecting_on_pic_left]:last").val("ball-" + greyBallId );
+          $formAnswers.find(".answer input[name=connecting_on_pic_right]:last").val("ball-" + yellowBallId );
+        }
+
+      }
+
+      function updatePosition(){
+//          if( typeof positionData == "string" )positionData = stringToObject( positionData );
+        $main.find("span.ui-draggable").each(function(){
+          var ballId = $(this).attr("ball-id");
+          var ballX =  parseInt( $(this).css("left") );
+          var ballY =  parseInt( $(this).css("top") );
+          var isGrey = $(this).is(".grey");
+          positionData[ballId] = positionData[ballId] === undefined ? {} : positionData[ballId];
+          positionData[ballId]["x"] = ballX;
+          positionData[ballId]["y"] = ballY;
+          positionData[ballId]["Grey"] = isGrey;
+        });
+        positionData = JSON.stringify(positionData);
+        $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        positionData = stringToObject(positionData);
+      }
+
+      function saveText( textarea ){
+        var ballId = $(textarea).closest("span.ui-draggable").attr("ball-id");
+        positionData[ballId]["text"] = $(textarea).val();
+        positionData = JSON.stringify(positionData);
+        $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        positionData = stringToObject(positionData);
+      }
+
+      function deleText( textarea ){
+        var ballId = $(textarea).closest("span.ui-draggable").attr("ball-id");
+        positionData[ballId]["text"] = $(textarea).val();
+        positionData = JSON.stringify(positionData);
+        $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        positionData = stringToObject(positionData);
+      }
+
+      function resetToolTip(){
+        $toolTip.hide();
+        $toolTipDele.unbind( "click", deleHandle );
+        paper.forEach(function (el) {
+          el.attr("stroke-dasharray", "");
+        });
+      }
+
+      $.fn.doVal = function(type, yellowId) {
+        var inputVal = $(this).val();
+        inputVal = inputVal == undefined ? "" : inputVal;
+        if(type == "add"){
+          if(inputVal.indexOf("ball-" + yellowId) !== -1){
+          }else{
+            $(this).val( inputVal + "ball-" + yellowId );
+          }
+
+        }else if( type == "sub" ){
+
+          inputVal = inputVal.replace("ball-" + yellowId, "");
+          $(this).val(inputVal);
+
+        }
+        return this;
+      };
+
+    },
 
     updateDisplayComments: function() {
       this.checkShowDetails();
@@ -970,7 +1363,7 @@ define([
       question.answers = [];
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "dragAndDrop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -980,7 +1373,7 @@ define([
         $question.find(".answer").each(function() {
           var $answer = $(this);
           var answerData = $answer.getTemplateData({
-            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right', 'connecting_on_pic_left', 'connecting_on_pic_right',  'answer_comment'],
+            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right','connecting_on_pic_left', 'connecting_on_pic_right',  'answer_comment'],
             htmlValues: ['answer_html', 'answer_match_left_html', 'answer_comment_html']
           });
           var answer = $.extend({}, quiz.defaultAnswerData, answerData);
@@ -1076,35 +1469,35 @@ define([
       data[id + '[answer_tolerance]'] = question.answer_tolerance;
       data[id + '[formula_decimal_places]'] = question.formula_decimal_places;
       for(var jdx in question.answers) {
-          var answer = question.answers[jdx];
-          var jd = id + "[answers][answer_" + jdx + "]";
-          data[jd + '[answer_text]'] = answer.answer_text;
-          data[jd + '[answer_html]'] = answer.answer_html;
-          data[jd + '[answer_comments]'] = answer.answer_comment;
-          data[jd + '[answer_comments_html]'] = answer.answer_comment_html;
-          data[jd + '[answer_weight]'] = answer.answer_weight;
-          data[jd + '[answer_match_left]'] = answer.answer_match_left;
-          data[jd + '[answer_match_left_html]'] = answer.answer_match_left_html;
-          data[jd + '[answer_match_center]'] = answer.answer_match_center;
-          data[jd + '[answer_match_right]'] = answer.answer_match_right;
-          data[jd + '[connecting_lead_left]'] = answer.connecting_lead_left;
-          data[jd + '[connecting_lead_center]'] = answer.connecting_lead_center;
-          data[jd + '[connecting_lead_right]'] = answer.connecting_lead_right;
-          data[jd + '[connecting_on_pic_left]'] = answer.connecting_on_pic_left;
-          data[jd + '[connecting_on_pic_right]'] = answer.connecting_on_pic_right;
-          data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
-          data[jd + '[answer_exact]'] = answer.answer_exact;
-          data[jd + '[answer_error_margin]'] = answer.answer_error_margin;
-          data[jd + '[answer_range_start]'] = answer.answer_range_start;
-          data[jd + '[answer_range_end]'] = answer.answer_range_end;
-          data[jd + '[blank_id]'] = answer.blank_id;
-          data[jd + '[match_id]'] = answer.match_id;
-          data[jd + '[id]'] = answer.id;
-          for(var kdx in answer.variables) {
-            var kd = jd + "[variables][variable_" + kdx + "]";
-            data[kd + '[name]'] = answer.variables[kdx].name;
-            data[kd + '[value]'] = answer.variables[kdx].value;
-          }
+        var answer = question.answers[jdx];
+        var jd = id + "[answers][answer_" + jdx + "]";
+        data[jd + '[answer_text]'] = answer.answer_text;
+        data[jd + '[answer_html]'] = answer.answer_html;
+        data[jd + '[answer_comments]'] = answer.answer_comment;
+        data[jd + '[answer_comments_html]'] = answer.answer_comment_html;
+        data[jd + '[answer_weight]'] = answer.answer_weight;
+        data[jd + '[answer_match_left]'] = answer.answer_match_left;
+        data[jd + '[answer_match_left_html]'] = answer.answer_match_left_html;
+        data[jd + '[answer_match_center]'] = answer.answer_match_center;
+        data[jd + '[answer_match_right]'] = answer.answer_match_right;
+        data[jd + '[connecting_lead_left]'] = answer.connecting_lead_left;
+        data[jd + '[connecting_lead_center]'] = answer.connecting_lead_center;
+        data[jd + '[connecting_lead_right]'] = answer.connecting_lead_right;
+        data[jd + '[connecting_on_pic_left]'] = answer.connecting_on_pic_left;
+        data[jd + '[connecting_on_pic_right]'] = answer.connecting_on_pic_right;
+        data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
+        data[jd + '[answer_exact]'] = answer.answer_exact;
+        data[jd + '[answer_error_margin]'] = answer.answer_error_margin;
+        data[jd + '[answer_range_start]'] = answer.answer_range_start;
+        data[jd + '[answer_range_end]'] = answer.answer_range_end;
+        data[jd + '[blank_id]'] = answer.blank_id;
+        data[jd + '[match_id]'] = answer.match_id;
+        data[jd + '[id]'] = answer.id;
+        for(var kdx in answer.variables) {
+          var kd = jd + "[variables][variable_" + kdx + "]";
+          data[kd + '[name]'] = answer.variables[kdx].name;
+          data[kd + '[value]'] = answer.variables[kdx].value;
+        }
       }
     }
     return data;
@@ -1141,7 +1534,7 @@ define([
     quiz.init().updateDisplayComments();
     //*****************************
     //
-    // sidebar 
+    // sidebar
     //
     // *******
     var $quiz_options_form = $("#quiz_options_form");
@@ -1150,8 +1543,8 @@ define([
     $("#questions").delegate('.group_top,.question,.answer_select', 'mouseover', function(event) {
       $(this).addClass('hover');
     }).delegate('.group_top,.question,.answer_select', 'mouseout', function(event) {
-      $(this).removeClass('hover');
-    });
+        $(this).removeClass('hover');
+      });
 
     $("#questions").delegate('.answer', 'mouseover', function(event) {
       $("#questions .answer.hover").removeClass('hover');
@@ -1272,16 +1665,16 @@ define([
     $("#multiple_attempts_option,#limit_attempts_option,#quiz_allowed_attempts").change(function() {
       var checked = $("#multiple_attempts_option").prop('checked') && $("#limit_attempts_option").prop('checked');
       if (checked) {
-          $("#hide_results_only_after_last_holder").show();
-          var $attempts = $('#quiz_allowed_attempts');
-          var $attemptsVal = $attempts.val();
-          if(isNaN($attemptsVal)) {
-              alert(I18n.t('quiz_attempts_nan_error', 'Quiz attempts can only be specified in numbers'));
-              $attempts.val("");
-          } else if($attemptsVal.length > 3) {
-              alert(I18n.t('quiz_attempts_length_error', 'Quiz attempts are limited to 3 digits, if you would like to give your students unlimited attempts, do not check Allow Multiple Attempts box to the left'));
-              $attempts.val("");
-          }
+        $("#hide_results_only_after_last_holder").show();
+        var $attempts = $('#quiz_allowed_attempts');
+        var $attemptsVal = $attempts.val();
+        if(isNaN($attemptsVal)) {
+          alert(I18n.t('quiz_attempts_nan_error', 'Quiz attempts can only be specified in numbers'));
+          $attempts.val("");
+        } else if($attemptsVal.length > 3) {
+          alert(I18n.t('quiz_attempts_length_error', 'Quiz attempts are limited to 3 digits, if you would like to give your students unlimited attempts, do not check Allow Multiple Attempts box to the left'));
+          $attempts.val("");
+        }
       } else {
         $("#hide_results_only_after_last").attr('checked', false);
         $("#hide_results_only_after_last_holder").hide();
@@ -1360,11 +1753,11 @@ define([
           $.flashMessage(I18n.t('notices.quiz_data_saved', "Quiz data saved"));
         }
         quiz.updateDisplayComments();
-    },
-    error: function(data) {
-      $(this).formErrors(data);
-      $(this).find(".button.save_quiz_button").attr('disabled', false);
-      $(this).find(".button.publish_quiz_button").attr('disabled', false);
+      },
+      error: function(data) {
+        $(this).formErrors(data);
+        $(this).find(".button.save_quiz_button").attr('disabled', false);
+        $(this).find(".button.publish_quiz_button").attr('disabled', false);
       }
     });
 
@@ -1373,10 +1766,10 @@ define([
       event.stopPropagation();
       $quiz_options_form.data('submit_type', 'save_only').submit();
     }).end().find(".publish_quiz_button").click(function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      $quiz_options_form.data('submit_type', 'save_and_publish').submit();
-    });
+        event.preventDefault();
+        event.stopPropagation();
+        $quiz_options_form.data('submit_type', 'save_and_publish').submit();
+      });
 
     $("#quiz_assignment_id").change(function(event) {
       var previousData = $("#quiz_options").getTemplateData({textValues: ['assignment_id', 'title']});
@@ -1445,7 +1838,7 @@ define([
 
     $(".blank_id_select").change();
 
-    // ****** delete question 
+    // ****** delete question
     $(document).delegate(".delete_question_link", 'click', function(event) {
       event.preventDefault();
       $(this).parents(".question_holder").confirmDelete({
@@ -1460,9 +1853,9 @@ define([
     // end
 
     // *****************************
-    //    edit 
-    //    
-    // 
+    //    edit
+    //
+    //
     // *************************************
     $(document).delegate(".edit_question_link", 'click', function(event) {
       event.preventDefault();
@@ -1564,363 +1957,13 @@ define([
         $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
       }
       if ($question.hasClass('paint_question')) {
-          $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
+        $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
       }
       $question.hide().after($form);
       quiz.showFormQuestion($form);
-      //*****************************
-      //
-      //     connecting on pic
-      //
-      // *****************************
-      (function connectingOnPicFactory(){
-        if( data.answer_type !== "connecting_on_pic_answer" ) return;
-
-        // generate HTML
-        var $factory = $("<div class='factory'><div class='menu'><ul><li><span class='grey'><b>⊗</b></span></li><li><span class='yellow'><b>⊗</b></span></li></ul></div><div class='main'><div class='bg'></div></div></div>");
-        var $formAnswers = $form.find(".form_answers");
-        $factory.prependTo($formAnswers);
-        var $main = $factory.find(".main");
-        var textWidth = parseFloat( $(".text").width() );
-        var paper = Raphael( $main[0], textWidth, 500 );
-        var deleHandle,
-          positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
-          positionData = positionStr == "" ? {} : stringToObject( positionStr ),
-          imageSrc = $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").text(),
-          ballId = 0,
-          $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
-            .addClass("tool-tip")
-            .hide()
-            .bind("click", function(e){ e.stopPropagation(); })
-            .appendTo( $main ),
-          $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
-          $toolTipCancel = $( "<button type=button>取消</button>" )
-            .bind("click", function(){resetToolTip();})
-            .appendTo($toolTip);
-
-        // show the available images
-        $(".link_to_content_link").trigger("click");
-        $("#ui-id-3").trigger("click");
-
-        // semi radical
-        var spanWidth = $factory.find(".menu span:first").css("width");
-        var r = parseFloat(spanWidth)/2;
-
-        // init balls
-        $factory.find(".menu span").draggable({
-          helper: "clone",
-          zIndex: 100,
-          cursorAt: { left: r, top: r }
-        });
-
-        // init images
-        $(".image_list").mouseover(function(){
-          $(this).find("img").draggable({
-            helper: "clone"
-          });
-        });
-
-        // init image container
-        $(".factory .main .bg").droppable({
-          accept: ".image_list img",
-          activeClass: "ui-state-highlight",
-          drop: function( event, ui ) {
-            console.log(ui);
-            var imgSrc = ui.helper.attr("data-url");
-            var $img = $("<img>").attr("src",imgSrc);
-            $img.appendTo( $(this).empty())
-              .mousedown(function(){
-                return false;
-              });
-
-            $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( imgSrc );
-          }
-        });
-
-        // init balls container
-        $(".factory .main").droppable({
-            accept: ".factory .menu span",
-            activeClass: "ui-state-highlight",
-            drop: function( event, ui ) {
-              var $ball = ui.draggable.clone();
-              $ball.css({
-                position: "absolute",
-                left: event.pageX - $(this).offset().left - r,
-                top: event.pageY - $(this).offset().top - r
-                })
-                .draggable({
-                  containment: "parent",
-                  stop: function( event, ui ) {
-                    updatePosition();
-                  },
-                  drag: function( event, ui ) {
-                    updateLines();
-                  }
-                })
-                .attr("ball-id", ballId)
-                .appendTo( $(this) )
-                .bind( "click", ballHandle )
-                .find("b")
-                .bind( "click", deleBall );
-
-              ballId ++;
-              updatePosition();
-            }
-          });
-
-        // reload balls
-        $.each(positionData, function(i,val){
-          var $ball = $("<span><b>⊗</b></span>");
-          var color = val.Grey ? "grey" : "yellow";
-          $ball.addClass(color)
-            .css({
-              position: "absolute",
-              left: val.x,
-              top: val.y
-            })
-            .draggable({
-              containment: "parent",
-              stop: function( event, ui ) {
-                updatePosition();
-              },
-              drag: function( event, ui ) {
-                updateLines();
-              }
-            })
-            .attr("ball-id", i)
-            .appendTo( $main )
-            .bind( "click", ballHandle )
-            .find("b")
-            .bind( "click", deleBall );
-
-          ballId = parseInt(ballId) > parseInt(i) ? ballId : i;
-
-        });
-        ballId ++;
-
-        // reload lines
-        updateLines();
-
-        // reload image
-        var bgImage = $("<img>").attr("src", imageSrc);
-        $main.find(".bg").append(bgImage);
-
-        // close tooltip when click document
-        $(document).click(function(){ resetToolTip() });
-
-        function stringToObject(str) {
-          return eval("(" + str + ")");
-        }
-
-        function updateLines(){
-          paper.clear();
-
-          $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
-            var greyBallId = $(this).val().slice(5);
-            var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
-            var rightInput = $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input");
-            var rightVal = rightInput.val();
-            if(rightVal == "")return;
-            var yellowBalls = rightVal.split("ball-");
-            $.each(yellowBalls, function(i,val){
-              if(val == "")return;
-              var $yellow = $main.find("> span[ball-id="+ val + "]");
-              drawLine( $grey, $yellow );
-            });
-
-          });
-
-        }
-
-        function ballHandle(){
-          var $active = $main.find( ".active"),
-            $greyBall = $active.is(".grey") ? $active : $(this),
-            $yellowBall = $active.is(".grey") ? $(this) : $active,
-            connected = false;
-
-          // check if they are connected
-          $formAnswers.find(".answer .connecting_on_pic_answer").each(function( i ){
-            var leftVal = $(this).find("input[name=connecting_on_pic_left]").val(),
-              rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
-              greyBallId = $greyBall.attr("ball-id"),
-              yellowBallId = $yellowBall.attr("ball-id");
-            if( leftVal.slice(5) == greyBallId && rightVal.indexOf("ball-" + yellowBallId) != -1 ) {
-              connected = true;
-              return false;
-            }
-          });
-
-          // toggle class: active
-          if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
-            || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
-            || connected
-            ){
-            $active.removeClass("active");
-            $(this).addClass("active");
-            return;
-          }
-
-
-          if( $main.find(".active").size() !== 0 ){
-            if( !$(this).is(".active") ) {
-              drawLine($greyBall, $yellowBall);
-              addAnswer($greyBall, $yellowBall);
-              $active.removeClass( "active" );
-            }else{
-              $(this).removeClass( "active" )
-            }
-          }else{
-            // $active is not found
-            $(this).addClass("active");
-          }
-
-        }
-
-        function deleBall(){
-          var $ball = $(this).parent("span");
-          var ballId = $ball.attr("ball-id");
-          var isGrey = $ball.is(".grey");
-          $ball.remove();
-          delete positionData[ballId];
-          updatePosition();
-
-          // dele answers
-          $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
-            if(isGrey){
-              if( $(this).val() == "ball-" + ballId ){
-                $(this).closest(".answer").find(".delete_answer_link").trigger("click");
-              }
-            } else{
-              $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub", ballId)
-            }
-
-          });
-          updateLines();
-        }
-
-        function drawLine($active, $end ){
-          var strokeWidth = 5,
-            strokeColor = "#08c",
-            x1 = $active.position().left + $active.width()/2,
-            y1 = $active.position().top + $active.height()/2 ,
-            x2 = $end.position().left + $end.width()/2,
-            y2 = $end.position().top + $end.height()/2 ,
-            line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
-          line
-            .attr({
-              "stroke": strokeColor,
-              "stroke-width": strokeWidth
-            })
-            .click(function(e){
-              e.stopPropagation();
-              resetToolTip();
-              this.attr({"stroke-dasharray": "- "});
-              $toolTip
-                .show()
-                .css({
-                  left: ( x1 + x2 )/2 - $toolTip.width()/2,
-                  top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
-                });
-              deleHandle =  deleLine(this, $active, $end);
-              $toolTipDele.bind( "click", deleHandle );
-            });
-
-        }
-
-        function deleLine(line, a, b){
-          return function(){
-            $toolTip.hide();
-            line.remove();
-
-            // delete match answer
-            var $grey = a.is(".grey") ? a : b;
-            var $yellow = a.is(".grey") ? b : a;
-            var greyBallId = $grey.attr("ball-id");
-            var yellowBallId = $yellow.attr("ball-id");
-            $formAnswers.find(".answer_match_left input").each(function(){
-              var inputVal = $(this).val();
-              if("ball-" + greyBallId == inputVal){
-                $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub",yellowBallId);
-                return false;
-              }
-
-            });
-          }
-        }
-
-        function addAnswer($greyBall, $yellowBall){
-          var greyBallId = $greyBall.attr("ball-id");
-          var yellowBallId = $yellowBall.attr("ball-id");
-          var isNewBall = true;
-
-          $formAnswers.find(".answer_match_left input").each(function(){
-            var value = $(this).val();
-            if( "ball-" + greyBallId == value){
-              isNewBall = false;
-              $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("add",yellowBallId);
-            }
-          });
-
-          if( isNewBall ){
-            $formAnswers.closest(".question_holder").find(".add_answer_link").trigger("click");
-            $formAnswers.find(".answer input[name=connecting_on_pic_left]:last").val("ball-" + greyBallId );
-            $formAnswers.find(".answer input[name=connecting_on_pic_right]:last").val("ball-" + yellowBallId );
-          }
-
-        }
-
-        function updatePosition(){
-          positionData = {};
-//          if( typeof positionData == "string" )positionData = stringToObject( positionData );
-          $main.find("span.ui-draggable").each(function(){
-            var ballId = $(this).attr("ball-id");
-            var ballX =  parseInt( $(this).css("left") );
-            var ballY =  parseInt( $(this).css("top") );
-            var isGrey = $(this).is(".grey");
-
-            positionData[ballId] = {x:ballX, y:ballY,Grey:isGrey};
-            if(isGrey && $(this).find("i").attr("class") != undefined ){
-              console.log( $(this).find("i").attr("class") );
-              positionData[ballId]["lines"] = $(this).find("i").attr("class").split(" ");
-            }
-          });
-          positionData = JSON.stringify(positionData);
-          $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
-          positionData = stringToObject(positionData);
-        }
-
-
-
-        function resetToolTip(){
-          $toolTip.hide();
-          $toolTipDele.unbind( "click", deleHandle );
-          paper.forEach(function (el) {
-            el.attr("stroke-dasharray", "");
-          });
-        }
-
-        $.fn.doVal = function(type, yellowId) {
-          var inputVal = $(this).val();
-          if(type == "add"){
-            if(inputVal.indexOf("ball-" + yellowId) !== -1){
-            }else{
-              $(this).val( inputVal + "ball-" + yellowId );
-            }
-
-          }else if( type == "sub" ){
-
-            inputVal = inputVal.replace("ball-" + yellowId, "");
-            $(this).val(inputVal);
-
-          }
-          return this;
-        };
-
-      })();
-      //*****************************
-      //     connecting on pic
-      //     END
-      // *****************************
+      if( data.answer_type === "connecting_on_pic_answer" ) {
+        quiz.connectingOnPic($form);
+      }
 
 
 
@@ -1938,13 +1981,17 @@ define([
 
     });
     // *****************************
-    //    edit 
+    //    edit
     //    END
-    // 
-    // ************************************* 
+    //
+    // *************************************
 
     $(".question_form :input[name='question_type']").change(function() {
       quiz.updateFormQuestion($(this).parents(".question_form"));
+      var $form = $(this).parents(".question_form");
+      if($(this).val() === "connecting_on_pic_question" && $form.find("svg").size() === 0){
+        quiz.connectingOnPic($form);
+      }
     });
 
     $("#question_form_template .cancel_link").click(function(event) {
@@ -1972,11 +2019,11 @@ define([
     $(document).delegate("textarea.comments", 'focus', function() {
       $(this).parents(".question_comment,.answer_comments").removeClass('empty');
     }).delegate('textarea.comments', 'blur', function() {
-      $(this).val($.trim($(this).val()));
-      if ($(this).val() == "") {
-        $(this).parents(".question_comment,.answer_comments").addClass('empty');
-      }
-    });
+        $(this).val($.trim($(this).val()));
+        if ($(this).val() == "") {
+          $(this).parents(".question_comment,.answer_comments").addClass('empty');
+        }
+      });
 
     $(document).delegate(".numerical_answer_type", 'change', function() {
       var val = $(this).val();
@@ -2116,22 +2163,22 @@ define([
       $(this).addClass('selected');
       $findBankDialog.find(".submit_button").attr('disabled', false);
     }).delegate('.submit_button', 'click', function() {
-      var $bank = $findBankDialog.find(".bank.selected:first");
-      var bank = $bank.getTemplateData({textValues: ['title'], dataValues: ['id', 'context_id', 'context_type']});
-      var $form = $findBankDialog.data('form');
-      $form.find(".bank_id").val(bank.id);
-      bank.bank_name = bank.title;
-      var $formBank = $form.closest('.group_top').next(".assessment_question_bank")
-      if ($formBank.length == 0) {
-        $formBank = $("#group_top_template").next(".assessment_question_bank").clone(true);
-        $form.closest('.group_top').after($formBank);
-      }
-      $formBank.show()
-        .fillTemplateData({data: bank}).data('bank_data', bank);
-      $findBankDialog.dialog('close');
-    }).delegate('.cancel_button', 'click', function() {
-      $findBankDialog.dialog('close');
-    });
+        var $bank = $findBankDialog.find(".bank.selected:first");
+        var bank = $bank.getTemplateData({textValues: ['title'], dataValues: ['id', 'context_id', 'context_type']});
+        var $form = $findBankDialog.data('form');
+        $form.find(".bank_id").val(bank.id);
+        bank.bank_name = bank.title;
+        var $formBank = $form.closest('.group_top').next(".assessment_question_bank")
+        if ($formBank.length == 0) {
+          $formBank = $("#group_top_template").next(".assessment_question_bank").clone(true);
+          $form.closest('.group_top').after($formBank);
+        }
+        $formBank.show()
+          .fillTemplateData({data: bank}).data('bank_data', bank);
+        $findBankDialog.dialog('close');
+      }).delegate('.cancel_button', 'click', function() {
+        $findBankDialog.dialog('close');
+      });
 
     var $findQuestionDialog = $("#find_question_dialog");
 
@@ -2301,90 +2348,90 @@ define([
         showQuestions(data);
       }
     }).delegate('.page_link', 'click', function(event) {
-      event.preventDefault();
-      var $link = $(this);
-      if ($link.hasClass('loading')) { return; }
-      $link.addClass('loading');
-      $findQuestionDialog.find(".page_link").text(I18n.t('loading_more_questions', "loading more questions..."));
-      var $bank = $findQuestionDialog.find(".bank.selected_side_tab");
-      var bank = $bank.data('bank_data');
-      var url = $findQuestionDialog.find(".question_bank_questions_url").attr('href');
-      url = $.replaceTags(url, 'question_bank_id', bank.id);
-      var page = ($findQuestionDialog.find(".page_link").data('page') || 0) + 1;
-      url += "&page=" + page;
-      $.ajaxJSON(url, 'GET', {}, function(data) {
-        $link.removeClass('loading');
-        $findQuestionDialog.find(".page_link").data('page', page);
-        $findQuestionDialog.find(".page_link").text(I18n.t('more_questions', "more questions"));
-        var questions = data.questions;
-        var banks = $findQuestionDialog.data('banks') || {};
-        var bank_data = banks[bank.id] || {};
-        bank_data.pages = data.pages;
-        bank_data.questions = (bank_data.questions || []).concat(data.questions);
-        bank_data.last_page = page;
-        banks[bank.id] = bank_data;
-        $findQuestionDialog.data('banks', banks);
-        $findQuestionDialog.find(".question_message").hide();
-        $findQuestionDialog.find(".question_list_holder").show();
-        showQuestions(data);
-      }, function(data) {
-        $link.removeClass('loading');
-        $findQuestionDialog.find(".question_message").text(I18n.t('errors.loading_questions_failed', "Questions failed to load, please try again"));
-        $findQuestionDialog.find(".page_link").text(I18n.t('errors.loading_more_questions_failed', "loading more questions failed"));
-      });
-    }).delegate('.select_all_link', 'click', function(event) {
-      event.preventDefault();
-      $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', true);
-    }).delegate('.clear_all_link', 'click', function(event) {
-      event.preventDefault();
-      $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', false);
-    }).delegate('.cancel_button', 'click', function(event) {
-      $findQuestionDialog.dialog('close');
-    }).delegate('.group_button', 'click', function(event) {
-      var $dialog = $("#add_found_questions_as_group_dialog");
-      var question_ids = [];
-      $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
-        question_ids.push($(this).parents(".found_question").data('question_data').id);
-      });
-      $dialog.find(".questions_count").text(question_ids.length);
-      $dialog.dialog({
-        autoOpen: false,
-        title: I18n.t('titles.add_questions_as_group', "Add Questions as a Group")
-      });
-    }).delegate('.submit_button', 'click', function(event) {
-      var question_ids = [];
-      $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
-        question_ids.push($(this).parents(".found_question").data('question_data').id);
-      });
-      var params = {};
-      params.quiz_group_id = $findQuestionDialog.find(".quiz_group_select").val();
-      params.assessment_question_bank_id = $findQuestionDialog.find(".bank.selected_side_tab:first").data('bank_data').id;
-      params.assessment_questions_ids = question_ids.join(',');
-      params.existing_questions = '1';
-      var url = $findQuestionDialog.find(".add_questions_url").attr('href');
-      $findQuestionDialog.find("button").attr('disabled', true).filter(".submit_button").text(I18n.t('buttons.adding_questions', "Adding Questions..."));
-      $.ajaxJSON(url, 'POST', params, function(question_results) {
-        $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('buttons.add_selected_questions', "Add Selected Questions"));
-        $findQuestionDialog.find(".selected_side_tab").removeClass('selected_side_tab');
-        var counter = 0;
-        function nextQuestion() { 
-          counter++;
-          var question = question_results.shift();
-          if (question) {
-            quiz.addExistingQuestion(question.quiz_question);
-            if (counter > 5) {
-              setTimeout(nextQuestion, 50);
-            } else {
-              nextQuestion();
+        event.preventDefault();
+        var $link = $(this);
+        if ($link.hasClass('loading')) { return; }
+        $link.addClass('loading');
+        $findQuestionDialog.find(".page_link").text(I18n.t('loading_more_questions', "loading more questions..."));
+        var $bank = $findQuestionDialog.find(".bank.selected_side_tab");
+        var bank = $bank.data('bank_data');
+        var url = $findQuestionDialog.find(".question_bank_questions_url").attr('href');
+        url = $.replaceTags(url, 'question_bank_id', bank.id);
+        var page = ($findQuestionDialog.find(".page_link").data('page') || 0) + 1;
+        url += "&page=" + page;
+        $.ajaxJSON(url, 'GET', {}, function(data) {
+          $link.removeClass('loading');
+          $findQuestionDialog.find(".page_link").data('page', page);
+          $findQuestionDialog.find(".page_link").text(I18n.t('more_questions', "more questions"));
+          var questions = data.questions;
+          var banks = $findQuestionDialog.data('banks') || {};
+          var bank_data = banks[bank.id] || {};
+          bank_data.pages = data.pages;
+          bank_data.questions = (bank_data.questions || []).concat(data.questions);
+          bank_data.last_page = page;
+          banks[bank.id] = bank_data;
+          $findQuestionDialog.data('banks', banks);
+          $findQuestionDialog.find(".question_message").hide();
+          $findQuestionDialog.find(".question_list_holder").show();
+          showQuestions(data);
+        }, function(data) {
+          $link.removeClass('loading');
+          $findQuestionDialog.find(".question_message").text(I18n.t('errors.loading_questions_failed', "Questions failed to load, please try again"));
+          $findQuestionDialog.find(".page_link").text(I18n.t('errors.loading_more_questions_failed', "loading more questions failed"));
+        });
+      }).delegate('.select_all_link', 'click', function(event) {
+        event.preventDefault();
+        $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', true);
+      }).delegate('.clear_all_link', 'click', function(event) {
+        event.preventDefault();
+        $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', false);
+      }).delegate('.cancel_button', 'click', function(event) {
+        $findQuestionDialog.dialog('close');
+      }).delegate('.group_button', 'click', function(event) {
+        var $dialog = $("#add_found_questions_as_group_dialog");
+        var question_ids = [];
+        $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
+          question_ids.push($(this).parents(".found_question").data('question_data').id);
+        });
+        $dialog.find(".questions_count").text(question_ids.length);
+        $dialog.dialog({
+          autoOpen: false,
+          title: I18n.t('titles.add_questions_as_group', "Add Questions as a Group")
+        });
+      }).delegate('.submit_button', 'click', function(event) {
+        var question_ids = [];
+        $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
+          question_ids.push($(this).parents(".found_question").data('question_data').id);
+        });
+        var params = {};
+        params.quiz_group_id = $findQuestionDialog.find(".quiz_group_select").val();
+        params.assessment_question_bank_id = $findQuestionDialog.find(".bank.selected_side_tab:first").data('bank_data').id;
+        params.assessment_questions_ids = question_ids.join(',');
+        params.existing_questions = '1';
+        var url = $findQuestionDialog.find(".add_questions_url").attr('href');
+        $findQuestionDialog.find("button").attr('disabled', true).filter(".submit_button").text(I18n.t('buttons.adding_questions', "Adding Questions..."));
+        $.ajaxJSON(url, 'POST', params, function(question_results) {
+          $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('buttons.add_selected_questions', "Add Selected Questions"));
+          $findQuestionDialog.find(".selected_side_tab").removeClass('selected_side_tab');
+          var counter = 0;
+          function nextQuestion() {
+            counter++;
+            var question = question_results.shift();
+            if (question) {
+              quiz.addExistingQuestion(question.quiz_question);
+              if (counter > 5) {
+                setTimeout(nextQuestion, 50);
+              } else {
+                nextQuestion();
+              }
             }
           }
-        }
-        setTimeout(nextQuestion, 10);
-        $findQuestionDialog.dialog('close');
-      }, function(data) {
-        $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('errors.adding_questions_failed', "Adding Questions Failed, please try again"));
+          setTimeout(nextQuestion, 10);
+          $findQuestionDialog.dialog('close');
+        }, function(data) {
+          $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('errors.adding_questions_failed', "Adding Questions Failed, please try again"));
+        });
       });
-    });
 
     $(".add_answer_link").bind('click', function(event, skipFocus) {
       event.preventDefault();
@@ -2407,17 +2454,17 @@ define([
         question_type = "short_answer_question";
         answer_selection_type = "any_answer";
       } else if ($question.hasClass('essay_question')) {
-          var answers = [{
-              comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
-          }];
-          answer_type = "comment";
-          question_type = "essay_question";
+        var answers = [{
+          comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
+        }];
+        answer_type = "comment";
+        question_type = "essay_question";
       } else if ($question.hasClass('paint_question')) {
-          var answers = [{
-              comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
-          }];
-          answer_type = "comment";
-          question_type = "paint_question";
+        var answers = [{
+          comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
+        }];
+        answer_type = "comment";
+        question_type = "paint_question";
       } else if ($question.hasClass('connecting_lead_question')) {
         var answers = [{
           comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
@@ -2468,6 +2515,12 @@ define([
         }];
         answer_type = "select_answer";
         question_type = "multiple_dropdowns_question";
+      } else if ($question.hasClass('dragAndDrop_question')) {
+        var answers = [{
+          comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
+        }];
+        answer_type = "select_answer";
+        question_type = "dragAndDrop_question";
       } else if ($question.hasClass('fill_in_multiple_blanks_question')) {
         var answers = [{
           comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
@@ -2476,6 +2529,7 @@ define([
         question_type = "fill_in_multiple_blanks_question";
         answer_selection_type = "any_answer";
       }
+      console.log(answers)
       for(var i = 0; i < answers.length; i++) {
         var answer = answers[i];
         answer.answer_type = answer_type;
@@ -2548,7 +2602,7 @@ define([
       $displayQuestion.find(".blank_id_select").empty();
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "dragAndDrop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -2691,8 +2745,8 @@ define([
         event.preventDefault();
       }
     }).delegate('input.float_value', 'change blur focus', function(event) {
-      quiz.parseInput($(this), $(this).hasClass('long') ? 'float_long' : 'float');
-    });
+        quiz.parseInput($(this), $(this).hasClass('long') ? 'float_long' : 'float');
+      });
 
     $("#questions").delegate('.question_teaser_link', 'click', function(event) {
       event.preventDefault();
@@ -2722,13 +2776,13 @@ define([
         }
       }
     }).delegate('.teaser.question_text', 'click', function(event) {
-      event.preventDefault();
-      $(this).parents(".question_teaser").find(".question_teaser_link").click();
-    }).delegate('.edit_teaser_link', 'click', function(event) {
-      event.preventDefault();
-      $(this).parents(".question_teaser").addClass('to_edit');
-      $(this).parents(".question_teaser").find(".question_teaser_link").click();
-    });
+        event.preventDefault();
+        $(this).parents(".question_teaser").find(".question_teaser_link").click();
+      }).delegate('.edit_teaser_link', 'click', function(event) {
+        event.preventDefault();
+        $(this).parents(".question_teaser").addClass('to_edit');
+        $(this).parents(".question_teaser").find(".question_teaser_link").click();
+      });
 
     $(".keep_editing_link").click(function(event) {
       event.preventDefault();
@@ -2833,12 +2887,12 @@ define([
               $group.before(ui.placeholder);
               $("html,body").scrollTo(ui.placeholder);
             } else {
-            if ($group.hasClass('question_bank_top')){
-              // Groups that point to question banks aren't allowed to have questions
-              $group.before(ui.placeholder).addClass('group');
-            }else{
-              ui.placeholder.addClass('group');
-            }
+              if ($group.hasClass('question_bank_top')){
+                // Groups that point to question banks aren't allowed to have questions
+                $group.before(ui.placeholder).addClass('group');
+              }else{
+                ui.placeholder.addClass('group');
+              }
             }
           } else {
             ui.placeholder.removeClass('group');
@@ -2924,67 +2978,67 @@ define([
         .attr('method', 'PUT');
       $top.find(".submit_button").text(I18n.t('buttons.update_group', "Update Group"));
     }).delegate(".delete_group_link", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      event.preventDefault();
-      var $top = $(this).parents(".group_top");
-      var $list = $("nothing").add($top);
-      var $next = $top.next();
-      while($next.length > 0 && !$next.hasClass('group_bottom')) {
-        $list = $list.add($next);
-        $next = $next.next();
-      }
-      $list = $list.add($next);
-      $top.confirmDelete({
-        url: $top.find(".update_group_url").attr('href'),
-        confirmed: function() {
-          $list.dim();
-        },
-        success: function() {
-          $list.fadeOut(function() {
-            $(this).remove();
-            quiz.updateDisplayComments();
-          });
-        }
-      });
-    }).delegate(".group_edit.cancel_button", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      var $top = $(this).parents(".group_top");
-      $top.removeClass('editing'); 
-      if ($top.attr('id') == 'group_top_new') {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        event.preventDefault();
+        var $top = $(this).parents(".group_top");
+        var $list = $("nothing").add($top);
         var $next = $top.next();
         while($next.length > 0 && !$next.hasClass('group_bottom')) {
-          var $current = $next
-          $next.removeClass('group');
+          $list = $list.add($next);
           $next = $next.next();
-          if ($current.hasClass('assessment_question_bank')) {
-            $current.remove();
-          }
         }
-        $next.remove();
-        $top.remove();
-      }
-      quiz.updateDisplayComments();
-    }).delegate(".collapse_link", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      event.preventDefault();
-      $(this).parents(".group_top").find(".collapse_link").addClass('hidden').end()
-        .find(".expand_link").removeClass('hidden');
-      var $obj = $(this).parents(".group_top").next();
-      while($obj.length > 0 && $obj.hasClass('question_holder')) {
-        $obj.hide();
-        $obj = $obj.next();
-      }
-    }).delegate(".expand_link", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      event.preventDefault();
-      $(this).parents(".group_top").find(".collapse_link").removeClass('hidden').end()
-        .find(".expand_link").addClass('hidden');
-      var $obj = $(this).parents(".group_top").next();
-      while($obj.length > 0 && $obj.hasClass('question_holder')) {
-        $obj.show();
-        $obj = $obj.next();
-      }
-    });
+        $list = $list.add($next);
+        $top.confirmDelete({
+          url: $top.find(".update_group_url").attr('href'),
+          confirmed: function() {
+            $list.dim();
+          },
+          success: function() {
+            $list.fadeOut(function() {
+              $(this).remove();
+              quiz.updateDisplayComments();
+            });
+          }
+        });
+      }).delegate(".group_edit.cancel_button", 'click', function(event) {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        var $top = $(this).parents(".group_top");
+        $top.removeClass('editing');
+        if ($top.attr('id') == 'group_top_new') {
+          var $next = $top.next();
+          while($next.length > 0 && !$next.hasClass('group_bottom')) {
+            var $current = $next
+            $next.removeClass('group');
+            $next = $next.next();
+            if ($current.hasClass('assessment_question_bank')) {
+              $current.remove();
+            }
+          }
+          $next.remove();
+          $top.remove();
+        }
+        quiz.updateDisplayComments();
+      }).delegate(".collapse_link", 'click', function(event) {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        event.preventDefault();
+        $(this).parents(".group_top").find(".collapse_link").addClass('hidden').end()
+          .find(".expand_link").removeClass('hidden');
+        var $obj = $(this).parents(".group_top").next();
+        while($obj.length > 0 && $obj.hasClass('question_holder')) {
+          $obj.hide();
+          $obj = $obj.next();
+        }
+      }).delegate(".expand_link", 'click', function(event) {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        event.preventDefault();
+        $(this).parents(".group_top").find(".collapse_link").removeClass('hidden').end()
+          .find(".expand_link").addClass('hidden');
+        var $obj = $(this).parents(".group_top").next();
+        while($obj.length > 0 && $obj.hasClass('question_holder')) {
+          $obj.show();
+          $obj = $obj.next();
+        }
+      });
 
     if (wikiSidebar) {
       wikiSidebar.init();
@@ -3056,9 +3110,9 @@ define([
 
   $.fn.multipleAnswerSetsQuestion = function() {
     var $question = $(this),
-        $question_content = $question.find(".question_content"),
-        $select = $question.find(".blank_id_select"),
-        $question_type = $question.find(".question_type");
+      $question_content = $question.find(".question_content"),
+      $select = $question.find(".blank_id_select"),
+      $question_type = $question.find(".question_type");
     if ($question.data('multiple_sets_question_bindings')) { return; }
     $question.data('multiple_sets_question_bindings', true);
     $question_content.bind('keypress', function(event) {
@@ -3068,7 +3122,7 @@ define([
 
     $question_content.bind('change', function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'dragAndDrop_question') {
         return;
       }
       var text = $(this).editorBox('get_code');
@@ -3104,7 +3158,7 @@ define([
     }).change();
     $select.change(function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'dragAndDrop_question') {
         return;
       }
       $question.find(".form_answers .answer").hide().addClass('hidden');
@@ -3116,22 +3170,22 @@ define([
       });
       if ($select.val() !== "0") {
         var variable = $select.val(),
-            variableIdx = $select[0].selectedIndex;
+          variableIdx = $select[0].selectedIndex;
         if (variableIdx >= 0) {
           $question.find(".form_answers .answer").each(function() {
             var $this = $(this);
             if (!$this.attr('class').match(/answer_idx_/)) {
               if ($this.attr('class').match(/answer_for_/)) {
                 var idx = null,
-                    blank_id = $this.attr('class').match(/answer_for_[^\s]+/);
+                  blank_id = $this.attr('class').match(/answer_for_[^\s]+/);
                 if (blank_id && blank_id[0]) { blank_id = blank_id[0].substring(11); }
                 $select.find("option").each(function(i) {
                   if ($(this).text() == blank_id) {
                     idx = i;
                   }
                 });
-                if (idx === null) { 
-                  idx = variableIdx; 
+                if (idx === null) {
+                  idx = variableIdx;
                 }
                 $this.addClass('answer_idx_' + idx);
               } else {
@@ -3150,17 +3204,17 @@ define([
         if (!$valid_answers.length && variable && variable !== '0') {
           for(var idx = 0; idx < 2; idx++) {
             $question.find(".add_answer_link").triggerHandler('click', true);
-              //*** 2012-11-29 rupert fill the text in the first input
-              if (idx == 0){
-                      var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");
-                      var attr = $option.attr("data-text");
-                      if(typeof attr !== 'undefined' && attr !== false){
-                          var text = $question.find(".blank_id_select option:eq(" + variableIdx +")").attr("data-text");
-                          $('.answer_idx_' + variableIdx).find(".short_answer input").val(text);
-                          $option.removeAttr("data-text");
-                      }
+            //*** 2012-11-29 rupert fill the text in the first input
+            if (idx == 0){
+              var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");
+              var attr = $option.attr("data-text");
+              if(typeof attr !== 'undefined' && attr !== false){
+                var text = $question.find(".blank_id_select option:eq(" + variableIdx +")").attr("data-text");
+                $('.answer_idx_' + variableIdx).find(".short_answer input").val(text);
+                $option.removeAttr("data-text");
               }
-              //*** end
+            }
+            //*** end
           }
           $valid_answers = $question.find(".form_answers .answer.answer_idx_" + variableIdx).show().removeClass('hidden');
         }

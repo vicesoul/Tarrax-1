@@ -29,6 +29,7 @@
     (hash_get(question, :question_type) == 'fill_in_multiple_blanks_question' &&
       answer.respond_to?(:[]) && answer['text'].blank? && answer['html'].blank?) ||
     (hash_get(question, :question_type) == 'multiple_dropdowns_question' && !correct_answer && !selected_answer)
+    (hash_get(question, :question_type) == 'dragAndDrop_question' && !correct_answer && !selected_answer)
 %>
 <% unless question && [ "short_answer_question", "fill_in_multiple_blanks_question" ].include?(question[:question_type]) && !show_correct_answers %>
   <% if false %>
@@ -143,7 +144,6 @@
     </div>
   </div>
 
-
   <div class="connecting_on_pic_answer answer_match matching_answer answer_type" <%= hidden(true) unless answer_type == "connecting_on_pic_answer" %>>
     <div class="connecting_on_pic_left">
       <% if user_answer %>
@@ -154,14 +154,13 @@
       </span>
     </div>
     <%  answerId = hash_get(answer, :id) %>
-    <div class="connecting_on_pic_right" answerId=<%= answerId %> left="<%= hash_get(user_answer, "answer_#{answerId}_left") %>" right="<%= hash_get(user_answer, "answer_#{answerId}_right") %>"  >
+    <div class="connecting_on_pic_right" answerId=<%= answerId %> >
       <input type="hidden" value="<%= hash_get(user_answer, "answer_#{answerId}_left") %>" class="left question_input">
       <span>
         <%= hash_get(answer, :right) %>
       </span>
     </div>
   </div>
-
 
     <div style="display: none;">
       <span class="numerical_answer_type"><%= hash_get(answer, :numerical_answer_type, "exact_answer") %></span>

@@ -57,37 +57,37 @@
 <% elsif question_type.entry_type == "connecting_lead" %>
 <% matches = hash_get(question, :matches, {})
 %>
-<div class="connecting_lead word_left" >
-  <% if answer %>
-      <% if a = left_answers[multi_answer_counter] %>
-        <% textLeft = (hash_get(a, :left) || (hash_get(matches, :left).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
-        <span class="btn" data-content="<%= textLeft %>" title="<%= textLeft %>" rel="popover" value="<%= hash_get(a, :match_id) || hash_get(a, :match_left_id) %>" >
-          <%= textLeft %>
-        </span>
-      <% end %>
-  <% end %>
-</div>
+  <div class="connecting_lead word_left" >
+    <% if answer %>
+        <% if a = left_answers[multi_answer_counter] %>
+          <% textLeft = (hash_get(a, :left) || (hash_get(matches, :left).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+          <span class="btn" data-content="<%= textLeft %>" title="<%= textLeft %>" rel="popover" value="<%= hash_get(a, :match_id) || hash_get(a, :match_left_id) %>" >
+            <%= textLeft %>
+          </span>
+        <% end %>
+    <% end %>
+  </div>
   <%  answerId = hash_get(answer, :id) %>
   <%  questionId = hash_get(question, :id) %>
-<div class="connecting_lead word_center" answerId=<%= answerId %> >
-  <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_left" type="text" class="question_input left" value="<%= get_question_answer_left(@stored_params, questionId, answerId) %>"  >
-  <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_right" type="text" class="question_input right"  value="<%= get_question_answer_right(@stored_params, questionId, answerId) %>" >
-  <% if answer %>
-    <span class="btn" rel="popover" data-content="<%= hash_get(answer, :center) %>" title="<%= hash_get(answer, :center) %>" value=<%= hash_get(answer, :id) %> >
-      <%= hash_get(answer, :center) %>
-    </span>
-  <% end %>
-</div>
-<div class="connecting_lead word_right">
-  <% if answer %>
-      <% if a = right_answers[multi_answer_counter] %>
-      <% textRight = (hash_get(a, :right) || (hash_get(matches, :right).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
-        <span class="btn" rel="popover" data-content="<%= textRight %>" title="<%= textRight %>" value="<%= hash_get(a, :match_id) || hash_get(a, :match_right_id) %>" >
-          <%= textRight %>
-        </span>
-      <% end %>
-  <% end %>
-</div>
+  <div class="connecting_lead word_center" answerId=<%= answerId %> >
+    <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_left" type="text" class="question_input left" value="<%= get_question_answer_left(@stored_params, questionId, answerId) %>"  >
+    <input name="question_<%= hash_get(question, :id) %>_answer_<%= hash_get(answer, :id) %>_right" type="text" class="question_input right"  value="<%= get_question_answer_right(@stored_params, questionId, answerId) %>" >
+    <% if answer %>
+      <span class="btn" rel="popover" data-content="<%= hash_get(answer, :center) %>" title="<%= hash_get(answer, :center) %>" value=<%= hash_get(answer, :id) %> >
+        <%= hash_get(answer, :center) %>
+      </span>
+    <% end %>
+  </div>
+  <div class="connecting_lead word_right">
+    <% if answer %>
+        <% if a = right_answers[multi_answer_counter] %>
+        <% textRight = (hash_get(a, :right) || (hash_get(matches, :right).find{|aa| hash_get(aa, :match_id).to_i == hash_get(a, :match_id).to_i}[:text] rescue '')) %>
+          <span class="btn" rel="popover" data-content="<%= textRight %>" title="<%= textRight %>" value="<%= hash_get(a, :match_id) || hash_get(a, :match_right_id) %>" >
+            <%= textRight %>
+          </span>
+        <% end %>
+    <% end %>
+  </div>
 <% end %>
 
 <% if user_answer && (hash_get(user_answer, :answer_id) == hash_get(answer, :id) || (question_type.type == "matching" && hash_get(user_answer, "answer_#{hash_get(answer, :id)}").to_i != hash_get(answer, :match_id).to_i)) %>

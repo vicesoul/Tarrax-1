@@ -596,13 +596,12 @@ define([
 
           });
 
-          var $btn = $(this).find("span.btn");
-          if( $(this).find("span.btn").text().trim().length > 15 ){
+          /*if( $(this).find("span.btn").text().trim().length > 15 ){
             $(this).find("span.btn").popover({
               placement: "top",
               trigger: "hover"
             });
-          }else{}
+          }else{}*/
 
         });
 
@@ -720,7 +719,10 @@ define([
 
         // reload balls
         $.each(positionData, function(i,val){
-          var $ball = $("<span></span>");
+          var text = val.text ? val.text : "";
+          var $ball = $("<span><p>" +
+            text +
+            "</p></span>");
           var color = val.Grey ? "grey" : "yellow";
           $ball.addClass(color)
             .css({
@@ -887,7 +889,56 @@ define([
         });
 
     })();
+    (function DragAndDop(){
+      $("#submit_quiz_form .question.dragAndDrop_question").each(function(){
+        var $blueText = $(this).find(".blueText");
+        var $select = $blueText.find(".ui-selectmenu");
+        var $receive = $("<div class='receive'></div>");
+        var $drag = $(this).find(".dragging li span");
+        $(this).find(".dragging li")
+          .droppable({
+            accept: ".receive .ui-draggable",
+            activeClass: "ui-state-highlight"
+          });
+        $drag.draggable({
+          revert: true
+        });
 
+        $select.each(function(){
+          $(this).hide()
+            .parent("span")
+            .after($receive.clone());
+        });
+
+        $(this).find(".receive").each(function(){
+          $(this).droppable({
+            accept: $drag,
+            activeClass: "ui-state-highlight",
+            drop: function( event, ui ) {
+              var text = ui.draggable.text().trim();
+              var $drag = ui.draggable;
+              var answerId = ui.draggable.attr("answerId");
+              var $select = $(this).prev().prev("select");
+              var $span = $("<span></span>").text(text).attr("answerid",answerId)
+                .draggable({
+                  stop: function( event, ui ) {
+                    $(this).remove();
+                    $select.find("option:gt(0)").remove();
+                    $drag.show();
+                  }
+                });
+              $(this).html($span);
+              ui.draggable.hide();
+              $select.find("option:gt(0)").remove().end().append("<option value=" + answerId + ">" + text + "</option>").val(answerId).trigger("change");
+            }
+          })
+        });
+
+
+
+      });
+
+    }());
     $.fn.doVal = function(type, yellowId) {
       var inputVal = $(this).val();
       inputVal = inputVal == "0" ? "" : inputVal;

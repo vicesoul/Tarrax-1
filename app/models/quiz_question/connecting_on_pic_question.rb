@@ -25,15 +25,16 @@ class QuizQuestion::ConnectingOnPicQuestion < QuizQuestion::Base
     end
   end
 
+
   def correct_answer_parts(user_answer)
     total_answers = 0
     correct_answers = 0
     @incorrect_answers = 0
 
     @question_data[:answers].each do |answer|
-      #%w(left).each do |position|
-        #answer_data = user_answer["answer_#{answer[:id]}_#{position}"].to_s
-        answer_data = user_answer["answer_#{answer[:id]}"].to_s
+      %w(left).each do |position|
+        answer_data = user_answer["answer_#{answer[:id]}_#{position}"].to_s
+
 
         if answer_data.present?
           user_answer_array = answer_data.scan(ANSWER_REG)
@@ -44,9 +45,8 @@ class QuizQuestion::ConnectingOnPicQuestion < QuizQuestion::Base
           correct_answers += (answer_array & user_answer_array).size
           @incorrect_answers += (user_answer_array - answer_array).size
         end
-        #user_answer.answer_details["answer_#{answer[:id]}_#{position}".to_sym] = answer_match
-        user_answer.answer_details["answer_#{answer[:id]}".to_sym] = answer_data
-      #end
+        user_answer.answer_details["answer_#{answer[:id]}_#{position}".to_sym] = answer_data
+      end
     end
 
     return nil if total_answers == 0

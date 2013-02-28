@@ -7,6 +7,8 @@ zh-CN:
       connecting_lead_right: 第三结点
       connecting_on_pic_left: 左边
       connecting_on_pic_right: 右边
+      dragging_left: 拖动左
+      dragging_right: 拖动右
   take_quiz:
     line:
       dele_line: 是否删除？

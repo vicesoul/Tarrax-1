@@ -35,7 +35,7 @@ class AssessmentQuestion < ActiveRecord::Base
                         "multiple_choice_question", "numerical_question", 
                         "text_only_question", "short_answer_question",
                         "multiple_dropdowns_question", "calculated_question",
-                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question"]
+                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question", "dragAndDrop_question"]
 
   serialize :question_data
 
@@ -319,7 +319,6 @@ class AssessmentQuestion < ActiveRecord::Base
         question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
         question[:connecting_lead_linesNum] = qdata[:connecting_lead_linesNum]
       end
-
     elsif question[:question_type] == "connecting_on_pic_question"
       answers.each do |key, answer|
         a = {
@@ -333,6 +332,11 @@ class AssessmentQuestion < ActiveRecord::Base
         a[:match_right_id] = unique_local_id(answer[:match_right_id].to_i)
 
         question[:answers] << a
+        question[:matches] ||= {}
+        question[:matches][:left] ||= []
+        question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_lead_left], 'answer match', min_size)}
+        question[:matches][:right] ||= []
+        question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
         question[:connecting_on_pic_position] = qdata[:connecting_on_pic_position]
         question[:connecting_on_pic_image] = qdata[:connecting_on_pic_image]
       end
@@ -367,6 +371,28 @@ class AssessmentQuestion < ActiveRecord::Base
         answers[idx][1][:blank_id] = check_length(answers[idx][1][:blank_id], 'blank id', min_size)
       end
       answers.each do |key, answer| 
+        variables[answer[:blank_id]] ||= false
+        variables[answer[:blank_id]] = true if answer[:answer_weight].to_i == 100
+        a = {:text => check_length(answer[:answer_text], 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => answer[:blank_id], :id => unique_local_id(answer[:id].to_i)}
+        question[:answers] << a
+      end
+      variables.each do |variable, found_correct|
+        if !found_correct
+          question[:answers].each_with_index do |answer, idx|
+            if answer[:blank_id] == variable && !found_correct
+              question[:answers][idx][:weight] = 100
+              found_correct = true
+            end
+          end
+        end
+        end
+    elsif question[:question_type] == "dragAndDrop_question"
+      variables = HashWithIndifferentAccess.new
+      answers.each_with_index do |arr, idx|
+        key, answer = arr
+        answers[idx][1][:blank_id] = check_length(answers[idx][1][:blank_id], 'blank id', min_size)
+      end
+      answers.each do |key, answer|
         variables[answer[:blank_id]] ||= false
         variables[answer[:blank_id]] = true if answer[:answer_weight].to_i == 100
         a = {:text => check_length(answer[:answer_text], 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => answer[:blank_id], :id => unique_local_id(answer[:id].to_i)}

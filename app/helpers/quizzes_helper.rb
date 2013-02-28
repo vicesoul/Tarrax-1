@@ -114,6 +114,13 @@ module QuizzesHelper
         :answer_type => "select_answer",
         :multiple_sets => true
       }),
+      "dragAndDrop_question" => OpenObject.new({
+        :question_type => "dragAndDrop_question",
+        :entry_type => "select",
+        :display_answers => "none",
+        :answer_type => "select_answer",
+        :multiple_sets => true
+      }),
       "other" =>  OpenObject.new({
         :question_type => "text_only_question",
         :entry_type => "none",
@@ -181,6 +188,23 @@ module QuizzesHelper
   end
 
   def multiple_dropdowns_question(options)
+    question = hash_get(options, :question)
+    answers  = hash_get(options, :answers)
+    answer_list = hash_get(options, :answer_list)
+    res      = user_content hash_get(question, :question_text)
+    index  = 0
+    res.gsub %r{<select.*?name=['"](question_.*?)['"].*?>.*?</select>} do |match|
+      if answer_list && !answer_list.empty?
+        a = answer_list[index]
+        index += 1
+      else
+        a = hash_get(answers, $1)
+      end
+      match.sub(%r{(<option.*?value=['"]#{ERB::Util.h(a)}['"])}, '\\1 selected')
+    end
+  end
+
+  def dragAndDrop_question(options)
     question = hash_get(options, :question)
     answers  = hash_get(options, :answers)
     answer_list = hash_get(options, :answer_list)

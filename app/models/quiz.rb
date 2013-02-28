@@ -446,9 +446,22 @@ class Quiz < ActiveRecord::Base
         select = "<select class='question_input' name='question_#{q[:id]}_#{variable_id}'><option value=''>#{t(:default_question_input, "[ Select ]")}</option>#{options}</select>"
         re = Regexp.new("\\[#{variable}\\]")
         text = text.sub(re, select)
-      end
-      q[:original_question_text] = q[:question_text]
-      q[:question_text] = text
+        end
+        q[:original_question_text] = q[:question_text]
+        q[:question_text] = text
+    elsif q[:question_type] == 'dragAndDrop_question'
+      text = q[:question_text]
+      variables = q[:answers].map{|a| a[:blank_id] }.uniq
+      variables.each do |variable|
+        variable_id = AssessmentQuestion.variable_id(variable)
+        variable_answers = q[:answers].select{|a| a[:blank_id] == variable }
+        options = variable_answers.map{|a| "<option value='#{a[:id]}'>#{CGI::escapeHTML(a[:text])}</option>" }
+        select = "<select class='question_input' name='question_#{q[:id]}_#{variable_id}'><option value=''>#{t(:default_question_input, "[ Select ]")}</option>#{options}</select>"
+        re = Regexp.new("\\[#{variable}\\]")
+        text = text.sub(re, select)
+        end
+        q[:original_question_text] = q[:question_text]
+        q[:question_text] = text
     # on equation questions, pick one of the formulas, plug it in
     # and you should be able to treat it like a numerical_answer
     # question for all intents and purposes
@@ -886,6 +899,10 @@ class Quiz < ActiveRecord::Base
           blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
           answer_ids = blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym] }
           row << answer_ids.map{|id| (question[:answers].detect{|a| a[:id] == id } || {})[:text].try(:gsub, /,/, '\,' ) }.compact.join(',')
+        elsif question[:question_type] == 'dragAndDrop_question'
+          blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
+          answer_ids = blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym] }
+          row << answer_ids.map{|id| (question[:answers].detect{|a| a[:id] == id } || {})[:text].try(:gsub, /,/, '\,' ) }.compact.join(',')
         elsif question[:question_type] == 'calculated_question'
           list = question[:answers][0][:variables].map{|a| [a[:name],a[:value].to_s].map{|str| str.gsub(/=>/, '\=>') }.join('=>') }
           list << answer[:text]
@@ -1018,7 +1035,7 @@ class Quiz < ActiveRecord::Base
           res[:answers][idx][:answer_matches] << match
         end
       end
-    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question'].include?(question[:question_type])
+    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question' 'dragAndDrop_question'].include?(question[:question_type])
       res[:multiple_responses] = true
       answer_keys = {}
       answers = []
@@ -1076,6 +1093,17 @@ class Quiz < ActiveRecord::Base
             end
           end
         elsif question[:question_type] == 'multiple_dropdowns_question'
+          res[:multiple_answers] = true
+          res[:answer_sets].each_with_index do |answer, idx|
+            res[:answer_sets][idx][:responses] += 1 if response[:correct]
+            res[:answer_sets][idx][:answer_matches].each_with_index do |right, jdx|
+              if response["answer_id_for_#{answer[:blank_id]}".to_sym] == right[:id]
+                res[:answer_sets][idx][:answer_matches][jdx][:responses] += 1
+                res[:answer_sets][idx][:answer_matches][jdx][:user_ids] << submission.user_id
+              end
+            end
+            end
+        elsif question[:question_type] == 'dragAndDrop_question'
           res[:multiple_answers] = true
           res[:answer_sets].each_with_index do |answer, idx|
             res[:answer_sets][idx][:responses] += 1 if response[:correct]
