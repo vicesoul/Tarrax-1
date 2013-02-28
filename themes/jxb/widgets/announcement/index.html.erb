@@ -1,6 +1,6 @@
 <div <%= data_widget %> >
   <div class="x box">
-    <div class="box-header data-widget-title"><h4><%= title t('#cells.announcement.title', 'Announcement') %></h4></div>
+    <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.announcement.title', 'Announcement') } %>
     <table class="table table-hover">
       <% @announcements.each do |announcement| %>
       <tr>

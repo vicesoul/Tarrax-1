@@ -2,7 +2,7 @@
   <div class="x box">
     <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.assignment.title', 'Assignment') } %>
     <div class="box-body">
-      <table class="table table-striped table-bordered bootstrap-datatable datatable">
+      <table class="table table-striped table-bordered bootstrap-datatable datatable <%= @has_content ? '' : 'empty-content'%>">
         <thead>
           <tr>
             <td><%= t '#cells.assignment.name', 'Name' %></td>
@@ -11,10 +11,9 @@
           </tr>
         </thead>  
         <tbody>
-        <% ids = widget.courses && widget.courses.split(",").map(&:to_i) || [] %>
         <% @assignments.each do |assignment| %>
-        <% style = ids.include?(assignment.context.id) ? '' : "style='display:none;'" %>
-          <tr data-course-id=<%= assignment.context.id%> <%= style %> >
+        <% style = @ids.include?(assignment.context.id) ? '' : "style='display:none;'" if @opts[:can_select_course] %>
+          <tr data-course-id=<%= assignment.context.id%> <%= style if @opts[:can_select_course] %> >
             <td><a href=<%= "/course/#{assignment.context.id}/assignments/#{assignment.id}" %>><%= assignment.title %></a></td>
             <td><%= assignment.created_at %></td>
             <td><%= assignment.due_at %></td>

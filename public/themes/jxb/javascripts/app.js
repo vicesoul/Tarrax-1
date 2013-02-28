@@ -86,7 +86,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
   $(function(){
     $('#carousel img').css('height', '230px').css('width', '1072px');
     
-    if ( $('.carousel').length > ) {
+    if ( $('.carousel .item').length > 0 ) {
       $('.carousel').carousel();
     }
 

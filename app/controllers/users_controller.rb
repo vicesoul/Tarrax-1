@@ -299,7 +299,8 @@ class UsersController < ApplicationController
       @recent_feedback = (@current_user && @current_user.recent_feedback) || []
     end
 
-    @announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
+    #@announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
+    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) )
     @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
     @stream_items = @current_user.try(:cached_recent_stream_items) || []
     
