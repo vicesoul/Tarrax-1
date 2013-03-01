@@ -114,8 +114,8 @@ module QuizzesHelper
         :answer_type => "select_answer",
         :multiple_sets => true
       }),
-      "dragAndDrop_question" => OpenObject.new({
-        :question_type => "dragAndDrop_question",
+      "drag_and_drop_question" => OpenObject.new({
+        :question_type => "drag_and_drop_question",
         :entry_type => "select",
         :display_answers => "none",
         :answer_type => "select_answer",
@@ -204,7 +204,7 @@ module QuizzesHelper
     end
   end
 
-  def dragAndDrop_question(options)
+  def drag_and_drop_question(options)
     question = hash_get(options, :question)
     answers  = hash_get(options, :answers)
     answer_list = hash_get(options, :answer_list)

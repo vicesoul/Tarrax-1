@@ -163,7 +163,7 @@ define([
       } else if (question_type == "multiple_dropdowns_question") {
         templateData.short_answer_header = I18n.t('answer_text', "Answer text");
         templateData.blank_id = answer.blank_id;
-      } else if (question_type == "dragAndDrop_question") {
+      } else if (question_type == "drag_and_drop_question") {
         templateData.short_answer_header = I18n.t('answer_text', "Answer text");
         templateData.blank_id = answer.blank_id;
       }
@@ -274,9 +274,9 @@ define([
         answer_type = "select_answer";
         question_type = "multiple_dropdowns_question";
         n_correct = "multiple";
-      } else if (qt == 'dragAndDrop_question') {
+      } else if (qt == 'drag_and_drop_question') {
         answer_type = "select_answer";
-        question_type = "dragAndDrop_question";
+        question_type = "drag_and_drop_question";
         n_correct = "multiple";
       } else if (qt == 'numerical_question') {
         answer_type = "numerical_answer";
@@ -319,7 +319,7 @@ define([
       } else if (question_type == 'calculated_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_dropdowns_question') {
-      } else if (question_type == 'dragAndDrop_question') {
+      } else if (question_type == 'drag_and_drop_question') {
       } else if (question_type == 'fill_in_multiple_blanks_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_answers_question') {
@@ -390,7 +390,7 @@ define([
         $question.find(".multiple_answer_sets_holder").css('display', '');
       } else if (question.question_type == 'multiple_dropdowns_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
-      } else if (question.question_type == 'dragAndDrop_question') {
+      } else if (question.question_type == 'drag_and_drop_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       }
       var $select = $(document.createElement("select")).addClass('answer_select');
@@ -481,7 +481,7 @@ define([
         $text.html("<span class='text_before_answers'>" + question.question_text + "</span> ");
         $text.append($select);
         $text.append(" <span class='text_after_answers'>" + question.text_after_answers + "</span>");
-      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question' || question.question_type == 'dragAndDrop_question') {
+      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question' || question.question_type == 'drag_and_drop_question') {
         var variables = {}
         $.each(question.answers, function(i, data) {
           variables[data.blank_id] = true;
@@ -735,7 +735,7 @@ define([
       } else if (question_type == 'multiple_dropdowns_question') {
         result.answer_type = "select_answer";
         $formQuestion.multipleAnswerSetsQuestion();
-      } else if (question_type == 'dragAndDrop_question') {
+      } else if (question_type == 'drag_and_drop_question') {
         result.answer_type = "select_answer";
         $formQuestion.multipleAnswerSetsQuestion();
       } else if (question_type == 'fill_in_multiple_blanks_question') {
@@ -1363,7 +1363,7 @@ define([
       question.answers = [];
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "dragAndDrop_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -2515,12 +2515,12 @@ define([
         }];
         answer_type = "select_answer";
         question_type = "multiple_dropdowns_question";
-      } else if ($question.hasClass('dragAndDrop_question')) {
+      } else if ($question.hasClass('drag_and_drop_question')) {
         var answers = [{
           comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
         }];
         answer_type = "select_answer";
-        question_type = "dragAndDrop_question";
+        question_type = "drag_and_drop_question";
       } else if ($question.hasClass('fill_in_multiple_blanks_question')) {
         var answers = [{
           comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
@@ -2602,7 +2602,7 @@ define([
       $displayQuestion.find(".blank_id_select").empty();
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "dragAndDrop_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -3122,7 +3122,7 @@ define([
 
     $question_content.bind('change', function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'dragAndDrop_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question') {
         return;
       }
       var text = $(this).editorBox('get_code');
@@ -3158,7 +3158,7 @@ define([
     }).change();
     $select.change(function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'dragAndDrop_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question') {
         return;
       }
       $question.find(".form_answers .answer").hide().addClass('hidden');

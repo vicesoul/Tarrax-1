@@ -35,7 +35,7 @@ class AssessmentQuestion < ActiveRecord::Base
                         "multiple_choice_question", "numerical_question", 
                         "text_only_question", "short_answer_question",
                         "multiple_dropdowns_question", "calculated_question",
-                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question", "dragAndDrop_question"]
+                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question", "drag_and_drop_question"]
 
   serialize :question_data
 
@@ -386,7 +386,7 @@ class AssessmentQuestion < ActiveRecord::Base
           end
         end
         end
-    elsif question[:question_type] == "dragAndDrop_question"
+    elsif question[:question_type] == "drag_and_drop_question"
       variables = HashWithIndifferentAccess.new
       answers.each_with_index do |arr, idx|
         key, answer = arr
