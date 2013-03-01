@@ -449,7 +449,7 @@ class Quiz < ActiveRecord::Base
         end
         q[:original_question_text] = q[:question_text]
         q[:question_text] = text
-    elsif q[:question_type] == 'dragAndDrop_question'
+    elsif q[:question_type] == 'drag_and_drop_question'
       text = q[:question_text]
       variables = q[:answers].map{|a| a[:blank_id] }.uniq
       variables.each do |variable|
@@ -899,7 +899,7 @@ class Quiz < ActiveRecord::Base
           blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
           answer_ids = blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym] }
           row << answer_ids.map{|id| (question[:answers].detect{|a| a[:id] == id } || {})[:text].try(:gsub, /,/, '\,' ) }.compact.join(',')
-        elsif question[:question_type] == 'dragAndDrop_question'
+        elsif question[:question_type] == 'drag_and_drop_question'
           blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
           answer_ids = blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym] }
           row << answer_ids.map{|id| (question[:answers].detect{|a| a[:id] == id } || {})[:text].try(:gsub, /,/, '\,' ) }.compact.join(',')
@@ -1035,7 +1035,7 @@ class Quiz < ActiveRecord::Base
           res[:answers][idx][:answer_matches] << match
         end
       end
-    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question' 'dragAndDrop_question'].include?(question[:question_type])
+    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question' 'drag_and_drop_question'].include?(question[:question_type])
       res[:multiple_responses] = true
       answer_keys = {}
       answers = []
@@ -1103,7 +1103,7 @@ class Quiz < ActiveRecord::Base
               end
             end
             end
-        elsif question[:question_type] == 'dragAndDrop_question'
+        elsif question[:question_type] == 'drag_and_drop_question'
           res[:multiple_answers] = true
           res[:answer_sets].each_with_index do |answer, idx|
             res[:answer_sets][idx][:responses] += 1 if response[:correct]
