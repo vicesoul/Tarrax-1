@@ -283,6 +283,12 @@
                     <div class='answer selected_answer wrong_answer no_answer'>
                       <%= t(:you_left_this_blank, "(You left this blank)") %>
                     </div>
+                  <% else %>
+                    <% if question_type.question_type == 'drag_and_drop_question' and
+                         !answers.map{|h|h[:id]}.include? hash_get(user_answer, "answer_for_#{variable}") %>
+                      <% answer = hash_get(question, :answers, []).find{|a| hash_get(a, :id) == user_answer[:answer_id] } %>
+                      <% answers << answer.merge(:blank_id => variable, :weight => 0) %>
+                    <% end %>
                   <% end %>
                   <%= render :partial => "quizzes/display_answer", :collection => answers, :locals => {:assessment_results => assessment_results, :question_type => question_type, :user_answer => user_answer, :question => question} %>
                 <% end %>
