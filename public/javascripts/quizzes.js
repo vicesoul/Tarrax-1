@@ -221,6 +221,8 @@ define([
         $form.find(".question_content").editorBox({tinyOptions: {aria_label: I18n.t('label.question.instructions', 'Question instructions, rich text area')}});
         $form.find(".text_after_answers").attr('id', 'text_after_answers_' + quiz.questionContentCounter++);
         $form.find(".text_after_answers").editorBox();
+        $form.find(".solution_content").attr('id', 'question_solution_' + quiz.questionContentCounter++);
+        $form.find(".solution_content").editorBox();
         $form.hide();
       }
       return $form.show();
@@ -333,6 +335,7 @@ define([
         fillArgs['htmlValues'].push('question_text');
       } else {
         fillArgs['except'].push('question_text');
+        fillArgs['htmlValues'].push('solution_text');
       }
       $question.fillTemplateData(fillArgs);
       $question.find(".original_question_text").fillFormData(question);
@@ -830,7 +833,7 @@ define([
       var $question = $(this);
       var questionData = $question.getTemplateData({
         textValues: ['question_name', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
-        htmlValues: ['question_text', 'text_before_answers', 'text_after_answers', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html']
+        htmlValues: ['question_text', 'text_before_answers', 'text_after_answers', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html', 'solution_text']
       });
       questionData = $.extend(questionData, $question.find(".original_question_text").getFormData());
       questionData.assessment_question_bank_id = $(".question_bank_id").text() || "";
@@ -932,6 +935,7 @@ define([
       data[id + '[incorrect_comments]'] = question.incorrect_comments;
       data[id + '[neutral_comments]'] = question.neutral_comments;
       data[id + '[question_text]'] = question.question_text;
+      data[id + '[solution_content]'] = question.solution_text;
       data[id + '[position]'] = question.position;
       data[id + '[text_after_answers]'] = question.text_after_answers;
       data[id + '[matching_answer_incorrect_matches]'] = question.matching_answer_incorrect_matches;
@@ -1321,7 +1325,7 @@ define([
       var $question = $(this).parents(".question");
       var question = $question.getTemplateData({
         textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'question_points', 'answer_selection_type', 'blank_id'],
-        htmlValues: ['question_text', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html']
+        htmlValues: ['question_text', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html', 'solution_text']
       });
       question.question_text = $question.find("textarea[name='question_text']").val();
       var matches = [];
@@ -1431,6 +1435,17 @@ define([
         $formQuestion.find(".question_content").triggerHandler('change');
         $formQuestion.addClass('ready');
       }, 100);
+    });
+
+    $(document).delegate(".toggle_solution", 'click', function(event){
+      event.preventDefault();
+      $solution_text = $(this).next();
+      if ( $solution_text.is(":visible") ) {
+        $(this).text( $(this).attr("data-show-text") );
+      }else{
+        $(this).text( $(this).attr("data-hide-text") );
+      }
+      $(this).next().toggle();
     });
 
     $(".question_form :input[name='question_type']").change(function() {
@@ -1992,7 +2007,7 @@ define([
       var answers = [];
       var questionData = $question.getFormData({
         values: ['question_type', 'question_name', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
-          'question_text', 'answer_selection_type', 'text_after_answers', 'matching_answer_incorrect_matches']
+          'question_text', 'answer_selection_type', 'text_after_answers', 'matching_answer_incorrect_matches', 'solution_text']
       });
 
       // save any open html answers
@@ -2476,6 +2491,12 @@ define([
     $(".toggle_question_content_views_link").click(function(event) {
       event.preventDefault();
       $(this).parents(".question_form").find(".question_content").editorBox('toggle');
+    });
+
+
+    $(".toggle_solution_content_views_link").click(function(event) {
+      event.preventDefault();
+      $(this).parents(".question_form").find(".solution_content").editorBox('toggle');
     });
 
     $(".toggle_text_after_answers_link").click(function(event) {

@@ -64,6 +64,12 @@ zh-CN:
       pick: 选择
       questions: "题目"
       pts_per_question: 题目分数
+    display_question:
+      show_solution: 显示解析
+      hide_solution: 隐藏解析
+    form_question:
+      labels:
+        solution: 解析
   courses:
     show:
       coming_up: 最新的任务
