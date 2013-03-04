@@ -2139,6 +2139,7 @@ define([
       }
       $displayQuestion.loadingImage();
       quiz.updateDisplayComments();
+      questionData['question[solution_content]'] = question.solution_text;
       $.ajaxJSON(url, method, questionData, function(data) {
         $displayQuestion.loadingImage('remove');
         $displayQuestion.find('.question_name').focus();
