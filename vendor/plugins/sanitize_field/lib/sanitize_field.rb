@@ -35,7 +35,7 @@ module Instructure #:nodoc:
       # taken from https://github.com/flavorjones/loofah/blob/master/lib/loofah/html5/scrub.rb
       # the gauntlet
       #style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
-      style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!?=&_\-]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/
+      style = '' unless style =~ /\A([:,\;#%.\(\)\/\sa-zA-Z0-9!?=&_\-]|\w-\w|\'[\s\w]+\'|\"[\s\w]+\"|\([\d,\s]+\))*\z/ || style =~ /url\s*\(['"]\s*(https|http|[.\/\\])/i
       style = '' unless style =~ /\A\s*([-\w]+\s*:[^\;]*(\;\s*|$))*\z/
       
       config = env[:config]
@@ -130,7 +130,7 @@ module Instructure #:nodoc:
         'z-index', 'zoom'
       ],
       :style_expressions => [
-        /\Abackground-(?:attachment|color|image|position|repeat)\z/,
+        /\Abackground-(?:attachment|color|image|position|repeat|size)\z/,
         /\Abackground-position-(?:x|y)\z/,
         /\Aborder-(?:bottom|collapse|color|left|right|spacing|style|top|width)\z/,
         /\Aborder-(?:bottom|left|right|top)-(?:color|style|width)\z/,
