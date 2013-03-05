@@ -5,11 +5,11 @@
 <% end %>
 
 <% define_content :subject do %>
-  <%= t :subject, "Confirm Registration: Canvas" %>
+  <%= t :subject, "Confirm Registration: Jiaoxuebang" %>
 <% end %>
 
 <%= t :body,
-      "Thank you for registering with Canvas!  This email is confirmation that the user %{user} is registering for a new account at %{website}.",
+      "Thank you for registering with Jiaoxuebang!  This email is confirmation that the user %{user} is registering for a new account at %{website}.",
       :user => asset.user.short_name,
       :website => (HostUrl.context_host((asset.pseudonym || asset.user.pseudonym).account) rescue nil) || HostUrl.default_host %>
 
