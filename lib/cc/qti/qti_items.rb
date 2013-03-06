@@ -37,7 +37,6 @@ module CC
       # answer is found, so they need to show the incorrect response differently
       MULTI_ANSWER_TYPES = ['matching_question',
                            'multiple_dropdowns_question',
-                           'fill_in_multiple_blanks_subjective_question',
                            'fill_in_multiple_blanks_question']
 
       def add_ref_or_question(node, question)

@@ -107,14 +107,6 @@
              end
           %>
           <%= fill_in_multiple_blanks_question :question => question, :answers => @stored_params, :answer_list => answer_list, :editable => assessing %>
-        <% elsif question && hash_get(question, :question_type) == "fill_in_multiple_blanks_subjective_question" && @stored_params %>
-          <% answer_list = []
-             if assessment_results
-               variables = hash_get(question, :answers, []).map{|a| hash_get(a, :blank_id) }.compact.uniq
-               variables.each {|var| answer_list << hash_get(user_answer, "answer_for_#{var}") }
-             end
-          %>
-          <%= fill_in_multiple_blanks_subjective_question :question => question, :answers => @stored_params, :answer_list => answer_list, :editable => assessing %>
         <% elsif question && hash_get(question, :question_type) == "multiple_dropdowns_question" %>
           <% answer_list = []
              if assessment_results
@@ -230,7 +222,7 @@
           </table>
         </div>
       </div>
-      <div class="multiple_answer_sets_holder" style="<%= hidden unless question && ['multiple_dropdowns_question', 'drag_and_drop_question', 'fill_in_multiple_blanks_question', 'fill_in_multiple_blanks_subjective_question'].include?(hash_get(question, :question_type)) %>">
+      <div class="multiple_answer_sets_holder" style="<%= hidden unless question && ['multiple_dropdowns_question', 'drag_and_drop_question', 'fill_in_multiple_blanks_question'].include?(hash_get(question, :question_type)) %>">
         <% ot(:show_ansers_for_variable, "Show Answers for %{variable}", :variable => capture{ %>
         <select class="blank_id_select">
           <% hash_get(question, :answers, []).map{|a| hash_get(a, :blank_id) }.uniq.compact.each do |variable| %>
@@ -243,7 +235,7 @@
       <div class="answers">
         <% if assessing %>
           <% if question %>
-            <% if question_type.display_answers == "multiple" && !["missing_word_question", "fill_in_multiple_blanks_question", "fill_in_multiple_blanks_subjective_question"].include?(hash_get(question, :question_type)) %>
+            <% if question_type.display_answers == "multiple" && !["missing_word_question", "fill_in_multiple_blanks_question"].include?(hash_get(question, :question_type)) %>
               <% list = hash_get(question, :answers, []) %>
               <%= render :partial => "quizzes/multi_answer", :collection => list, :locals =>
                   {:question => question, :right_answers => right_answers, :left_answers => left_answers, :question_type => question_type, :user_answer => user_answer} %>
@@ -343,7 +335,7 @@
             <% end %>
             <% question[:answers] = [] if editing && question && hash_get(question, :question_type) == 'calculated_question' %>
             <% if question && (user_answer || assessment_results || !@quiz || display_correct_answers || (!assessment_results && !user_answer)) %>
-              <% show_headers = @quiz && display_correct_answers && user_answer && question_type.display_answers == "single" && hash_get(question, :question_type) != "essay_question" %>
+              <% show_headers = @quiz && display_correct_answers && user_answer && question_type.display_answers == "single" && hash_get(question, :question_type) != "essay_question" && hash_get(question, :question_type) != "fill_in_blanks_subjective_question"  %>
               <% if editing || show_headers || !question_type.entry_type.match(/text_box/) %>
                 <% if ( hash_get(question, :question_type) == 'connecting_lead_question' || hash_get(question, :question_type) == 'connecting_on_pic_question' ) && !editing %>
                   <h5 class="answer-title">你的答案：</h5>

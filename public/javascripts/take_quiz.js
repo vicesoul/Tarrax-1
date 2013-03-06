@@ -938,14 +938,12 @@ define([
     }());
 
     (function FillInMultipleBlanksSubjective(){
-      $("#submit_quiz_form .question.fill_in_multiple_blanks_subjective_question").each(function(){
-        var originText = '即"玫瑰为this is [color1]紫罗兰为 [color2]不得不[wang] (9900)不(9900)不(9900)';
-        var pattern = /\[\w+\]/g;
-        var $Div = "<div></div>";
-        var t = originText.replace(pattern, $Div);
-
-
-
+      $("#submit_quiz_form .question.fill_in_blanks_subjective_question").each(function(){
+        var $text = $(this).find(".text");
+        var $textarea = $text.find(".answers textarea.question_input");
+        var $cloneTextarea = $textarea.clone();
+        $textarea.add($cloneTextarea).attr("name", $textarea.attr("name") + "[]");
+        $cloneTextarea.appendTo($text.find(".answers > div"));
       });
 
     }());

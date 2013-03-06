@@ -52,6 +52,12 @@ module QuizzesHelper
         :display_answers => "single",
         :answer_type => "text_answer"
       }),
+      "fill_in_blanks_subjective_question" => OpenObject.new({
+        :question_type => "fill_in_blanks_subjective_question",
+        :entry_type => "textarea",
+        :display_answers => "single",
+        :answer_type => "text_answer"
+      }),
       "paint_question" => OpenObject.new({
        :question_type => "paint_question",
        :entry_type => "textarea",
@@ -102,13 +108,6 @@ module QuizzesHelper
       }),
       "fill_in_multiple_blanks_question" => OpenObject.new({
         :question_type => "fill_in_multiple_blanks_question",
-        :entry_type => "text_box",
-        :display_answers => "multiple",
-        :answer_type => "select_answer",
-        :multiple_sets => true
-      }),
-      "fill_in_multiple_blanks_subjective_question" => OpenObject.new({
-        :question_type => "fill_in_multiple_blanks_subjective_question",
         :entry_type => "text_box",
         :display_answers => "multiple",
         :answer_type => "select_answer",
@@ -194,7 +193,7 @@ module QuizzesHelper
     end
     end
 
-  def fill_in_multiple_blanks_subjective_question(options)
+  def fill_in_blanks_subjective_question(options)
     question = hash_get(options, :question)
     answers  = hash_get(options, :answers).dup
     answer_list = hash_get(options, :answer_list)

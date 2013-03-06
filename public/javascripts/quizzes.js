@@ -61,7 +61,7 @@ define([
 
     // Determines whether or not to show the "show question details" link.
     checkShowDetails: function() {
-      var hasQuestions = this.$questions.find('div.display_question:not(.essay_question, .text_only_question, .paint_question)').length;
+      var hasQuestions = this.$questions.find('div.display_question:not(.essay_question, .text_only_question, .paint_question, .fill_in_blanks_subjective_question)').length;
       this.$showDetailsWrap[hasQuestions ? 'show' : 'hide'](200);
     },
 
@@ -137,6 +137,8 @@ define([
 
       if (question_type == "essay_question") {
         templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
+      } else if (question_type == "fill_in_blanks_subjective_question") {
+        templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
       } else if (question_type == "paint_question") {
         templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
       } else if (question_type == "connecting_lead_question") {
@@ -159,8 +161,6 @@ define([
         templateData.answer_html = answer.answer_html;
         templateData.short_answer_header = I18n.beforeLabel('answer_text', "Answer text");
       } else if (question_type == "fill_in_multiple_blanks_question") {
-        templateData.blank_id = answer.blank_id;
-      } else if (question_type == "fill_in_multiple_blanks_subjective_question") {
         templateData.blank_id = answer.blank_id;
       } else if (question_type == "multiple_dropdowns_question") {
         templateData.short_answer_header = I18n.t('answer_text', "Answer text");
@@ -249,13 +249,13 @@ define([
         answer_type = "short_answer";
         question_type = "fill_in_multiple_blanks_question";
         n_correct = "all";
-      } else if (qt == 'fill_in_multiple_blanks_subjective_question') {
-        answer_type = "short_answer";
-        question_type = "fill_in_multiple_blanks_subjective_question";
-        n_correct = "all";
       } else if (qt == 'essay_question') {
         answer_type = "comment";
         question_type = "essay_question";
+        n_correct = "none";
+      } else if (qt == 'fill_in_blanks_subjective_question') {
+        answer_type = "comment";
+        question_type = "fill_in_blanks_subjective_question";
         n_correct = "none";
       } else if (qt == 'paint_question') {
         answer_type = "comment";
@@ -311,6 +311,8 @@ define([
         result = "any_answer";
       } else if (question_type == 'essay_question') {
         result = "none";
+      } else if (question_type == 'fill_in_blanks_subjective_question') {
+        result = "none";
       } else if (question_type == 'paint_question') {
         result = "none";
       } else if (question_type == 'connecting_lead_question') {
@@ -327,8 +329,6 @@ define([
       } else if (question_type == 'multiple_dropdowns_question') {
       } else if (question_type == 'drag_and_drop_question') {
       } else if (question_type == 'fill_in_multiple_blanks_question') {
-        result = "any_answer";
-      } else if (question_type == 'fill_in_multiple_blanks_subjective_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_answers_question') {
         result = "multiple_answer";
@@ -395,8 +395,6 @@ define([
       $question.attr('class', 'question display_question').addClass(question_type || 'text_only_question');
 
       if (question.question_type == 'fill_in_multiple_blanks_question') {
-        $question.find(".multiple_answer_sets_holder").css('display', '');
-      } else if (question.question_type == 'fill_in_multiple_blanks_subjective_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       } else if (question.question_type == 'multiple_dropdowns_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
@@ -491,7 +489,7 @@ define([
         $text.html("<span class='text_before_answers'>" + question.question_text + "</span> ");
         $text.append($select);
         $text.append(" <span class='text_after_answers'>" + question.text_after_answers + "</span>");
-      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question' || question.question_type == 'drag_and_drop_question' || question.question_type == 'fill_in_multiple_blanks_subjective_question') {
+      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question' || question.question_type == 'drag_and_drop_question') {
         var variables = {}
         $.each(question.answers, function(i, data) {
           variables[data.blank_id] = true;
@@ -702,6 +700,16 @@ define([
         result.answer_type = "none";
         result.textValues = [];
         result.htmlValues = [];
+      } else if (question_type == 'fill_in_blanks_subjective_question') {
+        $formQuestion.find(".answer").remove();
+        $formQuestion.removeClass('selectable');
+        $formQuestion.find(".answers_header").hide().end()
+          .find(".question_comment").css('display', 'none').end()
+          .find(".question_neutral_comment").css('display', '').end();
+        options.addable = false;
+        result.answer_type = "none";
+        result.textValues = [];
+        result.htmlValues = [];
       } else if (question_type == 'paint_question') {
         $formQuestion.find(".answer").remove();
         $formQuestion.removeClass('selectable');
@@ -749,9 +757,6 @@ define([
         result.answer_type = "select_answer";
         $formQuestion.multipleAnswerSetsQuestion();
       } else if (question_type == 'fill_in_multiple_blanks_question') {
-        result.answer_type = "short_answer";
-        $formQuestion.multipleAnswerSetsQuestion();
-      } else if (question_type == 'fill_in_multiple_blanks_subjective_question') {
         result.answer_type = "short_answer";
         $formQuestion.multipleAnswerSetsQuestion();
       } else if (question_type == 'multiple_answers_question') {
@@ -1376,7 +1381,7 @@ define([
       question.answers = [];
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question" || question.question_type == "fill_in_multiple_blanks_subjective_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -1969,6 +1974,9 @@ define([
       if ($question.hasClass('essay_question')) {
         $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
       }
+      if ($question.hasClass('fill_in_blanks_subjective_question')) {
+        $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
+      }
       if ($question.hasClass('paint_question')) {
         $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
       }
@@ -2472,6 +2480,12 @@ define([
         }];
         answer_type = "comment";
         question_type = "essay_question";
+      } else if ($question.hasClass('fill_in_blanks_subjective_question')) {
+        var answers = [{
+          comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
+        }];
+        answer_type = "comment";
+        question_type = "fill_in_blanks_subjective_question";
       } else if ($question.hasClass('paint_question')) {
         var answers = [{
           comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
@@ -2541,13 +2555,6 @@ define([
         answer_type = "short_answer";
         question_type = "fill_in_multiple_blanks_question";
         answer_selection_type = "any_answer";
-      } else if ($question.hasClass('fill_in_multiple_blanks_subjective_question')) {
-        var answers = [{
-          comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
-        }];
-        answer_type = "short_answer";
-        question_type = "fill_in_multiple_blanks_subjective_question";
-        answer_selection_type = "any_answer";
       }
       for(var i = 0; i < answers.length; i++) {
         var answer = answers[i];
@@ -2602,7 +2609,7 @@ define([
           error_text = I18n.t('errors.no_possible_solution', "Please generate at least one possible solution");
         }
       } else if ($answers.length === 0 || $answers.filter(".correct_answer").length === 0) {
-        if ($answers.length === 0 && questionData.question_type != "essay_question" && questionData.question_type != "text_only_question" && questionData.question_type != "paint_question") {
+        if ($answers.length === 0 && questionData.question_type != "essay_question" && questionData.question_type != "fill_in_blanks_subjective_question" && questionData.question_type != "text_only_question" && questionData.question_type != "paint_question") {
           error_text = I18n.t('errors.no_answer', "Please add at least one answer");
         } else if ($answers.filter(".correct_answer").length === 0 && (questionData.question_type == "multiple_choice_question" || questionData.question_type == "true_false_question" || questionData.question_tyep == "missing_word_question")) {
           error_text = I18n.t('errors.no_correct_answer', "Please choose a correct answer");
@@ -2621,7 +2628,7 @@ define([
       $displayQuestion.find(".blank_id_select").empty();
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question" || question.question_type == "fill_in_multiple_blanks_subjective_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -3141,7 +3148,7 @@ define([
 
     $question_content.bind('change', function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question' && question_type != 'fill_in_multiple_blanks_subjective_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question') {
         return;
       }
       var text = $(this).editorBox('get_code');
@@ -3177,7 +3184,7 @@ define([
     }).change();
     $select.change(function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question' && question_type != 'fill_in_multiple_blanks_subjective_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question') {
         return;
       }
       $question.find(".form_answers .answer").hide().addClass('hidden');

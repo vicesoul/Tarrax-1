@@ -14,7 +14,6 @@
   selected_answer = (hash_get(user_answer, "answer_#{answer[:id]}")  == "1") if user_answer && hash_get(question, :question_type) == "multiple_answers_question"
   selected_answer = false if question_type && question_type.display_answers == "single"
   selected_answer = true if hash_get(question, :question_type) == "fill_in_multiple_blanks_question" && hash_get(matched_answer, :id) == hash_get(answer, :id)
-  selected_answer = true if hash_get(question, :question_type) == "fill_in_multiple_blanks_subjective_question" && hash_get(matched_answer, :id) == hash_get(answer, :id)
   correct_answer = answer && hash_get(answer, :weight) == 100
   correct_answer = (hash_get(user_answer, "answer_#{answer[:id]}").to_i == hash_get(answer, :match_id).to_i) if user_answer && answer && question_type && question_type.answer_type == "matching_answer"
   correct_answer = false if !user_answer && question && hash_get(question, :question_type) == "matching_question"
@@ -28,12 +27,11 @@
   skip_if_correct ||= nil
   should_skip = (skip_if_correct && selected_answer && correct_answer) ||
     (hash_get(question, :question_type) == 'fill_in_multiple_blanks_question' ||
-      hash_get(question, :question_type) == 'fill_in_multiple_blanks_subjective_question' &&
       answer.respond_to?(:[]) && answer['text'].blank? && answer['html'].blank?) ||
     (hash_get(question, :question_type) == 'multiple_dropdowns_question' && !correct_answer && !selected_answer) ||
     (hash_get(question, :question_type) == 'drag_and_drop_question' && !correct_answer && !selected_answer)
 %>
-<% unless question && [ "short_answer_question", "fill_in_multiple_blanks_question", "fill_in_multiple_blanks_subjective_question" ].include?(question[:question_type]) && !show_correct_answers %>
+<% unless question && [ "short_answer_question", "fill_in_multiple_blanks_question"].include?(question[:question_type]) && !show_correct_answers %>
   <% if false %>
     <!-- Display skipped -->
   <% else %>
