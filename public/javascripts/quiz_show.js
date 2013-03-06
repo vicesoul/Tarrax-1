@@ -299,6 +299,22 @@ $(document).ready(function () {
     });
   })();
 
+  (function DragAndDop(){
+    $(".question.drag_and_drop_question").each(function(){
+      var $blueText = $(this).find(".blueText");
+      var $select = $blueText.find(".ui-selectmenu");
+      var $receive = $("<div class='receive'></div>");
+
+      $select.each(function(){
+        $(this).hide()
+          .parent("span")
+          .after($receive.clone());
+      });
+
+    });
+
+  }());
+
 });
 
 });

@@ -894,13 +894,9 @@ define([
         var $blueText = $(this).find(".blueText");
         var $select = $blueText.find(".ui-selectmenu");
         var $receive = $("<div class='receive'></div>");
-        var $drag = $(this).find(".dragging li span");
-        $(this).find(".dragging li")
-          .droppable({
-            accept: ".receive .ui-draggable",
-            activeClass: "ui-state-highlight"
-          });
-        $drag.draggable({
+        var $ball = $(this).find(".dragging li span");
+
+        $ball.draggable({
           revert: true
         });
 
@@ -912,19 +908,20 @@ define([
 
         $(this).find(".receive").each(function(){
           $(this).droppable({
-            accept: $drag,
+            accept: $(".text .ui-draggable, .receive"),
             activeClass: "ui-state-highlight",
             drop: function( event, ui ) {
+              if($(this).find("span").size() ==1)return false;
               var text = ui.draggable.text().trim();
-              var $drag = ui.draggable;
+              var $ball = ui.draggable;
               var answerId = ui.draggable.attr("answerId");
               var $select = $(this).prev().prev("select");
-              var $span = $("<span></span>").text(text).attr("answerid",answerId)
+              var $span = ui.draggable.clone().removeAttr("class").removeAttr("style")
                 .draggable({
                   stop: function( event, ui ) {
                     $(this).remove();
                     $select.find("option:gt(0)").remove();
-                    $drag.show();
+                    $ball.show();
                   }
                 });
               $(this).html($span);
@@ -939,6 +936,20 @@ define([
       });
 
     }());
+
+    (function FillInMultipleBlanksSubjective(){
+      $("#submit_quiz_form .question.fill_in_multiple_blanks_subjective_question").each(function(){
+        var originText = '即"玫瑰为this is [color1]紫罗兰为 [color2]不得不[wang] (9900)不(9900)不(9900)';
+        var pattern = /\[\w+\]/g;
+        var $Div = "<div></div>";
+        var t = originText.replace(pattern, $Div);
+
+
+
+      });
+
+    }());
+
     $.fn.doVal = function(type, yellowId) {
       var inputVal = $(this).val();
       inputVal = inputVal == "0" ? "" : inputVal;

@@ -27,6 +27,7 @@
       <option value="connecting_lead_question" style="padding: 2px;">连线题</option>
       <option value="connecting_on_pic_question" style="padding: 2px;">图画连线题</option>
       <option value="drag_and_drop_question" style="padding: 2px;">拖拽题</option>
+      <option value="fill_in_multiple_blanks_subjective_question" style="padding: 2px;">主观填空题</option>
     </select>
     <span class="question_points_holder">
       <span style="padding-left: 20px;"><%= before_label :points, 'pts' %></span>
@@ -78,6 +79,9 @@
     </div>
     <div class="essay_question_explanation explanation subheader">
       <%= t('explanations.essay', "Students will be given a text field to compose their answer.") %>
+    </div>
+    <div class="fill_in_multiple_blanks_subjective_question_explanation explanation subheader">
+      主观填空！
     </div>
     <div class="text_only_question_explanation explanation subheader">
       <%= t('explanations.text_only', 'This "question" will not be scored, but can be useful for introducing a set of related questions.') %>

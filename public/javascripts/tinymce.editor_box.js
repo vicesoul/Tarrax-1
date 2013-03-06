@@ -209,18 +209,6 @@ define([
         $("#" + id).trigger('change');
       },
       setup : function(ed) {
-
-          // 2012-11-16 rupert    if the question is essay question && editor is empty , put the content into textarea
-          /*var $lastSaving = $("#" + id);
-          var $essay_question = $lastSaving.closest(".essay_question");
-          var questionHtml = $essay_question.find(".question_text").html();
-          if($essay_question.length != 0) {
-              if($lastSaving.html() == "" ){
-                  $lastSaving.html(questionHtml);
-              }
-          }*/
-        // end
-
         var $editor = $("#" + ed.editorId);
         var focus = function() {
           $(document).triggerHandler('editor_box_focus', $editor);

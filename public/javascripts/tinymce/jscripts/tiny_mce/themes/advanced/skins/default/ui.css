@@ -216,5 +216,6 @@
 /* 2012-11-29 rupert  */
 .defaultSkin .mce_instructure_add_rackets {opacity:0.5;display: none;}
 .question.fill_in_multiple_blanks_question .mce_instructure_add_rackets{display: block;}
+.question.fill_in_multiple_blanks_subjective_question .mce_instructure_add_rackets{display: block;}
 .question.calculated_question .mce_instructure_add_rackets{display: block;}
 /*endend*/

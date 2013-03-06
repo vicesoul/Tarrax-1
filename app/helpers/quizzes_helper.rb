@@ -107,6 +107,13 @@ module QuizzesHelper
         :answer_type => "select_answer",
         :multiple_sets => true
       }),
+      "fill_in_multiple_blanks_subjective_question" => OpenObject.new({
+        :question_type => "fill_in_multiple_blanks_subjective_question",
+        :entry_type => "text_box",
+        :display_answers => "multiple",
+        :answer_type => "select_answer",
+        :multiple_sets => true
+      }),
       "multiple_dropdowns_question" => OpenObject.new({
         :question_type => "multiple_dropdowns_question",
         :entry_type => "select",
@@ -164,6 +171,30 @@ module QuizzesHelper
   end
 
   def fill_in_multiple_blanks_question(options)
+    question = hash_get(options, :question)
+    answers  = hash_get(options, :answers).dup
+    answer_list = hash_get(options, :answer_list)
+    res      = user_content hash_get(question, :question_text)
+    readonly_markup = hash_get(options, :editable) ? ' />' : 'readonly="readonly" />'
+    # If given answer list, insert the values into the text inputs for displaying user's answers.
+    if answer_list && !answer_list.empty?
+      index  = 0
+      res.gsub %r{<input.*?name=['"](question_.*?)['"].*?/>} do |match|
+        a = answer_list[index]
+        index += 1
+        #  Replace the {{question_BLAH}} template text with the user's answer text.
+        match.sub(/\{\{question_.*?\}\}/, a.to_s).
+          # Match on "/>" but only when at the end of the string and insert "readonly" if set to be readonly
+          sub(/\/\>\Z/, readonly_markup)
+      end
+    else
+      answers.delete_if { |k, v| !k.match /^question_#{hash_get(question, :id)}/ }
+      answers.each { |k, v| res.sub! /\{\{#{k}\}\}/, v }
+      res.gsub /\{\{question_[^}]+\}\}/, ""
+    end
+    end
+
+  def fill_in_multiple_blanks_subjective_question(options)
     question = hash_get(options, :question)
     answers  = hash_get(options, :answers).dup
     answer_list = hash_get(options, :answer_list)

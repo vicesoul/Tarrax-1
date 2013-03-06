@@ -35,7 +35,7 @@ class AssessmentQuestion < ActiveRecord::Base
                         "multiple_choice_question", "numerical_question", 
                         "text_only_question", "short_answer_question",
                         "multiple_dropdowns_question", "calculated_question",
-                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question", "drag_and_drop_question"]
+                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question", "drag_and_drop_question", "fill_in_multiple_blanks_subjective_question"]
 
   serialize :question_data
 
@@ -409,6 +409,16 @@ class AssessmentQuestion < ActiveRecord::Base
         end
       end
     elsif question[:question_type] == "fill_in_multiple_blanks_question"
+      answers.each do |key, answer|
+        a = {:text => check_length(scrub(answer[:answer_text]), 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => check_length(answer[:blank_id], 'blank id', min_size), :id => unique_local_id(answer[:id].to_i)}
+        question[:answers] << a
+        end
+    elsif question[:question_type] == "fill_in_multiple_blanks_subjective_question"
+      answers.each do |key, answer|
+        a = {:text => check_length(scrub(answer[:answer_text]), 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => check_length(answer[:blank_id], 'blank id', min_size), :id => unique_local_id(answer[:id].to_i)}
+        question[:answers] << a
+        end
+    elsif question[:question_type] == "fill_in_multiple_blanks_subjective_question"
       answers.each do |key, answer|
         a = {:text => check_length(scrub(answer[:answer_text]), 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => check_length(answer[:blank_id], 'blank id', min_size), :id => unique_local_id(answer[:id].to_i)}
         question[:answers] << a

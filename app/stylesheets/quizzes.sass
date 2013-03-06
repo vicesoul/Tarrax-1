@@ -52,11 +52,6 @@ div#content
       display: none
   .question_text
     display: block
-    .blueText
-      .receive
-        border: 1px solid #eee
-        width: 100px
-        height: 35px
   .connecting_lead_question
     position: relative
     .answers
@@ -701,11 +696,14 @@ form.question_form
     overflow: hidden
   .multi_answer_sets
     display: none
-  .fill_in_multiple_blanks_question,.multiple_dropdowns_question,.drag_and_drop_question
+  .fill_in_multiple_blanks_question, .multiple_dropdowns_question, .drag_and_drop_question, .fill_in_multiple_blanks_subjective_question
     .multi_answer_sets
       display: block
     .multi_answer_sets_subheader
       font-size: 0.8em
+  .drag_and_drop_question
+    .add_answer, .delete_answer_link
+      display: none
   .explanation
     font-size: 0.8em
     margin-bottom: 5px
@@ -759,6 +757,17 @@ form.question_form
   .connecting_on_pic_question
     .answer
       display: none
+.dragging
+  list-style: none
+  li
+    display: inline-block
+.blueText
+  line-height: 50px
+  .receive
+    display: inline-block
+    border: 1px solid #eee
+    width: 100px
+    height: 35px
 .factory
   display: block
   .menu:after

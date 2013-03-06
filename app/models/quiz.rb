@@ -436,6 +436,16 @@ class Quiz < ActiveRecord::Base
       end
       q[:original_question_text] = q[:question_text]
       q[:question_text] = text
+    elsif q[:question_type] == 'fill_in_multiple_blanks_subjective_question'
+      text = q[:question_text]
+      variables = q[:answers].map{|a| a[:blank_id] }.uniq
+      variables.each do |variable|
+        variable_id = AssessmentQuestion.variable_id(variable)
+        re = Regexp.new("\\[#{variable}\\]")
+        text = text.sub(re, "<input class='question_input' type='text' autocomplete='off' style='width: 120px;' name='question_#{q[:id]}_#{variable_id}' value='{{question_#{q[:id]}_#{variable_id}}}' />")
+      end
+      q[:original_question_text] = q[:question_text]
+      q[:question_text] = text
     elsif q[:question_type] == 'multiple_dropdowns_question'
       text = q[:question_text]
       variables = q[:answers].map{|a| a[:blank_id] }.uniq
@@ -893,6 +903,9 @@ class Quiz < ActiveRecord::Base
         if question[:question_type] == 'fill_in_multiple_blanks_question'
           blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
           row << blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym].try(:gsub, /,/, '\,') }.compact.join(',')
+        elsif question[:question_type] == 'fill_in_multiple_blanks_subjective_question'
+          blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
+          row << blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym].try(:gsub, /,/, '\,') }.compact.join(',')
         elsif question[:question_type] == 'multiple_answers_question'
           row << question[:answers].map{|a| answer["answer_#{a[:id]}".to_sym] == '1' ? a[:text].gsub(/,/, '\,') : nil }.compact.join(',')
         elsif question[:question_type] == 'multiple_dropdowns_question'
@@ -1035,7 +1048,7 @@ class Quiz < ActiveRecord::Base
           res[:answers][idx][:answer_matches] << match
         end
       end
-    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question' 'drag_and_drop_question'].include?(question[:question_type])
+    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question', 'drag_and_drop_question', 'fill_in_multiple_blanks_subjective_question'].include?(question[:question_type])
       res[:multiple_responses] = true
       answer_keys = {}
       answers = []
@@ -1073,6 +1086,26 @@ class Quiz < ActiveRecord::Base
             end
           end
         elsif question[:question_type] == 'fill_in_multiple_blanks_question'
+          res[:multiple_answers] = true
+          res[:answer_sets].each_with_index do |answer, idx|
+            found = false
+            response_hash_id = Digest::MD5.hexdigest(response["answer_for_#{answer[:blank_id]}".to_sym].strip) if !response["answer_for_#{answer[:blank_id]}".to_sym].try(:strip).blank?
+            res[:answer_sets][idx][:responses] += 1 if response[:correct]
+            res[:answer_sets][idx][:answer_matches].each_with_index do |right, jdx|
+              if response["answer_for_#{answer[:blank_id]}".to_sym] == right[:text]
+                found = true
+                res[:answer_sets][idx][:answer_matches][jdx][:responses] += 1
+                res[:answer_sets][idx][:answer_matches][jdx][:user_ids] << submission.user_id
+              end
+            end
+            if !found
+              if response_hash_id
+                answer = {:id => response_hash_id, :responses => 1, :user_ids => [submission.user_id], :text => response["answer_for_#{answer[:blank_id]}".to_sym]}
+                res[:answer_sets][idx][:answer_matches] << answer
+              end
+            end
+            end
+        elsif question[:question_type] == 'fill_in_multiple_blanks_subjective_question'
           res[:multiple_answers] = true
           res[:answer_sets].each_with_index do |answer, idx|
             found = false
