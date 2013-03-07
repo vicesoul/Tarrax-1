@@ -3,7 +3,8 @@ require [
   'jqueryui/sortable',
   'jqueryui/dialog',
   'compiled/tinymce',
-  'tinymce.editor_box'
+  'tinymce.editor_box',
+  'jquery.form'
 ], ($)->
   
   synToDialog = ($obj) ->
@@ -114,3 +115,15 @@ require [
     $("form.edit_jxb_page").submit ->
       resetPosition()
       return true
+
+    $("#widget_image_uploader").submit ->
+      $(this).ajaxSubmit(
+        beforeSubmit: ->
+          $("#widget_image").val ""
+        success: (data)->
+          img = """
+                <img src="#{data.url}" />
+                """
+          $("#widget_body").editorBox "insert_code", img
+      )
+      return false

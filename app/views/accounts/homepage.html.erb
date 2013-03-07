@@ -13,6 +13,10 @@
   <div class="edit_widget_section">
     <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" /><br />
     <%= t :body, 'Body' %>: <textarea name="widget_body" id="widget_body" rows="8" cols="40"></textarea><br />
+    <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
+      <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> <input type="submit" value="<%= t :upload, 'Upload'%>" />
+    </form>
+    <br />
     <button type="submit" class="save_widget_button btn"><%= t :save, 'Save' %></button>
     <a href="javascript:$('#edit_widget_dialog').dialog('close');" title="cancel"><%= t :cancel, 'Cancel' %></a>
   </div>

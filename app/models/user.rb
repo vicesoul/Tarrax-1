@@ -174,13 +174,18 @@ class User < ActiveRecord::Base
   def find_or_create_dashboard_page
     self.dashboard_page || begin
       page = self.build_dashboard_page(:name => 'dashboard')
-      page.widgets.build(:cell_name => "activity",     :cell_action => "index", :seq => 0)
+      page.widgets.build(:cell_name => "activity",     :cell_action => "index", :seq => 0, :body => activity_widget_body)
       page.widgets.build(:cell_name => "assignment",   :cell_action => "index", :seq => 1)
       page.widgets.build(:cell_name => "discussion",   :cell_action => "index", :seq => 2)
       page.widgets.build(:cell_name => "announcement", :cell_action => "index", :seq => 3)
       page.save
       page
     end
+  end
+
+  def activity_widget_body
+    page_ids = Jxb::Page.find( :all, :conditions => [ "name = 'homepage' AND context_type = ? AND context_id IN (?)", 'Account', self.associated_account_ids ] ).map{ |page| page.id }
+    Jxb::Widget.find( :all, :conditions => [ "cell_name = 'activity' AND cell_action = 'index' AND page_id IN (?)", page_ids.uniq ] ).map{ |widget| widget.body }.compact.join("\n")
   end
 
   belongs_to :otp_communication_channel, :class_name => 'CommunicationChannel'

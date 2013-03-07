@@ -422,6 +422,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
+    account.files 'files', :controller => 'accounts', :action => 'create_file'
     account.settings 'settings', :controller => 'accounts', :action => 'settings'
     account.add_account_user 'account_users', :controller => 'accounts', :action => 'add_account_user', :conditions => {:method => :post}
     account.remove_account_user 'account_users/:id', :controller => 'accounts', :action => 'remove_account_user', :conditions => {:method => :delete}

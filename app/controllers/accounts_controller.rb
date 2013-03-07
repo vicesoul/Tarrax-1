@@ -43,6 +43,16 @@ class AccountsController < ApplicationController
     end
   end
 
+  def create_file
+    @attachment = Attachment.new(params[:attachment])
+    @attachment.context = @context
+    @attachment.save
+    
+    respond_to do |format|
+      format.json { render :json => { :url => account_file_preview_path(@context, @attachment) }.to_json }
+    end
+  end
+
   # @API List associated accounts
   # List accounts that the current user can view or manage.  Typically,
   # students and even teachers will get an empty list in response, only

@@ -6,6 +6,8 @@ zh-CN:
       home_page: 主页
       title: 标题
       body: 内容
+      choose_image: 选择图片
+      upload: 上传
     homepage_right_side:
       edit_this_page: 修改页面
       labels:
