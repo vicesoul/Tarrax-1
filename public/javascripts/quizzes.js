@@ -362,7 +362,7 @@ define([
         $question.find(".multiple_answer_sets_holder").css('display', '');
       }
 
-      if (question.question_type !== 'text_only_question' && question.solution_text !== '' ) {
+      if (question.question_type != 'text_only_question' && question.solution_content != '' ) {
         $question.find(".toggle_solution").show();
       }else{
         $question.find(".toggle_solution").hide();
