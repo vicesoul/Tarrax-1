@@ -436,6 +436,11 @@ class Quiz < ActiveRecord::Base
       end
       q[:original_question_text] = q[:question_text]
       q[:question_text] = text
+    elsif q[:question_type] == 'fill_in_blanks_subjective_question'
+      text = q[:question_text]
+      text = text.gsub(/\[\w*\]/, "<textarea class='question_input' style='width: 90%;' name='question_#{q[:id]}[]'></textarea>")
+      q[:original_question_text] = q[:question_text]
+      q[:question_text] = text
     elsif q[:question_type] == 'multiple_dropdowns_question'
       text = q[:question_text]
       variables = q[:answers].map{|a| a[:blank_id] }.uniq

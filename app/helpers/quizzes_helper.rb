@@ -54,7 +54,7 @@ module QuizzesHelper
       }),
       "fill_in_blanks_subjective_question" => OpenObject.new({
         :question_type => "fill_in_blanks_subjective_question",
-        :entry_type => "textarea",
+        :entry_type => "multiple_textarea",
         :display_answers => "single",
         :answer_type => "text_answer"
       }),

@@ -937,16 +937,16 @@ define([
 
     }());
 
-    (function FillInMultipleBlanksSubjective(){
-      $("#submit_quiz_form .question.fill_in_blanks_subjective_question").each(function(){
-        var $text = $(this).find(".text");
-        var $textarea = $text.find(".answers textarea.question_input");
-        var $cloneTextarea = $textarea.clone();
-        $textarea.add($cloneTextarea).attr("name", $textarea.attr("name") + "[]");
-        $cloneTextarea.appendTo($text.find(".answers > div"));
-      });
+    //(function FillInMultipleBlanksSubjective(){
+      //$("#submit_quiz_form .question.fill_in_blanks_subjective_question").each(function(){
+        //var $text = $(this).find(".text");
+        //var $textarea = $text.find(".answers textarea.question_input");
+        //var $cloneTextarea = $textarea.clone();
+        //$textarea.add($cloneTextarea).attr("name", $textarea.attr("name") + "[]");
+        //$cloneTextarea.appendTo($text.find(".answers > div"));
+      //});
 
-    }());
+    //}());
 
     $.fn.doVal = function(type, yellowId) {
       var inputVal = $(this).val();
