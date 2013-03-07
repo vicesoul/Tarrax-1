@@ -336,16 +336,23 @@
       </div>
     <% end %>
     <div class="solution">
-    <% if editing || user_answer %>
-      <% if question && hash_get(question, :solution_content) %>
-        <a class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
-        <div class="solution_text user_content hide_solution_text"><%= raw question && hash_get(question, :solution_content) %></div>
-      <% else %>
-        <a class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
-        <div class="solution_text user_content hide_solution_text"></div>
-      <% end %>
-    <% end %>
-    </div>
+      <% unless ( question && hash_get(question, :question_type) ) == 'text_only_question' %>
+        
+        <% if editing || user_answer %>
+
+          <% solution_content = hash_get(question, :solution_content) %>
+          <% unless solution_content.blank? %>
+            <a class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
+            <div class="solution_text user_content hide_solution_text"><%= raw question && hash_get(question, :solution_content) %></div>
+          <% else %>
+            <a style="display:none;" class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
+            <div class="solution_text user_content hide_solution_text"></div>
+          <% end # solution_content.blank? %>
+
+        <% end %>
+
+      <% end # unless %>
+    </div><!-- div class='solution' -->
     <% if question_bank_id %>
       <div class="bottom_links">
         <a href="#" class="move_question_link"><%= t('links.move_copy_question', "move/copy question to another bank") %></a> 
