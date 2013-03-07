@@ -361,6 +361,13 @@ define([
       } else if (question.question_type == 'multiple_dropdowns_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       }
+
+      if (question.question_type !== 'text_only_question' && question.solution_text !== '' ) {
+        $question.find(".toggle_solution").show();
+      }else{
+        $question.find(".toggle_solution").hide();
+      }
+
       var $select = $(document.createElement("select")).addClass('answer_select');
       var hadOne = false;
       if (question.question_type == 'calculated_question') {
