@@ -222,7 +222,13 @@
                   <%= settings.check_box :open_registration, :checked => @account.open_registration? %>
                   <%= settings.label :open_registration, :en => "Open Registration" %>
                   <% if @account.delegated_authentication? %>
-                    <%= link_to(image_tag('warning.png'), '#', :class => 'open_registration_delegated_warning_link no-hover', :title => t(:open_registration_delegated_warning_tooltip, "An External Identity Provider is Enabled")) %></legend>
+                    <legend>
+                      <%= link_to(image_tag('warning.png'), '#',
+                                  :class => 'open_registration_delegated_warning_link no-hover',
+                                  :title => t(:open_registration_delegated_warning_tooltip,
+                                  "An External Identity Provider is Enabled"))
+                                %>
+                    </legend>
 
                     <div id="open_registration_delegated_warning_dialog" style="display: none;">
                         <%= t(:open_registration_delegated_warning_message,
@@ -539,7 +545,7 @@
               <tr>
                 <td>
                   <b><%= t('notifications.external_services_warning_label', 'Pop-up Message Content:') %></b>
-                  <blockquote><%= t('notifications.external_services_warning', "Notice: Some Canvas notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive information outside of the institutional system.")%></blockquote>
+                  <blockquote><%= t('notifications.external_services_warning', 'Notice: Some notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive Canvas course and group information outside of the institutional system.')%></blockquote>
                 </td>
               </tr>
             </table>

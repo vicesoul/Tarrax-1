@@ -67,6 +67,14 @@ describe PseudonymSessionsController do
     response.should render_template('new')
   end
 
+  it "should re-render if no password given" do
+    user_with_pseudonym(:username => 'jt@instructure.com', :active_all => 1, :password => 'qwerty')
+    post 'create', :pseudonym_session => { :unique_id => 'jt@instructure.com', :password => ''}
+    response.status.should == '400 Bad Request'
+    response.should render_template('new')
+    flash[:error].should match(/no password/i)
+  end
+
   it "password auth should work" do
     user_with_pseudonym(:username => 'jt@instructure.com', :active_all => 1, :password => 'qwerty')
     post 'create', :pseudonym_session => { :unique_id => 'jt@instructure.com', :password => 'qwerty'}
@@ -1054,6 +1062,28 @@ describe PseudonymSessionsController do
       response.should be_success
       JSON.parse(response.body).keys.sort.should == ['access_token', 'user']
     end
+  end
+
+  describe 'POST oauth2_accept' do
+    let(:user) { User.create! }
+    let(:key) { DeveloperKey.create! }
+    let(:session_hash) { { :oauth2 => { :client_id => key.id, :redirect_uri => Canvas::Oauth::Provider::OAUTH2_OOB_URI  } } }
+    let(:oauth_accept) { post :oauth2_accept, {}, session_hash }
+
+    before { user_session user }
+
+    it 'uses the global id of the user for generating the code' do
+      Canvas::Oauth::Token.expects(:generate_code_for).with(user.global_id, key.id).returns('code')
+      oauth_accept
+      response.should redirect_to(oauth2_auth_url(:code => 'code'))
+    end
+
+    it 'removes oauth session info after code generation' do
+      Canvas::Oauth::Token.stubs(:generate_code_for => 'code')
+      oauth_accept
+      controller.session.should == {}
+    end
+
   end
 
 end

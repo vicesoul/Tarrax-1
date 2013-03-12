@@ -49,11 +49,15 @@ class StreamItem < ActiveRecord::Base
     when 'Submission'
       data['body'] = nil
     end
-    ['users', 'participants'].each do |key|
-      next unless data.has_key?(key)
-      users = data.delete(key)
+    if data.has_key?('users')
+      users = data.delete('users')
       users = users.map { |user| reconstitute_ar_object('User', user) }
-      res.send(key.to_sym).target = users
+      res.users.target = users
+    end
+    if data.has_key?('participants')
+      users = data.delete('participants')
+      users = users.map { |user| reconstitute_ar_object('User', user) }
+      res.instance_variable_set(:@participants, users)
     end
 
     res.instance_variable_set(:@attributes, data)
@@ -85,7 +89,7 @@ class StreamItem < ActiveRecord::Base
   def prepare_conversation(conversation)
     res = conversation.attributes.slice('id', 'has_attachments')
     res['private'] = conversation.private?
-    res['participant_count'] = conversation.participants.size
+    res['participant_count'] = conversation.conversation_participants.size
     # arbitrary limit. would be nice to say "John, Jane, Michael, and 6
     # others." if there's too many recipients, where those listed are the N
     # most active posters in the conversation, but we'll just leave it at "9
@@ -373,17 +377,28 @@ class StreamItem < ActiveRecord::Base
     object.is_a?(Message) && object.new_record?
   end
 
+  # Internal: Format the stream item's asset to avoid showing hidden data.
+  #
+  # res - The stream item asset.
+  # viewing_user_id - The ID of the user to prepare the stream item for.
+  #
+  # Returns the stream item asset minus any hidden data.
   def post_process(res, viewing_user_id)
     case res
     when DiscussionTopic, Announcement
       if res.require_initial_post
         res.write_attribute(:user_has_posted, true)
         if res.user_ids_that_can_see_responses && !res.user_ids_that_can_see_responses.member?(viewing_user_id)
+          original_res = res
+          res = original_res.clone
+          res.id = original_res.id
           res.root_discussion_entries = []
           res.user_has_posted = false
+          res.readonly!
         end
       end
     end
+
     res
   end
 

@@ -496,13 +496,16 @@ class DiscussionTopic < ActiveRecord::Base
   end
 
   set_policy do
-    given { |user| self.user && self.user == user && !self.locked? }
-    can :update and can :reply and can :read
-
     given { |user| self.user && self.user == user }
     can :read
 
-    given { |user| self.user && self.user == user and self.discussion_entries.active.empty? && !self.locked? && !self.root_topic_id }
+    given { |user| self.user && self.user == user && !self.locked? }
+    can :reply
+
+    given { |user| self.user && self.user == user && !self.locked? && context.user_can_manage_own_discussion_posts?(user) }
+    can :update
+
+    given { |user| self.user && self.user == user and self.discussion_entries.active.empty? && !self.locked? && !self.root_topic_id && context.user_can_manage_own_discussion_posts?(user) }
     can :delete
 
     given { |user, session| (self.active? || self.locked?) && self.cached_context_grants_right?(user, session, :read_forum) }#
@@ -514,7 +517,11 @@ class DiscussionTopic < ActiveRecord::Base
     given { |user, session| (self.active? || self.locked?) && self.cached_context_grants_right?(user, session, :post_to_forum) }#students.include?(user) }
     can :read
 
-    given { |user, session| self.cached_context_grants_right?(user, session, :post_to_forum) and not self.is_announcement }
+    given { |user, session|
+      !is_announcement &&
+      cached_context_grants_right?(user, session, :post_to_forum) &&
+      context_allows_user_to_create?(user)
+    }
     can :create
 
     given { |user, session| context.respond_to?(:allow_student_forum_attachments) && context.allow_student_forum_attachments && cached_context_grants_right?(user, session, :post_to_forum) }
@@ -541,6 +548,12 @@ class DiscussionTopic < ActiveRecord::Base
 
     given { |user, session| self.context.respond_to?(:collection) && user == self.context.user }
     can :read and can :update and can :delete and can :reply
+  end
+
+  def context_allows_user_to_create?(user)
+    return true unless context.respond_to?(:allow_student_discussion_topics)
+    return true unless context.user_is_student?(user)
+    context.allow_student_discussion_topics
   end
 
   def discussion_topic_id

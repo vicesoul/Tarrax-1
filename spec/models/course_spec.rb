@@ -53,6 +53,28 @@ describe Course do
     @course.should_not be_soft_concluded
   end
 
+  context "#old_gradebook_visible?" do
+    it "should always return false when enrollment count is large enough" do
+        @course.large_roster = false
+        @course.old_gradebook_visible?.should be_true
+        @course.students.stubs(:count).returns(251)
+        @course.old_gradebook_visible?.should be_false
+    end
+  end
+
+  describe "allow_student_discussion_topics" do
+
+    it "should default true" do
+      @course.allow_student_discussion_topics.should == true
+    end
+
+    it "should set and get" do
+      @course.allow_student_discussion_topics = false
+      @course.save!
+      @course.allow_student_discussion_topics.should == false
+    end
+  end
+
   context "validation" do
     it "should create a new instance given valid attributes" do
       course_model
@@ -483,6 +505,25 @@ describe Course do
       events.should include assignment
     end
   end
+
+  context "migrate_content_links" do
+    it "should ignore types not in the supported_types arg" do
+      c1 = course_model
+      c2 = course_model
+      orig = <<-HTML
+      We aren't translating <a href="/courses/#{c1.id}/assignments/5">links to assignments</a>
+      HTML
+      html = Course.migrate_content_links(orig, c1, c2, ['files'])
+      html.should == orig
+    end
+  end
+
+  it "should be marshal-able" do
+    c = Course.new(:name => 'c1')
+    Marshal.dump(c)
+    c.save!
+    Marshal.dump(c)
+  end
 end
 
 describe Course, "enroll" do
@@ -617,27 +658,28 @@ describe Course, "gradebook_to_csv" do
     rows[2][-2].should == "100"
   end
   
-  it "should order assignments by due date, assignment_group, position, title" do
+  it "should order assignments by position" do
     course_with_student(:active_all => true)
 
     @assignment_group_1, @assignment_group_2 = [@course.assignment_groups.create!(:name => "Some Assignment Group 1", :group_weight => 100), @course.assignment_groups.create!(:name => "Some Assignment Group 2", :group_weight => 100)].sort_by{|a| a.id}
 
     now = Time.now
 
-    @assignment = @course.assignments.create!(:title => "Some Assignment 01", :points_possible => 10, :due_at => now + 1.days, :position => 3, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 02", :points_possible => 10, :due_at => now + 1.days, :position => 1, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 03", :points_possible => 10, :due_at => now + 1.days, :position => 2, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 05", :points_possible => 10, :due_at => now + 4.days, :position => 4, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 04", :points_possible => 10, :due_at => now + 5.days, :position => 5, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 06", :points_possible => 10, :due_at => now + 7.days, :position => 6, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 07", :points_possible => 10, :due_at => now + 6.days, :position => 7, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 08", :points_possible => 10, :due_at => now + 8.days, :position => 1, :assignment_group => @assignment_group_2)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 09", :points_possible => 10, :due_at => now + 8.days, :position => 9, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 10", :points_possible => 10, :due_at => now + 8.days, :position => 10, :assignment_group => @assignment_group_2)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 11", :points_possible => 10, :due_at => now + 11.days, :position => 11, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 13", :points_possible => 10, :due_at => now + 11.days, :position => 11, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 12", :points_possible => 10, :due_at => now + 11.days, :position => 11, :assignment_group => @assignment_group_1)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 14", :points_possible => 10, :due_at => nil, :position => 14, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 01", :due_at => now + 1.days, :position => 3, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 02", :due_at => now + 1.days, :position => 1, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 03", :due_at => now + 1.days, :position => 2, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 05", :due_at => now + 4.days, :position => 4, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 04", :due_at => now + 5.days, :position => 5, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 06", :due_at => now + 7.days, :position => 6, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 07", :due_at => now + 6.days, :position => 7, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 08", :due_at => now + 8.days, :position => 1, :assignment_group => @assignment_group_2)
+    @course.assignments.create!(:title => "Assignment 09", :due_at => now + 8.days, :position => 9, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 10", :due_at => now + 8.days, :position => 10, :assignment_group => @assignment_group_2)
+    @course.assignments.create!(:title => "Assignment 12", :due_at => now + 11.days, :position => 11, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 14", :due_at => nil, :position => 14, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 11", :due_at => now + 11.days, :position => 11, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 13", :due_at => now + 11.days, :position => 11, :assignment_group => @assignment_group_1)
+    @course.assignments.create!(:title => "Assignment 99", :position => 1, :assignment_group => @assignment_group_1, :submission_types => 'not_graded')
     @course.recompute_student_scores
     @user.reload
     @course.reload
@@ -648,29 +690,9 @@ describe Course, "gradebook_to_csv" do
     rows.length.should equal(3)
     assignments = []
     rows[0].each do |column|
-      assignments << column.sub(/ \([0-9]+\)/, '') if column =~ /Some Assignment/
+      assignments << column.sub(/ \([0-9]+\)/, '') if column =~ /Assignment/
     end
-    assignments.should == ["Some Assignment 14", "Some Assignment 02", "Some Assignment 03", "Some Assignment 01", "Some Assignment 05", "Some Assignment 04", "Some Assignment 07", "Some Assignment 06", "Some Assignment 09", "Some Assignment 08", "Some Assignment 10", "Some Assignment 11", "Some Assignment 12", "Some Assignment 13"]
-  end
-
-  it "should work for just one assignment" do
-    course_with_student(:active_all => true)
-    now = Time.now
-    @assignment = @course.assignments.create!(:title => "Some Assignment 1", :points_possible => 10, :assignment_group => @group, :due_at => now + 1.days, :position => 3)
-    @assignment = @course.assignments.create!(:title => "Some Assignment 2", :points_possible => 10, :assignment_group => @group, :due_at => now + 1.days, :position => 1)
-    @course.recompute_student_scores
-    @user.reload
-    @course.reload
-
-    csv = @course.gradebook_to_csv :assignment_id => @assignment
-    csv.should_not be_nil
-    rows = FasterCSV.parse(csv)
-    rows.length.should equal(3)
-    assignments = []
-    rows[0].each do |column|
-      assignments << column.sub(/ \([0-9]+\)/, '') if column =~ /Some Assignment/
-    end
-    assignments.should == ["Some Assignment 2"]
+    assignments.should == ["Assignment 02", "Assignment 03", "Assignment 01", "Assignment 05",  "Assignment 04", "Assignment 06", "Assignment 07", "Assignment 09", "Assignment 11", "Assignment 12", "Assignment 13", "Assignment 14", "Assignment 08", "Assignment 10"]
   end
 
   it "should generate csv with final grade if enabled" do
@@ -2591,7 +2613,7 @@ describe Course, "section_visibility" do
     @course.enroll_user(@student2, "StudentEnrollment", :section => @other_section, :enrollment_state => 'active')
 
     @observer = User.create
-    @course.enroll_user(@observer, "ObserverEnrollment")
+    @course.enroll_user(@observer, "ObserverEnrollment").update_attribute(:associated_user_id, @student1.id)
   end
 
   it "should return a scope from sections_visible_to" do
@@ -2634,32 +2656,29 @@ describe Course, "section_visibility" do
   end
 
   context "restricted" do
-    it "should return no students" do
-      @course.students_visible_to(@observer).should eql []
+    it "should return no students except self and the observed" do
+      @course.students_visible_to(@observer).should eql [@student1]
+      RoleOverride.create!(:context => @course.account, :permission => 'read_roster',
+                           :enrollment_type => "StudentEnrollment", :enabled => false)
+      @course.students_visible_to(@student1).should eql [@student1]
     end
 
     it "should return no sections" do
       @course.sections_visible_to(@observer).should eql []
+      RoleOverride.create!(:context => @course.account, :permission => 'read_roster',
+                           :enrollment_type => "StudentEnrollment", :enabled => false)
+      @course.sections_visible_to(@student1).should eql []
     end
   end
 
-  context "migrate_content_links" do
-    it "should ignore types not in the supported_types arg" do
-      c1 = course_model
-      c2 = course_model
-      orig = <<-HTML
-      We aren't translating <a href="/courses/#{c1.id}/assignments/5">links to assignments</a>
-      HTML
-      html = Course.migrate_content_links(orig, c1, c2, ['files'])
-      html.should == orig
+  context "require_message_permission" do
+    it "should check the message permission" do
+      @course.enrollment_visibility_level_for(@teacher, @course.section_visibilities_for(@teacher), true).should eql :full
+      @course.enrollment_visibility_level_for(@observer, @course.section_visibilities_for(@observer), true).should eql :restricted
+      RoleOverride.create!(:context => @course.account, :permission => 'send_messages',
+                           :enrollment_type => "StudentEnrollment", :enabled => false)
+      @course.enrollment_visibility_level_for(@student1, @course.section_visibilities_for(@student1), true).should eql :restricted
     end
-  end
-
-  it "should be marshal-able" do
-    c = Course.new(:name => 'c1')
-    Marshal.dump(c)
-    c.save!
-    Marshal.dump(c)
   end
 end
 
@@ -2741,10 +2760,12 @@ describe Course, "enrollments" do
     @course.save!
 
     @course.student_enrollments.map(&:root_account_id).should eql [a1.id]
+    @course.course_sections.reload.map(&:root_account_id).should eql [a1.id]
 
     @course.root_account = a2
     @course.save!
     @course.student_enrollments(true).map(&:root_account_id).should eql [a2.id]
+    @course.course_sections.reload.map(&:root_account_id).should eql [a2.id]
   end
 end
 
@@ -3075,7 +3096,8 @@ describe Course do
     it "should properly return site admin permissions from another shard" do
       enable_cache do
         @shard1.activate do
-          course_with_student(:active_all => 1)
+          acct = Account.create!
+          course_with_student(:active_all => 1, :account => acct)
         end
         @site_admin = user
         site_admin = Account.site_admin
@@ -3099,6 +3121,27 @@ describe Course do
         end
 
         @course.grants_right?(@site_admin, nil, :manage_content).should be_true
+      end
+    end
+
+    it "should grant enrollment-based permissions regardless of shard" do
+      @shard1.activate do
+        account = Account.create!
+        course(:active_course => true, :account => account)
+      end
+
+      @shard2.activate do
+        user(:active_user => true)
+      end
+
+      student_in_course(:user => @user, :active_all => true)
+
+      @shard1.activate do
+        @course.grants_right?(@user, :send_messages).should be_true
+      end
+
+      @shard2.activate do
+        @course.grants_right?(@user, :send_messages).should be_true
       end
     end
   end
@@ -3302,6 +3345,85 @@ describe Course do
       @course.enroll_user(@user1)
 
       @course.enrollments.count.should == enrollment_count
+    end
+
+    describe "already_enrolled" do
+      before do
+        course
+        user
+      end
+
+      it "should not be set for a new enrollment" do
+        @course.enroll_user(@user).already_enrolled.should_not be_true
+      end
+
+      it "should be set for an updated enrollment" do
+        @course.enroll_user(@user)
+        @course.enroll_user(@user).already_enrolled.should be_true
+      end
+    end
+
+    context "custom roles" do
+      before do
+        @account = Account.default
+        course
+        user
+        custom_student_role('LazyStudent')
+        custom_student_role('HonorStudent')
+      end
+
+      it "should re-use an enrollment with the same role" do
+        enrollment1 = @course.enroll_user(@user, 'StudentEnrollment', :role_name => 'HonorStudent')
+        enrollment2 = @course.enroll_user(@user, 'StudentEnrollment', :role_name => 'HonorStudent')
+        @user.enrollments.count.should eql 1
+        enrollment1.should eql enrollment2
+      end
+
+      it "should not re-use an enrollment with a different role" do
+        enrollment1 = @course.enroll_user(@user, 'StudentEnrollment', :role_name => 'LazyStudent')
+        enrollment2 = @course.enroll_user(@user, 'StudentEnrollment', :role_name => 'HonorStudent')
+        @user.enrollments.count.should eql 2
+        enrollment1.should_not eql enrollment2
+      end
+
+      it "should not re-use an enrollment with no role when enrolling with a role" do
+        enrollment1 = @course.enroll_user(@user, 'StudentEnrollment')
+        enrollment2 = @course.enroll_user(@user, 'StudentEnrollment', :role_name => 'HonorStudent')
+        @user.enrollments.count.should eql 2
+        enrollment1.should_not eql enrollment2
+      end
+
+      it "should not re-use an enrollment with a role when enrolling with no role" do
+        enrollment1 = @course.enroll_user(@user, 'StudentEnrollment', :role_name => 'LazyStudent')
+        enrollment2 = @course.enroll_user(@user, 'StudentEnrollment')
+        @user.enrollments.count.should eql 2
+        enrollment1.should_not eql enrollment2
+      end
+    end
+  end
+
+  describe "short_name_slug" do
+    before :each do
+      @course = course(:active_all => true)
+    end
+
+    it "should hard truncate at 30 characters" do
+      @course.short_name = "a" * 31
+      @course.short_name.length.should == 31
+      @course.short_name_slug.length.should == 30
+      @course.short_name.should =~ /^#{@course.short_name_slug}/
+    end
+
+    it "should not change the short_name" do
+      short_name = "a" * 31
+      @course.short_name = short_name
+      @course.short_name_slug.should_not == @course.short_name
+      @course.short_name.should == short_name
+    end
+
+    it "should leave short short_names alone" do
+      @course.short_name = 'short short_name'
+      @course.short_name_slug.should == @course.short_name
     end
   end
 end

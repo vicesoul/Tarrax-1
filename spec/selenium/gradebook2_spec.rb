@@ -16,6 +16,7 @@ describe "gradebook2" do
 
   def filter_student(text)
     f('.gradebook_filter input').send_keys text
+    sleep 1 # InputFilter has a delay
   end
 
   def get_visible_students
@@ -27,7 +28,6 @@ describe "gradebook2" do
     wait_for_ajaximations
     get_visible_students.length.should == @all_students.size
     filter_student 'student 1'
-    sleep 1 # InputFilter has a delay
     visible_students = get_visible_students
     visible_students.length.should == 1
     visible_students[0].text.should == 'student 1'
@@ -295,18 +295,6 @@ describe "gradebook2" do
     end
   end
 
-  it "should give a quiz submission 30 extra seconds before making it late" do
-    submission = Submission.last
-    assignment = submission.assignment
-    assignment.update_attribute(:due_at, Time.now)
-    submission.update_attribute(:submitted_at, assignment.due_at + 30.seconds)
-    submission.update_attribute(:submission_type, 'online_quiz')
-
-    get "/courses/#{@course.id}/gradebook2"
-    wait_for_ajaximations
-    ff('.late').count.should == 0
-  end
-
   describe "message students who" do
     it "should send messages" do
       message_text = "This is a message"
@@ -571,4 +559,51 @@ describe "gradebook2" do
       f('#content h3').should include_text 'Attached files to the following user submissions'
     end
   end
+
+  it "should use the late attribute of the submission to determine lateness" do
+    get "/courses/#{@course.id}/gradebook2"
+    wait_for_ajaximations
+    ff('.late').count.should == 0
+
+    @student_3_submission.write_attribute(:late, true)
+    @student_3_submission.save!
+    get "/courses/#{@course.id}/gradebook2"
+    wait_for_ajaximations
+    ff('.late').count.should == 1
+  end
+
+  it "should not display a speedgrader link for large courses" do
+    Course.any_instance.stubs(:large_roster?).returns(true)
+
+    get "/courses/#{@course.id}/gradebook2"
+    wait_for_ajaximations
+
+    f('.gradebook-header-drop').click
+    f('.gradebook-header-menu').text.should_not match(/SpeedGrader/)
+  end
+
+  context "multiple api-pages of students" do
+    before do
+      @page_size = 5
+      Setting.set 'api_max_per_page', @page_size
+    end
+
+    def test_n_students(n)
+      n.times { |i| student_in_course(:name => "student #{i+1}") }
+      get "/courses/#{@course.id}/gradebook2"
+      wait_for_ajaximations
+      filter_student(n)
+      ff('.student-name').size.should == 1
+      f('.student-name').text.should == "student #{n}"
+    end
+
+    it "should work for 2 pages" do
+      test_n_students @page_size + 1
+    end
+
+    it "should work for >2 pages" do
+      test_n_students @page_size * 2 + 1
+    end
+  end
+
 end

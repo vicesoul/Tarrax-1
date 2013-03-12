@@ -33,11 +33,12 @@ class ApplicationController < ActionController::Base
 
   include AuthenticationMethods
   protect_from_forgery
+  # load_user checks masquerading permissions, so this needs to be cleared first
+  before_filter :clear_cached_contexts
   before_filter :load_account, :load_user
   before_filter :check_pending_otp
   before_filter :set_user_id_header
   before_filter :set_time_zone
-  before_filter :clear_cached_contexts
   before_filter :set_page_view
   after_filter :log_page_view
   after_filter :discard_flash_if_xhr
@@ -79,7 +80,7 @@ class ApplicationController < ActionController::Base
     # set some defaults
     @js_env ||= {
       :current_user_id => @current_user.try(:id),
-      :current_user => user_display_json(@current_user),
+      :current_user => user_display_json(@current_user, :profile),
       :current_user_roles => @current_user.try(:roles),
       :context_asset_string => @context.try(:asset_string),
       :AUTHENTICITY_TOKEN => form_authenticity_token,
@@ -290,7 +291,7 @@ class ApplicationController < ActionController::Base
           end
         end
 
-        @is_delegated = @domain_root_account.delegated_authentication? && !@domain_root_account.ldap_authentication? && !request.params[:canvas_login]
+        @is_delegated = delegated_authentication_url?
         render :template => "shared/unauthorized", :layout => "application", :status => :unauthorized
       }
       format.zip { redirect_to(url_for(params)) }
@@ -298,6 +299,12 @@ class ApplicationController < ActionController::Base
     end
     response.headers["Pragma"] = "no-cache"
     response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+  end
+
+  def delegated_authentication_url?
+    default_domain_root_account.delegated_authentication? &&
+    !default_domain_root_account.ldap_authentication? &&
+    !params[:canvas_login]
   end
 
   # To be used as a before_filter, requires controller or controller actions
@@ -380,7 +387,7 @@ class ApplicationController < ActionController::Base
         params[:context_type] = "Group"
         @context_enrollment = @context.group_memberships.find_by_user_id(@current_user.id) if @context && @current_user      
         @context_membership = @context_enrollment
-      elsif params[:user_id]
+      elsif params[:user_id] || (self.is_a?(UsersController) && params[:user_id] = params[:id])
         case params[:user_id]
         when 'self'
           @context = @current_user
@@ -442,7 +449,7 @@ class ApplicationController < ActionController::Base
       # the grants_right? check to avoid querying for the various memberships
       # again.
       courses = @context.current_enrollments.select { |e| e.state_based_on_date == :active }.map(&:course).uniq
-      groups = include_groups ? @context.groups.active : []
+      groups = include_groups ? @context.current_groups : []
       if only_contexts.present?
         # find only those courses and groups passed in the only_contexts
         # parameter, but still scoped by user so we know they have rights to
@@ -506,7 +513,7 @@ class ApplicationController < ActionController::Base
       @assignments = @groups.map(&:active_assignments).flatten
     else
       @groups = AssignmentGroup.for_context_codes(@context_codes).active
-      @assignments = Assignment.active.for_context_codes(@context_codes)
+      @assignments = Assignment.active.for_course(@courses.map(&:id))
     end
     @assignment_groups = @groups
 
@@ -515,7 +522,8 @@ class ApplicationController < ActionController::Base
     @submissions = @current_user.try(:submissions).to_a
     @submissions.each{ |s| s.mute if s.muted_assignment? }
 
-    sorted_by_vdd = SortsAssignments.by_varied_due_date({
+    @assignments.map! {|a| a.overridden_for(@current_user)}
+    sorted = SortsAssignments.by_due_date({
       :assignments => @assignments,
       :user => @current_user,
       :session => session,
@@ -523,12 +531,12 @@ class ApplicationController < ActionController::Base
       :submissions => @submissions
     })
 
-    @past_assignments = sorted_by_vdd.past
-    @undated_assignments = sorted_by_vdd.undated
-    @ungraded_assignments = sorted_by_vdd.ungraded
-    @upcoming_assignments = sorted_by_vdd.upcoming
-    @future_assignments = sorted_by_vdd.future
-    @overdue_assignments = sorted_by_vdd.overdue
+    @past_assignments = sorted.past
+    @undated_assignments = sorted.undated
+    @ungraded_assignments = sorted.ungraded
+    @upcoming_assignments = sorted.upcoming
+    @future_assignments = sorted.future
+    @overdue_assignments = sorted.overdue
 
     condense_assignments if requesting_main_assignments_page?
 
@@ -982,6 +990,7 @@ class ApplicationController < ActionController::Base
         flash[:error] = t "#application.errors.invalid_external_tool", "Couldn't find valid settings for this link"
         redirect_to named_context_url(context, error_redirect_symbol)
       else
+        return unless require_user
         @return_url = named_context_url(@context, :context_external_tool_finished_url, @tool.id, :include_host => true)
         @launch = BasicLTI::ToolLaunch.new(:url => @resource_url, :tool => @tool, :user => @current_user, :context => @context, :link_code => @opaque_id, :return_url => @return_url)
         if @assignment && @context.includes_student?(@current_user)
@@ -1254,6 +1263,15 @@ class ApplicationController < ActionController::Base
     (params[:format].to_s != 'json' || in_app?)
   end
 
+  def params_are_integers?(*check_params)
+    begin
+      check_params.each{ |p| Integer(params[p]) }
+    rescue ArgumentError
+      return false
+    end
+    true
+  end
+
   def reset_session
     # when doing login/logout via ajax, we need to have the new csrf token
     # for subsequent requests.
@@ -1378,7 +1396,7 @@ class ApplicationController < ActionController::Base
     includes ||= []
     data = user_profile_json(profile, viewer, session, includes, profile)
     data[:can_edit] = viewer == profile.user
-    known_user = viewer.messageable_users(:ids => [profile.user.id]).first
+    known_user = viewer.load_messageable_user(profile.user)
     common_courses = []
     common_groups = []
     if viewer != profile.user

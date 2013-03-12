@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2011 - 2012 Instructure, Inc.
+# Copyright (C) 2011 - 2013 Instructure, Inc.
 #
 # This file is part of Canvas.
 #
@@ -45,7 +45,8 @@ class Enrollment < ActiveRecord::Base
   after_save :cancel_future_appointments
   after_save :update_linked_enrollments
 
-  attr_accessible :user, :course, :workflow_state, :course_section, :limit_privileges_to_course_section
+  attr_accessor :already_enrolled
+  attr_accessible :user, :course, :workflow_state, :course_section, :limit_privileges_to_course_section, :already_enrolled
 
   def self.active_student_conditions(prefix = 'enrollments')
     "(#{prefix}.type IN ('StudentEnrollment', 'StudentViewEnrollment') AND #{prefix}.workflow_state = 'active')"
@@ -190,9 +191,9 @@ class Enrollment < ActiveRecord::Base
 
   named_scope :past,
               :joins => :course,
-              :conditions => "courses.workflow_state = 'completed' OR
-                              enrollments.workflow_state IN ('rejected', 'completed')
-                              AND enrollments.workflow_state NOT IN ('invited', 'deleted')"
+              :conditions => "(courses.workflow_state = 'completed'
+                              AND enrollments.workflow_state NOT IN ('invited', 'deleted'))
+                              OR enrollments.workflow_state IN ('rejected', 'completed')"
 
   named_scope :not_fake, :conditions => "enrollments.type != 'StudentViewEnrollment'"
 
@@ -429,7 +430,7 @@ class Enrollment < ActiveRecord::Base
 
   def assert_section
     self.course_section ||= self.course.default_section if self.course
-    self.root_account_id = self.course_section.root_account_id rescue nil
+    self.root_account_id = self.course.root_account_id rescue nil
   end
 
   def infer_privileges
@@ -615,9 +616,9 @@ class Enrollment < ActiveRecord::Base
   def has_permission_to?(action)
     @permission_lookup ||= {}
     unless @permission_lookup.has_key? action
-      @permission_lookup[action] = RoleOverride.permission_for(course, action, base_role_name, self.role_name)[:enabled]
+      @permission_lookup[action] = RoleOverride.enabled_for?(course, course, action, base_role_name, self.role_name)
     end
-    @permission_lookup[action]
+    @permission_lookup[action].include?(:self)
   end
 
   def base_role_name
@@ -921,7 +922,9 @@ class Enrollment < ActiveRecord::Base
   end
 
   def self.limit_privileges_to_course_section!(course, user, limit)
-    Enrollment.update_all({:limit_privileges_to_course_section => !!limit}, {:course_id => course.id, :user_id => user.id})
+    course.shard.activate do
+      Enrollment.update_all({:limit_privileges_to_course_section => !!limit}, {:course_id => course.id, :user_id => user.id})
+    end
     user.touch
   end
 
@@ -1019,5 +1022,20 @@ class Enrollment < ActiveRecord::Base
 
   def role
     self.role_name || self.type
+  end
+
+  # DO NOT TRUST
+  # This is only a convenience method to assist in identifying which enrollment
+  # goes to which user when users have accidentally been merged together
+  # This is the *only* reason the sis_source_id column has not been dropped
+  def sis_user_id
+    return @sis_user_id if @sis_user_id
+    sis_source_id_parts = sis_source_id ? sis_source_id.split(':') : []
+    if sis_source_id_parts.length == 4
+      @sis_user_id = sis_source_id_parts[1]
+    else
+      @sis_user_id = sis_source_id_parts[0]
+    end
+    @sis_user_id
   end
 end

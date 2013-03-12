@@ -44,7 +44,7 @@ class PseudonymSessionsController < ApplicationController
 
     @pseudonym_session = PseudonymSession.new
     @headers = false
-    @is_delegated = default_domain_root_account.delegated_authentication? && !default_domain_root_account.ldap_authentication? && !params[:canvas_login]
+    @is_delegated = delegated_authentication_url?
     @is_cas = default_domain_root_account.cas_authentication? && @is_delegated
     @is_saml = default_domain_root_account.saml_authentication? && @is_delegated
     if @is_cas && !params[:no_auto]
@@ -132,6 +132,10 @@ class PseudonymSessionsController < ApplicationController
   def create
     # reset the session id cookie to prevent session fixation.
     reset_session_for_login
+
+    if params[:pseudonym_session].blank? || params[:pseudonym_session][:password].blank?
+      return unsuccessful_login(t('errors.blank_password', "No password was given"))
+    end
 
     # Try to use authlogic's built-in login approach first
     #@pseudonym_session = @domain_root_account.pseudonym_sessions.new(params[:pseudonym_session])
@@ -227,7 +231,7 @@ class PseudonymSessionsController < ApplicationController
     flash[:logged_out] = true
     respond_to do |format|
       session.delete(:return_to)
-      if default_domain_root_account.delegated_authentication? && !default_domain_root_account.ldap_authentication?
+      if delegated_authentication_url?
         format.html { redirect_to login_url(:no_auto=>'true') }
       else
         format.html { redirect_to login_url }
@@ -591,7 +595,7 @@ class PseudonymSessionsController < ApplicationController
 
   def oauth2_accept
     # now generate the temporary code, and respond/redirect
-    code = Canvas::Oauth::Token.generate_code_for(@current_user.id, session[:oauth2][:client_id])
+    code = Canvas::Oauth::Token.generate_code_for(@current_user.global_id, session[:oauth2][:client_id])
     final_oauth2_redirect(session[:oauth2][:redirect_uri], :code => code)
     session.delete(:oauth2)
   end
