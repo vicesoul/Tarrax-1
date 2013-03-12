@@ -181,7 +181,7 @@ class CommunicationChannel < ActiveRecord::Base
   def send_otp!(code)
     m = self.messages.new
     m.to = self.path
-    m.body = t :body, "Your Canvas verification code is %{verification_code}", :verification_code => code
+    m.body = t :body, "Your Jiaoxuebang verification code is %{verification_code}", :verification_code => code
     Mailer.deliver_message(m) rescue nil # omg! just ignore delivery failures
   end
 

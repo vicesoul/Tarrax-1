@@ -1958,7 +1958,7 @@ en:
       cannot_load_collaboration: "Cannot load collaboration"
       create_failed: "Collaboration creation failed"
       no_name: "Please enter a name for this collaboration."
-      not_enabled: "Collaborations have not been enabled for this Canvas site"
+      not_enabled: "Collaborations have not been enabled for this Jiaoxuebang site"
       update_failed: "Collaboration update failed"
     forms: 
       buttons: 
@@ -2022,7 +2022,7 @@ en:
   collection_view: 
     no_items: "No items."
   communication_channel: 
-    body: "Your Canvas verification code is %{verification_code}"
+    body: "Your Jiaoxuebang verification code is %{verification_code}"
     default_facebook_account: "Facebook Account"
     default_twitter_handle: "Twitter Handle"
   communication_channels: 
@@ -2087,7 +2087,7 @@ en:
       close: "Are you sure you want to end this conference? You will not be able to reopen it"
       delete: "Are you sure you want to delete this conference?"
       quit: "It looks like you are already editing another conference. Do you wish to continue? Any unsaved changes will be lost."
-    disabled_error: "Web conferencing has not been enabled for this Canvas site"
+    disabled_error: "Web conferencing has not been enabled for this Jiaoxuebang site"
     general_error: "There was an error joining the conference"
     inactive_error: "That conference is not currently active"
     index: 
@@ -2152,7 +2152,7 @@ en:
         finished: "Finished %{date_and_time} (%{duration})"
         new: "Hasn't started yet"
         started: "Started %{time}"
-    type_disabled_error: "This type of conference is no longer enabled for this Canvas site"
+    type_disabled_error: "This type of conference is no longer enabled for this Jiaoxuebang site"
   content_exports: 
     buttons: 
       process: "Process Data"
@@ -2525,7 +2525,7 @@ en:
     chat: 
       titles: 
         chat: Chat
-    chat_not_enabled: "Chat has not been enabled for this Canvas site"
+    chat_not_enabled: "Chat has not been enabled for this Jiaoxuebang site"
     communication: 
       headings: 
         discussions: Discussions
@@ -4614,7 +4614,7 @@ en:
       new_tab_loaded: "This tool was successfully loaded in a new browser window. Reload the page to access the tool again."
   facebook: 
     authorization_required: "Only authorized users can access that page"
-    authorization_success: "Authorization successful!  Canvas and Facebook are now friends."
+    authorization_success: "Authorization successful!  Jiaoxuebang and Facebook are now friends."
     deleted: Deleted
     index: 
       all_set: "You're all set up!"
@@ -6064,7 +6064,7 @@ en:
     managed_accounts: "Managed Accounts"
     my_courses: "My Courses"
   message: 
-    default_subject: "Canvas Alert"
+    default_subject: "Jiaoxuebang Alert"
   message_students: 
     buttons: 
       send_message: "Send Message"
@@ -8447,13 +8447,13 @@ en:
       invalid_otp: "Invalid verification code, please try again"
       login_error: "There was a problem logging in at %{institution}"
       login_errors: 
-        no_config_for_id: "The Canvas account has no authentication configuration with that id"
+        no_config_for_id: "The Jiaoxuebang account has no authentication configuration with that id"
         no_idp_set: "The institution you logged in from is not configured on this account."
-        unrecognized_idp: "Canvas did not recognize your identity provider"
+        unrecognized_idp: "Jiaoxuebang did not recognize your identity provider"
       logout_errors: 
-        no_idp_found: "Canvas was unable to log you out at your identity provider"
+        no_idp_found: "Jiaoxuebang was unable to log you out at your identity provider"
       max_attempts: "Too many failed login attempts. Please try again later or contact your system administrator."
-      no_matching_user: "Canvas doesn't have an account for user: %{user}"
+      no_matching_user: "Jiaoxuebang doesn't have an account for user: %{user}"
       request_failed: "Request failed. Try again."
       user_deleted: "That user account has been deleted.  Please contact your system administrator to have your account re-activated."
     messages: 

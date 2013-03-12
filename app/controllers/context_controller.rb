@@ -215,7 +215,7 @@ class ContextController < ApplicationController
   
   def chat
     if !Tinychat.config
-      flash[:error] = t(:chat_not_enabled, "Chat has not been enabled for this Canvas site")
+      flash[:error] = t(:chat_not_enabled, "Chat has not been enabled for this Jiaoxuebang site")
       redirect_to named_context_url(@context, :context_url)
       return
     end
