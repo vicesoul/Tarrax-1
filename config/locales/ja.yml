@@ -69,13 +69,13 @@ ja:
       canvas_login_tip: |-
           ログインできなくなる問題を引き起こす設定を構成する場合は
           *%{url1}* をログイン URL の末尾に追加できます。こうすることで、
-          Canvas への通常のログイン手順でログインできるようになります。このアカウントの場合、URL は %{url2} です。
+          Jiaoxuebang への通常のログイン手順でログインできるようになります。このアカウントの場合、URL は %{url2} です。
       choose_auth_type_option: 認証サービスを選択してください
       current_settings_title: 現在の統合
       delete_auth_confirmation: よろしいですか?これを削除すると、ユーザはログインできない場合があります。
       delete_auth_link: 認証の削除
       edit_auth_link: 詳細の編集
-      ip_address_list_description: "Canvas サーバを必要とする認証サービス (LDAP など) を使用して、ご利用のサーバと直接通信している場合は、これらの IP アドレスからの接続をサーバが確実に受け入れることができるようにする必要があります。"
+      ip_address_list_description: "Jiaoxuebang サーバを必要とする認証サービス (LDAP など) を使用して、ご利用のサーバと直接通信している場合は、これらの IP アドレスからの接続をサーバが確実に受け入れることができるようにする必要があります。"
       no_auth_type_description: "このアカウントは現在、ID プロバイダーと統合されていません。"
       page_title: 認証設定
       profile_page_link_example: "例えば、プロフィール ページは次のようになっています。 [%{friendlyname}](%{url})"
@@ -86,7 +86,7 @@ ja:
     ldap_settings: 
       add_secondary_ldap_server_link: "セカンダリ LDAP サーバの追加"
       auth_type_label: タイプ
-      change_password_url_help: "Canvas のデフォルトの動作でよい場合は、空白のままにします"
+      change_password_url_help: "Jiaoxuebang のデフォルトの動作でよい場合は、空白のままにします"
       change_password_url_not_specified: 何も指定されていません
       labels: 
         change_password_url: "パスワード URL を忘れた場合"
@@ -99,7 +99,7 @@ ja:
     ldap_settings_fields: 
       auth_filter_description: "ユーザが入力するユーザ名のプレースホルダーとして *%{placeholder}* を使用します。例:  *(sAMAccountName=%{placeholder})*"
       auth_password_description: 現在のパスワードを引き続き使用する場合は、空白のままにします。
-      identifer_format_description: "Canvas ログインの参照に使用する LDAP 属性。ユーザによって指定されたユーザ名を使用する場合は、空白のままにします。"
+      identifer_format_description: "Jiaoxuebang ログインの参照に使用する LDAP 属性。ユーザによって指定されたユーザ名を使用する場合は、空白のままにします。"
       labels: 
         auth_base: ベース
         auth_filter: フィルタ
@@ -122,14 +122,14 @@ ja:
       ldap_test_login_button: "テスト ログイン"
       test_ldap_bind_help_body: "LDAP サーバによってバインドの試みが拒否されました。考慮事項は、次のとおりです。"
       test_ldap_bind_help_fixes_1: "提供されたフィルタ文字列 (つまり、'(sAMAccountName={{login}})') を確認します。"
-      test_ldap_bind_help_fixes_2: "ユーザ名に、その他のスコープ情報が必要ですか?(つまり、'cn=Canvas,ou=people,dc=example,dc=com')。"
-      test_ldap_bind_help_header: "Canvas が LDAP サーバにバインド (ログイン) できません"
+      test_ldap_bind_help_fixes_2: "ユーザ名に、その他のスコープ情報が必要ですか?(つまり、'cn=Jiaoxuebang,ou=people,dc=example,dc=com')。"
+      test_ldap_bind_help_header: "Jiaoxuebang が LDAP サーバにバインド (ログイン) できません"
       test_ldap_bind_label: "LDAP バインドをテストしています..."
       test_ldap_connection_help_body: 接続がタイムアウトになったか、または拒否されました。考慮事項は、次のとおりです。
-      test_ldap_connection_help_fixes_1: "Canvas は %{ips} に接続しています。"
+      test_ldap_connection_help_fixes_1: "Jiaoxuebang は %{ips} に接続しています。"
       test_ldap_connection_help_fixes_2: "行われたのは接続テストのみです。SSL 証明書は検証されませんでした。"
-      test_ldap_connection_help_fixes_3: "ファイアウォールの設定を確認してください。Canvas のすべての IP アドレスにサーバへのアクセスを許可しますか?"
-      test_ldap_connection_help_header: "Canvas が LDAP サーバに接続できません"
+      test_ldap_connection_help_fixes_3: "ファイアウォールの設定を確認してください。Jiaoxuebang のすべての IP アドレスにサーバへのアクセスを許可しますか?"
+      test_ldap_connection_help_header: "Jiaoxuebang が LDAP サーバに接続できません"
       test_ldap_connection_label: 接続をテストしています...
       test_ldap_dialog_close: 閉じる
       test_ldap_dialog_page_title: "LDAP 構成のテスト"
@@ -140,11 +140,11 @@ ja:
       test_ldap_search_help_fixes_1: "提供されたフィルタ文字列 (つまり、'(sAMAccountName={{login}})') を確認します。"
       test_ldap_search_help_fixes_2: "提供された検索ベース (つまり、'ou=people,dc=example,dc=com') を確認します。"
       test_ldap_search_help_fixes_3: "LDAP のユーザ オブジェクトに、提供された検索ベースに対する検索特権があることを確認してください。"
-      test_ldap_search_help_header: "Canvas は LDAP インスタンスを検索できません"
+      test_ldap_search_help_header: "Jiaoxuebang は LDAP インスタンスを検索できません"
       test_ldap_search_label: "LDAP 検索をテストしています..."
     ldap_timeout_error: 
       last_ldap_timeout_failure: 前回のタイムアウト
-      ldap_timeout_failure_help: "Canvas は、LDAP サーバとの通信がタイムアウトした場合、それ以降の %{time} 間はその LDAP サーバからのログイン試行をブロックします。"
+      ldap_timeout_failure_help: "Jiaoxuebang は、LDAP サーバとの通信がタイムアウトした場合、それ以降の %{time} 間はその LDAP サーバからのログイン試行をブロックします。"
     login_required: 入力が必要です
     no_auth_mixing: 複数の認証の種類を組み合わせることはできません
     no_changing_auth_types: 認証設定の種類は変更できません。削除した後、新しい設定を作成してください。
@@ -159,7 +159,7 @@ ja:
       certificate_fingerprint: 証明書の指紋
       change_password_url: パスワード変更のリンク
       discovery_url: "検出 URL:"
-      discovery_url_description: "検出 URL を設定すると、Canvas は認証の必要なすべてのユーザをその URL に転送します。そのページでは、ログインのためにアクセスする必要のある場所をユーザに指示する必要があります。検出 URL を設定しないと、最初の SAML 設定がユーザの認証の試行に使用されます。"
+      discovery_url_description: "検出 URL を設定すると、Jiaoxuebang は認証の必要なすべてのユーザをその URL に転送します。そのページでは、ログインのためにアクセスする必要のある場所をユーザに指示する必要があります。検出 URL を設定しないと、最初の SAML 設定がユーザの認証の試行に使用されます。"
       identifier_format: 識別子の形式
       idp_entity_id: "IdP エンティティ ID"
       labels: 
@@ -191,7 +191,7 @@ ja:
       auth_request_to_idp: "IdP に送信された AuthnRequest"
       auth_response_from_idp: "IdP からの AuthnResponse"
       labels: 
-        canvas_login_fail_message: "Canvas ログイン失敗メッセージ"
+        canvas_login_fail_message: "Jiaoxuebang ログイン失敗メッセージ"
         fingerprint_from_idp: "IdP 証明書の指紋"
         idp_in_response_to: "IdP inResponseTo"
         idp_login_destination: "IdP LoginResponse の宛先"
@@ -205,7 +205,7 @@ ja:
         is_valid_login_response: 応答は有効です
         logged_in_user_id: "ログイン中のユーザ ID"
         login_response_validation_error: 検証エラー
-        login_to_canvas_success: "ユーザは Canvas に正常にログインしました"
+        login_to_canvas_success: "ユーザは Jiaoxuebang に正常にログインしました"
         logout_request_id: "ログアウトされた要求 ID"
         logout_to_idp_url: "LogoutRequest エンコード済み URL"
         logout_to_idp_xml: "IdP に送信された LogoutRequest XML"
@@ -363,10 +363,10 @@ ja:
       account_reports: 
         sis_export: 
           description: 
-            text: "このレポートでは、それぞれのカテゴリでの Canvas の準備に関連する必要な情報がすべてエクスポートされます。"
+            text: "このレポートでは、それぞれのカテゴリでの Jiaoxuebang の準備に関連する必要な情報がすべてエクスポートされます。"
     settings: 
       about_google_docs: |-
-          ユーザにとって使い易いよう、Word 文書、PDF 、Excel スプレッドシートやオープン オフィス文書のように(プログラムを自分のコンピュータにインストールすることを要求する上で) 何かしらをダウンロードすることを強いるのではなく、Canvas 内のさまざまなエリアで、文書をインライン プレビューできるようになっています。
+          ユーザにとって使い易いよう、Word 文書、PDF 、Excel スプレッドシートやオープン オフィス文書のように(プログラムを自分のコンピュータにインストールすることを要求する上で) 何かしらをダウンロードすることを強いるのではなく、Jiaoxuebang 内のさまざまなエリアで、文書をインライン プレビューできるようになっています。
           
           このアカウントで Scribd が使用可能になっている場合は、Scribd を使用したプレビューの表示が試みられます。しかしScribd では文書表示に FlashP Player が使用され、多くのユーザ (つまり iPad/iPhone ユーザ) は Flash Player をインストールしていないので、このプレビューは機能しません。Google ドキュメントのプレビューを使用可能にしておけば、ブラウザで Flash が使用可能になっていない場合、あるいは Scribd が使用可能になっていない場合でも、Google ドキュメントのプレビューが使用されます。このサービスを使用するにはGoogle のビューアが必要です [サービス利用規約](%{terms_url})
       about_google_docs_tooltip: "Google ドキュメントのプレビューについて"
@@ -395,7 +395,7 @@ ja:
       default_language_description: "この設定は、どのブラウザ/OS の言語設定よりも優先されます。ただし優先して使用される言語は、コース/ユーザ レベルでも設定できます。"
       delete: 削除
       delete_announcement_tooltip: このアナウンスを削除
-      email_notification_from_description: "この設定を使用すると、このアカウントに対して Canvas から送信されるすべてのお知らせの '送信元' テキストに、ブランドまたはラベルを設定できます。"
+      email_notification_from_description: "この設定を使用すると、このアカウントに対して Jiaoxuebang から送信されるすべてのお知らせの '送信元' テキストに、ブランドまたはラベルを設定できます。"
       email_notification_from_settings: "電子メールのお知らせの \"送信元\" の設定"
       enabled_web_serices_title: "使用可能になっている Web サービス"
       equall_endpoint_help: "ご利用の Equella サービスの URL です。これはおそらく、\"%{sample_url}\" のような表示になります。"
@@ -422,7 +422,7 @@ ja:
         allow_invitation_previews: 招待プレビュー
         allow_sending_scores_in_emails: 受講生は、電子メール通知で採点を受け取ることを選択できる
         allow_sis_import: "SIS インポート"
-        canvas_authentication: "Canvas 認証"
+        canvas_authentication: "Jiaoxuebang 認証"
         default_course_storage_quota: "デフォルトのコース ファイル クォータ"
         default_language: デフォルトの言語
         default_time_zone: "デフォルトのタイム ゾーン"
@@ -450,7 +450,7 @@ ja:
         no_enrollments_can_create_courses: 登録のないユーザ
         open_registration: 登録を開く
         outgoing_email_default_name_option_custom: "カスタム \"送信元\" 名"
-        outgoing_email_default_name_option_default: "Canvas のデフォルト設定"
+        outgoing_email_default_name_option_default: "Jiaoxuebang のデフォルト設定"
         prevent_course_renaming_by_teachers: 講師によるコース名の変更を許可しない
         self_enrollment: セルフ登録を許可する
         show_scheduler: スケジューラの有効化
@@ -475,14 +475,14 @@ ja:
       never_allow_self_enrollment_option: 許可しない
       no_language_preference: "設定なし (デフォルトは %{language})"
       notifications: 
-        custom_name_description: "選択した場合、Canvas のお知らせで送信される他のすべてのブランド設定を置き換えます。"
+        custom_name_description: "選択した場合、Jiaoxuebang のお知らせで送信される他のすべてのブランド設定を置き換えます。"
         email_date: 日付
         email_reply_to: 返信先
         email_to: 宛先
         example: "例:"
         external_services: 外部サービスに送信されたお知らせ
         external_services_label: お知らせ設定ページで一時的なポップアップ警告を表示します。
-        external_services_warning: "注意: お知らせには機密情報が含まれる場合があります。組織で提供されているアドレス以外の電子メールでお知らせを受信するように選択すると、Canvas のコースとグループに関する機密情報が組織外のシステムに送信される可能性があります。"
+        external_services_warning: "注意: お知らせには機密情報が含まれる場合があります。組織で提供されているアドレス以外の電子メールでお知らせを受信するように選択すると、Jiaoxuebang のコースとグループに関する機密情報が組織外のシステムに送信される可能性があります。"
         external_services_warning_label: "ポップアップ メッセージの内容"
         from: 自
         sample_subject: "成績が変更されました: サーベイをチェックイン、コースをテスト"
@@ -515,7 +515,7 @@ ja:
       tab_notifications: お知らせ
       tab_reports: レポート
       tab_settings: 設定
-      transifex_message: "[Canvas 翻訳コミュニティ](%{transifex_url}) に参加"
+      transifex_message: "[Jiaoxuebang 翻訳コミュニティ](%{transifex_url}) に参加"
       turnitin_comments_help: "これらのコメントは、Turnitin が使用可能になっている課題を受講生が提出する際に表示されます"
       turnitin_pledge_help: "受講生は、この誓約に同意する旨のチェック ボックスにチェック マークを付ける必要があります。"
       turnitin_settings_title: "Turnitin 設定"
@@ -1191,14 +1191,14 @@ ja:
           text_entry: テキスト入力
           website: "Web サイトの URL"
       messages: 
-        google_docs_auth_required: "Google ドキュメントから課題を直接提出する場合は、その前に、次の Google ドキュメント アカウントにアクセスするための権限を Canvas に与える必要があります:"
+        google_docs_auth_required: "Google ドキュメントから課題を直接提出する場合は、その前に、次の Google ドキュメント アカウントにアクセスするための権限を Jiaoxuebang に与える必要があります:"
         media_recording_ready: "提出の準備ができました![課題の提出] ボタンをクリックして、完了します。"
-        media_recordings_disabled: "メディアに記録されたデータは、この Canvas サイトでは無効になっています。そのため、この種類の課題を提出することはできません。この課題の設定変更については、インストラクタまでお問合せください。または、メディアに記録されたデータを有効にできるかどうか、システム管理者までお問合せください。"
+        media_recordings_disabled: "メディアに記録されたデータは、この Jiaoxuebang サイトでは無効になっています。そのため、この種類の課題を提出することはできません。この課題の設定変更については、インストラクタまでお問合せください。または、メディアに記録されたデータを有効にできるかどうか、システム管理者までお問合せください。"
         submitting: 提出しています...
         uploading: "この課題に対して提出するため、Google ドキュメントを 1 部取得しています。ファイルのサイズによっては、しばらく時間がかかる場合があります。"
       no_files: ファイルがありません
       titles: 
-        media_recordings_disabled: "メディアに記録されたデータは、この Canvas サイトでは無効になっています"
+        media_recordings_disabled: "メディアに記録されたデータは、この Jiaoxuebang サイトでは無効になっています"
         view_in_separate_window: 別のウィンドウで表示
       upload_or_choose_file: ファイルをアップロードするか、アップロード済みのファイルを選択します。
     syllabus: 
@@ -1612,7 +1612,7 @@ ja:
     ics_description_course: "次のコースのカレンダー イベント: %{course_name}"
     ics_description_group: "次のグループのカレンダー イベント: %{group_name}"
     ics_description_user: "次のユーザのカレンダー イベント: %{user_name}"
-    ics_title: "%{course_or_group_name} のカレンダー (Canvas)"
+    ics_title: "%{course_or_group_name} のカレンダー (Jiaoxuebang)"
   calendars: 
     assignment_details: 課題の詳細
     calendar: 
@@ -1803,13 +1803,13 @@ ja:
       cannot_load_collaboration: 共同作業を読み込めません
       create_failed: 共同作業の作成に失敗しました
       no_name: この共同作業の名前を入力してください
-      not_enabled: "この Canvas サイトでは共同作業は使用可能になっていません"
+      not_enabled: "この Jiaoxuebang サイトでは共同作業は使用可能になっていません"
       update_failed: 共同作業の更新に失敗しました
     forms: 
       buttons: 
         delete_from_canvas: |-
             削除  
-            Canvas から
+            Jiaoxuebang から
         delete_from_google_docs: |-
             次の場所からも削除  
             Google ドキュメント
@@ -1827,7 +1827,7 @@ ja:
         description: 説明
         document_name: "文書名:"
       messages: 
-        delete_google_doc_as_well: "この共同作業は Google ドキュメントとして保存されています。Canvas だけから削除しますか? または Google ドキュメントからも削除しますか?"
+        delete_google_doc_as_well: "この共同作業は Google ドキュメントとして保存されています。Jiaoxuebang だけから削除しますか? または Google ドキュメントからも削除しますか?"
       titles: 
         new: 新しい共同作業の開始
     index: 
@@ -1862,10 +1862,10 @@ ja:
       delete: 共同作業を削除しますか?
   collection_items: 
     new: 
-      pin_to_canvas_network: "Canvas ネットワークに固定"
+      pin_to_canvas_network: "Jiaoxuebang ネットワークに固定"
       saved_successfully: 正常に保存されました
   communication_channel: 
-    body: "Canvas 検証コードは %{verification_code} です"
+    body: "Jiaoxuebang 検証コードは %{verification_code} です"
     default_facebook_account: "Facebook アカウント"
     default_twitter_handle: "Twitter ハンドルネーム"
   communication_channels: 
@@ -1875,7 +1875,7 @@ ja:
         back: 戻る
         continue: 続行
         create_account: "マイ アカウントの作成"
-        have_account: "私は Canvas アカウントを持っています"
+        have_account: "私は Jiaoxuebang アカウントを持っています"
         login_as: "%{invited_user} でログイン"
         merge: 結合
         new_account: 新しいアカウント
@@ -1887,7 +1887,7 @@ ja:
         : はい
       details: 
         account_exists: "**%{email}** に対するアカウントは既に存在しています。このアカウントを使用しますか?"
-        account_needed: "**%{course}** に招待されています。この要求を受諾するには、Canvas アカウントが必要です。下のリンクをクリックして、Canvas アカウントを作成してください。"
+        account_needed: "**%{course}** に招待されています。この要求を受諾するには、Jiaoxuebang アカウントが必要です。下のリンクをクリックして、Jiaoxuebang アカウントを作成してください。"
         add_email: "この電子メール アドレスを現在のアカウントに追加しますか?"
         choose_login: ログイン先を選択してください。
         logged_in_other_user: "**%{email} は新しいアカウントですが、現在 **%{user}** でログインしています。"
@@ -1924,7 +1924,7 @@ ja:
       close: この会議を終了してもよろしいですか?もう一度開くことはできません
       delete: この会議を削除してもよろしいですか?
       quit: 既に別の会議を編集中のようです。続行しますか?保存していない変更内容はすべて失われます。
-    disabled_error: "この Canvas サイトでは Web 会議は使用可能になっていません"
+    disabled_error: "この Jiaoxuebang サイトでは Web 会議は使用可能になっていません"
     general_error: 会議に参加する際にエラーが発生しました
     inactive_error: その会議は現在アクティブになっていません
     index: 
@@ -1990,7 +1990,7 @@ ja:
         finished: "終了日時 %{date_and_time} (%{duration})"
         new: まだ始まっていません
         started: "開始時刻 %{time}"
-    type_disabled_error: "このタイプの会議は、この Canvas サイトではもう使用できません"
+    type_disabled_error: "このタイプの会議は、この Jiaoxuebang サイトではもう使用できません"
   content_exports: 
     buttons: 
       process: データの処理
@@ -2140,7 +2140,7 @@ ja:
     files: 
       buttons: 
         skip: この手順をスキップする
-      description: "ファイル一式を zip してコースにアップロードしていただければ、当システムがすべて抽出いたします。別のシステムから Canvas にファイルを移動する場合は、この方法が簡単です。"
+      description: "ファイル一式を zip してコースにアップロードしていただければ、当システムがすべて抽出いたします。別のシステムから Jiaoxuebang にファイルを移動する場合は、この方法が簡単です。"
       instructions: 
         webct: 
           ? "1"
@@ -2169,10 +2169,10 @@ ja:
         migrations_needing_action: 対処が必要な移行
         successful_migrations: 成功した移行
     intro: 
-      description: "別のコース管理システムから Canvas に移動している場合は、ファイル、クイズ、課題など、移動したいものがさまざまあることが予想されます。このウィザードを使用すると、そうした処理を非常に簡単に行えるはずです。"
+      description: "別のコース管理システムから Jiaoxuebang に移動している場合は、ファイル、クイズ、課題など、移動したいものがさまざまあることが予想されます。このウィザードを使用すると、そうした処理を非常に簡単に行えるはずです。"
       if_any: (必要な場合)
       links: 
-        copy_course: "**別の Canvas コース** から内容をコピー"
+        copy_course: "**別の Jiaoxuebang コース** から内容をコピー"
         import_files: ファイルのインポート
         import_package: "**コンテンツ パッケージ** または **別のシステム** から内容をインポート"
         import_quizzes: クイズのインポート
@@ -2267,7 +2267,7 @@ ja:
         import_more: "別の QTI ファイルをインポート"
       defaults: 
         unnamed_quiz: 名前の付いていないクイズ
-      details: "Canvas では、IMS QTI 形式のクイズをインポートできます。ほとんどのシステムでは、クイズをこの形式でエクスポートできます。Respondus のような一般的なクイズ ツールを使用して、IMS QTI の作成とエクスポートを行うこともできます。下のファイルをアップロードすると、インポートの完了時に電子メールが送信されます。"
+      details: "Jiaoxuebang では、IMS QTI 形式のクイズをインポートできます。ほとんどのシステムでは、クイズをこの形式でエクスポートできます。Respondus のような一般的なクイズ ツールを使用して、IMS QTI の作成とエクスポートを行うこともできます。下のファイルをアップロードすると、インポートの完了時に電子メールが送信されます。"
       errors: 
         choose_file: "アップロードする .zip ファイルを選択してください"
         upload_failed: アップロードに失敗しました。もう一度やり直してください
@@ -2364,7 +2364,7 @@ ja:
     chat: 
       titles: 
         chat: チャット
-    chat_not_enabled: "この Canvas サイトではチャットは使用可能になっていません"
+    chat_not_enabled: "この Jiaoxuebang サイトではチャットは使用可能になっていません"
     communication: 
       headings: 
         discussions: ディスカッション
@@ -2485,7 +2485,7 @@ ja:
         user_services: "登録済みの Web サービス"
       help: 
         list_services: まだ、登録済みサービスのリストを有効にしていません。このリストを有効にすると、教室を離れているときでも、仲間のコースやグループのメンバーがより簡単にご自分と連携できるようになります。
-        services: "まだ、ご自分のユーザ プロフィールをどの外部サービスにもリンクしていません。Canvas アカウントを Facebook や Twitter などのサービスにリンクすることができます。そうすれば、教室を離れているときでも、仲間のコースやグループのメンバーがより簡単にご自分と連携できるようになります。"
+        services: "まだ、ご自分のユーザ プロフィールをどの外部サービスにもリンクしていません。Jiaoxuebang アカウントを Facebook や Twitter などのサービスにリンクすることができます。そうすれば、教室を離れているときでも、仲間のコースやグループのメンバーがより簡単にご自分と連携できるようになります。"
       labels: 
         public_list_services: マイプロフィールにリンクされているサービスを、仲間のコース/グループのメンバーが確認できるようにする
         user_privileges: 特権
@@ -2524,9 +2524,9 @@ ja:
         registered_services: 登録済みサービス
         service_types: サービスのタイプ
       help: 
-        no_services: "まだ、ご自分のユーザ プロフィールをどの外部サービスにもリンクしていません。Canvas アカウントを Facebook や Twitter などのサービスにリンクすることができます。"
-        services_private: "まだ、登録済みサービスのリストを有効にしていません。このリストを有効にすると、ご自分の Canvas アカウントにリンクされているサービスを、仲間のコースやグループのメンバーが確認できるようになります。"
-        user_services: "ほかのメンバーは、必要と思えば、そのメンバーの Canvas アカウントにリンクされている外部サービスをあなたに公開することもできます。これにより、グループ プロジェクトのコーディネートや、教室を離れているときの連携がより簡単になります。"
+        no_services: "まだ、ご自分のユーザ プロフィールをどの外部サービスにもリンクしていません。Jiaoxuebang アカウントを Facebook や Twitter などのサービスにリンクすることができます。"
+        services_private: "まだ、登録済みサービスのリストを有効にしていません。このリストを有効にすると、ご自分の Jiaoxuebang アカウントにリンクされているサービスを、仲間のコースやグループのメンバーが確認できるようになります。"
+        user_services: "ほかのメンバーは、必要と思えば、そのメンバーの Jiaoxuebang アカウントにリンクされている外部サービスをあなたに公開することもできます。これにより、グループ プロジェクトのコーディネートや、教室を離れているときの連携がより簡単になります。"
       labels: 
         allow_view_services: マイプロフィールにリンクされているサービスを、仲間のコース/グループのメンバーが確認できるようにする
       links: 
@@ -2927,7 +2927,7 @@ ja:
   conversations_intro: 
     slide1: 
       paragraph1: 受信箱を確認してください!
-      paragraph2: "Canvas の新しいメッセージング システムである Conversations が導入されました!"
+      paragraph2: "Jiaoxuebang の新しいメッセージング システムである Conversations が導入されました!"
       paragraph3: "Conversations を使用すると、クラスメートに個人的なメッセージを送信したり、グループのメンバー全員と話したりできます。"
       paragraph4: "簡単な紹介を見る準備ができましたか? 始めるには右の矢印をクリックしてください。"
     slide2: 
@@ -3018,7 +3018,7 @@ ja:
       assignment_groups: 課題グループをエクスポートできませんでした
       assignment_is_locked: "課題 \"%{title}\" はロックされているためコピーできませんでした。"
       assignments: 一部の課題をエクスポートできませんでした
-      canvas_meta: "Canvas 固有のメタデータをエクスポートできませんでした"
+      canvas_meta: "Jiaoxuebang 固有のメタデータをエクスポートできませんでした"
       course_export: コースのエクスポートでエラーが発生しました
       course_settings: コース設定をエクスポートできませんでした
       events: "カレンダー イベントをエクスポートできませんでした"
@@ -3188,7 +3188,7 @@ ja:
               素晴らしい。コースの準備ができていますね。次は何をすべきでしょうか。世界に公開する前に、基本事項が整っているか、確認のためのチェックを行いたいのではないでしょうか。左側にあるリストを 1 つずつチェックして、そのコースがすぐに使用できる状態になっているか、ご確認ください。
               
               *このコースは、公開されるまでは講師のみに表示されます*
-          saved: "すべて完了です!コース「%{course}」が正式に作成されました。公開されるまでは、ご自分にしか表示されません。ただし、急ぐべからず。左側のリストを 1 つずつチェックして、Canvas が実際にどのような働きをするか感触を掴み、受講生に教える準備が本当に整っているか、確認してください。"
+          saved: "すべて完了です!コース「%{course}」が正式に作成されました。公開されるまでは、ご自分にしか表示されません。ただし、急ぐべからず。左側のリストを 1 つずつチェックして、Jiaoxuebang が実際にどのような働きをするか感触を掴み、受講生に教える準備が本当に整っているか、確認してください。"
         created: 
           not_saved: |-
               このクラスは既に作成されていますが、まだ使用権が請求されていません。1 週間以内に使用権が請求されない場合、自動的に削除されます。とりあえず、左側のリストを 1 つずつチェックして、公開の準備ができているかご確認ください。
@@ -3197,21 +3197,21 @@ ja:
               
               このコースの使用権を請求するには、 **ログイン** または ***登録*** を行ってください。
           saved: |-
-              すべて完了です!コース「%{course}」が正式に作成されました。公開されるまでは、ご自分にしか表示されません。ただし、急ぐべからず。左側のリストを 1 つずつチェックして、Canvas が実際にどのような働きをするか感触を掴み、受講生に教える準備が本当に整っているか、確認してください。
+              すべて完了です!コース「%{course}」が正式に作成されました。公開されるまでは、ご自分にしか表示されません。ただし、急ぐべからず。左側のリストを 1 つずつチェックして、Jiaoxuebang が実際にどのような働きをするか感触を掴み、受講生に教える準備が本当に整っているか、確認してください。
               
               先に進む前に別のページに移動する必要がある場合は、ひとまず *このリンク* を保存し、のちほどこのページに戻ってきてください。
               
               このコースの使用権を請求するには、 **ログイン** または ***登録*** を行ってください。
-        files: "[ファイル] タブは、講義用スライド、文書サンプル、研究支援素材など、受講生がダウンロードを希望するものを何でも共有できる場所です。ファイルのアップロードや整理は、Canvas なら簡単に行うことができます。使用方法をご覧ください。"
+        files: "[ファイル] タブは、講義用スライド、文書サンプル、研究支援素材など、受講生がダウンロードを希望するものを何でも共有できる場所です。ファイルのアップロードや整理は、Jiaoxuebang なら簡単に行うことができます。使用方法をご覧ください。"
         home: "誰かがこのコースを訪れたとき、最初に目にするのはこのページです。アクティビティ ストリーム、コース モジュールの一覧、要綱、またはご自身で書いたカスタム ページが表示されるように設定できます。 デフォルトは、コースのアクティビティ ストリームです。これをカスタマイズするには、%{change_layout} をクリックします。"
-        import: "別のコース管理システムをご利用になっていた場合は、既にその場所にできあがっているものを Canvas に移動したいとお考えではないでしょうか。当システムでは、コンテンツを簡単に Canvas に移行するためのプロセスを、順を追ってご案内しています。"
+        import: "別のコース管理システムをご利用になっていた場合は、既にその場所にできあがっているものを Jiaoxuebang に移動したいとお考えではないでしょうか。当システムでは、コンテンツを簡単に Jiaoxuebang に移行するためのプロセスを、順を追ってご案内しています。"
         navigation: "デフォルトでは、コース用のすべてのリンクが有効になります。受講生には、コンテンツのないセクションへのリンクは表示されません。例えば、クイズを 1 つも作成していない場合、そのクイズへのリンクは受講生には表示されません。コース内に、受講生からのアクセスを禁止したいエリアがある場合は、それらのリンクを並べ替えて明確に無効にすることができます。"
         publish: 
           form: |-
               すべて完了しましたか?それでは、コースを公開しましょう!下のボタンをクリックして、公式なコースにします!
               
               公開すると、すべてのコース ユーザに電子メールで招待状が送信され、招待状を受け取ったユーザはサインアップして参加できるようになります。
-          not_registered: "このコースは使用権が請求され準備が整っていますが、コースを公開するには、その前に登録プロセスを完了する必要があります。この処理を完了するためのリンクが書かれた電子メールが、既に Canvas から送られているはずです。スパム用の受信箱も確認してみてください。"
+          not_registered: "このコースは使用権が請求され準備が整っていますが、コースを公開するには、その前に登録プロセスを完了する必要があります。この処理を完了するためのリンクが書かれた電子メールが、既に Jiaoxuebang から送られているはずです。スパム用の受信箱も確認してみてください。"
         students: 次のうちいくつかは、必ず必要になります。もし誰も聴いていないとしたら、コースで教えることに何の面白みがあるでしょう。
         tas: "コースの手助けとして、TA を割り当てることができます。TA は、受講生の提出物の採点や、ディスカッションの管理の手助けをすることができます。また、期日や課題の詳細をあなたに代わって更新することさえできます。"
       headings: 
@@ -3429,7 +3429,7 @@ ja:
         users: ユーザ
       titles: 
         edit_navigation: "コース ナビゲーションの編集"
-      transifex_message: "[Canvas 翻訳コミュニティ](%{transifex_url}) に参加"
+      transifex_message: "[Jiaoxuebang 翻訳コミュニティ](%{transifex_url}) に参加"
       turnitin: "これらのコメントは、Turnitin が使用可能になっている課題を受講生が提出する際に表示されます"
       user_view: 
         links: 
@@ -4050,7 +4050,7 @@ ja:
       formatting: 書式設定、押して選択
       rte_help: "リッチ テキスト領域。ツールバーの場合は ALT + F10 を押してください。ヘルプの場合は ALT + 0 を押してください。"
   email: 
-    default_from_name: "Instructure Canvas"
+    default_from_name: "Instructure Jiaoxuebang"
   enrollment: 
     default_course_name: コース
     default_email: 電子メールなし
@@ -4264,7 +4264,7 @@ ja:
       write_only_comments: このページへのコメントは非公開です。コメントすることはできますが、そのコメントを見ることができるのはポートフォリオの所有者のみです。
     show_me: 表示する
     static_page: 
-      created_with_canvas: "Canvas により作成"
+      created_with_canvas: "Jiaoxuebang により作成"
       headers: 
         page_comments: ページへのコメント
       links: 
@@ -4413,7 +4413,7 @@ ja:
       custom_fields_explanation: "(1 行に1 つ、形式:名前=値)"
       domain: ドメイン
       email_only: 電子メールのみ
-      external_tools_note: "外部ツールは、Basic LTI との統合をサポートする、Canvas の外側にあるツールです。追加するための正しい構成パラメータについては、ツールの作成者に問い合わせる必要があります。ツールはアカウント レベルで構成してから、アカウント内のコース用のコース モジュールに、コンテンツとして追加できます。"
+      external_tools_note: "外部ツールは、Basic LTI との統合をサポートする、Jiaoxuebang の外側にあるツールです。追加するための正しい構成パラメータについては、ツールの作成者に問い合わせる必要があります。ツールはアカウント レベルで構成してから、アカウント内のコース用のコース モジュールに、コンテンツとして追加できます。"
       labels: 
         config_type: 設定のタイプ
         config_url: "設定 URL"
@@ -4451,27 +4451,27 @@ ja:
       new_tab_loaded: このツールは、ブラウザの別ウィンドウに正常に読み込まれました。ページを再読み込みして、もう一度ツールにアクセスしてください。
   facebook: 
     authorization_required: 認証されたユーザのみが、そのページにアクセスできます
-    authorization_success: "正常に認証されました!これで Canvas と Facebook はフレンドです。"
+    authorization_success: "正常に認証されました!これで Jiaoxuebang と Facebook はフレンドです。"
     deleted: 削除済み
     index: 
       all_set: すべて設定されました!
-      bookmark_notice: "このアプリケーションを Facebook のブックマークに登録すると、Canvas の新しいお知らせの数を Facebook のホーム ページから確認できます。"
-      canvas_messages: "Canvas メッセージ"
-      configure_notification_preferences_notice: "*お知らせの基本設定* が完了すると、ここにお知らせが表示されるようになり、ご自分の Canvas アカウントで起きている事柄を知ることができます。"
-      installation_about: "Canvas Facebook アプリをインストールするには、Canvas のプロフィール ページに進み、Facebook ボタンをクリックして、アカウントを Facebook に接続します。"
+      bookmark_notice: "このアプリケーションを Facebook のブックマークに登録すると、Jiaoxuebang の新しいお知らせの数を Facebook のホーム ページから確認できます。"
+      canvas_messages: "Jiaoxuebang メッセージ"
+      configure_notification_preferences_notice: "*お知らせの基本設定* が完了すると、ここにお知らせが表示されるようになり、ご自分の Jiaoxuebang アカウントで起きている事柄を知ることができます。"
+      installation_about: "Jiaoxuebang Facebook アプリをインストールするには、Jiaoxuebang のプロフィール ページに進み、Facebook ボタンをクリックして、アカウントを Facebook に接続します。"
       learn_more: "instructure.com で詳しく学ぶ"
       more_information: "詳細は %{domain_list} をご覧ください"
-      no_messages_notice: "コースで物事が起きるにつれ、ここにお知らせが表示されるようになります。ご自分の Canvas アカウントで起きている事柄を知ることができます。"
-      notification_about: "Canvas Facebook アプリによって、コース内部で行われている交流に、より簡単にアクセスできます。自分の課題が採点されたとき、期日が変更されたときなどに、お知らせを受けるように設定できます。個人情報はCanvas でも非公開のままとなります。"
+      no_messages_notice: "コースで物事が起きるにつれ、ここにお知らせが表示されるようになります。ご自分の Jiaoxuebang アカウントで起きている事柄を知ることができます。"
+      notification_about: "Jiaoxuebang Facebook アプリによって、コース内部で行われている交流に、より簡単にアクセスできます。自分の課題が採点されたとき、期日が変更されたときなどに、お知らせを受けるように設定できます。個人情報はJiaoxuebang でも非公開のままとなります。"
       notification_settings: お知らせ設定
-      notifications_notice: "以下に表示されているのは、Canvas から送信された最新のお知らせ一覧です。このアプリケーションを Facebook のブックマークに登録すると、Canvas の新しいお知らせの数を Facebook のホーム ページから確認できます。"
+      notifications_notice: "以下に表示されているのは、Jiaoxuebang から送信された最新のお知らせ一覧です。このアプリケーションを Facebook のブックマークに登録すると、Jiaoxuebang の新しいお知らせの数を Facebook のホーム ページから確認できます。"
       welcome: "%{name} さん、お帰りなさい!"
       welcome_message: "Instructure が提供する、新しいタイプのオンライン ラーニング ソフトウェアへようこそ。学習成果を向上させるため、Web をより簡単に利用できるようにするためのシステムです。当システムのインターフェイスはシンプルで、公平で、オープンです。講師や受講生が既に使用しているツール (Facebook など) を使って作業し、よりオープンな、共同作業による学習体験を提供します。単に課題を追跡するだけにとどまらない、パワフルでオープンな 1 つのパッケージにすべてを包み込んだシステムです。交流を促し、学習を促進します。"
-      welcome_title: "Instructure Canvas へようこそ。"
+      welcome_title: "Instructure Jiaoxuebang へようこそ。"
     index_disabled: 
-      disabled_notice: "この Canvas サイトは、Facebook と通信するようには設定されていません。"
+      disabled_notice: "この Jiaoxuebang サイトは、Facebook と通信するようには設定されていません。"
       get_help: "support.instructure.com でヘルプをご覧ください"
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Instructure Jiaoxuebang"
     invalid_signature: "無効な Facebook 署名です"
     message: 
       hide: 非表示
@@ -4492,9 +4492,9 @@ ja:
       weekly: 毎週
     settings: 
       back_to_messages: メッセージに戻る
-      link_needed: "Canvas Facebook アプリを設定するには、その前に、アプリをご自分の Canvas ログインにリンクする必要があります。詳細については、\"ようこそ\" をクリックしてください。"
-      notifications_config_notice: "Canvas からのお知らせを、自動的に Facebook アカウントに送信できます。送信できるお知らせのタイプには、次のものがあります。お知らせの基本設定は、ここで、または Canvas 内でいつでも変更できます。"
-      settings_title: "Canvas のお知らせ設定"
+      link_needed: "Jiaoxuebang Facebook アプリを設定するには、その前に、アプリをご自分の Jiaoxuebang ログインにリンクする必要があります。詳細については、\"ようこそ\" をクリックしてください。"
+      notifications_config_notice: "Jiaoxuebang からのお知らせを、自動的に Facebook アカウントに送信できます。送信できるお知らせのタイプには、次のものがあります。お知らせの基本設定は、ここで、または Jiaoxuebang 内でいつでも変更できます。"
+      settings_title: "Jiaoxuebang のお知らせ設定"
       updating_preferences: 基本設定を更新しています...
   files: 
     alts: 
@@ -5566,9 +5566,9 @@ ja:
     message_will_be_sent_to_all_the_teachers_tas_in_the_course: "メッセージはコースのすべての講師/TA に送信されます。"
     please_select_one: "1 つ選択してください..."
     report_problem: 問題を報告する
-    report_problem_sub: "Canvas が正常に動作しない場合は、その旨をご連絡ください。"
-    search_the_canvas_guides: "Canvas ガイドの検索"
-    see_if_your_issue_is_addressed_in_the_canvas_guides: "問題の対処方法が *Canvas ガイド* に記載されているかどうかを調べます。"
+    report_problem_sub: "Jiaoxuebang が正常に動作しない場合は、その旨をご連絡ください。"
+    search_the_canvas_guides: "Jiaoxuebang ガイドの検索"
+    see_if_your_issue_is_addressed_in_the_canvas_guides: "問題の対処方法が *Jiaoxuebang ガイド* に記載されているかどうかを調べます。"
     send_message: メッセージの送信
     sending: 送信しています...
     somethings_broken_but_i_can_work_around_it_for_now: 問題がありましたが、現在は回避できています
@@ -5604,14 +5604,14 @@ ja:
       error_reported: ご協力ありがとうございます!すぐに取り掛かります
     styleguide: 
       create_collection: コレクションを作成する
-      find_people: "Canvas でユーザを検索する"
+      find_people: "Jiaoxuebang でユーザを検索する"
       new_course: 新しいコースを追加する
       start_a_group: グループを開始する
   instructions: 
-    authorize_google_docs: "文書の共同制作を行う場合は、その前に、次の Google ドキュメント アカウントにアクセスするための権限を Canvas に与える必要があります:"
+    authorize_google_docs: "文書の共同制作を行う場合は、その前に、次の Google ドキュメント アカウントにアクセスするための権限を Jiaoxuebang に与える必要があります:"
   instructure: 
     alerts: 
-      file_previews_disabled: "この Canvas サイトは、ファイル プレビューが無効になっています"
+      file_previews_disabled: "この Jiaoxuebang サイトは、ファイル プレビューが無効になっています"
     browsers: 
       unrecognized: 認識されないブラウザ
     buttons: 
@@ -5743,7 +5743,7 @@ ja:
     wikis: Wiki
   layouts: 
     application: 
-      instructure_description: "Instructure は、オープン ソースのラーニング管理システム Canvas の製造元です"
+      instructure_description: "Instructure は、オープン ソースのラーニング管理システム Jiaoxuebang の製造元です"
       keyboard_navigation: 
         close: "このダイアログを閉じるには、カンマ キーを押してください"
       links: 
@@ -5773,7 +5773,7 @@ ja:
         reset_explanation: "テスト受講生をリセットすると、この受講生の履歴がすべてクリアされ、%{line_break}新しい受講生としてこのコースを表示できます。"
         warning_title: 現在、受講生ビューにログインしています
     head: 
-      default_page_title: "Canvas LMS"
+      default_page_title: "Jiaoxuebang LMS"
     menu: 
       view_all_accounts: すべてのアカウントを表示
       view_all_enrollments: すべてのコースを表示
@@ -5810,17 +5810,17 @@ ja:
     incoming_message_processor: 
       failure_message: 
         body: |-
-            "%{subject}" というタイトルのメッセージを配信できませんでした。メッセージは、不明なメールボックス アドレスに送信されました。Canvas を通じて誰かに連絡を取ろうとしている場合は、ご自分のアカウントにログインして、受信トレイ ツールを使用してメッセージを送信してみることができます。
+            "%{subject}" というタイトルのメッセージを配信できませんでした。メッセージは、不明なメールボックス アドレスに送信されました。Jiaoxuebang を通じて誰かに連絡を取ろうとしている場合は、ご自分のアカウントにログインして、受信トレイ ツールを使用してメッセージを送信してみることができます。
             
             よろしくお願いいたします。
-            Canvas サポート
+            Jiaoxuebang サポート
         subject: "メッセージの返信に失敗: %{subject}"
       locked_topic: 
         body: |-
-            ディスカッション トピックがロックされているため、"%{subject}" というタイトルのメッセージを配信できませんでした。Canvas を通じて誰かに連絡を取ろうとしている場合は、ご自分のアカウントにログインして、受信トレイ ツールからメッセージを送信してみてください。
+            ディスカッション トピックがロックされているため、"%{subject}" というタイトルのメッセージを配信できませんでした。Jiaoxuebang を通じて誰かに連絡を取ろうとしている場合は、ご自分のアカウントにログインして、受信トレイ ツールからメッセージを送信してみてください。
             
                     よろしくお願いいたします。 
-                    Canvas サポート
+                    Jiaoxuebang サポート
         subject: "メッセージの返信に失敗: %{subject}"
     send_to_inbox: 
       default_subject: 件名なし
@@ -5874,7 +5874,7 @@ ja:
       relationships: 関係
   media_comments: 
     alerts: 
-      kaltura_disabled: "この Canvas サイトは、Kaltura が無効になっています"
+      kaltura_disabled: "この Jiaoxuebang サイトは、Kaltura が無効になっています"
     buttons: 
       submit: "メディア ファイルの提出"
     cancel: キャンセル
@@ -5912,7 +5912,7 @@ ja:
     managed_accounts: 管理対象のアカウント
     my_courses: "マイ コース"
   message: 
-    default_subject: "Canvas アラート"
+    default_subject: "Jiaoxuebang アラート"
   message_students: 
     buttons: 
       send_message: メッセージの送信
@@ -5932,30 +5932,30 @@ ja:
         added_message: "%{website} のアカウント %{account} に、%{role_type} として追加されました。"
         email_info: "電子メール アドレス: %{email}"
         name_info: "名称: %{name}"
-        subject: "Canvas アカウント管理者への招待"
+        subject: "Jiaoxuebang アカウント管理者への招待"
         url_info: |-
-            アカウント管理者として参加するには、その前に、Canvas に登録する必要があります。登録プロセスは次の場所で完了できます:
+            アカウント管理者として参加するには、その前に、Jiaoxuebang に登録する必要があります。登録プロセスは次の場所で完了できます:
             %{url}
         username_info: "ユーザ名: %{username}"
     added_to_conversation: 
       email: 
-        body: "たった今、%{user_name} さんによって Canvas の会話に追加されました。会話を表示するには、下のリンクをクリックしてください:"
-        subject: "たった今、%{user_name} さんによって Canvas の会話に追加されました。"
+        body: "たった今、%{user_name} さんによって Jiaoxuebang の会話に追加されました。会話を表示するには、下のリンクをクリックしてください:"
+        subject: "たった今、%{user_name} さんによって Jiaoxuebang の会話に追加されました。"
         unknown_user: 不明なユーザ
       facebook: 
-        body: "たった今、%{user_name} さんによって Canvas の会話に追加されました。"
+        body: "たった今、%{user_name} さんによって Jiaoxuebang の会話に追加されました。"
         link_text: 会話の表示
         unknown_user: 不明なユーザ
       sms: 
-        body: "たった今、%{user_name} さんによって Canvas の会話に追加されました。"
+        body: "たった今、%{user_name} さんによって Jiaoxuebang の会話に追加されました。"
         more_info: "詳細は %{url} をご覧ください"
         unknown_user: 不明なユーザ
       summary: 
-        body: "たった今、%{user_name} さんによって Canvas の会話に追加されました。"
-        subject: "たった今、%{user_name} さんによって Canvas の会話に追加されました。"
+        body: "たった今、%{user_name} さんによって Jiaoxuebang の会話に追加されました。"
+        subject: "たった今、%{user_name} さんによって Jiaoxuebang の会話に追加されました。"
         unknown_user: 不明なユーザ
       twitter: 
-        tweet: "Canvas アラート: %{user_name} さんによって、会話に追加されました。"
+        tweet: "Jiaoxuebang アラート: %{user_name} さんによって、会話に追加されました。"
         unknown_user: 不明なユーザ
     alert: 
       email: 
@@ -6050,7 +6050,7 @@ ja:
         message: "%{user} が \"%{appointment_name}\" の予約を取り消しました。"
         more_info: "詳細は %{url} をご覧ください"
       twitter: 
-        message: "Canvas アラート - %{user} が \"%{appointment_name}\" の予約を取り消しました。"
+        message: "Jiaoxuebang アラート - %{user} が \"%{appointment_name}\" の予約を取り消しました。"
     appointment_deleted_for_user: 
       email: 
         instructions: "次のリンクから異なる時間スロットにサインアップしてください: %{link}"
@@ -6081,7 +6081,7 @@ ja:
         message: "\"%{appointment_name}\" の時間スロットが取り消されました。"
         more_info: "詳細は %{url} をご覧ください"
       twitter: 
-        message: "Canvas アラート - \"%{appointment_name}\" の時間スロットが取り消されました。"
+        message: "Jiaoxuebang アラート - \"%{appointment_name}\" の時間スロットが取り消されました。"
     appointment_group_deleted: 
       email: 
         labels: 
@@ -6104,7 +6104,7 @@ ja:
         message: "\"%{appointment_name}\" のすべての予定が取り消されました。"
         more_info: "詳細は %{url} をご覧ください"
       twitter: 
-        message: "Canvas アラート - \"%{appointment_name}\" のすべての予定が取り消されました。"
+        message: "Jiaoxuebang アラート - \"%{appointment_name}\" のすべての予定が取り消されました。"
     appointment_group_published: 
       email: 
         group_signup: "グループ (%{group_category})"
@@ -6136,7 +6136,7 @@ ja:
         message: "\"%{appointment_name}\" の時間スロットがサインアップ可能になりました (%{dates})。"
         subject: "予定 \"%{appointment_name}\" はサインアップ可能できます (%{course})"
       twitter: 
-        message: "Canvas アラート - \"%{appointment_name}\" はサインアップ可能です。"
+        message: "Jiaoxuebang アラート - \"%{appointment_name}\" はサインアップ可能です。"
     appointment_group_updated: 
       email: 
         group_signup: "グループ (%{group_category})"
@@ -6168,7 +6168,7 @@ ja:
         message: "\"%{appointment_name}\" に時間スロットが追加され、サインアップ可能になりました (%{dates})。"
         subject: "予定 \"%{appointment_name}\" が更新されました (%{course})"
       twitter: 
-        message: "Canvas アラート - \"%{appointment_name}\" の新しい時間スロットを使用できます。"
+        message: "Jiaoxuebang アラート - \"%{appointment_name}\" の新しい時間スロットを使用できます。"
     appointment_reserved_by_user: 
       email: 
         instructions: "次のリンクから予定を表示してください: %{link}"
@@ -6197,7 +6197,7 @@ ja:
         message: "%{user} が \"%{appointment_name}\" にサインアップしました。"
         more_info: "詳細は %{url} をご覧ください"
       twitter: 
-        message: "Canvas アラート - %{user} が \"%{appointment_name}\" にサインアップしました。"
+        message: "Jiaoxuebang アラート - %{user} が \"%{appointment_name}\" にサインアップしました。"
     appointment_reserved_for_user: 
       email: 
         instructions: "次のリンクから異なる時間スロットにサインアップしてください: %{link}"
@@ -6229,7 +6229,7 @@ ja:
         message: "%{user} があなたを \"%{appointment_name}\" にサインアップしました (%{date_and_time})。"
         subject: "あなたは \"%{appointment_name}\" にサインアップされました (%{course})"
       twitter: 
-        message: "Canvas アラート - あなたは \"%{appointment_name}\" にサインアップされました。"
+        message: "Jiaoxuebang アラート - あなたは \"%{appointment_name}\" にサインアップされました。"
     assignment_changed: 
       email: 
         body: |-
@@ -6248,7 +6248,7 @@ ja:
       summary: 
         subject: "課題が変更されました: %{title}, %{course}"
       twitter: 
-        assignment_change: "Canvas アラート - 変更: %{assignment_name}, %{course_name}"
+        assignment_change: "Jiaoxuebang アラート - 変更: %{assignment_name}, %{course_name}"
     assignment_created: 
       email: 
         assignment_created: "課題が作成されました - %{assignment_name}、%{course_name}"
@@ -6275,7 +6275,7 @@ ja:
         multiple_due_dates: "期限: 複数の期日"
         no_due_date: "期限:期日なし"
       twitter: 
-        assignment_change: "Canvas アラート - 変更: %{assignment_name}, %{course_name}"
+        assignment_change: "Jiaoxuebang アラート - 変更: %{assignment_name}, %{course_name}"
         due_at: "期限: %{assignment_due_date_time}"
         multiple_due_dates: "期限: 複数の期日"
         no_due_date: "期限:期日なし"
@@ -6298,7 +6298,7 @@ ja:
         due_at: "期限: %{assignment_due_date_time}"
         no_due_date: "期限:期日なし"
       twitter: 
-        assignment_change: "Canvas アラート - 日程変更: %{assignment_name}, %{course_name}"
+        assignment_change: "Jiaoxuebang アラート - 日程変更: %{assignment_name}, %{course_name}"
         due_at: "期限: %{assignment_due_date_time}"
         no_due_date: "期限:期日なし"
     assignment_due_date_override_changed: 
@@ -6320,7 +6320,7 @@ ja:
         due_at: "期限: %{assignment_due_date_time}"
         no_due_date: "期限: 期日なし"
       twitter: 
-        assignment_change: "Canvas アラート - 日付変更: %{assignment_name}、%{course_name} (%{override})"
+        assignment_change: "Jiaoxuebang アラート - 日付変更: %{assignment_name}、%{course_name} (%{override})"
         due_at: "期限: %{assignment_due_date_time}"
         no_due_date: "期限: 期日なし"
     assignment_graded: 
@@ -6338,7 +6338,7 @@ ja:
         assignment_graded: "課題が採点されました: %{assignment_name}, %{course_name}"
         the_assignment_is_graded: "課題「%{assignment_name}」が採点されました。"
       twitter: 
-        assignment_graded: "Canvas アラート - 採点済み: %{assignment_name}, %{course_name}"
+        assignment_graded: "Jiaoxuebang アラート - 採点済み: %{assignment_name}, %{course_name}"
     assignment_locked: この課題は現在ロックされています。
     assignment_locked_at: "この課題は %{at} にロックされました。"
     assignment_locked_module: "この課題はモジュール *%{module}* の一部で、まだロックが解除されていません。"
@@ -6359,7 +6359,7 @@ ja:
         turned_in_at: "提出日: %{submission_date}"
         user_resubmitted: "再提出: %{user_name}, %{assignment_name}"
       twitter: 
-        user_resubmitted: "Canvas アラート - 再提出: %{user_name}, %{assignment_name}"
+        user_resubmitted: "Jiaoxuebang アラート - 再提出: %{user_name}, %{assignment_name}"
     assignment_submitted: 
       email: 
         labels: 
@@ -6376,7 +6376,7 @@ ja:
         turned_in_at: "提出日: %{submission_date}"
         user_submitted: "提出: %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "Canvas アラート - 提出: %{user_name}, %{assignment_name}"
+        user_submitted: "Jiaoxuebang アラート - 提出: %{user_name}, %{assignment_name}"
     assignment_submitted_late: 
       email: 
         labels: 
@@ -6393,7 +6393,7 @@ ja:
         turned_in_at: "提出日: %{submission_date}"
         user_submitted: "遅延した課題: %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "Canvas アラート - 遅延提出: %{user_name}, %{assignment_name}"
+        user_submitted: "Jiaoxuebang アラート - 遅延提出: %{user_name}, %{assignment_name}"
     assignment_unmuted: 
       email: 
         body: |-
@@ -6451,21 +6451,21 @@ ja:
             %{service} で作成され、招待に使用された電子メール アドレスは %{service} です。
         subject: "共同作業への招待: %{course_or_group}"
       twitter: 
-        body: "Canvas アラート - 共同作業への招待: %{document}, %{course_or_group}"
+        body: "Jiaoxuebang アラート - 共同作業への招待: %{document}, %{course_or_group}"
     confirm_email_communication_channel: 
       email: 
         body: "電子メール アドレス「%{email}」は、%{website} で、ユーザ「%{user}」に対して登録されています。"
         details: "この登録を確認するには、次の URL にアクセスしてください:"
-        subject: "確認の電子メール:Canvas"
+        subject: "確認の電子メール:Jiaoxuebang"
     confirm_registration: 
       email: 
-        body: "Canvas にご登録いただき誠にありがとうございます!この電子メールは、「%{user}」さんが %{website} で新しいアカウントを登録中であることの確認です。"
+        body: "Jiaoxuebang にご登録いただき誠にありがとうございます!この電子メールは、「%{user}」さんが %{website} で新しいアカウントを登録中であることの確認です。"
         details: "登録のプロセスを完了するには、次の URL にアクセスしてください:"
-        subject: "登録の確認:Canvas"
+        subject: "登録の確認:Jiaoxuebang"
     confirm_sms_communication_channel: 
       sms: 
         body: |-
-            次のコードで、Canvas への登録をご確認ください:
+            次のコードで、Jiaoxuebang への登録をご確認ください:
             
             %{confirmation_code}
             
@@ -6488,30 +6488,30 @@ ja:
       email: 
         attached_files: "添付ファイル:"
         audio_comment: "このメッセージにはメディア コメントが含まれています。再生または返信するには、下のリンクをクリックしてください:"
-        body: "たった今、Canvas で %{user_name} さんからメッセージが送信されました:"
+        body: "たった今、Jiaoxuebang で %{user_name} さんからメッセージが送信されました:"
         reply_message: "このメッセージに返信するには、下のリンクをクリックしてください:"
-        subject: "たった今、Canvas で %{user_name} さんからメッセージが送信されました。"
+        subject: "たった今、Jiaoxuebang で %{user_name} さんからメッセージが送信されました。"
         unknown_user: 不明なユーザ
       facebook: 
-        body: "たった今、Canvas で %{user_name} さんからメッセージが送信されました。"
+        body: "たった今、Jiaoxuebang で %{user_name} さんからメッセージが送信されました。"
         link_text: メッセージの表示
         unknown_user: 不明なユーザ
       sms: 
-        body: "たった今、Canvas で %{user_name} さんからメッセージが送信されました:"
+        body: "たった今、Jiaoxuebang で %{user_name} さんからメッセージが送信されました:"
         more_info: "詳細は %{url} をご覧ください"
         unknown_user: 不明なユーザ
       summary: 
-        body: "たった今、Canvas で %{user_name} さんからメッセージが送信されました:"
-        subject: "たった今、Canvas で %{user_name} さんからメッセージが送信されました。"
+        body: "たった今、Jiaoxuebang で %{user_name} さんからメッセージが送信されました:"
+        subject: "たった今、Jiaoxuebang で %{user_name} さんからメッセージが送信されました。"
         unknown_user: 不明なユーザ
       twitter: 
-        tweet: "Canvas アラート - %{user_name} さんからメッセージが届きました。"
+        tweet: "Jiaoxuebang アラート - %{user_name} さんからメッセージが届きました。"
         unknown_user: 不明なユーザ
     dialog: 
       title: 返信メッセージを送信する
     email: 
       footer: |-
-          Canvas を使用して 1 つ以上のクラスに参加しているため、この電子メールが送られました。電子メールのお知らせを変更するか無効にするには、次の場所にアクセスしてください。
+          Jiaoxuebang を使用して 1 つ以上のクラスに参加しているため、この電子メールが送られました。電子メールのお知らせを変更するか無効にするには、次の場所にアクセスしてください。
           %{url}
     enrollment_accepted: 
       email: 
@@ -6543,7 +6543,7 @@ ja:
         body_teacher: "コース「%{course}」に講師として招待された %{user} さんが、たった今、招待を受諾しました。"
         subject: "%{user} さんがコースへの招待を受諾しました"
       twitter: 
-        body: "Canvas アラート - 受諾されました:%{user}、%{enrollment_type}、コース: %{course}"
+        body: "Jiaoxuebang アラート - 受諾されました:%{user}、%{enrollment_type}、コース: %{course}"
     enrollment_invitation: 
       email: 
         body_designer: "コース「%{course}」に、設計者として招待されています。"
@@ -6589,7 +6589,7 @@ ja:
         body_teacher: "コース「%{course}」に、講師として招待されています。"
         subject: コースへの招待
       twitter: 
-        body: "Canvas アラート - コースに招待されています:役割: %{enrollment_type}"
+        body: "Jiaoxuebang アラート - コースに招待されています:役割: %{enrollment_type}"
     enrollment_notification: 
       email: 
         body_designer: "コース「%{course}」に、設計者として名前が登録されています。"
@@ -6636,7 +6636,7 @@ ja:
         body_teacher: "コース「%{course}」に、講師として名前が登録されています。"
         subject: コース登録
       twitter: 
-        body: "Canvas アラート - 登録済み:役割: %{enrollment_type}"
+        body: "Jiaoxuebang アラート - 登録済み:役割: %{enrollment_type}"
     enrollment_registration: 
       email: 
         body_designer: "%{website} のクラスに招待されています。このクラスの名称は「%{course}」で、設計者として招待されています。"
@@ -6644,7 +6644,7 @@ ja:
         body_student: "%{website} のクラスに招待されています。このクラスの名称は「%{course}」で、受講生として招待されています。"
         body_ta: "%{website} のクラスに招待されています。このクラスの名称は「%{course}」で、TA として招待されています。"
         body_teacher: "%{website} のクラスに招待されています。このクラスの名称は「%{course}」で、講師として招待されています。"
-        details: "クラスに参加するには、その前に、Canvas に登録する必要があります。登録を開始するには、次のコース ページにアクセスしてください:"
+        details: "クラスに参加するには、その前に、Jiaoxuebang に登録する必要があります。登録を開始するには、次のコース ページにアクセスしてください:"
         labels: 
           email: "電子メール アドレス"
           name: 名前
@@ -6671,7 +6671,7 @@ ja:
         body_teacher: "%{website} のクラスに招待されています。このクラスの名称は「%{course}」で、講師として招待されています。"
         subject: コースへの招待
       twitter: 
-        body: "Canvas アラート - コースに招待されています:役割: %{enrollment_type}"
+        body: "Jiaoxuebang アラート - コースに招待されています:役割: %{enrollment_type}"
     event_date_changed: 
       email: 
         email_body: "コース「%{course_name}」のイベント「%{event_title}」は、時間が変更されました。現在は次のとおりです:"
@@ -6696,7 +6696,7 @@ ja:
       twitter: 
         from_to_time: "開始時刻 %{start_date_time} 終了時刻 %{end_date_time}"
         no_time_set: 時間が設定されていません
-        subject: "Canvas アラート - 変更済み: %{event_title}, %{course_name}"
+        subject: "Jiaoxuebang アラート - 変更済み: %{event_title}, %{course_name}"
     file_locked: このファイルは現在ロックされています。
     file_locked_at: "このファイルは %{at} にロックされました。"
     file_locked_module: "このファイルはモジュール *%{module}* の一部で、まだロックが解除されていません。"
@@ -6711,8 +6711,8 @@ ja:
         login_at_account: "%{login_email} アカウント:  %{account_name}"
         login_managed_by_account: "このログインの資格情報は、%{account_name} によって管理されています"
         password_from_account: "このログインのパスワードは、%{account_name} のシステム管理者によって供与されているはずです。Instructure はパスワードにはアクセスできません。パスワードが機能しない場合は、システム管理者にご連絡の上、パスワードの変更または確認を依頼してください。"
-        requested_password_reset: "Canvas にログインするためのパスワードの確認要求が送られました。"
-        subject: "パスワードを忘れた:Canvas"
+        requested_password_reset: "Jiaoxuebang にログインするためのパスワードの確認要求が送られました。"
+        subject: "パスワードを忘れた:Jiaoxuebang"
     grade_weight_changed: 
       email: 
         grade_changed: "コース「%{course_name}」の採点方針が変更されました。"
@@ -6736,7 +6736,7 @@ ja:
           grades_based_on_percent: 課題グループごとに、総体的な重み付けに基づいて採点されます
           subject: 成績の重み付けが変更されました
       twitter: 
-        grade_changed: "Canvas アラート - 採点方針の変更: %{course_name}"
+        grade_changed: "Jiaoxuebang アラート - 採点方針の変更: %{course_name}"
     group_assignment_submitted_late: 
       email: 
         body: "グループ「%{group_name}」は、コース「%{course_name}」の %{assignment_name} に対して、たった今、提出物を遅れて提出しました。"
@@ -6752,7 +6752,7 @@ ja:
         body: "グループ「%{group_name}」は、コース「%{course_name}」の %{assignment_name} に対して、提出物を遅れて提出しました。"
         subject: "遅延した課題: %{group_name}, %{assignment_name}"
       twitter: 
-        subject: "Canvas アラート - グループ課題の遅延提出: %{group_name}, %{assignment_name}"
+        subject: "Jiaoxuebang アラート - グループ課題の遅延提出: %{group_name}, %{assignment_name}"
     group_membership_accepted: 
       email: 
         account_group: !binary |
@@ -6779,8 +6779,8 @@ ja:
         course_group: "コース「%{course_name}」について、グループ「%{group_name}」への参加要求が受諾されました。"
         subject: "グループ メンバーシップが受諾されました: %{group_name}"
       twitter: 
-        account_group: "Canvas アラート - グループ メンバーシップが受諾されました:%{group_name}。対象アカウント: %{account_name}。"
-        course_group: "Canvas アラート - グループ メンバーシップが受諾されました:%{group_name}。対象コース: %{course_name}。"
+        account_group: "Jiaoxuebang アラート - グループ メンバーシップが受諾されました:%{group_name}。対象アカウント: %{account_name}。"
+        course_group: "Jiaoxuebang アラート - グループ メンバーシップが受諾されました:%{group_name}。対象コース: %{course_name}。"
     group_membership_rejected: 
       email: 
         account_group: "アカウント「%{account_name}」について、グループ「%{group_name}」への参加要求が拒否されました。"
@@ -6801,15 +6801,15 @@ ja:
         course_group: "コース「%{course_name}」について、グループ「%{group_name}」への参加要求が拒否されました。"
         subject: "%{group_name} について、グループ メンバーシップが拒否されました"
       twitter: 
-        account_group: "Canvas アラート - グループ メンバーシップが拒否されました:%{group_name}。対象アカウント: %{account_name}。"
-        course_group: "Canvas アラート - グループ メンバーシップが拒否されました:%{group_name}。対象コース: %{course_name}。"
+        account_group: "Jiaoxuebang アラート - グループ メンバーシップが拒否されました:%{group_name}。対象アカウント: %{account_name}。"
+        course_group: "Jiaoxuebang アラート - グループ メンバーシップが拒否されました:%{group_name}。対象コース: %{course_name}。"
     index: 
       titles: 
         messages: "%{name} に対するメッセージ"
     merge_email_communication_channel: 
       email: 
-        body: "アカウントが %{url} に作成されましたが、既に Canvas アカウントをお持ちです。アカウントを1 つにまとめる場合は、次の URL にアクセスしてください:"
-        subject: "新しい Canvas アカウント"
+        body: "アカウントが %{url} に作成されましたが、既に Jiaoxuebang アカウントをお持ちです。アカウントを1 つにまとめる場合は、次の URL にアクセスしてください:"
+        subject: "新しい Jiaoxuebang アカウント"
     message: 
       actions: 
         reply: 返信
@@ -6855,7 +6855,7 @@ ja:
         body: "新しい管理者「%{user}」が、アカウント「%{account}」用に追加されました"
         subject: "新しいアカウント ユーザ"
       twitter: 
-        body: "Canvas アラート - 新しい管理者: %{user}, %{account}"
+        body: "Jiaoxuebang アラート - 新しい管理者: %{user}, %{account}"
     new_announcement: 
       email: 
         labels: 
@@ -6866,7 +6866,7 @@ ja:
         details: "詳細は %{url} をご覧ください"
         subject: "新しいアナウンス: %{title}, %{course}"
       twitter: 
-        body: "Canvas アラート - アナウンス: %{title}, %{course}."
+        body: "Jiaoxuebang アラート - アナウンス: %{title}, %{course}."
     new_context_group_membership: 
       email: 
         body_account: "アカウント「%{account}」の新しいグループに追加されました。グループ名は %{group_name} です。"
@@ -6886,8 +6886,8 @@ ja:
         body_course: "コース「%{course}」の新しいグループに追加されました。グループ名は %{group_name} です。"
         subject: "%{course_or_account} の新しいグループ メンバーシップ"
       twitter: 
-        body_account: "Canvas アラート - 新しいグループ:%{group} 対象アカウント: %{account}"
-        body_course: "Canvas アラート - 新しいグループ:%{group} 対象コース: %{course}"
+        body_account: "Jiaoxuebang アラート - 新しいグループ:%{group} 対象アカウント: %{account}"
+        body_course: "Jiaoxuebang アラート - 新しいグループ:%{group} 対象コース: %{course}"
     new_context_group_membership_invitation: 
       email: 
         body_account: "アカウント「%{account}」のグループ「%{group}」に招待されました。"
@@ -6907,8 +6907,8 @@ ja:
         body_course: "コース「%{course}」のグループ「%{group}」に招待されました。"
         subject: "%{course_or_account} の新しいグループ メンバーシップ"
       twitter: 
-        body_account: "Canvas アラート - 招待:%{group} 対象アカウント: %{account}"
-        body_course: "Canvas アラート - 招待:%{group}。対象コース: %{course}。"
+        body_account: "Jiaoxuebang アラート - 招待:%{group} 対象アカウント: %{account}"
+        body_course: "Jiaoxuebang アラート - 招待:%{group}。対象コース: %{course}。"
     new_course: 
       email: 
         body: "コース「%{course}」が、アカウント「%{account}」用に追加されました"
@@ -6932,7 +6932,7 @@ ja:
           teachers: 講師
         subject: 新しいコース
       twitter: 
-        body: "Canvas アラート - 新しいコース: %{course}, %{account}"
+        body: "Jiaoxuebang アラート - 新しいコース: %{course}, %{account}"
     new_discussion_entry: 
       email: 
         body: "%{user} は、%{course} のスレッド「%{discussion_topic}」について、新しいコメントを投稿しました:"
@@ -6946,7 +6946,7 @@ ja:
       summary: 
         subject: "%{discussion_topic} への新しいコメント: %{course}"
       twitter: 
-        body: "Canvas アラート - コメント: %{discussion_topic}, %{course}."
+        body: "Jiaoxuebang アラート - コメント: %{discussion_topic}, %{course}."
     new_discussion_topic: 
       email: 
         body: "関心のありそうな、新しいディスカッションが開始されました:"
@@ -6962,7 +6962,7 @@ ja:
       summary: 
         subject: "新しいディスカッション - %{discussion_topic}: %{course}"
       twitter: 
-        subject: "Canvas アラート - トピック: %{discussion_topic}, %{course}"
+        subject: "Jiaoxuebang アラート - トピック: %{discussion_topic}, %{course}"
     new_event_created: 
       email: 
         body: "%{course_name} に新しいイベントがスケジュールされましたので、ご注意ください:"
@@ -6987,7 +6987,7 @@ ja:
       twitter: 
         from_to_time: "開始時刻 %{start_date_time} 終了時刻 %{end_date_time}"
         no_time_set: 時間が設定されていません
-        subject: "Canvas アラート - イベント: %{event_title}, %{course_name}"
+        subject: "Jiaoxuebang アラート - イベント: %{event_title}, %{course_name}"
     new_student_organized_group: 
       email: 
         body_account: "新しい受講生により、アカウント「%{account}」に対し、\"%{group_name}\" というグループが組織されました。最初のメンバーは %{user} です。"
@@ -7006,8 +7006,8 @@ ja:
         body_account: "新しい受講生により、アカウント「%{account}」に対して、\"%{group_name}\" というグループが組織されました。最初のメンバーは %{user} です。"
         body_course: "新しい受講生により、コース「%{course}」に対して、\"%{group_name}\" というグループが組織されました。最初のメンバーは %{user} です。"
       twitter: 
-        body_account: "Canvas アラート - 新しいグループ:%{group_name} 対象アカウント: %{account}"
-        body_course: "Canvas アラート - 新しいグループ:%{group_name} 対象コース: %{course}"
+        body_account: "Jiaoxuebang アラート - 新しいグループ:%{group_name} 対象アカウント: %{account}"
+        body_course: "Jiaoxuebang アラート - 新しいグループ:%{group_name} 対象コース: %{course}"
     new_teacher_registration: 
       email: 
         body: "たった今、%{user} さんが %{website} の講師として登録しました。"
@@ -7023,7 +7023,7 @@ ja:
       sms: 
         body: "たった今、%{user} さんが %{website} の講師として登録しました。"
       summary: 
-        body: "たった今、%{user} さんが Canvas の講師として登録しました。"
+        body: "たった今、%{user} さんが Jiaoxuebang の講師として登録しました。"
         labels: 
           email: "電子メール アドレス"
           phone: 電話
@@ -7031,7 +7031,7 @@ ja:
           school_position: 学校の場所
         subject: 新しい講師の登録
       twitter: 
-        body: "Canvas アラート - 新しい講師: %{user}, %{account}"
+        body: "Jiaoxuebang アラート - 新しい講師: %{user}, %{account}"
     new_user: 
       email: 
         body: "たった今、アカウント「%{account}」に対して、新しいユーザ「%{user}」が登録されました"
@@ -7047,16 +7047,16 @@ ja:
         body: "たった今、アカウント「%{account}」に対して、新しいユーザ「%{user}」が登録されました"
         subject: 新しいユーザ
       twitter: 
-        body: "Canvas アラート - 新しいユーザ: %{user}, %{account}"
+        body: "Jiaoxuebang アラート - 新しいユーザ: %{user}, %{account}"
     page_locked: このページは現在ロックされています。
     page_locked_at: "このページは %{at} にロックされました。"
     page_locked_module: "このページはモジュール *%{module}* の一部で、まだロックが解除されていません。"
     page_locked_until: "%{date} まで、このページはロックされています。"
     pseudonym_registration: 
       email: 
-        body: "%{account} というCanvas アカウントで登録されました!ログインして Canvas を使い始めるには、その前に、設定プロセスを完了する必要があります。"
+        body: "%{account} というJiaoxuebang アカウントで登録されました!ログインして Jiaoxuebang を使い始めるには、その前に、設定プロセスを完了する必要があります。"
         link_message: "登録のプロセスを完了するには、次の URL にアクセスしてください:"
-        subject: "登録の完了:Canvas"
+        subject: "登録の完了:Jiaoxuebang"
     quiz_locked: このクイズは現在ロックされています。
     quiz_locked_at: "このクイズは %{at} にロックされました。"
     quiz_locked_module: "このクイズはモジュール *%{module}* の一部で、まだロックが解除されていません。"
@@ -7082,7 +7082,7 @@ ja:
         body: "%{user} さんから、%{rubric} に対する提出物のアセスメントに招待されています:"
         subject: "アセスメントへの招待: %{rubric}, %{context}"
       twitter: 
-        tweet: "Canvas アラート - 招待:%{rubric}、%{user} のアセスメント"
+        tweet: "Jiaoxuebang アラート - 招待:%{rubric}、%{user} のアセスメント"
     rubric_assessment_submission_reminder: 
       email: 
         body: "アセスメントの実施について念押しの通知が届いています。対象: %{rubric}, %{context}:"
@@ -7097,7 +7097,7 @@ ja:
         body: "アセスメントの実施について念押しの通知が届いています。対象: %{rubric}, %{context}:"
         subject: "アセスメントの実施をお忘れなく: %{rubric}, %{context}"
       twitter: 
-        tweet: "Canvas アラート - 事前通知:%{rubric}、%{context} のアセスメント"
+        tweet: "Jiaoxuebang アラート - 事前通知:%{rubric}、%{context} のアセスメント"
     rubric_association_created: 
       email: 
         body: "%{context} に対して新しいアセスメントが作成されました:"
@@ -7112,7 +7112,7 @@ ja:
         body: "%{context} に対して新しいアセスメントが作成されました:"
         subject: "新しいアセスメント: %{title}, %{context}"
       twitter: 
-        tweet: "Canvas アラート - 新しいアセスメント: %{title}, %{context}."
+        tweet: "Jiaoxuebang アラート - 新しいアセスメント: %{title}, %{context}."
     send_form: 
       labels: 
         message_body: メッセージ
@@ -7134,7 +7134,7 @@ ja:
         someone: 名前未登録ユーザ
         subject: "提出コメント: %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "Canvas アラート - コメント:%{author} 対象: %{assignment}, %{user}, %{context}。"
+        tweet: "Jiaoxuebang アラート - コメント:%{author} 対象: %{assignment}, %{user}, %{context}。"
     submission_comment_for_teacher: 
       email: 
         body: "%{author} は、たった今、%{assignment} への提出物について %{user} に新しいコメントを書きました。"
@@ -7152,7 +7152,7 @@ ja:
         someone: 名前未登録ユーザ
         subject: "提出コメント: %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "Canvas アラート - コメント:%{author} 対象: %{assignment}, %{user}, %{context}。"
+        tweet: "Jiaoxuebang アラート - コメント:%{author} 対象: %{assignment}, %{user}, %{context}。"
     submission_grade_changed: 
       email: 
         body: "課題「%{assignment_title}」の成績が変更されました。"
@@ -7190,7 +7190,7 @@ ja:
         not_applicable: N/A
         score: "スコア:%{score} / 配点: %{total}"
         score_pending: (レビュー保留中)
-        tweet: "Canvas アラート - 成績変更: %{date}"
+        tweet: "Jiaoxuebang アラート - 成績変更: %{date}"
     submission_graded: 
       email: 
         body: "課題「%{assignment}」が採点されました。"
@@ -7228,19 +7228,19 @@ ja:
         not_applicable: N/A
         score: "スコア:%{score} / 配点: %{total}"
         score_pending_review: (レビュー保留中)
-        tweet: "Canvas アラート - 採点済み: %{assignment}, %{context}"
+        tweet: "Jiaoxuebang アラート - 採点済み: %{assignment}, %{context}"
     summaries: 
       email: 
-        daily_body: "Canvas アカウントからのお知らせを日次レポートとして受け取る設定でサインアップしています。以下は、%{date} のレポートです:"
+        daily_body: "Jiaoxuebang アカウントからのお知らせを日次レポートとして受け取る設定でサインアップしています。以下は、%{date} のレポートです:"
         notifications_link: "次のページにアクセスすると、お知らせ設定を変更できます:"
-        subject: "Canvas からの最近のお知らせ"
-        weekly_body: "Canvas アカウントからのお知らせを週次レポートとして受け取る設定でサインアップしています。以下は、%{date} までの週次レポートです:"
+        subject: "Jiaoxuebang からの最近のお知らせ"
+        weekly_body: "Jiaoxuebang アカウントからのお知らせを週次レポートとして受け取る設定でサインアップしています。以下は、%{date} までの週次レポートです:"
       facebook: 
-        new_notifications: "#Canvas# に *%{notification_count} 件の新しいお知らせ* が届いています。"
+        new_notifications: "#Jiaoxuebang# に *%{notification_count} 件の新しいお知らせ* が届いています。"
       sms: 
         notifications_sms: "%{notifications_count} 新しいお知らせは次の場所にあります: %{url}"
       twitter: 
-        tweet: "Canvas アラート - %{notification_count} 新しいお知らせ"
+        tweet: "Jiaoxuebang アラート - %{notification_count} 新しいお知らせ"
     topic_locked: このトピックは現在ロックされています。
     topic_locked_at: "このトピックは %{at} にロックされました。"
     topic_locked_module: "このトピックはモジュール *%{module}* の一部で、まだロックが解除されていません。"
@@ -7258,7 +7258,7 @@ ja:
       summary: 
         subject: "更新された Wiki ページ: %{title}, %{user}"
       twitter: 
-        tweet: "Canvas アラート - ページ更新: %{title}, %{user}."
+        tweet: "Jiaoxuebang アラート - ページ更新: %{title}, %{user}."
     visit_modules_page: "*このコンテンツのロックを解除する方法については、コース モジュールのページにアクセスしてください。*"
     web_conference_invitation: 
       email: 
@@ -7274,7 +7274,7 @@ ja:
         body: "%{name} さんの Web 会議「%{title}」に招待されています。"
         subject: "Web 会議への招待: %{name}"
       twitter: 
-        tweet: "Canvas アラート - 招待:%{title}、%{name} に参加"
+        tweet: "Jiaoxuebang アラート - 招待:%{title}、%{name} に参加"
   mute_dialog: 
     curving_assignments: 課題を分布曲線評価
     grade_change_notifications: 成績変更のお知らせ
@@ -7536,7 +7536,7 @@ ja:
       instructions: 
         main: 
           manage: 
-            description: "*コースの熟達度を追跡するための成果がここで作成されます。まず、上部のメニュー バーを見てください。[新規] ボタンをクリックして新しい成果を作成するか、または [新しいグループ] ボタンをクリックして新しいグループを作成し、成果の情報を整理します。[検索] ボタンを使用すると、状態または組織によって作成された成果を使用できます。成果を作成および使用するときは、左側のパネルを使用して、成果の間を移動できます。成果をドラッグして異なるレベルにドロップして、構造を作成できます。* *さらに重要なことは、Canvas では、採点の注釈に成果を追加して、課題を採点するときに熟達を評価できることです。成果を設定した後、採点への成果の使用を開始するには、[注釈の管理] をクリックします。*"
+            description: "*コースの熟達度を追跡するための成果がここで作成されます。まず、上部のメニュー バーを見てください。[新規] ボタンをクリックして新しい成果を作成するか、または [新しいグループ] ボタンをクリックして新しいグループを作成し、成果の情報を整理します。[検索] ボタンを使用すると、状態または組織によって作成された成果を使用できます。成果を作成および使用するときは、左側のパネルを使用して、成果の間を移動できます。成果をドラッグして異なるレベルにドロップして、構造を作成できます。* *さらに重要なことは、Jiaoxuebang では、採点の注釈に成果を追加して、課題を採点するときに熟達を評価できることです。成果を設定した後、採点への成果の使用を開始するには、[注釈の管理] をクリックします。*"
             title: 成果の設定
     mastery_error: "0 以上にする必要があります"
     missing_outcome: その学習成果は見つかりませんでした
@@ -7634,7 +7634,7 @@ ja:
       name: "Academic Benchmark インポーター"
       plugins: 
         ab: 
-          description: "これを使用すると、Academic Benchmark 標準を Canvas にインポートできます。"
+          description: "これを使用すると、Academic Benchmark 標準を Jiaoxuebang にインポートできます。"
     academic_benchmark_settings: 
       api_url_description: "(例: %{url})"
       common_core_guid: "(例: %{guid})"
@@ -7665,9 +7665,9 @@ ja:
     buttons: 
       saving: 保存しています...
     canvas_cartridge_importer: 
-      description: "これは、Canvas のエクスポートを JSON 形式の中間ファイルに変換し、インポートできるようにします。"
-      file_description: "Canvas コース エクスポート パッケージ"
-      name: "Canvas カートリッジ インポーター"
+      description: "これは、Jiaoxuebang のエクスポートを JSON 形式の中間ファイルに変換し、インポートできるようにします。"
+      file_description: "Jiaoxuebang コース エクスポート パッケージ"
+      name: "Jiaoxuebang カートリッジ インポーター"
     common_cartridge_importer: 
       description: "これは、コモン カートリッジ パッケージを JSON 形式の中間ファイルに変換し、インポートできるようにします。"
       file_description: "コモン カートリッジ 1.0/1.1/1.2 パッケージ"
@@ -7732,7 +7732,7 @@ ja:
       sketchpad: SketchPad
       typewithme: TypeWith.me
     facebook: 
-      description: "Canvas Facebook 申請"
+      description: "Jiaoxuebang Facebook 申請"
       name: Facebook
     facebook_settings: 
       description: |-
@@ -7741,23 +7741,23 @@ ja:
           次の構成オプションを設定します:
           
           * **Web サイト -- サイトURL:** を %{site_url} に設定
-          * **Web サイト -- サイト ドメイン:** Canvas メイン サイトのドメイン。これは、サイト URL の設定と一致している必要があります
-          * **Facebook との統合 -- Canvas ページ:** 選んだものは何でもメモし、下のフォームに入力します
-          * **Facebook との統合 -- Canvas URL:** %{canvas_url} に設定
-          * 必ず **詳細設定 -- OAuth 2.0 for Canvas** を使用可能にしてください
+          * **Web サイト -- サイト ドメイン:** Jiaoxuebang メイン サイトのドメイン。これは、サイト URL の設定と一致している必要があります
+          * **Facebook との統合 -- Jiaoxuebang ページ:** 選んだものは何でもメモし、下のフォームに入力します
+          * **Facebook との統合 -- Jiaoxuebang URL:** %{canvas_url} に設定
+          * 必ず **詳細設定 -- OAuth 2.0 for Jiaoxuebang** を使用可能にしてください
           * アプリを保存後、App ID、API 鍵、および App シークレットをメモしてください
       domain_name: ドメイン
       headers: 
         domain_settings: ドメイン設定
       hints: 
-        canvas_domain: "これは、\"Canvas URL\" に指定されているドメインです"
-        canvas_name: "これは、\"Canvas Page\" に指定されているパスです"
+        canvas_domain: "これは、\"Jiaoxuebang URL\" に指定されているドメインです"
+        canvas_name: "これは、\"Jiaoxuebang Page\" に指定されているパスです"
         disable_ssl: ローカルでのテスト用としてのみ使用してください
       labels: 
         api_key: "API 鍵"
         app_id: "アプリ ID"
-        canvas_domain: "Canvas ドメイン"
-        canvas_name: "Canvas 名"
+        canvas_domain: "Jiaoxuebang ドメイン"
+        canvas_name: "Jiaoxuebang 名"
         disable_ssl: "SSL を無効化"
         secret: "アプリ シークレット"
     google_docs: 
@@ -7784,10 +7784,10 @@ ja:
       canvas_revision_unknown: 不明
       configure_plugin: 設定
       description: 説明
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Instructure Jiaoxuebang"
       name: 名前
-      no_plugins: "Canvas プラグインが 1 つもインストールされていません"
-      page_title: "Canvas プラグイン"
+      no_plugins: "Jiaoxuebang プラグインが 1 つもインストールされていません"
+      page_title: "Jiaoxuebang プラグイン"
       tag: タグ
       version: バージョン
       website: "Web サイト"
@@ -7800,7 +7800,7 @@ ja:
           [Kaltura.com](%{kaltura_url}) でアカウントを持つか、または
           Kaltura インスタンスを自己ホスティングしてアカウントを持つ必要があります。
           
-          **注:** Canvas での Kaltura の構成が完了したら、
+          **注:** Jiaoxuebang での Kaltura の構成が完了したら、
           Kaltura の管理コンソールにアクセスして、"設定 -> 統合設定" で、 
           サーバ通知を使用可能にする必要があります。このとき使用する 
           通知 URL は次のとおりです:
@@ -8034,8 +8034,8 @@ ja:
     please_select_a_year: 年を選択してください
     please_select_an_option: オプションを選択してください
     profile: 
-      access_token_description: "アクセス トークンを使用すると、ご自分に代わって他のアプリケーションが API コールを発行できるようにすることが可能です。また、アクセス トークンを生成して、*Canvas のオープン API を使用* することで、独自の統合を策定することもできます。"
-      approved_integrations: "これらは、ご自分に代わって Canvas サイトにアクセスすることが許可されている、サードパーティのアプリケーションです:"
+      access_token_description: "アクセス トークンを使用すると、ご自分に代わって他のアプリケーションが API コールを発行できるようにすることが可能です。また、アクセス トークンを生成して、*Jiaoxuebang のオープン API を使用* することで、独自の統合を策定することもできます。"
+      approved_integrations: "これらは、ご自分に代わって Jiaoxuebang サイトにアクセスすることが許可されている、サードパーティのアプリケーションです:"
       buttons: 
         add_picture_file: ファイルの追加
         authorize_google_docs: "Google ドキュメントへのアクセスの承認"
@@ -8050,17 +8050,17 @@ ja:
         select_image: 画像の選択
         update_settings: 設定の更新
       confirm_email_instructions: "プロフィールを編集する前に、お送りした電子メールのリンクをクリックして、電子メール アドレス (%{email}) を確認してください。電子メールが見つからない場合は、*クリックして電子メールを再送信* し、スパム用の受信箱も確認してみてください"
-      delicious_description: "Delicious は、ブックマークを保存し、ほかの人と共有できるようにするためのツールです。Canvas のリッチ コンテンツ エディタでは、Delicious タグを検索でき、役立ちそうな他のリソースに Canvas の中から簡単にリンクすることができます。"
-      diigo_description: "Diigo は、研究および教育に特に適したソーシャル ブックマーク ツールです。Canvas のリッチ コンテンツ エディタでは、Diigo タグを検索でき、役立ちそうな他のリソースに Canvas の中から簡単にリンクすることができます。"
+      delicious_description: "Delicious は、ブックマークを保存し、ほかの人と共有できるようにするためのツールです。Jiaoxuebang のリッチ コンテンツ エディタでは、Delicious タグを検索でき、役立ちそうな他のリソースに Jiaoxuebang の中から簡単にリンクすることができます。"
+      diigo_description: "Diigo は、研究および教育に特に適したソーシャル ブックマーク ツールです。Jiaoxuebang のリッチ コンテンツ エディタでは、Diigo タグを検索でき、役立ちそうな他のリソースに Jiaoxuebang の中から簡単にリンクすることができます。"
       error_loading_token_details: トークンの詳細情報の読み込みエラー
-      facebook_description: "Facebook アカウントをお持ちであれば、Canvas アプリをインストールして、ご自分のプロフィール ページでコースのお知らせを受け取ることができます。受け取るお知らせのタイプや、お知らせを受け取る頻度を指定できます。"
+      facebook_description: "Facebook アカウントをお持ちであれば、Jiaoxuebang アプリをインストールして、ご自分のプロフィール ページでコースのお知らせを受け取ることができます。受け取るお知らせのタイプや、お知らせを受け取る頻度を指定できます。"
       full_token_warning: |-
           **今すぐ、このトークンをメモしてください**。一度このページから移動すると、完全なトークンは
           二度と取得できません。トークンを再生成して、別のトークン値を取得
           することになります。
       generate_access_token_description: |-
           アクセス トークンは、ご自分に代わって、サードパーティのアプリケーションが
-          Canvas リソースにアクセスできるようにするためのものです。これらのトークンは通常、アプリケーションの必要にあわせて
+          Jiaoxuebang リソースにアクセスできるようにするためのものです。これらのトークンは通常、アプリケーションの必要にあわせて
           自動的に作成されますが、[新しいまたは制限されたプロジェクト
           を開発している](%{documentation_url}) 場合は、ここでトークンを生成することができます。
       google_docs_description: "当システムに対して、ご自分の Google ドキュメントを表示する権限を承認すると、Google ドキュメントから課題を直接提出したり、作成した文書をクラスのメンバーと共有したりできるようになります。"
@@ -8139,7 +8139,7 @@ ja:
         view_facebook_app: "Facebook アプリを表示する"
         view_your_profile: 自分のプロフィールを表示する
       loading_token_details: トークンの詳細を読み込んでいます...
-      no_approved_integrations: "ご自分に代わって、サードパーティのアプリケーションが Canvas サイトにアクセスする権限を要求できます。認証の済んだアプリケーションは、順次ここにリストされます。"
+      no_approved_integrations: "ご自分に代わって、サードパーティのアプリケーションが Jiaoxuebang サイトにアクセスする権限を要求できます。認証の済んだアプリケーションは、順次ここにリストされます。"
       no_language_preference: "システム デフォルト (%{language})"
       no_registered_services: 登録済みのサービスなし
       none: なし
@@ -8169,7 +8169,7 @@ ja:
           この場合、お知らせは自分から自分へのダイレクト メッセージとして送信され、
           公開ストリームには表示されません。
       unknown_service: 不明
-      web_services: "Canvas では、ご利用の Web ツールと結び付けることで、受講生活がはるかに便利になります。\"他のサービス\" で任意のサービスをクリックすると、詳細が表示されます。"
+      web_services: "Jiaoxuebang では、ご利用の Web ツールと結び付けることで、受講生活がはるかに便利になります。\"他のサービス\" で任意のサービスをクリックすると、詳細が表示されます。"
     resending: 再送信中...
     secondary_nav: 
       links: 
@@ -8217,7 +8217,7 @@ ja:
         carrier: 通信事業者
         cell_number: 携帯電話番号
         email_address: "電子メール アドレス"
-        enable_login_for_email: "Canvas へのログインに、この電子メール アドレスを使用することを希望します。"
+        enable_login_for_email: "Jiaoxuebang へのログインに、この電子メール アドレスを使用することを希望します。"
         sms_email: "SMS メール"
       links: 
         add_contact_method: 連絡方法の追加
@@ -8243,7 +8243,7 @@ ja:
     notifications: 
       privacy_notice: 
         ok: OK
-        privacy_notice: "注意: お知らせには機密情報が含まれる場合があります。組織で提供されているアドレス以外の電子メールでお知らせを受信するように選択すると、Canvas のコースとグループに関する機密情報が組織外のシステムに送信される可能性があります。"
+        privacy_notice: "注意: お知らせには機密情報が含まれる場合があります。組織で提供されているアドレス以外の電子メールでお知らせを受信するように選択すると、Jiaoxuebang のコースとグループに関する機密情報が組織外のシステムに送信される可能性があります。"
         privacy_notice_title: プライバシーに関する注意
   pseudonym: 
     errors: 
@@ -8269,13 +8269,13 @@ ja:
       invalid_otp: 検証コードが無効です。もう一度やり直してください
       login_error: "%{institution} にログインする際に問題が発生しました"
       login_errors: 
-        no_config_for_id: "Canvas アカウントにはその ID での認証設定はありません"
+        no_config_for_id: "Jiaoxuebang アカウントにはその ID での認証設定はありません"
         no_idp_set: ログイン元の団体は、このアカウントに設定されていません。
-        unrecognized_idp: "Canvas は使用されている ID プロバイダーを認識しませんでした"
+        unrecognized_idp: "Jiaoxuebang は使用されている ID プロバイダーを認識しませんでした"
       logout_errors: 
-        no_idp_found: "Canvas は使用されている ID プロバイダーでユーザをログアウトさせられませんでした"
+        no_idp_found: "Jiaoxuebang は使用されている ID プロバイダーでユーザをログアウトさせられませんでした"
       max_attempts: ログインの試行回数が多すぎます。後でもう一度、試してください。または、システム管理者までご連絡ください。
-      no_matching_user: "Canvas に、次のユーザのアカウントがありません: %{user}"
+      no_matching_user: "Jiaoxuebang に、次のユーザのアカウントがありません: %{user}"
       request_failed: 要求が失敗しました。もう一度、試してください。
       user_deleted: "そのユーザ アカウントは削除されました。システム管理者に連絡の上、アカウントを再アクティブ化してください。"
     messages: 
@@ -8286,16 +8286,16 @@ ja:
       buttons: 
         request_password: パスワードの要求
       dont_know_password: パスワードが分かりません
-      log_in_to_canvas: "Canvas へのログイン"
+      log_in_to_canvas: "Jiaoxuebang へのログイン"
       login: ログイン
       login_handle: "%{login_handle_name} を入力してください。パスワード変更用のリンクをお送りします。"
       password: パスワード
       sending: 送信しています...
     new: 
-      details: "ログインするには、その前に登録プロセスを完了する必要があります。Canvas に確認を返信するためのリンクが書かれた電子メールが、既に送られているはずです。そのリンクをたどって、プロセスを完了してください。スパム用の受信箱も確認してみてください。"
+      details: "ログインするには、その前に登録プロセスを完了する必要があります。Jiaoxuebang に確認を返信するためのリンクが書かれた電子メールが、既に送られているはずです。そのリンクをたどって、プロセスを完了してください。スパム用の受信箱も確認してみてください。"
       links: 
         resend_email: 電子メールの再送信
-      page_title: "Canvas にログイン"
+      page_title: "Jiaoxuebang にログイン"
       titles: 
         registration_complete: 登録が未完了です
     notices: 
@@ -8315,7 +8315,7 @@ ja:
         send: 送信
         verify: 検証
       details: 
-        mfa_enrollment: "マルチファクタ認証は、Canvas にログインするために、パスワードの確認に加えて、物理的なものの所有を要求することにより、セキュリティを強化します。例えば、検証コードを生成できるデバイスや、テキスト メッセージを受信できる電話機などを使用できます。下の QR コードをスキャンすることで、[iPhone](%{iphone_url}) 用の Google Authenticator アプリまたは [Android](%{android_url}) を設定できます。シークレット鍵 **%{secret_key}** を入力することで、他のトークンを設定することもできます。"
+        mfa_enrollment: "マルチファクタ認証は、Jiaoxuebang にログインするために、パスワードの確認に加えて、物理的なものの所有を要求することにより、セキュリティを強化します。例えば、検証コードを生成できるデバイスや、テキスト メッセージを受信できる電話機などを使用できます。下の QR コードをスキャンすることで、[iPhone](%{iphone_url}) 用の Google Authenticator アプリまたは [Android](%{android_url}) を設定できます。シークレット鍵 **%{secret_key}** を入力することで、他のトークンを設定することもできます。"
         mfa_required: マルチファクタ認証を設定する必要があります。
         otp_on_device: トークンによって示される検証コードを入力してください。
         otp_sent_to_phone: 電話機に送信された検証コードをここに入力してください。
@@ -9488,8 +9488,8 @@ ja:
         email: "電子メール アドレス"
         name: 名前
     too_young_error: "このコースは %{min_years} 歳以上の方のみ登録できます。"
-    too_young_error_join_code: "コース参加コードなしで Canvas を使用できるのは、%{min_years} 歳以上の方のみです。"
-    welcome_to_canvas: "Canvas へようこそ!"
+    too_young_error_join_code: "コース参加コードなしで Jiaoxuebang を使用できるのは、%{min_years} 歳以上の方のみです。"
+    welcome_to_canvas: "Jiaoxuebang へようこそ!"
   retrieve_timeout: 設定を取得できませんでした。サーバの応答がタイムアウトしました
   role: 
     roles: 
@@ -10155,7 +10155,7 @@ ja:
       log_in: ログイン
       login_at_account: "%{school_name} でログイン"
       login_handle: "%{login_handle_name} を入力してください。パスワード変更用のリンクをお送りします。"
-      register_for_canvas: "*Canvas アカウントが必要ですか?* **こちらをクリックしてください (登録無料)。**"
+      register_for_canvas: "*Jiaoxuebang アカウントが必要ですか?* **こちらをクリックしてください (登録無料)。**"
     menu_assignment: 
       labels: 
         due: 期限
@@ -11066,7 +11066,7 @@ ja:
     cc_prefs: 
       buttons: 
         configure: お知らせ設定の構成
-      comm_preferences_instructions: "Canvas に登録されました。コースの進捗にあわせて受信するお知らせの種類を設定できます。Canvas では、どのイベントについてのお知らせを、どのように受信するか、ユーザが柔軟に設定することができます。コースで何かが起きたときの通知を電子メールを受け取るか、携帯電話にテキスト メッセージで受け取るか、また即時、毎日、毎週のいずれで受け取るかを選択できます。"
+      comm_preferences_instructions: "Jiaoxuebang に登録されました。コースの進捗にあわせて受信するお知らせの種類を設定できます。Jiaoxuebang では、どのイベントについてのお知らせを、どのように受信するか、ユーザが柔軟に設定することができます。コースで何かが起きたときの通知を電子メールを受け取るか、携帯電話にテキスト メッセージで受け取るか、また即時、毎日、毎週のいずれで受け取るかを選択できます。"
       titles: 
         configure_com_prefs: お知らせ設定の構成
     confirms: 
@@ -11149,7 +11149,7 @@ ja:
       browser_upgrade: ブラウザをアップグレードする必要があります
       buttons: 
         upgrade: アップグレード
-      upgrade_ie7: "現在 Internet Explorer 7 をご利用になっています。このブラウザは、Canvas (および他の多くの Web サイト) で完全にはサポートされていません。アップグレードしてください。アップグレードするまで、Canvas の一部は完全には機能しません。"
+      upgrade_ie7: "現在 Internet Explorer 7 をご利用になっています。このブラウザは、Jiaoxuebang (および他の多くの Web サイト) で完全にはサポートされていません。アップグレードしてください。アップグレードするまで、Jiaoxuebang の一部は完全には機能しません。"
     index: 
       all_users: すべてのユーザ
       buttons: 
@@ -11240,7 +11240,7 @@ ja:
         name_and_email: 名前と電子メール
       update_instructions: このユーザの情報を一部更新することはできますが、ユーザの意思により元に戻される可能性もあります。
     new: 
-      create_a_canvas_account: "Canvas アカウントの作成"
+      create_a_canvas_account: "Jiaoxuebang アカウントの作成"
     no_deleting_sis_user: システムによって生成されたユーザは削除できません
     no_self_registration: このアカウントでは自己登録はできません
     oauth_fail: "OAuth 要求が失敗しました。有効な要求が見つかりませんでした"
@@ -11260,11 +11260,11 @@ ja:
       almost_there: あと一歩です...
       done_resending: 完了です!メッセージが送信されるまで数分かかる場合があります。
       failed_resending: 要求が失敗しました。もう一度、試してください。
-      invite_to_read: "この Canvas の概要説明をご一読ください。また、27 カ国の受講生にとって、講義室、インストラクタ、クラスメートなどを身近なものとするために *Canvas がいかに役立つかお読みください*。"
+      invite_to_read: "この Jiaoxuebang の概要説明をご一読ください。また、27 カ国の受講生にとって、講義室、インストラクタ、クラスメートなどを身近なものとするために *Jiaoxuebang がいかに役立つかお読みください*。"
       links: 
         download_pdf: "PDF をダウンロード"
       need_flash: "このビデオを表示するには、Flash Player 8 以降が必要です。また JavaScript を有効にしてください。"
-      overview_video: "Canvas の概要紹介ビデオ"
+      overview_video: "Jiaoxuebang の概要紹介ビデオ"
       registration_complete: 登録完了
       resending: 再送信しています...
       sent_email_paragraph: "%{email_address} に電子メールをお送りしました。*電子メールのリンクをクリックして、登録を完了してください*。電子メールが見つからない場合は、**クリックして電子メールを再送信** し、スパム用の受信箱も確認してみてください。"
@@ -11323,7 +11323,7 @@ ja:
     welcome: 
       no_courses_message: まだコースが登録されていないので、このページにはあまり内容がありません。コースを作成するか、コースを登録すれば、参加するすべてのクラスの会話が表示されるようになります。
       unpublished_courses_message: "まだ開始していないコースに登録されています。これらのコースが利用可能になった時点で、こちらおよびトップ ナビゲーションにコースについての情報が表示されます。それまでは、ご自由に他のコースにサインアップしたり、プロフィールを設定したりしてください。"
-      welcome_to_happiness: "Canvas へようこそ!"
+      welcome_to_happiness: "Jiaoxuebang へようこそ!"
   validate: 
     is_required: このフィールドは必須項目です
   web_conference: 
