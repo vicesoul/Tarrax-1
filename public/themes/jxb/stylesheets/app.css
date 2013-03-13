@@ -484,3 +484,12 @@ div.DTFC_LeftBodyWrapper tbody tr:first-child td {
 div.DTFC_LeftFootWrapper table {
 	border-top: none;
 }
+
+#config_courses_holder {
+  position: absolute;
+  width: 262px;
+  height: 200px;
+  padding: 10px;
+  display: none;
+  left: -22px;
+}

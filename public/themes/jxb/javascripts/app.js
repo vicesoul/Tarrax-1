@@ -1,4 +1,4 @@
-require(["jquery", "/themes/jxb/javascripts/bootstrap.js", "/themes/jxb/javascripts/jquery.dataTables.js"], function($){
+require(["jquery", "/themes/jxb/javascripts/bootstrap.js", "/themes/jxb/javascripts/jquery.dataTables.js", "/javascripts/vendor/jqueryui/effects/slide.js"], function($){
 $.fn.dataTableExt.oApi.fnPagingInfo = function ( oSettings ) {
 	return {
 		"iStart":         oSettings._iDisplayStart,
@@ -95,25 +95,72 @@ $.extend( $.fn.dataTableExt.oPagination, {
       "sPaginationType": "bootstrap"
     });
     
-    $(".courses-selector a[data-link-course-id]").click(function(){
-      var $widget = $(this).parents("[data-widget]");
-      var id = $(this).attr("data-link-course-id");
-      $widget.find("[data-course-id=" + id + "]").toggle('slow');
-    });
-
     $(".save_selector").click(function(){
-      var $widget =  $(this).parents("[data-widget]");
-      var $courses = $widget.find("[data-course-id]:visible");
+      var $widget = $( "[data-widget='" + $(this).attr("data-widget") + "']" );
       var ids = [];
-      $courses.each(function(){ 
-        ids.push( $(this).attr("data-course-id") );
+      $widget.find("[data-course-id]").hide();
+      $("#config_courses_holder .course_id_checkbox:checked").each(function(){
+        $widget.find("[data-course-id=" + $(this).val() + "]").show();
+        ids.push( $(this).val() );
       });
+      if (ids.length <= 0) { 
+        $widget.find(".box-body").hide(); 
+      }else{
+        $widget.find(".box-body").show(); 
+      }
       $.ajax({
         type: "put",
-        url: $(this).attr("href"),
+        url: $(this).attr("data-url"),
         data: {"widget":{"courses": $.unique(ids).join(",") }}
       });
+      $("#config_courses_holder").hide();
       return false;
+    });
+
+    $(".config_courses").click(function(){
+      var $widget = $(this).parents("[data-widget]");
+      var top = $widget.offset().top - 83;
+      var $courses_holder = $("#config_courses_holder").css("top", top);
+      var ids = [];
+      $widget.find("[data-course-id]:visible").each(function(){
+        ids.push( $(this).attr("data-course-id") );
+      });
+      $courses_holder.find(".save_selector").attr( "data-widget", $widget.attr("data-widget") ).attr( "data-url", $(this).attr("data-url") );
+      $(".course_id_checkbox").each(function(){
+        if ( $.inArray( $(this).val(), ids ) === -1 ) {
+          $(this).removeAttr("checked");
+        }else{
+          $(this).attr("checked", "checked");
+        }
+      });
+      syncCourseCheckBoxs();
+      $courses_holder.hide();
+      $courses_holder.show('slide', {direction: 'left'}, 500);
+    });
+
+    $("#config_courses_holder .close").click(function(){
+      $("#config_courses_holder").hide('fast');
+    });
+    
+    function syncCourseCheckBoxs(){
+      $("#config_courses_holder .account_name_checkbox").each(function(){
+        var $allBox = $("[data-account-name='" + $(this).val() + "']");
+        var $checkedBox = $("[data-account-name='" + $(this).val() + "']:checked");
+        if ( $allBox.length == $checkedBox.length ) {
+          $(this).attr("checked", "checked");
+        }else{
+          $(this).removeAttr("checked");
+        }
+      });
+    }
+
+    $("#config_courses_holder .account_name_checkbox").click(function(){
+      var $allBox = $("[data-account-name=" + $(this).val() + "]");
+      if ( $(this).is(":checked") ) {
+        $allBox.attr("checked", "checked");
+      }else{
+        $allBox.removeAttr("checked");
+      }
     });
 
   });

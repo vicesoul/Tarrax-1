@@ -15,6 +15,8 @@ class Jxb::Widget < ActiveRecord::Base
   set_table_name 'jxb_widgets'
 
   belongs_to :page, :class_name => 'Jxb::Page'
+
+  after_update :clear_cache
   
   # custom_index       自定义组件
   # assignment_index   作业列表组件
@@ -34,5 +36,11 @@ class Jxb::Widget < ActiveRecord::Base
   def cell_data
     [cell_name, cell_action, id].join(',')
   end
+
+  private
+    
+    def clear_cache
+      Rails.cache.delete( "views/" + [self.page.context, "#{self.page.id}-content"].cache_key + "/#{I18n.locale}" ) rescue nil
+    end
 
 end

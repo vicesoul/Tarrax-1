@@ -55,12 +55,18 @@ class Jxb::Page < ActiveRecord::Base
 
   private
 
-  def save_widgets
-    widgets.each{|widget| widget.save }
-  end
+    def save_widgets
+      widgets.each{ |widget|
+        if widget.new_record?
+          widget.send(:create_without_callbacks)
+        else
+          widget.send(:update_without_callbacks)
+        end
+      }
+    end
 
-  def clear_cache
-    Rails.cache.delete( "views/" + [self.context, "#{self.id}-content"].cache_key + "/#{I18n.locale}" ) rescue nil
-  end
+    def clear_cache
+      Rails.cache.delete( "views/" + [self.context, "#{self.id}-content"].cache_key + "/#{I18n.locale}" ) rescue nil
+    end
 
 end

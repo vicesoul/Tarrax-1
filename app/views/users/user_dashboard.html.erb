@@ -42,6 +42,17 @@
     <%= render :partial => 'shared/new_course_form' %>
   </div>
   <% end %>
+  <div class="x box" id="config_courses_holder">
+    <%= link_to image_tag('close-button.png'), 'javascript:void(0)', :class => 'close' %>
+    <% courses_with_account = @current_user.courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.account.name] << course; h } %>
+    <% courses_with_account.each do |account_name, courses| %>
+      <%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %><br />
+      <% courses.each do |course| %>
+        &nbsp;&nbsp;<%= check_box_tag 'course_id', course.id, false, :id => "course_id_#{course.id}", :class => 'course_id_checkbox', 'data-account-name' => account_name %> <%= course.name %>
+      <% end %>
+    <% end %>
+    <div style="position:absolute;bottom:5px;right:20px;"><%= link_to 'save', 'javascript:void(0)', :class => "save_selector" %></div>
+  </div>
 <% end %>
 <div id="dashboard">
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @dashboard_page, :partial_name => 'shared/dashboard_widgets' } %>
