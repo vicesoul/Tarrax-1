@@ -2591,7 +2591,7 @@ class User < ActiveRecord::Base
   # preferred_template_account = pass in an actual account if you have a preference for which account the new pseudonym gets copied from
   # this may not be able to find a suitable pseudonym to copy, so would still return nil
   # if a pseudonym is created, it is *not* saved, and *not* added to the pseudonyms collection
-  def find_or_initialize_pseudonym_for_account(account, preferred_template_account = nil)
+  def find_or_initialize_pseudonym_for_account(account, preferred_template_account = Account.default)
     pseudonym = find_pseudonym_for_account(account)
     if !pseudonym
       # list of copyable pseudonyms

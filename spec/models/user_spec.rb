@@ -1624,7 +1624,8 @@ describe User do
       new_pseudonym = @user.find_or_initialize_pseudonym_for_account(@account1)
       new_pseudonym.should_not be_nil
       new_pseudonym.should be_new_record
-      new_pseudonym.unique_id.should == 'siteadmin@example.com'
+      #new_pseudonym.unique_id.should == 'siteadmin@example.com'
+      new_pseudonym.unique_id.should == 'default@example.com'
 
       # from preferred account
       new_pseudonym = @user.find_or_initialize_pseudonym_for_account(@account1, @account3)

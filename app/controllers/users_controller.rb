@@ -270,7 +270,8 @@ class UsersController < ApplicationController
   before_filter :require_password_session, :only => [:masquerade]
   def masquerade
     @user = User.find(:first, :conditions => {:id => params[:user_id]})
-    return render_unauthorized_action(@user) unless @user.can_masquerade?(@real_current_user || @current_user, @domain_root_account)
+    #return render_unauthorized_action(@user) unless @user.can_masquerade?(@real_current_user || @current_user, @domain_root_account)
+    return render_unauthorized_action(@user) unless @user.can_masquerade?(@real_current_user || @current_user, default_domain_root_account)
     if request.post?
       if @user == @real_current_user
         session.delete(:become_user_id)
@@ -1154,7 +1155,8 @@ class UsersController < ApplicationController
 
   def require_open_registration
     get_context
-    @context = @domain_root_account || Account.default unless @context.is_a?(Account)
+    #@context = @domain_root_account || Account.default unless @context.is_a?(Account)
+    @context = default_domain_root_account || Account.default unless @context.is_a?(Account)
     @context = @context.root_account
     unless @context.grants_right?(@current_user, session, :manage_user_logins) || @context.open_registration?
       flash[:error] = t('no_open_registration', "Open registration has not been enabled for this account")
