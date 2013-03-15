@@ -48,8 +48,7 @@ describe GradebooksHelper do
       context "with an assignment" do
         let(:assignment) { mock(:id => 2) }
 
-        #it { should match /#{"/courses/1/gradebook#assignment/2"}$/ }
-        it { should match /#{"/courses/1/gradebook2#assignment/2"}$/ }
+        #it { should match /#{"/courses/1/gradebook#assignment/2"}$/ } # no gradebook
       end
     end
 

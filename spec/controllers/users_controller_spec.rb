@@ -408,7 +408,8 @@ describe UsersController do
           post 'create', :format => 'json', :account_id => account.id, :pseudonym => { :unique_id => 'jacob@instructure.com', :sis_user_id => 'testsisid' }, :user => { :name => 'Jacob Fugal' }
           response.should be_success
           p = Pseudonym.find_by_unique_id('jacob@instructure.com')
-          p.account_id.should == account.id
+          #p.account_id.should == account.id
+          p.account_id.should == Account.default.id
           p.should be_active
           p.sis_user_id.should == 'testsisid'
           p.user.should be_pre_registered
@@ -418,7 +419,8 @@ describe UsersController do
           post 'create', :format => 'json', :account_id => account.id, :pseudonym => { :unique_id => 'jacob', :sis_user_id => 'testsisid' }, :user => { :name => 'Jacob Fugal' }
           response.should be_success
           p = Pseudonym.find_by_unique_id('jacob')
-          p.account_id.should == account.id
+          #p.account_id.should == account.id
+          p.account_id.should == Account.default.id
           p.should be_active
           p.sis_user_id.should == 'testsisid'
           p.user.should be_pre_registered
@@ -446,7 +448,8 @@ describe UsersController do
         post 'create', :format => 'json', :account_id => account.id, :pseudonym => { :unique_id => 'jacob@instructure.com', :sis_user_id => 'testsisid' }, :user => { :name => 'Jacob Fugal' }
         response.should be_success
         p = Pseudonym.find_by_unique_id('jacob@instructure.com')
-        p.account_id.should == account.id
+        #p.account_id.should == account.id
+        p.account_id.should == Account.default.id
         p.should be_active
         p.sis_user_id.should be_nil
         p.user.should be_pre_registered
@@ -652,15 +655,10 @@ describe UsersController do
   end
 
   describe "GET 'admin_merge'" do
-<<<<<<< HEAD
-    it "should not allow you to view any user by id" do
-      account_admin_user(:account=> Account.create!)
-=======
     let(:account) { Account.create! }
 
     before do
       account_admin_user
->>>>>>> 613ca333ac2a2ec021f0bcbffb4ec83c50fb04c6
       user_session(@admin)
     end
 

@@ -289,7 +289,7 @@ describe PseudonymSessionsController do
 
           get_consume
 
-          response.should redirect_to(@account.auth_discovery_url + "?message=Canvas%20did%20not%20recognize%20your%20identity%20provider")
+          response.should redirect_to(@account.auth_discovery_url + "?message=Jiaoxuebang%20did%20not%20recognize%20your%20identity%20provider")
         end
 
         it "/saml_consume should redirect to login screen with message if no AAC found" do
@@ -338,12 +338,12 @@ describe PseudonymSessionsController do
           @account.auth_discovery_url = "http://example.com/discover"
           @account.save!
           get_new("0")
-          response.should redirect_to(@account.auth_discovery_url + "?message=The%20Canvas%20account%20has%20no%20authentication%20configuration%20with%20that%20id")
+          response.should redirect_to(@account.auth_discovery_url + "?message=The%20Jiaoxuebang%20account%20has%20no%20authentication%20configuration%20with%20that%20id")
         end
 
         it "should redirect to login screen with message if unknown specified AAC" do
           get_new("0")
-          flash[:delegated_message].should == "The Canvas account has no authentication configuration with that id"
+          flash[:delegated_message].should == "The Jiaoxuebang account has no authentication configuration with that id"
           response.should redirect_to(login_url(:no_auto=>'true'))
         end
       end
@@ -374,7 +374,7 @@ describe PseudonymSessionsController do
             session[:saml_aac_id] = 0
 
             get 'destroy'
-            flash[:message].should == "Canvas was unable to log you out at your identity provider"
+            flash[:message].should == "Jiaoxuebang was unable to log you out at your identity provider"
             response.should redirect_to(login_url(:no_auto=>'true'))
           end
         end

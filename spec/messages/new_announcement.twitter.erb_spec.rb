@@ -24,8 +24,8 @@ describe 'new_announcement.twitter' do
     announcement_model
     @object = @a
     @message = generate_message(:new_announcement, :twitter, @object)
-    @message.subject.should == "Canvas Alert"
+    @message.subject.should == "Jiaoxuebang Alert"
     @message.url.should match(/\/courses\/\d+\/announcements\/\d+/)
-    @message.body.should include("Canvas Alert - Announcement: value for title")
+    @message.body.should include("Jiaoxuebang Alert - Announcement: value for title")
   end
 end

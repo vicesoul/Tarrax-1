@@ -47,7 +47,8 @@ module GradebooksHelper
     if !context.old_gradebook_visible? || user.nil? || user.prefers_gradebook2?
       'gradebook2'
     else
-      'gradebook'
+      #'gradebook'
+      'gradebook2'
     end
   end
 end

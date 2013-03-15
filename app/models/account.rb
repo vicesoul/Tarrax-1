@@ -604,7 +604,7 @@ class Account < ActiveRecord::Base
   end
   
   def default_time_zone
-    read_attribute(:default_time_zone) || "Beijing"
+    read_attribute(:default_time_zone) || (Rails.env.test? ? "Mountain Time (US & Canada)" : "Beijing")
   end
   
   workflow do
