@@ -305,6 +305,19 @@
                     <% end %>
                     <%= hash_get(user_answer, :text).html_safe %>
                   </div>
+                <% elsif question_type.entry_type == 'multiple_textarea' %>
+                  Your Answer:
+                  <div class="user_content quiz_response_text">
+                    <% if question && answer_list = hash_get(user_answer, :text) %>
+                      <ul class="answer-list">
+                        <% answer_list.each do |text| %>
+                          <li>
+                            <%= text.html_safe %>
+                          </li>
+                        <% end %>
+                      </ul>
+                    <% end %>
+                  </div>
                 <% else %>
                   <% matched_answer = hash_get(question, :answers, []).find{|a| hash_get(a, :text) == hash_get(user_answer, :text) || hash_get(a, :id) == hash_get(user_answer, :answer_id) } %>
                   <% hash_get(question, :answers, []).each do |a|

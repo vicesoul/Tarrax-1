@@ -3,6 +3,7 @@
 $backgroundColor: #dfe9f0
 $borderColor: #AAA
 $questionHeaderBackground: #F5F5F5
+$blankHeight: 50px
 
 #wrapper-container
   overflow: visible
@@ -24,6 +25,19 @@ div#content
   border: 1px solid #fff
   padding: 16px
 .quiz-submission
+  .fill_in_blanks_subjective_question
+    .answers
+      display: none
+    .question_text
+      div.blank
+        display: inline-block
+        padding: 5px 10px
+        border-bottom: 1px solid #000!important
+        position: relative
+        p
+          margin: 0
+        img
+          border: none!important
   .question-not-graded-text
     display: none
 
@@ -52,6 +66,36 @@ div#content
       display: none
   .question_text
     display: block
+  .fill_in_blanks_subjective_question
+    .mceEditor
+      outline: none
+      .mceIframeContainer
+        border-top: none
+        border-bottom: 1px solid #666
+        iframe
+          height: $blankHeight!important
+      >table
+        position: relative
+        width: 150px!important
+        height: $blankHeight!important
+        display: inline-block
+        tr.mceLast td
+          border: none
+      *:focus
+        outline: none
+      .mceToolbar
+        height: 10px
+        border: none
+        background: none
+        .mceButton, td > div, td > span
+          display: none
+        .mce_instructure_drawing
+          position: relative
+          top: 2px
+          right: -70px
+    .mceEditor
+      .mce_instructure_drawing
+        display: block!important
   .connecting_lead_question
     position: relative
     .answers

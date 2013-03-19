@@ -18,11 +18,10 @@
 // the #header.no-user #header-logo part here is so that it overrides the byuh logo
 #header-logo, #header.no-user #header-logo
   background: url("/images/canvas/header_canvas_logo.png") no-repeat
-  width: 117px
-  height: 57px
-  left: 16px
-  bottom: 21px
-  position: absolute
+  width: 130px
+  height: 59px
+  display: inline-block
+  float: left
   text-indent: -9999px
 // TODO: remove this style once people have time to update their logo-related custom
 // css. See related code in app/coffeescripts/bundles/common.coffee too.
@@ -45,8 +44,6 @@
 #header
   position: relative
   z-index: 11 /* IE7 needs this o so the menu-item-drops get stuck above #main */
-  //*** 2012-12-07 rupert 
-  //background: #7aa3cf url("/images/canvas/header_bg.pngY") repeat-x left bottom 
   background: #7aa3cf
   &.no-user
     background-position: 0 -25px
@@ -57,26 +54,26 @@
     #header-logo-secondary
       display: none
 
-#topbar
-  position: absolute
-  top: 0
-  right: 0
-  width: 100%
-  overflow: hidden
+//#topbar
+//  position: absolute
+//  top: 0
+//  right: 0
+//  width: 100%
+//  overflow: hidden
 
-#identity
-  +reset-list
-  float: right
-  font-size: 12px
-  margin-right: $right_side_margin
-  margin-bottom: 4px /*make room for the drop shadow*/
-  padding: 0 11px
-  background: transparent url('/images/canvas/top_bar_bg.png') repeat-x
-  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px
-  border-bottom-left-radius: 6px
-  border-bottom-right-radius: 5px
-  border: 1px solid rgba(0,0,0, 0.3)
-  border-top: 0
+//#identity
+//  +reset-list
+//  float: right
+//  font-size: 12px
+//  margin-right: $right_side_margin
+//  margin-bottom: 4px /*make room for the drop shadow*/
+//  padding: 0 11px
+//  background: transparent url('/images/canvas/top_bar_bg.png') repeat-x
+//  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px
+//  border-bottom-left-radius: 6px
+//  border-bottom-right-radius: 5px
+//  border: 1px solid rgba(0,0,0, 0.3)
+//  border-top: 0
 
 
   li

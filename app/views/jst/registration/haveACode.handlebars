@@ -1,8 +1,7 @@
-<div class="registration-dialog">
+<div class="registration-dialog haveACode dddd">
   <form class="form-horizontal bootstrap-form" method="post" action="/users">
     <div class="control-group">
       <label class="control-label" for="student_join_code">{{#t "labels.join_code"}}Join Code{{/t}}
-        <a class="help-block-small signup_link" data-template="studentHigherEdDialog" href="#" title="Student Signup">{{#t "sign_up_without_code"}}don't have a code?{{/t}}</a>
       </label>
       <div class="controls">
         <input type="text" id="student_join_code" name="user[self_enrollment_code]">
@@ -15,21 +14,9 @@
       </div>
     </div>
     <div class="control-group">
-      <label class="control-label" for="student_username">{{#t "labels.username"}}Username{{/t}}</label>
+      <label class="control-label" for="parent_email">{{#t "labels.email"}}Your Email{{/t}}</label>
       <div class="controls">
-        <input type="text" id="student_username" name="pseudonym[unique_id]">
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="student_password">{{#t "labels.password"}}Password{{/t}}</label>
-      <div class="controls">
-        <input type="password" id="student_password" name="pseudonym[password]">
-      </div>
-    </div>
-    <div class="control-group">
-      <label class="control-label" for="student_password_confirmation">{{#t "labels.password_confirmation"}}Confirm Password{{/t}}</label>
-      <div class="controls">
-        <input type="password" id="student_password_confirmation" name="pseudonym[password_confirmation]">
+        <input type="text" id="parent_email" name="pseudonym[unique_id]">
       </div>
     </div>
     <div class="control-group">

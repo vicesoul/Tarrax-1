@@ -315,6 +315,27 @@ $(document).ready(function () {
 
   }());
 
+  (function FillInMultipleBlanksSubjective(){
+
+    $(".question.fill_in_blanks_subjective_question").each(function(){
+      var $question = $(this);
+      $question.find(".question_text textarea").focus(function(){
+        //$(this).blur();
+      });
+
+      $question.find(".answer-list li").each(function(i){
+        var answer = $(this).html();
+        var $textArea = $question.find(".question_text textarea").eq(i);
+        var $div = $("<div class='blank'></div>");
+        $div.html(answer);
+        $textArea.after($div);
+        $textArea.hide();
+      });
+
+    });
+
+  }());
+
 });
 
 });

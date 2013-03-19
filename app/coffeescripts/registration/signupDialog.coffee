@@ -4,19 +4,34 @@ define [
   'compiled/fn/preventDefault'
   'compiled/models/User'
   'compiled/models/Pseudonym'
-  'jst/registration/teacherDialog'
   'jst/registration/studentDialog'
-  'jst/registration/studentHigherEdDialog'
-  'jst/registration/parentDialog'
+  'jst/registration/haveACode'
+  'jst/registration/haveCodeNot'
   'compiled/object/flatten'
   'jquery.instructure_forms'
   'jquery.instructure_date_and_time'
-], (_, I18n, preventDefault, User, Pseudonym, teacherDialog, studentDialog, studentHigherEdDialog, parentDialog, flatten) ->
+], (_, I18n, preventDefault, User, Pseudonym, studentDialog, haveACode, haveCodeNot, flatten) ->
 
   $nodes = {}
-  templates = {teacherDialog, studentDialog, studentHigherEdDialog, parentDialog}
+  templates = {
+  #studentDialog,
+  haveACode,
+  haveCodeNot
+  }
+  tabChang = (title, content) ->
+    $(content).not(":first").hide().end().eq(0).show()
+    $(title).eq(0).addClass("active").show()
+    $(title).each (i) ->
+      $(this).click (e) ->
+        $(title).removeClass("active")
+        $(this).addClass("active")
+        $(content).hide()
+        $(content).eq(i).show()
+        e.preventDefault()
 
-  signupDialog = (id, title) ->
+  tabChang(".register .nav-tabs li", ".register .tab-content > div")
+
+  signupDialog = (id, title, i) ->
     return unless templates[id]
     $node = $nodes[id] ?= $('<div />')
     $node.html templates[id](
@@ -58,12 +73,14 @@ define [
           delete errors['user[birthdate]']
         $form.formErrors errors
 
-    $node.dialog
+    ###$node.dialog
       resizable: false
       title: title
       width: 550
       open: ->
         $(this).find('a').eq(0).blur()
         $(this).find(':input').eq(0).focus()
-      close: -> $('.error_box').filter(':visible').remove()
-    $node.fixDialogButtons()
+      close: -> $('.error_box').filter(':visible').remove()###
+    $(".tab-content .tab-pane").eq(i).append $node.addClass "notdd"
+    #$node.fixDialogButtons()
+

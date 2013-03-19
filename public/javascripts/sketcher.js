@@ -1,8 +1,7 @@
 define([
     "modernizr.custom.34982",
     'underscore',
-    'backbone-0.9.9',
-    "jquery.ui.touch"
+    'backbone-0.9.9'
 ], function() {
     var Sketcher = window.Sketcher = Backbone.Model.extend({
         initialize: function() {

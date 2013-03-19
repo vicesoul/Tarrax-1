@@ -133,6 +133,8 @@ stylesheets:
     - public/stylesheets/compiled/g_mini_calendar.css
     - public/stylesheets/compiled/helpDialog.css
     - public/stylesheets/compiled/print.css
+    - public/stylesheets/compiled/welcome.css
+    # - public/stylesheets/static/bootstrap.css
   collection_item_save:
     - public/stylesheets/compiled/collection_item_save.css
   collections_app:
@@ -163,6 +165,8 @@ stylesheets:
     - public/stylesheets/compiled/speed_grader.css
   plugins:
     - public/stylesheets/compiled/plugins.css
+  welcome:
+    - public/stylesheets/compiled/welcome.css
   gradebook_uploads:
     - public/stylesheets/static/slick.grid.css
     - public/stylesheets/compiled/gradebook_uploads.css
@@ -264,5 +268,4 @@ stylesheets:
     - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/css/style.css
     - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/css/style.css
     - public/stylesheets/static/mathquill.css
-    - public/stylesheets/static/bootstrap.css
   <%= anchors["stylesheets"].map{ |(bundle,anchor)| "#{bundle}: *#{anchor}" }.join("\n  ") %>

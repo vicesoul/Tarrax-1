@@ -1,8 +1,14 @@
 @import environment.sass
-$modal_box_width: 623px
+$modal_box_width: 715px
 $modal_box_padding: 20px
 
 body.modal
+  position: static
+  width: auto
+  border: none
+  box-shadow: none
+  margin: 0
+  background: #006699 url("/images/jxb/login-bg.jpg") no-repeat center -400px
   #footer
     display: block !important
     width: $modal_box_width + 20px
@@ -17,7 +23,7 @@ body.modal
 
   #modal-box, #login-box
     box-shadow: 0 4px 20px -2px rgba(0,0,0,1)
-    margin: 75px auto 20px
+    margin: 200px auto 20px
     position: relative
     .icon_url
       width: 72px
@@ -27,13 +33,19 @@ body.modal
       margin-bottom: 5px
     ul
       list-style-type: none
-
+    .login-options
+      overflow: hidden
     .button
       float: right
-      padding: 10px 36px
-      font-size: 1.1em
-      margin: 2px 7px 0 0
-      border-radius: 7px
+      width: 233px
+      height: 52px
+      background: url("/images/jxb/btn-blue.png")
+      text-align: center
+      color: #fff
+      letter-spacing: 10px
+      font-size: 18px
+      text-shadow: none
+
 
     .button_box
       text-align: right
@@ -70,29 +82,22 @@ body.modal
         border-bottom: 1px solid #fff
         height: 0
     &.login-box
-      background-color: #59656E
-      @include background(image-url("/images/Money_Noise_tm.png"), radial-gradient(50% -100px, circle cover, rgba(255, 255, 255, 0.6) 0%, transparent 100%), linear-gradient(top, #59656e, #3e464c))
-      background: url("/images/Money_Noise_tm.png?1350442675"), -ms-radial-gradient(50% -100px, circle cover, rgba(255, 255, 255, 0.6) 0%, transparent 100%), -ms-linear-gradient(top, #59656e, #3e464c)
-      height: 331px
+      background-color: #fff
+      @include background(image-url("/images/jxb/login-partern.png"), linear-gradient(top, #fff, #dddee0))
+      height: 360px
       width: $modal_box_width
       padding: $modal_box_padding
       color: #b3b3b3
       border: none
       h1
-        height: 107px
-        margin: 0 0 50px
-        text-shadow: -3px 2px 4px #0d080d
-        filter: dropshadow(color=#0d080d, offx=-3, offy=2)
+        height: 74px
+        background: url("/images/jxb/login-logo.png") no-repeat center top
+        text-indent: -999em
+        margin: 30px 0 30px
         text-align: center
-        color: white
-        font-size: 30px
-        line-height: 107px
-        //background: transparent url(/images/canvas.png) 83px 46px no-repeat
-        //text-indent: -999em
       a
-        color: #64b9f9 !important
-        &:hover
-          text-decoration: underline
+        color: #006699 !important
+        text-decoration: underline
   
       input.text
         background: url(/images/login-input-bg.png) no-repeat
@@ -110,22 +115,30 @@ body.modal
 
 // weird specificity here is to match the input.text above
 body.webkit #modal-box.login-box input.text
-  background: #F6F6F6 none
-  border: 6px solid rgba(255, 255, 255, 0.25)
-  border-radius: 7px
-  padding: 12px 9px 12px 17px
-  box-shadow: inset 2px 2px 5px rgba(0,0,0,0.4)
+  background: #fff
+  border: 1px solid #ccc
+  padding: 15px 10px
   background-clip: padding-box
-  width: 197px
-
+  width: 257px
+  border-radius: 0
 #login_form
+  font-size: 12px
   margin: 0 auto
-  width: 487px
-  .login-options
+  width: 580px
+  .fill-in
+    width: 110%
     input
-      margin-left: 0
-    float: left
-    line-height: 1.75em
+      margin-right: 16px!important
+  .tail
+    margin: 10px 0 50px
+    overflow: hidden
+    .login-options
+      margin: 10px 0
+      input
+        margin-left: 0
+        line-height: 1.75em
+      #login_forgot_password
+        float: right
 body.modal
   #forgot_password_form
     margin: 0 auto
@@ -172,31 +185,19 @@ span.field-with-fancyplaceholder
       color: #000
       background: none repeat scroll 0 0 transparent
       overflow: hidden
-
-#register_link
-  position: absolute
-  display: block
-  background: url(/images/fft_ribbon.png) no-repeat
-  padding-top: 10px
-  width: 232px
-  height: 53px
-  right: -13px
-  top: 56px
-  text-align: center
-  font-size: 1.1em
-  line-height: 1.25
-  i, b
-    display: block
-  i
-    color: #444
-    font-style: normal
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25)
-  b
-    font-weight: normal
-    color: #fff
-  &:hover
-    background-position: 0 -63px
-    text-decoration: none !important
+.link-register
+  text-align: right
+  #register_link
+    i
+      color: #444
+      font-style: normal
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25)
+    b
+      font-weight: normal
+      color: #fff
+    &:hover
+      background-position: 0 -63px
+      text-decoration: none !important
 
 #unauthorized_holder
   box-shadow: 0 4px 20px -2px rgba(0,0,0,1)
