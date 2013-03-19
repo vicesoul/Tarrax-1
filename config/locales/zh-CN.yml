@@ -538,7 +538,6 @@ zh-CN:
       tab_notifications: 通知
       tab_reports: 报表
       tab_settings: 管理设置
-      transifex_message: "参加[教学邦翻译联盟](%{transifex_url})"
       turnitin_comments_help: "这些评论在提交 Turnitin 启用的任务时显示给学生"
       turnitin_pledge_help: 学生必须勾选相关框以确认他们同意此保证
       turnitin_settings_title: "Turnitin 设置"
@@ -1301,6 +1300,7 @@ zh-CN:
         online_url: 输入网页链接。
       labels: 
         uploaded_data: 上传的文件
+        url: "Website URL"
       link: 网页链接
       links: 
         add_another_file: 添加其他文件
@@ -3637,7 +3637,6 @@ zh-CN:
       page_title: 课程详细信息
       private_course: 私密
       public_course: 公共
-      re_send_all: "或 *重新发送所有未接受的邀请*"
       section_sis_id: "SIS ID: %{section_sis}"
       set_grading_scheme: 设置评分方案
       sis_source_id: "SIS ID"
@@ -5206,7 +5205,8 @@ zh-CN:
         no_changes: 在您上传的成绩册中未检测到任何变化。
       ignore_assignment_option: 假的，忽略它
       ignore_student_option: 不在我的班级中，忽略此行
-      labels: "points_possible:满分"
+      labels: 
+        points_possible: 满分
       links: 
         back: 返回到成绩册
       new_assignment_option: 新作业
@@ -6616,7 +6616,7 @@ zh-CN:
         user_resubmitted_sentence: "%{user_name} 提交课程 %{course_name} 中 %{assignment_name} 作业"
       facebook: 
         click_to_view: 单击此处查看提交。
-        user_resubmitted: "**%{user_name}** 提交课程 %{course_name} 中 **%{assignment_name}** 作业"
+        user_resubmitted: "**%{user_name}** 提交 **%{assignment_name}** 课程 %{course_name}"
       sms: 
         more_info_at: "更多信息请访问 %{web_address}"
         user_resubmitted: "%{user_name} 再次提交其作业 %{assignment_name}"
@@ -7010,7 +7010,7 @@ zh-CN:
           view_submission_here: 您可在此处查看提交
         subject: "最近作业:%{group_name}，%{assignment_name}"
       facebook: 
-        body: "组 %{group_name} 提交课程 %{course_name} 中 **[%{assignment_name}](%{assignment_url})** 的最近提交。"
+        body: "组 %{group_name} 刚刚迟交作业 **[%{assignment_name}](%{assignment_url})** 课程 %{course_name}."
       sms: 
         more_info: "更多信息请访问 %{web_address}"
         subject: "%{group_name} 提交其作业（最新） %{assignment_name}"
@@ -7028,8 +7028,8 @@ zh-CN:
           click_below: 您可通过单击下面的链接检查组
         subject: "组成员资格已接受: %{group_name}"
       facebook: 
-        account_group: "您请求加入组 **[%{group_name}](%{group_url})** 为 %{account_name}已接受."
-        course_group: "您请求加入组 **[%{group_name}](%{group_url})** 为课程%{course_name} 已接受."
+        account_group: "您加入 **[%{group_name}](%{group_url})** 在 %{account_name} 的请求被拒绝."
+        course_group: "您加入**[%{group_name}](%{group_url})** 在 %{course_name} 的请求被拒绝."
         group_request_accepted: "组请求已接受: %{group_name}"
       sms: 
         account_group: "网校 %{account_name} 加入组 %{group_name} 的请求已被接受。"
@@ -7050,8 +7050,7 @@ zh-CN:
         labels: 
           click_below: 您可通过单击下面的链接检查其他组
         subject: "组成员资格已拒绝: %{group_name}"
-      ? "facebook:"
-      : 
+      facebook: 
         account_group: "您请求加入组 **[%{group_name}](%{group_url})** 为 %{account_name} 被拒绝."
         course_group: "您请求加入组 **[%{group_name}](%{group_url})** 为课程 %{course_name} 被拒绝."
       sms: 
@@ -7761,8 +7760,10 @@ zh-CN:
       format: 
         delimiter: ""
   options: 
-    否: 否
-    是: 是
+    ? "no"
+    : 否
+    ? "yes"
+    : 是
   outcome_groups: 
     invalid_file: 无效的结果组文件
   outcome_groups_api: 
@@ -8606,8 +8607,11 @@ zh-CN:
         verify: 验证
       details: 
         mfa_enrollment: |-
-            除密码外，多重身份验证还要求您拥有物理设备，才能登录到教学邦，因而提高了安全性。这可以是能生成验证码的设备，也可以是能接收短信的手机。用于 [iPhone](%{iphone_url}) 或
-            [Android](%{android_url}) 的 Google Authenticator  应用程序的配置方法是扫描以下的 QR 代码。其他令牌的配置方法是输入密钥 **%{secret_key}**
+            Multi-factor authentication increases security by requiring that you have something in your physical possession,
+            in addition to knowing your password, in order to log in to Jiaoxuebang. This can be a device that can generate
+            verification codes, or a phone that can receive text messages. The Google Authenticator app for [iPhone](%{iphone_url}) or
+            [Android](%{android_url}) can be configured by scanning the QR Code below. Other tokens can be configured by entering the
+            secret key **%{secret_key}**.
         mfa_required: 您需要设置多重身份验证。
         otp_on_device: 请输入您的令牌显示的验证码。
         otp_sent_to_phone: 验证码已发送到您的手机。请在此输入。
@@ -9875,11 +9879,16 @@ zh-CN:
       view_statistics: 查看统计
     roles: 
       account_admin: 网校管理员
-      designer: 课程课程设计
+      designer: 课程设计
+      designers: 课程设计
       observer: 观察员
+      observers: 观察员
       student: 学生
+      students: 学生
       ta: 助教
+      tas: 助教
       teacher: 教师
+      teachers: 教师
     tooltips: 
       readonly: 您无权更改此项。
       toogle: 单击以切换此选项的"打开"或"关闭"
@@ -11595,7 +11604,7 @@ zh-CN:
       file: 文件
       language: 语言
       media_track_form_button: 字幕制作工具
-      upload_media_track_form_description: "一旦你有一个字幕的SRT或 * WebVTT* 格式，你可以在这里上传."
+      upload_media_track_form_description: "你可以编辑上传 SRT 或 *WebVTT* 格式."
       upload_media_track_form_description_1: "复制视频链接链接:"
       upload_media_track_form_description_2: 根据指示点击此链接创建一个字幕文件.
       upload_media_track_form_description_3: "上传 SRT or *WebVTT* 格式字幕文件."
