@@ -239,76 +239,9 @@ define([
         if(opts && opts.close && $.isFunction(opts.close)) {
           opts.close.call($dialog);
         }
-<<<<<<< HEAD
-        // re-set the state on everything.  Basically just clear the uploader
-        // files list, remove the uploader progress bar and re-set the submit button.
-        // Re-set the recorders, too?  I guess probably, yeah, if you can.
-        $(document).triggerHandler('reset_media_comment_forms');
-        var temporaryName = $.trim($("#identity .user_name").text()) + " " + (new Date()).toISOString();
-        setTimeout(function() {
-          var recordVars = {
-            host:location.protocol + "//" + INST.kalturaSettings.domain,
-            rtmpHost:"rtmp://" + (INST.kalturaSettings.rtmp_domain || INST.kalturaSettings.domain),
-            //rtmpHost:"rtmp://www.kaltura.com",
-            kshowId:"-1",
-            pid:INST.kalturaSettings.partner_id,
-            subpid:INST.kalturaSettings.subpartner_id,
-            uid:$dialog.data('uid') || "ANONYMOUS",
-            ks:ks,
-            themeUrl:"/media_record/skin.swf",
-            localeUrl:"/media_record/locale.xml",
-            thumbOffset:"1",
-            licenseType:"CC-0.1",
-            showUi:"true",
-            // 2012-11-01 rupert add autopreview
-            usecamera:"0",
-            autopreview:0,
-            // end
-            maxFileSize: INST.kalturaSettings.max_file_size_bytes / 1048576,
-            maxUploads: 1,
-            partnerData: $.mediaComment.partnerData(),
-            partner_data: $.mediaComment.partnerData(),
-            entryName:temporaryName
-          }
-          console.log(recordVars.rtmpHost)
-          var params = {
-            "align": "middle",
-            "quality": "high",
-            "bgcolor": "#ffffff",
-            "name": "KRecordAudio",
-            "allowScriptAccess":"sameDomain",
-            "type": "application/x-shockwave-flash",
-            "pluginspage": "http://www.adobe.com/go/getflashplayer",
-            "wmode": "opaque"
-          }
-          $("#audio_record").text(I18n.t('messages.flash_required_record_audio', "Flash required for recording audio."))
-          swfobject.embedSWF("/media_record/KRecord.swf", "audio_record", "400", "300", "9.0.0", false, recordVars, params);
-
-          var params = $.extend({}, params, {name: 'KRecordVideo'});
-          var recordVars = $.extend({}, recordVars, {usecamera: '1'});
-          $("#video_record").html("Flash required for recording video.")
-          swfobject.embedSWF("/media_record/KRecord.swf", "video_record", "400", "300", "9.0.0", false, recordVars, params);
-
-          // give all swfs integer positions in the DOM to avoid a chrome 21
-          // bug that makes the allow/deny buttons unclickable.
-          var swfs = $dialog.find('object');
-          for (var i=0,length=swfs.length; i < length; i++) {
-            var swf             = $(swfs[i]),
-                swfPosition     = swf.offset().left,
-                roundedPosition = Math.round(swfPosition);
-
-            if (swfPosition === roundedPosition) continue;
-
-            swf.css({
-              position: 'relative',
-              left: roundedPosition - swfPosition
-            });
-          }
-=======
       });
       $("#audio_record").before("<div id='audio_record'/>").remove();
       $("#video_record").before("<div id='video_record'/>").remove();
->>>>>>> 613ca333ac2a2ec021f0bcbffb4ec83c50fb04c6
 
       var ks = $dialog.data('ks');
 
@@ -512,44 +445,6 @@ define([
         height: 300,
         modal: false
       });
-<<<<<<< HEAD
-
-
-      //****** 2012-12-20 rupert
-      // if first open, #audio_record_holder_holder is not hidden
-      var audioInit = false;
-
-      $("#video_record_option,#audio_record_option").live('click', function(event) {
-        event.preventDefault();
-        $("#video_record_option,#audio_record_option").removeClass('selected_option');
-        $(this).addClass('selected_option');
-        $("#audio_record_holder").stop(true, true).clearQueue().css('width', '').removeClass('with_volume');
-        $("#video_record_holder").stop(true, true).clearQueue().css('width', '').removeClass('with_volume');
-        if($(this).attr('id') == 'audio_record_option') {
-                $("#video_record_holder_holder").hide();
-
-            if(!audioInit){
-                $("#audio_record_holder_holder").removeAttr("style");
-                audioInit = true;
-            }
-
-            $("#audio_record_holder_holder").show();
-
-        } else {
-          $("#video_record_holder_holder").show();
-
-            if(!audioInit){
-
-                $("#audio_record_holder_holder").css({
-                    position:"absolute",
-                    left: -9999
-                });
-
-            }else{
-                $("#audio_record_holder_holder").hide();
-            }
-
-=======
       $.ajaxJSON('/api/v1/services/kaltura_session', 'POST', {}, function(data) {
         $div.data('ks', data.ks);
         $div.data('uid', data.uid);
@@ -575,16 +470,10 @@ define([
           } else {
             setTimeout(checkForKS, 500);
           }
->>>>>>> 613ca333ac2a2ec021f0bcbffb4ec83c50fb04c6
         }
         checkForKS();
         $dialog = $("#media_comment_dialog");
       });
-<<<<<<< HEAD
-
-      // end
-
-=======
       $dialog = $div;
     } else {
       mediaCommentReady();
@@ -611,7 +500,6 @@ define([
    });
     $("#media_upload_submit").live('click', function(event) {
       $.mediaComment.upload_delegate.submit();
->>>>>>> 613ca333ac2a2ec021f0bcbffb4ec83c50fb04c6
     });
     $("#video_record_option,#audio_record_option").live('click', function(event) {
       event.preventDefault();
