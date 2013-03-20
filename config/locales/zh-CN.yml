@@ -10631,7 +10631,7 @@ zh-CN:
     event: "%{date} %{time}"
     formats: 
       default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%B %d, %Y %H:%M"
+      long: "%Y-%m-%d %H:%M"
       short: "%d %b %H:%M"
       tiny: "%l:%M%P"
       tiny_on_the_hour: "%l%P"

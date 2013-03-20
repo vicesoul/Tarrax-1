@@ -1,3 +1,14 @@
+<% content_for :head do %>
+<style type="text/css" media="all">
+#wrapper #main {
+  max-width: none;
+}
+#wrapper #main #content{
+  padding: 0;
+}
+</style>
+<% end unless @can_manage_homepage %>
+
 <% content_for :page_title do %><%= "#{t(:home_page, "Homepage")} | #{@account.name}"%><% end %>
 
 <% jammit_css :tinymce, :account_homepage %>
@@ -9,10 +20,10 @@
 
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
-<div id="edit_widget_dialog" style='display:none;'>
+<div id="edit_widget_dialog">
   <div class="edit_widget_section">
     <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" /><br />
-    <%= t :body, 'Body' %>: <textarea name="widget_body" id="widget_body" rows="8" cols="40"></textarea><br />
+    <%= t :body, 'Body' %>: <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea><br />
     <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
       <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> <input type="submit" value="<%= t :upload, 'Upload'%>" />
     </form>

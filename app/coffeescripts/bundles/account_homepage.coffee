@@ -48,6 +48,7 @@ require [
       $widget.addClass("deleted")
       $widget.hide()
     $editImg = $("<img src='/images/edit.png' title='edit' class='edit_widget' />").click ->
+      $('.editable').removeClass('editable')
       $widget = $(this).parent("[data-widget]")
       synToDialog( $widget )
       $("#edit_widget_dialog").dialog "open"
@@ -68,14 +69,15 @@ require [
         ui.placeholder.width  ui.item.width()
         ui.placeholder.height ui.item.height()
     )
+    
+
+    $("#widget_body").editorBox tinyOptions: width: '100%'
 
     $("#edit_widget_dialog").dialog(
       autoOpen: false
       width: 800
       height: 600
     )
-
-    $("#widget_body").editorBox tinyOptions: width: '100%'
 
     $(".save_widget_button").click ->
       synToWidget( $('.editable') )

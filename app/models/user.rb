@@ -173,7 +173,7 @@ class User < ActiveRecord::Base
   has_one :dashboard_page, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
   def find_or_create_dashboard_page
     self.dashboard_page || begin
-      page = self.build_dashboard_page(:name => 'dashboard')
+      page = self.build_dashboard_page(:name => 'dashboard', :theme => 'jiaoxuebang')
       page.widgets.build(:cell_name => "activity",     :cell_action => "index", :seq => 0, :body => activity_widget_body)
       page.widgets.build(:cell_name => "assignment",   :cell_action => "index", :seq => 1)
       page.widgets.build(:cell_name => "discussion",   :cell_action => "index", :seq => 2)

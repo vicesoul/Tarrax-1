@@ -84,6 +84,10 @@ class Account < ActiveRecord::Base
   has_many :context_external_tools, :as => :context, :dependent => :destroy, :order => 'name'
   has_many :error_reports
   has_many :announcements, :class_name => 'AccountNotification'
+  def announcements_with_sub_account_announcements
+    accounts = [self, self.sub_accounts].flatten
+    AccountNotification.find(:all, :conditions => ["account_id IN (?)", accounts], :order => 'start_at DESC')
+  end
   has_many :alerts, :as => :context, :include => :criteria
   has_many :associated_alerts, :through => :associated_courses, :source => :alerts, :include => :criteria
   has_many :user_account_associations

@@ -9,6 +9,9 @@
         <td><%= before_label(:name, 'Theme name') %></td>
         <td><%= f.select :theme, Jxb::Theme.themes %></td>
       </tr><tr>
+        <td><%= before_label(:background_image, 'Background image') %></td>
+        <td><%= f.text_field :background_image  %></td>
+      </tr><tr>
         <td><%= before_label(:add_new_widget, 'New widget') %></td>
         <td><%= select "widget", "name", Jxb::Widget::TYPE %> <%= link_to t(:add, 'add'), '#', :id => 'add_widget' %></td>
       </tr><tr>

@@ -1,9 +1,9 @@
 class DiscussionCell < ApplicationCell
+  helper :avatar
 
   def index
     @discussions = context.active_discussions_of_courses(@opts[:courses])
-    @ids = widget.courses && widget.courses.split(",").map(&:to_i) || [] 
-    @has_content = @ids & @discussions.map{|obj| obj.context.id} != []
+    format_contexts(@discussions)
 
     prepend_view_path Jxb::Theme.widget_path(theme)
 

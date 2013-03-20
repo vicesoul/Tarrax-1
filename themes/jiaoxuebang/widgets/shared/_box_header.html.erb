@@ -1,0 +1,6 @@
+<h4 class="data-widget-title <%= @opts[:can_select_course] ? 'left' : '' %>"><%= title header_title %></h4>
+<% if @opts[:can_select_course] %>
+  <div class="right courses-selector">
+    <%= link_to 'configure>', 'javascript:void(0)', "data-ids" => (@ids || []).join(','), :class => 'config_courses', 'data-url' => widget_path(widget) %>
+  </div>
+<% end %>

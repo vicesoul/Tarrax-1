@@ -1,0 +1,10 @@
+<div <%= data_widget %> >
+  <div class="box <%= @opts[:can_select_course] ? 'mini_box' : '' %>">
+    <div class="box_head">
+      <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.discussion.title', 'Discussion') } %>
+    </div>
+    <div class="box_body">
+      <%= render :partial => "shared/contexts", :locals => { :objects => @discussions } %>
+    </div>
+  </div>
+</div>

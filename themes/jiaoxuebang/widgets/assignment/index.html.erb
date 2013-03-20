@@ -1,0 +1,27 @@
+<div <%= data_widget %> >
+  <div class="box <%= @opts[:can_select_course] ? 'mini_box' : '' %>">
+    <div class="box_head">
+      <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.assignment.title', 'Assignment') } %>
+    </div>
+    <div class="box_body">
+      <table class="table jxbTable datatable <%= @has_content ? '' : 'empty-content'%>">
+        <thead><tr>
+          <td><%= t '#cells.assignment.name', 'Name' %></td>
+          <td><%= t '#cells.assignment.created_at', 'Created at' %></td>
+          <td><%= t '#cells.assignment.due_at', 'Due at' %></td>
+         </tr></thead>
+        <tbody>
+        <% @assignments.each do |assignment| %>
+        <% style = @ids.include?(assignment.context.id) ? '' : "style='display:none;'" if @opts[:can_select_course] %>
+          <tr data-course-id=<%= assignment.context.id%> <%= style if @opts[:can_select_course] %> >
+            <td><a href=<%= "/course/#{assignment.context.id}/assignments/#{assignment.id}" %>><%= assignment.title %></a></td>
+            <td><%= l assignment.created_at, :format => :long %></td>
+            <td><%= l assignment.due_at, :format => :long %></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<div class="data-widget-body" style="display:none;"></div>
+</div>

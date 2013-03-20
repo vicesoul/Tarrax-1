@@ -1,0 +1,19 @@
+<div class="contextIndexList">
+<% objects.each_with_index do |obj, index| %>
+  <% obj_context = obj.context %>
+  <% last_id = (index + 1) == objects.size ? 'last' : ''  %>
+  <% style = @ids.include?(obj_context.id) ? '' : "style='display:none;'" if @opts[:can_select_course] %>
+  <div class="context-column <%= last_id %>" data-course-id=<%= obj_context.id%> <%= style if @opts[:can_select_course] %> >
+    <div class="image-block-image">
+      <%= link_to image_tag( avatar_url_for_user(obj.user), :style => 'max-width: 50px', :class => 'image-avatar' ), "/courses/#{obj_context.id}/users/#{obj.user.id}" %>
+    </div>
+    <div class="image-block-content">
+      <div class="context-last-reply"><%= l obj.last_reply_at, :format => :long %></div>
+      <div class="context-title"><%= link_to obj.title, "/courses/#{obj_context.id}/discussion_topics/#{obj.id}" %></div>
+      <div class="user-short-name"><%= link_to obj.user.short_name, "/courses/#{obj_context.id}/users/#{obj.user.id}" %></div>
+      <div class="context-summary"><%= strip_tags obj.message %></div>
+    </div>
+  </div>
+<% end %>
+</div>
+<div class="data-widget-body" style="display:none;"></div>

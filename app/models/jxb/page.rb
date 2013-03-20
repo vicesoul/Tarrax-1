@@ -1,9 +1,9 @@
 #create_table "jxb_pages", :force => true do |t|
 #  t.string   "name"
 #  t.string   "theme",      :default => "jxb"
-#  t.integer  "account_id", :limit => 8
-#  t.string   "accounts"
-#  t.text     "positions"
+#  t.integer  "context_id", :limit => 8
+#  t.string   "courses"
+#  t.string   "background_image"
 #  t.datetime "created_at"
 #  t.datetime "updated_at"
 #end
@@ -15,7 +15,7 @@ class Jxb::Page < ActiveRecord::Base
 
   belongs_to :context, :polymorphic => true
 
-  attr_accessible :name, :theme, :positions, :courses
+  attr_accessible :name, :theme, :positions, :courses, :background_image
   serialize :courses
   
   after_update :save_widgets
