@@ -100,3 +100,16 @@ zh-CN:
     date_changes: 日期变更
     scheduling_notifications: 预约提醒
   site_name: 教学邦
+  quizzes:
+    form_answer:
+      connecting_lead_left: 第一结点
+      connecting_lead_center: 第二结点
+      connecting_lead_right: 第三结点
+      connecting_on_pic_left: 左边
+      connecting_on_pic_right: 右边
+      dragging_left: 拖动左
+      dragging_right: 拖动右
+  take_quiz:
+    line:
+      dele_line: 是否删除？
+

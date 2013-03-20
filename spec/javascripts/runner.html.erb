@@ -75,7 +75,11 @@
   <script>
     // don't run specs until they are all loaded
     stop();
-    require(<%= Dir["spec/javascripts/**/*Spec.js"].map{ |file| file.sub(/\.js$/, '') }.inspect %>, function() {
+    
+    <% dirs = Dir["spec/javascripts/**/*Spec.js"].map{ |file| file.sub(/\.js$/, '') } %>
+    <% dirs = dirs.grep(/#{special_file}/i) if special_file %>
+      
+    require(<%= dirs.inspect %>, function() {
       // run specs once they've all loaded
       start();
     });

@@ -9,7 +9,7 @@ require [
   'translations/_core_en'
   'jquery.ajaxJSON'
   'vendor/firebugx'
-  'jquery.google-analytics'
+#  'jquery.google-analytics'
   'vendor/swfobject/swfobject'
   'reminders'
   'jquery.instructure_forms'

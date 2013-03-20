@@ -240,9 +240,29 @@ define([
             });
           }
 
-          // 2012-11-13 rupert
-          var iframe = $("#"+id+"_ifr");
-          var $editorBody = iframe.contents().find("body#tinymce");
+          $("#" + ed.editorId + "_tbl").find("td.mceToolbar span.mceSeparator").parent().each(function() {
+            $(this)
+              .after("<td class='mceSeparatorLeft'><span/></td>")
+              .after("<td class='mceSeparatorMiddle'><span/></td>")
+              .after("<td class='mceSeparatorRight'><span/></td>")
+              .remove();
+          });
+
+          var focusImg = (function(){
+            var iframe = $("#"+id+"_ifr");
+            var $editorBody = iframe.contents().find("body#tinymce");
+
+            $editorBody.mousedown(function(){
+              $editorBody.find("img.focused").removeClass("focused");
+            });
+
+            $editorBody.delegate( "img", "mousedown", function( e ) {
+              $editorBody.find(".focused").removeClass("focused");
+              $(this).addClass("focused");
+              e.stopPropagation($(this));
+            });
+
+          })();
 
           //  img:focus addClass "focused"
           $editorBody.mousedown(function(){

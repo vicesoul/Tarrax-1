@@ -149,6 +149,68 @@ div#content
     .previous-question:before
       content: '◀'
       left: 5px
+  .text
+    :position relative
+  .paintQuestion
+    .container
+      :border none
+      :position absolute
+      :top 75px
+      :left 20px
+      :z-index 9
+  .paint_question
+    .answers
+      display: none
+  .question_text
+    display: block
+  .connecting_lead_question
+    position: relative
+    .answers
+      position: relative
+      z-index: 1
+      .connecting_lead
+        padding: 3px
+        border: 1px solid rgba( 0, 0, 0, 0)
+        cursor: pointer
+        float: left
+        span.btn
+          overflow: hidden
+          max-width: 160px
+          text-overflow: ellipsis
+          white-space: nowrap
+        .popover
+          .popover-title
+            display: none
+        input
+          display: none
+      .connecting_lead.active
+        border: 1px solid rgba( 0, 0, 0, 1)
+    svg
+      position: absolute!important
+      z-index: 0
+      h5
+        margin: 0
+      button
+        margin: 0 3px 0 0
+        padding: 0
+
+.twoLines
+  .word_right, .connecting_lead_right, .answer_match_right
+    display: none
+.tool-tip
+  position: absolute
+  left: 0
+  top: 0
+  z-index: 3
+  font-size: 10px
+  border: 1px #ccc solid
+  background: #fff
+  border-radius: 4px
+  padding: 3px
+
+#submit_quiz_form, .question_form
+  .button-container
+    text-align: right
 
 #sort_questions
   :max-height 250px
@@ -360,6 +422,47 @@ div#content
       :display none
     .answer_comment,.question_comment_text
       white-space: pre-wrap
+  .connecting_lead_question.question
+    .btn-group
+      display: block!important
+  .connecting_on_pic_question.question
+    .connecting_on_pic_factory
+      display: block!important
+  .twoLines.question
+    .answer_match_right
+      display: none
+
+
+.incorrect
+  .question_text
+    display: none
+
+.question.paint_question
+  .answers
+    .quiz_response_text
+      position: relative
+      .paint_question
+        padding: 1.5em 0
+      img
+        border: none!important
+        padding: 0!important
+      img.paint-image
+        position: absolute
+        z-index: 9
+        left:  0
+        top:  3px
+
+.question.connecting_lead_question
+  .answers
+    opacity: 0
+    .answer
+      margin: 0!important
+      padding: 0!important
+      .answer_match
+        padding: 0
+    svg
+      position: absolute!important
+
 
 .question
   :border 1px solid $borderColor
@@ -571,23 +674,18 @@ div#content
   .answer_select
     :vertical-align top
     :padding-top 0.5em
-    
     .answer_weight
       :display none
-
   .answer_match
     :padding 0 0 10px 0
-
     .answer_match_left, .answer_match_left_html
       :float left
       :width 45%
       :font-weight bold
       :overflow auto
-
     .answer_match_middle
       :float left
       :width 10%
-
     .answer_match_right
       float: left
       width: 45%
@@ -597,6 +695,18 @@ div#content
           padding-left: 5px
           .answer_text
             font-weight: bold
+
+  .connecting_lead_answer.answer_match
+    overflow: hidden
+    > div
+      float: left
+    .answer_match_left
+      :width 30%
+    .answer_match_center
+      :width 30%
+      float: left
+    .answer_match_right
+      :width 30%
 
 .form_answers
   .answer
@@ -703,15 +813,20 @@ form.question_form
     overflow: hidden
   .multi_answer_sets
     display: none
-  .fill_in_multiple_blanks_question,.multiple_dropdowns_question
+  .fill_in_multiple_blanks_question, .multiple_dropdowns_question, .drag_and_drop_question
     .multi_answer_sets
       display: block
     .multi_answer_sets_subheader
       font-size: 0.8em
+  .drag_and_drop_question
+    .add_answer, .delete_answer_link
+      display: none
   .explanation
     font-size: 0.8em
     margin-bottom: 5px
   .form_answers
+    .factory
+      display: block
     .answer
       :border 1px solid #fff
       :-moz-border-radius 5px
@@ -757,6 +872,97 @@ form.question_form
         :border-color #4a4
         .comment_top 
           :background-image url(/images/comment_top_correct.png)
+  .connecting_on_pic_question
+    .answer
+      display: none
+.dragging
+  list-style: none
+  li
+    display: inline-block
+.blueText
+  line-height: 50px
+  .receive
+    display: inline-block
+    border: 1px solid #eee
+    width: 100px
+    height: 35px
+.factory
+  display: block
+  .menu:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
+  .menu
+    li
+      margin: 10px
+      float: left
+      list-style: none
+    textarea
+      display: none
+  span
+    display: inline-block
+    width: 30px
+    height:  30px
+    border-radius: 50%
+    opacity: 0.8
+    border: 2px dotted rgba(0,0,0,0)
+    b
+      display: none
+      cursor: pointer
+      position: absolute
+      right: -8px
+      top: -8px
+    textarea, p
+      border: 1px solid #ddd
+      border-radius: 5px
+      padding: 5px
+      width: 100px
+      min-height: 30px
+      position: absolute
+      left: 0
+      top: 0
+      margin: 0 0 0 40px
+      background: rgba(255,255,255,0.5)
+  span.grey
+    textarea, p
+      right: 0
+      left: auto
+      margin: 0 40px 0 0
+  .grey
+    background: grey
+  .yellow
+    background: yellow
+  .menu
+    position: relative
+    z-index: 1
+  .main
+    position: relative
+    height: 500px
+    border: 2px dotted #999
+    svg
+      position: absolute!important
+      left: 0
+      top: 0
+      z-index: 1
+    .bg
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 500px
+      z-index: 0
+    span
+      z-index: 2
+      position: absolute
+    span.active
+      border: 2px dotted #000
+    span:hover
+      b
+        display: block
+
   .question_comment
     :font-size 0.8em
     :position relative
@@ -1307,10 +1513,13 @@ ul#quiz_versions
 
 .answers_wrapper
   position: relative
+.answers_wrapper_correct
+  position: relative
 
 .question, .answer
   img
     max-width: 100%
+    max-height: 100%
 
 #questions
   position: relative

@@ -21,12 +21,14 @@ define([
   'jquery' /* $ */,
   'quiz_arrows',
   'quiz_inputs',
+  'underscore',
   'jquery.instructure_date_and_time' /* dateString, time_field, datetime_field */,
   'jqueryui/dialog',
   'jquery.instructure_misc_helpers' /* scrollSidebar */,
   'jquery.instructure_misc_plugins' /* ifExists, confirmDelete */,
-  'message_students' /* messageStudents */
-], function(I18n, $, showAnswerArrows, inputMethods) {
+  'message_students', /* messageStudents */
+  'vendor/raphael'
+], function(I18n, $, showAnswerArrows, inputMethods, _) {
 
 $(document).ready(function () {
 
@@ -163,6 +165,196 @@ $(document).ready(function () {
       location.reload();
     }
   });
+  (function connectingLead(){
+    $(".question.connecting_lead_question").each(function(){
+
+      var $question = $(this),
+        linesNum = $question.find(".connecting_lead_linesNum").text(),
+        $answers_wrapper = $question.find(".answers_wrapper"),
+        rows = $answers_wrapper.find(".connecting_lead_left").length,
+        $answers = $question.find(".answers"),
+
+        answerHeight = 40 * rows,
+        paper = Raphael( $answers_wrapper[0], $answers_wrapper.width(), answerHeight );
+
+      $answers_wrapper.css( "height", answerHeight );
+      if( linesNum == 2 ) $question.addClass("twoLines");
+
+      $answers_wrapper.add(".answers_wrapper_correct").each(function(){
+        $(this).find(".connecting_lead_answer > div").each( function( i ){
+
+          $(this).css({
+            position: "absolute",
+            left: ( $answers.width()/3 ) * (i%3),
+            top: 40 * Math.floor(i/3)
+          });
+
+
+        });
+      });
+
+
+      $answers_wrapper.find(".connecting_lead_center").each(function(){
+        var $wordCenter = $(this);
+
+        $(this).find(".question_input").each(function(){
+          var matchId = $(this).val(),
+           real_answer_Str = $(this).is(".left") ? ".real_answer.left" : ".real_answer.right",
+           correctMatchId = $(this).parent().find( real_answer_Str ).val(),
+           $match = $answers_wrapper.find("span[value='" + matchId +"']").parent(),
+           colorStr = matchId === correctMatchId ? "green" : "red";
+          if(matchId === "0" )return;
+          drawLine(paper, $wordCenter, $match, colorStr );
+        });
+
+      });
+
+      // ********   correct answer
+      var $correctAnswer = $(this).find(".answers_wrapper_correct");
+      $correctAnswer.css( "height", answerHeight );
+      $correctAnswer.find("svg").remove();
+      var newPaper = Raphael( $correctAnswer[0], $answers.width(), answerHeight );
+      $correctAnswer.find(".connecting_lead_center").each(function(){
+        var $wordCenter = $(this);
+        $(this).find(".real_answer").each(function(){
+          if( linesNum === "2" && $(this).is(".right") )return;
+          var matchId = $(this).val();
+          if(matchId === "0")return;
+          var $match = $correctAnswer.find("span[value='" + matchId +"']").parent();
+          drawLine(newPaper, $wordCenter, $match, "green" );
+        });
+      });
+      $answers.css("opacity", 1);
+      function drawLine(svg, $active, $end, color ){
+        var normalPosition = $end.position().left > $active.position().left,
+          $nodeB = normalPosition ? $end : $active,
+          $nodeA = !normalPosition ? $end : $active,
+          x2 = $nodeB.position().left - 10,
+          y2 = $nodeB.position().top + $nodeB.height()/2,
+          x1 = $nodeA.position().left + $nodeA.width() + 10,
+          y1 = $nodeA.position().top + $nodeA.height()/2,
+          line = svg.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+        color = color === undefined ? "#08c" : color;
+        line
+          .attr({
+            "stroke": color,
+            "stroke-width": 5
+          });
+      }
+
+    });
+  })();
+
+  (function connectingOnPic(){
+    $(".question.connecting_on_pic_question").each(function(){
+      var $question = $(this),
+        imageSrc = $question.find(".connecting_on_pic_image").text(),
+        positionData = stringToObject( $question.find(".connecting_on_pic_position").text() ),
+        $answers_wrapper = $question.find(".answers_wrapper"),
+        $answers = $question.find(".answers"),
+        $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
+        $main = $factory.find(".main");
+
+      // reload image
+      var bgImage = $("<img>").attr("src", imageSrc);
+      $main.find(".bg").append(bgImage);
+
+      // reload balls
+      $.each(positionData, function(i,val){
+        var text = val.text ? val.text : "";
+        var $ball = $("<span><p>" +
+          text +
+          "</p></span>");
+        var color = val.Grey ? "grey" : "yellow";
+        $ball.addClass(color)
+          .css({
+            position: "absolute",
+            left: val.x,
+            top: val.y
+          })
+          .attr("ball-id", i)
+          .appendTo( $main );
+      });
+
+      $factory.prependTo($answers_wrapper);
+
+      var paper = Raphael( $main[0], $answers.width(), 500 );
+
+      updateUserAnswerLines();
+
+      function updateUserAnswerLines(){
+        $question.find(".answers .answers_wrapper .connecting_on_pic_left").each(function(){
+          var greyBallId = $(this).find("span").text().trim().slice(5);
+          var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
+          var rightInput = $(this).next(".connecting_on_pic_right").find("input.left");
+          var rightVal = rightInput.val();
+          if(rightVal == "" || rightVal == "0")return;
+          var yellowBalls = rightVal.split("ball-");
+
+          var rightSpan = $(this).next(".connecting_on_pic_right").find("span");
+          var rightText = rightSpan.text().trim();
+          var answerYellowBalls = rightText.split("ball-");
+
+          var missingYellowBalls = _.difference(answerYellowBalls, yellowBalls);
+          $.each(missingYellowBalls, function(i,val){
+            if(val == "")return;
+            var $yellow = $main.find("> span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow, paper, "blue", true );
+          });
+
+          $.each(yellowBalls, function(i,val){
+            if(val == "")return;
+            var hasLine = $.inArray(val, answerYellowBalls) !== -1;
+            var color = hasLine ? "green" : "red";
+            var $yellow = $main.find("> span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow, paper, color );
+          });
+        });
+
+      }
+
+      function drawLine($active, $end, which, color, dash ){
+        var strokeWidth = 5,
+          x1 = $active.position().left + $active.width()/2,
+          y1 = $active.position().top + $active.height()/2 ,
+          x2 = $end.position().left + $end.width()/2,
+          y2 = $end.position().top + $end.height()/2 ,
+          line = which.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+        color = color === undefined ? "#08c" : color;
+        var lineType = dash ? "- " : "";
+        line
+          .attr({
+            "stroke": color,
+            "stroke-width": strokeWidth,
+            "stroke-dasharray": lineType
+          });
+
+      }
+
+      function stringToObject(str) {
+        return eval("(" + str + ")");
+      }
+
+    });
+  })();
+
+  (function DragAndDop(){
+    $(".question.drag_and_drop_question").each(function(){
+      var $blueText = $(this).find(".blueText");
+      var $select = $blueText.find(".ui-selectmenu");
+      var $receive = $("<div class='receive'></div>");
+
+      $select.each(function(){
+        $(this).hide()
+          .parent("span")
+          .after($receive.clone());
+      });
+
+    });
+
+  }());
 
 });
 

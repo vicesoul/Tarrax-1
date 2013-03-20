@@ -65,6 +65,14 @@ module Canvas
         end
       end
 
+      def add_special_file(file)
+        @special_file = file
+      end
+
+      def special_file
+        @special_file
+      end
+
       def shims
         <<-JS.gsub(%r{\A +|^ {8}}, '')
           {

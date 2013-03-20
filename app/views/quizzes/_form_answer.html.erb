@@ -22,6 +22,7 @@
           <label class="short_answer_header" for="answer_text"><b><%= t 'possible_answer', 'Possible Answer' %></b></label>
           <input type="text" name="answer_text" placeholder="<%= t('answer_text', 'Answer Text') %>"/>
         </div>
+
         <div class="matching_answer answer_match answer_type">
           <div class="answer_match_left">
             <% matching_left_text = t('matching_left', 'Matching left side') %>
@@ -37,6 +38,32 @@
           </div>
           <div class="clear"></div>
         </div>
+
+        <div class="connecting_lead_answer answer_match answer_type">
+          <div class="answer_match_left">
+            <input type="text" name="connecting_lead_left" placeholder="<%= t('connecting_lead_left', 'Connecting left side') %>"/>
+          </div>
+          <input type="hidden" name="answer_match_left_html"/>
+          <div class="answer_match_left_html"></div>
+          <div class="answer_match_center">
+            <input type="text" name="connecting_lead_center" placeholder="<%= t('connecting_lead_center', 'Connecting center side') %>" />
+          </div>
+          <div class="answer_match_right">
+            <input type="text" name="connecting_lead_right" placeholder="<%= t('connecting_lead_right', 'Connecting right side') %>" />
+          </div>
+          <div class="clear"></div>
+        </div>
+
+        <div class="connecting_on_pic_answer  answer_type">
+          <div class="answer_match_left">
+            <input type="text" name="connecting_on_pic_left" placeholder="<%= t('connecting_on_pic_left', 'Connecting left side') %>"/>
+          </div>
+          <div class="answer_match_right">
+            <input type="text" name="connecting_on_pic_right" placeholder="<%= t('connecting_on_pic_right', 'Connecting right side') %>" />
+          </div>
+          <div class="clear"></div>
+        </div>
+
         <div class="numerical_answer answer_type">
           <select style="font-weight: bold;" class="numerical_answer_type" name="numerical_answer_type" aria-label="<%= t 'numerical_answer', 'Numerical Answer' %>">
             <option value="exact_answer"><%= before_label(:exact_answer, "Exact Answer") %></option>

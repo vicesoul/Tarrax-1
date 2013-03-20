@@ -4,6 +4,9 @@
   user_answer ||= nil
   user_answer_hash ||= {}
   user_answer ||= user_answer_hash[hash_get(question, :id)]
+  assessment_results ||= false
+  show_correct_answers = @quiz && @quiz.display_correct_answers?(@current_user, @submission) || (!assessment_results && !user_answer)
+  show_correct_answers = false if @quiz.try(:survey?)
   assessing ||= false
   assessment_results ||= false
   editable ||= false
@@ -20,6 +23,13 @@
   if question_type.display_answers == "multiple" && hash_get(question, :question_type) != "missing_word_question"
     right_answers = hash_get(question, :answers, {})
     right_answers = (hash_get(question, :matches) || hash_get(question, :answers).sort_by{|a| rand }) if question_type.entry_type == "matching" rescue {}
+
+    if question_type.entry_type == "connecting_lead"
+      matches = hash_get(question, :matches)
+      left_answers = hash_get(matches, :left) || hash_get(question, :answers).sort_by{|a| rand } rescue {}
+      right_answers = hash_get(matches, :right) || hash_get(question, :answers).sort_by{|a| rand }  rescue {}
+    end
+
   end
 %>
 <div class="question_holder <%= "group" if in_group %>" id="<%= "question_template" unless question %>" style="<%= hidden unless question %>">
@@ -32,6 +42,9 @@
     <% end %>
     <div class="header" <%= hidden(true) if (assessing || assessment_results) && question_type && question_type.entry_type == "none" %>>
       <span class="name question_name" tabindex="0" role="heading"><%= hash_get(question, :question_name) %></span>
+      <span class="connecting_lead_linesNum" style="display: none;"><%= hash_get(question, :connecting_lead_linesNum) %></span>
+      <span class="connecting_on_pic_position" ><%= hash_get(question, :connecting_on_pic_position) %></span>
+      <span class="connecting_on_pic_image" ><%= hash_get(question, :connecting_on_pic_image) %></span>
       <span class="question_points_holder" style="<%= hidden if question_type && question_type.entry_type == "none" %>">
       <% if user_answer %>
         <div class="user_points" <%= hidden(true) if (assessing || assessment_results) && question_type && question_type.entry_type == "none" %>>
@@ -53,7 +66,7 @@
       </span>
       <% if question && hash_get(question, :question_type) != "missing_word_question" && hash_get(question, :question_text) && hash_get(question, :question_text).length < 255 %>
         <span class='ui-helper-hidden-accessible'><%= hash_get(question, :question_text) %></span>
-      <% else %> 
+      <% else %>
         <a class='ui-helper-hidden-accessible' href="#question_<%= hash_get(question, :id, "new") %>_question_text"><%= t(:skip_question_text, "Skip to question text.") %></a>
       <% end %>
     </div>
@@ -102,6 +115,35 @@
              end
           %>
           <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
+        <% elsif question && hash_get(question, :question_type) == "drag_and_drop_question" %>
+          <% answer_list = []
+             if assessment_results
+               variables = hash_get(question, :answers, []).map{|a| hash_get(a, :blank_id) }.compact.uniq
+               variables.each {|var| answer_list << hash_get(user_answer, "answer_id_for_#{var}") }
+             end
+          %>
+          <% if editing	%>
+            <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
+          <%	 else %>
+            <ul class="dragging">
+              <% hash_get(question, :answers).each do |variable| %>
+                <li>
+                  <span answerId=<%= hash_get(variable, :id) %> >
+                    <%= hash_get(variable, :text) %>
+                  </span>
+                </li>
+              <% end %>
+            </ul>
+            <div class="blueText">
+            <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
+            </div>
+
+            <!-- <%= hash_get(question, :original_question_text) %> -->
+          <% end %>
+
+
+        <% elsif question && hash_get(question, :question_type) == 'paint_question' && !editable %>
+          <div class="paint_question_text"><%= user_content(hash_get(question, :question_text)) %></div>
         <% else %>
           <%= user_content(hash_get(question, :question_text)) %>
         <% end %>
@@ -180,7 +222,7 @@
           </table>
         </div>
       </div>
-      <div class="multiple_answer_sets_holder" style="<%= hidden unless question && ['multiple_dropdowns_question', 'fill_in_multiple_blanks_question'].include?(hash_get(question, :question_type)) %>">
+      <div class="multiple_answer_sets_holder" style="<%= hidden unless question && ['multiple_dropdowns_question', 'drag_and_drop_question', 'fill_in_multiple_blanks_question'].include?(hash_get(question, :question_type)) %>">
         <% ot(:show_ansers_for_variable, "Show Answers for %{variable}", :variable => capture{ %>
         <select class="blank_id_select">
           <% hash_get(question, :answers, []).map{|a| hash_get(a, :blank_id) }.uniq.compact.each do |variable| %>
@@ -196,7 +238,7 @@
             <% if question_type.display_answers == "multiple" && !["missing_word_question", "fill_in_multiple_blanks_question"].include?(hash_get(question, :question_type)) %>
               <% list = hash_get(question, :answers, []) %>
               <%= render :partial => "quizzes/multi_answer", :collection => list, :locals =>
-                  {:question => question, :right_answers => right_answers, :question_type => question_type, :user_answer => user_answer} %>
+                  {:question => question, :right_answers => right_answers, :left_answers => left_answers, :question_type => question_type, :user_answer => user_answer} %>
             <% elsif question_type.display_answers == "single" %>
               <%= render :partial => "quizzes/single_answer", :locals =>
                     {:question => question, :right_answers => right_answers, :question_type => question_type, :user_answer => user_answer, :editable => assessing} %>
@@ -241,6 +283,12 @@
                     <div class='answer selected_answer wrong_answer no_answer'>
                       <%= t(:you_left_this_blank, "(You left this blank)") %>
                     </div>
+                  <% else %>
+                    <% if question_type.question_type == 'drag_and_drop_question' and
+                         !answers.map{|h|h[:id]}.include? hash_get(user_answer, "answer_for_#{variable}") %>
+                      <% answer = hash_get(question, :answers, []).find{|a| hash_get(a, :id) == user_answer[:answer_id] } %>
+                      <% answers << answer.merge(:blank_id => variable, :weight => 0) %>
+                    <% end %>
                   <% end %>
                   <%= render :partial => "quizzes/display_answer", :collection => answers, :locals => {:assessment_results => assessment_results, :question_type => question_type, :user_answer => user_answer, :question => question} %>
                 <% end %>
@@ -251,7 +299,12 @@
               <div>
                 <% if question_type.entry_type == 'textarea' %>
                   Your Answer:
-                  <div class="user_content quiz_response_text"><%= hash_get(user_answer, :text).html_safe %></div>
+                  <div class="user_content quiz_response_text">
+                    <% if question && hash_get(question, :question_type) == 'paint_question' %>
+                      <div class="paint_question"><%= hash_get(question, :question_text).html_safe %></div>
+                    <% end %>
+                    <%= hash_get(user_answer, :text).html_safe %>
+                  </div>
                 <% else %>
                   <% matched_answer = hash_get(question, :answers, []).find{|a| hash_get(a, :text) == hash_get(user_answer, :text) || hash_get(a, :id) == hash_get(user_answer, :answer_id) } %>
                   <% hash_get(question, :answers, []).each do |a|
@@ -282,11 +335,20 @@
             <% end %>
             <% question[:answers] = [] if editing && question && hash_get(question, :question_type) == 'calculated_question' %>
             <% if question && (user_answer || assessment_results || !@quiz || display_correct_answers || (!assessment_results && !user_answer)) %>
-              <% show_headers = @quiz && display_correct_answers && user_answer && question_type.display_answers == "single" && hash_get(question, :question_type) != "essay_question" %>
+              <% show_headers = @quiz && display_correct_answers && user_answer && question_type.display_answers == "single" && hash_get(question, :question_type) != "essay_question" && hash_get(question, :question_type) != "fill_in_blanks_subjective_question"  %>
               <% if editing || show_headers || !question_type.entry_type.match(/text_box/) %>
+                <% if ( hash_get(question, :question_type) == 'connecting_lead_question' || hash_get(question, :question_type) == 'connecting_on_pic_question' ) && !editing %>
+                  <h5 class="answer-title">你的答案：</h5>
+                <% end %>
                 <div class="answers_wrapper">
                   <%= render :partial => "quizzes/display_answer", :collection => hash_get(question, :answers), :locals => {:assessment_results => assessment_results, :question_type => question_type, :user_answer => user_answer, :question => question} %>
                 </div>
+                <% if ( hash_get(question, :question_type) == 'connecting_lead_question' ) && show_correct_answers && !editing %>
+                  <h5 class="answer-title">正确答案：</h5>
+                  <div class="answers_wrapper_correct">
+                    <%= render :partial => "quizzes/display_answer", :collection => hash_get(question, :answers), :locals => {:assessment_results => assessment_results, :question_type => question_type, :user_answer => user_answer, :question => question} %>
+                  </div>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>
