@@ -8,8 +8,7 @@ define([
     'jquery.instructure_misc_helpers',
     "kinetic-v4.0.1",
     "modernizr.custom.34982",
-    "sketcher",
-    "jquery.ui.touch"
+    "sketcher"
 ], function(INST, I18n, $) {
     $(document).ready(function(){
       var $question  = $("#questions"),

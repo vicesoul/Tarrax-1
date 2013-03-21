@@ -1,8 +1,10 @@
 <ul id="identity">
   <% if !@current_user %>
     <% if !@domain_root_account || @domain_root_account == Account.default %>
-      <li><%= link_to t('links.sign_up_as_teacher', "Sign Up as a Teacher"), register_path %></li>
-      <li><%= link_to "Log In", login_path %></li>
+
+      <li>您好，欢迎来到教学邦！请</li>
+      <li><%= link_to "登录", login_path %></li>
+      <li><%= link_to "免费注册", register_path %></li>
     <% else %>
       <li><%= link_to t('links.log_in', "Log In"), login_path %></li>
     <% end %>

@@ -191,7 +191,7 @@ define([
       ed.addButton(pluginProp.name, {
         title: sketchSetting.sketchType,
         cmd: pluginProp.id,
-        image: url + '/img/' + sketchSetting.sketchType +'.png'
+        image: url + '/img/' + sketchSetting.sketchType +'.gif'
       });
 
     },

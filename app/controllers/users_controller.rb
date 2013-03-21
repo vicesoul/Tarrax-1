@@ -90,6 +90,11 @@ class UsersController < ApplicationController
   before_filter :reject_student_view_student, :only => [:delete_user_service, :create_user_service, :merge, :user_dashboard, :masquerade]
   before_filter :require_self_registration, :only => [:new, :create]
 
+  def welcome
+    @body_classes = ["welcome"]
+    #render :layout => false
+  end
+
   def grades
     @user = User.find_by_id(params[:user_id]) if params[:user_id].present?
     @user ||= @current_user
@@ -655,7 +660,9 @@ class UsersController < ApplicationController
 
   def new
     return redirect_to(root_url) if @current_user
-    render :layout => 'bare'
+    @body_classes = ["welcome"]
+    @show_left_side = false
+    #render :layout => 'bare'
   end
 
   include Api::V1::User

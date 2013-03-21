@@ -1,0 +1,198 @@
+$footerColor: #888
+
+$wrapperWidth: 960px
+ul, ol
+  list-style: none
+body.welcome
+  font-size: 12px
+  position: relative
+
+  #main
+    max-width: 100%
+    margin-bottom: 0
+    #content
+      padding: 0
+  .logo-row
+    overflow: hidden
+    .inner
+      max-width: $wrapperWidth
+      margin: 20px auto
+      #header-logo
+        float: left
+  input::-webkit-input-placeholder
+    color: #999
+    font-size: 12px
+    font-weight: normal
+  #header
+    margin-bottom: 0!important
+    background: #f4f4f4
+    border-bottom: 1px solid #ccc
+    height: 40px
+    min-height: 40px
+    #header-inner
+      max-width: $wrapperWidth
+      margin: 0 auto
+      padding: 0
+      #menu
+        margin: 0
+        padding: 0
+        >li
+          >a
+            margin-top: 13px
+            color: #999
+            height: auto
+            padding: 0 22px
+            font-size: 12px
+            text-shadow: none
+            border-right: 1px solid #999
+            display: inline-block
+            height: 12px
+            line-height: 12px
+          >.menu-item-title
+            background: url("/images/canvas/menu_arrow.png") no-repeat right 4px
+            background-size: 15px auto
+        >li:last-child a
+          border-right: none
+        >li.hover a
+          border-top: 1px solid #f4f4f4
+          border-left: 1px solid #f4f4f4
+      #topbar
+        position: static
+        float: right
+      #identity
+        li
+          float: left
+          margin: 0 0 0 10px
+      #header-logo
+        display: none
+  .form-search
+    margin-top: 10px
+    float: right
+    .input-append
+      .search-query
+        border-radius: 5px 0 0 5px
+        width: 156px
+        padding: 4px 14px
+        height: 20px
+        line-height: 20px
+        border-right: none
+      .btn
+        border-radius: 0 5px 5px 0
+        background: none
+        padding: 3px 10px 0 0
+        margin-left: -3px
+        box-shadow: none
+        border: 1px solid #ccc
+        border-left: none
+        i
+          background: url("/images/jxb/icon-search.png") no-repeat 6px 0
+          display: inline-block
+          width: 19px
+          height: 20px
+          padding: 0 0 0 6px
+          border-left: 1px solid #ccc
+  .container
+    width: 960px!important
+    margin: 0 auto
+  .navbar-fixed-top
+    .navbar-inner
+      box-shadow: none
+      background-image: none
+    .pull-right
+      line-height: 40px
+      a
+        padding: 0 5px
+        text-decoration: underline
+  .content
+    .navbar-inner
+      background: url("/images/jxb/blue-bar.png") repeat-x 0 0
+      height: 37px
+      min-height: auto
+      border: none
+      margin: 12px auto
+      .nav
+        border-bottom: none
+        li
+          a
+            padding: 5px 30px 7.5px
+            margin: 6px 20px 0
+            color: #fff
+            text-shadow: none
+            font-size: 14px
+            border: none
+        li.active, li:hover
+          a
+            color: #02369c
+            background: #fff
+
+  .big-eye
+    position: relative
+    background: url("/images/jxb/big-eye-bg.png") repeat-x 0 0
+    height: 381px
+    .big-eye-inner
+      background: url("/images/jxb/big-eye.jpg") no-repeat top center
+      height: inherit
+      .login
+        position: absolute
+        top: -20px
+        right: 50%
+        margin-right: -510px
+        width: 330px
+        height: 345px
+        background: url("/images/jxb/login.png") no-repeat 0 0
+        >.inner
+          padding: 21px 0 0 40px
+          width: 254px
+          overflow: visible
+          input[type=text]
+            width: 238px
+            border-radius: 0
+          span
+            margin-right: 10px
+          button
+            border-radius: 0
+            padding: 0
+            background: none
+            margin-bottom: 10px
+            border: none
+  .courses
+    text-align: center
+    margin: 50px 0
+    a
+      display: inline-block
+      margin: 0 7px
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.5)
+      width: 447px
+      height: 131px
+    a:first-child
+      background: url("/images/jxb/btn-open-course.png") no-repeat
+    a:last-child
+      background: url("/images/jxb/btn-learning-course.png") no-repeat
+    a:first-child:hover
+      background-image: url("/images/jxb/btn-open-course-on.png")
+    a:last-child:hover
+      background-image: url("/images/jxb/btn-learning-course-on.png")
+  footer
+    background: #ccc
+    padding: 30px 0
+    color: $footerColor
+    .pull-right
+      text-align: right
+      line-height: 30px
+      a
+        margin-left: 5px
+    ul
+      list-style: none
+      float: left
+      margin: 0
+      li
+        float: left
+        color: $footerColor
+        a
+          margin: 0 10px
+          color: $footerColor
+  #wrapper
+    >footer
+      display: none
+      background: none
+

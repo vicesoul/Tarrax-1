@@ -917,9 +917,8 @@ define([
         $toolTipCancel = $toolTip.find("button:last")
           .bind("click", function(){resetToolTip();});
 
-      if( $("#quiz_content_links").is(":hidden") ){
-        $(".link_to_content_link").trigger("click");
-        $("#ui-id-3").trigger("click");
+      if( $("#editor_tabs_4").is(":hidden") ){
+        $("#ui-id-5").trigger("click");
       }
 
 

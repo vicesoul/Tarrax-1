@@ -264,18 +264,8 @@ define([
 
           })();
 
-          //  img:focus addClass "focused"
-          $editorBody.mousedown(function(){
-              $editorBody.find(".focused").removeClass("focused");
-          });
 
-          $editorBody.delegate( "img", "mousedown", function( e ) {
-              $editorBody.find(".focused").removeClass("focused");
-              $(this).addClass("focused");
-              e.stopPropagation($(this));
           });
-          // end
-        });
       }
     }, options.tinyOptions || {});
 

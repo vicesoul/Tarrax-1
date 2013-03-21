@@ -961,9 +961,7 @@ define([
           });
         }
 
-        function stringToObject(str) {
-          return eval("(" + str + ")");
-        }
+
 
         });
 
@@ -1016,16 +1014,31 @@ define([
 
     }());
 
-    //(function FillInMultipleBlanksSubjective(){
-      //$("#submit_quiz_form .question.fill_in_blanks_subjective_question").each(function(){
-        //var $text = $(this).find(".text");
-        //var $textarea = $text.find(".answers textarea.question_input");
-        //var $cloneTextarea = $textarea.clone();
-        //$textarea.add($cloneTextarea).attr("name", $textarea.attr("name") + "[]");
-        //$cloneTextarea.appendTo($text.find(".answers > div"));
-      //});
+    (function FillInMultipleBlanksSubjective(){
+      $("#submit_quiz_form .question.fill_in_blanks_subjective_question").each(function(){
+        var $questionText = $(this).find(".question_text");
+        var $textarea = $questionText.find("textarea.question_input");
+        var $spanData = $(this).find(".answers >div >span[data-submission^='[']");
+        if($spanData.attr("data-submission") != undefined){
+          var textareaData = $spanData[0].dataset[ "submission" ];
+          textareaData = stringToObject(textareaData);
+          $textarea.each(function(i){
+            $(this).html(textareaData[i]);
+          });
+        }
 
-    //}());
+        // set tag p's css
+        var t = setTimeout(function(){
+          $questionText.find("iframe").contents().find("body").addClass("fill_in_blanks_subjective_question");
+        }, 3000);
+
+    });
+
+    }());
+
+    function stringToObject(str) {
+      return eval("(" + str + ")");
+    }
 
     $.fn.doVal = function(type, yellowId) {
       var inputVal = $(this).val();
