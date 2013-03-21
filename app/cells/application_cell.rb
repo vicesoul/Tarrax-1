@@ -1,7 +1,7 @@
 class ApplicationCell < ::Cell::Base
   cache :index, :expires_in => 5.minutes
 
-  helper_method :data_widget, :widget, :extract_images, :title, :body, :context, :service_enabled?
+  helper_method :data_widget, :widget, :extract_images, :title, :context, :service_enabled?, :widget_body, :current_user, :current_session
 
   def data_widget
     "data-widget='#{widget.cell_data}'"
@@ -13,10 +13,6 @@ class ApplicationCell < ::Cell::Base
 
   def title(default_title)
     !widget.title.blank? && widget.title.strip || default_title
-  end
-
-  def body(default_body)
-    !widget.body.blank? && widget.body.html_safe || default_body
   end
 
   def format_contexts(contexts)
@@ -33,7 +29,7 @@ class ApplicationCell < ::Cell::Base
   end
 
   def widget
-    @opts[:widget]
+    @opts[:widget] || Jxb::Widget.new
   end
   
   def page
@@ -46,6 +42,18 @@ class ApplicationCell < ::Cell::Base
 
   def theme
     @opts[:theme] || page.theme
+  end
+
+  def widget_body
+    @opts[:widget_body] || widget.body
+  end
+
+  def current_user
+    @opts[:current_user]
+  end
+
+  def current_session
+    @opts[:current_session]
   end
 
 end

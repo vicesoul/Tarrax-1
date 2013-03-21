@@ -20,6 +20,7 @@
 
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
+<% if @can_manage_homepage %>
 <div id="edit_widget_dialog">
   <div class="edit_widget_section">
     <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" /><br />
@@ -32,3 +33,4 @@
     <a href="javascript:$('#edit_widget_dialog').dialog('close');" title="cancel"><%= t :cancel, 'Cancel' %></a>
   </div>
 </div>
+<% end %>

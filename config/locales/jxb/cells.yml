@@ -6,9 +6,17 @@ zh-CN:
       name: '作业名称'
       created_at: '发布时间'
       due_at: '到期时间'
+      course: '课程名称'
+      status: '状态'
+      done: '已完成'
+      to_do: '未完成'
+      more: '更多>>'
     announcement:
       title: '公告栏'
     custom:
       title: '自定义标题'
     discussion:
       title: '讨论区'
+    course:
+      title: '课程列表'
+      learn: '免费学习'

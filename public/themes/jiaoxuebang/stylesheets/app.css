@@ -6,6 +6,7 @@
 #dashboard .no_bg_image{
   background: 0 none;
   padding-top: 0;
+  min-height: 0;
 }
 #jiaoxuebang .left_position_holder{
   float: left;
@@ -130,167 +131,90 @@
   color: #999999;
   font-size: 12px;
 }
-
-/*Bootstrap Carousel*/
-
-#carousel {
-  -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-     -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-}
-
-.carousel {
-  position: relative;
-  margin-bottom: 20px;
-  line-height: 1;
-  width: 632px;
-  border: 1px solid #cecece;
-}
-
-.carousel-inner {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-}
-
-.carousel-inner > .item {
-  position: relative;
-  display: none;
-  -webkit-transition: 0.6s ease-in-out left;
-     -moz-transition: 0.6s ease-in-out left;
-       -o-transition: 0.6s ease-in-out left;
-          transition: 0.6s ease-in-out left;
-}
-
-.carousel-inner > .item > img,
-.carousel-inner > .item > a > img {
-  display: block;
-  line-height: 1;
-}
-
-.carousel-inner > .active,
-.carousel-inner > .next,
-.carousel-inner > .prev {
-  display: block;
-}
-
-.carousel-inner > .active {
-  left: 0;
-}
-
-.carousel-inner > .next,
-.carousel-inner > .prev {
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
-.carousel-inner > .next {
-  left: 100%;
-}
-
-.carousel-inner > .prev {
-  left: -100%;
-}
-
-.carousel-inner > .next.left,
-.carousel-inner > .prev.right {
-  left: 0;
-}
-
-.carousel-inner > .active.left {
-  left: -100%;
-}
-
-.carousel-inner > .active.right {
-  left: 100%;
-}
-
-.carousel-control {
-  position: absolute;
-  top: 40%;
-  left: 15px;
-  width: 34px !important;
-  height: 33px !important;
-  margin-top: -20px;
-  font-size: 60px;
-  font-weight: 100;
-  line-height: 30px;
-  color: #ffffff;
-  text-align: center;
-  background: url(../img/right_narrow.png) no-repeat transparent !important;
-  border: 0 none !important;
-  -webkit-border-radius: 23px;
-     -moz-border-radius: 23px;
-          border-radius: 23px;
-  opacity: 0.6 !important;
-  filter: alpha(opacity=60) !important;
-}
-
-.carousel-control.right {
-  right: 15px;
-  left: auto;
-}
-.carousel-control.left {
-  background: url(../img/left_narrow.png) no-repeat transparent !important;
-}
-
-.carousel-control:hover,
-.carousel-control:focus {
-  color: #ffffff;
-  text-decoration: none;
-  opacity: 0.9;
-  filter: alpha(opacity=90);
-}
-
-.carousel-indicators {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  z-index: 5;
+#jiaoxuebang .box .box_body ul.widget_course{
+  list-style-type: none;
   margin: 0;
-  list-style: none;
 }
-
-.carousel-indicators li {
-  display: block;
-  float: left;
-  width: 10px;
+#jiaoxuebang .box .box_body ul.widget_course li{
+  width: 205px;
+  height:224px;
+  float:left;
+  margin-right: 15px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li.last{
+  margin-right: 0px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_head{
+  height: 102px;
+  border: 1px solid #ebecee;
+  border-bottom: 0 none;
+  background:url(../img/c_head_bg.jpg) no-repeat transparent;
+  position: relative;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_head .bottom_block{
   height: 10px;
-  margin-left: 5px;
-  text-indent: -999px;
-  background-color: #ccc;
-  background-color: rgba(255, 255, 255, 0.25);
-  border-radius: 5px;
-}
-
-.carousel-indicators .active {
-  background-color: #fff;
-}
-
-.carousel-caption {
+  border-left: 1px solid #c6c6c6;
+  border-right: 1px solid #c6c6c6;
   position: absolute;
+  bottom: 0px;
+  width: 201px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_head .imnew{
+  background:url(../img/c_new.png) no-repeat transparent;
+  position: absolute;
+  display: block;
+  width: 59px;
+  height: 48px;
   right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 15px;
-  background: #333333;
-  background: rgba(0, 0, 0, 0.75);
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_head h3{
+  color:#fff;
+  text-align: center;
+  font-size:18px;
+  margin-top:30px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_head h3 a{
+  color:#fff;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_body{
+  padding: 0 1px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher{
+  border: 1px solid #c6c6c6;
+  border-top: 0 none;
+  height: 66px;
+  padding:0 11px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher .link_to_image_avatar{
+  float:left;
+  margin-right:8px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher .teacher_name{
+  float:left;margin:0;width:120px;word-wrap:break-word; overflow:hidden;color:#000000;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher .teacher_name a{
+  color:#000000;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_foot{
+  padding: 0 1px;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_foot .w_btn{
+  height: 55px;
+  border: 1px solid #c6c6c6;
+  border-top: 0 none;
+  background:url(../img/c_foot_bg.jpg) no-repeat top left #eeeeee;
+}
+#jiaoxuebang .box .box_body ul.widget_course li .w_foot .w_btn .like_btn{
+  background:url(../img/c_btn.jpg) no-repeat top left #57a5ee;
+  padding: 9px 39px;
+  color: #fff;
+  position: relative;
+  top: 18px;
+  left: 35px;
 }
 
-.carousel-caption h4,
-.carousel-caption p {
-  line-height: 20px;
-  color: #ffffff;
-}
 
-.carousel-caption h4 {
-  margin: 0 0 5px;
-}
-
-.carousel-caption p {
-  margin-bottom: 0;
-}
+/*caption*/
 
 #jiaoxuebang #caption{
   color: #0974d5;
@@ -326,7 +250,6 @@
 #config_courses_holder ul ul{
   margin-left: 20px;
 }
-
 
 /* jcarousel */
 
@@ -452,4 +375,25 @@
     /*background-position: -96px 0;*/
     opacity : 0.4;
     filter: alpha(opacity=40); /* msie */
+}
+
+/*dataTable*/
+.dataTables_filter {
+   width: 50%;
+   float: right;
+   text-align: right;
+   margin-bottom: 22px;
+   color:#999999;
+}
+.dataTables_paginate{
+   text-align: right;
+}
+.dataTables_paginate .paginate_disabled_previous{
+  padding-right: 18px;
+  color: #0099ff;
+  border-right:1px solid #0099ff;
+}
+.dataTables_paginate .paginate_disabled_next{
+  color: #0099ff;
+  margin-left: 18px;
 }

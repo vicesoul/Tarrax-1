@@ -11,7 +11,7 @@ require([
 
     // Init data table
     $(".datatable").dataTable({
-      "sDom": 'ftp'
+      "sDom": 'ft'
     });
 
     function mycarousel_initCallback(carousel)
@@ -31,9 +31,9 @@ require([
       }, function() {
           carousel.startAuto();
       });
-
-      carousel.list.find(".jcarousel-item").show();
-
+      
+      var list = carousel.list.find(".jcarousel-item").show();
+      list.find("img").css( "width", list.width() );
     };
 
     $('#mycarousel').jcarousel({

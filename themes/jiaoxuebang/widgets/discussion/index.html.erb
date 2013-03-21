@@ -1,3 +1,4 @@
+<% unless @discussions.blank? %>
 <div <%= data_widget %> >
   <div class="box <%= @opts[:can_select_course] ? 'mini_box' : '' %>">
     <div class="box_head">
@@ -8,3 +9,4 @@
     </div>
   </div>
 </div>
+<% end %>

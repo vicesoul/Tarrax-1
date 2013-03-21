@@ -232,19 +232,10 @@ class Account < ActiveRecord::Base
     !!settings[:open_registration] && canvas_authentication?
   end
 
-  def active_announcements
-    ids = self.courses.map{|c| c.id}
-    Announcement.where(:context_type => "Course", :type => "Announcement",  :workflow_state => "active").where("context_id IN (?)", ids)
-  end
-
-  def self.uniq_courses_of_accounts(accounts)
-    ids = accounts.map{|account| account.id}
-    uniq_courses_of_account_ids(ids)
-  end
-
-  def self.uniq_courses_of_account_ids(account_ids)
-    Course.where("account_id IN (?)", account_ids)
-  end
+  #def active_announcements
+    #ids = self.courses.map{|c| c.id}
+    #Announcement.where(:context_type => "Course", :type => "Announcement",  :workflow_state => "active").where("context_id IN (?)", ids)
+  #end
 
   def ip_filters=(params)
     filters = {}
