@@ -4,11 +4,15 @@
       <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.announcement_account.title', 'Account announcement') } %>
     </div>
     <div class="box_body thin_box_body">
+      <% unless @announcements.blank? %>
       <ul class="account_announcement">
         <% @announcements.each do |announcement| %>
           <li><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") %></span></li>
         <% end %>
       </ul>
+      <% else %>
+        <p><%= t('#cells.announcement_account.empty_body', 'Empty announcements') %></p>
+      <% end %>
     </div>
   </div>
   <div class="data-widget-body" style="display:none;"></div>

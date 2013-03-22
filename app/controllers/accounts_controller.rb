@@ -507,7 +507,7 @@ class AccountsController < ApplicationController
 
   def homepage
     @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
-    @page = @account.homepage || @account.create_homepage(:name => 'homepage')
+    @page = @account.find_or_create_homepage
 
     if @can_manage_homepage
       @active_tab = "homepage"

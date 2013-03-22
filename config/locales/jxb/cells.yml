@@ -13,10 +13,18 @@ zh-CN:
       more: '更多>>'
     announcement:
       title: '课程公告'
+      empty_body: '暂无课程公告'
     custom:
       title: '自定义标题'
     discussion:
       title: '讨论区'
+      empty_body: '暂无讨论'
     course:
       title: '课程列表'
       learn: '免费学习'
+      empty_body: '暂无课程列表'
+    activity:
+      title: '活动照片'
+    announcement_account:
+      title: '网校公告'
+      empty_body: '暂无网校公告'
