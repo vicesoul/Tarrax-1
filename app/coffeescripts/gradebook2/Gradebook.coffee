@@ -51,7 +51,6 @@ define [
       @chunk_start = 0
       @students = {}
       @rows = []
-      @studentsPage = 1
       @sortFn = (student) -> student.sortable_name
       @assignmentsToHide = userSettings.contextGet('hidden_columns') || []
       @sectionToShow = userSettings.contextGet 'grading_show_only_section'
@@ -70,12 +69,31 @@ define [
       else
         'students_url'
 
-      promise = $.when(
-        $.ajaxJSON( @options[enrollmentsUrl], "GET"),
-        $.ajaxJSON( @options.assignment_groups_url, "GET", {}, @gotAssignmentGroups),
-        $.ajaxJSON( @options.sections_url, "GET", {}, @gotSections)
-      ).then ([students, status, xhr]) =>
-        @gotChunkOfStudents(students, xhr)
+      # getting all the enrollments for a course via the api in the polite way
+      # is too slow, so we're going to cheat.
+      $.when($.ajaxJSON(@options[enrollmentsUrl], "GET")
+      , $.ajaxJSON(@options.assignment_groups_url, "GET", {}, @gotAssignmentGroups)
+      , $.ajaxJSON( @options.sections_url, "GET", {}, @gotSections))
+      .then ([students, status, xhr]) =>
+        @gotChunkOfStudents students
+
+        paginationLinks = xhr.getResponseHeader('Link')
+        lastLink = paginationLinks.match(/<[^>]+>; *rel="last"/)
+        unless lastLink?
+          @gotAllStudents()
+          return
+        lastPage = lastLink[0].match(/page=(\d+)/)[1]
+        lastPage = parseInt lastPage, 10
+
+        fetchEnrollments = (page) =>
+          $.ajaxJSON @options[enrollmentsUrl], "GET", {page}
+        dfds = (fetchEnrollments(page) for page in [2..lastPage])
+        $.when(dfds...).then (responses...) =>
+          if dfds.length == 1
+            @gotChunkOfStudents responses[0]
+          else
+            @gotChunkOfStudents(students) for [students, x, y] in responses
+          @gotAllStudents()
 
       @spinner = new Spinner()
       $(@spinner.spin().el).css(
@@ -107,20 +125,13 @@ define [
         @sections[section.id] = section
       @sections_enabled = sections.length > 1
 
-    gotChunkOfStudents: (studentEnrollments, xhr) =>
+    gotChunkOfStudents: (studentEnrollments) =>
       for studentEnrollment in studentEnrollments
         student = studentEnrollment.user
         student.enrollment = studentEnrollment
         @students[student.id] ||= htmlEscape(student)
         @students[student.id].sections ||= []
         @students[student.id].sections.push(studentEnrollment.course_section_id)
-
-      link = xhr.getResponseHeader('Link')
-      if link && link.match /rel="next"/
-        @studentsPage += 1
-        $.ajaxJSON( @options.students_url, "GET", { "page": @studentsPage}, @gotChunkOfStudents)
-      else
-        @gotAllStudents()
 
     gotAllStudents: ->
       for id, student of @students
@@ -230,7 +241,7 @@ define [
           break
         params =
           student_ids: (student.id for student in students)
-          response_fields: ['id', 'user_id', 'url', 'score', 'grade', 'submission_type', 'submitted_at', 'assignment_id', 'grade_matches_current_submission', 'attachments']
+          response_fields: ['id', 'user_id', 'url', 'score', 'grade', 'submission_type', 'submitted_at', 'assignment_id', 'grade_matches_current_submission', 'attachments', 'late']
         $.ajaxJSON(@options.submissions_url, "GET", params, @gotSubmissionsChunk)
         @chunk_start += @options.chunk_size
 
@@ -303,22 +314,40 @@ define [
       if val.possible and @options.grading_standard and columnDef.type is 'total_grade'
         letterGrade = GradeCalculator.letter_grade(@options.grading_standard, percentage)
 
-      groupTotalCellTemplate({
+      templateOpts =
         score: val.score
         possible: val.possible
-        letterGrade
-        percentage
-      })
+        letterGrade: letterGrade
+        percentage: percentage
+      if columnDef.type == 'total_grade'
+        templateOpts.warning = @totalGradeWarning
+        templateOpts.lastColumn = true
+
+      groupTotalCellTemplate templateOpts
 
     calculateStudentGrade: (student) =>
       if student.loaded
         finalOrCurrent = if @include_ungraded_assignments then 'final' else 'current'
         submissionsAsArray = (value for key, value of student when key.match /^assignment_(?!group)/)
-        result = INST.GradeCalculator.calculate(submissionsAsArray, @assignmentGroups, @options.group_weighting_scheme)
+        result = GradeCalculator.calculate(submissionsAsArray, @assignmentGroups, @options.group_weighting_scheme)
         for group in result.group_sums
           student["assignment_group_#{group.group.id}"] = group[finalOrCurrent]
+          for submissionData in group[finalOrCurrent].submissions
+            submissionData.submission.drop = submissionData.drop
         student["total_grade"] = result[finalOrCurrent]
 
+        @addDroppedClass(student)
+
+    addDroppedClass: (student) ->
+      droppedAssignments = (name for name, assignment of student when name.match(/assignment_\d+/) and assignment.drop?)
+      drops = {}
+      drops[student.row] = {}
+      for a in droppedAssignments
+        drops[student.row][a] = 'dropped'
+
+      styleKey = "dropsForRow#{student.row}"
+      @gradeGrid.removeCellCssStyles(styleKey)
+      @gradeGrid.addCellCssStyles(styleKey, drops)
 
     highlightColumn: (columnIndexOrEvent) =>
       if isNaN(columnIndexOrEvent)
@@ -615,6 +644,8 @@ define [
         width = Math.max($widthTester.text(text).outerWidth(), minWidth)
         Math.min width, maxWidth
 
+      @setAssignmentWarnings()
+
       # I would like to make this width a little larger, but there's a dependency somewhere else that
       # I can't find and if I change it, the layout gets messed up.
       @parentColumns = [{
@@ -739,7 +770,9 @@ define [
       $('body').on('click', @onGridBlur)
       sortRowsBy = (sortFn) =>
         @rows.sort(sortFn)
-        student.row = i for student, i in @rows
+        for student, i in @rows
+          student.row = i
+          @addDroppedClass(student)
         @multiGrid.invalidate()
       @gradeGrid.onSort.subscribe (event, data) =>
         sortRowsBy (a, b) ->
@@ -761,3 +794,37 @@ define [
         false
       @onGridInit()
 
+    # show warnings for bad grading setups
+    setAssignmentWarnings: =>
+      if @options.group_weighting_scheme == "percent"
+        # assignment group has 0 points possible
+        invalidAssignmentGroups = _.filter @assignmentGroups, (ag) ->
+          pointsPossible = _.inject ag.assignments
+          , ((sum, a) -> sum + (a.points_possible || 0))
+          , 0
+          pointsPossible == 0
+
+        for ag in invalidAssignmentGroups
+          for a in ag.assignments
+            a.invalid = true
+
+        if invalidAssignmentGroups.length > 0
+          groupNames = (ag.name for ag in invalidAssignmentGroups)
+          @totalGradeWarning = I18n.t 'invalid_assignment_groups_warning',
+            one: "Score does not include %{groups} because it has
+                  no points possible"
+            other: "Score does not include %{groups} because they have
+                    no points possible"
+          ,
+            groups: $.toSentence(groupNames)
+            count: groupNames.length
+
+      else
+        # no assignments have points possible
+        pointsPossible = _.inject @assignments
+        , ((sum, a) -> sum + (a.points_possible || 0))
+        , 0
+
+        if pointsPossible == 0
+          @totalGradeWarning = I18n.t 'no_assignments_have_points_warning'
+          , "Can't compute score until an assignment has points possible"

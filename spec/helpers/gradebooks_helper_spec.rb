@@ -28,10 +28,12 @@ describe GradebooksHelper do
 
   describe "gradebook_url_for" do
     let(:user) { User.new }
-    let(:context) { Course.new }
+    let(:context) { course }
     let(:assignment) { nil }
 
-    subject { helper.gradebook_url_for(user, context, assignment) }
+    subject {
+      helper.gradebook_url_for(user, context, assignment)
+    }
 
     before do
       context.stubs(:id => 1)
@@ -46,8 +48,7 @@ describe GradebooksHelper do
       context "with an assignment" do
         let(:assignment) { mock(:id => 2) }
 
-        #it { should match /#{"/courses/1/gradebook#assignment/2"}$/ }
-        it { should match /#{"/courses/1/gradebook2#assignment/2"}$/ }
+        #it { should match /#{"/courses/1/gradebook#assignment/2"}$/ } # no gradebook
       end
     end
 

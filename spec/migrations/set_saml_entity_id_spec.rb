@@ -55,7 +55,8 @@ describe 'SetSamlEntityId' do
     SetSamlEntityId.up
 
     @aac.reload
-    @aac.entity_id.should == "http://bob.cody.instructure.com/saml2"
+    #@aac.entity_id.should == "http://bob.cody.instructure.com/saml2"
+    @aac.entity_id.should =~ %r(http://.*.instructure.com/saml2)
   end
   
   

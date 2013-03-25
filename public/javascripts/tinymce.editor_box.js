@@ -34,6 +34,7 @@
 define([
   'i18nObj',
   'jquery',
+  'compiled/editor/editorAccessibility', /* editorAccessibility */
   //'compiled/tinymce', // required, but the bundles that ACTUALLY use
                         // tiny can require it themselves or else we have
                         // build problems
@@ -42,7 +43,7 @@ define([
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
   'vendor/jquery.ba-tinypubsub',
   'vendor/scribd.view' /* scribd */
-], function(I18nObj, $) {
+], function(I18nObj, $, EditorAccessibility) {
 
   var enableBookmarking = $("body").hasClass('ie');
   $(document).ready(function() {
@@ -113,9 +114,8 @@ define([
       width = $textarea.closest(":visible").width();
     }
 
-      // add instructure_drawing 2012-11-01 rupert
-    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets";
-    //var instructure_buttons = ",instructure_embed,instructure_equation";
+      // 2012-11-01 rupert
+    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets,instructure_handWrite";
       // end
 
     for(var idx in INST.editorButtons) {
@@ -154,10 +154,10 @@ define([
       elements: id,
       theme : "advanced",
 
-      // add instructure_drawing 2012-11-01 rupert
+      // 2012-11-01 rupert
       plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links," +
                "instructure_embed,instructure_equation,instructure_record,instructure_equella," +
-               "instructure_record,instructure_drawing,instructure_add_rackets," +
+               "instructure_record,instructure_drawing,instructure_add_rackets,instructure_handWrite," +
                "media,paste,table,inlinepopups",
       //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links," +
       //         "instructure_embed,instructure_equation,instructure_record,instructure_equella," +
@@ -178,7 +178,7 @@ define([
       theme_advanced_resizing : true,
       theme_advanced_blockformats : "p,h2,h3,h4,pre",
       theme_advanced_more_colors: false,
-      extended_valid_elements : "iframe[src|width|height|name|align|style|class]",
+      extended_valid_elements : "iframe[src|width|height|name|align|style|class|sandbox]",
       content_css: "/stylesheets/compiled/instructure_style.css,/stylesheets/compiled/tinymce.editor_box.css",
       editor_css: editor_css,
 
@@ -200,6 +200,11 @@ define([
             $textarea.data('last_bookmark', ed.selection.getBookmark(1));
           }
         });
+
+        ed.onInit.add(function(){
+          new EditorAccessibility(ed).accessiblize();
+        });
+
         ed.onInit.add(function(){
           $(window).triggerHandler("resize");
 

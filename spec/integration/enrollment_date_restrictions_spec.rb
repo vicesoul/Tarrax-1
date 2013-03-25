@@ -37,7 +37,7 @@ describe "enrollment_date_restrictions" do
 
     get "/"
     page = Nokogiri::HTML(response.body)
-    list = page.css(".menu-item-drop-column-list li")
+    list = page.css("#courses_menu_item .menu-item-drop-column-list li")
     list.length.should == 2 # view all courses should always show up
     list[0].text.should match /Course 1/
     list[1].text.should match /View all courses/
@@ -49,6 +49,23 @@ describe "enrollment_date_restrictions" do
     active_enrollments.length.should == 1
     active_enrollments[0]['class'].should match /active/
 
+    page.css(".past_enrollments li").should be_empty
+  end
+
+  it "should not show deleted enrollments in past enrollments when course is completed" do
+    @student = user_with_pseudonym
+    e1 = student_in_course(:user => @student, :active_all => 1)
+
+    e1.destroy
+    e1.workflow_state.should == 'deleted'
+
+    @course.complete
+    @course.workflow_state.should == 'completed'
+
+    user_session(@student, @pseudonym)
+
+    get "/courses"
+    page = Nokogiri::HTML(response.body)
     page.css(".past_enrollments li").should be_empty
   end
 
@@ -70,7 +87,7 @@ describe "enrollment_date_restrictions" do
 
     get "/"
     page = Nokogiri::HTML(response.body)
-    list = page.css(".menu-item-drop-column-list li").to_a
+    list = page.css("#courses_menu_item .menu-item-drop-column-list li").to_a
     # course lis are still there and view all groups should always show up when
     # there's at least one 'visible' group
     list.size.should == 4

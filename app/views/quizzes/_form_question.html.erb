@@ -197,6 +197,16 @@
       <span class="neutral_comments_html" style="display:none;"></span>
     </div>
     <div class="clear"></div>
+    <div class="question_solution_holder">
+    <br />
+    <b class="resolution_header"><%= before_label(:solution, "Solution") %></b>
+    <div style="float: right; margin-right: 10%; font-size: 0.8em;">
+      <a href="#" class="toggle_solution_content_views_link"><%= t('links.switch_views', "Switch Views") %></a>
+    </div>
+    <div style="text-align: center;">
+      <textarea style="width: 90%; height: 70px;" name="solution_text" class="solution_content"></textarea>
+    </div>
+    </div>
     <div class="button-container">
       <button type="button" class="btn btn-small cancel_link"><%= t('#buttons.cancel', "Cancel") %></button>
       <button type="submit" class="btn btn-small submit_button btn-primary"><%= t('buttons.create_update_question', "Create/Update Question") %></button>

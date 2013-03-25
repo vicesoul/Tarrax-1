@@ -45,6 +45,10 @@ shared_examples_for "an object whose dates are overridable" do
         overridden = overridable.overridden_for(@student)
         overridden.due_at.should == override.due_at
       end
+
+      it "returns the same object when the user is nil (e.g. a guest)" do
+        overridable.overridden_for(nil).should == overridable
+      end
     end
 
     context "with no overrides" do
@@ -66,8 +70,57 @@ shared_examples_for "an object whose dates are overridable" do
     context "when it doesn't" do
       it { should be_false }
     end
+
   end
 
+  describe "has_active_overrides?" do
+    context "has active overrides" do
+      before { override }
+      it "returns true" do
+        overridable.has_active_overrides?.should == true
+      end
+    end
+    context "when it has deleted overrides" do
+      it "returns false" do
+        override.delete
+        overridable.has_active_overrides?.should == false
+      end
+    end
+
+  end
+
+  describe "#all_dates_visible_to" do
+    let(:user) { stub }
+    it "only returns active overrides" do
+      override.delete
+      # include the default override
+      overridable.all_dates_visible_to(user).size.should == 1
+    end
+
+    it "returns each override represented using its as_hash method" do
+      all_dates = overridable.all_dates_visible_to(user)
+      overridable.active_assignment_overrides.map(&:as_hash).each do |o|
+        all_dates.should contain o
+      end
+    end
+
+    it "includes the overridable as a hash" do
+      all_dates = overridable.all_dates_visible_to(user)
+      last_hash = all_dates.last
+      overridable_hash =
+        overridable.without_overrides.due_date_hash.merge(:base => true)
+      overridable_hash.each do |k,v|
+        last_hash[k].should == v
+      end
+    end
+  end
+
+  describe "without_overrides" do
+    it "returns an object with no overrides applied" do
+      overridable.without_overrides.overridden.should be_false
+    end
+  end
+    
   describe "#overrides_visible_to(user)" do
     before :each do
       override.set = course.default_section
@@ -152,10 +205,20 @@ shared_examples_for "an object whose dates are overridable" do
       end
     end
 
+    it "doesn't use an overridden due date for a nil user's due dates" do
+      as_student, _ = overridable.overridden_for(@student).due_dates_for(nil)
+      as_student[:due_at].should == overridable.due_at
+    end
+
     it "includes the base due date in the list of due dates" do
       _, as_instructor = overridable.due_dates_for(@teacher)
 
-      expected_params = { :base => true, :due_at => overridable.due_at }
+      expected_params = {
+        :base => true,
+        :due_at => overridable.due_at,
+        :lock_at => overridable.lock_at,
+        :unlock_at => overridable.lock_at
+      }
 
       if overridable.is_a?(Assignment)
         expected_params.merge!({
@@ -174,6 +237,10 @@ shared_examples_for "an object whose dates are overridable" do
         :due_at => override.due_at,
         :all_day => override.all_day,
         :all_day_date => override.all_day_date,
+        :lock_at => override.lock_at,
+        :set_id => override.set_id,
+        :set_type => override.set_type,
+        :unlock_at => override.unlock_at,
         :override => override
       })
     end
@@ -203,11 +270,20 @@ shared_examples_for "an object whose dates are overridable" do
   end
 
   describe "due_date_hash" do
-    it "returns the due at, all day, and all day date params" do
+    it "returns the due at, lock_at, unlock_at, all day, and all day fields" do
       due = 5.days.from_now
-      a = Assignment.new(:due_at => due)
-      a.due_date_hash.should == { :due_at => due, :all_day => false, :all_day_date => nil }
+      due_params = {:due_at => due, :lock_at => due, :unlock_at => due}
+      a = overridable.class.new(due_params)
+      if a.is_a?(Quiz)
+        a.assignment = Assignment.new(due_params)
+      end
+      a.due_date_hash[:due_at].should == due
+      a.due_date_hash[:lock_at].should == due
+      a.due_date_hash[:unlock_at].should == due
+      a.due_date_hash[:all_day].should == false
+      a.due_date_hash[:all_day_date].should == nil
     end
+
   end
 
   describe "observed_student_due_dates" do
@@ -282,6 +358,11 @@ shared_examples_for "an object whose dates are overridable" do
     it "includes the base unlock date in the list of unlock dates" do
       _, as_instructor = overridable.unlock_ats_for(@teacher)
       as_instructor.should include({ :base => true, :unlock_at => overridable.unlock_at })
+    end
+
+    it "doesn't use an overridden unlock date as the base unlock date" do
+      _, as_instructor = overridable.overridden_for(@student).unlock_ats_for(@teacher)
+      as_instructor.should include({ :base => true, :unlock_at => overridable.unlock_at})
     end
 
     it "includes visible unlock date overrides in the list of unlock dates" do
@@ -373,6 +454,11 @@ shared_examples_for "an object whose dates are overridable" do
       as_instructor.should include({ :base => true, :lock_at => overridable.lock_at })
     end
 
+    it "doesn't use an overridden lock date as the base lock date" do
+      _, as_instructor = overridable.overridden_for(@student).lock_ats_for(@teacher)
+      as_instructor.should include({ :base => true, :lock_at => overridable.lock_at})
+    end
+
     it "includes visible lock date overrides in the list of lock dates" do
       _, as_instructor = overridable.lock_ats_for(@teacher)
       as_instructor.detect { |a| a[:override].present? }.should == {
@@ -403,6 +489,100 @@ shared_examples_for "an object whose dates are overridable" do
       _, as_instructor = overridable.lock_ats_for(@teacher)
       as_instructor.size.should == 1
       as_instructor.first[:base].should be_true
+    end
+  end
+
+  describe "multiple_due_dates?" do
+    before do
+      course_with_student(:course => course)
+      override.set = course.default_section
+      override.override_due_at(2.days.ago)
+      override.save!
+    end
+
+    context "when the object has been overridden" do
+      context "and it has multiple due dates" do
+        it "returns true" do
+          overridable.overridden_for(@teacher).multiple_due_dates?.should == true
+        end
+      end
+
+      context "and it has one due date" do
+        it "returns false" do
+          overridable.overridden_for(@student).multiple_due_dates?.should == false
+        end
+      end
+    end
+
+    context "when the object hasn't been overridden" do
+      it "raises an exception because it doesn't have any context" do
+        expect { overridden.multiple_due_dates? }.to raise_exception
+      end
+    end
+
+    context "when the object has been overridden for a guest" do
+      it "returns false" do
+        overridable.overridden_for(nil).multiple_due_dates?.should == false
+      end
+    end
+  end
+
+  describe "due_dates" do
+    before do
+      course_with_student(:course => course)
+      override.set = course.default_section
+      override.override_due_at(2.days.ago)
+      override.save!
+    end
+
+    context "when the object has been overridden" do
+      context "for a teacher" do
+        it "returns all relevant dates" do
+          overridable.overridden_for(@teacher).due_dates.size.should == 2
+        end
+      end
+
+      context "for a student" do
+        it "returns one date" do
+          overridable.overridden_for(@student).due_dates.size.should == 1
+        end
+      end
+    end
+
+    context "when the object hasn't been overridden" do
+      it "raises an exception because it doesn't have any context" do
+        expect { overridden.due_dates }.to raise_exception
+      end
+    end    
+  end
+
+  describe "overridden_for?" do
+    before do
+      course_with_student(:course => course)
+    end
+
+    context "when overridden for the user" do
+      it "returns true" do
+        overridable.overridden_for(@teacher).overridden_for?(@teacher).should be_true
+      end
+    end
+
+    context "when overridden for a different user" do
+      it "returns false" do
+        overridable.overridden_for(@teacher).overridden_for?(@student).should be_false
+      end
+    end
+
+    context "when overridden for a nil user" do
+      it "returns true" do
+        overridable.overridden_for(nil).overridden_for?(nil).should be_true
+      end
+    end
+
+    context "when not overridden" do
+      it "returns false" do
+        overridable.overridden_for?(nil).should be_false
+      end
     end
   end
 end

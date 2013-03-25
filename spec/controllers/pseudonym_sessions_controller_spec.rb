@@ -67,6 +67,14 @@ describe PseudonymSessionsController do
     response.should render_template('new')
   end
 
+  it "should re-render if no password given" do
+    user_with_pseudonym(:username => 'jt@instructure.com', :active_all => 1, :password => 'qwerty')
+    post 'create', :pseudonym_session => { :unique_id => 'jt@instructure.com', :password => ''}
+    response.status.should == '400 Bad Request'
+    response.should render_template('new')
+    flash[:error].should match(/no password/i)
+  end
+
   it "password auth should work" do
     user_with_pseudonym(:username => 'jt@instructure.com', :active_all => 1, :password => 'qwerty')
     post 'create', :pseudonym_session => { :unique_id => 'jt@instructure.com', :password => 'qwerty'}
@@ -209,7 +217,8 @@ describe PseudonymSessionsController do
         stub('response', :is_valid? => true, :success_status? => true, :name_id => unique_id, :name_qualifier => nil, :session_index => nil, :process => nil)
       )
 
-      controller.request.env['canvas.domain_root_account'] = account1
+      #controller.request.env['canvas.domain_root_account'] = account1
+      controller.stubs(:default_domain_root_account).returns( account1 )
       get 'saml_consume', :SAMLResponse => "foo"
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:saml_unique_id].should == unique_id
@@ -222,7 +231,8 @@ describe PseudonymSessionsController do
         stub('response', :is_valid? => true, :success_status? => true, :name_id => unique_id, :name_qualifier => nil, :session_index => nil, :process => nil)
       )
 
-      controller.request.env['canvas.domain_root_account'] = account2
+      #controller.request.env['canvas.domain_root_account'] = account2
+      controller.stubs(:default_domain_root_account).returns( account2 )
       get 'saml_consume', :SAMLResponse => "bar"
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:saml_unique_id].should == unique_id
@@ -258,6 +268,7 @@ describe PseudonymSessionsController do
           )
 
           controller.request.env['canvas.domain_root_account'] = @account
+          controller.stubs(:default_domain_root_account).returns( @account )
           get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
         end
 
@@ -278,7 +289,7 @@ describe PseudonymSessionsController do
 
           get_consume
 
-          response.should redirect_to(@account.auth_discovery_url + "?message=Canvas%20did%20not%20recognize%20your%20identity%20provider")
+          response.should redirect_to(@account.auth_discovery_url + "?message=Jiaoxuebang%20did%20not%20recognize%20your%20identity%20provider")
         end
 
         it "/saml_consume should redirect to login screen with message if no AAC found" do
@@ -294,6 +305,7 @@ describe PseudonymSessionsController do
       context "/new" do
         def get_new(aac_id=nil)
           controller.request.env['canvas.domain_root_account'] = @account
+          controller.stubs(:default_domain_root_account).returns( @account )
           if aac_id
             get 'new', :account_authorization_config_id => aac_id
           else
@@ -326,12 +338,12 @@ describe PseudonymSessionsController do
           @account.auth_discovery_url = "http://example.com/discover"
           @account.save!
           get_new("0")
-          response.should redirect_to(@account.auth_discovery_url + "?message=The%20Canvas%20account%20has%20no%20authentication%20configuration%20with%20that%20id")
+          response.should redirect_to(@account.auth_discovery_url + "?message=The%20Jiaoxuebang%20account%20has%20no%20authentication%20configuration%20with%20that%20id")
         end
 
         it "should redirect to login screen with message if unknown specified AAC" do
           get_new("0")
-          flash[:delegated_message].should == "The Canvas account has no authentication configuration with that id"
+          flash[:delegated_message].should == "The Jiaoxuebang account has no authentication configuration with that id"
           response.should redirect_to(login_url(:no_auto=>'true'))
         end
       end
@@ -343,6 +355,7 @@ describe PseudonymSessionsController do
           )
 
           controller.request.env['canvas.domain_root_account'] = @account
+          controller.stubs(:default_domain_root_account).returns( @account )
           get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
 
           response.should redirect_to(courses_url)
@@ -361,7 +374,7 @@ describe PseudonymSessionsController do
             session[:saml_aac_id] = 0
 
             get 'destroy'
-            flash[:message].should == "Canvas was unable to log you out at your identity provider"
+            flash[:message].should == "Jiaoxuebang was unable to log you out at your identity provider"
             response.should redirect_to(login_url(:no_auto=>'true'))
           end
         end
@@ -423,6 +436,7 @@ describe PseudonymSessionsController do
         )
 
         controller.request.env['canvas.domain_root_account'] = @account
+        controller.stubs(:default_domain_root_account).returns( @account )
         get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
         response.should redirect_to(courses_url)
         session[:saml_unique_id].should == @unique_id
@@ -437,6 +451,7 @@ describe PseudonymSessionsController do
         )
 
         controller.request.env['canvas.domain_root_account'] = @account
+        controller.stubs(:default_domain_root_account).returns( @account )
         get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
         response.should redirect_to(courses_url)
         session[:saml_unique_id].should == @unique_id
@@ -464,6 +479,7 @@ describe PseudonymSessionsController do
       )
 
       controller.request.env['canvas.domain_root_account'] = account
+      controller.stubs(:default_domain_root_account).returns( account )
       get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
       response.should redirect_to(courses_url)
       session[:saml_unique_id].should == unique_id
@@ -483,6 +499,7 @@ describe PseudonymSessionsController do
       )
 
       controller.request.env['canvas.domain_root_account'] = account
+      controller.stubs(:default_domain_root_account).returns( account )
       get 'saml_consume', :SAMLResponse => "foo", :RelayState => "/courses"
       response.should redirect_to(courses_url)
       session[:saml_unique_id].should == unique_id
@@ -504,6 +521,7 @@ describe PseudonymSessionsController do
       @pseudonym.save!
 
       controller.request.env['canvas.domain_root_account'] = @account
+      controller.stubs(:default_domain_root_account).returns( @account )
       get 'saml_consume', :SAMLResponse => <<-SAML
         PHNhbWxwOlJlc3BvbnNlIHhtbG5zOnNhbWxwPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6cHJv
         dG9jb2wiIHhtbG5zOnNhbWw9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iIElE
@@ -637,6 +655,7 @@ describe PseudonymSessionsController do
       stubby("yes\n#{unique_id}\n")
 
       controller.request.env['canvas.domain_root_account'] = account1
+      controller.stubs(:default_domain_root_account).returns( account1 )
       get 'new', :ticket => 'ST-abcd'
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:cas_login].should == true
@@ -648,6 +667,7 @@ describe PseudonymSessionsController do
       stubby("yes\n#{unique_id}\n")
 
       controller.request.env['canvas.domain_root_account'] = account2
+      controller.stubs(:default_domain_root_account).returns( account2 )
       get 'new', :ticket => 'ST-efgh'
       response.should redirect_to(dashboard_url(:login_success => 1))
       session[:cas_login].should == true
@@ -1042,6 +1062,28 @@ describe PseudonymSessionsController do
       response.should be_success
       JSON.parse(response.body).keys.sort.should == ['access_token', 'user']
     end
+  end
+
+  describe 'POST oauth2_accept' do
+    let(:user) { User.create! }
+    let(:key) { DeveloperKey.create! }
+    let(:session_hash) { { :oauth2 => { :client_id => key.id, :redirect_uri => Canvas::Oauth::Provider::OAUTH2_OOB_URI  } } }
+    let(:oauth_accept) { post :oauth2_accept, {}, session_hash }
+
+    before { user_session user }
+
+    it 'uses the global id of the user for generating the code' do
+      Canvas::Oauth::Token.expects(:generate_code_for).with(user.global_id, key.id).returns('code')
+      oauth_accept
+      response.should redirect_to(oauth2_auth_url(:code => 'code'))
+    end
+
+    it 'removes oauth session info after code generation' do
+      Canvas::Oauth::Token.stubs(:generate_code_for => 'code')
+      oauth_accept
+      controller.session.should == {}
+    end
+
   end
 
 end

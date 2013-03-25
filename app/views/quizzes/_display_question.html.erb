@@ -222,7 +222,7 @@
                      answer_classes << 'no_answer' if hash_get(user_answer, :text).blank?
                   %>
                   <div class='answer <%= answer_classes.compact.join(' ') %>'>
-                    <%= h(hash_get(user_answer, :text) || t(:you_left_this_blank, "(You left this blank)")) %>
+                    <%= hash_get(user_answer, :text) || t(:you_left_this_blank, "(You left this blank)") %>
                     <% if matched_answer && comment_get(matched_answer, :comments).present? %>
                       <div class="hide_right_arrow <%= "correct_answer" if display_correct_answers %>">
                         <div class="quiz_comment">
@@ -291,7 +291,7 @@
             <% end %>
           <% end %>
         <% end %>
-      </div>
+      </div><!-- class="answers" -->
       <div class="after_answers">
         <% if question && hash_get(question, :question_type) == 'matching_question' && !assessing && ((@quiz && display_correct_answers) || (!user_answer && !assessment_results)) && !@quiz.try(:survey?) %>
           <% other_matches = (hash_get(question, :matches) || hash_get(question, :answers, [])).select{|a| !hash_get(question, :answers, []).map{|an| hash_get(an, :match_id) }.include?(hash_get(a, :match_id)) } %>
@@ -304,8 +304,8 @@
             </ul>
           <% end %>
         <% end %>
-      </div>
-    </div>
+      </div><!-- class="after_answers" -->
+    </div><!-- class="text"-->
     <% if user_answer %>
       <%= question_comment(user_answer, question) %>
       <% if (hash_get(user_answer, :more_comments) && comment_get(user_answer, :more_comments).present?) || (editable && question_type && question_type.entry_type != "none") %>
@@ -335,6 +335,24 @@
         <div class="question_comment_html neutral_comments_html"><%= raw hash_get(question, :neutral_comments_html) %></div>
       </div>
     <% end %>
+    <div class="solution">
+      <% unless ( question && hash_get(question, :question_type) ) == 'text_only_question' %>
+        
+        <% if editing || user_answer %>
+
+          <% solution_content = hash_get(question, :solution_content) %>
+          <% unless solution_content.blank? %>
+            <a class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
+            <div class="solution_text user_content hide_solution_text"><%= raw question && hash_get(question, :solution_content) %></div>
+          <% else %>
+            <a style="display:none;" class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
+            <div class="solution_text user_content hide_solution_text"></div>
+          <% end # solution_content.blank? %>
+
+        <% end %>
+
+      <% end # unless %>
+    </div><!-- div class='solution' -->
     <% if question_bank_id %>
       <div class="bottom_links">
         <a href="#" class="move_question_link"><%= t('links.move_copy_question', "move/copy question to another bank") %></a> 

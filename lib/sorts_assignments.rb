@@ -1,6 +1,6 @@
 class SortsAssignments
 
-  AssignmentsSortedByVariedDueDate = Struct.new(
+  AssignmentsSortedByDueDate = Struct.new(
     :past,
     :overdue,
     :undated,
@@ -9,37 +9,29 @@ class SortsAssignments
     :future
   )
 
-  VDDAssignment = Struct.new(:id,:due_at)
-
-  def self.by_varied_due_date(opts)
+  def self.by_due_date(opts)
     assignments = opts.fetch( :assignments )
     user = opts.fetch( :user )
     session = opts.fetch( :session )
     submissions = opts.fetch( :submissions )
     upcoming_limit = opts[:upcoming_limit] || 1.week.from_now
 
-    vdd_assignments = vdd_map(assignments, user)
-    past_assignments = past(vdd_assignments)
-    undated_assignments = undated(vdd_assignments)
-    ungraded_assignments = ungraded_for_user_and_session(assignments, user, session)
-    upcoming_assignments = upcoming(vdd_assignments, upcoming_limit)
-    future_assignments = future(vdd_assignments)
-    overdue_assignments = overdue(assignments, user, session, submissions)
-
-    AssignmentsSortedByVariedDueDate.new(
-      select_originals(assignments, past_assignments),
-      select_originals(assignments, overdue_assignments),
-      select_originals(assignments, undated_assignments),
-      ungraded_assignments,
-      select_originals(assignments, upcoming_assignments),
-      select_originals(assignments, future_assignments)
+    AssignmentsSortedByDueDate.new(
+      past(assignments),
+      overdue(assignments, user, session, submissions),
+      undated(assignments),
+      ungraded_for_user_and_session(assignments, user, session),
+      upcoming(assignments, upcoming_limit),
+      future(assignments)
     )
   end
 
   def self.vdd_map(assignments, user)
     assignments ||= []
     assignments.map do |assignment|
-      VDDAssignment.new(assignment.id, VariedDueDate.due_at_for?(assignment, user))
+      Rails.cache.fetch( ['vdd_map', user, assignment].cache_key ) do
+        VDDAssignment.new(assignment.id, VariedDueDate.due_at_for?(assignment, user))
+      end
     end
   end
 
@@ -65,11 +57,6 @@ class SortsAssignments
 
   def self.future(assignments)
     assignments - past(assignments)
-  end
-
-  def self.select_originals(original, vdd_map)
-    vdd_map_keys = vdd_map.map{ |assignment| assignment.id }
-    original.select { |assignment| vdd_map_keys.include?(assignment.id) }
   end
 
   def self.up_to(assignments, time)

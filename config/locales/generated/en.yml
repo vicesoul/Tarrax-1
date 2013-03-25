@@ -1,5 +1,22 @@
 --- 
 en: 
+  ? "#buttons"
+  : 
+    cancel: Cancel
+    manage_rubrics: "Manage Rubrics"
+    save: Save
+    submit: Submit
+  ? "#editor"
+  : 
+    switch_views: "Switch Views"
+  ? "#gradebooks"
+  : 
+    grades: 
+      complete: Complete
+      incomplete: Incomplete
+  ? "#links"
+  : 
+    switch_views: "Switch Views"
   EditAppointmentGroupDetails: 
     affect_reservations: "How will this affect reservations?"
     and_n_contexts: "and %{n} others"
@@ -69,13 +86,13 @@ en:
       canvas_login_tip: |-
           If you configure settings that cause you to not be able to log in you can add
           *%{url1}* to the end of your login url. This will let you login
-          using the normal Canvas login procedure. For this account the url would be %{url2}
+          using the normal Jiaoxuebang login procedure. For this account the url would be %{url2}
       choose_auth_type_option: "Choose an authentication service"
       current_settings_title: "Current Integration"
       delete_auth_confirmation: "Are you sure? Users may not be able to log in if this is removed."
       delete_auth_link: "Remove Authentication"
       edit_auth_link: "Edit Details"
-      ip_address_list_description: "If you are using an authentication service that requires the Canvas servers to contact your servers directly, such as LDAP, you'll need to make sure that your servers can accept connections from these IP addresses:"
+      ip_address_list_description: "If you are using an authentication service that requires the Jiaoxuebang servers to contact your servers directly, such as LDAP, you'll need to make sure that your servers can accept connections from these IP addresses:"
       no_auth_type_description: "This account does not currently integrate with an identity provider."
       page_title: "Authentication Settings"
       profile_page_link_example: "For example, here is your profile page: [%{friendlyname}](%{url})"
@@ -86,7 +103,7 @@ en:
     ldap_settings: 
       add_secondary_ldap_server_link: "Add Secondary LDAP Server"
       auth_type_label: Type
-      change_password_url_help: "Leave blank for default Canvas behavior"
+      change_password_url_help: "Leave blank for default Jiaoxuebang behavior"
       change_password_url_not_specified: "None specified"
       labels: 
         change_password_url: "Forgot Password URL"
@@ -99,7 +116,7 @@ en:
     ldap_settings_fields: 
       auth_filter_description: "Use *%{placeholder}* as a placeholder for the username supplied by the user. For example: *(sAMAccountName=%{placeholder})*"
       auth_password_description: "Leave blank to continue using the current password."
-      identifer_format_description: "The LDAP attribute to use to look up the Canvas login. Leave blank to use the username supplied by the user."
+      identifer_format_description: "The LDAP attribute to use to look up the Jiaoxuebang login. Leave blank to use the username supplied by the user."
       labels: 
         auth_base: Base
         auth_filter: Filter
@@ -122,14 +139,14 @@ en:
       ldap_test_login_button: "Test Login"
       test_ldap_bind_help_body: "Your LDAP server server rejected the bind attempt. Things to consider:"
       test_ldap_bind_help_fixes_1: "Verify the provided filter string (i.e. '(sAMAccountName={{login}})')."
-      test_ldap_bind_help_fixes_2: "Does the username require more scoping information? (i.e. 'cn=Canvas,ou=people,dc=example,dc=com')."
-      test_ldap_bind_help_header: "Canvas can't bind (login) to your LDAP server"
+      test_ldap_bind_help_fixes_2: "Does the username require more scoping information? (i.e. 'cn=Jiaoxuebang,ou=people,dc=example,dc=com')."
+      test_ldap_bind_help_header: "Jiaoxuebang can't bind (login) to your LDAP server"
       test_ldap_bind_label: "Testing LDAP bind..."
       test_ldap_connection_help_body: "The connection either timed out or was refused. Things to consider:"
-      test_ldap_connection_help_fixes_1: "Canvas is connecting to %{ips}"
+      test_ldap_connection_help_fixes_1: "Jiaoxuebang is connecting to %{ips}"
       test_ldap_connection_help_fixes_2: "This was only a connection test. SSL certificates were not validated."
-      test_ldap_connection_help_fixes_3: "Check your firewall settings. Are all Canvas IP address allowed to access your server?"
-      test_ldap_connection_help_header: "Canvas can't connect to your LDAP server"
+      test_ldap_connection_help_fixes_3: "Check your firewall settings. Are all Jiaoxuebang IP address allowed to access your server?"
+      test_ldap_connection_help_header: "Jiaoxuebang can't connect to your LDAP server"
       test_ldap_connection_label: "Testing connection..."
       test_ldap_dialog_close: Close
       test_ldap_dialog_page_title: "Testing Your LDAP Configuration"
@@ -140,11 +157,11 @@ en:
       test_ldap_search_help_fixes_1: "Verify the provided filter string (i.e. '(sAMAccountName={{login}})')."
       test_ldap_search_help_fixes_2: "Verify the provided search base (i.e. 'ou=people,dc=example,dc=com')."
       test_ldap_search_help_fixes_3: "Verify that the user object in LDAP has search privileges for the provided search base."
-      test_ldap_search_help_header: "Canvas can't search your LDAP instance"
+      test_ldap_search_help_header: "Jiaoxuebang can't search your LDAP instance"
       test_ldap_search_label: "Testing LDAP search..."
     ldap_timeout_error: 
       last_ldap_timeout_failure: "Last timeout failure"
-      ldap_timeout_failure_help: "If Canvas times out communicating with the LDAP server, it will block further login attempts from using that LDAP server for %{time}."
+      ldap_timeout_failure_help: "If Jiaoxuebang times out communicating with the LDAP server, it will block further login attempts from using that LDAP server for %{time}."
     login_required: "must be supplied"
     no_auth_mixing: "Can not mix authentication types"
     no_changing_auth_types: "Can not change type of authorization config, please delete and create new config."
@@ -191,7 +208,7 @@ en:
       auth_request_to_idp: "AuthnRequest sent to IdP"
       auth_response_from_idp: "AuthnResponse from IdP"
       labels: 
-        canvas_login_fail_message: "Canvas Login failure message"
+        canvas_login_fail_message: "Jiaoxuebang Login failure message"
         fingerprint_from_idp: "IdP certificate fingerprint"
         idp_in_response_to: "IdP inResponseTo"
         idp_login_destination: "IdP LoginResponse destination"
@@ -202,10 +219,10 @@ en:
         idp_response_encoded: "IdP LoginResponse encoded"
         idp_response_xml_decrypted: "IdP LoginResponse Decrypted"
         idp_response_xml_encrypted: "IdP LoginResponse Encrypted"
-        is_valid_login_response: "Canvas thinks response is valid"
+        is_valid_login_response: "Jiaoxuebang thinks response is valid"
         logged_in_user_id: "Logged in user id"
         login_response_validation_error: "Validation Error"
-        login_to_canvas_success: "User successfully logged into Canvas"
+        login_to_canvas_success: "User successfully logged into Jiaoxuebang"
         logout_request_id: "Logout request id"
         logout_to_idp_url: "LogoutRequest encoded URL"
         logout_to_idp_xml: "LogoutRequest XML sent to IdP"
@@ -277,6 +294,11 @@ en:
     add_user_dialog_title: "Add a New User"
     adding_course_message: "Adding Course..."
     adding_user_message: "Adding User..."
+    associated: 
+      accounts_crumb: Accounts
+      no_accounts_message: "No Accounts"
+      page_title: Accounts
+      title: "Associated Accounts"
     avatars: 
       all_link: 
         one: "All %{count}"
@@ -340,25 +362,27 @@ en:
       go_button: Go
       hide_enrollmentless_courses: "Hide enrollmentless courses"
     crumb_statistics: Statistics
+    errors: 
+      create_failed: "Account creation failed"
     grade_export_csv_description: 
       account_reports: 
         default: 
           description: 
             header: Example
             text: "This report shows the student final grade results for all students in a given term. The resulting csv file will have one row per enrollment, and will show the current and final grade that is displayed in the course gradebook."
-    grade_export_csv_parameters: 
+    include_deleted_parameter: 
       account_reports: 
         default: 
-          parameters: 
-            header: Term
-            note: "Courses with muted assignments may not accurately reflect scores in this report."
-      all_terms: "All Terms"
+          include_deleted: 
+            check_box: "Include Deleted Objects"
     index: 
       accounts_crumb: Accounts
       no_accounts_message: "No Accounts"
       page_title: Accounts
       title: "Accounts I Manage"
     no_user_message: "No user found with that id"
+    notices: 
+      account_created: "Account Successfully created!"
     provisioning_csv_description: 
       account_reports: 
         sis_export: 
@@ -366,7 +390,7 @@ en:
             text: "This report will export all the needed information that relates to provisioning Canvas in its respective categories."
     settings: 
       about_google_docs: |-
-          In order to make it easier for users, rather than forcing them to download things like Word docs, PDFs, Excel spreadsheets, and open office documents (In addition to requiring that those programs be installed on their on their computer), in many areas throughout Canvas, it will allow you an inline preview of the document.
+          In order to make it easier for users, rather than forcing them to download things like Word docs, PDFs, Excel spreadsheets, and open office documents (In addition to requiring that those programs be installed on their on their computer), in many areas throughout Jiaoxuebang, it will allow you an inline preview of the document.
           
           If Scribd has been enabled for this account, it will try to use it to show the preview. But because Scribd uses flash paper to display the documents, and many users (namely those using an iPad/iPhone) do not have Flash Player installed, that preview will not work.  By leaving Google Docs Previews enabled, when a browser does not have Flash enabled, or if Scribd is not enabled, it will use preview powered by Google Docs. Using this service is subject to Google's viewer [terms of service](%{terms_url})
       about_google_docs_tooltip: "About Google Docs Previews"
@@ -395,7 +419,7 @@ en:
       default_language_description: "This will override any browser/OS language settings. Preferred languages can still be set at the course/user level."
       delete: delete
       delete_announcement_tooltip: "Delete this Announcement"
-      email_notification_from_description: "This setting allows the Admin to brand or label the 'From' text on all notifications sent from Canvas for this Account."
+      email_notification_from_description: "This setting allows the Admin to brand or label the 'From' text on all notifications sent from Jiaoxuebang for this Account."
       email_notification_from_settings: "E-mail Notification \"From\" Settings"
       enabled_web_serices_title: "Enabled Web Services"
       equall_endpoint_help: "This is the URL to your equella service. It will probably look something like \"%{sample_url}\"."
@@ -422,7 +446,7 @@ en:
         allow_invitation_previews: "Invitation Previews"
         allow_sending_scores_in_emails: "Students can opt-in to receiving scores in email notifications"
         allow_sis_import: "SIS imports"
-        canvas_authentication: "Canvas Authentication"
+        canvas_authentication: "Jiaoxuebang Authentication"
         default_course_storage_quota: "Default Course File Quota"
         default_language: "Default Language"
         default_time_zone: "Default Time Zone"
@@ -449,7 +473,7 @@ en:
         no_enrollments_can_create_courses: "Users with no enrollments"
         open_registration: "Open Registration"
         outgoing_email_default_name_option_custom: "Custom \"From\" Name"
-        outgoing_email_default_name_option_default: "Default Canvas Setting"
+        outgoing_email_default_name_option_default: "Default Jiaoxuebang Setting"
         prevent_course_renaming_by_teachers: "Don't let teachers rename their courses"
         self_enrollment: "Allow Self-Enrollment"
         sis_source_id: "SIS ID"
@@ -473,14 +497,14 @@ en:
       never_allow_self_enrollment_option: Never
       no_language_preference: "Not set (defaults to %{language})"
       notifications: 
-        custom_name_description: "If selected, this will replace all other branding sent in Canvas notifications."
+        custom_name_description: "If selected, this will replace all other branding sent in Jiaoxuebang notifications."
         email_date: Date
         email_reply_to: Reply-To
         email_to: To
         example: "Example:"
         external_services: "Notifications Sent to External Services"
         external_services_label: "Display one time pop-up warning on Notification Preferences page."
-        external_services_warning: "Notice: Some Canvas notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive information outside of the institutional system."
+        external_services_warning: "Notice: Some notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive Jiaoxuebang course and group information outside of the institutional system."
         external_services_warning_label: "Pop-up Message Content:"
         from: From
         sample_subject: "Grade Changed: Check In Survey, Testing Course"
@@ -513,7 +537,6 @@ en:
       tab_notifications: Notifications
       tab_reports: Reports
       tab_settings: Settings
-      transifex_message: "Join the [Canvas Translation Community](%{transifex_url})"
       turnitin_comments_help: "these comments will be shown to students when submitting a Turnitin-enabled assignment"
       turnitin_pledge_help: "students must check a box acknowledging that they agree with this pledge"
       turnitin_settings_title: "Turnitin Settings"
@@ -819,7 +842,13 @@ en:
     default_title: "No Name - %{course}"
     default_unfiled_title: "Unfiled Questions"
   assignment: 
+    advanced_options_errors: "There were errors on one or more advanced options"
+    assignment_group_must_have_group: "Please select an assignment group for this assignment"
+    at_least_one_file_type: "Please specify at least one allowed file type"
+    at_least_one_submission_type: "Please choose at least one submission type"
     atom_no_author: "No Author"
+    buttons: 
+      select_url: Select
     comment_from_files: 
       one: "See attached file"
       other: "See attached files"
@@ -827,15 +856,23 @@ en:
       cannot_save_att: "You don't have permission to edit the locked attribute %{att_name}"
       import: 
         external_tool_url: "The url for the external tool assignment \"%{assignment_name}\" wasn't valid."
+      upload_as_zip: "Please upload files as a .zip"
     feed_entry_title: "Assignment: %{assignment}"
     feed_entry_title_with_course: "Assignment, %{course}: %{assignment}"
+    group_assignment_must_have_category: "Please select a group set for this assignment"
+    hide_advanced_options: "Hide Advanced Options"
     imported_assignments_group: "Imported Assignments"
     labels: 
       due: Due
     messages: 
       assignment_created: "Assignment \"%{assignment}\" created"
+    name_is_required: "Name is required!"
+    select_external_tool_dialog_title: "Configure External Tool"
+    show_advanced_options: "Show Advanced Options"
     submission_action_take_quiz: "Take %{title}"
     submission_action_turn_in_assignment: "Turn in %{title}"
+    titles: 
+      grading_scheme_info: "View/Edit Grading Scheme"
     warnings: 
       group_assignment: "The Assignment \"%{assignment}\" was a group assignment, and you'll need to re-set the group settings for this new context"
       peer_assignment: "The Assignment \"%{assignment}\" was a peer review assignment, and you'll need to re-set the peer review settings for this new context"
@@ -910,11 +947,22 @@ en:
         no_assignments: "[No Assignments]"
         weighted_by_points: "Weighted By Points"
       percent_of_total_grade: "%{percent} % of total grade"
-    assignment: 
-      default_content: "No Content"
     assignment_count: 
       one: "1 Assignment"
       other: "%{count} Assignments"
+    assignment_group_create_dialog: 
+      assignment_group: 
+        labels: 
+          name: Name
+      buttons: 
+        add_group: "Add Group"
+        cancel: Cancel
+      links: 
+        add_assignment_group: "Add Assignment Group\""
+    assignment_group_selector: 
+      assignment_group: "Assignment Group"
+      assignment_group_options: 
+        new_group: "New Group"
     assignment_groups_count: 
       one: "1 Group"
       other: "%{count} Groups"
@@ -923,19 +971,12 @@ en:
       assignment_unlocked_from: "This assignment is locked until *%{unlock_at}*"
       assignment_unlocked_from_to: "This assignment is only unlocked from *%{unlock_at}* to *%{lock_at}*"
     assignment_sidebar: 
-      allowed_file_types: "The permitted file upload types are: %{extensions_list}."
       buttons: 
         publish: "Publish this Assignment"
       links: 
-        add_rubric: "Add Rubric"
-        edit_assignment: "Edit Assignment"
         submit: "Submit Assignment"
-        view_assignment: "View Assignment"
-      submission_types_for_graders: "Students can submit this assignment as *%{submission_types}*"
-      submission_types_for_student: "This assignment can be submitted as *%{submission_types}*"
       titles: 
         unpublished: Unpublished
-      turnitin_enabled: "Turnitin has been enabled for this assignment."
       warnings: 
         unpublished: "You should publish assignments that you are finished grading so students can consider their grades \"official.\""
     assignments_content: 
@@ -978,18 +1019,42 @@ en:
       links: 
         add_assignment_group: "Add Assignment Group"
     buttons: 
+      add_group: "Add Group"
       delete_group: "Delete Group"
       submit_assignment: "Submit Assignment"
     confirm: 
       delete_assignment: "Are you sure you want to delete this assignment?"
       delete_group: "Are you sure you want to delete this group?"
-    crumbs: 
-      new_assignment: "New Assignment"
+    create_new_crumb: "Create new"
     drop_highest_scores: "Drop the Highest %{number} Scores"
     drop_lowest_scores: "Drop the Lowest %{number} Scores"
+    due_date_override: 
+      overrides: 
+        available_from: "Available From"
+        due_date: "Due Date"
+        for: For
+      until: Until
+    edit: 
+      edit_assignment: "Edit Assignment"
+      new_discussion: "New Discussion"
+      new_quiz: "New Quiz"
+    edit_view: 
+      assignment_name: "Assignment Name"
+      buttons: 
+        update: "Update Assignment"
+      description: Description
+      due_date: "Due Date"
+      freeze_properties: "Lock assignment properties when copied"
+      notify_content_change: "Notify users that this content has changed"
+      points_possible: Points
+      show_advanced_options: "Show Advanced Options"
+      warnings: 
+        assignment_is_frozen: "Some settings have been administratively locked."
     errors: 
+      add_group_failed: "Add Group Failed"
       delete_reminder_failed: "Delete failed"
       deleting_group_failed: "Delete Failed"
+      google_docs_masquerade_rejected: "Unable to connect to Google Docs as a masqueraded user."
       reminder_failed: "Reminder failed"
     external_grader_sidebar: 
       edit_assignment_settings: "Edit Assignment Settings"
@@ -1014,6 +1079,20 @@ en:
       titles: 
         submission: Submissions
     graded: "This assignment has been graded"
+    grading_type_selector: 
+      grading_type: "Grading Type"
+      grading_type_options: 
+        letter_grade: "Letter Grade"
+        not_graded: "Not Graded"
+        pass_fail: Complete/Incomplete
+        percent: Percentage
+        points: Points
+      view_grading_levels: "View Grading Levels"
+    group_category_selector: 
+      grade_group_students_individually: "Assign Grades to Each Student Individually"
+      group_category_options: "New Group Category"
+      group_set: "Group Set"
+      is_group_assignment: "This is a Group Assignment"
     group_comment: 
       labels: 
         group_comment: "Send Comment to the Whole Group"
@@ -1047,6 +1126,7 @@ en:
         wizard: "How Do I...?"
       page_title: Assignments
     messages: 
+      adding_group: "Adding Group..."
       agree_to_pledge: "You must agree to the submission pledge before you can submit this assignment."
       not_submitted_yet: "You haven't finished submitting your assignment.  You still need to click \"Submit\" to finish turning it in.  Do you want to leave this page anyway?"
       now_overdue: "This assignment is now overdue.  Any new submissions will be marked as late.  Continue anyway?"
@@ -1098,6 +1178,14 @@ en:
       titles: 
         automatically_assign_reviews: "Automatically Assign Reviews"
         remind: "Remind %{assessor} about Assessment, last notified %{time}"
+    peer_reviews_selector: 
+      labels: 
+        automatically_assign_peer_reviews: "Automatically Assign Peer Reviews"
+        manually_assign_peer_reviews: "Manually Assign Peer Reviews"
+        require_peer_reviews: "Require Peer Reviews"
+      locked_until: "Assign Reviews"
+      peer_reviews_assign_at_explanation: "Must come after due date. If blank, uses due date."
+      reviews_per_user: "Reviews Per User"
     percent_of_final_grade: "%{percent} of final grade"
     redirect_page: 
       redirect_message: |-
@@ -1106,11 +1194,30 @@ en:
     select_assignment: "[Select Assignment]"
     show: 
       assignment_locked: "This assignment is currently locked."
-      errors: 
-        upload_as_zip: "Please upload files as a .zip"
+      available_from: "Available from"
+      date_time_by: "%{date} by %{time}"
+      defaults: 
+        no_content: "No Content"
+      due: Due
+      due_at: Due
+      for: For
       links: 
+        add_rubric: "Add Rubric"
         assign_rubric: "Assign Rubric"
+        edit: Edit
+      messages: 
+        locked: "This assignment is currently locked."
       new_assignment: "New Assignment"
+      no_due_date: "No Due Date"
+      no_points: None
+      no_submission: Nothing
+      points: Points
+      submission_types: "File Types"
+      submitting: Submitting
+      turnitin: Turnitin
+      turnitin_enabled: "Turnitin has been enabled for this assignment."
+      turnitin_enabled_short: "(Turnitin enabled)"
+      until: Until
     show_locked: 
       labels: 
         assignment: Assignment
@@ -1151,6 +1258,27 @@ en:
     submission_type_icon: 
       tooltips: 
         submitted: Submitted
+    submission_types_form: 
+      advanced_turnitin_settings: "Advanced Turnitin Settings"
+      descriptions: 
+        allowed_extensions: "enter a list of accepted extensions, for example: doc,xls,txt"
+      label: 
+        external_tool_new_tab: "Load This Tool In A New Tab"
+        external_tool_url: "External Tool URL"
+        turnitin_enabled: "Enable Turnitin Submissions"
+      labels: 
+        allow_file_uploads: "Allow File Uploads"
+        allow_media_recordings: "Allow Media Recordings"
+        allow_text_entry: "Allow Text Entry"
+        allow_url: "Allow Website URL"
+        allowed_extensions: "Allowed File Extensions"
+        restrict_file_extensions: "Restrict Upload File Types"
+      submission_type: "Submission Type"
+      submission_types: 
+        external_tool: "External Tool"
+        no_submission: "No Submission"
+        on_paper: "On Paper"
+        online: Online
     submit_assignment: 
       additional_comments: "Additional comments"
       buttons: 
@@ -1178,15 +1306,14 @@ en:
           text_entry: "Text Entry"
           website: "Website URL"
       messages: 
-        google_docs_auth_required: "Before you can submit assignments directly from Google Docs you need to authorize Canvas to access your Google Docs account:"
+        google_docs_auth_required: "Before you can submit assignments directly from Google Docs you need to authorize Jiaoxuebang to access your Google Docs account:"
         media_recording_ready: "Ready to Submit! Click 'Submit Assignment' button to finish."
-        media_recordings_disabled: "Media recordings are not enabled for this Canvas site, and you will not be able to submit these types of assignments. Please contact your instructor about changing the settings for this assignment, or your system administrator about enabling media recordings."
+        media_recordings_disabled: "Media recordings are not enabled for this Jiaoxuebang site, and you will not be able to submit these types of assignments. Please contact your instructor about changing the settings for this assignment, or your system administrator about enabling media recordings."
         submitting: Submitting...
         uploading: "Retrieving a copy of your Google Doc to submit for this assignment. This may take a little while, depending on the size of the file..."
       no_files: "No Files"
       titles: 
-        media_recordings_disabled: "Media recordings are not enabled for this Canvas site"
-        view_in_separate_window: "View in Separate Window"
+        media_recordings_disabled: "Media recordings are not enabled for this Jiaoxuebang site"
       upload_or_choose_file: "Upload a file, or choose a file you've already uploaded."
     syllabus: 
       page_title: "Syllabus for %{course}"
@@ -1213,12 +1340,31 @@ en:
     syllabus_right_side: 
       links: 
         edit_syllabus_description: "Edit Syllabus Description"
-    syllabus_row: 
-      syllabus: 
-        other_day: Other
     titles: 
-      assignment_details: "Assignment Details"
+      add_assignment_group: "Add Assignment Group"
       uploading: "Uploading Submission"
+    turnitin_settings_dialog: 
+      assignments: 
+        turnitin_settings: 
+          labels: 
+            exclude_small_matches: "Small Matches"
+      buttons: 
+        update_settings: "Update Settings"
+      turnitin_settings: 
+        labels: 
+          compare_against: "Compare Against"
+          do_not_consider: "Do Not Consider"
+          exclude_biblio: "Bibliographic Material"
+          exclude_quoted: "Quoted Material"
+          internet_check: "Internet Database"
+          journal_check: "Journals, Periodicals, and Publications"
+          student_paper_check: "Other Student Papers"
+        originality_report_visibility: "Students Can See the Originality Report"
+        originality_report_visible_after_due_date: "After the Due Date"
+        originality_report_visible_after_grading: "After the assignment is graded"
+        originality_report_visible_immediately: Immediately
+        settings_exclude_fewer_than_count: "fewer than %h{wordsInput} words"
+        settings_exclude_less_than_percent: "less than %h{percentInput} of the document"
     wizard_box: 
       descriptions: 
         delete_icon: "%{icon}: Delete the assignment"
@@ -1247,9 +1393,6 @@ en:
         edit_assignment_in_detail: "(allow uploads, edit description, etc.)"
       titles: 
         wizard_box: "I would like to:"
-  assignments_api: 
-    errors: 
-      no_edit_frozen: "You cannot edit a frozen assignment."
   attachment: 
     default_filename: File
     errors: 
@@ -1285,7 +1428,6 @@ en:
   button: 
     submit_assignment: "Submit Assignment"
   buttons: 
-    add: Add
     add_external_tool: "Add External Tool"
     add_item: "Add Item"
     apply: Apply
@@ -1442,6 +1584,11 @@ en:
       confirm_delete_calendar_event: "Are you sure you want to delete this calendar event?"
       event_deleted: "%{event_title} deleted successfully"
       event_saved: "Event Saved Successfully"
+      missingDueDate: 
+        one: "%{sections} does not have a due date assigned."
+        other: "%{sections} do not have a due date assigned."
+      titles: 
+        warning: Warning
     edit_appointment_group: 
       affect_reservations: "How will this affect reservations?"
       allow_students: "Allow students to see who has signed up for time slots."
@@ -1538,6 +1685,12 @@ en:
       unregistered_groups: "Groups who haven't signed up yet"
       unregistered_users: "Users who haven't signed up yet"
     messages_sent: "Messages Sent"
+    missing_due_date_dialog: 
+      buttons: 
+        goBack: "Go Back"
+        noDueDate: "No Due Date"
+      modal: 
+        chooseDueDate: "Do you want to go back and select a due date?"
     no_groups: "No groups found"
     no_users: "No users found"
     ok: OK
@@ -1607,6 +1760,11 @@ en:
       created: "Event was successfully created."
       deleted: "This event has been deleted"
       updated: "Event was successfully updated."
+    show: 
+      links: 
+        back_to_calendar: "Back to Calendar"
+        delete: "Delete the Event"
+        edit: "Edit Calendar Event"
   calendar_events_api: 
     feed_title: "%{course_or_group_name} Calendar Feed"
     ics_description: "Calendar events for %{context_name}"
@@ -1749,7 +1907,9 @@ en:
     plugins: 
       errors: 
         all_fields_required: "All fields are required"
+        fields_required: "The field \"%{field}\" is required"
         login_expiration_minimum: "Session expiration must be 20 minutes or greater"
+        need_integer: "Please enter an integer for the play list cache"
   cc: 
     private: "Private (Copyrighted)"
     public_domain: "Public Domain"
@@ -1767,6 +1927,7 @@ en:
     default_title: "Unnamed Collaboration"
   collaborations: 
     collaboration: 
+      delete: "Are you sure you want to delete this collaboration?"
       links: 
         delete: "Delete this Collaboration"
         edit: "Edit this Collaboration"
@@ -1775,20 +1936,35 @@ en:
           other: "*%{count}* Participants"
       titles: 
         collaboration: Collaboration
-    collaborators: 
+    collaborator_picker: 
       labels: 
-        collaborate_with: "Collaborate With"
+        available_groups: "Available groups"
+        available_users: "Available users"
+        collaborate_with: "Collaborate With:"
+        collaboration_members: "Collaboration members"
+        groups: Groups
+        loading: Loading
+        people: People
+        remove_all: "Remove All"
+      member_instructions: "Click or tap a user or group in the left-hand column to add Collaborators."
+    edit: 
+      buttons: 
+        cancel: Cancel
+        update: "Update collaboration"
+      labels: 
+        description: Description
+        title: "Collaboration title"
     errors: 
       cannot_load_collaboration: "Cannot load collaboration"
       create_failed: "Collaboration creation failed"
-      no_name: "Please enter a name for this document"
-      not_enabled: "Collaborations have not been enabled for this Canvas site"
+      no_name: "Please enter a name for this collaboration."
+      not_enabled: "Collaborations have not been enabled for this Jiaoxuebang site"
       update_failed: "Collaboration update failed"
     forms: 
       buttons: 
         delete_from_canvas: |-
             Just Delete  
-            from Canvas
+            from Jiaoxuebang
         delete_from_google_docs: |-
             Also Delete From  
             Google Docs
@@ -1802,17 +1978,14 @@ en:
               
             **Warning**: you (and all your collaborators) will need a Google account in order to participate in any Google Docs collaborations.
       labels: 
-        collaborate_using: "Collaborate Using"
+        collaboration_type: "Collaborate using:"
         description: Description
-        document_name: "Document Name"
+        document_name: "Document name:"
       messages: 
-        delete_google_doc_as_well: "This collaboration is being stored as a Google Doc. Did you want to delete it just from Canvas, or remove it from Google Docs as well?"
+        delete_google_doc_as_well: "This collaboration is being stored as a Google Doc. Did you want to delete it just from Jiaoxuebang, or remove it from Google Docs as well?"
       titles: 
         new: "Start a New Collaboration"
     index: 
-      collaborators_count: 
-        one: "*1 Collaborator* on %{service}"
-        other: "*%{count} Collaborators* on %{service}"
       description_rs: |-
           Free online web tools like [Google Docs](%{google_url}) and [EtherPad](%{etherpad_url})
           are an excellent place for students to work on group projects or papers, take shared notes, etc.
@@ -1835,17 +2008,21 @@ en:
       links: 
         delete: "Delete this Collaboration"
         edit: "Edit this Collaboration"
-        new: "Start a New Collaboration"
+        new: "Start a new collaboration"
       page_title: Collaboration
       started_by: "Started by *%{user}*, %{at}"
       titles: 
         current: "Current Collaborations"
+    titles: 
+      delete: "Delete collaboration?"
   collection_items: 
     new: 
-      pin_to_canvas_network: "Pin to Canvas Network"
+      pin_to_canvas_network: "Pin to Jiaoxuebang Network"
       saved_successfully: "Saved Successfully"
+  collection_view: 
+    no_items: "No items."
   communication_channel: 
-    body: "Your Canvas verification code is %{verification_code}"
+    body: "Your Jiaoxuebang verification code is %{verification_code}"
     default_facebook_account: "Facebook Account"
     default_twitter_handle: "Twitter Handle"
   communication_channels: 
@@ -1855,7 +2032,7 @@ en:
         back: Back
         continue: Continue
         create_account: "Create My Account"
-        have_account: "I Have a Canvas Account"
+        have_account: "I Have a Jiaoxuebang Account"
         login_as: "Log in as %{invited_user}"
         merge: Combine
         new_account: "No"
@@ -1870,7 +2047,7 @@ en:
             There's a user account already associated with %{email}.
             
               **Are you %{name}?**
-        account_needed: "You've been invited to join **%{course}**. To accept this request you need a Canvas account. Click the link below to create a Canvas account."
+        account_needed: "You've been invited to join **%{course}**. To accept this request you need a Jiaoxuebang account. Click the link below to create a Jiaoxuebang account."
         add_email: "Would you like to add this email address to your current account?"
         choose_login: "Select where you would like to log in at."
         logged_in_other_user: "**%{email}** is a new account, but you are currently logged in as **%{user}**."
@@ -1910,7 +2087,7 @@ en:
       close: "Are you sure you want to end this conference? You will not be able to reopen it"
       delete: "Are you sure you want to delete this conference?"
       quit: "It looks like you are already editing another conference. Do you wish to continue? Any unsaved changes will be lost."
-    disabled_error: "Web conferencing has not been enabled for this Canvas site"
+    disabled_error: "Web conferencing has not been enabled for this Jiaoxuebang site"
     general_error: "There was an error joining the conference"
     inactive_error: "That conference is not currently active"
     index: 
@@ -1975,7 +2152,7 @@ en:
         finished: "Finished %{date_and_time} (%{duration})"
         new: "Hasn't started yet"
         started: "Started %{time}"
-    type_disabled_error: "This type of conference is no longer enabled for this Canvas site"
+    type_disabled_error: "This type of conference is no longer enabled for this Jiaoxuebang site"
   content_exports: 
     buttons: 
       process: "Process Data"
@@ -2125,7 +2302,7 @@ en:
     files: 
       buttons: 
         skip: "Skip this Step"
-      description: "You can upload a zipped collection of files into your course and we'll extract them all out for you. This is an easy way to move files from another system into Canvas."
+      description: "You can upload a zipped collection of files into your course and we'll extract them all out for you. This is an easy way to move files from another system into Jiaoxuebang."
       instructions: 
         webct: 
           ? "1"
@@ -2154,10 +2331,10 @@ en:
         migrations_needing_action: "Migrations Needing Action"
         successful_migrations: "Successful Migrations"
     intro: 
-      description: "If you're moving to Canvas from another course management system, then chances are there are files, quizzes, assignments and things over there that you're going to want moved over here. This wizard should make that process pretty easy."
+      description: "If you're moving to Jiaoxuebang from another course management system, then chances are there are files, quizzes, assignments and things over there that you're going to want moved over here. This wizard should make that process pretty easy."
       if_any: "(if any)"
       links: 
-        copy_course: "Copy content from **another Canvas course**"
+        copy_course: "Copy content from **another Jiaoxuebang course**"
         import_files: "Import Files"
         import_package: "Import content from a **content package** or from **another system**"
         import_quizzes: "Import Quizzes"
@@ -2252,7 +2429,7 @@ en:
         import_more: "Import another QTI file"
       defaults: 
         unnamed_quiz: "Unnamed Quiz"
-      details: "Canvas can import quizzes in the IMS QTI format. Most systems allow you to export your quizzes in this format. You can also use popular quiz tools like Respondus to create and export IMS QTI. Upload the file below and you'll receive an email when the importing is complete."
+      details: "Jiaoxuebang can import quizzes in the IMS QTI format. Most systems allow you to export your quizzes in this format. You can also use popular quiz tools like Respondus to create and export IMS QTI. Upload the file below and you'll receive an email when the importing is complete."
       errors: 
         choose_file: "You must choose a .zip file to upload"
         upload_failed: "Upload Failed, please try again"
@@ -2348,7 +2525,7 @@ en:
     chat: 
       titles: 
         chat: Chat
-    chat_not_enabled: "Chat has not been enabled for this Canvas site"
+    chat_not_enabled: "Chat has not been enabled for this Jiaoxuebang site"
     communication: 
       headings: 
         discussions: Discussions
@@ -2469,7 +2646,7 @@ en:
         user_services: "Registered Web Services"
       help: 
         list_services: "You haven't enabled your list of registered services. Enabling this list will let fellow course and group members more easily link up with you outside of class."
-        services: "You haven't linked your user profile to any external services. You can link your Canvas account to services like Facebook and Twitter. This will make it easier for fellow course and group members to link up with you outside of class."
+        services: "You haven't linked your user profile to any external services. You can link your Jiaoxuebang account to services like Facebook and Twitter. This will make it easier for fellow course and group members to link up with you outside of class."
       labels: 
         public_list_services: "Let fellow course/group members see which services I've linked to my profile"
         user_privileges: Privileges
@@ -2508,9 +2685,9 @@ en:
         registered_services: "Registered Services"
         service_types: "Service Types"
       help: 
-        no_services: "You haven't linked your user profile to any external services. You can link your Canvas account to services like Facebook and Twitter."
-        services_private: "You haven't enabled your list of registered services. Enabling this list will let fellow course and group members see which services you have linked to your Canvas account."
-        user_services: "If other members choose, they can let you see which outside services they've linked to their Canvas account. This can make it easier to coordinate group projects and also link up outside of class."
+        no_services: "You haven't linked your user profile to any external services. You can link your Jiaoxuebang account to services like Facebook and Twitter."
+        services_private: "You haven't enabled your list of registered services. Enabling this list will let fellow course and group members see which services you have linked to your Jiaoxuebang account."
+        user_services: "If other members choose, they can let you see which outside services they've linked to their Jiaoxuebang account. This can make it easier to coordinate group projects and also link up outside of class."
       labels: 
         allow_view_services: "Let fellow course/group members see which services I've linked to my profile"
       links: 
@@ -2556,7 +2733,8 @@ en:
     buttons: 
       add: "Add Module"
       add_item: "Add Item"
-      add_module: "Add a New Module"
+      add_module: "Create a Module"
+      add_module_first: "Add a New Module"
       update: "Update Module"
     confirm: 
       delete: "Are you sure you want to delete this module?"
@@ -2570,6 +2748,7 @@ en:
       criterion_for_assignment: "For %{assignment} users must %{select_criterion}"
       headings: 
         add_prerequisite: "Add Prerequisite to %{name}"
+        course_modules: "Course Modules"
         student_progress: "Module Progress by Student"
         student_progress_for_module: "Student Progress for %{module}"
         students_completed: "Students who have Completed the Module"
@@ -2619,8 +2798,11 @@ en:
         outdent: o
         previous: k
       labels: 
+        assignment_picker: For
+        assignment_requirement_picker: "users must"
         indent: Indent
         module_complete_when: "This module is complete when"
+        module_list: "They must complete"
         module_name: Name
         modules: 
           before_students_view: "Before students can view this module"
@@ -2636,6 +2818,7 @@ en:
         reload_student: "Reload Student's Progress"
         sort_by_name: Name
         sort_by_progress: Progress
+        student_progress: "View Progress"
         title: 
           remove_prerequisite: "Remove this prerequisite"
       module: module
@@ -2662,7 +2845,8 @@ en:
       titles: 
         student_progression: "Module Progression by Student"
     context_module: 
-      default_module_name: module
+      context_module: 
+        draft: (Draft)
       images: 
         alt: 
           complete: done
@@ -2672,31 +2856,30 @@ en:
           complete: "Module Completed"
           incomplete: "Module Incomplete"
           locked: "Module Locked"
-      labels: 
-        prerequisites: Prerequisites
       links: 
-        add_item: "Add item to module"
+        add_item: "Add Content"
         hide_contents: "Hide module contents"
+        publish: Publish
         settings: "Module Settings"
         show_contents: "Show module contents"
+        text: 
+          delete_module: Delete
+          edit_module: Edit
         title: 
           delete_module: "Delete this module"
-          edit_module: "Edit module settings"
-          remove_prerequisite: "Remove this prerequisite"
+          edit_module: Edit
           student_progress: "See Student Progress for this Module"
+        unpublish: Unpublish
       module_will_unlock_at: "will unlock *%{unlock_date}*"
       progression_complete_count: "*%{count}* Complete"
       progression_started_count: "*%{count}* In Progress"
       reorder_modules: "Drag to reorder modules"
-    context_module_right_side: 
-      links: 
-        student_progress: "View Student Progress for Modules"
-      loading_progressions: "Loading Student Progress..."
+      unpublish: Unpublish
+    context_modules: 
+      publish: Publish
     errors: 
       reorder: "Reorder failed, please try again."
     index: 
-      headings: 
-        course_modules: "Course Modules"
       titles: 
         course_modules: "Course Modules"
     module_empty: "There are no items in the module \"%{module}\""
@@ -2721,9 +2904,13 @@ en:
           must_view: "Students must view this item before the module is considered complete"
       links: 
         edit_item: "Edit item details"
+        edit_item_details_label: "Edit item details"
         indent: "Indent item"
+        indent_label: "Indent item"
         outdent: "Outdent item"
+        outdent_label: "Outdent item"
         remove_item: "Remove this item from the module"
+        remove_item_label: "Remove this item from the module"
       max_score: 
         fulfilled: "scored no more than a%{score}"
         unfulfilled: "must score no more than a %{score}"
@@ -2739,6 +2926,7 @@ en:
       must_view: 
         fulfilled: "viewed the page"
         unfulfilled: "must view the page"
+    multiple_due_dates: "Multiple Due Dates"
     none_in_progress: "none in progress"
     optgroup: 
       assignments: Assignments
@@ -2749,6 +2937,13 @@ en:
       quizzes: Quizzes
       wiki_pages: "Wiki Pages"
     points_possible_short: "%{points} pts"
+    prerequisits_footer: 
+      default_module_name: module
+      labels: 
+        prerequisites: Prerequisites
+      links: 
+        title: 
+          remove_prerequisite: "Remove this prerequisite"
     still_needs_completing: "Still Needs to Complete"
     titles: 
       add: "Add Module"
@@ -2763,6 +2958,11 @@ en:
         one: "%{user} was added to the conversation by %{current_user}"
         other: "%{list_of_users} were added to the conversation by %{current_user}"
     subject: "Private message, %{timestamp}"
+  conversation_participant: 
+    batch_update_message: 
+      one: "1 conversation processed"
+      other: "%{count} conversations processed"
+    not_participating: "The user is not participating in this conversation"
   conversations: 
     add_attachment: 
       titles: 
@@ -2782,8 +2982,14 @@ en:
       inbox_actions: 
         action_star: Star
         action_unstar: Unstar
+        archive: Archive
+        delete: Delete
         mark_as_read: "Mark as Read"
         mark_as_unread: "Mark as Unread"
+        subscribe: Subscribe
+        unarchive: Unarchive
+        unstar: Star
+        unsubscribe: Unsubscribe
       inbox_actions_description: Actions
       read_more: more...
     conversations_list: 
@@ -2800,24 +3006,13 @@ en:
       field_is_required: "This field is required"
     filter_by_course: "Filter by this course"
     filter_by_group: "Filter by this group"
-    groups_count: 
-      one: "1 group"
-      other: "%{count} groups"
     headings: 
       new_message: "New Message"
     index: 
       add_recipients_instructions: "People you add to the conversation will see all previous messages."
       inbox_actions: 
-        archive: Archive
         delete: Delete
         forward: Forward
-        mark_as_read: "Mark as Read"
-        mark_as_unread: "Mark as Unread"
-        star: Star
-        subscribe: Subscribe
-        unarchive: Unarchive
-        unstar: Unstar
-        unsubscribe: Unsubscribe
       inbox_view: VIEW
       inbox_views: 
         archived_messages: Archived
@@ -2870,7 +3065,6 @@ en:
       done_sending_message: "Sent *%{message_preview}* to *%{num_people}*"
       error_sending_message: "Error sending message:"
       sending_message: "Sending *%{message_preview}* to *%{num_people}*"
-    no_results: "No results found"
     not_applicable: N/A
     not_scored: "no score"
     notes_to_self: Monologue
@@ -2884,10 +3078,6 @@ en:
       one: "1 person"
       other: "%{count} people"
     recipient_error: "The course or group you have selected has no valid recipients"
-    recipient_field_placeholder: "Enter a name, course, or group"
-    sections_count: 
-      one: "1 section"
-      other: "%{count} sections"
     select_all: "Select All"
     title: 
       add_recipients: "Add Recipients"
@@ -2908,7 +3098,7 @@ en:
       paragraph1: "All your conversations are shown on the left side."
       paragraph2: "You can see who the conversation is with, how many messages there are, and a few lines from the newest message in each conversation."
     slide3: 
-      paragraph1: "Conversations can be marked as read/unread, archived, or labeled by color using the \"actions\" button on the message."
+      paragraph1: "Conversations can be marked as read/unread, starred, or archived using the \"actions\" button on the message."
       paragraph2: "Archived messages aren't deleted, they're just moved out of your inbox, so you can access them again if needed."
     slide4: 
       paragraph1: "When you select a conversation, all the messages for that conversation are shown in the panel on the right. When conversations get long, you can always scroll down to see earlier messages."
@@ -2938,6 +3128,11 @@ en:
       slide8: "Slide 8"
       slide9: "Slide 9"
   course: 
+    access_denied: "Access was denied"
+    batch_update_message: 
+      one: "1 course processed"
+      other: "%{count} courses processed"
+    course_not_found: "The course was not found"
     csv: 
       comments: Comments
       current_score: "Current Score"
@@ -2955,6 +3150,7 @@ en:
     default_short_name: Course-101
     errors: 
       sis_in_use: "SIS ID \"%{sis_id}\" is already in use"
+    file_copy_error: "Couldn't copy file \"%{name}\""
     grade_export_types: 
       instructure_csv: "Instructure formatted CSV"
     grade_publishing_status: 
@@ -3080,6 +3276,23 @@ en:
   course_statistics: 
     unknown: unknown
   courses: 
+    add_users: 
+      buttons: 
+        add_users: "OK Looks Good, Add These Users"
+        continue: Continue...
+        modify_users: "Go back and edit the list of users"
+      cannot_add_users_to_concluded_course: "You cannot add users to a concluded course."
+      headings: 
+        add_users: "Add Course Users"
+      invite_to_unpublished_course: "Since the course hasn't been published, students and TAs will be added, but won't be invited to join the course. Invitations will be sent out when the course is published."
+      labels: 
+        course_section_id: "For the section"
+        limit_privileges_to_course_section: "these admins can only grade students in their section"
+      links: 
+        add_users: "Add Users"
+      teacherless_invite_details: "If you invite a teacher and they accept, you will give up administrative privileges for this course."
+      titles: 
+        course_section: "Course Section"
     assignments_needing_grading: 
       headings: 
         grade: "Grade %{assignment}"
@@ -3136,7 +3349,7 @@ en:
               Great, so you've got a course...  Now what?  Well, before you go publishing it to the world, you may want to check and make sure you've got the basics laid out.  Work through the list on the left to ensure that your course is ready to use.
               
               *This course is visible only to teachers until it is published*
-          saved: "Done and done!  Your course, %{course} is now officially created. It's only visible to you until it is published -- but before you jump the gun, you'll want to run through the list to the left to get a feel for how Canvas works and to make sure you really are ready to teach."
+          saved: "Done and done!  Your course, %{course} is now officially created. It's only visible to you until it is published -- but before you jump the gun, you'll want to run through the list to the left to get a feel for how Jiaoxuebang works and to make sure you really are ready to teach."
         created: 
           not_saved: |-
               This class has been created, but not claimed.  It'll get deleted if it's not claimed within a week.  In the mean time, tick through the list to the left to make sure you're ready to go.
@@ -3145,21 +3358,21 @@ en:
               
               Please **log in** or ***register*** to claim this course.
           saved: |-
-              Done and done!  Your course, %{course} is now officially created.  It's only visible to you until it is published -- but before you jump the gun, you'll want to run through the list to the left to get a feel for how Canvas works and to make sure you really are ready to teach.
+              Done and done!  Your course, %{course} is now officially created.  It's only visible to you until it is published -- but before you jump the gun, you'll want to run through the list to the left to get a feel for how Jiaoxuebang works and to make sure you really are ready to teach.
               
               If you need to leave and come back before then, just save *this link* to get back here later.
               
               Please **log in** or ***register*** to claim this course.
-        files: "The Files tab is the place to share lecture slides, example documents, study helps -- anything your students will want to download. Uploading and organizing your files is easy with Canvas. We'll show you how."
+        files: "The Files tab is the place to share lecture slides, example documents, study helps -- anything your students will want to download. Uploading and organizing your files is easy with Jiaoxuebang. We'll show you how."
         home: "When people visit the course, this is the page they'll see. You can set it to show an activity stream, the list of course modules, a syllabus, or a custom page you write yourself. The default is the course activity stream. To customize this, just click %{change_layout}."
-        import: "If you've been using another course management system, you probably have stuff in there that you're going to want moved over to Canvas. We can walk you through the process of easily migrating your content into Canvas."
+        import: "If you've been using another course management system, you probably have stuff in there that you're going to want moved over to Jiaoxuebang. We can walk you through the process of easily migrating your content into Jiaoxuebang."
         navigation: "By default all links are enabled for a course. Students won't see links to sections that don't have content. For example, if you haven't created any quizzes, they won't see the quizzes link. You can sort and explicitly disable these links if there are areas of the course you don't want your students accessing."
         publish: 
           form: |-
               All finished?  Time to publish your course!  Click the button below to make it official!
               
               Publishing will allow the users to begin participating in the course.
-          not_registered: "This course is claimed and ready, but you'll need to finish the registration process before you can publish the course. You should have received an email from Canvas with a link to finish the process. Be sure to check your spam box."
+          not_registered: "This course is claimed and ready, but you'll need to finish the registration process before you can publish the course. You should have received an email from Jiaoxuebang with a link to finish the process. Be sure to check your spam box."
         students: "You'll definitely want some of these. What's the fun of teaching a course if nobody's even listening?"
         tas: "You may want to assign some TAs to help you with the course. TAs can grade student submissions, help moderate the discussions and even update due dates and assignment details for you."
       headings: 
@@ -3192,9 +3405,16 @@ en:
         teacher: "You've been invited to join this course as a *teacher* for the user account *%{user}*."
       invitiation: 
         look_around: "Feel free to wander around and look over the course. When you're ready, you can either accept or reject the invitation."
+    enrollment_type_select: 
+      labels: 
+        enrollment_type: "Add More"
+      titles: 
+        enrollment_type: "Enrollment Type"
     errors: 
       create_failed: "Course creation failed"
       invalid_role: "Invalid role type"
+      role_not_active: "Can't add users for non-active role: '%{role}'"
+      role_not_found: "No role named '%{role}' exists."
       unauthorized: 
         switch_roles: "You do not have permission to switch roles"
     group_list: 
@@ -3261,12 +3481,8 @@ en:
       alerts_title: Alerts
       buttons: 
         add_section: "Add Section"
-        add_users: "OK Looks Good, Add These Users"
-        continue: Continue...
-        modify_users: "Go back and edit the list of users"
         move_course: "Move Course"
         update_course: "Update Course Details"
-      cannot_add_users_to_concluded_course: "You cannot add users to a concluded course."
       course_open_enrollment: "This course has enabled open enrollment. Students can self-enroll in the course once you share with them this URL: *%{url}*. Alternatively, they can sign up at *%{url2}* and use the following join code: *%{code}*"
       course_overrides_term: "This will override any term availability settings."
       date_restricted: "Users can only participate in the course between these dates"
@@ -3282,18 +3498,11 @@ en:
       grading_standard_currently_set: "Currently Set"
       grading_standard_not_set: "Not Set"
       headings: 
-        add_users: "Add Course Users"
-        current_users: "Current Users"
-        designers: Designers
         details: "Course Details"
         external_tools: "External Tools"
         grade_publishing: "Grade Publishing"
         move_course: "Move the course to another root account"
-        observers: Observers
         sections: "Course Sections"
-        students: Students
-        tas: TAs
-        teachers: Teachers
       help: 
         edit_navigation: "Drag and drop items to reorder them in the course navigation."
         public_course: "(student data will remain private)"
@@ -3308,29 +3517,35 @@ en:
         invitations_pending_publish: "Invitations aren't sent until the course is *published*"
         student_invitation_unaccepted_available: "%{name} hasn't yet accepted the invitation to join the course. The invitation was sent: %{time}"
         student_invitation_unaccepted_unavailable: "%{name} was added to the course: %{time}"
-      invite_to_unpublished_course: "Since the course hasn't been published, students and TAs will be added, but won't be invited to join the course. Invitations will be sent out when the course is published."
+      keycode_descriptions: 
+        next_navigation_link: "Select next navigation link"
+        previous_navigation_link: "Select previous navigation link"
+        toggle_navigation_dragging: "Select link to begin dragging, or drop previously selected link"
+      keycodes: 
+        next_navigation_link: Up
+        previous_navigation_link: Down
+        toggle_navigation_dragging: Space
       labels: 
         account_id: Department
-        allow_student_assignment_edits: "Let Students edit Assignment Descriptions"
-        allow_student_forum_attachments: "Let Students attach files to Discussion Posts"
-        allow_student_organized_groups: "Let Students organize their own Groups"
+        allow_student_discussion_editing: "Let students edit or delete their own discussion posts"
+        allow_student_discussion_topics: "Let students create discussion topics"
+        allow_student_forum_attachments: "Let students attach files to discussions"
+        allow_student_organized_groups: "Let students organize their own groups"
         conclude_at: Ends
         course_code: "Course Code"
+        course_lock_all_announcements: "Disable comments on announcements"
         course_name: Name
-        course_section_id: "For the section"
         course_section_name: "Add a New Section"
         course_visibility: Visibility
         enrollment_term_id: Term
-        enrollment_type: "Add More"
         grading_scheme: "Grading Scheme"
         grading_standard_enabled: "Enable course grading scheme"
         hide_distribution_graphs: "Hide grade distribution graphs from students"
-        hide_final_grade: "Hide totals in student grades summary"
+        hide_final_grades: "Hide totals in student grades summary"
         indexed: "Include this course in the public course index"
         is_public: "Make this course publicly visible"
         language: Language
         license: License
-        limit_privileges_to_course_section: "these admins can only grade students in their section"
         open_enrollment: "Add a \"Join this Course\" link to the course home page"
         restrict_enrollments_to_course_dates: "Users can only participate in the course between these dates"
         root_account_id: "Root Account"
@@ -3344,7 +3559,6 @@ en:
         link_student_action: "To link the course observer *%{name}* to a student, select the student's name from the list below."
         link_student_desc: "When an observer is linked to a student, they have access to that student's grades and course interactions."
       links: 
-        add_users: "Add Users"
         edit_course: "Edit Course Details"
         more_options: "more options"
         move_course: "Move To Another Account"
@@ -3353,20 +3567,14 @@ en:
           delete_section: "Delete Section"
           edit_section: "Edit Section"
       megabytes: megabytes
+      navigation_keyboard_hint: "To change the order of the course navigation links, first turn the cursor off on your screen reader. Insert-z in JAWS. Press tab to select first link. Press up and down to select a link. Press space to select a link to start dragging. Then press up and down to select a destination. Then press space a second time to drop link after destination."
       no_date: "No Date Set"
       no_language_preference: "Not set (user-configurable, defaults to %{language})"
       none: None
       not_date_restricted: "These dates will not affect course availability"
-      option: 
-        designers: Designers
-        observers: Observers
-        students: Students
-        tas: TAs
-        teachers: Teachers
       page_title: "Course Details"
       private_course: Private
       public_course: Public
-      re_send_all: "or *Re-Send All Unaccepted Invitations*"
       section_sis_id: "SIS ID: %{section_sis}"
       set_grading_scheme: "set grading scheme"
       sis_source_id: "SIS ID"
@@ -3381,14 +3589,10 @@ en:
         sections: Sections
         tools: "External Tools"
         users: Users
-      teacherless_invite_details: "If you invite a teacher and they accept, you will give up administrative privileges for this course."
       titles: 
-        course_section: "Course Section"
         edit_navigation: "Edit Course Navigation"
-        enrollment_type: "Enrollment Type"
-      transifex_message: "Join the [Canvas Translation Community](%{transifex_url})"
+      transifex_message: "Join the [Jiaoxuebang Translation Community](%{transifex_url})"
       turnitin: "these comments will be shown to students when submitting a Turnitin-enabled assignment"
-      unaccepted_invitations: "%{count} Invitations haven't been accepted. You can click a user's name to re-send their invitation"
       user_view: 
         links: 
           edit_sections: "Edit Sections"
@@ -3408,12 +3612,6 @@ en:
         current_users: "Current Users"
       help: 
         reset_course_content: "Resetting course content will permanently delete all associated assignments, discussions, quizzes, modules, rubrics, pages, files, learning outcomes, question banks, collaborations, conferences, or any other content. This action is irreversible, and the data *cannot* be recovered. Are you sure you wish to continue?"
-      labels: 
-        designers: Designers
-        observers: Observers
-        students: Students
-        tas: TAs
-        teachers: Teachers
       links: 
         calendar: "Course Calendar"
         conclude: "Conclude this Course"
@@ -3525,10 +3723,24 @@ en:
       text_entry: "Text Entry"
       unaccepted_students: "Unaccepted Students"
       website_url: "Website URL"
+    syllabus: 
+      headers: 
+        date: Date
+        day: Day
+        details: Details
+      syllabus: 
+        hide_specific_dates: "Hide section, group, and person specific dates"
+        other_day: Other
+        show_specific_dates: "Show section, group, and person specific dates"
     titles: 
       rss_feed: "%{course} Feed"
     unauthorized: 
       invalid_link: "The enrollment link you used appears to no longer be valid.  Please contact the course instructor and make sure you're still correctly enrolled."
+    user_tab: 
+      headings: 
+        current_users: "Current Users"
+      re_send_all: "or *Re-Send All Unaccepted Invitations*"
+      unaccepted_invitations: "%{count} Invitations haven't been accepted. You can click a user's name to re-send their invitation"
   crumb: 
     conversations: Conversations
     discussion_replies: "Discussion Replies"
@@ -3629,6 +3841,7 @@ en:
       medium_month: "%b %Y"
       short: "%b %-d"
       short_month: "%b"
+      short_weekday: "%a"
       weekday: "%A"
     month_names: 
       - ~
@@ -3721,6 +3934,10 @@ en:
       confirm_delete: "Are you sure you want to delete this developer key?"
     no_user: "No User"
     unnamed_tool: "Unnamed Tool"
+  dialog_form_wrapper: 
+    cancel: Cancel
+    save_settings: "Save Settings"
+    saving: Saving...
   discussion_entries: 
     created_entry_notice: "Entry was successfully created."
     deleted_entry_notice: "That entry has been deleted"
@@ -3738,28 +3955,41 @@ en:
     default_title: "No Title"
     empty_message: "No message"
   discussion_topics: 
+    assignment_details: 
+      available_from: "Available from"
+      due: Due
+      due_date: "due %{date}"
+      for: For
+      graded_discussion_and_points: 
+        one: "This is a graded discussion: *1 point possible*"
+        other: "This is graded discussion: *%{count} points possible*"
+      separated_conversation_notice: "Since this is a group assignment, each group has its own conversation for this topic. Here are the ones you have access to:"
+      show_due_dates: "Show Due Dates"
+      until: Until
     confirm_delete_announcement: 
-      one: "Are you sure you wan to delete this announcement?"
+      one: "Are you sure you want to delete this announcement?"
       other: "Are you sure you want to delete these %{count} announcements?"
     confirm_delete_discussion_topic: 
-      one: "Are you sure you wan to delete this discussion topic?"
+      one: "Are you sure you want to delete this discussion topic?"
       other: "Are you sure you want to delete these %{count} discussion topics?"
     create_new_crumb: "Create new"
     default_discussion_title: "No Title"
     deleted_topic_notice: "That topic has been deleted"
     discussion_feed_title: "%{title} Discussion Feed"
+    discussions_settings_view: 
+      allow_student_discussion_editing: "Edit and delete their own posts"
+      allow_student_topics: "Create discussion topics"
+      attach_files: "Attach files to discussions"
+      in_this_course: "In this course, students can:"
     edit: 
       edit_topic: "Edit Discussion Topic"
     edit_crumb: Edit
     edit_view: 
       allow_threaded_replies: "Allow threaded replies"
-      assignment_group: "Assignment Group"
       attachment: Attachment
       delay_posting: "Delay posting"
-      due: Due
       enable_podcast_feed: "Enable podcast feed"
       include_replies_in_podcast_feed: "Include Replies in podcast feed"
-      loading: Loading...
       options: Options
       points_possible: "Points possible"
       post_at: "Post At"
@@ -3790,6 +4020,7 @@ en:
     index_view: 
       assignments: Assignments
       delete: Delete
+      edit_settings: "Edit Discussions Settings"
       loading: Loading...
       lock_for_comments: "Lock for comments"
       make_an_announcement: "Make an announcement"
@@ -3828,7 +4059,6 @@ en:
       zero: "No replies"
     show: 
       add_rubric: "Add Rubric"
-      assignment_settings: "Assignment Details"
       authors_name: "Author's name"
       collapse_replies: "Collapse replies"
       confirm_delete_discussion: "Are you sure you want to delete this discussion?"
@@ -3836,9 +4066,7 @@ en:
       delete_current_message: "Delete Current Message"
       discussion_atom_feed_title: "Discussion Atom Feed"
       discussion_podcast_feed_title: "Discussion Podcast Feed"
-      due: "due %{date}"
       edit: Edit
-      edit_assignment_settings: "Edit Assignment Settings"
       edit_current_message: "Edit Current Message"
       edited_by: "This topic was edited by %{user}"
       expand_replies: "Expand replies"
@@ -3853,20 +4081,15 @@ en:
       locked_topic: "This topic is currently locked."
       manage_discussion: "Manage Discussion"
       next_message: "Next Message"
-      points_possible: 
-        one: "1 point possible"
-        other: "%{count} points possible"
       previous_message: "Previous Message"
       reply_to_message: "Reply to Current Message"
       reply_to_topic: "Reply to Topic"
       retrieved_from_feed: "Retrieved from %{feed}"
       search_entries: "Search entries or authors"
       search_entries_placeholder: "Search entries or author"
-      separated_conversation_notice: "Since this is a group assignment, each group has its own conversation for this topic. Here are the ones you have access to:"
       show_rubric: "Show Rubric"
       speed_grader: "Speed Grader"
       topic: Topic
-      topic_for_assignment: "This is a graded discussion"
       topic_locked: "This topic will not be visible to users until *%{date}*"
       topic_podcast_feed_link: "Topic Podcast Feed"
       unlock_topic: "Open for Comments"
@@ -3888,13 +4111,15 @@ en:
   discussions: 
     are_your_sure_delete: "Are you sure you want to delete this entry?"
     deleted_entry: 
-      deleted: "This entry has been deleted"
+      deleted: "Deleted by *%{editor_name}* on %{edited_at}"
+    edit_settings: "Edit Discussions Settings"
     entry_collection_view: 
       add_reply_to_topic: "Add Reply to Topic"
     entry_content: 
       authors_name: "Author's name"
       delete: Delete
       edit: Edit
+      edited_comment: "Edited by *%{editor.display_name}* on %{edited_at}"
       go_to_parent: "Go To Parent"
       go_to_topic: "Go To Topic"
       manage_discussion_entry: "Manage Discussion Entry"
@@ -3902,6 +4127,7 @@ en:
       unknown_author: "Unknown Author"
     entry_stats: 
       show_more: "Show more"
+    hide_due_dates: "Hide Due Dates"
     no_content: "No Content"
     no_results: 
       make_sure_all_search_terms_are_spelled_correctly: "Make sure all search terms are spelled correctly."
@@ -3928,7 +4154,9 @@ en:
     show_all_n_replies: 
       one: "Show one reply"
       other: "Show all %{count} replies"
+    show_due_dates: "Show Due Dates"
     uknown_author: "Unknown Author"
+    unknown: Unknown
     unknown_author: "Unknown Author"
   due_dates: 
     due_at: "due: %{assignment_due_date_time}"
@@ -3948,6 +4176,7 @@ en:
       find_existing_rubric: "Find Existing Rubric"
   editor: 
     alt_text: "Alternate Text:"
+    based_on_type: "Based on %{base_type}"
     button: 
       insert_equation: "Insert Equation"
     cancel: Cancel
@@ -3963,11 +4192,23 @@ en:
     instructions: "Paste or type the URL of the image you'd like to embed:"
     loading: Loading...
     more_external_tools: "More External Tools"
+    role: 
+      duplicate_role_error: "Could not create this role because a role with this name already exists. Please try a different name"
+      remove_role_confirmation: "If there are any users with this role, they will keep the current permissions but you will not be able to create new users with this role. Click ok to continue deleting this role."
     save_failed: "Failed to save, please try again later"
     saving: Saving...
     search_flickr: "Search flickr creative commons"
     switch_views: "Switch Views"
     url: "URL:"
+  editor_accessibility: 
+    accessibles: 
+      background_color: "Background Color, press down to select"
+      forecolor: "Text Color, press down to select"
+      record: "This feature is inaccessible for screen readers."
+    titles: 
+      font_size: "Font Size, press down to select"
+      formatting: "Formatting, press down to select"
+      rte_help: "Rich Text Area. Press ALT F10 for toolbar. Press ALT 0 for help."
   email: 
     default_from_name: "Instructure Canvas"
   enrollment: 
@@ -4180,7 +4421,7 @@ en:
       write_only_comments: "Comments for this page are private. You can make comments, but only the portfolio's owner will be able to see them."
     show_me: "show me"
     static_page: 
-      created_with_canvas: "Created with Canvas"
+      created_with_canvas: "Created with Jiaoxuebang"
       headers: 
         page_comments: "Page Comments"
       links: 
@@ -4292,6 +4533,8 @@ en:
       keyword: "Keyword:"
       labels: 
         match_phrase_checkbox: "Only add posts with a specific phrase in the title"
+      links: 
+        add_external_feed: "Add External Feed"
       options: 
         content_to_post: "--Content to post--"
         full_article: "Full article"
@@ -4317,6 +4560,7 @@ en:
         extras: Extras
         privacy: Privacy
         url: URL
+        vendor_help_link: "Vendor Help Link"
       resource_selection_configured: "Resource selection configured"
       user_navigation_configured: "User navigation configured"
     external_tools: 
@@ -4327,12 +4571,12 @@ en:
       domain: Domain
       email_only: "Email Only"
       external_tools_note: |-
-          External (LTI) Tools are an easy way to add new features to Canvas.
+          External (LTI) Tools are an easy way to add new features to Jiaoxuebang.
             They can be added to individual courses, or to all courses in an account.
             Once configured, you can link to them through course modules and create assignments for
             assessment tools.
           
-            Click [here](%{lti_index_url}) to see some LTI tools that work great with Canvas. You can also check out the Canvas Community topics about LTI tools [here](%{lti_examples_url}).
+            Click [here](%{lti_index_url}) to see some LTI tools that work great with Jiaoxuebang. You can also check out the Jiaoxuebang Community topics about LTI tools [here](%{lti_examples_url}).
       labels: 
         config_type: "Configuration Type"
         config_url: "Configuration URL"
@@ -4370,27 +4614,27 @@ en:
       new_tab_loaded: "This tool was successfully loaded in a new browser window. Reload the page to access the tool again."
   facebook: 
     authorization_required: "Only authorized users can access that page"
-    authorization_success: "Authorization successful!  Canvas and Facebook are now friends."
+    authorization_success: "Authorization successful!  Jiaoxuebang and Facebook are now friends."
     deleted: Deleted
     index: 
       all_set: "You're all set up!"
-      bookmark_notice: "You can see the number of new Canvas notifications from your Facebook home page if you bookmark this application."
-      canvas_messages: "Canvas Messages"
-      configure_notification_preferences_notice: "After you *configure your notification preferences* you should start to see notifications show up here letting you know about things happening in your Canvas account."
-      installation_about: "To install the Canvas Facebook app, go to your profile page in Canvas and click the Facebook button to connect your account to Facebook."
+      bookmark_notice: "You can see the number of new Jiaoxuebang notifications from your Facebook home page if you bookmark this application."
+      canvas_messages: "Jiaoxuebang Messages"
+      configure_notification_preferences_notice: "After you *configure your notification preferences* you should start to see notifications show up here letting you know about things happening in your Jiaoxuebang account."
+      installation_about: "To install the Jiaoxuebang Facebook app, go to your profile page in Jiaoxuebang and click the Facebook button to connect your account to Facebook."
       learn_more: "Learn More at instructure.com"
       more_information: "More information at %{domain_list}"
-      no_messages_notice: "As things happen in the course you'll start seeing notifications show up here letting you know about things happening in your Canvas account."
-      notification_about: "The Canvas Facebook app is here to give you easier access to the interactions going on inside your courses. You can set it to send you notifications when your assignments are graded, when due dates change, etc. Your private data will still stay private at Canvas."
+      no_messages_notice: "As things happen in the course you'll start seeing notifications show up here letting you know about things happening in your Jiaoxuebang account."
+      notification_about: "The Jiaoxuebang Facebook app is here to give you easier access to the interactions going on inside your courses. You can set it to send you notifications when your assignments are graded, when due dates change, etc. Your private data will still stay private at Jiaoxuebang."
       notification_settings: "Notification Settings"
-      notifications_notice: "Below you can see a list of your most recent notifications from Canvas. You can see the number of new Canvas notifications from your Facebook home page if you bookmark this application."
+      notifications_notice: "Below you can see a list of your most recent notifications from Jiaoxuebang. You can see the number of new Jiaoxuebang notifications from your Facebook home page if you bookmark this application."
       welcome: "Welcome back, %{name}!"
       welcome_message: "Welcome to a new breed of online learning software, courtesy of Instructure. We're here to make it easy for you to use the web to improve learning. Our interface is simple, clean and open, and we work with the tools you and your students are already using -- tools like Facebook -- to provide a more open, collaborative learning experience. We roll it all up into one powerful, open package that does more than just tracks assignments. It encourages interaction and fosters learning."
-      welcome_title: "Welcome to Instructure Canvas"
+      welcome_title: "Welcome to Instructure Jiaoxuebang"
     index_disabled: 
-      disabled_notice: "This Canvas site is not configured to communicate with Facebook."
+      disabled_notice: "This Jiaoxuebang site is not configured to communicate with Facebook."
       get_help: "Get help at support.instructure.com"
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Instructure Jiaoxuebang"
     invalid_signature: "Invalid Facebook signature"
     message: 
       hide: Hide
@@ -4411,9 +4655,9 @@ en:
       weekly: Weekly
     settings: 
       back_to_messages: "Back to Messages"
-      link_needed: "Before you can configure the Canvas Facebook App you need to link it to your Canvas login. Please click \"Welcome\" for more information."
-      notifications_config_notice: "Notifications from Canvas can automatically be sent over to your Facebook account. Below you'll see the types of notifications you can have sent. You can change your notification preferences at any time, either here or in Canvas."
-      settings_title: "Canvas Notification Settings"
+      link_needed: "Before you can configure the Jiaoxuebang Facebook App you need to link it to your Jiaoxuebang login. Please click \"Welcome\" for more information."
+      notifications_config_notice: "Notifications from Jiaoxuebang can automatically be sent over to your Facebook account. Below you'll see the types of notifications you can have sent. You can change your notification preferences at any time, either here or in Jiaoxuebang."
+      settings_title: "Jiaoxuebang Notification Settings"
       updating_preferences: "Updating Preferences..."
   files: 
     alts: 
@@ -4423,7 +4667,6 @@ en:
       folder_locked: "Locked Folder"
       locked_file: "Locked File"
     buttons: 
-      add_collaboration: "Add Collaboration"
       update_collaboration: "Update Collaboration"
       update_file: "Update File"
     cancel: Cancel
@@ -4499,7 +4742,6 @@ en:
       links: 
         add_file: "Add File"
         add_folder: "Add Folder"
-        all_collaborations: "ALL Collaborations"
         delete_file: "Delete this File"
         delete_folder: "Delete this Folder"
         download_as_zip: "Download files in this folder as a zip"
@@ -4510,7 +4752,7 @@ en:
         import_zip: "Import a zip file"
         lock_file: "Lock this File"
         lock_folder: "Lock this Folder"
-        new_collaboration: "New Collaboration"
+        manage_collaborations: "Manage collaborations"
         preview: preview
         rename_file: "Rename this File"
         rename_folder: "Rename this Folder"
@@ -4591,7 +4833,6 @@ en:
     text_show: 
       page_title: "File Preview"
     titles: 
-      add_collaboration: "Add New Collaboration"
       click_and_drag: "Click and drag to move folder to another folder"
       download_folder_contents: "Download Folder Contents"
       drag_to_move: "Drag to move to a different folder"
@@ -4619,9 +4860,7 @@ en:
     default_folder_name: folder
     errors: 
       invalid_recursion: "A folder cannot be the parent of itself"
-    files_folder_name: files
     folder_created: "Folder \"%{name}\" created"
-    my_files_folder_name: "my files"
   folders: 
     event_updated: "Event was successfully updated."
     file_zip_in_process: "File zipping still in process..."
@@ -4630,20 +4869,6 @@ en:
     no_deleting_folders_with_content: "Can't delete a folder with content"
     no_deleting_root: "Can't delete the root folder"
     only_one_folder: "Can't set folder path and folder id"
-  full_assignment: 
-    buttons: 
-      select_url: Select
-    links: 
-      hide_grading_options: "hide grading options"
-      more_grading_options: "more grading options"
-    messages: 
-      hidden_errors: "There were errors on one or more advanced options"
-      lock_after_due: "The assignment shouldn't be locked again until after the due date"
-      need_online_submission_type: "Please choose at least one type of online submission"
-      need_url: "Please specify a valid URL"
-      unlock_before_due: "The assignment should be unlocked before it's due"
-    titles: 
-      criterion_long_description: "Criterion Long Description"
   global_message_icons: 
     announcement: announcement
     calendar: calendar
@@ -4715,7 +4940,6 @@ en:
     new_assessment: "[New Assessment]"
     no_submission_time: "no submission time"
     nth_student: "Student %{n}"
-    percent: Percent
     publish_to_sis: "Publish grades to SIS"
     reupload_submission_files: "Re-Upload Submission Files"
     reupload_submissions: "Re-Upload Submissions"
@@ -4772,6 +4996,7 @@ en:
       assignment_options: "Assignment Options"
       points_out_of: "Out of %{assignment.points_possible}"
       this_assignment_is_muted: "This assignment is muted"
+      zero_point_assignment: "Assignments in this group have no points possible and cannot be included in grade calculation"
     concluded_course_error_message: "This is a concluded course, so only concluded enrollments are available."
     dropped_for_grading: "Dropped for grading purposes"
     error: 
@@ -4788,8 +5013,12 @@ en:
       set_default_grade: "Set Default Grade"
       speedgrader: SpeedGrader
     hide_student_names: "Hide Student Names"
+    invalid_assignment_groups_warning: 
+      one: "Score does not include %{groups} because it has                  no points possible"
+      other: "Score does not include %{groups} because they have                    no points possible"
     jxb: 
       gradebook: Gradebook
+    no_assignments_have_points_warning: "Can't compute score until an assignment has points possible"
     percent_of_grade: "%{percentage} of grade"
     points_out_of: "out of %{points_possible}"
     resubmitted: "Resubmitted since last graded"
@@ -4803,6 +5032,7 @@ en:
       arrange_columns_by_group: "Arrange columns by assignment group"
       download_scores: "Download Scores (.csv)"
       filter_by_student: "Filter by student name or secondary ID"
+      go_back_to_the_old_gradebook: "Go back to the old gradebook"
       hide_student_names: "Hide Student Names"
       include_ungraded: "Treat Ungraded as 0's"
       publish_to_sis: "Publish grades to SIS"
@@ -4899,6 +5129,7 @@ en:
       points_possible_of_grade: "%{points_possible} *of grade*"
       teacher_muted_title: "Assignment is muted"
       unmute_dialog: "This assignment is currently muted. That means students can't see their grades and feedback. Would you like to unmute now?"
+      zero_point_assignment: "Assignments in this group have no points possible and cannot be included in grade calculation"
     assignments: 
       options: Options
       refresh_grades: "Refresh Grades"
@@ -4934,6 +5165,7 @@ en:
     crumb: Attendance
     errors: 
       missing_file: "Could not find file to upload"
+      not_allowed: "This course does not allow score uploads."
       submission_failed: "Submission was unsuccessful: %{error}"
       submission_failed_default: "Submission Failed"
     grade: 
@@ -4950,6 +5182,7 @@ en:
       faculty_journal: "Faculty Journal for %{user}"
       for_course: "For the course,"
       headers: 
+        details: Details
         due: Due
         grades: "Grades For %{student}"
         name: Name
@@ -5080,6 +5313,10 @@ en:
       titles: 
         feed: "Course Gradebook Atom Feed"
         submission_graded: "%{graded_date} by %{grader}"
+    invalid_assignment_groups_warning: 
+      one: "Score does not include %{groups} because it has no points possible"
+      other: "Score does not include %{groups} because they have no points possible"
+    no_assignments_have_points_warning: "Can't compute score until an assignment has points possible"
     notices: 
       unauthorized: "You are not authorized to view attendance for this course"
       updated: "Assignment submission was successfully updated."
@@ -5115,7 +5352,6 @@ en:
         save: Save
         save_settings: "Save Settings"
         submit_comment: "Submit Comment"
-      due_at: "due %{datetime}"
       gradebook: 
         mute_assignment: "Mute Assignment"
         unmute_assignment: "Unmute Assignment"
@@ -5183,6 +5419,7 @@ en:
         file_attachment: "File Attachment"
         media_comment: "Media Comment"
         speech_recognition: "Speech Recognition"
+    speed_grader_disabled: "SpeedGrader is disabled for this course"
     student: 
       new_student: "New Student"
       student: Student
@@ -5264,6 +5501,17 @@ en:
       home: Home
       pages: Pages
       people: People
+  group_categories: 
+    default_category_title: "Study Groups"
+    errors: 
+      cant_restrict_self_signup: "Can't enable while a mixed-section group exists in the category."
+      category_name_reserved: "%{category_name} is a reserved name."
+      category_name_too_long: "Enter a shorter category name to split students into groups"
+      category_name_unavailable: "%{category_name} is already in use."
+    notices: 
+      create_category_success: "Category was successfully created."
+      delete_category_success: "Category successfully deleted"
+      update_category_success: "Category was successfully updated."
   group_category: 
     group_categories: 
       communities: Communities
@@ -5372,7 +5620,6 @@ en:
       messages: 
         no_students: "No students have been added for this course"
       page_title: "Course Groups"
-    default_category_title: "Study Groups"
     edit: 
       buttons: 
         update: "Update Group"
@@ -5387,11 +5634,7 @@ en:
       restricted_self_signup: "Require group members to be in the same section"
       self_signup_help_tooltip: "What Are Self Sign-Up Groups?"
     errors: 
-      cant_restrict_self_signup: "Can't enable while a mixed-section group exists in the category."
       category_in_use: "\"%{category_name}\" is already in use"
-      category_name_reserved: "%{category_name} is a reserved name."
-      category_name_too_long: "Enter a shorter category name to split students into groups"
-      category_name_unavailable: "%{category_name} is already in use."
       creating_category_failed: "Category Creation Failed, Try Again"
       creating_group_failed: "Creating Group Failed"
       unknown: "An unexpected error occurred."
@@ -5428,15 +5671,12 @@ en:
       creating_group: "Creating Group..."
     notices: 
       already_deleted: "That group has been deleted"
-      create_category_success: "Category was successfully created."
       create_success: "Group was successfully created."
-      delete_category_success: "Category successfully deleted"
       delete_success: "Group successfully deleted"
       goodbye: "You have removed yourself from the group %{group_name}."
       invalid_invitation: ""
       no_students_assigned: "Nothing to do."
       students_assigned: "Students assigned to groups."
-      update_category_success: "Category was successfully updated."
       update_success: "Group was successfully updated."
       welcome: "Welcome to the group %{group_name}!"
     show: 
@@ -5507,15 +5747,14 @@ en:
       error_reported: "Thanks for your help!  We'll get right on this"
     styleguide: 
       create_collection: "Create a collection"
-      find_people: "Find people on Canvas"
+      find_people: "Find people on Jiaoxuebang"
       new_course: "Add a new course"
       start_a_group: "Start a group"
   instructions: 
-    authorize_google_docs: "Before you can collaborate on documents, you need to authorize Canvas to access your Google Docs account:"
+    authorize_google_docs: "Before you can collaborate on documents, you need to authorize Jiaoxuebang to access your Google Docs account:"
   instructure: 
     alerts: 
       file_previews_disabled: "File previews have been disabled for this Canvas site"
-      kaltura_disabled: "Kaltura has been disabled for this Canvas site"
     browsers: 
       unrecognized: "Unrecognized Browser"
     buttons: 
@@ -5528,6 +5767,7 @@ en:
     datepicker: 
       titles: 
         am_pm: am/pm
+    draft: Draft
     errors: 
       cannot_view_document_inline: "This document cannot be viewed inline."
       field_is_required: "This field is required"
@@ -5543,7 +5783,6 @@ en:
       datepicker: 
         time: Time
     links: 
-      minimize_embedded_kaltura_content: "Minimize Embedded Content"
       minimize_file_preview: "Minimize File Preview"
       minimize_youtube_video: "Minimize Video"
       view_equella_content_in_new_window: "view the content in a new window"
@@ -5628,8 +5867,6 @@ en:
     titles: 
       job_handler: "Job Handler"
       last_error: "Last Error"
-  jxb: 
-    question_banks: "Question Banks"
   labels: 
     announcements: Announcements
     assignments: Assignments
@@ -5641,13 +5878,17 @@ en:
     groups: Groups
     learning_modules: "Learning Modules"
     lock_module_until: "lock module until a given date"
+    module_name_label: "Module Name"
     quizzes: Quizzes
     rubrics: Rubrics
     tasks: Tasks
+    unlock_module_at_label: "Unlock module at"
     web_links: "Web Links"
     wikis: Wikis
   layouts: 
     application: 
+      keyboard_navigation: 
+        close: "Press comma to close this dialog"
       links: 
         close: Close
         dashboard: "My Dashboard"
@@ -5675,7 +5916,7 @@ en:
         reset_explanation: "Resetting the test student will clear all history for this student, %{line_break}allowing you to view the course as a brand new student."
         warning_title: "You are currently logged into Student View"
     head: 
-      default_page_title: "Canvas LMS"
+      default_page_title: "Jiaoxuebang LMS"
     menu: 
       view_all_accounts: "View all accounts"
       view_all_enrollments: "View all courses"
@@ -5724,6 +5965,11 @@ en:
                     Thank you,
                     Canvas Support
         subject: "Message Reply Failed: %{subject}"
+    progress_runner: 
+      completed_message: 
+        one: "1 item processed"
+        other: "%{count} items processed"
+      error_message: "%{error}: %{ids}"
     send_to_inbox: 
       default_subject: "No Subject"
     text_helper: 
@@ -5755,6 +6001,8 @@ en:
     select_all: "Select All"
     show_me_where: "Show Me Where"
     switch_views: "Switch Views"
+  locales: 
+    en: English
   logic: 
     false_logic: "False"
     true_logic: "True"
@@ -5776,8 +6024,12 @@ en:
       operators: Operators
       relationships: Relationships
   media_comments: 
+    alerts: 
+      kaltura_disabled: "Kaltura has been disabled for this Canvas site"
     buttons: 
       submit: "Submit Media File"
+    cancel: Cancel
+    click_to_view: "Click to view"
     errors: 
       file_too_large: "*This file is too large.* The maximum size is %{size}MB."
       load_failed: "Media Comment Application failed to load.  Please try again."
@@ -5787,10 +6039,11 @@ en:
       save_failed_try_again: "Entry failed to save.  Please try again."
       upload_failed: "Upload failed with error:"
     links: 
-      upgrade_flash: "Click here to upgrade"
+      minimize_embedded_kaltura_content: "Minimize embedded content"
+    loading: "Loading media..."
+    media_still_converting: "Media is currently being converted, please try again in a little bit."
     messages: 
       file_failed_to_load: "This media file failed to load"
-      flash_required: "This video requires Flash version 9 or higher (you have %{version} installed)."
       flash_required_record_audio: "Flash required for recording audio."
       flash_required_upload_audio: "Flash required for uploading audio."
       flash_required_upload_video: "Flash required for uploading video."
@@ -5798,17 +6051,20 @@ en:
       submitted: "Submitted Media File!"
       submitting: "Submitting Media File..."
     titles: 
-      click_to_view: "Click to View"
       media_contribution: "Media Contribution"
       play_comment: "Play Media Comment"
       record_upload_media_comment: "Record/Upload Media Comment"
+    track_uploaded_successfully: "Track uploaded successfuly, refresh to see it."
+    upload: Upload
+    uploading: Uploading...
   menu: 
+    associated_accounts: "Associated Accounts"
     current_groups: "Current Groups"
     customize: Customize
     managed_accounts: "Managed Accounts"
     my_courses: "My Courses"
   message: 
-    default_subject: "Canvas Alert"
+    default_subject: "Jiaoxuebang Alert"
   message_students: 
     buttons: 
       send_message: "Send Message"
@@ -5828,30 +6084,30 @@ en:
         added_message: "You've been added as an %{role_type} to the account %{account} at %{website}."
         email_info: "Email: %{email}"
         name_info: "Name: %{name}"
-        subject: "Canvas Account Admin Invitation"
+        subject: "Jiaoxuebang Account Admin Invitation"
         url_info: |-
-            You'll need to register with Canvas before you can participate as an account admin.  You can finish the registration process here:
+            You'll need to register with Jiaoxuebang before you can participate as an account admin.  You can finish the registration process here:
             %{url}
         username_info: "Username: %{username}"
     added_to_conversation: 
       email: 
-        body: "%{user_name} just added you to a conversation in Canvas. To view the conversation, click the link below:"
-        subject: "%{user_name} just added you to a conversation in Canvas."
+        body: "%{user_name} just added you to a conversation in Jiaoxuebang. To view the conversation, click the link below:"
+        subject: "%{user_name} just added you to a conversation in Jiaoxuebang."
         unknown_user: "Unknown User"
       facebook: 
-        body: "%{user_name} just added you to a conversation in Canvas."
+        body: "%{user_name} just added you to a conversation in Jiaoxuebang."
         link_text: "View Conversation"
         unknown_user: "Unknown User"
       sms: 
-        body: "%{user_name} just added you to a conversation in Canvas."
+        body: "%{user_name} just added you to a conversation in Jiaoxuebang."
         more_info: "More info at %{url}"
         unknown_user: "Unknown User"
       summary: 
-        body: "%{user_name} just added you to a conversation in Canvas."
-        subject: "%{user_name} just added you to a conversation in Canvas."
+        body: "%{user_name} just added you to a conversation in Jiaoxuebang."
+        subject: "%{user_name} just added you to a conversation in Jiaoxuebang."
         unknown_user: "Unknown User"
       twitter: 
-        tweet: "Canvas Alert - Added to conversation by %{user_name}."
+        tweet: "Jiaoxuebang Alert - Added to conversation by %{user_name}."
         unknown_user: "Unknown User"
     alert: 
       email: 
@@ -5944,7 +6200,7 @@ en:
         message: "%{user} canceled his/her reservation for \"%{appointment_name}\"."
         more_info: "More info at %{url}"
       twitter: 
-        message: "Canvas Alert - %{user} canceled his/her reservation for \"%{appointment_name}\"."
+        message: "Jiaoxuebang Alert - %{user} canceled his/her reservation for \"%{appointment_name}\"."
     appointment_deleted_for_user: 
       email: 
         instructions: "Sign up for a different time slot at the following link: %{link}"
@@ -5975,7 +6231,7 @@ en:
         message: "Your time slot for \"%{appointment_name} was canceled\"."
         more_info: "More info at %{url}"
       twitter: 
-        message: "Canvas Alert - Your time slot for \"%{appointment_name} was canceled\"."
+        message: "Jiaoxuebang Alert - Your time slot for \"%{appointment_name} was canceled\"."
     appointment_group_deleted: 
       email: 
         labels: 
@@ -5998,7 +6254,7 @@ en:
         message: "All appointments for \"%{appointment_name} have been canceled\"."
         more_info: "More info at %{url}"
       twitter: 
-        message: "Canvas Alert - All appointments for \"%{appointment_name} have been canceled\"."
+        message: "Jiaoxuebang Alert - All appointments for \"%{appointment_name} have been canceled\"."
     appointment_group_published: 
       email: 
         group_signup: "Group (%{group_category})"
@@ -6030,7 +6286,7 @@ en:
         message: "Time slots for \"%{appointment_name}\" are now available for signup (%{dates})."
         subject: "Appointment \"%{appointment_name}\" is available for signup (%{course})"
       twitter: 
-        message: "Canvas Alert - Signups are open for \"%{appointment_name}\"."
+        message: "Jiaoxuebang Alert - Signups are open for \"%{appointment_name}\"."
     appointment_group_updated: 
       email: 
         group_signup: "Group (%{group_category})"
@@ -6062,7 +6318,7 @@ en:
         message: "Time slots have been added to \"%{appointment_name}\" and are available for signup (%{dates})."
         subject: "Appointment \"%{appointment_name}\" has been updated (%{course})"
       twitter: 
-        message: "Canvas Alert - New time slots are available for \"%{appointment_name}\"."
+        message: "Jiaoxuebang Alert - New time slots are available for \"%{appointment_name}\"."
     appointment_reserved_by_user: 
       email: 
         instructions: "View the appointment at the following link: %{link}"
@@ -6091,7 +6347,7 @@ en:
         message: "%{user} has signed up for \"%{appointment_name}\"."
         more_info: "More info at %{url}"
       twitter: 
-        message: "Canvas Alert - %{user} has signed up for \"%{appointment_name}\"."
+        message: "Jiaoxuebang Alert - %{user} has signed up for \"%{appointment_name}\"."
     appointment_reserved_for_user: 
       email: 
         instructions: "Sign up for a different time slot at the following link: %{link}"
@@ -6123,7 +6379,7 @@ en:
         message: "%{user} has signed you up for \"%{appointment_name}\" (%{date_and_time})."
         subject: "You have been signed up for \"%{appointment_name}\" (%{course})"
       twitter: 
-        message: "Canvas Alert - You have been signed up for \"%{appointment_name}\"."
+        message: "Jiaoxuebang Alert - You have been signed up for \"%{appointment_name}\"."
     assignment_changed: 
       email: 
         body: |-
@@ -6142,7 +6398,7 @@ en:
       summary: 
         subject: "Assignment Changed: %{title}, %{course}"
       twitter: 
-        assignment_change: "Canvas Alert - Change: %{assignment_name}, %{course_name}"
+        assignment_change: "Jiaoxuebang Alert - Change: %{assignment_name}, %{course_name}"
     assignment_created: 
       email: 
         assignment_created: "Assignment Created - %{assignment_name}, %{course_name}"
@@ -6169,7 +6425,7 @@ en:
         multiple_due_dates: "due: Multiple Dates"
         no_due_date: "due: No Due Date"
       twitter: 
-        assignment_change: "Canvas Alert - Change: %{assignment_name}, %{course_name}"
+        assignment_change: "Jiaoxuebang Alert - Change: %{assignment_name}, %{course_name}"
         due_at: "due: %{assignment_due_date_time}"
         multiple_due_dates: "due: Multiple Dates"
         no_due_date: "due: No Due Date"
@@ -6192,7 +6448,7 @@ en:
         due_at: "due: %{assignment_due_date_time}"
         no_due_date: "due: No Due Date"
       twitter: 
-        assignment_change: "Canvas Alert - Date Change: %{assignment_name}, %{course_name}"
+        assignment_change: "Jiaoxuebang Alert - Date Change: %{assignment_name}, %{course_name}"
         due_at: "due: %{assignment_due_date_time}"
         no_due_date: "due: No Due Date"
     assignment_due_date_override_changed: 
@@ -6214,7 +6470,7 @@ en:
         due_at: "due: %{assignment_due_date_time}"
         no_due_date: "due: No Due Date"
       twitter: 
-        assignment_change: "Canvas Alert - Date Change: %{assignment_name}, %{course_name} (%{override})"
+        assignment_change: "Jiaoxuebang Alert - Date Change: %{assignment_name}, %{course_name} (%{override})"
         due_at: "due: %{assignment_due_date_time}"
         no_due_date: "due: No Due Date"
     assignment_graded: 
@@ -6232,7 +6488,7 @@ en:
         assignment_graded: "Assignment Graded: %{assignment_name}, %{course_name}"
         the_assignment_is_graded: "The assignment, %{assignment_name}, has been graded."
       twitter: 
-        assignment_graded: "Canvas Alert - Graded: %{assignment_name}, %{course_name}"
+        assignment_graded: "Jiaoxuebang Alert - Graded: %{assignment_name}, %{course_name}"
     assignment_locked: "This assignment is currently locked."
     assignment_locked_at: "This assignment was locked %{at}."
     assignment_locked_module: "This assignment is part of the module *%{module}* and hasn't been unlocked yet."
@@ -6253,7 +6509,7 @@ en:
         turned_in_at: "turned in: %{submission_date}"
         user_resubmitted: "Re-Submission: %{user_name}, %{assignment_name}"
       twitter: 
-        user_resubmitted: "Canvas Alert - Resubmission: %{user_name}, %{assignment_name}"
+        user_resubmitted: "Jiaoxuebang Alert - Resubmission: %{user_name}, %{assignment_name}"
     assignment_submitted: 
       email: 
         labels: 
@@ -6270,7 +6526,7 @@ en:
         turned_in_at: "turned in: %{submission_date}"
         user_submitted: "Submission: %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "Canvas Alert - Submission: %{user_name}, %{assignment_name}"
+        user_submitted: "Jiaoxuebang Alert - Submission: %{user_name}, %{assignment_name}"
     assignment_submitted_late: 
       email: 
         labels: 
@@ -6287,7 +6543,7 @@ en:
         turned_in_at: "turned in: %{submission_date}"
         user_submitted: "Late Assignment: %{user_name}, %{assignment_name}"
       twitter: 
-        user_submitted: "Canvas Alert - Late Submission: %{user_name}, %{assignment_name}"
+        user_submitted: "Jiaoxuebang Alert - Late Submission: %{user_name}, %{assignment_name}"
     assignment_unmuted: 
       email: 
         body: |-
@@ -6303,6 +6559,7 @@ en:
             More info at %{website}
       summary: 
         subject: "Grades and comments released for: %{title}, %{course}"
+    assignment_unpublished_module: "This assignment is part of an unpublished module and is not available yet."
     collaboration_invitation: 
       email: 
         body: |-
@@ -6345,21 +6602,21 @@ en:
             in %{service} and you were invited using your email address, %{email}.
         subject: "Collaboration Invitation: %{course_or_group}"
       twitter: 
-        body: "Canvas Alert - Collaboration Invite: %{document}, %{course_or_group}"
+        body: "Jiaoxuebang Alert - Collaboration Invite: %{document}, %{course_or_group}"
     confirm_email_communication_channel: 
       email: 
         body: "The email address, %{email} is being registered at %{website} for the user, %{user}."
         details: "To confirm this registration, please visit the following url:"
-        subject: "Confirm Email: Canvas"
+        subject: "Confirm Email: Jiaoxuebang"
     confirm_registration: 
       email: 
-        body: "Thank you for registering with Canvas!  This email is confirmation that the user %{user} is registering for a new account at %{website}."
+        body: "Thank you for registering with Jiaoxuebang!  This email is confirmation that the user %{user} is registering for a new account at %{website}."
         details: "To finish the registration process, please visit the following url:"
-        subject: "Confirm Registration: Canvas"
+        subject: "Confirm Registration: Jiaoxuebang"
     confirm_sms_communication_channel: 
       sms: 
         body: |-
-            Confirm Canvas registration w/ code:
+            Confirm Jiaoxuebang registration w/ code:
             
             %{confirmation_code}
             
@@ -6378,34 +6635,35 @@ en:
     content_locked_at: "This content was locked %{at}."
     content_locked_module: "This content is part of the module *%{module}* and hasn't been unlocked yet."
     content_locked_until: "This content is locked until %{date}."
+    content_unpublished_module: "This content is part of an unpublished module and is not available yet."
     conversation_message: 
       email: 
         attached_files: "Attached Files:"
         audio_comment: "This message includes media comments. To listen or reply, click the link below:"
-        body: "%{user_name} just sent you a message in Canvas:"
+        body: "%{user_name} just sent you a message in Jiaoxuebang:"
         reply_message: "To reply to this message, click the link below:"
-        subject: "%{user_name} just sent you a message in Canvas."
+        subject: "%{user_name} just sent you a message in Jiaoxuebang."
         unknown_user: "Unknown User"
       facebook: 
-        body: "%{user_name} just sent you a message in Canvas."
+        body: "%{user_name} just sent you a message in Jiaoxuebang."
         link_text: "View Message"
         unknown_user: "Unknown User"
       sms: 
-        body: "%{user_name} just sent you a message in Canvas:"
+        body: "%{user_name} just sent you a message in Jiaoxuebang:"
         more_info: "More info at %{url}"
         unknown_user: "Unknown User"
       summary: 
-        body: "%{user_name} just sent you a message in Canvas:"
-        subject: "%{user_name} just sent you a message in Canvas."
+        body: "%{user_name} just sent you a message in Jiaoxuebang:"
+        subject: "%{user_name} just sent you a message in Jiaoxuebang."
         unknown_user: "Unknown User"
       twitter: 
-        tweet: "Canvas Alert - Message from %{user_name}."
+        tweet: "Jiaoxuebang Alert - Message from %{user_name}."
         unknown_user: "Unknown User"
     dialog: 
       title: "Send a reply message"
     email: 
       footer: |-
-          You received this email because you are participating in one or more classes using Canvas.  To change or turn off email notifications, visit:
+          You received this email because you are participating in one or more classes using Jiaoxuebang.  To change or turn off email notifications, visit:
           %{url}
     enrollment_accepted: 
       email: 
@@ -6437,7 +6695,7 @@ en:
         body_teacher: "%{user} just accepted their invitation to participate in the course, %{course}, as a teacher."
         subject: "%{user} accepted the Course Invitation"
       twitter: 
-        body: "Canvas Alert - Accepted: %{user}, %{enrollment_type}, course, %{course}"
+        body: "Jiaoxuebang Alert - Accepted: %{user}, %{enrollment_type}, course, %{course}"
     enrollment_invitation: 
       email: 
         body_designer: "You've been invited to participate in the course, %{course}, as a designer."
@@ -6483,7 +6741,7 @@ en:
         body_teacher: "You've been invited to participate in the course, %{course}, as a teacher."
         subject: "Course Invitation"
       twitter: 
-        body: "Canvas Alert - Invited: course as %{enrollment_type}"
+        body: "Jiaoxuebang Alert - Invited: course as %{enrollment_type}"
     enrollment_notification: 
       email: 
         body_designer: "You've been enrolled in the course, %{course}, as a designer."
@@ -6530,7 +6788,7 @@ en:
         body_teacher: "You've been enrollment in the course, %{course}, as a teacher."
         subject: "Course Enrollment"
       twitter: 
-        body: "Canvas Alert - Enrolled: course as %{enrollment_type}"
+        body: "Jiaoxuebang Alert - Enrolled: course as %{enrollment_type}"
     enrollment_registration: 
       email: 
         body_designer: "You've been invited to participate in a class at %{website}.  The class is called %{course}, and you've been invited to participate as a designer."
@@ -6538,7 +6796,7 @@ en:
         body_student: "You've been invited to participate in a class at %{website}.  The class is called %{course}, and you've been invited to participate as a student."
         body_ta: "You've been invited to participate in a class at %{website}.  The class is called %{course}, and you've been invited to participate as a TA."
         body_teacher: "You've been invited to participate in a class at %{website}.  The class is called %{course}, and you've been invited to participate as a teacher."
-        details: "You'll need to register with Canvas before you can participate in the class.  To get started, visit the course page here:"
+        details: "You'll need to register with Jiaoxuebang before you can participate in the class.  To get started, visit the course page here:"
         labels: 
           email: Email
           name: Name
@@ -6565,7 +6823,7 @@ en:
         body_teacher: "You've been invited to participate in a class at %{website}.  The class is called %{course}, and you've been invited to participate as a teacher."
         subject: "Course Invitation"
       twitter: 
-        body: "Canvas Alert - Invited: course as %{enrollment_type}"
+        body: "Jiaoxuebang Alert - Invited: course as %{enrollment_type}"
     event_date_changed: 
       email: 
         email_body: "The event, %{event_title}, for the course, %{course_name}, has changed times. It's now:"
@@ -6590,11 +6848,12 @@ en:
       twitter: 
         from_to_time: "from %{start_date_time} to %{end_date_time}"
         no_time_set: "No Time Set"
-        subject: "Canvas Alert - Changed: %{event_title}, %{course_name}"
+        subject: "Jiaoxuebang Alert - Changed: %{event_title}, %{course_name}"
     file_locked: "This file is currently locked."
     file_locked_at: "This file was locked %{at}."
     file_locked_module: "This file is part of the module *%{module}* and hasn't been unlocked yet."
     file_locked_until: "This file is locked until %{date}."
+    file_unpublished_module: "This file is part of an unpublished module and is not available yet."
     forgot_password: 
       email: 
         associated_login: "This address is associated with the login, \"%{login_identifier}\"."
@@ -6605,8 +6864,8 @@ en:
         login_at_account: "%{login_email} at %{account_name}"
         login_managed_by_account: "this login's credentials are managed by %{account_name}"
         password_from_account: "The password for this login should have been given to you by the system administrators at %{account_name}, and Instructure doesn't have access to your password.  If your password is not working, please contact the system administrators about changing or verifying your password."
-        requested_password_reset: "You requested a confirmation of your password for logging into Canvas."
-        subject: "Forgot Password: Canvas"
+        requested_password_reset: "You requested a confirmation of your password for logging into Jiaoxuebang."
+        subject: "Forgot Password: Jiaoxuebang"
     grade_weight_changed: 
       email: 
         grade_changed: "The grading policy for the course, %{course_name} has changed."
@@ -6630,7 +6889,7 @@ en:
           grades_based_on_percent: "Grading is based on the weighted total for each assignment group"
           subject: "Grade Weight Changed"
       twitter: 
-        grade_changed: "Canvas Alert - Grading Policy Changed: %{course_name}"
+        grade_changed: "Jiaoxuebang Alert - Grading Policy Changed: %{course_name}"
     group_assignment_submitted_late: 
       email: 
         body: "The group %{group_name} has just turned in a late submission for %{assignment_name} in the course %{course_name}."
@@ -6646,7 +6905,7 @@ en:
         body: "The group %{group_name} turned in a late submission for %{assignment_name} in the course %{course_name}."
         subject: "Late Assignment: %{group_name}, %{assignment_name}"
       twitter: 
-        subject: "Canvas Alert - Late Group Submission: %{group_name}, %{assignment_name}"
+        subject: "Jiaoxuebang Alert - Late Group Submission: %{group_name}, %{assignment_name}"
     group_membership_accepted: 
       email: 
         account_group: "Your request to join the group %{group_name} for the account %{account_name} has been accepted."
@@ -6668,8 +6927,8 @@ en:
         course_group: "Your request to join the group %{group_name} for the course %{course_name} has been accepted."
         subject: "Group Membership Accepted: %{group_name}"
       twitter: 
-        account_group: "Canvas Alert - Group Membership Accepted: %{group_name} for the account %{account_name}."
-        course_group: "Canvas Alert - Group Membership Accepted: %{group_name} for the course %{course_name}."
+        account_group: "Jiaoxuebang Alert - Group Membership Accepted: %{group_name} for the account %{account_name}."
+        course_group: "Jiaoxuebang Alert - Group Membership Accepted: %{group_name} for the course %{course_name}."
     group_membership_rejected: 
       email: 
         account_group: "Your request to join the group %{group_name} for the account %{account_name} has been rejected."
@@ -6690,15 +6949,15 @@ en:
         course_group: "Your request to join the group %{group_name} for the course %{course_name} has been rejected."
         subject: "Group Membership Rejected for %{group_name}"
       twitter: 
-        account_group: "Canvas Alert - Group Membership Rejected: %{group_name} for the account %{account_name}."
-        course_group: "Canvas Alert - Group Membership Rejected: %{group_name} for the course %{course_name}."
+        account_group: "Jiaoxuebang Alert - Group Membership Rejected: %{group_name} for the account %{account_name}."
+        course_group: "Jiaoxuebang Alert - Group Membership Rejected: %{group_name} for the course %{course_name}."
     index: 
       titles: 
         messages: "Messages for %{name}"
     merge_email_communication_channel: 
       email: 
-        body: "An account has been created for you at %{url}, but you already have a Canvas account.  If you would like to merge them together, please visit the following url:"
-        subject: "New Canvas Account"
+        body: "An account has been created for you at %{url}, but you already have a Jiaoxuebang account.  If you would like to merge them together, please visit the following url:"
+        subject: "New Jiaoxuebang Account"
     message: 
       actions: 
         reply: Reply
@@ -6746,7 +7005,7 @@ en:
         body: "A new admin, %{user}, has been added for the account %{account}"
         subject: "New Account User"
       twitter: 
-        body: "Canvas Alert - New Admin: %{user}, %{account}"
+        body: "Jiaoxuebang Alert - New Admin: %{user}, %{account}"
     new_announcement: 
       email: 
         labels: 
@@ -6757,7 +7016,7 @@ en:
         details: "More info at %{url}"
         subject: "New announcement: %{title}, %{course}"
       twitter: 
-        body: "Canvas Alert - Announcement: %{title}, %{course}."
+        body: "Jiaoxuebang Alert - Announcement: %{title}, %{course}."
     new_context_group_membership: 
       email: 
         body_account: "You've been added to a new group for the account %{account}.  The name of the group is %{group_name}."
@@ -6777,8 +7036,8 @@ en:
         body_course: "You've been added to a new group for the course %{course}.  The name of the group is %{group_name}."
         subject: "New Group Membership for %{course_or_account}"
       twitter: 
-        body_account: "Canvas Alert - New Group: %{group} for the account %{account}"
-        body_course: "Canvas Alert - New Group: %{group} for the course %{course}"
+        body_account: "Jiaoxuebang Alert - New Group: %{group} for the account %{account}"
+        body_course: "Jiaoxuebang Alert - New Group: %{group} for the course %{course}"
     new_context_group_membership_invitation: 
       email: 
         body_account: "You've been invited to join the group %{group} for the account %{account}."
@@ -6798,8 +7057,8 @@ en:
         body_course: "You've been invited to join the group %{group} for the course %{course}."
         subject: "New Group Membership for %{course_or_account}"
       twitter: 
-        body_account: "Canvas Alert - Invitation: %{group} for the account %{account}"
-        body_course: "Canvas Alert - Invitation: %{group} for the course %{course}."
+        body_account: "Jiaoxuebang Alert - Invitation: %{group} for the account %{account}"
+        body_course: "Jiaoxuebang Alert - Invitation: %{group} for the course %{course}."
     new_course: 
       email: 
         body: "A course, %{course}, has been added for the account %{account}"
@@ -6823,7 +7082,7 @@ en:
           teachers: Teachers
         subject: "New Course"
       twitter: 
-        body: "Canvas Alert - New Course: %{course}, %{account}"
+        body: "Jiaoxuebang Alert - New Course: %{course}, %{account}"
     new_discussion_entry: 
       email: 
         body: "%{user} posted a new comment on the thread %{discussion_topic} for %{course}:"
@@ -6837,7 +7096,7 @@ en:
       summary: 
         subject: "New Comment for %{discussion_topic}: %{course}"
       twitter: 
-        body: "Canvas Alert - Comment: %{discussion_topic}, %{course}."
+        body: "Jiaoxuebang Alert - Comment: %{discussion_topic}, %{course}."
     new_discussion_topic: 
       email: 
         body: "A new discussion has been started that may be interesting to you:"
@@ -6853,7 +7112,7 @@ en:
       summary: 
         subject: "New Discussion - %{discussion_topic}: %{course}"
       twitter: 
-        subject: "Canvas Alert - Topic: %{discussion_topic}, %{course}"
+        subject: "Jiaoxuebang Alert - Topic: %{discussion_topic}, %{course}"
     new_event_created: 
       email: 
         body: "There's a new event scheduled for %{course_name} that you should be aware of:"
@@ -6878,7 +7137,7 @@ en:
       twitter: 
         from_to_time: "from %{start_date_time} to %{end_date_time}"
         no_time_set: "No Time Set"
-        subject: "Canvas Alert - Event: %{event_title}, %{course_name}"
+        subject: "Jiaoxuebang Alert - Event: %{event_title}, %{course_name}"
     new_student_organized_group: 
       email: 
         body_account: "A new student organized group named \"%{group_name}\" was created for the account %{account}. The first member is %{user}."
@@ -6897,8 +7156,8 @@ en:
         body_account: "A new student organized group named \"%{group_name}\" was created for the account %{account}. The first member is %{user}."
         body_course: "A new student organized group named \"%{group_name}\" was created for the course %{course}. The first member is %{user}."
       twitter: 
-        body_account: "Canvas Alert - New Group: %{group_name} for the account %{account}"
-        body_course: "Canvas Alert - New Group: %{group_name} for the course %{course}"
+        body_account: "Jiaoxuebang Alert - New Group: %{group_name} for the account %{account}"
+        body_course: "Jiaoxuebang Alert - New Group: %{group_name} for the course %{course}"
     new_teacher_registration: 
       email: 
         body: "%{user} just registered as a teacher at %{website}."
@@ -6914,7 +7173,7 @@ en:
       sms: 
         body: "%{user} just registered as a teacher at %{website}."
       summary: 
-        body: "%{user} just registered as a teacher in Canvas."
+        body: "%{user} just registered as a teacher in Jiaoxuebang."
         labels: 
           email: Email
           phone: Phone
@@ -6922,7 +7181,7 @@ en:
           school_position: "School Position"
         subject: "New Teacher Registration"
       twitter: 
-        body: "Canvas Alert - New Teacher: %{user}, %{account}"
+        body: "Jiaoxuebang Alert - New Teacher: %{user}, %{account}"
     new_user: 
       email: 
         body: "A new user, %{user}, has just registered for the account %{account}"
@@ -6938,20 +7197,22 @@ en:
         body: "A new user, %{user}, has just registered for the account %{account}"
         subject: "New User"
       twitter: 
-        body: "Canvas Alert - New User: %{user}, %{account}"
+        body: "Jiaoxuebang Alert - New User: %{user}, %{account}"
     page_locked: "This page is currently locked."
     page_locked_at: "This page was locked %{at}."
     page_locked_module: "This page is part of the module *%{module}* and hasn't been unlocked yet."
     page_locked_until: "This page is locked until %{date}."
+    page_unpublished_module: "This page is part of an unpublished module and is not available yet."
     pseudonym_registration: 
       email: 
-        body: "You have been registered for a Canvas account at %{account}!  Before you can log in and start using Canvas, you'll need to finish the configuration process."
+        body: "You have been registered for a Jiaoxuebang account at %{account}!  Before you can log in and start using Jiaoxuebang, you'll need to finish the configuration process."
         link_message: "To finish the registration process, please visit the following url:"
-        subject: "Finish Registration: Canvas"
+        subject: "Finish Registration: Jiaoxuebang"
     quiz_locked: "This quiz is currently locked."
     quiz_locked_at: "This quiz was locked %{at}."
     quiz_locked_module: "This quiz is part of the module *%{module}* and hasn't been unlocked yet."
     quiz_locked_until: "This quiz is locked until %{date}."
+    quiz_unpublished_module: "This quiz is part of an unpublished module and is not available yet."
     report_generated: 
       email: 
         link_message: "Click here to download the report:"
@@ -6973,7 +7234,7 @@ en:
         body: "You've been invited by %{user} to assess their submission for %{rubric}:"
         subject: "Assessment Invitation: %{rubric}, %{context}"
       twitter: 
-        tweet: "Canvas Alert - Invite: assess %{rubric}, %{user}"
+        tweet: "Jiaoxuebang Alert - Invite: assess %{rubric}, %{user}"
     rubric_assessment_submission_reminder: 
       email: 
         body: "You've been reminded to assess: %{rubric}, %{context}:"
@@ -6988,7 +7249,7 @@ en:
         body: "You've been reminded to assess: %{rubric}, %{context}:"
         subject: "Reminder to Assess: %{rubric}, %{context}"
       twitter: 
-        tweet: "Canvas Alert - Reminder: assess %{rubric}, %{context}"
+        tweet: "Jiaoxuebang Alert - Reminder: assess %{rubric}, %{context}"
     rubric_association_created: 
       email: 
         body: "A new assessment has been created for %{context}:"
@@ -7003,7 +7264,7 @@ en:
         body: "A new assessment has been created for %{context}:"
         subject: "New Assessment: %{title}, %{context}"
       twitter: 
-        tweet: "Canvas Alert - New Assessment: %{title}, %{context}."
+        tweet: "Jiaoxuebang Alert - New Assessment: %{title}, %{context}."
     send_form: 
       labels: 
         message_body: Message
@@ -7025,7 +7286,7 @@ en:
         someone: Someone
         subject: "Submission Comment: %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "Canvas Alert - Comment: %{author} for %{assignment}, %{user}, %{context}."
+        tweet: "Jiaoxuebang Alert - Comment: %{author} for %{assignment}, %{user}, %{context}."
     submission_comment_for_teacher: 
       email: 
         body: "%{author} just made a new comment on the submission for %{user} for %{assignment}."
@@ -7043,7 +7304,7 @@ en:
         someone: Someone
         subject: "Submission Comment: %{user}, %{assignment}, %{context}"
       twitter: 
-        tweet: "Canvas Alert - Comment: %{author} for %{assignment}, %{user}, %{context}."
+        tweet: "Jiaoxuebang Alert - Comment: %{author} for %{assignment}, %{user}, %{context}."
     submission_grade_changed: 
       email: 
         body: "The grade on your assignment, %{assignment_title} has been changed."
@@ -7081,7 +7342,7 @@ en:
         not_applicable: N/A
         score: "score:  %{score} out of %{total}"
         score_pending: "(pending review)"
-        tweet: "Canvas Alert - Grade Change: %{date}"
+        tweet: "Jiaoxuebang Alert - Grade Change: %{date}"
     submission_graded: 
       email: 
         body: "Your assignment, %{assignment}, has been graded."
@@ -7119,23 +7380,24 @@ en:
         not_applicable: N/A
         score: "score:  %{score} out of %{total}"
         score_pending_review: "(pending review)"
-        tweet: "Canvas Alert - Graded: %{assignment}, %{context}"
+        tweet: "Jiaoxuebang Alert - Graded: %{assignment}, %{context}"
     summaries: 
       email: 
-        daily_body: "You're signed up to receive a daily report of some notifications from your Canvas account.  Below is the report for %{date}:"
+        daily_body: "You're signed up to receive a daily report of some notifications from your Jiaoxuebang account.  Below is the report for %{date}:"
         notifications_link: "You can change your notification settings by visiting the following page:"
-        subject: "Recent Canvas Notifications"
-        weekly_body: "You're signed up to receive a weekly report of some notifications from your Canvas account.  Below is the report for the week ending %{date}:"
+        subject: "Recent Jiaoxuebang Notifications"
+        weekly_body: "You're signed up to receive a weekly report of some notifications from your Jiaoxuebang account.  Below is the report for the week ending %{date}:"
       facebook: 
-        new_notifications: "You've received *%{notification_count} new notifications* in #Canvas#."
+        new_notifications: "You've received *%{notification_count} new notifications* in #Jiaoxuebang#."
       sms: 
         notifications_sms: "%{notifications_count} new notifications at %{url}"
       twitter: 
-        tweet: "Canvas Alert - %{notification_count} new notifications"
+        tweet: "Jiaoxuebang Alert - %{notification_count} new notifications"
     topic_locked: "This topic is currently locked."
     topic_locked_at: "This topic was locked %{at}."
     topic_locked_module: "This topic is part of the module *%{module}* and hasn't been unlocked yet."
     topic_locked_until: "This topic is locked until %{date}."
+    topic_unpublished_module: "This topic is part of an unpublished module and is not available yet."
     updated_wiki_page: 
       email: 
         body: "A page has been updated on the wiki for %{title} that may make your life easier."
@@ -7149,7 +7411,7 @@ en:
       summary: 
         subject: "Updated Wiki Page: %{title}, %{user}"
       twitter: 
-        tweet: "Canvas Alert - Page Updated: %{title}, %{user}."
+        tweet: "Jiaoxuebang Alert - Page Updated: %{title}, %{user}."
     visit_modules_page: "*Visit the course modules page for information on how to unlock this content.*"
     web_conference_invitation: 
       email: 
@@ -7165,7 +7427,7 @@ en:
         body: "You've been invited to participate in a web conference, %{title} for %{name}."
         subject: "Web Conference Invitation: %{name}"
       twitter: 
-        tweet: "Canvas Alert - Invite: attend %{title}, %{name}"
+        tweet: "Jiaoxuebang Alert - Invite: attend %{title}, %{name}"
   mute_dialog: 
     curving_assignments: "Curving assignments"
     grade_change_notifications: "Grade change notifications"
@@ -7309,7 +7571,6 @@ en:
       summaries: Summaries
       updated_wiki_page: "Updated Wiki Page"
       web_conference_invitation: "Web Conference Invitation"
-    no_comments: "No comments"
     no_subject: "No Subject"
     other_description: "For administrative alerts"
     other_display: "Administrative Notifications"
@@ -7384,6 +7645,11 @@ en:
     precision: 
       format: 
         delimiter: ""
+  options: 
+    ? "no"
+    : "No"
+    ? "yes"
+    : "Yes"
   outcome_groups: 
     invalid_file: "Invalid outcome group file"
   outcome_groups_api: 
@@ -7511,6 +7777,12 @@ en:
         average_percent: "Avg Percent"
         latest_score: "Latest Score"
         outcome: Outcome
+  overrides: 
+    everyone: Everyone
+    everyone_else: "Everyone else"
+    overrides: 
+      everyone: Everyone
+      everyone_else: "Everyone Else"
   page_comment: 
     default_user_name: Anonymous
   page_comments: 
@@ -7644,23 +7916,23 @@ en:
           works correctly:
           
           * **Web Site -- Site URL:** set to %{site_url}
-          * **Web Site -- Site Domain:** domain of your main Canvas site.  This must match the Site URL setting
-          * **Facebook Integration -- Canvas Page:** make a note of whatever you choose and enter in the form below
-          * **Facebook Integration -- Canvas URL:** set to %{canvas_url}
-          * Make sure **Advanced -- OAuth 2.0 for Canvas** is enabled
+          * **Web Site -- Site Domain:** domain of your main Jiaoxuebang site.  This must match the Site URL setting
+          * **Facebook Integration -- Jiaoxuebang Page:** make a note of whatever you choose and enter in the form below
+          * **Facebook Integration -- Jiaoxuebang URL:** set to %{canvas_url}
+          * Make sure **Advanced -- OAuth 2.0 for Jiaoxuebang** is enabled
           * After you save your app, make a note of the App ID, API Key and App Secret
       domain_name: domain
       headers: 
         domain_settings: "Domain Settings"
       hints: 
-        canvas_domain: "this is the domain specified in \"Canvas URL\""
-        canvas_name: "this is the path specified in \"Canvas Page\""
+        canvas_domain: "this is the domain specified in \"Jiaoxuebang URL\""
+        canvas_name: "this is the path specified in \"Jiaoxuebang Page\""
         disable_ssl: "Use only for local testing"
       labels: 
         api_key: "API Key"
         app_id: "App ID"
-        canvas_domain: "Canvas Domain"
-        canvas_name: "Canvas Name"
+        canvas_domain: "Jiaoxuebang Domain"
+        canvas_name: "Jiaoxuebang Name"
         disable_ssl: "Disable SSL"
         secret: "App Secret"
     google_docs: 
@@ -7687,10 +7959,10 @@ en:
       canvas_revision_unknown: Unknown
       configure_plugin: Configure
       description: Description
-      instructure_canvas: "Instructure Canvas"
+      instructure_canvas: "Instructure Jiaoxuebang"
       name: Name
-      no_plugins: "There are no Canvas plugins installed"
-      page_title: "Canvas Plugins"
+      no_plugins: "There are no Jiaoxuebang plugins installed"
+      page_title: "Jiaoxuebang Plugins"
       tag: Tag
       version: Version
       website: Website
@@ -7699,11 +7971,12 @@ en:
       name: Kaltura
     kaltura_settings: 
       account_settings: "These values can be found in the Kaltura Management Console under \"Settings -> Integration Settings\""
+      cache_explanation: "Empty means cache indefinitely, 0 means don't cache."
       description: |-
           You will need an account either at [Kaltura.com](%{kaltura_url})
           or with a self-hosted instance of Kaltura.
           
-          **Note:** once you have Kaltura configured within Canvas,
+          **Note:** once you have Kaltura configured within Jiaoxuebang,
           you need to go to the Kaltura Management Console and under "Settings -> 
           Integration Settings" enable server notifications with a 
           Notification URL of:
@@ -7713,6 +7986,7 @@ en:
           Then check the boxes for "Add Entry" and "Delete Entry" in the "Sent by Server" column.
       headers: 
         account_settings: "Account Settings"
+        canvas_settings: "Jiaoxuebang Settings"
         domain_settings: "Domain Settings"
         ui_conf_ids: "UI Conf IDs"
       hints: 
@@ -7720,6 +7994,7 @@ en:
         resource_domain: "For hosted accounts, use \"cdn.kaltura.com\""
         rtmp_domain: "For hosted accounts, use \"www.kaltura.com\""
       labels: 
+        cache_play_list_seconds: "Seconds to cache playlist URL"
         domain: Domain
         kcw_ui_conf: "KCW UI Conf ID"
         partner_id: "Partner ID"
@@ -7937,8 +8212,8 @@ en:
     please_select_a_year: "Please select a year"
     please_select_an_option: "Please select an option"
     profile: 
-      access_token_description: "Access tokens can be used to allow other applications to make API calls on your behalf. You can also generate access tokens and *use the Canvas Open API* to come up with your own integrations."
-      approved_integrations: "These are the third-party applications you have authorized to access the Canvas site on your behalf:"
+      access_token_description: "Access tokens can be used to allow other applications to make API calls on your behalf. You can also generate access tokens and *use the Jiaoxuebang Open API* to come up with your own integrations."
+      approved_integrations: "These are the third-party applications you have authorized to access the Jiaoxuebang site on your behalf:"
       buttons: 
         add_picture_file: "Add File"
         authorize_google_docs: "Authorize Google Docs Access"
@@ -7953,16 +8228,16 @@ en:
         select_image: "Select Image"
         update_settings: "Update Settings"
       confirm_email_instructions: "Before you can edit your profile, you need to verify your email address (%{email}) by clicking the link in the email we sent you. If you don't see it, *click to re-send the email*, and make sure to check your spam box."
-      delicious_description: "Delicious is a tool that lets you store and share your bookmarks with others. Canvas's rich content editor will let you search your Delicious tags to easily link from within Canvas to other resources you find useful."
-      diigo_description: "Diigo is a social bookmarking tool tailored specifically to research and education. Canvas's rich content editor will let you search your Diigo tags to easily link from within Canvas to other resources you find useful."
+      delicious_description: "Delicious is a tool that lets you store and share your bookmarks with others. Jiaoxuebang's rich content editor will let you search your Delicious tags to easily link from within Jiaoxuebang to other resources you find useful."
+      diigo_description: "Diigo is a social bookmarking tool tailored specifically to research and education. Jiaoxuebang's rich content editor will let you search your Diigo tags to easily link from within Jiaoxuebang to other resources you find useful."
       error_loading_token_details: "Error Loading Token Details"
-      facebook_description: "If you have a Facebook account, you can install the Canvas app and receive course notifications on your profile. You can specify which types of notifications you want and how often you'd like them sent."
+      facebook_description: "If you have a Facebook account, you can install the Jiaoxuebang app and receive course notifications on your profile. You can specify which types of notifications you want and how often you'd like them sent."
       full_token_warning: |-
           **Copy this token down now**. Once you leave this page you won't be able to
           retrieve the full token anymore, you'll have to regenerate it to get a new
           value.
       generate_access_token_description: |-
-          Access tokens are what allow third-party applications to access Canvas
+          Access tokens are what allow third-party applications to access Jiaoxuebang
           resources on your behalf. These tokens are normally created automatically for
           applications as needed, but if [you're developing a new or limited
           project](%{documentation_url}) you can just generate the token from here.
@@ -7994,7 +8269,6 @@ en:
         short_name: "People will see this name in discussions, messages and comments."
         sortable_name: "This name appears in sorted lists."
       labels: 
-        birthdate: "Birth Date"
         change_password: "Change Password"
         confirm_password: "Confirm Password"
         default_email: "Default Email"
@@ -8042,7 +8316,7 @@ en:
         view_facebook_app: "view the Facebook app"
         view_your_profile: "view your profile"
       loading_token_details: "Loading Token Details..."
-      no_approved_integrations: "Third-party applications can request permission to access the Canvas site on your behalf. As you begin authorizing applications you will see them listed here."
+      no_approved_integrations: "Third-party applications can request permission to access the Jiaoxuebang site on your behalf. As you begin authorizing applications you will see them listed here."
       no_language_preference: "System Default (%{language})"
       no_registered_services: "No Registered Services"
       none: None
@@ -8072,7 +8346,7 @@ en:
           These notifications will be sent as direct messages to yourself from
           yourself, and won't appear in your public stream.
       unknown_service: Unknown
-      web_services: "Canvas can make your life a lot easier by tying itself in with the web tools you already use. Click any of the services in \"Other Services\" to see what we mean."
+      web_services: "Jiaoxuebang can make your life a lot easier by tying itself in with the web tools you already use. Click any of the services in \"Other Services\" to see what we mean."
     resending: resending...
     secondary_nav: 
       links: 
@@ -8120,7 +8394,7 @@ en:
         carrier: Carrier
         cell_number: "Cell Number"
         email_address: "Email Address"
-        enable_login_for_email: "I want to log in to Canvas using this email address"
+        enable_login_for_email: "I want to log in to Jiaoxuebang using this email address"
         sms_email: "SMS Email"
       links: 
         add_contact_method: "Add Contact Method"
@@ -8146,7 +8420,7 @@ en:
     notifications: 
       privacy_notice: 
         ok: Ok
-        privacy_notice: "Notice: Some Canvas notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive information outside of the institutional system."
+        privacy_notice: "Notice: Some notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive Canvas course and group information outside of the institutional system."
         privacy_notice_title: "Privacy Notice"
   pseudonym: 
     errors: 
@@ -8168,17 +8442,18 @@ en:
       redirect_from_idp: "Recieved LoginResponse from IdP"
     default_app_name: "Third-Party Application"
     errors: 
+      blank_password: "No password was given"
       invalid_credentials: "Incorrect username and/or password"
       invalid_otp: "Invalid verification code, please try again"
       login_error: "There was a problem logging in at %{institution}"
       login_errors: 
-        no_config_for_id: "The Canvas account has no authentication configuration with that id"
+        no_config_for_id: "The Jiaoxuebang account has no authentication configuration with that id"
         no_idp_set: "The institution you logged in from is not configured on this account."
-        unrecognized_idp: "Canvas did not recognize your identity provider"
+        unrecognized_idp: "Jiaoxuebang did not recognize your identity provider"
       logout_errors: 
-        no_idp_found: "Canvas was unable to log you out at your identity provider"
+        no_idp_found: "Jiaoxuebang was unable to log you out at your identity provider"
       max_attempts: "Too many failed login attempts. Please try again later or contact your system administrator."
-      no_matching_user: "Canvas doesn't have an account for user: %{user}"
+      no_matching_user: "Jiaoxuebang doesn't have an account for user: %{user}"
       request_failed: "Request failed. Try again."
       user_deleted: "That user account has been deleted.  Please contact your system administrator to have your account re-activated."
     messages: 
@@ -8189,16 +8464,16 @@ en:
       buttons: 
         request_password: "Request Password"
       dont_know_password: "I don't know my password"
-      log_in_to_canvas: "Log In To Canvas"
+      log_in_to_canvas: "Log In To Jiaoxuebang"
       login: Login
       login_handle: "Enter your %{login_handle_name} and we'll send you a link to change your password."
       password: Password
       sending: Sending...
     new: 
-      details: "Before you can log in you need to finish the registration process. You should have received an email with a confirmation link back to Canvas. Follow that link to complete the process. Make sure to check your spam box."
+      details: "Before you can log in you need to finish the registration process. You should have received an email with a confirmation link back to Jiaoxuebang. Follow that link to complete the process. Make sure to check your spam box."
       links: 
         resend_email: "Re-Send the Email"
-      page_title: "Log In to Canvas"
+      page_title: "Log In to Jiaoxuebang"
       titles: 
         registration_complete: "Registration Incomplete"
     notices: 
@@ -8220,7 +8495,7 @@ en:
       details: 
         mfa_enrollment: |-
             Multi-factor authentication increases security by requiring that you have something in your physical possession,
-            in addition to knowing your password, in order to log in to Canvas. This can be a device that can generate
+            in addition to knowing your password, in order to log in to Jiaoxuebang. This can be a device that can generate
             verification codes, or a phone that can receive text messages. The Google Authenticator app for [iPhone](%{iphone_url}) or
             [Android](%{android_url}) can be configured by scanning the QR Code below. Other tokens can be configured by entering the
             secret key **%{secret_key}**.
@@ -8289,6 +8564,8 @@ en:
       page_title: "Question Banks"
       see_bookmarked_banks: "See My Bookmarked Banks"
       user_question_banks: "User Question Banks"
+    jxb: 
+      question_banks: "Question Banks"
     question_bank: 
       bookmark_bank: "Bookmark this Question Bank"
       last_updated: "Last Updated: *%{datetime}*"
@@ -8375,6 +8652,10 @@ en:
   quiz: 
     default_question_input: "[ Select ]"
     default_title: "Unnamed Quiz"
+    errors: 
+      invalid_hide_results: "Hide results is not valid"
+      invalid_ip_filter: "IP filter is not valid"
+      invalid_quiz_type: "Quiz type is not valid"
     statistics: 
       csv_columns: 
         attempt: attempt
@@ -8418,11 +8699,13 @@ en:
         access_code: "Access Code"
       quiz_restricted: "This quiz is restricted by an access code. You'll need to ask your teacher or proctor to type in or tell you the access code in order to take the quiz."
       survey_restricted: "This survey is restricted by an access code. You'll need to ask your teacher or proctor to type in or tell you the access code in order to take the survey."
+    after_last_attempt: "After Last Attempt"
     alerts: 
       no_valid_combinations: "The system could not generate any valid combinations for the parameters given"
       only_n_valid_combinations: 
         one: "The system could only generate 1 valid combination for the parameters given"
         other: "The system could only generate %{count} valid combinations for the parameters given"
+    always: Always
     answer_comments: "Answer comments"
     answer_text: "Answer text"
     buttons: 
@@ -8433,9 +8716,6 @@ en:
       creating_group: "Creating Group..."
       generating: Generating...
       generating_combinations_progress: "Generating... (%{done}/%{total})"
-      published: Published!
-      publishing: Publishing...
-      save_settings: "Save Settings"
       saved: Saved!
       saving: Saving...
       update_group: "Update Group"
@@ -8475,6 +8755,7 @@ en:
         variable_name: Variable
         variable_precision: "Decimal Places"
         variables: Variables
+      hide_solution: "Hide solution"
       labels: 
         additional_comments: "Additional Comments"
         for_answer_number: "Answer %{answer_number}"
@@ -8485,6 +8766,7 @@ en:
       not_yet_graded: "Not yet graded"
       points_possible: "%{points_possible} pts"
       show_ansers_for_variable: "Show Answers for %{variable}"
+      show_solution: "Show solution"
       skip_question_text: "Skip to question text."
       titles: 
         question_correct_comment: "Students will see this comment if they get the question correct"
@@ -8504,6 +8786,7 @@ en:
     errors: 
       adding_questions_failed: "Adding Questions Failed, please try again"
       creating_group_failed: "Create Group Failed, Please Try Again"
+      field_is_required: "This field is required"
       loading_banks_failed: "Question Banks failed to load, please try again"
       loading_more_questions_failed: "loading more questions failed"
       loading_question_failed: "Loading Question Failed..."
@@ -8617,6 +8900,7 @@ en:
         missing_word_after: "Text to go after answers"
         points: pts
         question: Question
+        solution: Solution
       links: 
         add_another_answer: "Add Another Answer"
         need_help: "Need help?"
@@ -8646,6 +8930,12 @@ en:
         click_to_enter_general_answer_comments: "Click to enter general comments"
         click_to_enter_wrong_answer_comments: "Click to enter comments for a wrong answer"
       wrong_answer_comments: "Wrong answer comments"
+    graded_quiz: "Graded Quiz"
+    graded_survey: "Graded Survey"
+    headers: 
+      unsubmitted_students_count: 
+        one: "1 student hasn't taken the survey"
+        other: "%{count} students haven't taken the survey"
     helpers: 
       duration_in_minutes: 
         one: "1 minute"
@@ -8713,6 +9003,8 @@ en:
     invalid_ip: 
       quiz_protected: "This quiz is protected and is only available from certain locations. The computer you are currently using does not appear to be at a valid location for taking this quiz."
       survey_protected: "This survey is protected and is only available from certain locations. The computer you are currently using does not appear to be at a valid location for taking this survey."
+    keep_highest: Highest
+    keep_latest: Latest
     label: 
       answer: 
         text: "Answer text, rich text area"
@@ -8811,92 +9103,71 @@ en:
       muted_quiz_header: "Your quiz has been muted"
     new: 
       allowed_attempts: "Number of allowed attempts"
+      anonymous_submissions: "Keep Submissions Anonymous"
       buttons: 
-        publish_quiz: "Publish Quiz"
-        republish_quiz: "Re-Publish Quiz"
-        save_but_dont_publish: "Save Quiz *but don't Publish*"
-        save_settings: "Save Settings"
+        save: Save
       cant_go_back: "Lock questions after answering"
+      code: "Access Code"
       confirms: 
         delete_quiz: "Are you sure you want to delete this quiz?"
       default_page_title: "New Quiz"
-      graded_quiz: "Graded Quiz"
-      graded_survey: "Graded Survey"
+      filter: "IP Filter"
+      group: "Assignment Group"
       headers: 
-        create_new_quiz: "Create a New Quiz"
-        edit_quiz: "Edit Quiz"
         ip_filters: "What are Quiz IP Filters?"
-        link_to_content: "Link to Content"
-        quiz_options: "Quiz Options"
       hints: 
         question_detail_disabled: "NOTE: Question details not available when more than %{question_count}."
         quiz_score: "students will automatically receive full credit once they take the survey"
       ip_filters: "Quiz IP filters are a way to limit access to quizzes to computers in a specified IP range. Filters can be a comma-separated list of addresses, or an address followed by a mask (\"192.168.217.1\", \"192.168.217.1/24\" or \"192.168.217.1/255.255.255.0\")."
-      keep_highest: Highest
-      keep_latest: Latest
+      label: 
+        time_limit: "Time Limit"
       labels: 
         allow_multiple_attempts: "Allow Multiple Attempts"
-        anonymous_submissions: "Keep Submissions Anonymous"
-        code: "Access Code"
-        due_date: "Due Date"
-        filter: "IP Filter"
-        group: Group
-        hide_results_only_after_last: "Only After their Last Attempt"
+        hide_results_only_after_last: "Only After Their Last Attempt"
         ip_filter: "Filter IP Addresses"
-        limited_attempts: "Allowed Attempts"
-        locked_after: "Locked After"
-        locked_until: "Locked Until"
-        never_hide_results: "Let Students See their Quiz Responses"
+        never_hide_results: "Let Students See Their Quiz Responses"
         quiz_instructions: "Quiz Instructions"
-        quiz_name: Name
         quiz_notify: "Notify users this quiz has changed"
         quiz_score: Score
-        quiz_type: Type
         require_access_code: "Require an access code"
-        require_lockdown_browser: "Require Respondus LockDown Browser"
-        require_lockdown_browser_for_results: "Required to view quiz results"
         restrict_quiz: "Restrict this Quiz"
-        score_to_keep: "Quiz Score to Keep"
-        show_correct_answers: "Show Which Answers Were Correct"
         show_question_details: "Show Question Details"
-        shuffle_answers: "Shuffle Answers"
-        time_limit: "Time Limit"
-        time_limit_minutes: minutes
+      limited_attempts: "Allowed Attempts"
       links: 
-        add_new_question: "Add a New Question"
+        cancel: Cancel
         find_questions: "Find Questions"
-        link_to_content: "Link to Content"
         new_question: "New Question"
         new_question_group: "New Question Group"
-        preview_quiz: "Preview the Quiz"
-        quiz_options: "Quiz Options"
-        return_to_quiz_page: "Return to Quiz Page"
-        show_assignment_rubric: "Show Assignment Rubric"
-        start_over: "Start Over"
+        show_assignment_rubric: "Show Rubric"
         switch_views: "Switch Views"
+      minutes: Minutes
       one_question_at_a_time: "Show one question at a time"
-      points_possible: "%{n} Points Possible"
-      practice_quiz: "Practice Quiz"
+      points_possible: "Points %{n}"
+      quiz_type: "Quiz Type"
+      require_lockdown_browser: "Require Respondus LockDown Browser"
+      require_lockdown_browser_for_results: "Required to view quiz results"
       retrieving_filters: "Retrieving Filters..."
+      score_to_keep: "Quiz Score to Keep"
+      show_correct_answers: "Show Which Answers Were Correct"
+      shuffle_answers: "Shuffle Answers"
       time_limit: "How many minutes?"
       titles: 
         click_to_select_filter: "Click to select this filter"
+        delete: Delete
         find_ip_address_filter: "Find IP Address Filter"
-      ungraded_survey: "Ungraded Survey"
       warnings: 
         has_student_submissions: "Students have either already taken or started taking this quiz, so be careful about editing it. If you change any quiz questions in a significant way, you may want to consider re-grading students who took the old version of the quiz."
-        unpublished_changes: "You have made unpublished changes to this quiz. These changes will not appear for students until you publish or re-publish the quiz."
     no_filters_found: "No filters found"
     notices: 
       cant_view_submission_while_muted: "You cannot view the quiz history while the quiz is muted."
       has_submissions_already: "Keep in mind, some students have already taken or started taking this quiz"
       less_than_allotted_time: "You started this quiz near when it was due, so you won't have the full amount of time to take the quiz."
       no_submission_for_user: "There is no submission available for that user"
-      quiz_data_saved: "Quiz data saved"
       quiz_updated: "Quiz successfully updated"
       quizzes_published: 
         one: "1 quiz successfully published!"
         other: "%{count} quizzes successfully published!"
+    practice_quiz: "Practice Quiz"
     question_group: 
       buttons: 
         update: Update
@@ -8939,32 +9210,27 @@ en:
     quiz_attempts_length_error: "Quiz attempts are limited to 3 digits, if you would like to give your students unlimited attempts, do not check Allow Multiple Attempts box to the left"
     quiz_attempts_nan_error: "Quiz attempts can only be specified in numbers"
     quiz_details: 
+      allowed_attempts: "Allowed Attempts"
       headers: 
-        availability: Availability
-        due: "Due Date"
-        limits: Limits
+        available: Available
+        due: Due
         points: Points
-        questions: Questions
-      labels: 
-        allowed_attempts: "Allowed Attempts"
-      no_due_date: "No due date."
-      no_time_limit: "No Time Limit"
-      points_possible: "%{points_possible} pts possible"
+        time_limit: "Time Limit"
+      multiple_due_dates: "Multiple Due Dates"
+      no_due_date: "No due date"
+      none: None
       question_count: 
-        one: "1 Question"
-        other: "%{count} Questions"
+        one: "<span class='label'>Questions</span> <span class='value'>%{count}</span>"
+        other: "<span class='label'>Questions</span> <span class='value'>%{count}</span>"
         zero: "No Questions"
-      quiz_availabile_through: |-
-          %{start_time} through  
-          %{end_time}
+      quiz_availabile_through: "%{start_time} - %{end_time}"
       quiz_available_after: "after %{start_time}"
-      quiz_available_always: "Always available"
       quiz_available_until: "until %{end_time}"
       requires_lockdown: "Requires Respondus LockDown Browser"
       time_limit: 
         one: "1 Minute"
         other: "%{count} Minutes"
-      unlimited_attempts: "Unlimited Attempts"
+      unlimited: Unlimited
     quiz_right_side: 
       attempts_left: 
         one: "1 More Attempt available"
@@ -8986,6 +9252,33 @@ en:
       score_set_manually: "This score was set by the teacher"
       unlimited_attempts: "Unlimited Attempts"
       view_previous_attempts: "View Previous Attempts"
+    quiz_show_teacher: 
+      anonymous_submissions: "Anonymous Submissions"
+      attempts: Attempts
+      available_from: "Available from"
+      cant_go_back: "Lock Questions After Answering"
+      code: "Access Code"
+      due: Due
+      filter: "IP Filter"
+      for: For
+      group: "Assignment Group"
+      label: 
+        time_limit: "Time Limit"
+      multiple_attempts: "Multiple Attempts"
+      no_time_limit: "No Time Limit"
+      one_question_at_a_time: "One Question at a Time"
+      points: Points
+      quiz_type: "Quiz Type"
+      require_lockdown_browser: "Require Respondus LockDown Browser"
+      require_lockdown_browser_for_results: "Required to View Quiz Results"
+      score_to_keep: "Score to Keep"
+      show_correct_answers: "Show Correct Answers"
+      shuffle_answers: "Shuffle Answers"
+      time_limit: 
+        one: "1 Minute"
+        other: "%{count} Minutes"
+      until: Until
+      view_responses: "View Responses"
     quiz_submission: 
       attempt_duration: "This attempt took %{duration}."
       labels: 
@@ -9036,6 +9329,7 @@ en:
       question_count: 
         one: "1 Question"
         other: "%{count} Questions"
+      quiz_multiple_due_dates: "Multiple Dates"
       quiz_no_points: "No Points"
       quiz_points_possible: 
         one: "1 Point"
@@ -9074,6 +9368,10 @@ en:
       buttons: 
         lock_quiz: "Lock this Quiz Now"
         lock_survey: "Lock this Survey Now"
+        publish: Publish
+        published: Published!
+        publishing: Publishing...
+        republish: Re-Publish
         unlock_quiz: "Let Students Take this Quiz Now"
         unlock_survey: "Let Students Take this Survey Now"
       confirms: 
@@ -9088,29 +9386,23 @@ en:
         submitted_students_quiz: "Students who have taken the quiz"
         submitted_students_survey: "Students who have taken the survey"
         survey_unsubmitted_students: "Students who haven't taken the survey"
-        unsubmitted_students_count: 
-          one: "1 student hasn't taken the survey"
-          other: "%{count} students haven't taken the survey"
       labels: 
-        access_code: "Access Code"
         available_until: Until
-        instructions: Instructions
         no_time_limit: "No time limit"
-        quiz_due: due
       links: 
-        delete_this_quiz: "Delete This Quiz"
-        delete_this_survey: "Delete This Survey"
+        edit: Edit
         edit_assignment_details: "Edit Assignment Details"
-        edit_this_quiz: "Edit This Quiz"
-        edit_this_survey: "Edit This Survey"
+        hide_student_quiz_results: "Hide Student Quiz Results"
+        hide_student_survey_results: "Hide Student Survey Results"
         keep_editing_this_quiz: "Keep Editing This Quiz"
         keep_editing_this_survey: "Keep Editing This Survey"
         message_students_who: "Message Students Who..."
         moderate_this_quiz: "Moderate This Quiz"
         moderate_this_survey: "Moderate This Survey"
+        preview: Preview
         quiz_statistics: "Quiz Statistics"
         see_full_quiz: "See Full Quiz"
-        show_assignment_rubric: "Show Assignment Rubric"
+        show_assignment_rubric: "Show Rubric"
         show_student_quiz_results: "Show Student Quiz Results"
         show_student_survey_results: "Show Student Survey Results"
         survey_statistics: "Survey Statistics"
@@ -9118,13 +9410,10 @@ en:
       points_possible: 
         one: "1 pt"
         other: "%{count} pts"
-      publish_quiz_instructions: "To publish the quiz, click \"Edit This Quiz\" to the right and then click the \"Publish\" button."
-      publish_survey_instructions: "To publish the survey, click \"Edit This Survey\" to the right and then click the \"Publish\" button."
       quiz_all_students_submitted: "All Students have taken the quiz"
       quiz_for_assignment: "This quiz is for the assignment **%{assignment}**"
       quiz_in_progress: "You're in the middle of taking this quiz."
       quiz_no_submissions: "No Students have taken the quiz yet"
-      quiz_not_published: "This quiz hasn't been published yet. Students can't take the quiz until it's published."
       speed_grader: SpeedGrader™
       students_submitted_so_far: 
         one: "1 student submitted so far"
@@ -9133,8 +9422,9 @@ en:
       survey_for_assignment: "This survey is for the assignment **%{assignment}**"
       survey_in_progress: "You're in the middle of taking this survey."
       survey_no_submissions: "No Students have taken the survey yet"
-      survey_not_published: "This survey hasn't been published yet. Students can't take the survey until it's published."
       titles: 
+        delete: Delete
+        related_items: "Related Items"
         submission_needs_review: "This submission needs review"
         unlock_for_how_long: "How long would you like to unlock the quiz for?"
       warnings: 
@@ -9266,6 +9556,10 @@ en:
     top_level_crumb: Quizzes
     ? "true"
     : "True"
+    ungraded_survey: "Ungraded Survey"
+    warnings: 
+      unpublished_changes: "*You have made unpublished changes to this quiz.* These changes will not appear for students until you publish or republish the quiz."
+      unpublished_quiz: "*This quiz is unpublished* Only teachers can see the quiz until it is published."
   re_upload_submissions_form: 
     buttons: 
       upload: "Upload Files"
@@ -9276,7 +9570,6 @@ en:
     last_logged_in: "last logged in %{last_login}"
   recipient_input: 
     context_search_placeholder: "Enter a name, course, or group"
-    enrollments_everyone: Everyone
     groups_count: 
       one: "1 group"
       other: "%{count} groups"
@@ -9287,7 +9580,6 @@ en:
     sections_count: 
       one: "1 section"
       other: "%{count} sections"
-    select_all: "Select All"
   registration: 
     get_started: "Get Started"
     incomplete_registration_warning: 
@@ -9297,9 +9589,8 @@ en:
       password: Password
       remember_me: "Remember Me"
       sign_in: "Sign In"
-    ok: OK
     parent_dialog: 
-      agree_to_terms: "You agree to the *terms of use*."
+      agree_to_terms_and_pp: "You agree to the *terms of use* and the **privacy policy**."
       buttons: 
         start_participating: "Start Participating"
       labels: 
@@ -9308,11 +9599,10 @@ en:
         password: "Child's Password"
         username: "Child's Username"
     student_dialog: 
-      agree_to_terms: "You agree to the *terms of use*."
+      agree_to_terms_and_pp: "You agree to the *terms of use* and the **privacy policy**."
       buttons: 
         start_learning: "Start Learning"
       labels: 
-        birthdate: "Birth Date"
         join_code: "Join Code"
         name: "Full Name"
         password: Password
@@ -9320,24 +9610,24 @@ en:
         username: Username
       sign_up_without_code: "don't have a code?"
     student_higher_ed_dialog: 
-      agree_to_terms: "You agree to the *terms of use*."
+      agree_to_terms_and_pp: "You agree to the *terms of use* and the **privacy policy**."
       buttons: 
         start_learning: "Start Learning"
       labels: 
-        birthdate: "Birth Date"
         email: Email
         name: "Full Name"
     teacher_dialog: 
-      agree_to_terms: "You agree to the *terms of use*."
+      agree_to_terms_and_pp: "You agree to the *terms of use* and the **privacy policy**."
       buttons: 
         start_teaching: "Start Teaching"
       labels: 
         email: Email
         name: Name
-    too_young_error: "You must be at least %{min_years} years of age to enroll in this course."
-    too_young_error_join_code: "You must be at least %{min_years} years of age to use Canvas without a course join code."
     welcome_to_canvas: "Welcome to Canvas!"
   retrieve_timeout: "could not retrieve configuration, the server response timed out"
+  role: 
+    roles: 
+      account_admin: "Account Admin"
   role_override: 
     permission: 
       read_sis: "Read SIS data"
@@ -9381,56 +9671,48 @@ en:
       read_question_banks: "View and link to question banks"
       read_reports: "View usage reports for the course"
       read_roster: "See the list of users"
-      send_messages: "Send messages to course members"
+      send_messages: "Send messages to individual course members"
+      send_messages_all: "Send messages to the entire class"
       view_all_grades: "View all grades"
       view_error_reports: "View error reports"
       view_group_pages: "View the group pages of all student groups"
+      view_jobs: "View background jobs"
       view_statistics: "View statistics"
     roles: 
       account_admin: "Account Admin"
-      designer: "Course Designer"
+      designer: Designer
+      designers: Designers
       observer: Observer
+      observers: Observers
       student: Student
+      students: Students
       ta: TA
+      tas: TAs
       teacher: Teacher
+      teachers: Teachers
     tooltips: 
       readonly: "you do not have permission to change this."
       toogle: "Click to toggle this permission ON or OFF"
   role_overrides: 
+    account_permissions: "Account Permissions"
+    course_permissions: "Course & Account Permissions"
     index: 
-      buttons: 
-        save: "Save Changes"
       crumbs: 
         permissions: Permissions
-      explanation_defaults: "The partially transparent checkboxes (%{default_checked} and %{default_unchecked}) indicate the system default."
-      explanation_disabled: "A grayed out box (%{disabled_checked} or %{disabled_unchecked}) means you are not allowed to change it."
-      explanation_locked: "If you would like to prevent anyone from overriding this in any sub-accounts, click the lock (%{lock}) icon."
-      explanation_normal: "You can click to override the default and explicitly **allow** (%{normal_checked}) or **deny** (%{normal_unchecked}) this action."
-      headers: 
-        account_permissions: "Account Permissions"
-        account_role_type: "Account Role Type"
-        course_permissions: "Course & Account Permissions"
-        site_admin_permissions: "Site Admin Permissions"
-      labels: 
-        new_role_type: "New Role Type"
-      links: 
-        manage_accoiunt_roles: "Manage Account-Level Roles"
-        manage_course_roles: "Manage Course-Level Roles"
       page_title: "Manage Permissions for %{account}"
-      prompts: 
-        delete_role_type: "Are you sure you want to delete this role type?"
-      titles: 
-        explanation: "Explanation:"
-        manage_permissions: "Manage Permissions"
-        permissions: Permissions
-        subhead: "Set what users are allowed to do based on their role in the course."
-      tooltips: 
-        lock: "Click to not allow anyone to override what is set here."
-        locked: "This permission is locked, no one can override what is set here."
     no_role_found: "Role not found"
     notices: 
       saved: "Changes Saved Successfully."
+    site_admin_permissions: "Site Admin Permissions"
     update_failed_notice: "Role creation failed"
+  roles: 
+    permission_button: 
+      rolebutton: 
+        disable: Disable
+        disable_and_lock: "Disable and Lock"
+        enable: Enable
+        enable_and_lock: "Enable and Lock"
+        use_default: "Use Default"
   rubric: 
     context_name_rubric: "%{course_name} Rubric"
     errors: 
@@ -9633,7 +9915,6 @@ en:
       existing_user: "I already have a %{institution_name} login"
       getting_started: "You are enrolling in **%{course}**."
       labels: 
-        birthdate: "Birth Date"
         email: Email
         name: "Full Name"
         password: Password
@@ -9645,10 +9926,14 @@ en:
       switch_users: "You are currently signed in as *%{user}*. **Sign in as another user**."
     course_full: 
       class_full: "Enrollment has filled up for **%{course}**. We apologize for the inconvenience."
+    enrollment_closed: 
+      enrollment_is_closed: "Enrollment is closed for **%{course}**."
     new: 
       course_enrollment: "Course Enrollment"
       titles: 
         course_enrollment: "Enroll in %{course}"
+    notices: 
+      login_required: "Please log in to join this course."
     successfully_enrolled: 
       already_enrolled: "You have successfully enrolled in **%{course}**."
       buttons: 
@@ -9696,23 +9981,16 @@ en:
     add_assignment_group: 
       buttons: 
         add_group: "Add Group"
-      errors: 
-        add_group_failed: "Add Group Failed"
       labels: 
         group_weight: Weight
         name: Name
-      messages: 
-        adding_group: "Adding Group..."
       percent_of_grade: "%{percent} % of grade"
-      titles: 
-        add_assignment_group: "Add Assignment Group"
     assignment: 
       due_at: "%{date} at %{time}"
       graded_count: "%{graded_count} Graded"
       links: 
         delete_assignment: Delete
         edit_assignment: Edit
-        preview_assignment: "Preview Assignment"
         submission_comments: "Submission Comments"
         view_rubric_evaluation: "View Rubric Evaluation"
       points_out_of: "%{points} out of %{possible}"
@@ -9844,99 +10122,6 @@ en:
         select_and_add_criterion: "Select and Add Criterion"
     flash_notices: 
       close: Close
-    full_assignment: 
-      buttons: 
-        update: "Update Assignment"
-      defaults: 
-        no_content: "No Content"
-        other_group: other
-      description: 
-        assignment_is_frozen: "Some settings have been administratively locked."
-      descriptions: 
-        allowed_extensions: "enter a list of accepted extensions, for example: doc,xls,txt"
-        allowed_extensions_list: "Allowed file extensions: %{extensions}"
-        assign_reviews_after_due_date: "Must come after due date. If blank, uses due date."
-        assignment_group: "The group for this assignment is: %{group_name}"
-        grades_for_external_tool: "Grades for this assignment can be sent from the external tool, or entered manually."
-        grades_from_discussion: "Grading for this assignment will be based on posts in the discussion"
-        grades_from_quiz: "Grades for this assignment will be pulled from the quiz results"
-        no_extension_restriction: "All file extensions are permitted."
-        no_group: "There is no group for this assignment."
-        not_graded: "This assignment will not appear in the gradebook"
-        peer_reviews_not_required: "This assignment does not require peer reviews."
-        peer_reviews_required: "This assignment requires peer reviews."
-        users_are_not_notified: "Users will not be notified that content has changed"
-        users_are_notified: "Users will be notified that content has changed"
-      due_by: "due %{date} by %{time}"
-      labels: 
-        allow_file_uploads: "Allow File Uploads"
-        allow_media_recordings: "Allow Media Recordings"
-        allow_text_entry: "Allow Text Entry"
-        allow_url: "Allow Website URL"
-        allowed_extensions: "Allowed File Extensions"
-        assign_grades_individually: "Assign grades to each student individually"
-        assign_grades_individually_subtext: "(normally all students receive the same grade on group assignments)"
-        assignment_description: "Assignment Description"
-        assignment_group_id: "Assignment Group"
-        automatically_assign_peer_reviews: "Automatically Assign Peer Reviews"
-        due: Due
-        external_tool_introduction: "External Tool Instructions/Introduction"
-        external_tool_url: URL
-        freeze_on_copy: "Lock assignment properties when copied"
-        grades_from_quiz: "Grades for this assignment come from the quiz"
-        grading_type: "Grading By"
-        group_assignment: "This is a Group Assignment"
-        group_set: "Group Set"
-        lock_submits_after: "Lock Submits After"
-        locked_until: "Locked Until"
-        manually_assign_peer_reviews: "Manually Assign Peer Reviews"
-        master_level: "Mastery Level"
-        never_drop: "Never drop this assignment"
-        notify_of_update: "Notify users that this content has changed"
-        peer_review_count: "Reviews Per User"
-        peer_reviews_assign_at: "Assign Reviews"
-        points_possible: Points
-        quiz_summary: "Quiz Summary/Introduction"
-        require_peer_reviews: "Require Peer Reviews"
-        restrict_file_extensions: "Restrict the Permitted File Upload Extensions"
-        score_range: "Score Range"
-        submission: Submission
-        title: Title
-        turnitin_enabled: "Enable Turnitin Submission Evaluations"
-        type: Type
-      linked_to_discussion: "This assignment is linked to the discussion, %{discussion_topic}. Grading will be based on posts in the topic."
-      links: 
-        advanced_turnitin_settings: "Advanced Settings..."
-        discussion: "Click here to go to the discussion"
-        edit_assignment_details: "Edit Assignment Details"
-        more_grading_options: "more grading options"
-        more_options: "more options"
-        quiz: "Click here to go to the quiz"
-        switch_views: "Switch Views"
-        view_grading_levels: "View Grading Levels"
-      mastery_level: "%{points} pts or higher"
-      messages: 
-        locked: "This assignment is currently locked."
-      options: 
-        assignment: Assignment
-        attendance: Attendance
-        discussion: Discussion
-        external_tool: "External Tool"
-        letter_grade: "Letter Grade"
-        new_group_set: "[ New Group Set ]"
-        no_submission: "No Submission"
-        not_graded: "Not Graded"
-        on_paper: "On Paper"
-        online_submission: "Online Submission"
-        pass_fail: Complete/Incomplete
-        percentage: Percentage
-        points: Points
-        quiz: Quiz
-        select_group_set: "[ Select Group Set ]"
-      out_of: "out of %{points}"
-      score_range: "%{min_score} to %{max_score}"
-      titles: 
-        score_range: "Lowest and highest possible scores for this assignment"
     global_dialogs: 
       buttons: 
         install_video_plugin: "Install the Video Plugin"
@@ -9994,7 +10179,7 @@ en:
         reject: "Reject Invitation"
       wander_around_dont_get_lost: "Feel free to [wander around](%{link_to_course}) and see what it's like."
     keyboard_navigation_hint: 
-      body: "Hit \"?\" to see a list of keyboard shortcuts for this page."
+      prompt: "Press comma to hear a list of keyboard shortcuts for this page."
     login: 
       back_to_login: "Back to Login"
       buttons: 
@@ -10007,7 +10192,7 @@ en:
       log_in: "Log In"
       login_at_account: "Log in at %{school_name}"
       login_handle: "Enter your %{login_handle_name} and we'll send you a link to change your password."
-      register_for_canvas: "*Need a Canvas Account?* **Click Here, It's Free!**"
+      register_for_canvas: "*Need a Jiaoxuebang Account?* **Click Here, It's Free!**"
     menu_assignment: 
       labels: 
         due: due
@@ -10018,6 +10203,9 @@ en:
       labels: 
         enrolled_as: "Enrolled as"
         invited_as: "Invited as"
+    menu_switch_accounts: 
+      links: 
+        associated_accounts: "Associated Accounts"
     message_students: 
       buttons: 
         send_message: "Send Message"
@@ -10043,6 +10231,14 @@ en:
           
           Once you have muted this assignment, you can begin sending
           notifications again by clicking the "Unmute Assignment" link.
+    new_account_form: 
+      cancel: Cancel
+      create_a_new_account: "Create a New Account"
+      create_account: "Create account"
+      creating_account: "Creating account..."
+      labels: 
+        name: "Account Name"
+      new_account_name_placeholder: "Account Name"
     new_course_form: 
       cancel: Cancel
       course_cose_explanation: "This will be displayed in places with little space"
@@ -10080,10 +10276,14 @@ en:
       links_title: Title
       links_url: URL
       manage_settings: "Manage Registered Services"
+      message_me: "message me in Jiaoxuebang"
+      message_title: Message
+      message_user_canvas: "Message %{user} in Jiaoxuebang"
       name: Name
       no_links: "%{name} hasn't added any links"
       nothing_in_common: "You don't have anything in common"
       save_profile: "Save Profile"
+      service_contact: "contact %{user} with %{service}"
       social_instructions: "Check the contact methods you'd like to be visible to others on your profile."
       title: Title
       user_has_no_bio: "%{user} hasn't added a bio"
@@ -10249,32 +10449,6 @@ en:
       assignment: Assignment
       grading_alt: grading
       submission_comment: "Submission Comment"
-    turnitin_settings: 
-      buttons: 
-        update_settings: "Update Settings"
-      errors: 
-        error_updating_settings: "Error Updating Settings"
-      labels: 
-        compare_against: "Compare against"
-        dont_consider: "Don't consider"
-        exclude_biblio: "bibliographic material"
-        exclude_quoted: "quoted material"
-        exclude_small_matches: "small matches"
-        internet_check: "internet database"
-        journal_check: "journals, periodicals and publications"
-        student_paper_check: "other student papers"
-      messages: 
-        updating_settings: "Updating Settings..."
-      originality_report_visibility: "Students can see the originality report: %{when}"
-      originality_report_visible_after_due_date: "after the due date"
-      originality_report_visible_after_grading: "after the assignment is graded"
-      originality_report_visible_immediately: immediately
-      settings_exclude_fewer_than_count: "fewer than %{count} words"
-      settings_exclude_less_than_percent: "less than %{percent} percent of the document"
-      titles: 
-        exclude_count: "Exclude matches with fewer than this many words"
-        exclude_percent: "Exclude matches that comprise less than this percentage of the document"
-        turnitin_options: "Turnitin Settings"
     unauthorized: 
       headings: 
         needs_cookies: "Cookies Required"
@@ -10439,6 +10613,8 @@ en:
     errors: 
       invalid_content_type: "Invalid content type, UTF-8 required"
     sis_import_in_process_notice: "An SIS import is already in process."
+  site: 
+    view_privacy_policy: "View Privacy Policy"
   site_admin: 
     columns: 
       date: Date
@@ -10574,7 +10750,7 @@ en:
       external_url_submission: "This submission was a URL to an external page."
       file_uploads_for_user: "File Uploads for **%{user}**"
       group_discussion_submission_description: "The submissions for this assignment are posts in the assignment's discussion for this group. Below are the discussion posts for %{user}, or you can *view the full group discussion*."
-      media_comment_link: "This submission is a media recording. *click here to view*."
+      media_comment_link: "This submission is a media recording. *click here to view.*"
       no_files: "No files were uploaded for this submission"
       no_preview_available: "No Preview Available"
       no_submission: "No Submission"
@@ -10598,6 +10774,15 @@ en:
         two_words_connector: " or "
       two_words_connector: " and "
       words_connector: ", "
+    help_menu: 
+      community_support_description: "Interact with and get assistance from your peers."
+      community_support_forums: "Community Support Forums"
+      contact_support: "Contact Support"
+      contact_support_sub_text: "Get assistance with time-sensitive issues."
+      curriculum_assessment_errata: "Curriculum/Assessment Errata"
+      curriculum_assessment_errata_description: "View already reported assessment and curricula errors. Search for \"errata.\""
+      networking_academy_description: "View Cisco answers to the most commonly asked questions."
+      networking_academy_faqs: "Networking Academy FAQs"
     select: 
       prompt: "Please select"
   table_headings: 
@@ -10713,6 +10898,7 @@ en:
     learning_outcomes: "Learning Outcomes"
     messages: Messages
     outcome_artifacts: "Outcome Artifacts"
+    view_in_separate_window: "View in Separate Window"
   turnitin: 
     error_1007: "The uploaded file is too big."
     error_1009: "Invalid file type. (Valid file types are MS Word, Acrobat PDF, Postscript, Text, HTML, WordPerfect (WPD) and Rich Text Format.)"
@@ -10741,7 +10927,6 @@ en:
       required: Required
       terms: "You must agree to the terms"
       too_long: "Can't exceed %{max} characters"
-      too_young: "Too young"
     registration: 
       agree_to_terms: "You agree to the *terms of use*."
   user_follow: 
@@ -10889,7 +11074,7 @@ en:
       merge_result_explanation: "Are you sure you want to merge the account, %{source_user_name} (%{source_user_email}) into this account, %{target_user_name} (%{target_user_email})? This process will have the following end result:"
       merge_result_explanation_again: "You've selected to merge the user, %{user_name} (%{user_email}) into the account, %{pending_other_user_name} (%{pending_other_user_email}). This process will have the following end result:"
       merge_somone_else: "Merge Someone Else With %{user_name}"
-      merge_user_initial_instructions: "You've selected to merge the user, %{user_name} (%{user_email}) with another account. You can search for the user you'd like to merge with this user using the form below, or just navigate to that user's page and click \"Merge User\" again to merge someone else with this user."
+      merge_user_initial_instructions: "You've selected to merge the user, %{user_name} (%{user_email}) with another account. You can search for the user you'd like to merge with this user using the form below."
       no_merge_undo: "This process cannot be undone, so please make sure you're certain before you continue."
       no_permission: "You don't have permission to search any accounts"
       prepare_to_merge: "Prepare to Merge Users"
@@ -10903,19 +11088,9 @@ en:
     cc_prefs: 
       buttons: 
         configure: "Configure Communication Preferences"
-      comm_preferences_instructions: "Now that you're registered with Canvas, you might want to configure what notifications you'll receive as your courses progress. Canvas is flexible enough to let you choose how and for what events you'd like to be notified. When things happen in your courses you can choose to be emailed or texted to your cell immediately, daily or weekly."
+      comm_preferences_instructions: "Now that you're registered with Jiaoxuebang, you might want to configure what notifications you'll receive as your courses progress. Jiaoxuebang is flexible enough to let you choose how and for what events you'd like to be notified. When things happen in your courses you can choose to be emailed or texted to your cell immediately, daily or weekly."
       titles: 
         configure_com_prefs: "Configure Communication Preferences"
-    confirm_merge: 
-      buttons: 
-        merge_user_accounts: "Merge User Accounts"
-      login_to_merge_different_account: "To merge the account, %{current_user_name} (%{current_user_email}) into another account, please log in to the new account:"
-      merge_result_explanation: "Are you sure you want to merge the account, %{user_name} (%{user_email}) into this account, %{current_user_name} (%{current_user_email})?"
-      no_undo_for_merge: "This process cannot be undone, so please make sure you're certain before you continue."
-      titles: 
-        confirm_user_merge: "Confirm Merge User Accounts"
-        really_merge: "Really Merge User Accounts?"
-      users_to_merge: "%{first_user} and %{second_user}"
     confirms: 
       unenroll_user: "Are you sure you want to unenroll this user?"
     could_not_find_url: "Could not find download URL"
@@ -10926,6 +11101,10 @@ en:
       participant_count: 
         one: "1 participant"
         other: "%{count} participants"
+    dashboard_sidebar: 
+      coming_up: "Coming Up"
+      recent_feedback: "Recent Feedback"
+      start_new_course: "Start a New Course"
     delete: 
       are_you_sure: "Are you sure you want to delete this user account?"
       buttons: 
@@ -10994,7 +11173,7 @@ en:
       browser_upgrade: "You should upgrade your browser"
       buttons: 
         upgrade: Upgrade
-      upgrade_ie7: "You are using Internet Explorer 7. This browser is not fully supported by Canvas (and many other web sites) and you should consider upgrading. Until you upgrade, some portions of Canvas will not be fully functional."
+      upgrade_ie7: "You are using Internet Explorer 7. This browser is not fully supported by Jiaoxuebang (and many other web sites) and you should consider upgrading. Until you upgrade, some portions of Jiaoxuebang will not be fully functional."
     index: 
       all_users: "All Users"
       buttons: 
@@ -11085,9 +11264,9 @@ en:
         name_and_email: "Name and Email"
       update_instructions: "You can update some of this user's information, but they can change it back if they choose."
     new: 
-      create_a_canvas_account: "Create a Canvas Account"
+      create_a_canvas_account: "Create a Jiaoxuebang Account"
     no_deleting_sis_user: "You cannot delete a system-generated user"
-    no_open_registration: "Open registration has not been enabled for this account"
+    no_self_registration: "Self registration has not been enabled for this account"
     oauth_fail: "OAuth Request failed. Couldn't find valid request"
     recaptcha_settings: 
       instructions: |-
@@ -11105,11 +11284,11 @@ en:
       almost_there: "You're almost there..."
       done_resending: "Done! Message may take a few minutes."
       failed_resending: "Request failed. Try again."
-      invite_to_read: "We invite you to watch this brief overview of Canvas. You may also *read about how Canvas is helping* to bring students in 27 countries closer to lecture halls, instructors and classmates."
+      invite_to_read: "We invite you to watch this brief overview of Jiaoxuebang. You may also *read about how Jiaoxuebang is helping* to bring students in 27 countries closer to lecture halls, instructors and classmates."
       links: 
         download_pdf: "download PDF"
       need_flash: "You need Flash player 8+ and JavaScript enabled to view this video."
-      overview_video: "Overview Video of Canvas"
+      overview_video: "Overview Video of Jiaoxuebang"
       registration_complete: "Registration Complete"
       resending: Re-Sending...
       sent_email_paragraph: "We sent an email to %{email_address}. *Click the link in the email to finish registering*. If you don't see it, **click to re-send the email**, and make sure to check your spam box."
@@ -11155,9 +11334,6 @@ en:
     twitter_added: "Twitter access authorized!"
     twitter_fail_whale: "Twitter authorization failed. Please try again"
     user_dashboard: 
-      coming_up: "Coming Up"
-      recent_feedback: "Recent Feedback"
-      start_new_course: "Start a New Course"
       user_atom_feed: "User Atom Feed (All Courses)"
       user_dashboard: "User Dashboard"
     user_is_deleted: "%{user_name} has been deleted"
@@ -11175,7 +11351,7 @@ en:
                   those courses are available, you will see information about them here
                   and in the top navigation. In the meantime, feel free to sign up for
                   more courses or set up your profile.
-      welcome_to_happiness: "Welcome to Canvas!"
+      welcome_to_happiness: "Welcome to Jiaoxuebang!"
   validate: 
     is_required: "This field is required"
   web_conference: 
@@ -11187,6 +11363,21 @@ en:
         : "Off"
         ? "true"
         : "On"
+  widget: 
+    upload_media_track_form: 
+      choose_a_language: "--Choose a Language--"
+      error_message: "*Error:* You must choose a language and a valid track file."
+      file: File
+      language: Language
+      media_track_form_button: "Go to subtitle creation tool"
+      upload_media_track_form_description: "Once you have a subtitle track in either the SRT or *WebVTT* format, you can upload it here."
+      upload_media_track_form_description_1: "Copy this video url:"
+      upload_media_track_form_description_2: "Create a subtitle file by clicking this link and following the instructions."
+      upload_media_track_form_description_3: "Upload a subtitle track in either the SRT or *WebVTT* format."
+      upload_media_track_form_step1_label: "Step 1:"
+      upload_media_track_form_step2_label: "Step 2:"
+      upload_media_track_form_step3_label: "Step 3:"
+      upload_media_track_info: "*Instructions:* Follow these three steps to create a subtitle file for your video, then upload it here. If you already have an SRT subtitle file you can skip to step 3."
   wiki: 
     default_course_wiki_name: "%{course_name} Wiki"
     default_group_wiki_name: "%{group_name} Wiki"
@@ -11259,6 +11450,7 @@ en:
       default_wiki_page_is_course_home_page_warning: |-
           Right now this is also set as the default course page, so visitors to your
           course will see this page first.  You can change that from [the course home page](%{link}).
+      editing_content: "Editing Content."
       editing_roles: 
         anyone: Anyone
         only_members: "Only Members"

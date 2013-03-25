@@ -52,6 +52,11 @@
     <% if @current_user %>
     <ul role="navigation" id="menu" aria-label="<%= t('navigation.main', 'Main Navigation') %>">
       <%- cache([@current_user, 'home-menu-15m'], :expires_in => 15.minutes) do -%>
+      <% if @current_user.associated_accounts.size > 0 %>
+        <li id="switch_root_accounts" class="menu-item">
+          <%= render :partial => 'shared/menu_switch_accounts' %>
+        </li>
+      <% end %>
       <li id="courses_menu_item" class="menu-item">
         <%- if show_home_menu? -%>
           <%= render(:partial => 'shared/home_menu') %>
@@ -130,14 +135,14 @@
         <%= left_side %>
       <% else %>
         <% if @context.try(:short_name) %>
-          <h2 id="section-tabs-header">
+          <h1 id="section-tabs-header">
             <%= @context.short_name %>
             <% if @context && @context.respond_to?(:context)  %>
               <a href="<%= url_for(@context.context) %>" id="section-tabs-header-subtitle" class="ellipsis"><%= @context.context.name %></a>
             <% elsif @context && @context.respond_to?(:enrollment_term) && !@context.enrollment_term.default_term? %>
               <span id="section-tabs-header-subtitle" class="ellipsis"><%= @context.enrollment_term.name %></span>
             <% end %>
-          </h2>
+          </h1>
         <% end %>
         <%= section_tabs %>
       <% end %>
@@ -196,6 +201,9 @@
 <% if keyboard_navigation %>
   <div id="keyboard_navigation">
     <%= keyboard_navigation %>
+    <div class='hidden-readable' tabindex='0'>
+      <%= t('keyboard_navigation.close', 'Press comma to close this dialog') %>
+    </div>
   </div>
 <% end %>
   <div style="display:none;"><!-- Everything inside of this should always stay hidden -->

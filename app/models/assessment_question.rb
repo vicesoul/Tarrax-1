@@ -231,6 +231,7 @@ class AssessmentQuestion < ActiveRecord::Base
     question[:correct_comments] = check_length(qdata[:correct_comments] || previous_data[:correct_comments] || "", 'correct comments', 5.kilobyte)
     question[:incorrect_comments] = check_length(qdata[:incorrect_comments] || previous_data[:incorrect_comments] || "", 'incorrect comments', 5.kilobyte)
     question[:neutral_comments] = check_length(qdata[:neutral_comments], 'neutral comments', 5.kilobyte)
+    question[:solution_content] = check_length(qdata[:solution_content], 'solution content', 500.kilobyte)
     question[:question_type] = qdata[:question_type] || previous_data[:question_type] || "text_only_question"
     question[:question_name] = qdata[:question_name] || qdata[:name] || previous_data[:question_name] || t(:default_question_name, "Question")
     question[:question_name] = t(:default_question_name, "Question") if question[:question_name].strip.blank?
@@ -347,7 +348,7 @@ class AssessmentQuestion < ActiveRecord::Base
       end
     elsif question[:question_type] == "calculated_question"
       question[:formulas] = []
-      qdata[:formulas].sort_by(&:first).each do |key, formula|
+      (qdata[:formulas] || []).sort_by(&:first).each do |key, formula|
         question[:formulas] << {
           :formula => check_length(formula[0..1024], 'formula', min_size)
         }
