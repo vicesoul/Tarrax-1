@@ -24,23 +24,32 @@ class AccountsController < ApplicationController
 
   include Api::V1::Account
 
+  def new
+    @account = Account.new
+  end
+
   def create
     @account = Account.new params[:account]
 
     respond_to do |format|
-      if @account.save
+      if @account.save_with_captcha
         # add current_user as account admin
-        @account.add_user(@current_user)
+        @account.add_admin(@current_user, {:mobile => @account.user_mobile, :role => @account.user_role})
 
         flash[:notice] = t('notices.account_created', "Account Successfully created!")
         format.html { redirect_to root_url(:subdomain => @account.subdomain) }
-        format.json { account_json(@account, @current_user, session, []) }
+        format.json { render :json => account_json(@account, @current_user, session, []) }
       else
         flash[:error] = t('errors.create_failed', "Account creation failed")
         format.html { redirect_to :back }
         format.json { render :json => @account.errors.to_json, :status => :bad_request }
       end
     end
+  end
+
+  def redirect
+    account = Account.find params[:account_id]
+    redirect_to root_url(:subdomain => account.subdomain)
   end
 
   # @API List associated accounts

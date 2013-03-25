@@ -75,6 +75,7 @@ gem 'xml-simple',     '1.0.12', :require => 'xmlsimple'
 gem 'yui-compressor', '0.9.4'
 gem 'foreigner',      '0.9.2'
 gem 'crocodoc-ruby',  '0.0.1', :require => 'crocodoc'
+gem 'rmagick'
 
 group :assets do
   gem 'compass-rails', '1.0.2'
@@ -111,7 +112,7 @@ group :test do
 end
 
 group :development do
-  gem 'guard', '1.6.0'
+  gem 'guard', '1.0.3'
   gem 'rb-inotify', '~>0.8.8', :require => false
   gem 'rb-fsevent', :require => false
   gem 'rb-fchange', :require => false

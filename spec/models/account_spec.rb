@@ -47,7 +47,7 @@ describe Account do
 
   context "course lists" do
     before(:each) do
-      @account = Account.create!
+      @account = Account.create! :name => 'abc'
       process_csv_data_cleanly([
         "user_id,login_id,first_name,last_name,email,status",
         "U001,user1,User,One,user1@example.com,active",
@@ -338,22 +338,22 @@ describe Account do
 
   context "closest_turnitin_pledge" do
     it "should work for custom sub, custom root" do
-      root_account = Account.create!(:turnitin_pledge => "root")
-      sub_account = Account.create!(:parent_account => root_account, :turnitin_pledge => "sub")
+      root_account = Account.create!(:turnitin_pledge => "root", :name => 'abc')
+      sub_account = Account.create!(:parent_account => root_account, :turnitin_pledge => "sub", :name => 'abc')
       root_account.closest_turnitin_pledge.should == "root"
       sub_account.closest_turnitin_pledge.should == "sub"
     end
 
     it "should work for nil sub, custom root" do
-      root_account = Account.create!(:turnitin_pledge => "root")
-      sub_account = Account.create!(:parent_account => root_account)
+      root_account = Account.create!(:turnitin_pledge => "root", :name => 'abc')
+      sub_account = Account.create!(:parent_account => root_account, :name => 'abc')
       root_account.closest_turnitin_pledge.should == "root"
       sub_account.closest_turnitin_pledge.should == "root"
     end
 
     it "should work for nil sub, nil root" do
-      root_account = Account.create!
-      sub_account = Account.create!(:parent_account => root_account)
+      root_account = Account.create! :name => 'abc'
+      sub_account = Account.create!(:parent_account => root_account, :name => 'abc')
       root_account.closest_turnitin_pledge.should_not be_empty
       sub_account.closest_turnitin_pledge.should_not be_empty
     end
@@ -393,9 +393,9 @@ describe Account do
     # a sub sub account, and SiteAdmin account.  Create a 'Restricted Admin'
     # role in each one, and create an admin user and a user in the restricted
     # admin role for each one
-    root_account = Account.create
-    sub_account = Account.create(:parent_account => root_account)
-    sub_sub_account = Account.create(:parent_account => sub_account)
+    root_account = Account.create :name => 'abc'
+    sub_account = Account.create(:parent_account => root_account, :name => 'abc')
+    sub_sub_account = Account.create(:parent_account => sub_account, :name => 'abc')
 
     hash = {}
     hash[:site_admin] = { :account => Account.site_admin}
@@ -509,7 +509,7 @@ describe Account do
     a.user_count.should == 0
 
     u = User.create!
-    a.add_user(u)
+    a.add_user(u, nil, :role => 'other')
     a.all_users.count.should == a.user_count(:reload)
     a.user_count.should == 1
 
@@ -518,7 +518,7 @@ describe Account do
     a.all_users.count.should == a.user_count(:reload)
     a.user_count.should == 2
 
-    a2 = a.sub_accounts.create!
+    a2 = a.sub_accounts.create! :name => 'abc'
     course_with_teacher(:account => a2)
     @teacher.update_account_associations
     a.all_users.count.should == a.user_count(:reload)
@@ -699,7 +699,7 @@ describe Account do
   end
 
   it "should not allow setting an sis id for a root account" do
-    @account = Account.create!
+    @account = Account.create! :name => 'abc'
     @account.sis_source_id = 'abc'
     @account.save.should be_false
   end
@@ -717,7 +717,7 @@ describe Account do
       account.user_list_search_mode_for(nil).should == :closed
       account.user_list_search_mode_for(user).should == :closed
       user
-      account.add_user(@user)
+      account.add_user(@user, nil, :role => 'other')
       account.user_list_search_mode_for(@user).should == :preferred
     end
   end
@@ -772,7 +772,7 @@ describe Account do
       @site_admin = Account.site_admin
       @site_admin.grants_right?(User.new, :read_global_outcomes).should be_true
 
-      @subaccount = @site_admin.sub_accounts.create!
+      @subaccount = @site_admin.sub_accounts.create! :name => 'abc'
       @subaccount.grants_right?(User.new, :read_global_outcomes).should be_false
     end
 
@@ -786,7 +786,7 @@ describe Account do
     end
 
     it "should grant :read_outcomes to subaccount admins" do
-      account_admin_user(:account => Account.default.sub_accounts.create!)
+      account_admin_user(:account => Account.default.sub_accounts.create!(:name => 'abc'))
       Account.default.grants_right?(@admin, :read_outcomes).should be_true
     end
 
@@ -799,7 +799,7 @@ describe Account do
     end
 
     it "should grant :read_outcomes to enrollees in subaccount courses" do
-      course(:account => Account.default.sub_accounts.create!)
+      course(:account => Account.default.sub_accounts.create!(:name => 'abc'))
       teacher_in_course
       student_in_course
       Account.default.grants_right?(@teacher, :read_outcomes).should be_true
@@ -843,7 +843,7 @@ describe Account do
 
     it "should work if the saved account id is not a sub-account" do
       acct = Account.default
-      bad_acct = Account.create!
+      bad_acct = Account.create! :name => 'abc'
       acct.settings[:manually_created_courses_account_id] = bad_acct.id
       acct.save!
       manual_course_account = acct.manually_created_courses_account
@@ -858,7 +858,7 @@ describe Account do
         sa = Account.site_admin
         sa.account_users_for(@user).should == []
 
-        au = sa.add_user(@user)
+        au = sa.add_user(@user, nil, :role => 'other')
         # out-of-proc cache should clear, but we have to manually clear
         # the in-proc cache
         sa = Account.find(sa)
@@ -881,7 +881,7 @@ describe Account do
       @roleB = @account.roles.create :name => 'B'
       @roleB.base_role_type = 'StudentEnrollment'
       @roleB.save!
-      @sub_account = @account.sub_accounts.create!
+      @sub_account = @account.sub_accounts.create! :name => 'abc'
       @roleBsub = @sub_account.roles.create :name => 'B'
       @roleBsub.base_role_type = 'StudentEnrollment'
       @roleBsub.save!
@@ -917,9 +917,9 @@ describe Account do
 
       it "should find parent accounts when not on the correct shard" do
         @shard1.activate do
-          @account1 = Account.create!
-          @account2 = @account1.sub_accounts.create!
-          @account3 = @account2.sub_accounts.create!
+          @account1 = Account.create! :name => 'abc'
+          @account2 = @account1.sub_accounts.create! :name => 'abc'
+          @account3 = @account2.sub_accounts.create! :name => 'abc'
         end
 
         @account3.account_chain.should == [@account3, @account2, @account1]

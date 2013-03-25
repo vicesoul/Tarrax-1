@@ -49,6 +49,8 @@ zh-CN:
     a_text_entry_box: "文本输入"
     a_discussion_post: "提交讨论"
     a_quiz: "测试"
+    dashboard_sidebar:
+      create_new_account: 创建网校
   logic:
     true_logic: 正确
     false_logic: 错误
@@ -112,4 +114,41 @@ zh-CN:
   take_quiz:
     line:
       dele_line: 是否删除？
+  account:
+    errors:
+      taken: 已被使用
+      required: 需要
+      invalid_code: 无效代码
+      invalid_mobile: 无效的手机号码
+    school_category:
+      open: 开放网校
+      k12: 中小学
+      higher_ed: 大中专
+      corporate: 企事业
+      other: 其他
+  account_user:
+    role:
+      institute_admin: 机构负责
+      training_management: 培训管理
+      technical_support: 技术支持
+      teacher: 教师
+      student: 学生
+      other: 其他
+    errors:
+      required: 需要
+  accounts:
+    new:
+      user:
+        name: 用户名
+        role:  角色
+        email: 电子邮箱
+        mobile: 手机
+      school:
+        name: 学校名
+        category: 学校分类
+        scale: 学校规模
+  captcha:
+    validation_code: 验证码
+    invalidate_code: 验证码不匹配
+    change_code: 更换验证码
 

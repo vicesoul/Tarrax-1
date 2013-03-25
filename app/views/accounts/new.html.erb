@@ -1,0 +1,57 @@
+<% js_bundle :account_new %>
+
+<div class="well">
+  <% form_for @account, :html => {:class => 'form-horizontal'}  do |f| %>
+
+    <div class='control-group'>
+      <div class="control-label">
+        <%= f.label :user_role, t('user.role', 'User Role') %>
+      </div>
+      <div class="controls">
+        <%= f.select :user_role, AccountUser::ROLES.map{|k,v| [v.call, k]} %>
+      </div>
+    </div>
+
+    <div class='control-group'>
+      <div class="control-label">
+        <%= f.label :user_mobile, t('user.mobile', 'Mobile') %>
+      </div>
+      <div class="controls">
+        <%= f.text_field :user_mobile %>
+      </div>
+    </div>
+
+    <div class='control-group'>
+      <div class="control-label">
+        <%= f.label :name, t('school.name', 'School Name') %>
+      </div>
+      <div class="controls">
+        <%= f.text_field :name %>
+      </div>
+    </div>
+
+    <div class='control-group'>
+      <div class="control-label">
+        <%= f.label :school_category, t('school.category', 'School Category') %>
+      </div>
+      <div class="controls">
+        <%= f.select :school_category, Account::SCHOOL_CATEGORIES.map{|k,v| [v.call, k]} %>
+      </div>
+    </div>
+
+    <div class='control-group'>
+      <div class="control-label">
+        <%= f.label :school_scale, t('school.scale', 'School Scale') %>
+      </div>
+      <div class="controls">
+        <%= f.select :school_category, Account::SCHOOL_SCALE.map{|k,v| [v, k]} %>
+      </div>
+    </div>
+
+    <%= show_simple_captcha :object => :account, :label => t('#captcha.validation_code', 'Validation Code') %>
+
+    <div class="actions">
+      <button class="btn" type="submit"><%= t('#buttons.submit', "Submit") %></button>
+    </div>
+  <% end %>
+</div>

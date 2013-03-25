@@ -14,6 +14,9 @@
 <% if @show_recent_feedback %>
 <%= render :partial => "shared/event_list", :object => @recent_feedback, :locals => {:title => t('recent_feedback', "Recent Feedback"), :display_count => 3, :period => :two_weeks, :show_context => true, :is_recent_feedback => true} %>
 <% end %>
+<div class="rs-margin-lr">
+  <%= link_to t('create_new_account', 'Create a New Account'), new_account_path, :class => 'btn button-sidebar-wide' %>
+</div>
 <% if show_user_create_course_button(@current_user) %>
 <div class="rs-margin-lr">
 <button type="button"

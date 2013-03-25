@@ -208,7 +208,8 @@ Spec::Runner.configure do |config|
     account = opts[:account] || Account.default
     @user = opts[:user] || account.shard.activate{ user(opts) }
     @admin = @user
-    account_user = @user.account_users.build(:account => account, :membership_type => opts[:membership_type] || 'AccountAdmin')
+    #account_user = @user.account_users.build(:account => account, :membership_type => opts[:membership_type] || 'AccountAdmin')
+    account_user = @user.account_users.build(:account => account, :role => 'other', :membership_type => opts[:membership_type] || 'AccountAdmin')
     account_user.shard = account.shard
     account_user.save!
     @user

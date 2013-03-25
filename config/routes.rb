@@ -425,6 +425,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.redirect 'redirect', :controller => 'accounts', :action => 'redirect'
     account.settings 'settings', :controller => 'accounts', :action => 'settings'
     account.add_account_user 'account_users', :controller => 'accounts', :action => 'add_account_user', :conditions => {:method => :post}
     account.remove_account_user 'account_users/:id', :controller => 'accounts', :action => 'remove_account_user', :conditions => {:method => :delete}
@@ -1138,4 +1139,6 @@ ActionController::Routing::Routes.draw do |map|
   # end
 
   # See how all your routes lay out with "rake routes"
+  map.simple_captcha 'simple_captcha/simple_captcha', :controller => 'captcha', :action => :simple_captcha
+  map.render_captcha 'simple_captcha/render_captcha', :controller => 'captcha', :action => :render_captcha
 end

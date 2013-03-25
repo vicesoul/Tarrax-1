@@ -32,6 +32,7 @@ class ApplicationController < ActionController::Base
   include UrlHelper
 
   include AuthenticationMethods
+  include SimpleCaptcha::ControllerHelpers
   protect_from_forgery
   # load_user checks masquerading permissions, so this needs to be cleared first
   before_filter :clear_cached_contexts
