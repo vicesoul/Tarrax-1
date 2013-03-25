@@ -2707,7 +2707,7 @@ zh-CN:
       wiki_pages: 维基页面
     points_possible_short: "%{points} 分"
     still_needs_completing: 仍需完成
-    titles: 
+    titles:
       add: 添加单元
       add_item: "添加项目到 %{module}"
       add_prerequisite: "添加先修课程到 %{module}"
@@ -9056,6 +9056,7 @@ zh-CN:
         lock_survey: 立即锁定此调查
         unlock_quiz: 立即允许学生进行此测验
         unlock_survey: 立即允许学生进行此调查
+        unlock: 解锁
       confirms: 
         delete_quiz: 是否确定要删除此测验?
         delete_quiz_submissions_warning: 

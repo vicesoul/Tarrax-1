@@ -101,24 +101,39 @@ $(document).ready(function () {
       $unlock_for_how_long_dialog.dialog('open');
       return false;
     });
-    
+
+    var unlock_button = {
+      text: I18n.t('buttons.unlock', 'Unlock'),
+      click: function(){
+        var dateString = $(this).find('.datetime_suggest').text();
+
+        $link.closest('form')
+          // append this back to the form since it got moved to be a child of body when we called .dialog('open')           
+          .append($(this).dialog('destroy'))
+          .find('#quiz_lock_at')
+            .val(dateString).end()
+          .submit();
+      }
+    };
+
     $unlock_for_how_long_dialog.dialog({
       autoOpen: false,
       modal: true,
       resizable: false,
       width: 400,
-      buttons: {
-        'Unlock' : function(){
-          var dateString = $(this).find('.datetime_suggest').text();
+      buttons: [ unlock_button ]
+      //buttons: {
+        //'Unlock' : function(){
+          //var dateString = $(this).find('.datetime_suggest').text();
 
-          $link.closest('form')
-            // append this back to the form since it got moved to be a child of body when we called .dialog('open')           
-            .append($(this).dialog('destroy'))
-            .find('#quiz_lock_at')
-              .val(dateString).end()
-            .submit();
-        }
-      }
+          //$link.closest('form')
+            //// append this back to the form since it got moved to be a child of body when we called .dialog('open')           
+            //.append($(this).dialog('destroy'))
+            //.find('#quiz_lock_at')
+              //.val(dateString).end()
+            //.submit();
+        //}
+      //}
     }).find('.datetime_field').datetime_field();
   });
 
