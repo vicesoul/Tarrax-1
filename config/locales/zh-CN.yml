@@ -2714,6 +2714,11 @@ zh-CN:
       edit: 编辑单元设置
       edit_item: 编辑项目详细信息
       student_progress: 学生学习单元的进度
+    progress:
+      no_information: 没有信息
+      in_progress: 正在进行
+      completed: 完成
+      locked: 已锁住
   conversation_message: 
     conversation_message: 
       users_added: 
