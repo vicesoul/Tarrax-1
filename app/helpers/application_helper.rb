@@ -648,7 +648,7 @@ module ApplicationHelper
         :root_account => course.root_account.name,
         :longName => "#{course.name} - #{course.short_name}",
         :shortName => course.name,
-        :href => course_path(course, :invitation => course.read_attribute(:invitation)),
+        :href => course_url(course, :invitation => course.read_attribute(:invitation), :subdomain => course.account.subdomain),
         :term => term || nil,
         :subtitle => subtitle,
         :id => course.id
