@@ -7781,6 +7781,8 @@ zh-CN:
         find: 查找
         new_group: 新组
         new_outcome: 新结果
+      buttons:
+        manage_rubrics: 管理评分标准
     common_core: 共同核心标准
     common_core_description: 左侧是您熟悉的共同核心标准的每个分组的结果文件夹结构。这样您就可以毫不费力地在您的课程中使用任何共同核心标准进行评分。
     confirm: 
@@ -7851,6 +7853,8 @@ zh-CN:
       points: "%{points_possible} 分"
       title: 命名
       total_points: 总分
+      buttons:
+        save: 保存
     outcome_group: 
       links: 
         delete_outcome_group: 删除结果组
@@ -7858,6 +7862,8 @@ zh-CN:
     outcome_group_form: 
       group_description: 说明
       title: 命名
+      buttons:
+        save: 保存
     outcome_result: 
       all_outcomes: 此学生的所有结果
       attempt_info: "答题 #%{attempt_number}，%{attempt_date}"
