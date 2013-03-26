@@ -128,7 +128,7 @@
             <ul class="dragging">
               <% hash_get(question, :answers).each do |variable| %>
                 <li>
-                  <span answerId=<%= hash_get(variable, :id) %> >
+                  <span class="btn-white" answerId=<%= hash_get(variable, :id) %> >
                     <%= hash_get(variable, :text) %>
                   </span>
                 </li>

@@ -39,8 +39,8 @@ define([
 
 
         Painter.App.dialog({
-          width:"100%",
-          minHeight:$(window).height(),
+          width: sketchSetting.canvasW + 60,
+          minHeight: sketchSetting.canvasH + 200,
           buttons: { "保存": function() {
             saveImg();
             Painter.clear();
@@ -56,6 +56,7 @@ define([
 
         function initial(){
           Painter = new Sketcher(sketchSetting);
+          Painter.App.find(".tools .line").trigger("click");
         }
 
         function reset(){

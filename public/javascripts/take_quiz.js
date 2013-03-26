@@ -33,7 +33,7 @@ define([
   'sketcher',
   'vendor/raphael',
   'i18n!editor',
-  'bootstrap'
+  'quizzes_tpl'
 ], function(I18n, $, timing, autoBlurActiveInput) {
 
   var lastAnswerSelected = null;
@@ -592,26 +592,30 @@ define([
 
     })();
 
-    (function takePaintQuestion(){
+    (function paintQuestion(){
+      
       if( $(".question.paint_question").size() === 0 ) return false;
-      var Painter,
-          sketchSetting = {
+      
+      var sketchSetting = {
             sketchType:"paintQuestion",
             stageId:"",
             lineW : 1,
-            canvasW : 600,
+            canvasW : 800,
             canvasH : 400,
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
             appTitle : "画板"
           };
+          
       $("#submit_quiz_form .paint_question").each(function(){
-        sketchSetting.canvasW = $(this).find(".text").width();
-        sketchSetting.canvasH = $(this).find(".text").height();
+        // sketchSetting.canvasW = $(this).find(".text").width();
+        sketchSetting.canvasH = $(this).find(".text").height() - 120;
         sketchSetting.stageId = $(this).attr("id");
-        Painter = new Sketcher(sketchSetting);
+        var Painter = new Sketcher(sketchSetting);
+        Painter.App.find(".tools .line").trigger("click");
       });
+      
     })();
 
     (function ConnectingLead(){
@@ -717,7 +721,7 @@ define([
           line
             .attr({
               "stroke": "#08c",
-              "stroke-width": 5
+              "stroke-width": 4
             })
             .click(function(e){
               e.stopPropagation();
@@ -799,11 +803,12 @@ define([
         // reload balls
         $.each(positionData, function(i,val){
           var text = val.text ? val.text : "";
-          var $ball = $("<span><p>" +
-            text +
-            "</p></span>");
+          var $ball = $(tpl.ball);
           var color = val.Grey ? "grey" : "yellow";
+          var oritation = val.Grey ? "left" : "right";
           $ball.addClass(color)
+            .find(".popover").addClass(oritation)
+            .find(".popover-content p").html(text).end().end()
             .css({
               position: "absolute",
               left: val.x,
@@ -812,9 +817,6 @@ define([
             .attr("ball-id", i)
             .appendTo( $main )
             .bind( "click", ballHandle );
-
-
-
         });
 
         updateLines();
@@ -892,7 +894,7 @@ define([
         }
 
         function drawLine($active, $end ){
-          var strokeWidth = 5,
+          var strokeWidth = 4,
             strokeColor = "#08c",
             x1 = $active.position().left + $active.width()/2,
             y1 = $active.position().top + $active.height()/2 ,
@@ -968,6 +970,7 @@ define([
     })();
     (function DragAndDop(){
       $("#submit_quiz_form .question.drag_and_drop_question").each(function(){
+        
         var $blueText = $(this).find(".blueText");
         var $select = $blueText.find(".ui-selectmenu");
         var $receive = $("<div class='receive'></div>");
@@ -993,7 +996,7 @@ define([
               var $ball = ui.draggable;
               var answerId = ui.draggable.attr("answerId");
               var $select = $(this).prev().prev("select");
-              var $span = ui.draggable.clone().removeAttr("class").removeAttr("style")
+              var $span = ui.draggable.clone().removeAttr("style")
                 .draggable({
                   stop: function( event, ui ) {
                     $(this).remove();
@@ -1011,7 +1014,6 @@ define([
 
 
       });
-
     }());
 
     (function FillInMultipleBlanksSubjective(){

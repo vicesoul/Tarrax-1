@@ -1,7 +1,7 @@
 @import 'environment';
 
 body {
-  background: #333;
+  background: #fff;
 }
 
 a {
@@ -215,5 +215,49 @@ a {
     .ie & {
       display: none;
     }
+  }
+}
+
+#wrapper-container .register .container{
+  width: 710px!important;
+  height: 512px;
+  border: 1px solid #ccc;
+  margin: 30px auto 50px;
+  .nav-tabs{
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+    li{
+      margin: 0;
+      padding: 0;
+      width: 354px;
+      text-align: center;
+      border-radius: 0;
+      border-top: none;
+      height: 46px;
+
+    li:first-child{
+      border-left: none;
+    }
+    li:last-child{
+      border-right: none;
+    }
+      a{
+	    margin: 0;
+	    padding: 0;
+	    border: none;
+	    color: #999;
+	    font-family: "Microsoft Yahei";
+	    font-size: 18px;
+	    line-height: 46px;
+		text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+      }
+      a:hover{
+        background: none;
+      }
+    }
+  }
+  .tab-pane{
+    margin:50px 0 0 100px;
   }
 }

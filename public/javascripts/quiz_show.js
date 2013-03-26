@@ -27,7 +27,8 @@ define([
   'jquery.instructure_misc_helpers' /* scrollSidebar */,
   'jquery.instructure_misc_plugins' /* ifExists, confirmDelete */,
   'message_students', /* messageStudents */
-  'vendor/raphael'
+  'vendor/raphael',
+  'quizzes_tpl'
 ], function(I18n, $, showAnswerArrows, inputMethods, _) {
 
 $(document).ready(function () {
@@ -239,7 +240,7 @@ $(document).ready(function () {
         line
           .attr({
             "stroke": color,
-            "stroke-width": 5
+            "stroke-width": 4
           });
       }
 
@@ -263,11 +264,12 @@ $(document).ready(function () {
       // reload balls
       $.each(positionData, function(i,val){
         var text = val.text ? val.text : "";
-        var $ball = $("<span><p>" +
-          text +
-          "</p></span>");
+        var $ball = $(tpl.ball);
         var color = val.Grey ? "grey" : "yellow";
+        var oritation = val.Grey ? "left" : "right";
         $ball.addClass(color)
+          .find(".popover").addClass(oritation)
+          .find(".popover-content p").html(text).end().end()
           .css({
             position: "absolute",
             left: val.x,
@@ -315,7 +317,7 @@ $(document).ready(function () {
       }
 
       function drawLine($active, $end, which, color, dash ){
-        var strokeWidth = 5,
+        var strokeWidth = 4,
           x1 = $active.position().left + $active.width()/2,
           y1 = $active.position().top + $active.height()/2 ,
           x2 = $end.position().left + $end.width()/2,

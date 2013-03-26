@@ -169,12 +169,15 @@ div#content
     .container
       :border none
       :position absolute
-      :top 75px
+      :top 120px
       :left 20px
       :z-index 9
   .paint_question
     .answers
       display: none
+    .question_text
+      margin-top: 115px
+      background: #fff
   .question_text
     display: block
   .fill_in_blanks_subjective_question
@@ -187,7 +190,7 @@ div#content
           height: $blankHeight!important
       >table
         position: relative
-        width: 150px!important
+        width: 260px!important
         height: $blankHeight!important
         display: inline-block
         tr.mceLast td
@@ -198,15 +201,20 @@ div#content
         height: 10px
         border: none
         background: none
+        position: relative
+        right: -50px
         .mceButton, td > div, td > span
           display: none
         .mce_instructure_drawing
           position: relative
-          top: 2px
-          right: -70px
-    .mceEditor
-      .mce_instructure_drawing
-        display: block!important
+          display: block!important
+          opacity: 0
+      &:hover
+        .mce_instructure_drawing
+          opacity: 1
+          
+      .mceStatusbar
+        display: none
   .connecting_lead_question
     position: relative
     .answers
@@ -217,18 +225,11 @@ div#content
         border: 1px solid rgba( 0, 0, 0, 0)
         cursor: pointer
         float: left
-        span.btn
-          overflow: hidden
-          max-width: 160px
-          text-overflow: ellipsis
-          white-space: nowrap
         .popover
           .popover-title
             display: none
         input
           display: none
-      .connecting_lead.active
-        border: 1px solid rgba( 0, 0, 0, 1)
     svg
       position: absolute!important
       z-index: 0
@@ -494,7 +495,7 @@ div#content
         position: absolute
         z-index: 9
         left:  0
-        top:  3px
+        top:  23px
 
 .question.connecting_lead_question
   .answers
@@ -919,6 +920,10 @@ form.question_form
   .connecting_on_pic_question
     .answer
       display: none
+      
+.connecting_on_pic_question
+  .connecting_on_pic_position, .connecting_on_pic_image, .connecting_lead, .form_answers
+    display: none
 .dragging
   list-style: none
   li
@@ -926,10 +931,9 @@ form.question_form
 .blueText
   line-height: 50px
   .receive
-    display: inline-block
-    border: 1px solid #eee
-    width: 100px
-    height: 35px
+    display: inline
+    border-bottom: 1px solid #999
+    padding: 15px 40px
 .factory
   display: block
   .menu:after
@@ -944,41 +948,45 @@ form.question_form
       margin: 10px
       float: left
       list-style: none
-    textarea
-      display: none
+    .popover
+      display: none!important
   span
     display: inline-block
-    width: 30px
-    height:  30px
-    border-radius: 50%
-    opacity: 0.8
-    border: 2px dotted rgba(0,0,0,0)
+    width: 37px
+    height:  37px
+    background: url("/images/jxb/balls.png") no-repeat
     b
       display: none
       cursor: pointer
       position: absolute
       right: -8px
       top: -8px
-    textarea, p
-      border: 1px solid #ddd
-      border-radius: 5px
-      padding: 5px
+      color: #999
+      width: 16px
+      height: 16px
+    .popover.ui-widget.ui-tooltip
+      display: block
       width: 100px
       min-height: 30px
       position: absolute
       left: 0
       top: 0
-      margin: 0 0 0 40px
+      margin: -10px 0 0 50px
       background: rgba(255,255,255,0.5)
-  span.grey
-    textarea, p
+      textarea, p
+        resize: none
+        width: 80px
+        height: 35px
+        border: none
+        box-shadow: none
+  .grey
+    background-position: 0 0
+    .popover.ui-widget.ui-tooltip
       right: 0
       left: auto
-      margin: 0 40px 0 0
-  .grey
-    background: grey
+      margin: -10px 50px 0 0
   .yellow
-    background: yellow
+    background-position: -63px 0
   .menu
     position: relative
     z-index: 1
@@ -1002,7 +1010,7 @@ form.question_form
       z-index: 2
       position: absolute
     span.active
-      border: 2px dotted #000
+      opacity: 0.5
     span:hover
       b
         display: block

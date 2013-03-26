@@ -6,7 +6,8 @@ ul, ol
 body.welcome
   font-size: 12px
   position: relative
-
+  #wrapper-container
+    border-top: none
   #main
     max-width: 100%
     margin-bottom: 0
@@ -26,7 +27,7 @@ body.welcome
   #header
     margin-bottom: 0!important
     background: #f4f4f4
-    border-bottom: 1px solid #ccc
+    border-bottom: 1px solid #ccc!important
     height: 40px
     min-height: 40px
     #header-inner
@@ -50,7 +51,9 @@ body.welcome
             line-height: 12px
           >.menu-item-title
             background: url("/images/canvas/menu_arrow.png") no-repeat right 4px
-            background-size: 15px auto
+            background-size: 15px auto  
+            i
+              display: none
         >li:last-child a
           border-right: none
         >li.hover a
@@ -59,10 +62,25 @@ body.welcome
       #topbar
         position: static
         float: right
+        width: auto
+
       #identity
+        float: none
+        margin: auto
+        padding: 0
+        background: none
+        box-shadow: none
+        border-radius: none
+        border: none
         li
           float: left
           margin: 0 0 0 10px
+          color: #666
+          padding: 0
+          line-height: 40px
+          a
+            color: #396EB2
+
       #header-logo
         display: none
   .form-search
@@ -72,7 +90,7 @@ body.welcome
       .search-query
         border-radius: 5px 0 0 5px
         width: 156px
-        padding: 4px 14px
+        padding: 4.2px 14px
         height: 20px
         line-height: 20px
         border-right: none
@@ -80,7 +98,7 @@ body.welcome
         border-radius: 0 5px 5px 0
         background: none
         padding: 3px 10px 0 0
-        margin-left: -3px
+        margin-left: -4px
         box-shadow: none
         border: 1px solid #ccc
         border-left: none
@@ -196,3 +214,100 @@ body.welcome
       display: none
       background: none
 
+.btn-blue
+  border: none
+  cursor: pointer
+  width: 233px
+  height: 52px
+  background: url("/images/jxb/btn-blue.png")
+  text-align: center
+  color: #fff
+  letter-spacing: 10px
+  font-size: 18px
+  text-shadow: none
+.right
+  float: right
+.ui-dialog.paint
+  .ui-dialog-buttonset
+    button
+      background-color: #FAA732
+      background-image: linear-gradient(to bottom, #FBB450, #F89406)
+      background-image: -moz-linear-gradient(top, #FBB450, #F89406)
+      background-image: -ms-linear-gradient(top, white, #F89406)
+      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FBB450), to(#F89406))
+      background-image: -webkit-linear-gradient(top, #FBB450, #F89406)
+      background-image: -o-linear-gradient(top, #FBB450, #F89406)
+      background-image: linear-gradient(top, #FBB450, #F89406)
+      background-repeat: repeat-x
+      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+      color: #FFFFFF
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+      border-radius: 4px 4px 4px 4px
+      border-style: solid
+      border-width: 1px
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05)
+      cursor: pointer
+      display: inline-block
+      font-size: 14px
+      line-height: 20px
+      margin-bottom: 0
+      padding: 4px 30px
+      text-align: center
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75)
+      vertical-align: middle
+      
+.btn-white
+  background-color: #fff
+  background-repeat: repeat-x
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+  color: #666
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+  border-radius: 15px
+  border-style: solid
+  border-width: 1px
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 0px rgba(0, 0, 0, 0.2)
+  cursor: pointer
+  display: inline-block
+  font-size: 14px
+  line-height: 20px
+  margin-bottom: 0
+  padding: 4px 30px
+  text-align: center
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75)
+  vertical-align: middle
+  overflow: hidden
+  max-width: 100px
+  text-overflow: ellipsis
+  &:hover
+    background-image: linear-gradient(to bottom, #f86e3d, #f15b24)
+    background-color: #FAA732
+    background-image: linear-gradient(to bottom, #f86e3d, #f15b24)
+    background-image: -moz-linear-gradient(top, #f86e3d, #f15b24)
+    background-image: -ms-linear-gradient(top, #f86e3d, #f86e3d)
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f86e3d), to(#f15b24))
+    background-image: -webkit-linear-gradient(top, #f86e3d, #f15b24)
+    background-image: -o-linear-gradient(top, #f86e3d, #f15b24)
+    background-image: linear-gradient(top, #f86e3d, #f15b24)
+    background-repeat: repeat-x
+    color: #fff
+    
+.active .btn-white
+  background-color: #fff
+  background-repeat: repeat-x
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 -2px 0px rgba(0, 0, 0, 0.4)
+  &:hover
+    background-color: #fff
+    background-repeat: repeat-x
+    background-image: linear-gradient(to bottom, #fff, #fff)
+    background-image: -moz-linear-gradient(top, #fff, #fff)
+    background-image: -ms-linear-gradient(top, white, #fff)
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#fff))
+    background-image: -webkit-linear-gradient(top, #fff, #fff)
+    background-image: -o-linear-gradient(top, #fff, #fff)
+    background-image: linear-gradient(top, #fff, #fff)
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 -2px 0px rgba(0, 0, 0, 0.4)
+    color: #666
+.question .text .question_text .btn-white
+  white-space: nowrap!important

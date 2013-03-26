@@ -5,9 +5,10 @@ define [
 ], (preventDefault, signupDialog, loginForm) ->
   #$loginForm = null
 
-  $('.signup_link').each (i)->
-    signupDialog($(this).data('template'), $(this).prop('title'), i)
-
+  #$('.signup_link').each (i)->
+    #signupDialog($(this).data('template'), $(this).prop('title'), i)
+#  signupDialog("studentDialog", "ddd", 0)
+#  signupDialog("studentHigherEdDialog", "ddd", 1)
   ###$('#registration_video a').click preventDefault ->
     $('<div style="padding:0;"><iframe style="float:left;" src="http://player.vimeo.com/video/35336470?portrait=0&amp;color=7fc8ff&amp;autoplay=1" width="800" height="450" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></div>')
       .dialog

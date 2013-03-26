@@ -98,7 +98,7 @@
 
 
           <%  a = match_left[display_answer_counter] %>
-        <span value="<%= hash_get(a, :match_id) %>" >
+        <span class="btn-white" value="<%= hash_get(a, :match_id) %>" >
           <%= hash_get(a, :text)  %>
         </span>
 
@@ -116,7 +116,7 @@
       <input type="hidden" value="<%= get_answer_right(user_answer, answerId) %>" class="right question_input">
       <input type="hidden" value="<%= hash_get(answer, :match_left_id) %>" class="left real_answer">
       <input type="hidden" value="<%= hash_get(answer, :match_right_id) %>" class="right real_answer">
-      <span>
+      <span class="btn-white">
         <%= hash_get(answer, :center) %>
       </span>
     </div>
@@ -130,7 +130,7 @@
         %>
 
           <%  a = match_right[display_answer_counter] %>
-          <span value="<%= hash_get(a, :match_id) %>" >
+          <span class="btn-white" value="<%= hash_get(a, :match_id) %>" >
           <%= hash_get(a, :text)  %>
         </span>
 

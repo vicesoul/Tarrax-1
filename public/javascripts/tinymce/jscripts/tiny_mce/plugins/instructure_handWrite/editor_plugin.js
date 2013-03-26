@@ -36,8 +36,16 @@ define([
               HandWrite.set("id",ed.id);
 
           //$("#ipadScale").attr("content","user-scalable=no");
-          HandWrite.App.show();
-          $mask.show();
+          HandWrite.App.dialog({
+            width: sketchSetting.canvasW + 70,
+            minHeight: sketchSetting.canvasH,
+            title:sketchSetting.appTitle,
+            dialogClass: sketchSetting.sketchType,
+            "resizable": false,
+            close: function() {
+              HandWrite.reset();
+            }
+          });
 
           function initial(){
               var Write = Sketcher.extend({
@@ -150,12 +158,16 @@ define([
               //****** add  buttonSet
 
               //var $scale = $('<meta id="ipadScale" name="viewport" content="user-scalable=no" />').prependTo("head");
-              var buttonSet = $("<div class='buttons-set' style='text-align: right;'></div>");
-              $mask = $("<div class='ui-mask'></div>").appendTo("body");
+              var buttonSet = $("<div class='buttons-set'></div>");
 
-              var $dele = $("<span class='btn btn-success'><i class='ico-white ico-arrow-left'></i>撤销</span>")
+              var $undo = $("<span class='btn-undo'>撤销</span>")
                   .bind("mousedown",function(){
                       tinymce.activeEditor.undoManager.undo();
+                  }).appendTo(buttonSet);
+                  
+              var $redo = $("<span class='btn-redo'>redo</span>")
+                  .bind("mousedown",function(){
+                      tinymce.activeEditor.undoManager.redo();
                   }).appendTo(buttonSet);
 
               /*var $return = $("<span href='#' class='btn btn-success'><i class='ico-white ico-arrow-left'></i>换行</span>")
@@ -165,19 +177,21 @@ define([
                      $editor.editorBox('insert_code', "<br/>");
                   }).appendTo(buttonSet);*/
 
-              var $close = $("<a href='#' class='btn btn-danger'><i class='ico-white ico-remove'></i>关闭</a>")
+              /*var $close = $("<a href='#' class='btn-close'>关闭</a>")
                   .click(function(e){
                       e.preventDefault();
                       HandWrite.App.hide();
                       $mask.hide();
                       $("#ipadScale").attr("content","user-scalable=yes");
-                  }).appendTo(buttonSet);
+                  }).appendTo(buttonSet);*/
 
               HandWrite.App.prepend(buttonSet);
               // end
 
               /*tinymce.activeEditor.dom.addClass(tinymce.activeEditor.dom.select('p'), 'someclass');
               ed.onUndo.add(function(ed, level) { console.log('Undo was performed: ' + level.content); });*/
+              
+              
 
               //****** choose brush
               HandWrite.brushSize = {width:9,height:9,step:1};
