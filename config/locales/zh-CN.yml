@@ -1661,6 +1661,8 @@ zh-CN:
       event_title: 活动标题
       start_time: 开始时间
       to: 到
+      links:
+        switch_views: 切换视图
     edit_event: 
       tabs: 
         assignment: 作业
@@ -2187,6 +2189,9 @@ zh-CN:
       message: 
         export_started: 导出过程已开始。大型课程可能需要一段时间。*您可以离开网页*，在导出完成时您会收到电子邮件。
       page_title: 课程导出
+      type:
+        course: 课程
+        quiz: 测试
     labels: 
       new_export: "新导出:"
     links: 
@@ -5238,6 +5243,7 @@ zh-CN:
       upload_form: "选择要上传的 CSV 文件"
     what_should_csv_look_like: "CSV 文件应该是什么样子?"
   gradebooks: 
+    top_level_crumb: 成绩
     assignment: 
       gradebook: 
         unmute_assignment: 取消屏蔽作业
@@ -5291,6 +5297,7 @@ zh-CN:
       buttons: 
         show_what_if: "显示已保存的 \"假设\" 分数"
       change_score_instructions: 单击任何分数并输入新值以查看该更改对总分的影响。
+      print_grades: 打印成绩
       click_to_change: 单击以测试不同分数
       comment_count: 
         one: "1 条评注"
