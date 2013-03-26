@@ -37,9 +37,10 @@ require [
     
     parseTree = ($obj, arr) ->
       for content in arr
-        $obj.append "<li class='open'>#{content.label}</li>"
-        if content.children.length
-          $obj.find('li').append( parseTree($("<ul></ul>"), content.children) )
+        $li = $("<li class='open'>#{content.label}</li>")
+        if content.children.length > 0
+          $li.append( parseTree($("<ul></ul>"), content.children) )
+        $obj.append $li
       return $obj
 
     $("#pick_up_from_accounts").bind 'click', (e) -> 
