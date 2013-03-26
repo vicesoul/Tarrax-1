@@ -325,6 +325,15 @@ class User < ActiveRecord::Base
     self.observer_enrollments.map{ |e| e.course_id }.uniq.include?(course.id)
   end
 
+  # ==== Examples
+  #   # Given accounts tree: 5 -> 3 -> 1 (root account)
+  #
+  #   chain = {}
+  #   User.add_to_account_chain_cache 5, chain
+  #   => [5, 3, 1]
+  #
+  #   p chain
+  #   => { 5 => [5, 3, 1], 3 => [3, 1], 1 => [1] }
   def self.add_to_account_chain_cache(account_id, account_chain_cache)
     if account_id.is_a? Account
       account = account_id
@@ -336,6 +345,26 @@ class User < ActiveRecord::Base
     account_chain_cache[account.id] = [account.id] + add_to_account_chain_cache(account.parent_account_id, account_chain_cache)
   end
 
+  # return account with index
+  # args:
+  #   +account_chain_cache+: use chain if given. otherwise build chain
+  #
+  # ==== Examples
+  #   # Given accounts tree: 5 -> 3 -> 1 (root account)
+  #
+  #   chain = {}
+  #   User.add_to_account_chain_cache 5, chain
+  #   => { 5 => 0, 3 => 1, 1 => 2 }
+  #
+  #   # if chain given, using chain
+  #   chain = { 3 => 2 }
+  #   User.add_to_account_chain_cache 5, chain
+  #   => { 5 => 0, 3 => 1, 2 => 2 }
+  #
+  #   # using lower index if avaliable
+  #   chain = { 3 => 2 }
+  #   User.add_to_account_chain_cache [5, 3], chain
+  #   => { 5 => 0, 3 => 0, 2 => 1 }
   def self.calculate_account_associations_from_accounts(starting_account_ids, account_chain_cache = {})
     results = {}
     remaining_ids = []
@@ -827,7 +856,8 @@ class User < ActiveRecord::Base
 
   def remove_from_root_account(account)
     self.enrollments.find_all_by_root_account_id(account.id).each(&:destroy)
-    self.pseudonyms.active.find_all_by_account_id(account.id).each { |p| p.destroy(true) }
+    # ryanw: pseudonym should not be deleted directly, should be deleted with user's destroy callbacks.
+    #self.pseudonyms.active.find_all_by_account_id(account.id).each { |p| p.destroy(true) }
     self.account_users.find_all_by_account_id(account.id).each(&:destroy)
     self.save
     self.update_account_associations
