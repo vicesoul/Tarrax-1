@@ -24,6 +24,8 @@ class AssignmentsController < ApplicationController
   include Api::V1::AssignmentGroup
   include Api::V1::Outcome
 
+  before_filter :require_user, :only => [:index]
+
   include GoogleDocs
   before_filter :require_context
   add_crumb(proc { t '#crumbs.assignments', "Assignments" }, :except => [:destroy, :syllabus, :index]) { |c| c.send :course_assignments_path, c.instance_variable_get("@context") }

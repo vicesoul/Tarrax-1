@@ -18,7 +18,7 @@
 
 # @API Accounts
 class AccountsController < ApplicationController
-  before_filter :require_user, :only => [:index, :homepage]
+  before_filter :require_user, :only => [:index, :new, :create, :homepage]
   before_filter :reject_student_view_student
   before_filter :get_context
 
