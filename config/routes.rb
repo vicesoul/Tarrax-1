@@ -564,12 +564,12 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :communication_channels
   map.resource :pseudonym_session
 
-  # dashboard_url is / , not /dashboard
-  map.dashboard '', :controller => 'users', :action => 'user_dashboard', :conditions => {:method => :get}
+  map.welcome '', :controller => 'users', :action => 'welcome', :conditions => {:method => :get}
+  map.dashboard 'dashboard', :controller => 'users', :action => 'user_dashboard', :conditions => {:method => :get}
   map.dashboard_sidebar 'dashboard-sidebar', :controller => 'users', :action => 'dashboard_sidebar', :conditions => {:method => :get}
   map.toggle_dashboard 'toggle_dashboard', :controller => 'users', :action => 'toggle_dashboard', :conditions => {:method => :post}
   map.styleguide 'styleguide', :controller => 'info', :action => 'styleguide', :conditions => {:method => :get}
-  map.root :dashboard
+  map.root :welcome
   # backwards compatibility with the old /dashboard url
   map.dashboard_redirect 'dashboard', :controller => 'users', :action => 'user_dashboard', :conditions => {:method => :get}
 
