@@ -85,8 +85,8 @@ describe NotificationPolicy do
   it "should pass 'data' to the message" do
     Notification.create! :name => "Hello",
                          :subject => "Hello",
-                         :body => "here's a free <%= data.favorite_soda %>",
                          :category => "TestImmediately"
+    Message.any_instance.stubs(:get_template).returns("here's a free <%= data.favorite_soda %>")
     class DataTest < ActiveRecord::Base
       set_table_name :courses
       attr_accessible :id
@@ -199,10 +199,13 @@ describe NotificationPolicy do
   
   describe "setup_for" do
     it "should not fail when params does not include a user, and the account doesn't allow scores in e-mails" do
-      params = {}
+      user_model
+      communication_channel_model(:user_id => @user.id)
+      notify1 = notification_model(:name => 'Setting 1', :category => 'MultiCategory')
+      params = { :channel_id => @communication_channel.id }
       params[:root_account] = Account.default
       params[:root_account].settings[:allow_sending_scores_in_emails] = false
-      NotificationPolicy.setup_for(user, params)
+      NotificationPolicy.setup_for(@user, params)
     end
 
     it "should set all notification entries within the same category" do
@@ -313,7 +316,7 @@ def policy_setup
   e = @course.enroll_student(@student)
   e.accept!
   Notification.find(:all).each{|n| n.destroy }
-  @notif = Notification.create!(:name => "Assignment Graded", :subject => "Test", :body => "test", :category => 'TestNever')
+  @notif = Notification.create!(:name => "Assignment Graded", :subject => "Test", :category => 'TestNever')
 end
 
 describe NotificationPolicy, "communication_preference" do

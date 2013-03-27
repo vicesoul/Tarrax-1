@@ -41,8 +41,8 @@ describe Instructure::BroadcastPolicy, "set_broadcast_policy" do
   end
 
   it "should allow multiple blocks" do
-    foo = Canvas::MessageHelper.create_notification('Foo', 'Foo', 0, '', 'Foo')
-    bar = Canvas::MessageHelper.create_notification('Bar', 'Bar', 0, '', 'Bar')
+    foo = Canvas::MessageHelper.create_notification(:name => 'Foo', :category => 'Foo')
+    bar = Canvas::MessageHelper.create_notification(:name => 'Bar', :category => 'Bar')
 
     class AnotherModel
       has_a_broadcast_policy
@@ -63,6 +63,25 @@ describe Instructure::BroadcastPolicy, "set_broadcast_policy" do
     list = AnotherModel.broadcast_policy_list
     list.find_policy_for(foo).should be_present
     list.find_policy_for(bar).should be_present
+  end
+
+  it "should allow overwriting of the current block w/ set_broadcast_policy!" do
+    foo = Canvas::MessageHelper.create_notification(:name => 'Foo', :category => 'Foo')
+    bar = Canvas::MessageHelper.create_notification(:name => 'Bar', :category => 'Bar')
+
+    class Parent < AnotherModel
+      has_a_broadcast_policy
+
+      set_broadcast_policy { dispatch :foo; to {}; whenever {} }
+    end
+
+    class Child < Parent
+      has_a_broadcast_policy
+
+      set_broadcast_policy! { }
+    end
+
+    Child.broadcast_policy_list.find_policy_for(foo).should_not be_present
   end
   # it "should require a block" do
   #   lambda{

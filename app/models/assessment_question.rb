@@ -33,9 +33,9 @@ class AssessmentQuestion < ActiveRecord::Base
   ALL_QUESTION_TYPES = ["multiple_answers_question", "fill_in_multiple_blanks_question", 
                         "matching_question", "missing_word_question", 
                         "multiple_choice_question", "numerical_question", 
-                        "text_only_question", "short_answer_question", 
-                        "multiple_dropdowns_question", "calculated_question", 
-                        "essay_question", "true_false_question"]
+                        "text_only_question", "short_answer_question",
+                        "multiple_dropdowns_question", "calculated_question",
+                        "essay_question", "true_false_question", "connecting_lead_question", "connecting_on_pic_question", "drag_and_drop_question", "fill_in_blanks_subjective_question"]
 
   serialize :question_data
 
@@ -280,6 +280,8 @@ class AssessmentQuestion < ActiveRecord::Base
       end
     elsif question[:question_type] == "essay_question"
       question[:comments] = check_length((qdata[:answers][0][:answer_comments] rescue ""), 'essay comments', 5.kilobyte)
+    elsif question[:question_type] == "fill_in_blanks_subjective_question"
+      question[:comments] = check_length((qdata[:answers][0][:answer_comments] rescue ""), 'essay comments', 5.kilobyte)
     elsif question[:question_type] == "matching_question"
       answers.each do |key, answer|
         a = {:text => check_length(answer[:answer_match_left], 'answer match', min_size), :left => check_length(answer[:answer_match_left], 'answer match', min_size), :right => check_length(answer[:answer_match_right], 'answer match', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size)}
@@ -296,6 +298,65 @@ class AssessmentQuestion < ActiveRecord::Base
         m[:match_id] = unique_local_id(m[:match_id])
         question[:matches] << m
       end
+    elsif question[:question_type] == "connecting_lead_question"
+      answers.each do |key, answer|
+        a = {
+          :text     => check_length(answer[:connecting_lead_center] , 'answer match'    , min_size) ,
+          :left     => check_length(answer[:connecting_lead_left]   , 'answer match'    , min_size) ,
+          :center   => check_length(answer[:connecting_lead_center] , 'answer match'    , min_size) ,
+          :right    => check_length(answer[:connecting_lead_right]  , 'answer match'    , min_size) ,
+          :comments => check_length(answer[:answer_comments]        , 'answer comments' , min_size)
+        }
+        a[:center_html] = a[:html] = sanitize(answer[:answer_match_center_html]) if answer[:answer_match_center_html].present?
+
+        a[:id]             = unique_local_id(answer[:id].to_i)
+        a[:match_left_id]  = unique_local_id(answer[:match_left_id].to_i)
+        a[:match_right_id] = unique_local_id(answer[:match_right_id].to_i)
+
+        question[:answers] << a
+        question[:matches] ||= {}
+        question[:matches][:left] ||= []
+        question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_lead_left], 'answer match', min_size)}
+        question[:matches][:right] ||= []
+        question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
+        question[:connecting_lead_linesNum] = qdata[:connecting_lead_linesNum]
+      end
+    elsif question[:question_type] == "connecting_on_pic_question"
+      answers.each do |key, answer|
+        a = {
+          :left     => check_length(answer[:connecting_on_pic_left]   , 'answer match'    , min_size) ,
+          :right    => check_length(answer[:connecting_on_pic_right]  , 'answer match'    , min_size) ,
+          :comments => check_length(answer[:answer_comments]        , 'answer comments' , min_size)
+        }
+
+        a[:id]             = unique_local_id(answer[:id].to_i)
+        a[:match_left_id]  = unique_local_id(answer[:match_left_id].to_i)
+        a[:match_right_id] = unique_local_id(answer[:match_right_id].to_i)
+
+        question[:answers] << a
+        question[:matches] ||= {}
+        question[:matches][:left] ||= []
+        question[:matches][:left] << {:match_id => a[:match_left_id], :text => check_length(answer[:connecting_lead_left], 'answer match', min_size)}
+        question[:matches][:right] ||= []
+        question[:matches][:right] << {:match_id => a[:match_right_id], :text => check_length(answer[:connecting_lead_right], 'answer match', min_size)}
+        question[:connecting_on_pic_position] = qdata[:connecting_on_pic_position]
+        question[:connecting_on_pic_image] = qdata[:connecting_on_pic_image]
+      end
+
+      #(qdata[:matching_answer_incorrect_matches][0] || "").split("\n").each do |other|
+        #m = {:text => check_length(other[0..255], 'distractor', min_size) }
+        #m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
+        #m[:match_id] = unique_local_id(m[:match_id])
+
+        #question[:matchers][:left] << m
+      #end
+      #(qdata[:matching_answer_incorrect_matches][1] || "").split("\n").each do |other|
+        #m = {:text => check_length(other[0..255], 'distractor', min_size) }
+        #m[:match_id] = previous_data[:answers].detect{|a| a[:text] == m[:text] }[:id] rescue nil
+        #m[:match_id] = unique_local_id(m[:match_id])
+
+        #question[:matchers][:right] << m
+      #end
     elsif question[:question_type] == "missing_word_question"
       found_correct = false
       answers.each do |key, answer|
@@ -326,12 +387,34 @@ class AssessmentQuestion < ActiveRecord::Base
             end
           end
         end
+        end
+    elsif question[:question_type] == "drag_and_drop_question"
+      variables = HashWithIndifferentAccess.new
+      answers.each_with_index do |arr, idx|
+        key, answer = arr
+        answers[idx][1][:blank_id] = check_length(answers[idx][1][:blank_id], 'blank id', min_size)
+      end
+      answers.each do |key, answer|
+        variables[answer[:blank_id]] ||= false
+        variables[answer[:blank_id]] = true if answer[:answer_weight].to_i == 100
+        a = {:text => check_length(answer[:answer_text], 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => answer[:blank_id], :id => unique_local_id(answer[:id].to_i)}
+        question[:answers] << a
+      end
+      variables.each do |variable, found_correct|
+        if !found_correct
+          question[:answers].each_with_index do |answer, idx|
+            if answer[:blank_id] == variable && !found_correct
+              question[:answers][idx][:weight] = 100
+              found_correct = true
+            end
+          end
+        end
       end
     elsif question[:question_type] == "fill_in_multiple_blanks_question"
       answers.each do |key, answer|
         a = {:text => check_length(scrub(answer[:answer_text]), 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => answer[:answer_weight].to_f, :blank_id => check_length(answer[:blank_id], 'blank id', min_size), :id => unique_local_id(answer[:id].to_i)}
         question[:answers] << a
-      end
+        end
     elsif question[:question_type] == "numerical_question"
       answers.each do |key, answer|
         a = {:text => check_length(answer[:answer_text], 'answer text', min_size), :comments => check_length(answer[:answer_comments], 'answer comments', min_size), :weight => 100, :id => unique_local_id(answer[:id].to_i)}
@@ -348,7 +431,7 @@ class AssessmentQuestion < ActiveRecord::Base
       end
     elsif question[:question_type] == "calculated_question"
       question[:formulas] = []
-      qdata[:formulas].sort_by(&:first).each do |key, formula|
+      (qdata[:formulas] || []).sort_by(&:first).each do |key, formula|
         question[:formulas] << {
           :formula => check_length(formula[0..1024], 'formula', min_size)
         }

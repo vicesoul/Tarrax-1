@@ -1,4 +1,3 @@
-#
 # Copyright (C) 2011 - 2012 Instructure, Inc.
 #
 # This file is part of Canvas.
@@ -43,10 +42,14 @@ class Quiz < ActiveRecord::Base
   belongs_to :context, :polymorphic => true
   belongs_to :assignment
   belongs_to :cloned_item
+  belongs_to :assignment_group
   validates_length_of :description, :maximum => maximum_long_text_length, :allow_nil => true, :allow_blank => true
   validates_length_of :title, :maximum => maximum_string_length, :allow_nil => true
   validates_presence_of :context_id
   validates_presence_of :context_type
+  validate :validate_quiz_type, :if => :quiz_type_changed?
+  validate :validate_ip_filter, :if => :ip_filter_changed?
+  validate :validate_hide_results, :if => :hide_results_changed?
 
   sanitize_field :description, Instructure::SanitizeField::SANITIZE
   copy_authorized_links(:description) { [self.context, nil] }
@@ -54,16 +57,23 @@ class Quiz < ActiveRecord::Base
   before_save :set_defaults
   after_save :update_assignment
   after_save :touch_context
-  after_save :link_assignment_overrides, :if => :new_assignment_id?
 
   serialize :quiz_data
 
   simply_versioned
+  # This callback is listed here in order for the :link_assignment_overrides
+  # method to be called after the simply_versioned callbacks. We want the
+  # overrides to reflect the most recent version of the quiz.
+  # If we placed this before simply_versioned, the :link_assignment_overrides
+  # method would fire first, meaning that the overrides would reflect the
+  # last version of the assignment, because the next callback would be a
+  # simply_versioned callback updating the version.
+  after_save :link_assignment_overrides, :if => :assignment_id_changed?
 
   def infer_times
     # set the time to 11:59 pm in the creator's time zone, if none given
-    self.due_at += ((60 * 60 * 24) - 60) if self.due_at && self.due_at.hour == 0 && self.due_at.min == 0
-    self.lock_at += ((60 * 60 * 24) - 60) if self.lock_at && self.lock_at.hour == 0 && self.lock_at.min == 0
+    self.due_at = CanvasTime.fancy_midnight(self.due_at)
+    self.lock_at = CanvasTime.fancy_midnight(self.lock_at)
   end
 
   def set_defaults
@@ -97,11 +107,27 @@ class Quiz < ActiveRecord::Base
   end
 
   def link_assignment_overrides
-    collections = [assignment_overrides, assignment_override_students]
-    collections += [assignment.assignment_overrides, assignment.assignment_override_students] if assignment
+    override_students = [assignment_override_students]
+    overrides = [assignment_overrides]
+    overrides_params = {:quiz_id => id, :quiz_version => version_number}
 
-    collections.each do |collection|
-      collection.update_all({ :assignment_id => assignment_id, :quiz_id => id })
+    if assignment
+      override_students += [assignment.assignment_override_students]
+      overrides += [assignment.assignment_overrides]
+      overrides_params[:assignment_version] = assignment.version_number
+      overrides_params[:assignment_id] = assignment_id
+    end
+
+    fields = [:assignment_version, :assignment_id, :quiz_version, :quiz_id]
+    overrides.flatten.each do |override|
+      fields.each do |field|
+        override.send(:"#{field}=", overrides_params[field])
+      end
+      override.save!
+    end
+
+    override_students.each do |collection|
+      collection.update_all({:assignment_id => assignment_id,:quiz_id => id})
     end
   end
 
@@ -390,10 +416,16 @@ class Quiz < ActiveRecord::Base
     return @stored_questions if @stored_questions && !hashes
     questions = hashes || self.quiz_data || []
     questions.each do |val|
-      
+
       if val[:answers]
         val[:answers] = prepare_answers(val)
-        val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
+        case val[:matches]
+        when Array
+          val[:matches] = val[:matches].sort_by{|m| m[:text] || "" } if val[:matches]
+        when Hash
+          val[:matches][:left] = val[:matches][:left].sort_by{ rand } if val[:matches][:left]
+          val[:matches][:right] = val[:matches][:right].sort_by{ rand } if val[:matches][:right]
+        end
       elsif val[:questions] # It's a QuizGroup
         if val[:assessment_question_bank_id]
           # It points to a question bank
@@ -403,7 +435,13 @@ class Quiz < ActiveRecord::Base
           val[:questions].each do |question|
             if question[:answers]
               question[:answers] = prepare_answers(question)
-              question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
+              case question[:matches]
+              when Array
+                question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
+              when Hash
+                question[:matches][:left] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
+                question[:matches][:right] = question[:matches][:right].sort_by{ rand } if question[:matches][:right]
+              end
             end
             questions << question
           end
@@ -416,15 +454,15 @@ class Quiz < ActiveRecord::Base
     @stored_questions = res
     res
   end
-  
+
   def single_attempt?
     self.allowed_attempts == 1
   end
-  
+
   def unlimited_attempts?
     self.allowed_attempts == -1
   end
-  
+
   def generate_submission_question(q)
     @idx ||= 1
     q[:name] = "#{t('#quiz_question.defaults.question_name', 'Question')} #{@idx}"
@@ -441,6 +479,11 @@ class Quiz < ActiveRecord::Base
       end
       q[:original_question_text] = q[:question_text]
       q[:question_text] = text
+    elsif q[:question_type] == 'fill_in_blanks_subjective_question'
+      text = q[:question_text]
+      text = text.gsub(/\[\w*\]/, "<textarea class='question_input' style='width: 90%;' name='question_#{q[:id]}[]'></textarea>")
+      q[:original_question_text] = q[:question_text]
+      q[:question_text] = text
     elsif q[:question_type] == 'multiple_dropdowns_question'
       text = q[:question_text]
       variables = q[:answers].map{|a| a[:blank_id] }.uniq
@@ -451,9 +494,22 @@ class Quiz < ActiveRecord::Base
         select = "<select class='question_input' name='question_#{q[:id]}_#{variable_id}'><option value=''>#{t(:default_question_input, "[ Select ]")}</option>#{options}</select>"
         re = Regexp.new("\\[#{variable}\\]")
         text = text.sub(re, select)
-      end
-      q[:original_question_text] = q[:question_text]
-      q[:question_text] = text
+        end
+        q[:original_question_text] = q[:question_text]
+        q[:question_text] = text
+    elsif q[:question_type] == 'drag_and_drop_question'
+      text = q[:question_text]
+      variables = q[:answers].map{|a| a[:blank_id] }.uniq
+      variables.each do |variable|
+        variable_id = AssessmentQuestion.variable_id(variable)
+        variable_answers = q[:answers].select{|a| a[:blank_id] == variable }
+        options = variable_answers.map{|a| "<option value='#{a[:id]}'>#{CGI::escapeHTML(a[:text])}</option>" }
+        select = "<select class='question_input' name='question_#{q[:id]}_#{variable_id}'><option value=''>#{t(:default_question_input, "[ Select ]")}</option>#{options}</select>"
+        re = Regexp.new("\\[#{variable}\\]")
+        text = text.sub(re, select)
+        end
+        q[:original_question_text] = q[:question_text]
+        q[:question_text] = text
     # on equation questions, pick one of the formulas, plug it in
     # and you should be able to treat it like a numerical_answer
     # question for all intents and purposes
@@ -472,7 +528,7 @@ class Quiz < ActiveRecord::Base
     @idx += 1
     q
   end
-  
+
   def find_or_create_submission(user, temporary=false, state=nil)
     s = nil
     state ||= 'untaken'
@@ -492,7 +548,7 @@ class Quiz < ActiveRecord::Base
     end
     s
   end
-  
+
   # Generates a submission for the specified user on this quiz, based
   # on the SAVED version of the quiz.  Does not consider permissions.
   def generate_submission(user, preview=false)
@@ -507,7 +563,7 @@ class Quiz < ActiveRecord::Base
     if preview
       @submission_questions = self.stored_questions(generate_quiz_data(:persist => false))
     end
-    
+
     exclude_ids = @submission_questions.map{ |q| q[:assessment_question_id] }.compact
     @submission_questions.each do |q|
       if q[:pick_count] #QuizGroup
@@ -520,6 +576,8 @@ class Quiz < ActiveRecord::Base
               if question[:answers]
                 question[:answers] = prepare_answers(question)
                 question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
+                question[:matches][:left] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
+                question[:matches][:right] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
               end
               question[:points_possible] = q[:question_points]
               question[:published_at] = q[:published_at]
@@ -573,7 +631,7 @@ class Quiz < ActiveRecord::Base
     end
   end
   
-  # Takes the PRE-SAVED version of the quiz and uses it to generate a 
+  # Takes the PRE-SAVED version of the quiz and uses it to generate a
   # SAVED version.  That is, gathers the relationship entities from
   # the database and uses them to populate a static version that will
   # be held in Quiz.quiz_data
@@ -600,7 +658,7 @@ class Quiz < ActiveRecord::Base
     end
     data
   end
-  
+
   def add_assessment_questions(assessment_questions, group=nil)
     questions = assessment_questions.map do |assessment_question|
       question = self.quiz_questions.build
@@ -613,7 +671,7 @@ class Quiz < ActiveRecord::Base
     end
     questions.compact.uniq
   end
-  
+
   def quiz_title
     result = self.title
     result = t(:default_title, "Unnamed Quiz") if result == "undefined" || !result
@@ -621,7 +679,7 @@ class Quiz < ActiveRecord::Base
     result
   end
   alias_method :to_s, :quiz_title
-  
+
   def locked_for?(user=nil, opts={})
     return false if opts[:check_policies] && self.grants_right?(user, nil, :update)
     Rails.cache.fetch(locked_cache_key(user), :expires_in => 1.minute) do
@@ -651,7 +709,7 @@ class Quiz < ActiveRecord::Base
       locked
     end
   end
-  
+
   def context_module_action(user, action, points=nil)
     tags_to_update = self.context_module_tags.to_a
     if self.assignment
@@ -690,16 +748,16 @@ class Quiz < ActiveRecord::Base
     end
     write_attribute(:hide_results, val)
   end
-  
+
   def check_if_submissions_need_review
     self.quiz_submissions.each{|s| s.update_if_needs_review(self) }
   end
-  
+
   def changed_significantly_since?(version_number)
     @significant_version ||= {}
     return @significant_version[version_number] if @significant_version[version_number]
     old_version = self.versions.get(version_number).model
-    
+
     needs_review = false
     needs_review = true if old_version.points_possible != self.points_possible
     needs_review = true if (old_version.quiz_data || []).length != (self.quiz_data || []).length
@@ -709,10 +767,10 @@ class Quiz < ActiveRecord::Base
       new_data.each_with_index do |q, i|
         needs_review = true if (q[:id] || q['id']) != (old_data[i][:id] || old_data[i]['id'])
       end
-    end    
+    end
     @significant_version[version_number] = needs_review
   end
-  
+
   def migrate_content_links_by_hand(user)
     self.quiz_questions.each do |question|
       data = QuizQuestion.migrate_question_hash(question.question_data, :context => self.context, :user => user)
@@ -735,6 +793,38 @@ class Quiz < ActiveRecord::Base
       end
     end
     self.quiz_data = data
+  end
+
+  def validate_quiz_type
+    return if self.quiz_type.blank?
+    unless valid_quiz_type_values.include?(self.quiz_type)
+      errors.add(:invalid_quiz_type, t('errors.invalid_quiz_type', "Quiz type is not valid" ))
+    end
+  end
+
+  def valid_quiz_type_values
+    %w[practice_quiz assignment graded_survey survey]
+  end
+
+  def validate_ip_filter
+    return if self.ip_filter.blank?
+    require 'ipaddr'
+    begin
+      self.ip_filter.split(/,/).each { |filter| IPAddr.new(filter) }
+    rescue
+      errors.add(:invalid_ip_filter, t('errors.invalid_ip_filter', "IP filter is not valid"))
+    end
+  end
+
+  def validate_hide_results
+    return if self.hide_results.blank?
+    unless valid_hide_results_values.include?(self.hide_results)
+      errors.add(:invalid_hide_results, t('errors.invalid_hide_results', "Hide results is not valid" ))
+    end
+  end
+
+  def valid_hide_results_values
+    %w[always until_after_last_attempt]
   end
   
   attr_accessor :clone_updated
@@ -901,6 +991,10 @@ class Quiz < ActiveRecord::Base
           blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
           answer_ids = blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym] }
           row << answer_ids.map{|id| (question[:answers].detect{|a| a[:id] == id } || {})[:text].try(:gsub, /,/, '\,' ) }.compact.join(',')
+        elsif question[:question_type] == 'drag_and_drop_question'
+          blank_ids = question[:answers].map{|a| a[:blank_id] }.uniq
+          answer_ids = blank_ids.map{|blank_id| answer["answer_for_#{blank_id}".to_sym] }
+          row << answer_ids.map{|id| (question[:answers].detect{|a| a[:id] == id } || {})[:text].try(:gsub, /,/, '\,' ) }.compact.join(',')
         elsif question[:question_type] == 'calculated_question'
           list = question[:answers][0][:variables].map{|a| [a[:name],a[:value].to_s].map{|str| str.gsub(/=>/, '\=>') }.join('=>') }
           list << answer[:text]
@@ -908,12 +1002,12 @@ class Quiz < ActiveRecord::Base
         elsif question[:question_type] == 'matching_question'
           answer_ids = question[:answers].map{|a| a[:id] }
           answer_and_matches = answer_ids.map{|id| [id, answer["answer_#{id}".to_sym].to_i] }
-          row << answer_and_matches.map{|id, match_id| 
+          row << answer_and_matches.map{|id, match_id|
             res = []
             res << (question[:answers].detect{|a| a[:id] == id } || {})[:text]
             match = question[:matches].detect{|m| m[:match_id] == match_id } || question[:answers].detect{|m| m[:match_id] == match_id} || {}
             res << (match[:right] || match[:text])
-            res.map{|s| (s || '').gsub(/=>/, '\=>')}.join('=>').gsub(/,/, '\,') 
+            res.map{|s| (s || '').gsub(/=>/, '\=>')}.join('=>').gsub(/,/, '\,')
           }.join(',')
         elsif question[:question_type] == 'numerical_question'
           row << (answer && answer[:text])
@@ -1008,7 +1102,7 @@ class Quiz < ActiveRecord::Base
     res[:response_values] = []
     res[:unexpected_response_values] = []
     res[:user_ids] = []
-    res[:answers] = question[:answers].map{|a| 
+    res[:answers] = question[:answers].map{|a|
       answer = a
       answer[:responses] = 0
       answer[:user_ids] = []
@@ -1035,7 +1129,7 @@ class Quiz < ActiveRecord::Base
           res[:answers][idx][:answer_matches] << match
         end
       end
-    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question'].include?(question[:question_type])
+    elsif ['fill_in_multiple_blanks_question', 'multiple_dropdowns_question', 'drag_and_drop_question'].include?(question[:question_type])
       res[:multiple_responses] = true
       answer_keys = {}
       answers = []
@@ -1091,8 +1185,19 @@ class Quiz < ActiveRecord::Base
                 res[:answer_sets][idx][:answer_matches] << answer
               end
             end
-          end
+            end
         elsif question[:question_type] == 'multiple_dropdowns_question'
+          res[:multiple_answers] = true
+          res[:answer_sets].each_with_index do |answer, idx|
+            res[:answer_sets][idx][:responses] += 1 if response[:correct]
+            res[:answer_sets][idx][:answer_matches].each_with_index do |right, jdx|
+              if response["answer_id_for_#{answer[:blank_id]}".to_sym] == right[:id]
+                res[:answer_sets][idx][:answer_matches][jdx][:responses] += 1
+                res[:answer_sets][idx][:answer_matches][jdx][:user_ids] << submission.user_id
+              end
+            end
+            end
+        elsif question[:question_type] == 'drag_and_drop_question'
           res[:multiple_answers] = true
           res[:answer_sets].each_with_index do |answer, idx|
             res[:answer_sets][idx][:responses] += 1 if response[:correct]
@@ -1132,6 +1237,9 @@ class Quiz < ActiveRecord::Base
           end
         elsif question[:question_type] == 'text_only_question'
         elsif question[:question_type] == 'essay_question'
+          res[:essay_responses] ||= []
+          res[:essay_responses] << {:user_id => submission.user_id, :text => response[:text].strip}
+        elsif question[:question_type] == 'fill_in_blanks_subjective_question'
           res[:essay_responses] ||= []
           res[:essay_responses] << {:user_id => submission.user_id, :text => response[:text].strip}
         else
@@ -1199,6 +1307,11 @@ class Quiz < ActiveRecord::Base
           assessment[:id] = item_id.to_i
           if assessment[:assignment]
             assessment[:assignment][:id] = Quiz.find(item_id.to_i).try(:assignment_id)
+          end
+        end
+        if assessment['assignment_migration_id']
+          if assignment = data['assignments'].find{|a| a['migration_id'] == assessment['assignment_migration_id']}
+            assignment['quiz_migration_id'] = migration_id
           end
         end
         begin
@@ -1379,5 +1492,18 @@ class Quiz < ActiveRecord::Base
 
   def self.shuffleable_question_type?(question_type)
     !non_shuffled_questions.include?(question_type)
+  end
+
+  def access_code_key_for_user(user)
+    "quiz_#{id}_#{user.id}_entered_access_code"
+  end
+
+  def group_category_id
+    assignment.try(:group_category_id)
+  end
+
+  def publish!
+    self.workflow_state = 'available'
+    save!
   end
 end

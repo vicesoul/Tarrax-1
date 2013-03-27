@@ -9,7 +9,7 @@ require [
   'translations/_core_en'
   'jquery.ajaxJSON'
   'vendor/firebugx'
-  'jquery.google-analytics'
+#  'jquery.google-analytics'
   'vendor/swfobject/swfobject'
   'reminders'
   'jquery.instructure_forms'
@@ -25,6 +25,8 @@ require [
   # 'compiled/behaviors/repin-item'
   # 'compiled/behaviors/follow'
   'compiled/behaviors/tooltip'
+  'compiled/behaviors/instructure_inline_media_comment'
+
   # other stuff several bundles use
   'media_comments'
   # add mwEmbedLoader 2012-11-01 rupert
@@ -47,6 +49,11 @@ require [
 ], (Backbone, courseList, helpDialog) ->
   courseList.init()
   helpDialog.initTriggers()
+
+  # Make the font-based icons work in IE8,
+  # it needs to be told to redraw pseudo elements on page load
+  if INST.browser.ie8
+    $('<style>:before,:after{content:"" !important}</style>').appendTo('head').delay(1).remove()
 
   $('#skip_navigation_link').on 'click', ->
     $($(this).attr('href')).attr('tabindex', -1).focus()

@@ -29,6 +29,8 @@ class UserAccountAssociation < ActiveRecord::Base
   belongs_to :user
   belongs_to :account
 
+  validates_presence_of :user_id, :account_id
+
   attr_accessible :account_id, :depth, :enrollment_type, :fake
 
   before_save :make_sure_only_one_fake_association_each_account

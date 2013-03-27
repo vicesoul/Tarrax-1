@@ -309,7 +309,7 @@ class AccountAuthorizationConfig < ActiveRecord::Base
 
   def disable_open_registration_if_delegated
     if self.delegated_authentication? && self.account.open_registration?
-      @account.settings = { :open_registration => false }
+      @account.settings = { :open_registration => false, :self_registration => false }
       @account.save!
     end
   end
@@ -365,6 +365,8 @@ class AccountAuthorizationConfig < ActiveRecord::Base
   end
 
   def ldap_bind_result(unique_id, password_plaintext)
+    return nil if password_plaintext.blank?
+
     if self.last_timeout_failure.present?
       failure_timeout = self.class.ldap_failure_wait_time.ago
       if self.last_timeout_failure >= failure_timeout

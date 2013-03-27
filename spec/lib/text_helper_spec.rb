@@ -272,7 +272,7 @@ describe TextHelper do
     context "i18n" do
       it "should automatically escape Strings" do
         th.mt(:foo, "We **don't** trust the following input: %{input}", :input => "`a` **b** _c_ ![d](e)\n# f\n + g\n - h").
-          should == "We <strong>don't</strong> trust the following input: `a` **b** _c_ ![d](e) # f + g - h"
+          should == "We <strong>don&#39;t</strong> trust the following input: `a` **b** _c_ ![d](e) # f + g - h"
       end
 
       it "should not escape MarkdownSafeBuffers" do
@@ -343,6 +343,76 @@ Ad dolore andouille meatball irure, ham hock tail exercitation minim ribeye sint
     test_strings.each do |input, output|
       input = input.dup.force_encoding("UTF-8") if RUBY_VERSION >= '1.9'
       TextHelper.strip_invalid_utf8(input).should == output
+    end
+  end
+
+  describe "YAML invalid UTF8 stripping" do
+    before do
+      pending("ruby 1.9 only") if RUBY_VERSION < "1.9"
+    end
+
+    it "should recursively strip out invalid utf-8" do
+      data = YAML.load(%{
+---
+answers:
+- !map:HashWithIndifferentAccess
+  id: 2
+  text: "t\xEAwo"
+  valid_ascii: !binary |
+    oHRleHSg
+      }.strip)
+      answer = data['answers'][0]['text']
+      answer.valid_encoding?.should be_false
+      TextHelper.recursively_strip_invalid_utf8!(data, true)
+      answer.should == "two"
+      answer.encoding.should == Encoding::UTF_8
+      answer.valid_encoding?.should be_true
+
+      # in some edge cases, Syck will return a string as ASCII-8BIT if it's not valid UTF-8
+      # so we added a force_encoding step to recursively_strip_invalid_utf8!
+      ascii = data['answers'][0]['valid_ascii']
+      ascii.should == 'text'
+      ascii.encoding.should == Encoding::UTF_8
+    end
+
+    it "should strip out invalid utf-8 when deserializing a column" do
+      # non-binary invalid utf-8 can't even be inserted into the db in this environment,
+      # so we only test the !binary case here
+      yaml_blob = %{
+---
+ answers:
+ - !map:HashWithIndifferentAccess
+   weight: 0
+   id: 2
+   html: ab&ecirc;cd.
+   valid_ascii: !binary |
+     oHRleHSg
+   migration_id: QUE_2
+ question_text: What is the answer
+ position: 2
+      }.force_encoding('binary').strip
+      # now actually insert it into an AR column
+      aq = assessment_question_model
+      AssessmentQuestion.update_all({ :question_data => yaml_blob }, { :id => aq.id })
+      text = aq.reload.question_data['answers'][0]['valid_ascii']
+      text.should == "text"
+      text.encoding.should == Encoding::UTF_8
+    end
+
+    describe "unserialize_attribute_with_utf8_check" do
+      it "should not strip columns not on the list" do
+        TextHelper.expects(:recursively_strip_invalid_utf8!).never
+        a = Account.find(Account.default.id)
+        a.settings # deserialization is lazy, trigger it
+      end
+
+      it "should strip columns on the list" do
+        TextHelper.unstub(:recursively_strip_invalid_utf8!)
+        aq = assessment_question_model
+        TextHelper.expects(:recursively_strip_invalid_utf8!).with(instance_of(HashWithIndifferentAccess), true)
+        aq = AssessmentQuestion.find(aq)
+        aq.question_data
+      end
     end
   end
 end

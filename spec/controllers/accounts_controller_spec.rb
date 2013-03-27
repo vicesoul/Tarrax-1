@@ -27,12 +27,12 @@ describe AccountsController do
 
   def cross_listed_course
     account_with_admin_logged_in
-    @account1 = Account.create!
+    @account1 = Account.create! :name => 'abc'
     @account1.add_user(@user)
     @course1 = @course
     @course1.account = @account1
     @course1.save!
-    @account2 = Account.create!
+    @account2 = Account.create! :name => 'abc'
     @course2 = course
     @course2.account = @account2
     @course2.save!
@@ -143,7 +143,7 @@ describe AccountsController do
 
     it "should allow adding an existing user to a sub account" do
       account_with_admin_logged_in(:active_all => 1)
-      @subaccount = @account.sub_accounts.create!
+      @subaccount = @account.sub_accounts.create! :name => 'abc'
       @munda = user_with_pseudonym(:account => @account, :active_all => 1, :username => 'munda@instructure.com')
       post 'add_account_user', :account_id => @subaccount.id, :membership_type => 'AccountAdmin', :user_list => 'munda@instructure.com'
       response.should be_success
@@ -218,7 +218,7 @@ describe AccountsController do
   context "special account ids" do
     before do
       account_with_admin_logged_in(:account => Account.site_admin)
-      @account = Account.create!
+      @account = Account.create! :name => 'abc'
       LoadAccount.stubs(:default_domain_root_account).returns(@account)
     end
 
@@ -241,7 +241,7 @@ describe AccountsController do
   describe "update" do
     it "should allow admins to set the sis_source_id on sub accounts" do
       account_with_admin_logged_in
-      @account = @account.sub_accounts.create!
+      @account = @account.sub_accounts.create! :name => 'abc'
       post 'update', :id => @account.id, :account => { :sis_source_id => 'abc' }
       @account.reload
       @account.sis_source_id.should == 'abc'
@@ -273,7 +273,7 @@ describe AccountsController do
     it "should allow site_admin to update certain settings" do
       user
       user_session(@user)
-      @account = Account.create!
+      @account = Account.create! :name => 'abc'
       Account.site_admin.add_user(@user)
       post 'update', :id => @account.id, :account => { :settings => { 
         :global_includes => true,
@@ -288,4 +288,5 @@ describe AccountsController do
       @account.admins_can_change_passwords?.should be_true
     end
   end
+
 end

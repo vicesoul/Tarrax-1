@@ -35,10 +35,10 @@
 <%= render :partial => 'shared/flash_notices' %>
 
 <div id="header" class="no-print <%= 'no-user' unless @current_user %>">
-  <div id="header-inner">
-    <a href="#content" id="skip_navigation_link"><%= t 'links.skip_to_content', "Skip To Content" %></a>
+    <div id="header-inner">
+      <a href="#content" id="skip_navigation_link"><%= t 'links.skip_to_content', "Skip To Content" %></a>
     <a id="header-logo" href="<%= root_url %>"><%= t 'links.dashboard', "My Dashboard" %></a>
-    <b id="header-logo-secondary"></b>
+      <b id="header-logo-secondary"></b>
     <div id="topbar">
       <% if (identity = yield :identity) %>
         <%= identity %>
@@ -48,7 +48,7 @@
         <%- end -%>
       <% end %>
     </div>
-    <%= render(:partial => "shared/keyboard_navigation_hint") if keyboard_navigation %>
+      <%= render(:partial => "shared/keyboard_navigation_hint") if keyboard_navigation %>
     <% if @current_user %>
     <ul role="navigation" id="menu" aria-label="<%= t('navigation.main', 'Main Navigation') %>">
       <%- cache([@current_user, 'home-menu-15m'], :expires_in => 15.minutes) do -%>
@@ -65,7 +65,7 @@
         <%- end -%>
       </li>
       <%- end -%>
-      <li id="assignments_menu_item" class="menu-item">
+    <li id="assignments_menu_item" class="menu-item">
       <%
       # this will cache the assignments menu for 3 minutes.  the way it is right now it does 3 really expensive queries every page load.
       # to do this better we would either figure a better way to find needing_submitting, needing_grading, and recently_graded
@@ -118,9 +118,27 @@
         <a href="<%= calendar_path %>" class="menu-item-no-drop"><%= t('menu.calendar', 'Calendar') %></a>
       </li>
     </ul>
+
+    <% else %>
+        <ul role="navigation" id="menu" aria-label="main">
+            <li class="menu-item">
+                <a href="<%= dashboard_path %>" class="menu-item-no-drop">课程</a>
+
+            </li>
+          <li class="menu-item">
+                <a href="/assignments" class="menu-item-no-drop"><%= t('menu.assignments', 'Assignments') %></a>
+
+          </li>
+          <li class="menu-item">
+            <%= link_to(t('menu.grades', 'Grades'), :grades, :class=>"menu-item-no-drop") %>
+          </li>
+          <li class="menu-item">
+            <a href="<%= calendar_path %>" class="menu-item-no-drop"><%= t('menu.calendar', 'Calendar') %></a>
+          </li>
+        </ul>
     <% end %>
-  </div>
-</div>
+      </div>
+    </div>
 <div id="instructure_ajax_error_box">
   <div style="text-align: right; background-color: #fff;"><a href="#" class="close_instructure_ajax_error_box_link"><%= t('links.close', 'Close') %></a></div>
   <iframe id="instructure_ajax_error_result" src="about:blank" style="border: 0;"></iframe>
@@ -135,14 +153,14 @@
         <%= left_side %>
       <% else %>
         <% if @context.try(:short_name) %>
-          <h2 id="section-tabs-header">
+          <h1 id="section-tabs-header">
             <%= @context.short_name %>
             <% if @context && @context.respond_to?(:context)  %>
               <a href="<%= url_for(@context.context) %>" id="section-tabs-header-subtitle" class="ellipsis"><%= @context.context.name %></a>
             <% elsif @context && @context.respond_to?(:enrollment_term) && !@context.enrollment_term.default_term? %>
               <span id="section-tabs-header-subtitle" class="ellipsis"><%= @context.enrollment_term.name %></span>
             <% end %>
-          </h2>
+          </h1>
         <% end %>
         <%= section_tabs %>
       <% end %>
@@ -201,6 +219,9 @@
 <% if keyboard_navigation %>
   <div id="keyboard_navigation">
     <%= keyboard_navigation %>
+    <div class='hidden-readable' tabindex='0'>
+      <%= t('keyboard_navigation.close', 'Press comma to close this dialog') %>
+    </div>
   </div>
 <% end %>
   <div style="display:none;"><!-- Everything inside of this should always stay hidden -->

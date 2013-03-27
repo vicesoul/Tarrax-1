@@ -18,7 +18,7 @@
       <a href="<%= user_user_notes_path(@user) %>"> <%= t 'links.faculty_journal', "Faculty Journal" %></a>
     <% end %>
     <% if @context.is_a?(Course)%>
-      <% if @context.user_is_instructor?(@user) && can_do(@user, @current_user, :view_statistics) %>
+      <% if @context.user_is_instructor?(@user) && can_do(@user, @current_user, :read_reports) %>
         <%= link_to(t('links.teacher_activity', 'Student Interactions Report'), user_course_teacher_activity_url(@user, @context)) %>
       <% elsif @context.user_has_been_student?(@user) && @context.user_is_instructor?(@current_user) && can_do(@context, @current_user, :read_reports) %>
         <% link_to(user_student_teacher_activity_url(@current_user, @user)) do %>
@@ -59,7 +59,7 @@
     <% end %>
     <% if @current_user && @current_user == @user && @current_user.user_services.empty? %>
       <p>
-        <%= t 'help.services', %{You haven't linked your user profile to any external services. You can link your Canvas account to services like Facebook and Twitter. This will make it easier for fellow course and group members to link up with you outside of class.} %>
+        <%= t 'help.services', %{You haven't linked your user profile to any external services. You can link your Jiaoxuebang account to services like Facebook and Twitter. This will make it easier for fellow course and group members to link up with you outside of class.} %>
       </p>
       <p>
         <a href="<%= user_profile_path(@current_user) %>#registered_web_services" class="btn btn-primary"><i class="icon-link"></i> <%= t('links.link_services', %{Link web services to my account}) %></a>

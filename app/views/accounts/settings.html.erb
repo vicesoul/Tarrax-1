@@ -215,7 +215,7 @@
                 <% if @account.account_authorization_config %>
                   <div>
                     <%= settings.check_box :canvas_authentication, :checked => @account.canvas_authentication? %>
-                    <%= settings.label :canvas_authentication, :en => "Canvas Authentication" %>
+                    <%= settings.label :canvas_authentication, :en => "Jiaoxuebang Authentication" %>
                   </div>
                 <% end %>
               <% end %>
@@ -224,7 +224,13 @@
                   <%= settings.check_box :open_registration, :checked => @account.open_registration? %>
                   <%= settings.label :open_registration, :en => "Open Registration" %>
                   <% if @account.delegated_authentication? %>
-                    <%= link_to(image_tag('warning.png'), '#', :class => 'open_registration_delegated_warning_link no-hover', :title => t(:open_registration_delegated_warning_tooltip, "An External Identity Provider is Enabled")) %></legend>
+                    <legend>
+                      <%= link_to(image_tag('warning.png'), '#',
+                                  :class => 'open_registration_delegated_warning_link no-hover',
+                                  :title => t(:open_registration_delegated_warning_tooltip,
+                                  "An External Identity Provider is Enabled"))
+                                %>
+                    </legend>
 
                     <div id="open_registration_delegated_warning_dialog" style="display: none;">
                         <%= t(:open_registration_delegated_warning_message,
@@ -402,7 +408,7 @@
                   "In order to make it easier for users, rather than forcing them to download " +
                   "things like Word docs, PDFs, Excel spreadsheets, and open office documents " +
                   "(In addition to requiring that those programs be installed on their on their " +
-                  "computer), in many areas throughout Canvas, it will allow you an inline " +
+                  "computer), in many areas throughout Jiaoxuebang, it will allow you an inline " +
                   "preview of the document.\n\n" +
 
                   "If Scribd has been enabled for this account, it will try to use it to show the preview. " +
@@ -450,13 +456,13 @@
 
         <% if @account.root_account? && !@account.site_admin? %>
           <h2><%= t(:email_notification_from_settings, 'E-mail Notification "From" Settings') %></h2>
-          <p><%= t(:email_notification_from_description, "This setting allows the Admin to brand or label the 'From' text on all notifications sent from Canvas for this Account.") %></p>
+          <p><%= t(:email_notification_from_description, "This setting allows the Admin to brand or label the 'From' text on all notifications sent from Jiaoxuebang for this Account.") %></p>
           <% f.fields_for :settings do |settings| %>
             <div>
               <%= settings.radio_button :outgoing_email_default_name_option, 'default',
                                         :checked => @account.settings[:outgoing_email_default_name].blank?,
                                         :class => 'notification_from_name_option' %>
-              <%= settings.label :outgoing_email_default_name_option_default, :en => "Default Canvas Setting" %>
+              <%= settings.label :outgoing_email_default_name_option_default, :en => "Default Jiaoxuebang Setting" %>
             </div>
             <div style='padding-left: 2em;'>
               <strong><%= t 'notifications.example', 'Example:' %></strong>
@@ -493,7 +499,7 @@
             </div>
             <div style='padding-left: 2em;'>
               <p>
-                <%= t('notifications.custom_name_description', 'If selected, this will replace all other branding sent in Canvas notifications.') %>
+                <%= t('notifications.custom_name_description', 'If selected, this will replace all other branding sent in Jiaoxuebang notifications.') %>
                 <br/>
                 <%= text_field_tag 'account[settings][outgoing_email_default_name]', @account.settings[:outgoing_email_default_name] %>
               </p>
@@ -541,7 +547,7 @@
               <tr>
                 <td>
                   <b><%= t('notifications.external_services_warning_label', 'Pop-up Message Content:') %></b>
-                  <blockquote><%= t('notifications.external_services_warning', "Notice: Some Canvas notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive information outside of the institutional system.")%></blockquote>
+                  <blockquote><%= t('notifications.external_services_warning', 'Notice: Some notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive Jiaoxuebang course and group information outside of the institutional system.')%></blockquote>
                 </td>
               </tr>
             </table>

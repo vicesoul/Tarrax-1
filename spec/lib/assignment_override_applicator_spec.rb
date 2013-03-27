@@ -152,15 +152,6 @@ describe AssignmentOverrideApplicator do
         overrides.should be_empty
       end
 
-      it "should not include section overrides for sections with non-student enrollments" do
-        @enrollment = @student.student_enrollments.first
-        @enrollment.type = 'TeacherEnrollment'
-        @enrollment.save!
-
-        overrides = AssignmentOverrideApplicator.overrides_for_assignment_and_user(@assignment, @student)
-        overrides.should be_empty
-      end
-
       it "should include all relevant section overrides" do
         @override2 = assignment_override_model(:assignment => @assignment)
         @override2.set = @course.course_sections.create!
@@ -172,6 +163,25 @@ describe AssignmentOverrideApplicator do
         overrides.size.should == 2
         overrides.should include(@override)
         overrides.should include(@override2)
+      end
+
+      it "should only use the latest due_date for student_view_student" do
+        due_at = 3.days.from_now
+
+        override1 = @override
+        override1.override_due_at(due_at)
+        override1.save!
+
+        cs = @course.course_sections.create!
+        override2 = assignment_override_model(:assignment => @assignment)
+        override2.set = cs
+        override2.override_due_at(due_at - 1.day)
+        override2.save!
+
+        @fake_student = @course.student_view_student
+        overrides = AssignmentOverrideApplicator.overrides_for_assignment_and_user(@assignment, @fake_student)
+        overrides.should == [override1, override2]
+        AssignmentOverrideApplicator.collapsed_overrides(@assignment, overrides)[:due_at].should == due_at
       end
     end
 
@@ -298,6 +308,38 @@ describe AssignmentOverrideApplicator do
         overrides = AssignmentOverrideApplicator.overrides_for_assignment_and_user(@assignment.versions.first.model, @student)
         overrides.should == [@override]
         overrides.first.should_not be_deleted
+      end
+
+      context "overrides for an assignment for a quiz, where the overrides were created before the quiz was published" do
+        it "skips versions of the override that have nil for an assignment version" do
+          student_in_course
+          expected_time = Time.zone.now
+          quiz = @course.quizzes.create! :title => "VDD Quiz", :quiz_type => 'assignment'
+          section = @course.course_sections.create! :name => "title"
+          @course.enroll_user(@student,
+                              'StudentEnrollment',
+                              :section => section,
+                              :enrollment_state => 'active',
+                              :allow_multiple_enrollments => true)
+          override = quiz.assignment_overrides.build
+          override.quiz_id = quiz.id
+          override.quiz = quiz
+          override.set_type = 'CourseSection'
+          override.set_id = section.id
+          override.title = "Quiz Assignment override"
+          override.due_at = expected_time
+          override.save!
+          quiz.publish!
+          override = quiz.reload.assignment.assignment_overrides.first
+          override.versions.length.should == 2
+          override.versions[0].model.assignment_version.should_not be_nil
+          override.versions[1].model.assignment_version.should be_nil
+          # Assert that it won't call the "<=" method on nil
+          expect do
+            overrides = AssignmentOverrideApplicator.
+              overrides_for_assignment_and_user(quiz.assignment, @student)
+          end.to_not raise_error
+        end
       end
     end
   end
@@ -517,11 +559,12 @@ describe AssignmentOverrideApplicator do
       due_at.should == @override.due_at
     end
 
-    it "should include a non-empty original due date when finding most lenient due date" do
+    it "prefers overrides even when earlier when determining most lenient due date" do
+      earlier = 6.days.from_now
       @assignment.due_at = 7.days.from_now
-      @override.override_due_at(6.days.from_now)
+      @override.override_due_at(earlier)
       due_at = AssignmentOverrideApplicator.overridden_due_at(@assignment, [@override])
-      due_at.should == @assignment.due_at
+      due_at.should == earlier
     end
 
     it "should fallback on the assignment's due_at" do
@@ -581,11 +624,12 @@ describe AssignmentOverrideApplicator do
       unlock_at.should == @override.unlock_at
     end
 
-    it "should include a non-empty original unlock date when finding most lenient unlock date" do
+    it "prefers overrides even when later when determining most lenient unlock date" do
+      later = 7.days.from_now
       @assignment.unlock_at = 6.days.from_now
-      @override.override_unlock_at(7.days.from_now)
+      @override.override_unlock_at(later)
       unlock_at = AssignmentOverrideApplicator.overridden_unlock_at(@assignment, [@override])
-      unlock_at.should == @assignment.unlock_at
+      unlock_at.should == later
     end
 
     it "should fallback on the assignment's unlock_at" do
@@ -642,11 +686,12 @@ describe AssignmentOverrideApplicator do
       lock_at.should == @override.lock_at
     end
 
-    it "should include a non-empty original lock date when finding most lenient lock date" do
+    it "prefers overrides even when earlier when determining most lenient lock date" do
+      earlier = 6.days.from_now
       @assignment.lock_at = 7.days.from_now
-      @override.override_lock_at(6.days.from_now)
+      @override.override_lock_at(earlier)
       lock_at = AssignmentOverrideApplicator.overridden_lock_at(@assignment, [@override])
-      lock_at.should == @assignment.lock_at
+      lock_at.should == earlier
     end
 
     it "should fallback on the assignment's lock_at" do
@@ -675,18 +720,18 @@ describe AssignmentOverrideApplicator do
       @adhoc_override.override_due_at(7.days.from_now)
       @adhoc_override.save!
       @overridden_assignment = AssignmentOverrideApplicator.assignment_overridden_for(@assignment, @student)
-      @overridden_assignment.overridden_for_user_id.should == @student.id
+      @overridden_assignment.overridden_for_user.id.should == @student.id
     end
 
     it "should note the user id for whom overrides were not found" do
       @overridden_assignment = AssignmentOverrideApplicator.assignment_overridden_for(@assignment, @student)
-      @overridden_assignment.overridden_for_user_id.should == @student.id
+      @overridden_assignment.overridden_for_user.id.should == @student.id
     end
 
     it "should apply new overrides if an overridden assignment is overridden for a new user" do
       @student1 = @student
       @overridden_assignment = AssignmentOverrideApplicator.assignment_overridden_for(@assignment, @student1)
-      @overridden_assignment.overridden_for_user_id.should == @student1.id
+      @overridden_assignment.overridden_for_user.id.should == @student1.id
       student_in_course
       @student2 = @student
       AssignmentOverrideApplicator.expects(:overrides_for_assignment_and_user).with(@overridden_assignment, @student2).returns([])
@@ -695,12 +740,79 @@ describe AssignmentOverrideApplicator do
 
     it "should not attempt to apply overrides if an overridden assignment is overridden for the same user" do
       @overridden_assignment = AssignmentOverrideApplicator.assignment_overridden_for(@assignment, @student)
-      @overridden_assignment.overridden_for_user_id.should == @student.id
+      @overridden_assignment.overridden_for_user.id.should == @student.id
       AssignmentOverrideApplicator.expects(:overrides_for_assignment_and_user).never
       @reoverridden_assignment = AssignmentOverrideApplicator.assignment_overridden_for(@overridden_assignment, @student)
     end
+
+    context "give teachers the more lenient of override.due_at or assignment.due_at" do
+      before do
+        teacher_in_course
+        @section = @course.course_sections.create! :name => "Overridden Section"
+        student_in_section(@section)
+        @student = @user
+      end
+
+      def override_section(section, due)
+        override = assignment_override_model(:assignment => @assignment)
+        override.set = section
+        override.override_due_at(due)
+        override.save!
+      end
+
+      def setup_overridden_assignments(section_due_at, assignment_due_at)
+        override_section(@section, section_due_at)
+        @assignment.update_attribute(:due_at, assignment_due_at)
+
+        @students_assignment = AssignmentOverrideApplicator.
+          assignment_overridden_for(@assignment, @student)
+        @teachers_assignment = AssignmentOverrideApplicator.
+          assignment_overridden_for(@assignment, @teacher)
+      end
+
+      it "assignment.due_at is more lenient" do
+        section_due_at = 5.days.ago
+        assignment_due_at = nil
+        setup_overridden_assignments(section_due_at, assignment_due_at)
+        @teachers_assignment.due_at.to_i.should == assignment_due_at.to_i
+        @students_assignment.due_at.to_i.should == section_due_at.to_i
+      end
+
+      it "override.due_at is more lenient" do
+        section_due_at = 5.days.from_now
+        assignment_due_at = 5.days.ago
+        setup_overridden_assignments(section_due_at, assignment_due_at)
+        @teachers_assignment.due_at.to_i.should == section_due_at.to_i
+        @students_assignment.due_at.to_i.should == section_due_at.to_i
+      end
+
+      it "ignores assignment.due_at if all sections have overrides" do
+        section_due_at = 5.days.from_now
+        assignment_due_at = 1.year.from_now
+
+        override_section(@course.default_section, section_due_at)
+        setup_overridden_assignments(section_due_at, assignment_due_at)
+
+        @teachers_assignment.due_at.to_i.should == section_due_at.to_i
+        @students_assignment.due_at.to_i.should == section_due_at.to_i
+      end
+    end
   end
 
+  describe "without_overrides" do
+    before :each do
+      student_in_course
+      @assignment = assignment_model(:course => @course)
+    end
+
+    it "should return an unoverridden copy of an overridden assignment" do
+      @overridden_assignment = AssignmentOverrideApplicator.assignment_overridden_for(@assignment, @student)
+      @overridden_assignment.overridden_for_user.id.should == @student.id
+      @unoverridden_assignment = @overridden_assignment.without_overrides
+      @unoverridden_assignment.overridden_for_user.should == nil
+    end
+  end
+  
   it "should use the full stack" do
     student_in_course
     original_due_at = 3.days.from_now

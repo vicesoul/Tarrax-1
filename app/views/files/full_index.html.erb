@@ -219,10 +219,9 @@
       <a href="#" class="edit_collaboration_link no-hover"><%= image_tag "edit.png" %></a>
       <a href="#" class="delete_collaboration_link no-hover"><%= image_tag "delete.png" %></a>
       <div class="sub_links">
-        <a href="#" class="add_collaboration_link"><%= t 'links.new_collaboration', "New Collaboration" %></a>
-        <span class="view_collaborations">
-          | <a href="#" class="collaborations_link"><%= t 'links.all_collaborations', "ALL Collaborations" %></a>
-        </span>
+        <% if [Course, Group].include?(@context.class) %>
+          <%= link_to t('links.manage_collaborations', 'Manage collaborations'), context_url(@context, :context_collaborations_path), :class => 'manage_collaborations' %>
+        <% end %>
       </div>
     </div>
     <div class="clear"></div>
@@ -410,7 +409,7 @@ HEREDOC
         </div>
         <% if @current_user && !@current_user.user_services.map(&:service).include?("google_docs") %>
         <div id="collaborate_authorize_google_docs" class="collaboration_authorization" style="display: none; margin: 20px;">
-          <%= t '#instructions.authorize_google_docs', "Before you can collaborate on documents, you need to authorize Canvas
+          <%= t '#instructions.authorize_google_docs', "Before you can collaborate on documents, you need to authorize Jiaoxuebang
           to access your Google Docs account:" %>
           <div class="button-container">
             <a class="btn button-default-action" href="<%= oauth_url(:service => :google_docs, :return_to => (request.url + "#add_collaboration")) %>"><%= t '#buttons.authorize_google_docs', "Authorize Google Docs Access" %></a>

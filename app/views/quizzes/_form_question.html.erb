@@ -23,6 +23,11 @@
       <option value="missing_word_question" style="padding: 2px;" class="missing_word"><%= t('question_type.missing_word', "Missing Word") %></option>
       <option value="essay_question" style="padding: 2px;"><%= t('question_type.essay', "Essay Question") %></option>
       <option value="text_only_question" style="padding: 2px;"><%= t('question_type.text_only', "Text (no question)") %></option>
+      <option value="paint_question" style="padding: 2px;">原题作图</option>
+      <option value="connecting_lead_question" style="padding: 2px;">连线题</option>
+      <option value="connecting_on_pic_question" style="padding: 2px;">图画连线题</option>
+      <option value="drag_and_drop_question" style="padding: 2px;">拖拽题</option>
+      <option value="fill_in_blanks_subjective_question" style="padding: 2px;">主观填空题</option>
     </select>
     <span class="question_points_holder">
       <span style="padding-left: 20px;"><%= before_label :points, 'pts' %></span>
@@ -54,6 +59,15 @@
     <div tabindex="0" class="matching_question_explanation explanation subheader">
       <%= t('explanations.matching', "Build pairs of matching values.  Students will see values on the left and have to select the matching value on the right from a dropdown.  Multiple rows can have the same answer, and you can add additional distractors to the right side.") %>
     </div>
+    <div class="connecting_lead_question_explanation explanation subheader">
+      可以设置两列或三列连线题
+    </div>
+    <div class="drag_and_drop_question_explanation explanation subheader">
+      答案可拖动，把答案拖进空格里
+    </div>
+    <div class="connecting_on_pic_question_explanation explanation subheader">
+      先上传一张图片，然后在图上可以设置两列或三列连线题
+    </div>
     <div tabindex="0" class="numerical_question_explanation explanation subheader">
       <%= t('explanations.numerical', "Define the correct answer as any number within a range, or a number plus or minus some error margin.  Student will be given an empty text box to type their numerical answer.") %>
     </div>
@@ -65,6 +79,9 @@
     </div>
     <div tabindex="0" class="essay_question_explanation explanation subheader">
       <%= t('explanations.essay', "Students will be given a text field to compose their answer.") %>
+    </div>
+    <div class="fill_in_blanks_subjective_question_explanation explanation subheader">
+      主观填空！
     </div>
     <div tabindex="0" class="text_only_question_explanation explanation subheader">
       <%= t('explanations.text_only', 'This "question" will not be scored, but can be useful for introducing a set of related questions.') %>
@@ -89,6 +106,16 @@
       <textarea style="width: 90%; height: 120px;" class="question_content" name="question_text"></textarea>
     </div>
     <b tabindex="0" role="heading" class="answers_header"><%= before_label(:answers, "Answers") %></b>
+    <div class="btn-group changeLines" data-toggle="buttons-radio" style="display: none;">
+      <button type="button" class="btn two btn-primary">两列</button>
+      <button type="button" class="btn three btn-primary">三列</button>
+      <input type="hidden" name="connecting_lead_linesNum" class="connecting_lead_linesNum">
+    </div>
+    <input type="hidden" name="connecting_on_pic_position" class="connecting_on_pic_position">
+    <input type="hidden" name="connecting_on_pic_image" class="connecting_on_pic_image">
+    <div class="connecting_on_pic_factory" style="display: none;">
+      <div class='factory'><div class='menu'><ul><li><span class='grey'><b>╳</b><div class="popover left ui-widget ui-tooltip "><div class="arrow"></div><div class="popover-content"><textarea></textarea></div></div></span></li><li><span class='yellow'><b>╳</b><div class="popover right ui-widget ui-tooltip "><div class="arrow"></div><div class="popover-content"><textarea></textarea></div></div></span></li></ul></div><div class='main'><div class='bg'></div><div class="tool-tip" style="display: none;"><h5>Delete this line?</h5><button type="button">确认</button><button type="button">取消</button></div></div></div>
+    </div>
     <div style="display: none;">
     <select class="answer_selection_type" name="answer_selection_type">
       <option value="single_answer"><%= t('options.only_one_correct', "Only One Correct Answer") %></option>
@@ -197,6 +224,7 @@
       <span class="neutral_comments_html" style="display:none;"></span>
     </div>
     <div class="clear"></div>
+    <div class="question_solution_holder">
     <br />
     <b class="resolution_header"><%= before_label(:solution, "Solution") %></b>
     <div style="float: right; margin-right: 10%; font-size: 0.8em;">
@@ -204,6 +232,7 @@
     </div>
     <div style="text-align: center;">
       <textarea style="width: 90%; height: 70px;" name="solution_text" class="solution_content"></textarea>
+    </div>
     </div>
     <div class="button-container">
       <button type="button" class="btn btn-small cancel_link"><%= t('#buttons.cancel', "Cancel") %></button>

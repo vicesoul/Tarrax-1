@@ -216,9 +216,9 @@
 .defaultSkin span.mce_pagebreak {background-position:0 -40px}
 .defaultSkin span.mce_restoredraft {background-position:-20px -40px}
 .defaultSkin span.mce_spellchecker {background-position:-540px -20px}
-/* 2012-11-29 rupert  */
+
 .defaultSkin .mce_instructure_add_rackets {opacity:0.5;display: none;}
 .question.fill_in_multiple_blanks_question .mce_instructure_add_rackets{display: block;}
+.question.fill_in_blanks_subjective_question .mce_instructure_add_rackets{display: block;}
 .question.calculated_question .mce_instructure_add_rackets{display: block;}
-/*endend*/
 .defaultSkin span.mce_visualblocks {background-position: -40px -40px}

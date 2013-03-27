@@ -2,28 +2,81 @@
   js_bundle :registration
   jammit_css :registration
   js_env :USER => {
-    :LOGIN_HANDLE_NAME => (@domain_root_account.login_handle_name rescue AccountAuthorizationConfig.default_login_handle_name),
-    :MIN_AGE => User.self_enrollment_min_age
+    :LOGIN_HANDLE_NAME => (@domain_root_account.login_handle_name rescue AccountAuthorizationConfig.default_login_handle_name)
   }
-  content_for :page_title, t('create_a_canvas_account', "Create a Canvas Account")
+  content_for :page_title, t('create_a_canvas_account', "Create a Jiaoxuebang Account")
   content_for :head, include_stylesheets(:common, :media => "all")
 %>
-
-<div id="registration_header">
-  <div class="registration-content">
-    <h1><a href="/">教学邦</a></h1>
-    <a id="registration_login" href="/login">Login</a>
+<% content_for :head do %>
+  <%= include_stylesheets :common, :media => "all" %>
+<% end %>
+<style>
+  @media only screen and (max-device-width : 1024px)  {
+    .container {
+      width: 500px!important;
+      border: 1px solid #ccc;
+    }
+  }
+</style>
+<div class="logo-row">
+  <div class="inner">
+    <a id="header-logo" href="<%= root_url %>"><%= t 'links.dashboard', "My Dashboard" %></a>
+    <form class="form-search">
+      <div class="input-append">
+        <input type="text" placeholder="请输入关键词" class="span2 search-query">
+        <button class="btn" type="submit"><i></i></button>
+      </div>
+    </form>
   </div>
 </div>
-
-<div id="registration_content">
-  <div class="registration-content">
-    <h2 id="registration_video"><a href="#" title="Play the Canvas introduction video">Watch a Video</a></h2>
-    <div id="registration_options">
-      <h2>Sign up now, it's free!</h2>  
-      <a href="#" id="signup_teacher" class="signup_link" data-template="teacherDialog" title="Teacher Signup">I'm a Teacher</a>
-      <a href="#" id="signup_student" class="signup_link" data-template="studentDialog" title="Student Signup">I'm a Student</a>
-      <a href="#" id="signup_parent" class="signup_link" data-template="parentDialog" title="Parent Signup">Parents sign up here</a>
+<div class="content">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav nav-tabs">
+          <li><a href="#">首页</a></li>
+          <li><a href="#">中小学</a></li>
+          <li><a href="#">英语</a></li>
+          <li><a href="#">教辅</a></li>
+          <li><a href="#">企业大学</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="register">
+    <div class="container">
+      <ul class="nav nav-tabs">
+        <li><a href="#">没有课程代码</a></li>
+        <li><a href="#">我有课程代码</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane"></div>
+        <div class="tab-pane"></div>
+      </div>
     </div>
   </div>
 </div>
+<footer>
+  <div class="container">
+    <ul>
+      <li><a href="#">首页</a>|</li>
+      <li><a href="#">关于我们</a>|</li>
+      <li><a href="#">课程分类</a>|</li>
+      <li><a href="#">课程资源</a>|</li>
+      <li><a href="#">会员专区</a>|</li>
+      <li><a href="#">联系方式</a>|</li>
+      <li><a href="#">服务保障</a></li>
+    </ul>
+    <div class="pull-right">
+      版权所有 © 2003-2011 教学邦保留所有权利<br>
+      关注教学邦：
+      <a href="#"><img src="/images/jxb/weibo-qq.png"></a>
+      <a href="#"><img src="/images/jxb/weibo-sina.png"></a>
+    </div>
+  </div>
+</footer>
+
+
+<!--<a href="#" id="dd" class="signup_link" data-template="haveACode" title="Parent Signup">Parents sign up here</a>
+<a href="#" id="dddd" class="signup_link" data-template="haveCodeNot" title="Parent Signup">Parents sign up here</a>-->
+

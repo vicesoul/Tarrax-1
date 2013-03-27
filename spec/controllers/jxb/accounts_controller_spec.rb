@@ -70,4 +70,33 @@ describe AccountsController do
 
   end
 
+  describe "create" do
+    it "should create a new account" do
+      account_with_admin_logged_in
+      post 'create', :account => {
+        :user_role       => 'other',
+        :user_mobile     => '11234567890',
+        :name            => 'abc',
+        :school_category => 'other',
+        :school_scale    => '0-500',
+        :captcha         => '1'
+      }, :format => 'json'
+
+      response.should be_success
+    end
+
+    it "should failed if user_mobile not correct" do
+      account_with_admin_logged_in
+      post 'create', :account => {
+        :user_role       => 'other',
+        :user_mobile     => '111',
+        :name            => 'abc',
+        :school_category => 'other',
+        :school_scale    => '0-500',
+        :captcha         => '1'
+      }, :format => 'json'
+
+      response.should_not be_success
+    end
+  end
 end

@@ -18,7 +18,7 @@ $(document).ready(function() {
   $("#register_link").click(function(){
     $.trackPageview("/clicked_register_on_login_form");
   });
-  
+
   $(".field-with-fancyplaceholder input").fancyPlaceholder();
   $("#forgot_password_form").formSubmit({
     object_name: 'pseudonym_session',
@@ -90,16 +90,15 @@ $(document).ready(function() {
       </div>
     <% else %>
       <% form_for :pseudonym_session, :url => login_path(:nonldap => (@domain_root_account && !@domain_root_account.ldap_authentication?).presence), :html => {:id => "login_form"} do |f| %>
-        <%= link_to t("register_for_canvas", "*Need a Canvas Account?* **Click Here, It's Free!**", :wrapper => {'*' => '<i>\1</i>', '**' => '<b>\1</b>'}),  Setting.get_cached("registration_link", "/register_from_website"), :id => 'register_link', :class => 'not_external' if @domain_root_account == Account.default && @domain_root_account.open_registration? && @domain_root_account.no_enrollments_can_create_courses? && !hide_fft %>
         <h2 class="ui-helper-hidden-accessible"><%= t('log_in', 'Log In') %></h2>
         <% login_inner_dialog = yield :login_inner_dialog %>
         <%= login_inner_dialog if login_inner_dialog && !login_inner_dialog.strip.empty? %>
         <input type="hidden" name="redirect_to_ssl" value="1"/>
-        <div>
+        <div class="fill-in">
           <span class=" field-with-fancyplaceholder"><%= f.label :unique_id, login_handle_name %><%= f.text_field :unique_id, :class => "text", :value => params[:pseudonym_session].try(:[], :unique_id) %></span>
           <span class=" field-with-fancyplaceholder"><%= f.label :password, :en => "Password" %><%= f.password_field :password, :class => "text" %></span>
         </div>
-        <div>
+        <div class="tail">
           <div class="login-options">
             <% unless session_timeout_enabled %>
               <%= f.check_box :remember_me, :checked => session[:used_remember_me_token] %>
@@ -107,15 +106,21 @@ $(document).ready(function() {
             <% end %>
 
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <% url = (params[:canvas_login] != '1' && @domain_root_account.try(:forgot_password_external_url)) || "#" %><br />
+            <% url = (params[:canvas_login] != '1' && @domain_root_account.try(:forgot_password_external_url)) || "#" %>
             <%= link_to t('dont_know_password', "Don't know your password?"), url, :class => (url != '#' ? "not_external" : "forgot_password_link"), :id => "login_forgot_password" %>
           </div>
 
           <!-- crazy IE 8-9 workaround!, if you take this input type=submit out, you cannot just submit the form by hitting enter in ie8-9 -->
           <input type="submit" style="position: absolute; height: 0px; width: 0px; border: none; padding: 0px;" hidefocus="true" tabindex="-1" />
 
-          <button type="submit" class="btn btn-primary"><%= t('log_in', 'Log In') %></button>
+          <button type="submit" class="btn-blue right"><%= t('log_in', 'Log In') %></button>
         </div>
+          <div class="link-register">
+            <%= link_to t("register_for_canvas", "Click Here, It's Free!"),  Setting.get_cached("registration_link", "/register_from_website"), :id => 'register_link', :class => 'not_external' if @domain_root_account == Account.default && @domain_root_account.open_registration? && @domain_root_account.no_enrollments_can_create_courses? && !hide_fft %>
+            <!--
+            <%= link_to t("register_for_canvas", "*Need a Canvas Account?* **Click Here, It's Free!**", :wrapper => {'*' => '<i>\1</i>', '**' => '<b>\1</b>'}),  Setting.get_cached("registration_link", "/register_from_website"), :id => 'register_link', :class => 'not_external' if @domain_root_account == Account.default && @domain_root_account.open_registration? && @domain_root_account.no_enrollments_can_create_courses? && !hide_fft %>
+            -->
+          </div>
       <% end %>
     <% end %>
   

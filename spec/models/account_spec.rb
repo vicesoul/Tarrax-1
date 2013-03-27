@@ -24,13 +24,13 @@ describe Account do
     @account = Account.new
     lambda{@account.courses}.should_not raise_error
   end
-  
+
   context "equella_settings" do
     it "should respond to :equella_settings" do
       Account.new.should respond_to(:equella_settings)
       Account.new.equella_settings.should be_nil
     end
-    
+
     it "should return the equella_settings data if defined" do
       a = Account.new
       a.equella_endpoint = "http://oer.equella.com/signon.do"
@@ -39,7 +39,7 @@ describe Account do
       a.equella_settings.default_action.should_not be_nil
     end
   end
-  
+
   # it "should have an atom feed" do
     # account_model
     # @a.to_atom.should be_is_a(Atom::Entry)
@@ -47,7 +47,7 @@ describe Account do
 
   context "course lists" do
     before(:each) do
-      @account = Account.create!
+      @account = Account.create! :name => 'abc'
       process_csv_data_cleanly([
         "user_id,login_id,first_name,last_name,email,status",
         "U001,user1,User,One,user1@example.com,active",
@@ -110,6 +110,7 @@ describe Account do
         "S008S,C001S,Sec8,,,deleted",
         "S009S,C008S,Sec9,,,active"
       ])
+
       process_csv_data_cleanly([
         "course_id,user_id,role,section_id,status,associated_user_id",
         ",U001,student,S001,active,",
@@ -131,22 +132,21 @@ describe Account do
         ",U008,student,S008S,active,",
         ",U009,student,S005S,deleted,"
       ])
-      
     end
-    
+
     context "fast list" do
       it "should list associated courses" do
         @account.fast_all_courses.map(&:sis_source_id).sort.should == [
           "C001", "C005", "C006", "C007", "C008", "C009",
           "C001S", "C005S", "C006S", "C007S", "C008S", "C009S", ].sort
       end
-    
+
       it "should list associated courses by term" do
         @account.fast_all_courses({:term => EnrollmentTerm.find_by_sis_source_id("T001")}).map(&:sis_source_id).sort.should == ["C001", "C001S"]
         @account.fast_all_courses({:term => EnrollmentTerm.find_by_sis_source_id("T002")}).map(&:sis_source_id).sort.should == []
         @account.fast_all_courses({:term => EnrollmentTerm.find_by_sis_source_id("T003")}).map(&:sis_source_id).sort.should == ["C005", "C006", "C007", "C008", "C009", "C005S", "C006S", "C007S", "C008S", "C009S"].sort
       end
-    
+
       it "should list associated nonenrollmentless courses" do
         @account.fast_all_courses({:hide_enrollmentless_courses => true}).map(&:sis_source_id).sort.should == ["C001", "C005", "C007", "C001S", "C005S", "C007S"].sort #C007 probably shouldn't be here, cause the enrollment section is deleted, but we kinda want to minimize database traffic
       end
@@ -337,11 +337,25 @@ describe Account do
   end
 
   context "closest_turnitin_pledge" do
-    it "should find a custom pledge in a root account from a sub account" do
-      pledge = "custom yo"
-      root_account = Account.create(:turnitin_pledge => pledge)
-      sub_account = Account.create(:parent_account => root_account)
-      sub_account.closest_turnitin_pledge.should == pledge
+    it "should work for custom sub, custom root" do
+      root_account = Account.create!(:turnitin_pledge => "root", :name => 'abc')
+      sub_account = Account.create!(:parent_account => root_account, :turnitin_pledge => "sub", :name => 'abc')
+      root_account.closest_turnitin_pledge.should == "root"
+      sub_account.closest_turnitin_pledge.should == "sub"
+    end
+
+    it "should work for nil sub, custom root" do
+      root_account = Account.create!(:turnitin_pledge => "root", :name => 'abc')
+      sub_account = Account.create!(:parent_account => root_account, :name => 'abc')
+      root_account.closest_turnitin_pledge.should == "root"
+      sub_account.closest_turnitin_pledge.should == "root"
+    end
+
+    it "should work for nil sub, nil root" do
+      root_account = Account.create! :name => 'abc'
+      sub_account = Account.create!(:parent_account => root_account, :name => 'abc')
+      root_account.closest_turnitin_pledge.should_not be_empty
+      sub_account.closest_turnitin_pledge.should_not be_empty
     end
   end
 
@@ -379,9 +393,9 @@ describe Account do
     # a sub sub account, and SiteAdmin account.  Create a 'Restricted Admin'
     # role in each one, and create an admin user and a user in the restricted
     # admin role for each one
-    root_account = Account.create
-    sub_account = Account.create(:parent_account => root_account)
-    sub_sub_account = Account.create(:parent_account => sub_account)
+    root_account = Account.create :name => 'abc'
+    sub_account = Account.create(:parent_account => root_account, :name => 'abc')
+    sub_sub_account = Account.create(:parent_account => sub_account, :name => 'abc')
 
     hash = {}
     hash[:site_admin] = { :account => Account.site_admin}
@@ -438,7 +452,9 @@ describe Account do
     some_access = [:read_reports] + limited_access
     hash.each do |k, v|
       account = v[:account]
-      account.role_overrides.create(:permission => 'read_reports', :enrollment_type => 'Restricted Admin', :enabled => true)
+      account.role_overrides.create!(:permission => 'read_reports', :enrollment_type => 'Restricted Admin', :enabled => true)
+      # clear caches
+      v[:account] = Account.find(account)
     end
     RoleOverride.clear_cached_contexts
     hash.each do |k, v|
@@ -493,7 +509,7 @@ describe Account do
     a.user_count.should == 0
 
     u = User.create!
-    a.add_user(u)
+    a.add_user(u, nil, :role => 'other')
     a.all_users.count.should == a.user_count(:reload)
     a.user_count.should == 1
 
@@ -502,7 +518,7 @@ describe Account do
     a.all_users.count.should == a.user_count(:reload)
     a.user_count.should == 2
 
-    a2 = a.sub_accounts.create!
+    a2 = a.sub_accounts.create! :name => 'abc'
     course_with_teacher(:account => a2)
     @teacher.update_account_associations
     a.all_users.count.should == a.user_count(:reload)
@@ -683,7 +699,7 @@ describe Account do
   end
 
   it "should not allow setting an sis id for a root account" do
-    @account = Account.create!
+    @account = Account.create! :name => 'abc'
     @account.sis_source_id = 'abc'
     @account.save.should be_false
   end
@@ -701,7 +717,7 @@ describe Account do
       account.user_list_search_mode_for(nil).should == :closed
       account.user_list_search_mode_for(user).should == :closed
       user
-      account.add_user(@user)
+      account.add_user(@user, nil, :role => 'other')
       account.user_list_search_mode_for(@user).should == :preferred
     end
   end
@@ -756,7 +772,7 @@ describe Account do
       @site_admin = Account.site_admin
       @site_admin.grants_right?(User.new, :read_global_outcomes).should be_true
 
-      @subaccount = @site_admin.sub_accounts.create!
+      @subaccount = @site_admin.sub_accounts.create! :name => 'abc'
       @subaccount.grants_right?(User.new, :read_global_outcomes).should be_false
     end
 
@@ -770,7 +786,7 @@ describe Account do
     end
 
     it "should grant :read_outcomes to subaccount admins" do
-      account_admin_user(:account => Account.default.sub_accounts.create!)
+      account_admin_user(:account => Account.default.sub_accounts.create!(:name => 'abc'))
       Account.default.grants_right?(@admin, :read_outcomes).should be_true
     end
 
@@ -783,7 +799,7 @@ describe Account do
     end
 
     it "should grant :read_outcomes to enrollees in subaccount courses" do
-      course(:account => Account.default.sub_accounts.create!)
+      course(:account => Account.default.sub_accounts.create!(:name => 'abc'))
       teacher_in_course
       student_in_course
       Account.default.grants_right?(@teacher, :read_outcomes).should be_true
@@ -827,7 +843,7 @@ describe Account do
 
     it "should work if the saved account id is not a sub-account" do
       acct = Account.default
-      bad_acct = Account.create!
+      bad_acct = Account.create! :name => 'abc'
       acct.settings[:manually_created_courses_account_id] = bad_acct.id
       acct.save!
       manual_course_account = acct.manually_created_courses_account
@@ -842,7 +858,7 @@ describe Account do
         sa = Account.site_admin
         sa.account_users_for(@user).should == []
 
-        au = sa.add_user(@user)
+        au = sa.add_user(@user, nil, :role => 'other')
         # out-of-proc cache should clear, but we have to manually clear
         # the in-proc cache
         sa = Account.find(sa)
@@ -865,7 +881,7 @@ describe Account do
       @roleB = @account.roles.create :name => 'B'
       @roleB.base_role_type = 'StudentEnrollment'
       @roleB.save!
-      @sub_account = @account.sub_accounts.create!
+      @sub_account = @account.sub_accounts.create! :name => 'abc'
       @roleBsub = @sub_account.roles.create :name => 'B'
       @roleBsub.base_role_type = 'StudentEnrollment'
       @roleBsub.save!
@@ -892,6 +908,22 @@ describe Account do
     it "should find a base role if the derived version is inactive" do
       @roleBsub.deactivate!
       @sub_account.available_course_roles_by_name.should == { 'A' => @roleA, 'B' => @roleB }
+    end
+  end
+
+  describe "account_chain" do
+    context "sharding" do
+      it_should_behave_like "sharding"
+
+      it "should find parent accounts when not on the correct shard" do
+        @shard1.activate do
+          @account1 = Account.create! :name => 'abc'
+          @account2 = @account1.sub_accounts.create! :name => 'abc'
+          @account3 = @account2.sub_accounts.create! :name => 'abc'
+        end
+
+        @account3.account_chain.should == [@account3, @account2, @account1]
+      end
     end
   end
 end

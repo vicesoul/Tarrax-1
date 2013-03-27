@@ -25,13 +25,23 @@ class AccountUser < ActiveRecord::Base
   after_save :touch_user
   after_destroy :touch_user
   after_save :update_account_associations_if_changed
-  attr_accessible :account, :user, :membership_type
+  after_destroy :update_account_associations_later
+  attr_accessible :account, :user, :membership_type, :mobile, :role
 
   validates_presence_of :account_id, :user_id
 
   alias_method :context, :account
 
   BASE_ROLE_NAME = 'AccountMembership'
+
+  ROLES = [
+    ['institute_admin'     , lambda { t('role.institute_admin'     , 'Institute Admin') }]     ,
+    ['training_management' , lambda { t('role.training_management' , 'Training Management') }] ,
+    ['technical_support'   , lambda { t('role.technical_support'   , 'Technical Support') }]   ,
+    ['teacher/instructor'  , lambda { t('role.teacher'             , 'Teacher/Instructor') }]  ,
+    ['student'             , lambda { t('role.student'             , 'Student') }]             ,
+    ['other'               , lambda { t('role.other'               , 'Other') }]               ,
+  ]
 
   def update_account_associations_if_changed
     if (self.account_id_changed? || self.user_id_changed?)
@@ -45,6 +55,10 @@ class AccountUser < ActiveRecord::Base
         self.user.update_account_associations_later
       end
     end
+  end
+
+  def update_account_associations_later
+    self.user.update_account_associations_later
   end
 
   def infer_defaults
@@ -80,10 +94,40 @@ class AccountUser < ActiveRecord::Base
     self.save!
     @account_user_notification = false
   end
-  
-  def has_permission_to?(action)
+
+  def enabled_for?(context, action)
     @permission_lookup ||= {}
-    @permission_lookup[action] ||= RoleOverride.permission_for(account, action, base_role_name, self.membership_type)[:enabled]
+    @permission_lookup[[context, action]] ||= RoleOverride.enabled_for?(account, context, action, base_role_name, membership_type)
+  end
+
+  def has_permission_to?(context, action)
+    enabled_for?(context, action).include?(:self)
+  end
+
+  def self.all_permissions_for(user, account)
+    account_users = account.account_users_for(user)
+    result = {}
+    account_users.each do |account_user|
+      RoleOverride.permissions.keys.each do |permission|
+        result[permission] ||= []
+        result[permission] |= account_user.enabled_for?(account, permission)
+      end
+    end
+    result
+  end
+
+  def is_subset_of?(user)
+    needed_permissions = RoleOverride.permissions.keys.inject({}) do |result, permission|
+      result[permission] = enabled_for?(account, permission)
+      result
+    end
+    target_permissions = AccountUser.all_permissions_for(user, account)
+    needed_permissions.all? do |(permission, needed_permission)|
+      next true unless needed_permission.present?
+      target_permission = target_permissions[permission]
+      next false unless target_permission.present?
+      (needed_permission - target_permission).empty?
+    end
   end
 
   def base_role_name
