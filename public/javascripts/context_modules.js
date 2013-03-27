@@ -1146,6 +1146,14 @@ define([
         $row.removeClass('locked').removeClass('in_progress').removeClass('completed')
           .addClass(type);
         moduleData.progressString = moduleData.progress;
+        //I18n
+        if (moduleData.progress == "completed") {
+          moduleData.progress = I18n.t('progress.completed', 'Completed');
+        } else if (moduleData.progress == "in_progress"){
+          moduleData.progress = I18n.t('progress.in_progress', 'In progress');
+        } else if (moduleData.progress == "locked"){
+          moduleData.progress = I18n.t('progress.locked', 'locked');
+        }
         $row.fillTemplateData({data: moduleData});
       });
     });

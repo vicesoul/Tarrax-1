@@ -57,7 +57,8 @@ body
 
 #wrapper-container
   // the sole purpose of this div is to make it so the shadow on #wrapper does not cause the page to have scroll bars.
-  overflow: scroll
+  overflow: auto
+  border-top: 4px solid #0084fe
 #wrapper
   +pie-clearfix
 
@@ -110,7 +111,7 @@ body
 
 .with-right-side.with-left-side
   min-width: $right_side_width + $left_side_width + $min_main_width
-  #header-inner
+  #header-inner, .logo-row .inner
     max-width: $right_side_width + $left_side_width + $max_main_width
 
 .full-width

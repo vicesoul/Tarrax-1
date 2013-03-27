@@ -3,26 +3,42 @@ define [
   'i18n!registration'
   'compiled/fn/preventDefault'
   'compiled/registration/registrationErrors'
-  'jst/registration/teacherDialog'
+  'compiled/models/User'
+  'compiled/models/Pseudonym'
   'jst/registration/studentDialog'
   'jst/registration/studentHigherEdDialog'
-  'jst/registration/parentDialog'
+  'compiled/object/flatten'
   'jquery.instructure_forms'
   'jquery.instructure_date_and_time'
-], (_, I18n, preventDefault, registrationErrors, teacherDialog, studentDialog, studentHigherEdDialog, parentDialog) ->
+], (_, I18n, preventDefault, registrationErrors, User, Pseudonym, studentDialog, studentHigherEdDialog, flatten) ->
 
   $nodes = {}
-  templates = {teacherDialog, studentDialog, studentHigherEdDialog, parentDialog}
+  templates = {
+  studentDialog,
+  studentHigherEdDialog
+  }
+  tabChange = (title, content) ->
+    $(content).not(":first").hide().end().eq(0).show()
+    $(title).eq(1).addClass("button").show()
+    $(title).each (i) ->
+      $(this).click (e) ->
+        $(title).addClass("button")
+        $(this).removeClass("button")
+        $(content).hide()
+        $(content).eq(i).show()
+        e.preventDefault()
 
-  signupDialog = (id, title) ->
+  tabChange(".register .nav-tabs li", ".register .tab-content > div")
+
+  signupDialog = (id, title, i) ->
+
     return unless templates[id]
     $node = $nodes[id] ?= $('<div />')
-    $node.html templates[id](
-      terms_url: "http://www.instructure.com/terms-of-use"
-      privacy_url: "http://www.instructure.com/privacy-policy"
-    )
+    console.log("333")
+    $node.html templates[id]()
+    console.log("444000")
     $node.find('.date-field').datetime_field()
-
+    console.log("555")
     $node.find('.signup_link').click preventDefault ->
       $node.dialog('close')
       signupDialog($(this).data('template'), $(this).prop('title'))
@@ -35,8 +51,9 @@ define [
         $form.disableWhileLoading(promise)
       success: (data) =>
         # they should now be authenticated (either registered or pre_registered)
+
         if data.course
-          window.location = "/courses/#{data.course.course.id}?registration_success=1"
+          window.location = "/courses/#{data.course.course["id"]}?registration_success=1"
         else
           window.location = "/?registration_success=1"
       formErrors: false
@@ -44,12 +61,17 @@ define [
         promise.reject()
         $form.formErrors registrationErrors(errors)
 
-    $node.dialog
+    ###$node.dialog
       resizable: false
       title: title
       width: 550
       open: ->
         $(this).find('a').eq(0).blur()
         $(this).find(':input').eq(0).focus()
-      close: -> $('.error_box').filter(':visible').remove()
-    $node.fixDialogButtons()
+      close: -> $('.error_box').filter(':visible').remove()###
+    console.log(i)
+    $(".tab-content .tab-pane").eq(i).append $node.addClass "notdd"
+    console.log("666")
+    #$node.fixDialogButtons()
+  signupDialog("studentHigherEdDialog", "ddd", 0)
+  signupDialog("studentDialog", "ddd", 1)

@@ -27,7 +27,8 @@ define([
   'jquery.instructure_misc_helpers' /* scrollSidebar */,
   'jquery.instructure_misc_plugins' /* ifExists, confirmDelete */,
   'message_students', /* messageStudents */
-  'vendor/raphael'
+  'vendor/raphael',
+  'quizzes_tpl'
 ], function(I18n, $, showAnswerArrows, inputMethods, _) {
 
 $(document).ready(function () {
@@ -124,24 +125,39 @@ $(document).ready(function () {
       $unlock_for_how_long_dialog.dialog('open');
       return false;
     });
-    
+
+    var unlock_button = {
+      text: I18n.t('buttons.unlock', 'Unlock'),
+      click: function(){
+        var dateString = $(this).find('.datetime_suggest').text();
+
+        $link.closest('form')
+          // append this back to the form since it got moved to be a child of body when we called .dialog('open')           
+          .append($(this).dialog('destroy'))
+          .find('#quiz_lock_at')
+            .val(dateString).end()
+          .submit();
+      }
+    };
+
     $unlock_for_how_long_dialog.dialog({
       autoOpen: false,
       modal: true,
       resizable: false,
       width: 400,
-      buttons: {
-        'Unlock' : function(){
-          var dateString = $(this).find('.datetime_suggest').text();
+      buttons: [ unlock_button ]
+      //buttons: {
+        //'Unlock' : function(){
+          //var dateString = $(this).find('.datetime_suggest').text();
 
-          $link.closest('form')
-            // append this back to the form since it got moved to be a child of body when we called .dialog('open')           
-            .append($(this).dialog('destroy'))
-            .find('#quiz_lock_at')
-              .val(dateString).end()
-            .submit();
-        }
-      }
+          //$link.closest('form')
+            //// append this back to the form since it got moved to be a child of body when we called .dialog('open')           
+            //.append($(this).dialog('destroy'))
+            //.find('#quiz_lock_at')
+              //.val(dateString).end()
+            //.submit();
+        //}
+      //}
     }).find('.datetime_field').datetime_field();
   });
 
@@ -239,7 +255,7 @@ $(document).ready(function () {
         line
           .attr({
             "stroke": color,
-            "stroke-width": 5
+            "stroke-width": 4
           });
       }
 
@@ -263,11 +279,12 @@ $(document).ready(function () {
       // reload balls
       $.each(positionData, function(i,val){
         var text = val.text ? val.text : "";
-        var $ball = $("<span><p>" +
-          text +
-          "</p></span>");
+        var $ball = $(tpl.ball);
         var color = val.Grey ? "grey" : "yellow";
+        var oritation = val.Grey ? "left" : "right";
         $ball.addClass(color)
+          .find(".popover").addClass(oritation)
+          .find(".popover-content p").html(text).end().end()
           .css({
             position: "absolute",
             left: val.x,
@@ -315,7 +332,7 @@ $(document).ready(function () {
       }
 
       function drawLine($active, $end, which, color, dash ){
-        var strokeWidth = 5,
+        var strokeWidth = 4,
           x1 = $active.position().left + $active.width()/2,
           y1 = $active.position().top + $active.height()/2 ,
           x2 = $end.position().left + $end.width()/2,
@@ -350,6 +367,27 @@ $(document).ready(function () {
         $(this).hide()
           .parent("span")
           .after($receive.clone());
+      });
+
+    });
+
+  }());
+
+  (function FillInMultipleBlanksSubjective(){
+
+    $(".question.fill_in_blanks_subjective_question").each(function(){
+      var $question = $(this);
+      $question.find(".question_text textarea").focus(function(){
+        //$(this).blur();
+      });
+
+      $question.find(".answer-list li").each(function(i){
+        var answer = $(this).html();
+        var $textArea = $question.find(".question_text textarea").eq(i);
+        var $div = $("<div class='blank'></div>");
+        $div.html(answer);
+        $textArea.after($div);
+        $textArea.hide();
       });
 
     });

@@ -9305,7 +9305,7 @@ zh:
         start_teaching: 开始教学
       labels: 
         email: 电子邮件
-        name: 名称
+        name: 名
     too_young_error: "您必须至少达到 %{min_years} 岁，才可在没有课程加入代码的情况下使用 Canvas。"
     welcome_to_canvas: "欢迎使用 Canvas！"
   retrieve_timeout: 无法检索配置，服务器响应超时

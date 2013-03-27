@@ -866,8 +866,10 @@ define([
       $form.find(".add_answer_link").showIf(options.addable);
       var $answers = $formQuestion.find(".form_answers .answer");
       if ($answers.length === 0 && result.answer_type != "none") {
-        $formQuestion.find(".form_answers").append(makeFormAnswer({answer_type: result.answer_type, question_type: question_type}));
-        $formQuestion.find(".form_answers").append(makeFormAnswer({answer_type: result.answer_type, question_type: question_type}));
+        var questionNum = question_type == "drag_and_drop_question" ? 1 : 2;
+        for( var i = 0; i < questionNum; i++){
+          $formQuestion.find(".form_answers").append(makeFormAnswer({answer_type: result.answer_type, question_type: question_type}));
+        }
         $answers = $formQuestion.find(".form_answers .answer");
       }
       if (result.answer_selection_type == "any_answer") {
@@ -916,12 +918,9 @@ define([
         $toolTipDele = $toolTip.find("button:first"),
         $toolTipCancel = $toolTip.find("button:last")
           .bind("click", function(){resetToolTip();});
-
-      if( $("#quiz_content_links").is(":hidden") ){
-        $(".link_to_content_link").trigger("click");
-        $("#ui-id-3").trigger("click");
-      }
-
+      
+      // show uploaded images
+      if( $("#editor_tabs_4").is(":hidden") ){$("#ui-id-5").trigger("click");}
 
       // semi radical
       var spanWidth = $factory.find(".menu span:first").css("width");
@@ -1001,11 +1000,9 @@ define([
       // reload balls
       $.each(positionData, function(i,val){
         var text = val.text ? val.text : "";
-        var $ball = $("<span><b>⊗</b><textarea>" +
-          text +
-          "</textarea></span>");
         var color = val.Grey ? "grey" : "yellow";
-        $ball.addClass(color)
+        var $ball = $factory.find(".menu span").filter("." + color).clone();
+        $ball.find("textarea").html(text).end()
           .css({
             position: "absolute",
             left: val.x,
@@ -1044,8 +1041,6 @@ define([
       // reload image
       var bgImage = $("<img>").attr("src", imageSrc);
       $main.find(".bg").append(bgImage);
-
-      // reload text
 
       // close tooltip when click document
       $(document).click(function(){ resetToolTip() });
@@ -1143,7 +1138,7 @@ define([
       }
 
       function drawLine($active, $end ){
-        var strokeWidth = 5,
+        var strokeWidth = 4,
           strokeColor = "#08c",
           x1 = $active.position().left + $active.width()/2,
           y1 = $active.position().top + $active.height()/2 ,
@@ -1432,6 +1427,7 @@ define([
   function makeFormAnswer(data) {
     var answer = $.extend({}, quiz.defaultAnswerData, data);
     var $answer = $("#form_answer_template").clone(true).attr('id', '');
+    console.log("makeFormAnswer")
     $answer.find(".answer_type").hide().filter("." + answer.answer_type).show();
     answer.answer_weight = parseFloat(answer.answer_weight);
 

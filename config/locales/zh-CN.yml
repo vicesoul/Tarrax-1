@@ -1661,6 +1661,8 @@ zh-CN:
       event_title: 活动标题
       start_time: 开始时间
       to: 到
+      links:
+        switch_views: 切换视图
     edit_event: 
       tabs: 
         assignment: 作业
@@ -2187,6 +2189,9 @@ zh-CN:
       message: 
         export_started: 导出过程已开始。大型课程可能需要一段时间。*您可以离开网页*，在导出完成时您会收到电子邮件。
       page_title: 课程导出
+      type:
+        course: 课程
+        quiz: 测试
     labels: 
       new_export: "新导出:"
     links: 
@@ -2966,13 +2971,18 @@ zh-CN:
         title: 
           remove_prerequisite: 删除此前提条件
     still_needs_completing: 仍需完成
-    titles: 
+    titles:
       add: 添加单元
       add_item: "添加 %{module}项目"
       add_prerequisite: "添加前提条件到 %{module}"
       edit: 编辑单元设置
       edit_item: 编辑项目详细信息
       student_progress: 学生学习单元的进度
+    progress:
+      no_information: 没有信息
+      in_progress: 正在进行
+      completed: 完成
+      locked: 已锁住
   conversation_message: 
     conversation_message: 
       users_added: 
@@ -4287,6 +4297,7 @@ zh-CN:
     role: 
       duplicate_role_error: "该角色已存在不能重复创建. 请用其它名称"
       remove_role_confirmation: "已有该角色的用户权限保持不变, 点击确定删除此角色."
+      permissions: "权限"
     save_failed: 保存失败，请稍后重试
     saving: 正在保存...
     search_flickr: "搜索 flickr 知识共享"
@@ -5232,6 +5243,7 @@ zh-CN:
       upload_form: "选择要上传的 CSV 文件"
     what_should_csv_look_like: "CSV 文件应该是什么样子?"
   gradebooks: 
+    top_level_crumb: 成绩
     assignment: 
       gradebook: 
         unmute_assignment: 取消屏蔽作业
@@ -5285,6 +5297,7 @@ zh-CN:
       buttons: 
         show_what_if: "显示已保存的 \"假设\" 分数"
       change_score_instructions: 单击任何分数并输入新值以查看该更改对总分的影响。
+      print_grades: 打印成绩
       click_to_change: 单击以测试不同分数
       comment_count: 
         one: "1 条评注"
@@ -7775,6 +7788,8 @@ zh-CN:
         find: 查找
         new_group: 新组
         new_outcome: 新结果
+      buttons:
+        manage_rubrics: 管理评分标准
     common_core: 共同核心标准
     common_core_description: 左侧是您熟悉的共同核心标准的每个分组的结果文件夹结构。这样您就可以毫不费力地在您的课程中使用任何共同核心标准进行评分。
     confirm: 
@@ -7845,6 +7860,8 @@ zh-CN:
       points: "%{points_possible} 分"
       title: 命名
       total_points: 总分
+      buttons:
+        save: 保存
     outcome_group: 
       links: 
         delete_outcome_group: 删除结果组
@@ -7852,6 +7869,8 @@ zh-CN:
     outcome_group_form: 
       group_description: 说明
       title: 命名
+      buttons:
+        save: 保存
     outcome_result: 
       all_outcomes: 此学生的所有结果
       attempt_info: "答题 #%{attempt_number}，%{attempt_date}"
@@ -9326,6 +9345,9 @@ zh-CN:
         find_ip_address_filter: 查找IP地址筛选
       warnings: 
         has_student_submissions: "学生已经开始做测试, 务必小心. 如果你继续更改试题, 您需要考虑对已经做过测试的学生重新评分."
+      tabs:
+        settings: 设置
+        questions: 题目
     no_filters_found: 没有找到筛选器
     notices: 
       cant_view_submission_while_muted: 您不能在测试屏蔽时查看测试历史记录。
@@ -9552,6 +9574,7 @@ zh-CN:
         republish: 重发布
         unlock_quiz: 立即允许学生进行此测试
         unlock_survey: 立即允许学生进行此问卷调查
+        unlock: 解锁
       confirms: 
         delete_quiz: 确定要删除此测试?
         delete_quiz_submissions_warning: 
@@ -9909,6 +9932,13 @@ zh-CN:
         enable: 启用
         enable_and_lock: 启用且锁定
         use_default: 使用默认且锁定
+    roles_override_index:
+      course_roles: 课程角色
+      account_roles: 组织架构角色
+    new_role:
+      role_name: 角色名称
+      add: 增加
+      add_role: 新增角色
   rubric: 
     context_name_rubric: "%{course_name} 评分标准"
     errors: 

@@ -1,8 +1,7 @@
 define([
     "modernizr.custom.34982",
     'underscore',
-    'backbone-0.9.9',
-    "jquery.ui.touch"
+    'backbone-0.9.9'
 ], function() {
     var Sketcher = window.Sketcher = Backbone.Model.extend({
         initialize: function() {
@@ -55,19 +54,21 @@ define([
 
         generalHTML: function(){
           var self = this;
-          var canvasHtml = '<input type="button" value="清空" class="clear_all" />';
-          canvasHtml += '<input type="button" value="圆珠笔" class="line" />';
-          canvasHtml += '<input type="button" value="墨水" class="ink" />';
-          canvasHtml += '<input type="button" value="刷子" class="big_brush" />';
-          canvasHtml += '<input type="button" value="橡皮擦" class="eraser" />';
+          var canvasHtml = '<ul class="tools">';
+          canvasHtml += '<li type="button" value="清空" class="clear_all" ><i></i> </li>';
+          canvasHtml += '<li type="button" value="圆珠笔" class="line" ><i></i> </li>';
+          canvasHtml += '<li type="button" value="墨水" class="ink" ><i></i> </li>';
+          canvasHtml += '<li type="button" value="刷子" class="big_brush" ><i></i> </li>';
+          canvasHtml += '<li type="button" value="橡皮擦" class="eraser" ><i></i> </li>';
+          canvasHtml += '</ul>';
           canvasHtml += '<div class="color_setting">';
-          canvasHtml += '<input type="button" class="black" value="black" style="background:#000000;" data-color=' + '{hex:"333333",rgb:[51,51,51]} ' + '  />';
-          canvasHtml += '<input type="button" class="blue" value="blue" style="background:#0000ff;" data-color=' + '{hex:"0000ff",rgb:[0,0,255]} ' + '  />';
-          canvasHtml += '<input type="button" class="red" value="red" style="background:#ff0000;" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
-          canvasHtml += '<input type="button" class="green" value="green" style="background:#7cfc00;" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
-          canvasHtml += '<input type="button" class="orange" value="orange" style="background:#FF7940;" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
-          canvasHtml += '<input type="button" class="purple" value="purple" style="background:#9932cc;" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
-          canvasHtml += '<input type="button" class="brown" value="pink" style="background:#ff69b4;" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
+          canvasHtml += '<input type="button" class="black" value="black" data-color=' + '{hex:"333333",rgb:[51,51,51]} ' + '  />';
+          canvasHtml += '<input type="button" class="blue" value="blue" data-color=' + '{hex:"0000ff",rgb:[0,0,255]} ' + '  />';
+          canvasHtml += '<input type="button" class="red" value="red" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
+          canvasHtml += '<input type="button" class="green" value="green" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
+          canvasHtml += '<input type="button" class="orange" value="orange" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
+          canvasHtml += '<input type="button" class="purple" value="purple" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
+          canvasHtml += '<input type="button" class="pink" value="pink" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
           canvasHtml += '</div>';
           canvasHtml += '<div class="container" style="width: '+ this.get("canvasW") + 'px;height:' + this.get("canvasH") +'px;">';
           canvasHtml += '</div>';
@@ -87,43 +88,45 @@ define([
 
           this.App.find(".container").append( this.canvas );
 
-          this.App.find(".color_setting input:gt(1)").hide();
-
           this.App.find(".clear_all").click(function(){
-                var response = confirm('你确定要清空画布?');
-                if (response) self.clear();
+              var response = confirm('你确定要清空画布?');
+              if (response) self.clear();
             });
 
           this.App.find(".line").click(function(){
-                self.get("tools").type = "line";
-            self.App.find(".color_setting").find("input").show().end().find("input:gt(1)").hide();
+            self.get("tools").type = "line";
             self.App.find(".color_setting input[type=button]:first").trigger("click");
             });
 
           this.App.find(".ink").click(function(){
-                self.set("tools", {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/ink_s.png"});
-            self.App.find(".color_setting").find("input").show().end().find("input:gt(1)").hide();
+            self.set("tools", {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/ink_s.png"});
             self.App.find(".color_setting input[type=button]:first").trigger("click");
             });
 
           this.App.find(".big_brush").click(function(){
-                self.set("tools", {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush_s.png"});
-            self.App.find(".color_setting input").show();
+            self.set("tools", {type:"brush",src:"/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/canvas/assets/brush_s.png"});
             self.App.find(".color_setting input[type=button]:first").trigger("click");
             });
 
           this.App.find(".eraser").click(function(){
-                self.get("tools").type = "eraser";
-            self.App.find(".color_setting input").hide();
-                self.setTools();
+            self.set("tools", {type : "eraser"});
+            self.setTools();
             });
 
           this.App.find(".color_setting input[type=button]").click(function(){
-                var string = $(this).attr("data-color");
-                eval('self.set("color",' + string + ')');
-                self.setTools();
+            var string = $(this).attr("data-color");
+            eval('self.set("color",' + string + ')');
+            self.setTools();
             });
 
+          this.App.find(".tools li:not(:first)").click(function(){
+            var tool = $(this).attr("class");
+            self.App.find(".color_setting").attr("class","color_setting").addClass("toolSet-" + tool);
+            
+            self.App.find(".tools li.active").removeClass("active");
+            $(this).addClass("active");
+            
+          })
 
 
           if( this.get("sketchType") === "paintQuestion" ){
@@ -173,6 +176,7 @@ define([
             }else if(self.get("tools").type == "eraser"){
                 self.renderFunction = self.updateCanvasByEraser;
             }
+            
         },
 
         onCanvasMouseDown : function () {
