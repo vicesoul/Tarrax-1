@@ -13,6 +13,7 @@
 }
 #jiaoxuebang .left_position_holder{
   float: left;
+  width: 684px;
 }
 #jiaoxuebang .right_position_holder{
   float: right;
@@ -64,7 +65,7 @@
 }
 #jiaoxuebang .box .box_body ul.account_announcement{
   list-style-type: none;
-  margin:0;
+  margin:0;padding:0;
   color: #999999;
 }
 #jiaoxuebang .box .box_body ul.account_announcement li{
@@ -137,7 +138,7 @@
 }
 #jiaoxuebang .box .box_body ul.widget_course{
   list-style-type: none;
-  margin: 0;
+  margin: 0;padding: 0;
 }
 #jiaoxuebang .box .box_body ul.widget_course li{
   width: 205px;
@@ -210,7 +211,7 @@
 }
 #jiaoxuebang .box .box_body ul.widget_course li .w_foot .w_btn .like_btn{
   background:url(../img/c_btn.jpg) no-repeat top left #57a5ee;
-  padding: 9px 39px;
+  padding: 9px 37px;
   color: #fff;
   position: relative;
   top: 18px;
@@ -225,7 +226,7 @@
   font-size: 18px;
   font-weight: bold;
   position: absolute;
-  right: 35%;
+  right: 30%;
   top: 8%;
 }
 #config_courses_holder {

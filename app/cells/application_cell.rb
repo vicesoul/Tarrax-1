@@ -4,7 +4,7 @@ class ApplicationCell < ::Cell::Base
   helper_method :data_widget, :widget, :extract_images, :title, :context, :service_enabled?, :widget_body, :current_user, :current_session, :format_context
 
   def data_widget
-    "data-widget='#{widget.cell_data}'"
+    "data-widget=#{widget.cell_data}"
   end
 
   def extract_images(html)
