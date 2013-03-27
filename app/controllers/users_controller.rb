@@ -769,7 +769,7 @@ class UsersController < ApplicationController
     @cc.user = @user
     @cc.workflow_state = 'unconfirmed' unless @cc.workflow_state == 'confirmed'
 
-    if @user.valid? && @pseudonym.valid? && @observee.nil?
+    if @user.valid_with_captcha? && @pseudonym.valid? && @observee.nil?
       # saving the user takes care of the @pseudonym and @cc, so we can't call
       # save_without_session_maintenance directly. we don't want to auto-log-in
       # unless the user is registered/pre_registered (if the latter, he still

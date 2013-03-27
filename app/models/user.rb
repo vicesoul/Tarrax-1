@@ -17,6 +17,7 @@
 #
 
 class User < ActiveRecord::Base
+  apply_simple_captcha :message => :invalid_code
   # this has to be before include Context to prevent a circular dependency in Course
   def self.sortable_name_order_by_clause(table = nil)
     col = table ? "#{table}.sortable_name" : 'sortable_name'
