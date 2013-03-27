@@ -37,7 +37,7 @@ require([
     };
 
     $('#mycarousel').jcarousel({
-        auto: 0,
+        auto: 2,
         wrap: 'last',
         scroll: 1,
         visible: 2,

@@ -1,7 +1,7 @@
 class ApplicationCell < ::Cell::Base
   cache :index, :expires_in => 5.minutes
 
-  helper_method :data_widget, :widget, :extract_images, :title, :context, :service_enabled?, :widget_body, :current_user, :current_session
+  helper_method :data_widget, :widget, :extract_images, :title, :context, :service_enabled?, :widget_body, :current_user, :current_session, :format_context
 
   def data_widget
     "data-widget='#{widget.cell_data}'"
@@ -22,6 +22,23 @@ class ApplicationCell < ::Cell::Base
     else
       @has_content = true
     end
+  end
+
+  def format_context(kontext)
+    course = kontext.context # Course
+    user   = kontext.user
+    result = {}
+    result[:id] = course.id
+    result[:user_url] = "/courses/#{course.id}/users/#{user.id}"
+    result[:user_name] = user.short_name
+    result[:course_name] = course.name
+    result[:url] = "/courses/#{course.id}/discussion_topics/#{kontext.id}"
+    if kontext.instance_of?(DiscussionTopic)
+      result[:topics_url] = "/courses/#{course.id}/discussion_topics"
+    elsif kontext.instance_of?(Announcement)
+      result[:topics_url] = "/courses/#{course.id}/announcements"
+    end
+    result
   end
 
   def service_enabled?(service)

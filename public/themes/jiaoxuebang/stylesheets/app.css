@@ -3,6 +3,9 @@
   min-height: 600px;
   padding-top: 250px;
 }
+#jiaoxuebang .link_more a{
+  color:#0099ff;
+}
 #dashboard .no_bg_image{
   background: 0 none;
   padding-top: 0;

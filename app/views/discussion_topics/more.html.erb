@@ -5,10 +5,27 @@
 <% end %>
 
 <div id="more_discussion_topics">
+  <h1>
+    <% if params[:type] == 'announcements' %>
+      <%= t('announcements', 'Announcements') %>
+    <% else %>
+      <%= t('discussion_topics', 'Discussion topics') %>
+    <% end %>
+    <% @courses.each do |course| %>
+      <% if params[:type] == 'announcements' %>
+        <%= link_to course.name, "/courses/#{course.id}/announcements" %>
+      <% else %>
+        <%= link_to course.name, "/courses/#{course.id}/discussion_topics" %>
+      <% end %>
+    <% end %>
+  </h1>
 <div id="accordion">
 <% @topics.each do |topic| %>
   <h3><%= topic.title %><span class="time"><%= l topic.created_at, :format => :long %></span></h3>
-  <div><%= raw topic.message %></div>
+  <div>
+    <%= raw topic.message %>
+    <div style="margin-top:10px;"><%= link_to t('detail', 'Detail'), "/courses/#{topic.context_id}/discussion_topics/#{topic.id}", :style => "color: #0084fe;font-size: 14px;" %></div>
+  </div>
 <% end %>
 </div>
 <%= will_paginate(@topics) %>
