@@ -46,7 +46,7 @@
     <div style="position: relative;">
     <i class="x_narrow"></i>
     <%= link_to image_tag('close-button.png'), 'javascript:void(0)', :class => 'close' %>
-    <% courses_with_account = @current_user.courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.account.name] << course; h } %>
+    <% courses_with_account = @current_user.courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.root_account.name] << course; h } %>
     <ul>
     <% courses_with_account.each do |account_name, courses| %>
       <li><%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %></li>

@@ -11,7 +11,7 @@
       <div class="context-last-reply"><%= l obj.last_reply_at, :format => :long %></div>
       <div class="context-title"><%= link_to obj.title, "/courses/#{obj_context.id}/discussion_topics/#{obj.id}" %></div>
       <div class="user-short-name"><%= link_to obj.user.short_name, "/courses/#{obj_context.id}/users/#{obj.user.id}" %></div>
-      <div class="context-summary"><%= strip_tags obj.message %></div>
+      <div class="context-summary"><%= truncate strip_tags(obj.message), :length => 40 %></div>
     </div>
   </div>
 <% end %>
