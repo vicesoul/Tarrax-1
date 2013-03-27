@@ -29,5 +29,7 @@ require [
   $('a.captcha_change_code').click preventDefault ->
     $.get(this.href + '?object=account')
       .done (data)->
-        $('#simple_captcha').replaceWith(data)
+        src = $(data).find("img").attr("src")
+        $('#simple_captcha').find("img").attr("src", src)
+        
 
