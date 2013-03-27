@@ -25,6 +25,7 @@ class AccountsController < ApplicationController
   include Api::V1::Account
 
   def new
+    @body_classes = ["welcome"]
     @account = Account.new
   end
 

@@ -1,57 +1,123 @@
-<% js_bundle :account_new %>
+<% 
+  js_bundle :account_new
+  jammit_css :registration
+%>
 
-<div class="well">
-  <% form_for @account, :html => {:class => 'form-horizontal'}  do |f| %>
-
-    <div class='control-group'>
-      <div class="control-label">
-        <%= f.label :user_role, t('user.role', 'User Role') %>
+<div class="logo-row">
+  <div class="inner">
+    <a id="header-logo" href="<%= root_url %>"><%= t 'links.dashboard', "My Dashboard" %></a>
+    <form class="form-search">
+      <div class="input-append">
+        <input type="text" placeholder="请输入关键词" class="span2 search-query">
+        <button class="btn" type="submit"><i></i></button>
       </div>
-      <div class="controls">
-        <%= f.select :user_role, AccountUser::ROLES.map{|k,v| [v.call, k]} %>
-      </div>
-    </div>
-
-    <div class='control-group'>
-      <div class="control-label">
-        <%= f.label :user_mobile, t('user.mobile', 'Mobile') %>
-      </div>
-      <div class="controls">
-        <%= f.text_field :user_mobile %>
-      </div>
-    </div>
-
-    <div class='control-group'>
-      <div class="control-label">
-        <%= f.label :name, t('school.name', 'School Name') %>
-      </div>
-      <div class="controls">
-        <%= f.text_field :name %>
-      </div>
-    </div>
-
-    <div class='control-group'>
-      <div class="control-label">
-        <%= f.label :school_category, t('school.category', 'School Category') %>
-      </div>
-      <div class="controls">
-        <%= f.select :school_category, Account::SCHOOL_CATEGORIES.map{|k,v| [v.call, k]} %>
-      </div>
-    </div>
-
-    <div class='control-group'>
-      <div class="control-label">
-        <%= f.label :school_scale, t('school.scale', 'School Scale') %>
-      </div>
-      <div class="controls">
-        <%= f.select :school_category, Account::SCHOOL_SCALE.map{|k,v| [v, k]} %>
-      </div>
-    </div>
-
-    <%= show_simple_captcha :object => :account, :label => t('#captcha.validation_code', 'Validation Code') %>
-
-    <div class="actions">
-      <button class="btn" type="submit"><%= t('#buttons.submit', "Submit") %></button>
-    </div>
-  <% end %>
+    </form>
+  </div>
 </div>
+<div class="content">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav nav-tabs">
+          <li><a href="#">首页</a></li>
+          <li><a href="#">中小学</a></li>
+          <li><a href="#">英语</a></li>
+          <li><a href="#">教辅</a></li>
+          <li><a href="#">企业大学</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="register">
+    <div class="container">
+      <div class="tab-pane">
+        <% form_for @account, :html => {:class => 'bootstrap-form form-horizontal'}  do |f| %>
+
+          <div class='control-group'>
+            <div class="control-label">
+              <%= f.label :user_role, t('user.role', 'User Role') %>
+            </div>
+            <div class="controls">
+              <%= f.select :user_role, AccountUser::ROLES.map{|k,v| [v.call, k]} %>
+            </div>
+          </div>
+
+          <div class='control-group'>
+            <div class="control-label">
+              <%= f.label :user_mobile, t('user.mobile', 'Mobile') %>
+            </div>
+            <div class="controls">
+              <%= f.text_field :user_mobile %>
+            </div>
+          </div>
+
+          <div class='control-group'>
+            <div class="control-label">
+              <%= f.label :name, t('school.name', 'School Name') %>
+            </div>
+            <div class="controls">
+              <%= f.text_field :name %>
+            </div>
+          </div>
+
+          <div class='control-group'>
+            <div class="control-label">
+              <%= f.label :school_category, t('school.category', 'School Category') %>
+            </div>
+            <div class="controls">
+              <%= f.select :school_category, Account::SCHOOL_CATEGORIES.map{|k,v| [v.call, k]} %>
+            </div>
+          </div>
+
+          <div class='control-group'>
+            <div class="control-label">
+              <%= f.label :school_scale, t('school.scale', 'School Scale') %>
+            </div>
+            <div class="controls">
+              <%= f.select :school_category, Account::SCHOOL_SCALE.map{|k,v| [v, k]} %>
+            </div>
+          </div>
+
+          <%= show_simple_captcha :object => :account, :label => t('#captcha.validation_code', 'Validation Code') %>
+
+          <div class='control-group'>
+            <div class="control-label">
+       
+            </div>
+            <div class="controls">
+              <div class="actions">
+                <button class="btn-blue" type="submit"><%= t('#buttons.submit', "Submit") %></button>
+              </div>
+            </div>
+          </div>
+    
+
+    
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+<footer>
+  <div class="container">
+    <ul>
+      <li><a href="#">首页</a>|</li>
+      <li><a href="#">关于我们</a>|</li>
+      <li><a href="#">课程分类</a>|</li>
+      <li><a href="#">课程资源</a>|</li>
+      <li><a href="#">会员专区</a>|</li>
+      <li><a href="#">联系方式</a>|</li>
+      <li><a href="#">服务保障</a></li>
+    </ul>
+    <div class="pull-right">
+      版权所有 © 2003-2011 教学邦保留所有权利<br>
+      关注教学邦：
+      <a href="#"><img src="/images/jxb/weibo-qq.png"></a>
+      <a href="#"><img src="/images/jxb/weibo-sina.png"></a>
+    </div>
+  </div>
+</footer>
+
+
+
+
