@@ -299,9 +299,9 @@ class UsersController < ApplicationController
     # trail back to home if you are already home
     clear_crumbs
 
-    if request.path =~ %r{\A/dashboard\z}
-      return redirect_to(dashboard_url, :status => :moved_permanently)
-    end
+    #if request.path =~ %r{\A/dashboard\z}
+      #return redirect_to(dashboard_url, :status => :moved_permanently)
+    #end
     disable_page_views if @current_pseudonym && @current_pseudonym.unique_id == "pingdom@instructure.com"
 
     js_env :DASHBOARD_SIDEBAR_URL => dashboard_sidebar_url
