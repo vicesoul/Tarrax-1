@@ -10,6 +10,16 @@
       <% else %>
         <p><%= t('#cells.discussion.empty_body', 'Empty discussions') %></p>
       <% end %>
+      <div class="link_more" style="text-align: right;">
+        <% 
+            more_link = if context.is_a?(User)
+                          "users/#{context.id}/more_discussion_topics"
+                        else
+                          "accounts/#{context.id}/more_discussion_topics"
+                        end
+        %>
+        <%= link_to t('#cells.assignment.more', 'More>>'), more_link %>
+      </div>
     </div>
   </div>
 </div>

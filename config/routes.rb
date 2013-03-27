@@ -1,5 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.accounts_discussion_topics 'accounts/:account_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
+  map.users_discussion_topics    'users/:user_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
+
   map.select_users 'accounts/select/users/ids', :controller => 'accounts', :action => 'select_users'
   map.resources :widget, :only => :update, :controller => 'jxb/widgets'
 

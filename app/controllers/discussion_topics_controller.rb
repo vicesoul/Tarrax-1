@@ -141,6 +141,16 @@ class DiscussionTopicsController < ApplicationController
     end
   end
 
+  # new action for wiget more
+  def more
+    @topic_context = ( params[:account_id] && Account.find(params[:account_id]) ) || ( params[:user_id] && User.find(params[:user_id]) )
+    @topics = if params[:type] == 'announcements'
+      @topic_context.active_announcements_of_courses.paginate(:page => params[:page], :per_page => 30)
+    else
+      @topic_context.active_discussions_of_courses.paginate(:page => params[:page], :per_page => 30)
+    end
+  end
+
   def new
     @topic = @context.send(params[:is_announcement] ? :announcements : :discussion_topics).new
     add_discussion_or_announcement_crumb

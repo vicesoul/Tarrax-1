@@ -1,0 +1,16 @@
+<% jammit_css :ui_accordion %>
+
+<% content_for :foot do %>
+  <%= javascript_include_tag "compiled/bundles/discussion_topics_index_more.js" %>
+<% end %>
+
+<div id="more_discussion_topics">
+<div id="accordion">
+<% @topics.each do |topic| %>
+  <h3><%= topic.title %><span class="time"><%= l topic.created_at, :format => :long %></span></h3>
+  <div><%= raw topic.message %></div>
+<% end %>
+</div>
+<%= will_paginate(@topics) %>
+</div>
+

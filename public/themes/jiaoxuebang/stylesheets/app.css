@@ -105,6 +105,7 @@
 }
 #jiaoxuebang .box .box_body .contextIndexList .context-column.last{
   border-bottom: 0 none;
+  margin-bottom: 0;
 }
 #jiaoxuebang .box .box_body .contextIndexList .context-column .image-block-image{
   float: left;
