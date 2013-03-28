@@ -10,6 +10,7 @@
       <% else %>
         <p><%= t('#cells.announcement.empty_body', 'Empty announcements') %></p>
       <% end %>
+      <% unless @announcements.blank? %>
       <div class="link_more" style="text-align: right;">
         <% 
             more_link = if context.is_a?(User)
@@ -20,6 +21,7 @@
         %>
         <%= link_to t('#cells.assignment.more', 'More>>'), more_link %>
       </div>
+      <% end %>
     </div>
   </div>
 </div>

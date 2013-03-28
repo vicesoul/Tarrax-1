@@ -226,3 +226,110 @@ h3 .tally
 #right-side table.summary
   margin-top: 20px
 
+/* BACKGROUND
+
+.tree-checkbox .ltr, .tree-apple .rtl
+  background: url("/javascripts/vendor/themes/apple/bg.jpg") left top repeat
+  min-width: 100%
+  _width: 100%
+  margin-left: 0
+  margin-right: 0
+  display: table
+
+.tree-checkbox .ltr > li.leaf, .tree-apple .rtl > li.leaf
+  background-image: none
+
+/* LOCKED
+
+.tree-checkbox
+  .locked li a
+    color: gray
+  ul
+    background-position: 6px 1px
+    background-repeat: repeat-y
+    background-image: url(data:image/gif;base64,R0lGODlhAgACAIAAAB4dGf///yH5BAEAAAEALAAAAAACAAIAAAICRF4AOw==)
+    _background-image: url("dot_for_ie.gif")
+    *background-image: url("dot_for_ie.gif")
+  li
+    background-position: -64px -16px
+    background-repeat: no-repeat
+    background-image: url("/javascripts/vendor/themes/checkbox/icons.png")
+  .no_dots
+    background: transparent
+    ul
+      background: transparent
+    li.leaf
+      background-image: none
+      background-color: transparent
+  li
+    &.open
+      background: url("/javascripts/vendor/themes/checkbox/icons.png") -32px -48px no-repeat
+    &.closed
+      background: url("/javascripts/vendor/themes/checkbox/icons.png") -48px -32px no-repeat
+
+/* DOTS
+
+/* NO DOTS
+
+/* OPEN or CLOSED
+
+#jstree-dragged.tree-checkbox li li.open
+  background: url("/javascripts/vendor/themes/checkbox/icons.png") -48px -32px no-repeat
+
+#jstree-marker
+  background-image: url("/javascripts/vendor/themes/checkbox/icons.png")
+
+/* DEFAULT, HOVER, CLICKED, LOADING STATES
+
+.tree-checkbox
+  li
+    a, span
+      border-radius: 3px
+      -moz-border-radius: 3px
+      -webkit-border-radius: 3px
+  ins
+    background-image: url("/javascripts/vendor/themes/checkbox/icons.png")
+    background-position: 0 0
+    background-repeat: no-repeat
+  ul li a.loading ins
+    background-image: url("/javascripts/vendor/themes/checkbox/throbber.gif") !important
+    background-position: 0 0 !important
+  li a
+    ins.forbidden
+      background-position: -16px -48px
+    &.undetermined ins
+      background-position: 0px -16px
+    &.checked ins
+      background-position: 0px -32px
+    &:hover ins
+      background-position: -16px 0px
+    &.undetermined:hover ins
+      background-position: -16px -16px
+    &.checked:hover ins
+      background-position: -16px -32px
+
+/*
+ *.tree-checkbox li a:hover, .tree-checkbox li a.hover, .tree-checkbox li span { background: #e7f4f9; border:1px solid #d8f0fa; padding:0px 3px 0px 3px; }
+ *.tree-checkbox li a.clicked, .tree-checkbox li a.clicked:hover, .tree-checkbox li span.clicked { background: #beebff; border:1px solid #99defd; padding:0px 3px 0px 3px; }
+/* ICONS
+
+/* UL is added to make selector stronger
+
+#jstree-dragged.tree-checkbox ins
+  background: url("/javascripts/vendor/themes/checkbox/icons.png") 0 -48px no-repeat
+  &.forbidden
+    background: url("/javascripts/vendor/themes/checkbox/icons.png") -16px -48px no-repeat
+
+/* CONTEXT MENU
+
+.tree-checkbox-context a ins
+  background-image: url("/javascripts/vendor/themes/checkbox/icons.png")
+  background-repeat: no-repeat
+  background-position: -64px -64px
+  &.create
+    background-position: 0 -16px
+  &.rename
+    background-position: -16px 0px
+  &.remove
+    background-position: 0 -32px
+

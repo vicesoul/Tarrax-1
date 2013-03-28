@@ -3525,6 +3525,12 @@ zh-CN:
         links: 
           unenroll_user: 将用户从课程中移除
     settings: 
+      pickup:
+        insert: 插入
+        cancel: 取消
+        name: 名称
+        email: 邮箱
+        title: 挑选
       alerts_title: 警报
       buttons: 
         add_section: 添加班
