@@ -29,8 +29,10 @@ class ApplicationCell < ::Cell::Base
     user   = kontext.user
     result = {}
     result[:id] = course.id
-    result[:user_url] = "/courses/#{course.id}/users/#{user.id}"
-    result[:user_name] = user.short_name
+    if user
+      result[:user_url] = "/courses/#{course.id}/users/#{user.id}"
+      result[:user_name] = user.short_name
+    end
     result[:course_name] = course.name
     result[:url] = "/courses/#{course.id}/discussion_topics/#{kontext.id}"
     if kontext.instance_of?(DiscussionTopic)
