@@ -27,6 +27,8 @@ define [
     resourceName: 'users'
 
     errorMap:
+      captcha:
+        invalid_code: I18n.t('errors.invalid_code', 'Invalid Code')
       name:
         blank:        I18n.t("errors.required", "Required")
         too_long:     I18n.t("errors.too_long", "Can't exceed %{max} characters", {max: 255})
