@@ -37,13 +37,19 @@ zh-CN:
     default_site_administrator_account_name: 网站管理员
     default_term_name: 默认学期
     errors: 
-      invalid_discovery_url: "发现链接 无效\n"
-      taken: 已存在
-      required: 必须
-      invalid_mobile: 手机号码不对
       invalid_code: 验证码不匹配，请尝试点击验证码刷新
+      invalid_discovery_url: "发现链接 无效\n"
+      invalid_mobile: 手机号码不对
+      required: 必须
+      taken: 已存在
     manually_created_courses: 手动创建的课程
     root_account_cant_have_sis_id: "无法对网校设置 SIS ID"
+    school_category: 
+      corporate: 企事业
+      higher_ed: 大中专
+      k12: 中小学
+      open: 开放网校
+      other: 其他
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
     tab_authentication: 身份验证
     tab_courses: 课程
@@ -267,6 +273,13 @@ zh-CN:
       open_registration_delegated_warning_dialog: 已启用外部身份提供程序
       what_are_quiz_ip_filters: "什么是测试IP 筛选器?"
   account_user: 
+    role: 
+      institute_admin: 机构负责
+      other: 其他
+      student: 学生
+      teacher: 教师
+      technical_support: 技术支持
+      training_management: 教学管理
     types: 
       account_admin: 网校管理员
   accounts: 
@@ -383,6 +396,14 @@ zh-CN:
       no_accounts_message: 无网校
       page_title: 网校
       title: 我管理的网校
+    new: 
+      school: 
+        category: 学校分类
+        name: 学校名称
+        scale: 学校规模
+      user: 
+        mobile: 手机号码
+        role: 角色
     no_user_message: 找不到此用户ID
     notices: 
       account_created: 账号创建成功
@@ -10856,10 +10877,9 @@ zh-CN:
         select_file: "请选择一个 .zip 文件进行上传"
       titles: 
         uploading: 正在上传，请稍候。
-  simple_captcha:
-    validation_code: 验证码
+  simple_captcha: 
     change_code: 点击换一张
-
+    validation_code: 验证码
   sis_batch: 
     errors: 
       unrecorgnized_type: 无法识别的导入类型
