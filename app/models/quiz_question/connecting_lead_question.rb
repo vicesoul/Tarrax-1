@@ -19,7 +19,7 @@
 class QuizQuestion::ConnectingLeadQuestion < QuizQuestion::Base
   def total_answer_parts
     length = @question_data[:answers].length
-    @question_data[:connecting_lead_linesNum] == '2' ? length : length * 2
+    @question_data[:connecting_lead_linesNum] == '3' ? length * 2 : length
   end
 
   def correct_answer_parts(user_answer)

@@ -194,7 +194,7 @@ $(document).ready(function () {
         paper = Raphael( $answers_wrapper[0], $answers_wrapper.width(), answerHeight );
 
       $answers_wrapper.css( "height", answerHeight );
-      if( linesNum == 2 ) $question.addClass("twoLines");
+      if( linesNum == 3 ) $question.addClass("threeLines");
 
       $answers_wrapper.add(".answers_wrapper_correct").each(function(){
         $(this).find(".connecting_lead_answer > div").each( function( i ){
@@ -255,7 +255,7 @@ $(document).ready(function () {
         line
           .attr({
             "stroke": color,
-            "stroke-width": 4
+            "stroke-width": Global.quizzes.lineWidth
           });
       }
 
@@ -332,8 +332,7 @@ $(document).ready(function () {
       }
 
       function drawLine($active, $end, which, color, dash ){
-        var strokeWidth = 4,
-          x1 = $active.position().left + $active.width()/2,
+        var x1 = $active.position().left + $active.width()/2,
           y1 = $active.position().top + $active.height()/2 ,
           x2 = $end.position().left + $end.width()/2,
           y2 = $end.position().top + $end.height()/2 ,
@@ -344,7 +343,7 @@ $(document).ready(function () {
         line
           .attr({
             "stroke": color,
-            "stroke-width": strokeWidth,
+            "stroke-width": Global.quizzes.lineWidth,
             "stroke-dasharray": lineType
           });
 

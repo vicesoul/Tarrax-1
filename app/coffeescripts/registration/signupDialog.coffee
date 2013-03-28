@@ -34,11 +34,8 @@ define [
 
     return unless templates[id]
     $node = $nodes[id] ?= $('<div />')
-    console.log("333")
     $node.html templates[id]()
-    console.log("444000")
     $node.find('.date-field').datetime_field()
-    console.log("555")
     $node.find('.signup_link').click preventDefault ->
       $node.dialog('close')
       signupDialog($(this).data('template'), $(this).prop('title'))
@@ -69,9 +66,7 @@ define [
         $(this).find('a').eq(0).blur()
         $(this).find(':input').eq(0).focus()
       close: -> $('.error_box').filter(':visible').remove()###
-    console.log(i)
     $(".tab-content .tab-pane").eq(i).append $node.addClass "notdd"
-    console.log("666")
     #$node.fixDialogButtons()
   signupDialog("studentHigherEdDialog", "ddd", 0)
   signupDialog("studentDialog", "ddd", 1)
