@@ -38,6 +38,10 @@ zh-CN:
     default_term_name: 默认学期
     errors: 
       invalid_discovery_url: "发现链接 无效\n"
+      taken: 已存在
+      required: 必须
+      invalid_mobile: 手机号码不对
+      invalid_code: 验证码不匹配，请尝试点击验证码刷新
     manually_created_courses: 手动创建的课程
     root_account_cant_have_sis_id: "无法对网校设置 SIS ID"
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
@@ -10852,6 +10856,10 @@ zh-CN:
         select_file: "请选择一个 .zip 文件进行上传"
       titles: 
         uploading: 正在上传，请稍候。
+  simple_captcha:
+    validation_code: 验证码
+    change_code: 点击换一张
+
   sis_batch: 
     errors: 
       unrecorgnized_type: 无法识别的导入类型
