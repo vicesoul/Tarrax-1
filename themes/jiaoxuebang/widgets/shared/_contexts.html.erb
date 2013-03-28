@@ -8,7 +8,7 @@
       <%= link_to image_tag( avatar_url_for_user(obj.user), :style => 'max-width: 50px', :class => 'image-avatar' ),  result[:user_url] %>
     </div>
     <div class="image-block-content">
-      <div class="context-last-reply"><%= l obj.last_reply_at, :format => :long %></div>
+      <div class="context-last-reply"><%= l(obj.last_reply_at, :format => :long) if obj.last_reply_at %></div>
       <div class="context-title"><%= link_to obj.title, result[:url] %></div>
       <div class="user-short-name"><%= link_to result[:user_name], result[:user_url] %> <%= link_to "(#{result[:course_name]})", result[:topics_url] %></div>
       <div class="context-summary"><%= truncate strip_tags(obj.message), :length => 40 %></div>

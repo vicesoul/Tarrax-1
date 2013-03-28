@@ -19,8 +19,8 @@
           <tr data-course-id=<%= assignment.context.id%> <%= style if @opts[:can_select_course] %> >
             <td><a href=<%= "/courses/#{assignment.context.id}/assignments/#{assignment.id}" %>><%= assignment.title %></a></td>
             <td><%= assignment.context.name %></td>
-            <td><%= l assignment.created_at, :format => :long %></td>
-            <td><%= l assignment.due_at, :format => :long %></td>
+            <td><%= l(assignment.created_at, :format => :long) if assignment.created_at  %></td>
+            <td><%= l(assignment.due_at, :format => :long) if assignment.due_at %></td>
             <td>
               <% unless assignment.submission_types.blank? %>
                 <%= @has_submited_assignment_ids.include?(assignment.id) ? t('#cells.assignment.done', 'Done') : t('#cells.assignment.to_do', 'To do') %>
