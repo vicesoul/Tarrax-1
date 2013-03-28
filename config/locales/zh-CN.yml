@@ -680,39 +680,8 @@ zh-CN:
     user_added_message: "%{user} 已添加！"
     user_added_message_sent_message: "%{user} 已添加！他们应该很快会收到确认电子邮件。"
     user_deleted_message: "%{username} 已删除"
-  activemodel: 
-    errors: 
-      format: "%{attribute} %{message}"
-      messages: 
-        accepted: 必须是可被接受的
-        blank: 不能为空字符
-        confirmation: 与确认值不匹配
-        empty: 不能留空
-        equal_to: "必须等于 %{count}"
-        even: 必须为双数
-        exclusion: 是保留关键字
-        greater_than: "必须大于 %{count}"
-        greater_than_or_equal_to: "必须大于或等于 %{count}"
-        inclusion: 不包含于列表中
-        invalid: 是无效的
-        less_than: "必须小于 %{count}"
-        less_than_or_equal_to: "必须小于或等于 %{count}"
-        not_a_number: 不是数字
-        not_an_integer: 必须是整数
-        odd: 必须为单数
-        record_invalid: "验证失败: %{errors}"
-        taken: 已经被使用
-        too_long: "过长（最长为 %{count} 个字符）"
-        too_short: "过短（最短为 %{count} 个字符）"
-        wrong_length: "长度非法（必须为 %{count} 个字符）"
-      template: 
-        body: 如下字段出现错误：
-        header: 
-          one: "有 1 个错误发生导致「%{model}」无法被保存。"
-          other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
   activerecord: 
     errors: 
-      format: "%{attribute} %{message}"
       full_messages: 
         format: "%{attribute} %{message}"
       messages: 
@@ -4629,7 +4598,6 @@ zh-CN:
   errors: 
     bad_navigation_config: 课程标签配置无效
     failed: 已失败
-    format: "%{attribute} %{message}"
     index: 
       all_categories: "- 所有类别 -"
       default_category: 默认
@@ -4642,36 +4610,9 @@ zh-CN:
         url: 链接
         user: 用户
       message_contains: 消息包含
-    messages: 
-      accepted: 必须是可被接受的
-      blank: 不能为空字符
-      confirmation: 与确认值不匹配
-      empty: 不能留空
-      equal_to: "必须等于 %{count}"
-      even: 必须为双数
-      exclusion: 是保留关键字
-      greater_than: "必须大于 %{count}"
-      greater_than_or_equal_to: "必须大于或等于 %{count}"
-      inclusion: 不包含于列表中
-      invalid: 是无效的
-      less_than: "必须小于 %{count}"
-      less_than_or_equal_to: "必须小于或等于 %{count}"
-      not_a_number: 不是数字
-      not_an_integer: 必须是整数
-      odd: 必须为单数
-      record_invalid: "验证失败: %{errors}"
-      taken: 已经被使用
-      too_long: "过长（最长为 %{count} 个字符）"
-      too_short: "过短（最短为 %{count} 个字符）"
-      wrong_length: "长度非法（必须为 %{count} 个字符）"
     no_attached_file: 您至少要为作业添加一份文件
     registration_incomplete: 您需要确认您的电子邮件，然后才能查看此网页
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
-    template: 
-      body: 如下字段出现错误：
-      header: 
-        one: "有 1 个错误发生导致「%{model}」无法被保存。"
-        other: "有 %{count} 个错误发生导致「%{model}」无法被保存。"
   external_content: 
     cancel: 
       canceling: 正在取消...
@@ -5925,12 +5866,6 @@ zh-CN:
       x_new_in_discussions: 
         one: "*1* 个讨论"
         other: "*%{count}* 讨论"
-    select: 
-      prompt: 请选择
-    submit: 
-      create: "新增%{model}"
-      submit: "储存%{model}"
-      update: "更新%{model}"
   info: 
     notices: 
       error_reported: 感谢您的帮助！我们马上解决。
