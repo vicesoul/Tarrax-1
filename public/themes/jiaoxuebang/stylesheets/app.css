@@ -235,7 +235,7 @@
   min-height: 300px;
   padding: 10px;
   display: none;
-  left: -390px;
+  right: 102px;
   background: url(../img/xbg.jpg) #d6f0fd repeat-x top left;
   border: 1px solid #A9CCE2;
 }

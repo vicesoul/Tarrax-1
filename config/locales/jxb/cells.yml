@@ -28,3 +28,5 @@ zh-CN:
     announcement_account:
       title: '网校公告'
       empty_body: '暂无网校公告'
+    configure: '配置>'
+    save: '保存'

@@ -68,7 +68,7 @@ require([
 
     $(".config_courses").click(function(){
       var $widget = $(this).parents("[data-widget]");
-      var top = $widget.offset().top - 113;
+      var top = $widget.offset().top - 100;
       var $courses_holder = $("#config_courses_holder").css("top", top);
       var ids = [];
       $widget.find("[data-course-id]:visible").each(function(){
