@@ -116,7 +116,7 @@ $(document).ready(function() {
           <button type="submit" class="btn-blue right"><%= t('log_in', 'Log In') %></button>
         </div>
           <div class="link-register">
-            <%= link_to t("register_for_canvas", "*Need a Canvas Account?* **Click Here, It's Free!**", :wrapper => {'*' => '<i>\1</i>', '**' => '<b>\1</b>'}),  Setting.get_cached("registration_link", "/register_from_website"), :id => 'register_link', :class => 'not_external' if @domain_root_account == Account.default && @domain_root_account.open_registration? && @domain_root_account.no_enrollments_can_create_courses? && !hide_fft %>
+            <%= link_to t("register_for_canvas", "*Need a Canvas Account?* **Click Here, It's Free!**", :wrapper => {'*' => '<i>\1</i>', '**' => '<b>\1</b>'}),  Setting.get_cached("registration_link", "/register_from_website"), :id => 'register_link', :class => 'not_external' if @domain_root_account == Account.default && default_domain_root_account.open_registration? && !hide_fft %>
           </div>
       <% end %>
     <% end %>
