@@ -239,9 +239,9 @@ div#content
         margin: 0 3px 0 0
         padding: 0
 
-.twoLines
+.threeLines
   .word_right, .connecting_lead_right, .answer_match_right
-    display: none
+    display: block!important
 .tool-tip
   position: absolute
   left: 0
@@ -473,9 +473,9 @@ div#content
   .connecting_on_pic_question.question
     .connecting_on_pic_factory
       display: block!important
-  .twoLines.question
+  .threeLines.question
     .answer_match_right
-      display: none
+      display: block
 
 
 .incorrect
@@ -752,6 +752,7 @@ div#content
       float: left
     .answer_match_right
       :width 30%
+      :display none
 
 .form_answers
   .answer

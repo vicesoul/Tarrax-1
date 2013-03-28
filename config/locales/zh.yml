@@ -9939,8 +9939,8 @@ zh:
       log_in: 登录
       login_at_account: "在 %{school_name} 登录"
       login_handle: "输入您的 %{login_handle_name}，我们将向您发送更改密码的链接。"
-      register_for_canvas: "*需要 Canvas 帐户?* **单击此处免费获取!**"
-    menu_assignment: 
+      register_for_canvas: "没有帐号，立即免费注册"
+    menu_assignment:
       labels: 
         due: 到期日期
       needs_grading_count: 

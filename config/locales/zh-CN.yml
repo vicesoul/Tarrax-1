@@ -10432,7 +10432,7 @@ zh-CN:
       log_in: 登录
       login_at_account: "在 %{school_name} 登录"
       login_handle: "输入您的 %{login_handle_name} 将通过邮件给您发送更改密码的链接。"
-      register_for_canvas: "*注册教学邦?* **单击免费注册!**"
+      register_for_canvas: "没有帐号，立即免费注册"
     menu_assignment: 
       labels: 
         due: 提交时间
