@@ -180,10 +180,11 @@ namespace :i18n do
     require 'lib/i18n_extraction/js_extractor.rb'
     I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')] +
                       Dir[Rails.root.join('vendor', 'plugins', '*', 'config', 'locales', '**', '*.{rb,yml}')]
-    I18n.reload!
     Hash.send :include, HashExtensions
 
     file_translations = {}
+
+    I18n.reload! # fixes bugs: locales except :en does not available
     locales = I18n.available_locales - [:en]
     # allow passing of extra, empty locales by including a comma-separated
     # list of abbreviations in the LOCALES environment variable. e.g.

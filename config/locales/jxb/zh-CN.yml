@@ -1,136 +1,106 @@
 zh-CN:
-  date:
-    abbr_day_names:
-    - 日
-    - 一
-    - 二
-    - 三
-    - 四
-    - 五
-    - 六
-    abbr_month_names:
-    - 
-    - 1月
-    - 2月
-    - 3月
-    - 4月
-    - 5月
-    - 6月
-    - 7月
-    - 8月
-    - 9月
-    - 10月
-    - 11月
-    - 12月
-    day_names:
-    - 星期日
-    - 星期一
-    - 星期二
-    - 星期三
-    - 星期四
-    - 星期五
-    - 星期六
-    formats:
-      default: ! '%Y-%m-%d'
-      long: ! '%Y年%b%d日'
-      short: ! '%b%d日'
-    month_names:
-    - 
-    - 一月
-    - 二月
-    - 三月
-    - 四月
-    - 五月
-    - 六月
-    - 七月
-    - 八月
-    - 九月
-    - 十月
-    - 十一月
-    - 十二月
-    order:
-    - :year
-    - :month
-    - :day
-  datetime:
-    distance_in_words:
-      about_x_hours:
-        one: 大约一小时
-        other: 大约 %{count} 小时
-      about_x_months:
-        one: 大约一个月
-        other: 大约 %{count} 个月
-      about_x_years:
-        one: 大约一年
-        other: 大约 %{count} 年
-      almost_x_years:
-        one: 接近一年
-        other: 接近 %{count} 年
+  date: 
+    abbr_day_names: 
+      - 周日
+      - 周一
+      - 周二
+      - 周三
+      - 周四
+      - 周五
+      - 周六
+    abbr_month_names: 
+      - ~
+      - 一月
+      - 二月
+      - 三月
+      - 四月
+      - 五月
+      - 六月
+      - 七月
+      - 八月
+      - 九月
+      - 十月
+      - 十一月
+      - 十二月
+    day_names: 
+      - 周日
+      - 周一
+      - 周二
+      - 周三
+      - 周四
+      - 周五
+      - 周六
+    days: 
+      today: 今天
+      today_lower: 今天
+      tomorrow: 明天
+      yesterday: 昨天
+    formats: 
+      date_at_time: "%b %-d 位于 %l:%M%P"
+      default: "%Y-%m-%d"
+      long: "%B %d, %Y"
+      medium: "%b %e, %Y"
+      medium_month: "%b %Y"
+      short: "%b %e"
+      short_month: "%b"
+      weekday: "%A"
+    month_names: 
+      - ~
+      - 一月
+      - 二月
+      - 三月
+      - 四月
+      - 五月
+      - 六月
+      - 七月
+      - 八月
+      - 九月
+      - 十月
+      - 十一月
+      - 十二月
+  datetime: 
+    distance_in_words: 
+      about_x_hours: 
+        one: "大约 1 个小时"
+        other: "大约 %{count} 个小时"
+      about_x_months: 
+        one: "大约 1 个月"
+        other: "大约 %{count} 个月"
+      about_x_years: 
+        one: "大约 1 年"
+        other: "大约 %{count} 年"
+      almost_x_years: 
+        one: "不到 1 年"
+        other: "不到 %{count} 年"
       half_a_minute: 半分钟
-      less_than_x_minutes:
-        one: 不到一分钟
-        other: 不到 %{count} 分钟
-      less_than_x_seconds:
-        one: 不到一秒
-        other: 不到 %{count} 秒
-      over_x_years:
-        one: 一年多
-        other: ! '%{count} 年多'
-      x_days:
-        one: 一天
-        other: ! '%{count} 天'
-      x_minutes:
-        one: 一分钟
-        other: ! '%{count} 分钟'
-      x_months:
-        one: 一个月
-        other: ! '%{count} 个月'
-      x_seconds:
-        one: 一秒
-        other: ! '%{count} 秒'
-    prompts:
+      less_than_x_minutes: 
+        one: "少于 1 分钟"
+        other: "少于 %{count} 分钟"
+      less_than_x_seconds: 
+        one: "少于 1 秒"
+        other: "少于 %{count} 秒"
+      over_x_years: 
+        one: "超过 1 年"
+        other: "超过 %{count} 年"
+      x_days: 
+        one: "1 天"
+        other: "%{count} 天"
+      x_minutes: 
+        one: "1 分钟"
+        other: "%{count} 分钟"
+      x_months: 
+        one: "1 个月"
+        other: "%{count} 个月"
+      x_seconds: 
+        one: "1 秒"
+        other: "%{count} 秒"
+    prompts: 
       day: 日
-      hour: 时
-      minute: 分
+      hour: 小时
+      minute: 分钟
       month: 月
       second: 秒
       year: 年
-  errors: &errors
-    format: ! '%{attribute} %{message}'
-    messages:
-      accepted: 必须是可被接受的
-      blank: 不能为空字符
-      confirmation: 与确认值不匹配
-      empty: 不能留空
-      equal_to: 必须等于 %{count}
-      even: 必须为双数
-      exclusion: 是保留关键字
-      greater_than: 必须大于 %{count}
-      greater_than_or_equal_to: 必须大于或等于 %{count}
-      inclusion: 不包含于列表中
-      invalid: 是无效的
-      less_than: 必须小于 %{count}
-      less_than_or_equal_to: 必须小于或等于 %{count}
-      not_a_number: 不是数字
-      not_an_integer: 必须是整数
-      odd: 必须为单数
-      record_invalid: ! '验证失败: %{errors}'
-      taken: 已经被使用
-      too_long: 过长（最长为 %{count} 个字符）
-      too_short: 过短（最短为 %{count} 个字符）
-      wrong_length: 长度非法（必须为 %{count} 个字符）
-    template:
-      body: 如下字段出现错误：
-      header:
-        one: 有 1 个错误发生导致「%{model}」无法被保存。
-        other: 有 %{count} 个错误发生导致「%{model}」无法被保存。
-  helpers:
-    select:
-      prompt: 请选择
-    submit:
-      create: 新增%{model}
-      submit: 储存%{model}
-      update: 更新%{model}
   number:
     currency:
       format:
@@ -190,10 +160,3 @@ zh-CN:
       long: ! '%Y年%b%d日 %H:%M'
       short: ! '%b%d日 %H:%M'
     pm: 下午
-  # remove these aliases after 'activemodel' and 'activerecord' namespaces are removed from Rails repository
-  activemodel:
-    errors:
-      <<: *errors
-  activerecord:
-    errors:
-      <<: *errors

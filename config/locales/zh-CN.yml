@@ -699,6 +699,7 @@ zh-CN:
         less_than: "必须小于 %{count}"
         less_than_or_equal_to: "必须小于或等于 %{count}"
         not_a_number: 非数字
+        not_an_integer: 必须是整数
         odd: 必须为奇数
         record_invalid: "验证失败: %{errors}"
         taken: 已存在
@@ -1659,10 +1660,10 @@ zh-CN:
       different_date_for_each_section: 对每班应用不同的日期
       end_time: 结束时间
       event_title: 活动标题
+      links: 
+        switch_views: 切换视图
       start_time: 开始时间
       to: 到
-      links:
-        switch_views: 切换视图
     edit_event: 
       tabs: 
         assignment: 作业
@@ -2189,7 +2190,7 @@ zh-CN:
       message: 
         export_started: 导出过程已开始。大型课程可能需要一段时间。*您可以离开网页*，在导出完成时您会收到电子邮件。
       page_title: 课程导出
-      type:
+      type: 
         course: 课程
         quiz: 测试
     labels: 
@@ -2970,19 +2971,19 @@ zh-CN:
       links: 
         title: 
           remove_prerequisite: 删除此前提条件
+    progress: 
+      completed: 完成
+      in_progress: 正在进行
+      locked: 已锁住
+      no_information: 没有信息
     still_needs_completing: 仍需完成
-    titles:
+    titles: 
       add: 添加单元
       add_item: "添加 %{module}项目"
       add_prerequisite: "添加前提条件到 %{module}"
       edit: 编辑单元设置
       edit_item: 编辑项目详细信息
       student_progress: 学生学习单元的进度
-    progress:
-      no_information: 没有信息
-      in_progress: 正在进行
-      completed: 完成
-      locked: 已锁住
   conversation_message: 
     conversation_message: 
       users_added: 
@@ -4307,8 +4308,8 @@ zh-CN:
     more_external_tools: 更多外部工具
     role: 
       duplicate_role_error: "该角色已存在不能重复创建. 请用其它名称"
+      permissions: 权限
       remove_role_confirmation: "已有该角色的用户权限保持不变, 点击确定删除此角色."
-      permissions: "权限"
     save_failed: 保存失败，请稍后重试
     saving: 正在保存...
     search_flickr: "搜索 flickr 知识共享"
@@ -5254,7 +5255,6 @@ zh-CN:
       upload_form: "选择要上传的 CSV 文件"
     what_should_csv_look_like: "CSV 文件应该是什么样子?"
   gradebooks: 
-    top_level_crumb: 成绩
     assignment: 
       gradebook: 
         unmute_assignment: 取消屏蔽作业
@@ -5308,7 +5308,6 @@ zh-CN:
       buttons: 
         show_what_if: "显示已保存的 \"假设\" 分数"
       change_score_instructions: 单击任何分数并输入新值以查看该更改对总分的影响。
-      print_grades: 打印成绩
       click_to_change: 单击以测试不同分数
       comment_count: 
         one: "1 条评注"
@@ -5342,6 +5341,7 @@ zh-CN:
       not_official: "*注*:这不是您的正式分数。"
       page_title: "%{student} 的评分"
       percent: 百分比
+      print_grades: 打印成绩
       see_rubric_results: 查看评分标准答案
       see_scoring_details: 查看评分详细信息
       see_turnitin_results: "查看 Turnitin 答案"
@@ -5598,6 +5598,7 @@ zh-CN:
     titles: 
       feed_for_course: "%{course} 成绩册Feed"
       total: 总计
+    top_level_crumb: 成绩
   grading_box: 
     out_of_points_possible: " %{assignment.points_possible}"
   grading_standard: 
@@ -7755,15 +7756,30 @@ zh-CN:
         format: "%u%n"
         precision: 2
         separator: "."
+        significant: false
+        strip_insignificant_zeros: false
         unit: $
     format: 
       delimiter: ","
       precision: 3
       separator: "."
+      significant: false
+      strip_insignificant_zeros: false
     human: 
+      decimal_units: 
+        format: "%n %u"
+        units: 
+          billion: 十亿
+          million: 百万
+          quadrillion: 千兆
+          thousand: 千
+          trillion: 兆
+          unit: ""
       format: 
         delimiter: ""
         precision: 1
+        significant: false
+        strip_insignificant_zeros: false
       storage_units: 
         format: "%n %u"
         units: 
@@ -7794,13 +7810,13 @@ zh-CN:
     account_standards_description: 在左侧，您将看到您的学校为您创建的标准，以便在您的课程中使用。
     blank_error: 不能为空
     browser: 
+      buttons: 
+        manage_rubrics: 管理评分标准
       links: 
         back: 返回
         find: 查找
         new_group: 新组
         new_outcome: 新结果
-      buttons:
-        manage_rubrics: 管理评分标准
     common_core: 共同核心标准
     common_core_description: 左侧是您熟悉的共同核心标准的每个分组的结果文件夹结构。这样您就可以毫不费力地在您的课程中使用任何共同核心标准进行评分。
     confirm: 
@@ -7863,6 +7879,8 @@ zh-CN:
       delete_title: 无法删除基于评分标准关联的作业。要删除这些关联，您需要从评阅的评分标准中删除该行
     outcome_criterion: 学习结果标准
     outcome_form: 
+      buttons: 
+        save: 保存
       criterion: 标准评分
       criterion_dialog: 学习结果可包括在作业评分标准中作为评阅是否掌握所分配特定作业结果的简单方式。当您定义学习结果时，还应定义构建作业评分标准时可使用的标准。根据需要定义尽可能多的评分标准列，并指定将用于定义是否掌握此结果的分数阈值。
       criterion_info_link: 单击以了解标准评级
@@ -7871,17 +7889,15 @@ zh-CN:
       points: "%{points_possible} 分"
       title: 命名
       total_points: 总分
-      buttons:
-        save: 保存
     outcome_group: 
       links: 
         delete_outcome_group: 删除结果组
         edit_outcome_group: 编辑结果组
     outcome_group_form: 
+      buttons: 
+        save: 保存
       group_description: 说明
       title: 命名
-      buttons:
-        save: 保存
     outcome_result: 
       all_outcomes: 此学生的所有结果
       attempt_info: "答题 #%{attempt_number}，%{attempt_date}"
@@ -9349,6 +9365,9 @@ zh-CN:
       score_to_keep: 保存分数
       show_correct_answers: 显示正确答案
       shuffle_answers: 答案顺序随机
+      tabs: 
+        questions: 题目
+        settings: 设置
       time_limit: 几分钟?
       titles: 
         click_to_select_filter: 点击选择筛选
@@ -9356,9 +9375,6 @@ zh-CN:
         find_ip_address_filter: 查找IP地址筛选
       warnings: 
         has_student_submissions: "学生已经开始做测试, 务必小心. 如果你继续更改试题, 您需要考虑对已经做过测试的学生重新评分."
-      tabs:
-        settings: 设置
-        questions: 题目
     no_filters_found: 没有找到筛选器
     notices: 
       cant_view_submission_while_muted: 您不能在测试屏蔽时查看测试历史记录。
@@ -9583,9 +9599,9 @@ zh-CN:
         published: 已发布!
         publishing: 正在发布...
         republish: 重发布
+        unlock: 解锁
         unlock_quiz: 立即允许学生进行此测试
         unlock_survey: 立即允许学生进行此问卷调查
-        unlock: 解锁
       confirms: 
         delete_quiz: 确定要删除此测试?
         delete_quiz_submissions_warning: 
@@ -9936,6 +9952,10 @@ zh-CN:
     site_admin_permissions: 平台管理员权限
     update_failed_notice: 添加角色失败
   roles: 
+    new_role: 
+      add: 增加
+      add_role: 新增角色
+      role_name: 角色名称
     permission_button: 
       rolebutton: 
         disable: 禁止
@@ -9943,13 +9963,9 @@ zh-CN:
         enable: 启用
         enable_and_lock: 启用且锁定
         use_default: 使用默认且锁定
-    roles_override_index:
-      course_roles: 课程角色
+    roles_override_index: 
       account_roles: 组织架构角色
-    new_role:
-      role_name: 角色名称
-      add: 增加
-      add_role: 新增角色
+      course_roles: 课程角色
   rubric: 
     context_name_rubric: "%{course_name} 评分标准"
     errors: 
@@ -10438,7 +10454,7 @@ zh-CN:
       log_in: 登录
       login_at_account: "在 %{school_name} 登录"
       login_handle: "输入您的 %{login_handle_name} 将通过邮件给您发送更改密码的链接。"
-      register_for_canvas: "没有帐号，立即免费注册"
+      register_for_canvas: "*没有帐号?* **点击这里立即免费注册**"
     menu_assignment: 
       labels: 
         due: 提交时间
