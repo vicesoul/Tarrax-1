@@ -3,6 +3,17 @@ define [
   'compiled/registration/signupDialog'
   'jst/registration/login'
 ], (preventDefault, signupDialog, loginForm) ->
+  
+  $.get('/simple_captcha/render_captcha?object=user')
+    .done (data)->
+      $innerCaptcha = $( $(data).html() )
+      $innerCaptcha.click preventDefault ->
+        self = $(this)
+        $.get('/simple_captcha/render_captcha?object=user')
+          .done (data)->
+            src = $(data).find("img").attr("src")
+            self.find("img").attr("src", src)
+      $('div.simple_captcha').html($innerCaptcha)
   #$loginForm = null
 
   #$('.signup_link').each (i)->

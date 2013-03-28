@@ -640,7 +640,7 @@ define([
             .appendTo($toolTip),
           paper = Raphael( $answers[0], $answers.width(), answerHeight );
 
-        if( linesNum == 2 ) $question.addClass("twoLines");
+        if( linesNum == 3 ) $question.addClass("threeLines");
         $answers.css( "height", answerHeight );
 
         $(document).click(function(){ resetToolTip() });
@@ -721,7 +721,7 @@ define([
           line
             .attr({
               "stroke": "#08c",
-              "stroke-width": 4
+              "stroke-width": Global.quizzes.lineWidth
             })
             .click(function(e){
               e.stopPropagation();
@@ -894,8 +894,7 @@ define([
         }
 
         function drawLine($active, $end ){
-          var strokeWidth = 4,
-            strokeColor = "#08c",
+          var strokeColor = "#08c",
             x1 = $active.position().left + $active.width()/2,
             y1 = $active.position().top + $active.height()/2 ,
             x2 = $end.position().left + $end.width()/2,
@@ -904,7 +903,7 @@ define([
           line
             .attr({
               "stroke": strokeColor,
-              "stroke-width": strokeWidth
+              "stroke-width": Global.quizzes.lineWidth
             })
             .click(function(e){
               e.stopPropagation();
