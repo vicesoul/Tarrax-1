@@ -420,6 +420,13 @@
   margin-left: 20px;
   display: inline;
 }
+#jiaoxuebang .im_account_announcements_widget .box .box_body{
+  height: 248px;
+}
 #jiaoxuebang .max_box .box_head{
   background: url(../img/max_box_head_bg.jpg) no-repeat;
+}
+#jiaoxuebang .box .box_head .courses-selector a.config_courses{
+  background: url(/images/cog-with-droparrow-active.png) no-repeat;
+  display: block;text-indent: -99999px;height: 16px;width: 16px;margin-top: 9px;
 }
