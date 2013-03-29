@@ -34,7 +34,7 @@ define [
         too_long:     I18n.t("errors.too_long", "Can't exceed %{max} characters", {max: 255})
       self_enrollment_code:
         blank:        I18n.t("errors.required", "Required")
-        invalid:      I18n.t("errors.invalid_code", "Invalid code")
+        invalid:      I18n.t("errors.invalid_code", "Invalid Code")
         already_enrolled: I18n.t("errors.already_enrolled", "You are already enrolled in this course")
         full:         I18n.t("errors.course_full", "This course is full")
       terms_of_use:
