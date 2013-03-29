@@ -11,7 +11,9 @@ require([
 
     // Init data table
     $(".datatable").dataTable({
-      "sDom": 'ft'
+      "sDom": 'ft',
+      "aaSorting": [[ 2, "desc" ]],
+      "aoColumns": [ null, null, null, null, null ]
     });
 
     function mycarousel_initCallback(carousel)
