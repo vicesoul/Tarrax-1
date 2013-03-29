@@ -7,6 +7,11 @@ define([
   'jquery.instructure_misc_helpers',
   "sketcher"
 ], function(tinymce, I18n, $) {
+  // function isCanvasSupported(){
+//     var el = document.creatElement( "canvas" );
+//     return el.getContext && el.getContext("2d");
+//   }
+//   if(!isCanvasSupported)return false;
   var Painter,
     pluginProp = {id:"instructure_drawing",name:"instructure_drawing"},
     sketchSetting = {

@@ -8,7 +8,8 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function(tinymce) {
+(function() {
+  define(['tinymce/jscripts/tiny_mce/tiny_mce_src'], function( tinymce ){
 	var DOM = tinymce.DOM, Event = tinymce.dom.Event, extend = tinymce.extend, each = tinymce.each, Cookie = tinymce.util.Cookie, lastExtID, explode = tinymce.explode;
 
 	// Generates a preview for a format
@@ -1490,4 +1491,5 @@
 	});
 
 	tinymce.ThemeManager.add('advanced', tinymce.themes.AdvancedTheme);
-}(tinymce));
+  })
+}).call(this);

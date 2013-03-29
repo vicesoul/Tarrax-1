@@ -30,7 +30,7 @@ require [
   # other stuff several bundles use
   'media_comments'
   # add mwEmbedLoader 2012-11-01 rupert
-  'mwEmbedLoader'
+  # 'mwEmbedLoader'
   'order'
   'jqueryui/effects/drop'
   'jqueryui/progressbar'
