@@ -5,11 +5,14 @@
     </div>
     <div class="box_body thin_box_body">
       <% unless @announcements.blank? %>
-      <ul class="account_announcement">
-        <% @announcements.each do |announcement| %>
-          <li><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") %></span></li>
-        <% end %>
-      </ul>
+        <% v_ticker_class = @announcements.size > 11 ? 'account_announcement_holder' : '' %>
+        <div class=<%= v_ticker_class %>>
+          <ul class="account_announcement">
+          <% @announcements.each do |announcement| %>
+            <li><div class="inner"><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") %></span></div></li>
+          <% end %>
+          </ul>
+        </div>
       <% else %>
         <p><%= t('#cells.announcement_account.empty_body', 'Empty announcements') %></p>
       <% end %>

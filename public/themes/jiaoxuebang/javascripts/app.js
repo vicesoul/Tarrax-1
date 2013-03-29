@@ -1,19 +1,27 @@
 require([
   "jquery",
   "/themes/jiaoxuebang/javascripts/jquery.jcarousel.js",
-  //"/themes/jiaoxuebang/javascripts/bootstrap.js",
+  "/themes/jiaoxuebang/javascripts/jquery.vticker-min.js",
   "/themes/jiaoxuebang/javascripts/jquery.dataTables.js",
   "/javascripts/vendor/jqueryui/effects/slide.js"], function($){
   
   $(document).ready(function(){
   
-    //$('#carousel img').css('width', '632');
-
     // Init data table
     $(".datatable").dataTable({
       "sDom": 'ft',
       "aaSorting": [[ 2, "desc" ]],
       "aoColumns": [ null, null, null, null, null ]
+    });
+
+    // vertical tickers
+    // http://www.htmldrive.net/items/show/266/jquery-vticker-vertical-news-ticker
+    $(".account_announcement_holder").vTicker({
+      mousePause: true,
+      speed: 500,
+		  pause: 3000,
+		  animation: 'fade',
+		  showItems: 11
     });
 
     function mycarousel_initCallback(carousel)

@@ -1,7 +1,15 @@
 <div id="jiaoxuebang" class="no_bg_image">
-  <%= render_cell 'activity', 'index', :theme => 'jiaoxuebang', :widget_body => @current_user.activity_widget_body, :can_select_course => true, :limit => 5 %>
+  <div class="widgets_align">
+    <div class="im_activity_widget">
+      <%= render_cell 'activity', 'index', :theme => 'jiaoxuebang', :widget_body => @current_user.activity_widget_body, :can_select_course => true, :limit => 5 %>
+    </div>
+    <div class="im_account_announcements_widget">
+      <%= render_cell 'announcement', 'account', :theme => 'jiaoxuebang', :announcements => @announcements %>
+    </div>
+    <div class="clear"></div>
+  </div>
 <% @dashboard_page.widgets.each do |widget| %>
-  <%= render_cell widget.cell_name, widget.cell_action, :widget  => widget, :theme => 'jiaoxuebang', :can_select_course => true, :current_user => @current_user %>
+  <%= render_cell widget.cell_name, widget.cell_action, :widget  => widget, :theme => 'jiaoxuebang', :can_select_course => true, :current_user => @current_user, :box_class => 'max_box', :word_length => 65 %>
 <% end %>
 </div>
 <!-- Config courses holder -->

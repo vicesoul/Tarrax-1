@@ -61,6 +61,8 @@ require [
     $(".edit_widget").remove()
 
   $ ->
+    
+    $("#content").css("overflow", "scroll")
 
     $(".sortable").sortable(
       connectWith: ".sortable"

@@ -1,6 +1,6 @@
 <% unless @assignments.blank? %>
 <div <%= data_widget %> >
-  <div class="box <%= @opts[:can_select_course] ? 'mini_box' : '' %>">
+  <div class="box <%= @opts[:box_class] %>">
     <div class="box_head">
       <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.assignment.title', 'Assignment') } %>
     </div>

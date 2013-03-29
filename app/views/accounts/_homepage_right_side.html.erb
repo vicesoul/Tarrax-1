@@ -4,28 +4,19 @@
     <h2><%= t(:edit_this_page, "Edit this page") %></h2>
   </div>
   <div id="theme_options" class="rs-margin-lr">
-    <table class="stylized" style="margin-bottom: 0;">
-      <tbody><tr>
-        <td><%= before_label(:name, 'Theme name') %></td>
-        <td><%= f.select :theme, Jxb::Theme.themes %></td>
-      </tr><tr>
-        <td><%= before_label(:background_image, 'Background image') %></td>
-        <td><%= f.text_field :background_image  %></td>
-      </tr><tr>
-        <td><%= before_label(:add_new_widget, 'New widget') %></td>
-        <td><%= select "widget", "name", Jxb::Widget::TYPE %> <%= link_to t(:add, 'add'), '#', :id => 'add_widget' %></td>
-      </tr><tr>
-        <td><%= before_label(:courses, 'Courses') %></td>
-        <td>
-          <% @account.fast_all_courses.each do |course| %>
-            <% courses = @page.courses || [] %>
-            <%= check_box_tag "jxb_page[courses][]", course.id, courses.include?(course.id.to_s) %> <%= course.name %>
-          <% end %>
-        </td>
-      </tr></tbody>
-    </table>
+    <%= before_label(:name, 'Theme name') %><br />
+    <%= f.select :theme, Jxb::Theme.themes %><br /><br />
+    <%= before_label(:background_image, 'Background image') %><br />
+    <%= f.text_field :background_image  %><br /><br />
+    <%= before_label(:add_new_widget, 'New widget') %><br />
+    <%= select "widget", "name", Jxb::Widget.types %> <%= link_to t(:add, 'add'), '#', :id => 'add_widget' %><br /><br />
+    <%= before_label(:courses, 'Courses') %><br />
+    <% @account.fast_all_courses.each do |course| %>
+      <% courses = @page.courses || [] %>
+      <%= check_box_tag "jxb_page[courses][]", course.id, courses.include?(course.id.to_s) %> <%= course.name %>
+    <% end %>
   </div><!-- End of div#theme_options -->
-  <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
+  <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %><br />
   <div class="button-container rs-margin-lr">
     <button type="submit" class="save_theme_button btn"><%= t(:save, "Save Settings") %></button>
     <a href="#" class="cancel"><%= t(:cancel, "cancel") %></a>

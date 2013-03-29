@@ -26,16 +26,18 @@ class Jxb::Widget < ActiveRecord::Base
   # announcement_account 网校公告组件
   # logo_index           logo组件
   # course_index         课程列表组件
-  TYPE = [
-    %W( #{t(:custom_index, 'custom_index')}             custom_index ),
-    %W( #{t(:activity_index, 'activity_index')}         activity_index ),
-    %W( #{t(:announcement_index, 'announcement_index')} announcement_index ),
-    %W( #{t(:discussion_index, 'discussion_index')}     discussion_index ),
-    %W( #{t(:assignment_index, 'assignment_index')}     assignment_index ),
-    %W( #{t(:announcement_account, 'account_announcement')}   announcement_account ),
-    %W( #{t(:logo_index, 'logo_index')}   logo_index ),
-    %W( #{t(:course_index, 'course_index')}   course_index )
-  ]
+  def self.types
+    [
+      %W( #{t(:custom_index, 'custom_index')}             custom_index ),
+      %W( #{t(:activity_index, 'activity_index')}         activity_index ),
+      %W( #{t(:announcement_index, 'announcement_index')} announcement_index ),
+      %W( #{t(:discussion_index, 'discussion_index')}     discussion_index ),
+      %W( #{t(:assignment_index, 'assignment_index')}     assignment_index ),
+      %W( #{t(:announcement_account, 'account_announcement')}   announcement_account ),
+      %W( #{t(:logo_index, 'logo_index')}   logo_index ),
+      %W( #{t(:course_index, 'course_index')}   course_index )
+    ]
+  end
   
   def cell_data
     [cell_name, cell_action, id].join(',')

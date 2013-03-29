@@ -11,7 +11,7 @@ class AnnouncementCell < ApplicationCell
   end
 
   def account
-    @announcements = context.announcements_with_sub_account_announcements
+    @announcements = @opts[:announcements] || context.announcements_with_sub_account_announcements
 
     prepend_view_path Jxb::Theme.widget_path(theme)
 

@@ -68,8 +68,9 @@
   margin:0;padding:0;
   color: #999999;
 }
-#jiaoxuebang .box .box_body ul.account_announcement li{
+#jiaoxuebang .box .box_body ul.account_announcement li .inner{
   margin-bottom: 5px;
+  width: 218px;
 }
 #jiaoxuebang .box .box_body ul.account_announcement li span{
   float:right;
@@ -240,9 +241,10 @@
   min-height: 300px;
   padding: 10px;
   display: none;
-  right: 102px;
+  right: -284px;
   background: url(../img/xbg.jpg) #d6f0fd repeat-x top left;
   border: 1px solid #A9CCE2;
+  z-index: 100;
 }
 #config_courses_holder .x_narrow{
   background: url(../img/x_narrow.png) transparent no-repeat top left;
@@ -406,4 +408,18 @@
 .dataTables_paginate .paginate_disabled_next{
   color: #0099ff;
   margin-left: 18px;
+}
+
+/*User dashboard*/
+#jiaoxuebang .im_activity_widget{
+  float:left;
+}
+#jiaoxuebang .im_account_announcements_widget{
+  float:left;
+  width:364px;
+  margin-left: 20px;
+  display: inline;
+}
+#jiaoxuebang .max_box .box_head{
+  background: url(../img/max_box_head_bg.jpg) no-repeat;
 }
