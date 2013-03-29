@@ -21,10 +21,9 @@
   </h1>
 <div id="accordion">
 <% @topics.each do |topic| %>
-  <h3><%= topic.title %><span class="time"><%= l topic.created_at, :format => :long %></span></h3>
+  <h3><span style="color:#444;"><%= topic.title %></span><%= link_to t('detail', 'Detail'), "/courses/#{topic.context_id}/discussion_topics/#{topic.id}", :class => 'clickable', :style => 'display:inline;color:#0084fe;font-size:12px;font-weight:normal;' %><span class="time"><%= l topic.created_at, :format => :long %></span></h3>
   <div>
     <%= raw topic.message %>
-    <div style="margin-top:10px;text-align: right;"><%= link_to t('detail', 'Detail'), "/courses/#{topic.context_id}/discussion_topics/#{topic.id}", :style => "color: #0084fe;font-size: 14px;" %></div>
   </div>
 <% end %>
 </div>
