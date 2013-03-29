@@ -17,7 +17,6 @@
 #
 
 class User < ActiveRecord::Base
-  apply_simple_captcha :message => :invalid_code
   # this has to be before include Context to prevent a circular dependency in Course
   def self.sortable_name_order_by_clause(table = nil)
     col = table ? "#{table}.sortable_name" : 'sortable_name'
@@ -26,9 +25,9 @@ class User < ActiveRecord::Base
 
   include Context
   include UserFollow::FollowedItem
+  include Jxb::Base::User
 
   attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type
-  attr_accessible :captcha, :captcha_key
   attr_accessor :original_id, :menu_data
 
   before_save :infer_defaults

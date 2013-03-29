@@ -17,7 +17,7 @@
 #
 
 class Account < ActiveRecord::Base
-  include Jxb::Register::Account
+  include Jxb::Base::Account
 
   include Context
   attr_accessible :name, :turnitin_account_id,

@@ -17,7 +17,7 @@
 #
 
 class AccountUser < ActiveRecord::Base
-  include Jxb::Register::AccountUser
+  include Jxb::Base::AccountUser
 
   belongs_to :account
   belongs_to :user
