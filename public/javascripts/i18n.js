@@ -11,6 +11,8 @@
 
 define({
   load: function(name, req, load, config) {
+    // always reload translation
+    config.translate = true;
 
     // don't translate if require.config({translate: false})
     if (!config.translate) {

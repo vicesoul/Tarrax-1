@@ -185,6 +185,7 @@ namespace :i18n do
 
     file_translations = {}
 
+    I18n.reload! # fixes bugs: locales except :en does not available
     locales = I18n.available_locales - [:en]
     # allow passing of extra, empty locales by including a comma-separated
     # list of abbreviations in the LOCALES environment variable. e.g.

@@ -1,11 +1,10 @@
 require [
   'underscore'
-  'i18n!account'
   'compiled/fn/preventDefault'
   'compiled/models/Account'
   'compiled/object/flatten'
   'jquery.instructure_forms'
-], (_, I18n, preventDefault, Account, flatten ) ->
+], (_, preventDefault, Account, flatten ) ->
 
   accountErrors = (errors) ->
     flatten

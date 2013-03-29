@@ -6,7 +6,8 @@ require [
 
   # modules that do their own thing on every page that simply need to
   # be required
-  'translations/_core_en'
+  #'translations/_core_en'
+  'translations/_core'
   'jquery.ajaxJSON'
   'vendor/firebugx'
   'jquery.google-analytics'
