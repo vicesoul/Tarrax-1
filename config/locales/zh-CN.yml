@@ -11643,7 +11643,6 @@ zh-CN:
     twitter_fail_whale: "Twitter 授权失败。请重试"
     user_dashboard: 
       coming_up: 新近事项
-      create_new_account: 创建网校
       recent_feedback: 最近更新
       start_new_course: 新建课程
       user_atom_feed: "用户 Atom Feed（所有课程）"
