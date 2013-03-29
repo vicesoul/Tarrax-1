@@ -145,6 +145,7 @@
   height:224px;
   float:left;
   margin-right: 15px;
+  margin-bottom: 15px;
 }
 #jiaoxuebang .box .box_body ul.widget_course li.last{
   margin-right: 0px;
@@ -211,11 +212,15 @@
 }
 #jiaoxuebang .box .box_body ul.widget_course li .w_foot .w_btn .like_btn{
   background:url(../img/c_btn.jpg) no-repeat top left #57a5ee;
-  padding: 9px 37px;
   color: #fff;
   position: relative;
-  top: 18px;
+  top: 12px;
   left: 35px;
+  display: block;
+  width: 134px;
+  height: 34px;
+  text-align: center;
+  line-height: 34px;
 }
 
 

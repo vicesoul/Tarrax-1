@@ -1,5 +1,5 @@
 <div id="jiaoxuebang" class="no_bg_image">
-  <%= render_cell 'activity', 'index', :theme => 'jiaoxuebang', :widget_body => @current_user.activity_widget_body, :can_select_course => true %>
+  <%= render_cell 'activity', 'index', :theme => 'jiaoxuebang', :widget_body => @current_user.activity_widget_body, :can_select_course => true, :limit => 5 %>
 <% @dashboard_page.widgets.each do |widget| %>
   <%= render_cell widget.cell_name, widget.cell_action, :widget  => widget, :theme => 'jiaoxuebang', :can_select_course => true, :current_user => @current_user %>
 <% end %>

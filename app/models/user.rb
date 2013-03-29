@@ -175,7 +175,6 @@ class User < ActiveRecord::Base
     self.dashboard_page || begin
       courses = self.available_courses.map{|c| c.id}.join(',')
       page = self.build_dashboard_page(:name => 'dashboard', :theme => 'jiaoxuebang')
-      #page.widgets.build(:cell_name => "activity",     :cell_action => "index", :seq => 0, :body => activity_widget_body)
       page.widgets.build(:cell_name => "announcement", :cell_action => "index", :seq => 1, :courses => courses)
       page.widgets.build(:cell_name => "assignment",   :cell_action => "index", :seq => 2, :courses => courses)
       page.widgets.build(:cell_name => "discussion",   :cell_action => "index", :seq => 3, :courses => courses)
@@ -186,7 +185,7 @@ class User < ActiveRecord::Base
 
   def activity_widget_body
     page_ids = Jxb::Page.find( :all, :conditions => [ "name = 'homepage' AND context_type = ? AND context_id IN (?)", 'Account', self.associated_account_ids ] ).map{ |page| page.id }
-    Jxb::Widget.find( :all, :conditions => [ "cell_name = 'activity' AND cell_action = 'index' AND page_id IN (?)", page_ids.uniq ] ).map{ |widget| widget.body }.compact.join("\n")
+    Jxb::Widget.find( :all, :conditions => [ "cell_name = 'activity' AND cell_action = 'index' AND page_id IN (?)", page_ids.uniq ], :order => "updated_at DESC" ).map{ |widget| widget.body }.compact.join("\n")
   end
 
   has_many :progresses, :as => :context
