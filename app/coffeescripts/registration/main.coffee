@@ -7,7 +7,7 @@ define [
   $.get('/simple_captcha/render_captcha?object=user')
     .done (data)->
       $innerCaptcha = $( $(data).html() )
-      $innerCaptcha.click preventDefault ->
+      $innerCaptcha.find(".captcha_change_code").click preventDefault ->
         self = $(this)
         $.get('/simple_captcha/render_captcha?object=user')
           .done (data)->

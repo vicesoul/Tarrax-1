@@ -221,8 +221,10 @@
               <% end %>
               <% if @account.canvas_authentication? %>
                 <div>
-                  <%= settings.check_box :open_registration, :checked => @account.open_registration? %>
-                  <%= settings.label :open_registration, :en => "Open Registration" %>
+                  <% if @account == Account.default %>
+                    <%= settings.check_box :open_registration, :checked => @account.open_registration? %>
+                    <%= settings.label :open_registration, :en => "Open Registration" %>
+                  <% end %>
                   <% if @account.delegated_authentication? %>
                     <legend>
                       <%= link_to(image_tag('warning.png'), '#',

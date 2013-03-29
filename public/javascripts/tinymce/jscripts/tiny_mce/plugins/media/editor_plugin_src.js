@@ -9,6 +9,7 @@
  */
 
 (function() {
+  define(['tinymce/jscripts/tiny_mce/tiny_mce_src'], function( tinymce ){
 	var rootAttributes = tinymce.explode('id,name,width,height,style,align,class,hspace,vspace,bgcolor,type'), excludedAttrs = tinymce.makeMap(rootAttributes.join(',')), Node = tinymce.html.Node,
 		mediaTypes, scriptRegExp, JSON = tinymce.util.JSON, mimeTypes;
 
@@ -895,4 +896,5 @@
 
 	// Register plugin
 	tinymce.PluginManager.add('media', tinymce.plugins.MediaPlugin);
-})();
+  })
+}).call(this);

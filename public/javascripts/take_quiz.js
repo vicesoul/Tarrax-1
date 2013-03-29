@@ -33,7 +33,8 @@ define([
   'sketcher',
   'vendor/raphael',
   'i18n!editor',
-  'quizzes_tpl'
+  'quizzes_tpl',
+  'bootstrap'
 ], function(I18n, $, timing, autoBlurActiveInput) {
 
   var lastAnswerSelected = null;
@@ -640,16 +641,16 @@ define([
             .appendTo($toolTip),
           paper = Raphael( $answers[0], $answers.width(), answerHeight );
 
-        if( linesNum == 3 ) $question.addClass("threeLines");
+        if( linesNum !== "2" ) $question.addClass("threeLines");
         $answers.css( "height", answerHeight );
 
         $(document).click(function(){ resetToolTip() });
-
+        
+        var devider = linesNum === "3" ? 3 : 2;
         $(this).find(".connecting_lead").each( function( i ){
-
           $(this).css({
             position: "absolute",
-            left: ( $answers.width()/3 ) * (i%3),
+            left: ( $answers.width()/devider ) * (i%3),
             top: 40 * Math.floor(i/3)
           });
 
@@ -678,13 +679,17 @@ define([
             }
 
           });
-
-          /*if( $(this).find("span.btn").text().trim().length > 15 ){
-            $(this).find("span.btn").popover({
-              placement: "top",
-              trigger: "hover"
-            });
-          }else{}*/
+          var $popover = $(this).find("span[rel=popover]");
+          var orientation = i%3 === 0 ? "left" : "right";
+          if( $popover.text().trim().length > 12 ){
+            $popover
+              .popover({
+                placement: orientation,
+                trigger: "hover"
+              })
+              .addClass("ellipsis")
+              .css("max-width", "100px");
+          }
 
         });
 

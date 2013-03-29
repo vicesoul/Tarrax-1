@@ -11,23 +11,12 @@
       }
     }
   </style>
-  <div class="logo-row">
-    <div class="inner">
-      <a id="header-logo" href="<%= root_url %>"><%= t 'links.dashboard', "My Dashboard" %></a>
-      <form class="form-search">
-        <div class="input-append">
-          <input type="text" placeholder="请输入关键词" class="span2 search-query">
-          <button class="btn" type="submit"><i></i></button>
-        </div>
-      </form>
-    </div>
-  </div>
 <div class="content">
   <div class="navbar">
     <div class="navbar-inner">
       <div class="container">
         <ul class="nav nav-tabs">
-          <li><a href="#">首页</a></li>
+          <li><a href="/">首页</a></li>
           <li><a href="#">中小学</a></li>
           <li><a href="#">英语</a></li>
           <li><a href="#">教辅</a></li>
@@ -41,7 +30,7 @@
     </div>
   </div>
   <div class="courses">
-    <a href="#"></a>
+    <%= link_to "", new_account_path %>
     <a href="/register"></a>
   </div>
 </div>
@@ -49,7 +38,7 @@
 <footer>
   <div class="container">
     <ul>
-      <li><a href="#">首页</a>|</li>
+      <li><a href="/">首页</a>|</li>
       <li><a href="#">关于我们</a>|</li>
       <li><a href="#">课程分类</a>|</li>
       <li><a href="#">课程资源</a>|</li>

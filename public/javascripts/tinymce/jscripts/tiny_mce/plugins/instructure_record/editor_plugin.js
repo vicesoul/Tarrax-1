@@ -18,9 +18,11 @@
 
 define([
   'compiled/editor/stocktiny',
+  'i18n!editor',
   'jquery',
   'media_comments'
-], function(tinymce, $) {
+], function(tinymce, I18n, $) {
+  // if( swfobject.hasFlashPlayerVersion("9") && navigator.userAgent.match(/iPad/i) === null )return false;
   tinymce.create('tinymce.plugins.InstructureRecord', {
     init : function(ed, url) {
       ed.addCommand('instructureRecord', function() {

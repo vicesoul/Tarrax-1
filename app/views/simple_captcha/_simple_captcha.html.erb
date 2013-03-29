@@ -13,7 +13,7 @@
     <%= @simple_captcha_options[:field] %>
 
     <span>
-      <% link_to render_captcha_path, :title => t('#captcha.change_code', 'Change code'), :class => 'captcha_change_code' do %>
+      <% link_to render_captcha_path, :title => t('#simple_captcha.change_code', 'Click to change code'), :class => 'captcha_change_code' do %>
         <%=raw @simple_captcha_options[:image] %>
       <% end %>
     </span>

@@ -94,8 +94,9 @@ body
     display: block
   #main
     margin-left: $left_side_width
-  #header-inner
-    max-width: $left_side_width + $max_main_width
+  .top-menu
+    >.inner
+      max-width: $left_side_width + $max_main_width
 
 .with-right-side
   min-width: $right_side_width + $min_main_width
@@ -104,18 +105,21 @@ body
     float: right
   #main
     margin-right: $right_side_width
-  #header-inner
-    max-width: $right_side_width + $max_main_width
+  .top-menu
+    >.inner
+      max-width: $right_side_width + $max_main_width
 
 
 
 .with-right-side.with-left-side
   min-width: $right_side_width + $left_side_width + $min_main_width
-  #header-inner, .logo-row .inner
+  .top-menu >.inner
     max-width: $right_side_width + $left_side_width + $max_main_width
+  .logo-row .inner
+    max-width: $left_side_width + $max_main_width
 
 .full-width
-  #header-inner, #main
+  .top-menu >.inner, #main
     max-width: none
 
 

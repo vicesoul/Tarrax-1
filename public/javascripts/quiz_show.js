@@ -181,6 +181,7 @@ $(document).ready(function () {
       location.reload();
     }
   });
+  
   (function connectingLead(){
     $(".question.connecting_lead_question").each(function(){
 
@@ -189,22 +190,24 @@ $(document).ready(function () {
         $answers_wrapper = $question.find(".answers_wrapper"),
         rows = $answers_wrapper.find(".connecting_lead_left").length,
         $answers = $question.find(".answers"),
-
+        $correctAnswer = $(this).find(".answers_wrapper_correct"),
         answerHeight = 40 * rows,
         paper = Raphael( $answers_wrapper[0], $answers_wrapper.width(), answerHeight );
 
       $answers_wrapper.css( "height", answerHeight );
+      
       if( linesNum == 3 ) $question.addClass("threeLines");
-
-      $answers_wrapper.add(".answers_wrapper_correct").each(function(){
+      
+      var devider = linesNum === "3" ? 3 : 2;
+      $answers_wrapper.add($correctAnswer).each(function(){
         $(this).find(".connecting_lead_answer > div").each( function( i ){
-
+          
           $(this).css({
             position: "absolute",
-            left: ( $answers.width()/3 ) * (i%3),
+            left: ( $answers.width()/devider ) * (i%3),
             top: 40 * Math.floor(i/3)
           });
-
+          console.log( ( $answers.width()/devider ) * (i%3) )
 
         });
       });
@@ -226,7 +229,7 @@ $(document).ready(function () {
       });
 
       // ********   correct answer
-      var $correctAnswer = $(this).find(".answers_wrapper_correct");
+      
       $correctAnswer.css( "height", answerHeight );
       $correctAnswer.find("svg").remove();
       var newPaper = Raphael( $correctAnswer[0], $answers.width(), answerHeight );
