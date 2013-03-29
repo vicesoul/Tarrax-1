@@ -6,8 +6,7 @@ require [
 
   # modules that do their own thing on every page that simply need to
   # be required
-  #'translations/_core_en'
-  'translations/_core'
+  'translations/_core_en'
   'jquery.ajaxJSON'
   'vendor/firebugx'
   'jquery.google-analytics'
@@ -62,9 +61,9 @@ require [
 
   # TODO: remove this code once people have had time to update their logo-related
   # custom css. see related code in app/stylesheets/base/_#header.sass.
-  $logo = $('#header-logo')
-  if $logo.length > 0 and $logo.css('background-image').match(/\/canvas\/header_canvas_logo\.png/)
-    $logo.addClass('original')
+  # $logo = $('#header-logo')
+#   if $logo.length > 0 and $logo.css('background-image').match(/\/canvas\/header_canvas_logo\.png/)
+#     $logo.addClass('original')
 
   ##
   # Backbone routes

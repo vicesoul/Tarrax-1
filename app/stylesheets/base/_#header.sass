@@ -1,3 +1,4 @@
+$wrapperWidth: 960px
 #skip_navigation_link
   position: absolute
   left: -10000px
@@ -36,59 +37,56 @@
   bottom: 6px
   position: absolute
 
-#header-inner
-  padding: 20px 0 0 50px
-  max-width: $max_main_width
-  position: relative
+
+  
 
 #header
-  position: relative
-  z-index: 11 /* IE7 needs this o so the menu-item-drops get stuck above #main */
-  background: #fff
-  height: 98px
-  &.no-user
-    background-position: 0 -25px
-    min-height: 45px
-    #header-logo
-      top: 11px
-      left: 6px
-    #header-logo-secondary
-      display: none
+  +pie-clearfix
+  :font-size 12px
+  :background #fff
+  #header-inner
+    .top-menu
+      margin-bottom: 0!important
+      background: #f4f4f4
+      border-bottom: 1px solid #ccc!important
+      height: 40px
+      min-height: 40px
+      position: relative
+      z-index: 11 
+      /* IE7 needs this o so the menu-item-drops get stuck above #main */
+      &.no-user
+        background-position: 0 -25px
+        min-height: 45px
+        #header-logo
+          top: 11px
+          left: 6px
+        #header-logo-secondary
+          display: none
+
 
 
 #topbar
-  position: absolute
-  top: 0
-  right: 0
-  width: 100%
   overflow: hidden
+  float: right
+  width: auto
 
 #identity
   +reset-list
-  float: right
-  font-size: 12px
-  margin-right: $right_side_margin
-  height: 33px
-  margin-bottom: 4px /*make room for the drop shadow*/
-  padding: 0 11px
-  background-image: -moz-linear-gradient(top, #27a1ec, #046bd1)
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#27a1ec), to(#046bd1))
-  background-image: -webkit-linear-gradient(top, #27a1ec, #046bd1)
-  background-image: -o-linear-gradient(top, #27a1ec, #046bd1)
-  background-image: linear-gradient(to bottom, #27a1ec, #046bd1)
-  border-bottom-left-radius: 6px
-  border-bottom-right-radius: 5px
-  border: 1px solid rgba(0,0,0, 0.3)
-  border-top: 0
+  float: none
+  margin: auto
+  padding: 0
+  background: none
+  box-shadow: none
+  border-radius: none
+  border: none
   li
-    color: white
     float: left
-    line-height: 1em
-    margin: 0 8px 0 0
-    padding-left: 8px
-    line-height: 33px
-    &.first, &#identity-help-container
-      border-left: none
+    margin: 0 0 0 10px
+    color: #666
+    padding: 0
+    line-height: 40px
+    a
+      color: #396EB2
   .user_name
     margin-right: 15px
     a
@@ -112,41 +110,36 @@
 #menu
   +pie-clearfix
   +reset-list
-  margin: 8px 0 0 250px
+  :margin 0 0 0 10px
+  :padding 0
   .menu-item
     display: block
     float: left
     position: relative
     .menu-item-title, .menu-item-no-drop
-      color: #888
-      font-size: 16px
-      border: 1px solid transparent
-      border-bottom: 0 none
-      display: block
+      margin-top: 13px
+      color: #999
+      height: auto
+      padding: 0 22px
+      font-size: 12px
+      text-shadow: none
+      border-right: 1px solid #999
+      display: inline-block
+      height: 12px
+      line-height: 12px
       text-decoration: none
       position: relative
       z-index: 100
-      font-size: 16px
-      padding: 6px 17px 5px
-      height: 29px
       background: url("/images/jxb/line-grey.png") no-repeat right 12px
       i.icon-mini-arrow-down
         font-size: 12px
         position: absolute
-        top: 10px
+        top: -3px
         right: 0
-    .menu-item-no-drop:hover
-      text-decoration: underline
     &.hover
-      .menu-item-title
-        text-shadow: none
-        color: $menu-text-color
-        border-top-color: $menu-border-color
-        border-left-color: $menu-border-color
-        border-right-color: $menu-border-color
-        background-color: $menu-background-color
       .menu-item-drop
-        left: 0 // bring it back on screen so you can see it
+        left: 0 
+    //bring it back on screen so you can see it
       >a
         background: none
     .menu-item-drop
@@ -219,7 +212,41 @@
   .menu-item:last-child
     .menu-item-no-drop
       background: none
+      :border-right none
 
+.logo-row
+  overflow: hidden
+  margin: 20px auto
+  >.inner
+    #header-logo
+      float: left
+      :margin-left 30px
+    .form-search
+      margin-top: 10px
+      float: right
+      .input-append
+        .search-query
+          border-radius: 5px 0 0 5px
+          width: 156px
+          padding: 4.2px 14px
+          height: 20px
+          line-height: 20px
+          border-right: none
+        .btn
+          border-radius: 0 5px 5px 0
+          background: none
+          padding: 3px 10px 0 0
+          margin-left: -4px
+          box-shadow: none
+          border: 1px solid #ccc
+          border-left: none
+          i
+            background: url("/images/jxb/icon-search.png") no-repeat 6px 0
+            display: inline-block
+            width: 19px
+            height: 20px
+            padding: 0 0 0 6px
+            border-left: 1px solid #ccc
 .customListContent li.customListItem:hover
   background-color: transparent
 

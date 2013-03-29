@@ -4,7 +4,7 @@
 // --------
 
 // Greater specificity on selection to help override default tooltip styles.
-.popover.ui-widget.ui-tooltip {
+.popover {
   text-align: left;
   z-index: $zindexPopover;
   display: none;
@@ -17,7 +17,8 @@
   font-size: 14px;
   font-weight: normal;
   line-height: 18px;
-  min-height: 90px;                 // keep arrow/carat from mixing with title
+  min-height: 40px;                 // keep arrow/carat from mixing with title
+  max-width: 120px;
   @include opacity(1);
   min-width: 100px;
   color: #333;

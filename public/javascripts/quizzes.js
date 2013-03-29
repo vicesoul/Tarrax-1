@@ -3281,19 +3281,19 @@ define([
 
     $(".question.connecting_lead_question").each(function(){
       var linesNum = $(this).find(".connecting_lead_linesNum").text();
-      if(linesNum == 3) $(this).parent(".question_holder").addClass("threeLines");
+      if(linesNum == 3) $(this).addClass("threeLines");
 
     });
 
     $(document).delegate('.changeLines button.three', 'click', function(){
-      $(this).closest(".question_holder ").find(".answer_match_right input[type='text']").val("");
-      $(this).closest(".question_holder ").addClass("threeLines");
-      $(this).closest(".question_holder ").find(".connecting_lead_linesNum").val("3");
+      $(this).closest(".connecting_lead_question ").find(".answer_match_right input[type='text']").val("");
+      $(this).closest(".connecting_lead_question ").addClass("threeLines");
+      $(this).closest(".connecting_lead_question ").find(".connecting_lead_linesNum").val("3");
     });
     $(document).delegate('.changeLines button.two', 'click', function(){
       
-      $(this).closest(".question_holder ").removeClass("threeLines");
-      $(this).closest(".question_holder ").find(".connecting_lead_linesNum").val("2");
+      $(this).closest(".connecting_lead_question ").removeClass("threeLines");
+      $(this).closest(".connecting_lead_question ").find(".connecting_lead_linesNum").val("2");
     });
 
   });

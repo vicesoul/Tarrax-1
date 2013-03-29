@@ -1,6 +1,5 @@
-(function() {
-  require([
-    'order!jquery',
-    'order!vendor/bootstrap.min'
-  ]);
-}).call(this);
+define([
+    'vendor/bootstrap'
+  ], function(){
+    
+  });
