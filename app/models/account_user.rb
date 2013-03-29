@@ -17,6 +17,8 @@
 #
 
 class AccountUser < ActiveRecord::Base
+  include Jxb::Register::AccountUser
+
   belongs_to :account
   belongs_to :user
   has_many :role_overrides, :as => :context
@@ -26,22 +28,13 @@ class AccountUser < ActiveRecord::Base
   after_destroy :touch_user
   after_save :update_account_associations_if_changed
   after_destroy :update_account_associations_later
-  attr_accessible :account, :user, :membership_type, :mobile, :role
+  attr_accessible :account, :user, :membership_type
 
   validates_presence_of :account_id, :user_id
 
   alias_method :context, :account
 
   BASE_ROLE_NAME = 'AccountMembership'
-
-  ROLES = [
-    ['institute_admin'     , lambda { t('role.institute_admin'     , 'Institute Admin') }]     ,
-    ['training_management' , lambda { t('role.training_management' , 'Training Management') }] ,
-    ['technical_support'   , lambda { t('role.technical_support'   , 'Technical Support') }]   ,
-    ['teacher/instructor'  , lambda { t('role.teacher'             , 'Teacher/Instructor') }]  ,
-    ['student'             , lambda { t('role.student'             , 'Student') }]             ,
-    ['other'               , lambda { t('role.other'               , 'Other') }]               ,
-  ]
 
   def update_account_associations_if_changed
     if (self.account_id_changed? || self.user_id_changed?)

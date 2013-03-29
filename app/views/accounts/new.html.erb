@@ -38,7 +38,7 @@
               <%= f.label :user_role, t('user.role', 'User Role') %>
             </div>
             <div class="controls">
-              <%= f.select :user_role, AccountUser::ROLES.map{|k,v| [v.call, k]} %>
+              <%= f.select :user_role, AccountUser.roles.map{|k,v| [v, k]} %>
             </div>
           </div>
 
@@ -65,7 +65,7 @@
               <%= f.label :school_category, t('school.category', 'School Category') %>
             </div>
             <div class="controls">
-              <%= f.select :school_category, Account::SCHOOL_CATEGORIES.map{|k,v| [v.call, k]} %>
+              <%= f.select :school_category, Account::school_categories.map{|k,v| [v, k]} %>
             </div>
           </div>
 
@@ -74,7 +74,7 @@
               <%= f.label :school_scale, t('school.scale', 'School Scale') %>
             </div>
             <div class="controls">
-              <%= f.select :school_category, Account::SCHOOL_SCALE.map{|k,v| [v, k]} %>
+              <%= f.select :school_category, Account::school_scale.map{|k,v| [v, k]} %>
             </div>
           </div>
 
@@ -82,7 +82,7 @@
 
           <div class='control-group'>
             <div class="control-label">
-       
+
             </div>
             <div class="controls">
               <div class="actions">
@@ -90,9 +90,9 @@
               </div>
             </div>
           </div>
-    
 
-    
+
+
         <% end %>
       </div>
     </div>
@@ -117,7 +117,3 @@
     </div>
   </div>
 </footer>
-
-
-
-

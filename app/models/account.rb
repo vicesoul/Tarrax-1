@@ -17,16 +17,14 @@
 #
 
 class Account < ActiveRecord::Base
-  attr_accessor :user_role, :user_mobile # for validing new account form
+  include Jxb::Register::Account
 
-  apply_simple_captcha :message => :invalid_code
   include Context
   attr_accessible :name, :turnitin_account_id,
     :turnitin_shared_secret, :turnitin_comments, :turnitin_pledge,
     :default_time_zone, :parent_account, :settings, :default_storage_quota,
     :default_storage_quota_mb, :storage_quota, :ip_filters, :default_locale,
     :default_user_storage_quota_mb
-  attr_accessible :user_role, :user_mobile, :school_category, :school_scale, :captcha, :captcha_key
 
   include Workflow
   belongs_to :parent_account, :class_name => 'Account'
@@ -109,13 +107,6 @@ class Account < ActiveRecord::Base
   validates_locale :default_locale, :allow_nil => true
   validate :account_chain_loop, :if => :parent_account_id_changed?
   validate :validate_auth_discovery_url
-  validates_presence_of :name
-  validates_uniqueness_of :name, :scope => :parent_account_id
-  validate :validate_user_mobile
-
-  def validate_user_mobile
-    errors.add(:user_mobile, 'invalid_mobile') unless user_mobile =~ /1[0-9]{10}/ unless captcha.nil? # account new form only
-  end
 
   include StickySisFields
   are_sis_sticky :name
@@ -996,23 +987,6 @@ class Account < ActiveRecord::Base
   TAB_PLUGINS = 14
   TAB_JOBS = 15
   TAB_DEVELOPER_KEYS = 16
-
-  SCHOOL_CATEGORIES = [
-    [:open        , lambda { t('school_category.open'        , 'Open School') }] ,
-    [:k12         , lambda { t('school_category.k12'         , 'K12') }]         ,
-    [:higher_ed   , lambda { t('school_category.higher_ed'   , 'Higher Ed') }]   ,
-    [:corporate   , lambda { t('school_category.corporate'   , 'Corporate') }]   ,
-    [:other       , lambda { t('school_category.other'       , 'Other') }]       ,
-  ]
-
-  SCHOOL_SCALE = [
-    ['0-500'       , '0 - 500']       ,
-    ['501-2000'    , '501 - 2000']    ,
-    ['2001-5000'   , '2001 - 5000']   ,
-    ['5001-10000'  , '5001 - 10000']  ,
-    ['10001-30000' , '10001 - 30000'] ,
-    ['30000+'      , '30000+']        ,
-  ]
 
   def external_tool_tabs(opts)
     tools = ContextExternalTool.active.find_all_for(self, :account_navigation)
