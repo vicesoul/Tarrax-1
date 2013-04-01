@@ -948,7 +948,7 @@ define([
           activeClass: "ui-state-highlight",
           drop: function( event, ui ) {
             console.log(ui);
-            var imgSrc = ui.helper.attr("data-url");
+            var imgSrc = ui.helper.attr("data-url") || ui.helper.attr("src");
             var $img = $("<img>").attr("src",imgSrc);
             $img.appendTo( $(this).empty())
               .mousedown(function(){
