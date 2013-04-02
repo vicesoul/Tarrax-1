@@ -8,7 +8,6 @@ zh-CN:
       body: 内容
       choose_image: 选择图片
       upload: 上传
-    homepage_right_side:
       edit_this_page: 修改页面
       labels:
         name: 主题
@@ -18,6 +17,7 @@ zh-CN:
       add: 添加
       cancel: 取消
       save: 保存
+      assign_courses: 指定课程
   account:
     tab_homepage: 主页
   jxb/widget:

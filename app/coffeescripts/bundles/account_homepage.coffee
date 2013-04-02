@@ -9,7 +9,6 @@ require [
   
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
-    #$("#widget_body").val $obj.find(".data-widget-body").html()
     $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
 
   synToWidget = ($obj)->
@@ -80,6 +79,25 @@ require [
       width: 800
       height: 600
     )
+    
+    $("#choose_courses_dialog").dialog(
+      autoOpen: false
+      width: 400
+      height: 300
+    )
+
+    $(".account_name_checkbox").click ->
+      $allBox = $(this).next(".all_sub_checkboxs").find("input[type='checkbox']")
+      if $(this).is ":checked"
+        $allBox.attr("checked", "checked")
+      else
+        $allBox.removeAttr("checked")
+
+    $(".save_choose_courses_link").click ->
+
+
+    $("#link_to_choose_courses_dialog").click ->
+      $("#choose_courses_dialog").dialog "open"
 
     $(".save_widget_button").click ->
       synToWidget( $('.editable') )
