@@ -14,8 +14,6 @@ module Jxb
           validates_presence_of :name, :if => :require_presence_of_name
           validates_uniqueness_of :name, :scope => :parent_account_id
           validate :validate_user_mobile
-
-          before_create :default_setting unless Rails.env.test?
         end
       end
 

@@ -31,17 +31,23 @@ describe AssignmentsController do
   end
 
   describe "GET 'index'" do
-    it "should throw 404 error without a valid context id" do
+    #it "should throw 404 error without a valid context id" do
+    #  rescue_action_in_public!
+    #  #controller.use_rails_error_handling!
+    #  get 'index'
+    #  assert_status(404)
+    #end
+    #
+    #it "should return unauthorized without a valid session" do
+    #  course_with_student(:active_all => true)
+    #  get 'index', :course_id => @course.id
+    #  assert_status(401)
+    #end
+    it "should login to before accessing assignemnts contents" do
       rescue_action_in_public!
       #controller.use_rails_error_handling!
       get 'index'
-      assert_status(404)
-    end
-    
-    it "should return unauthorized without a valid session" do
-      course_with_student(:active_all => true)
-      get 'index', :course_id => @course.id
-      assert_status(401)
+      assert_status(302)
     end
 
     it "should redirect 'disabled', if disabled by the teacher" do

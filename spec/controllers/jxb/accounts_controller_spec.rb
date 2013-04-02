@@ -47,7 +47,9 @@ describe AccountsController do
         :captcha         => '1'
       }, :format => 'json'
 
-      response.should be_success
+      assigns(:account).default_locale.should == 'zh-CN'
+      assigns(:account).default_time_zone.should == 'Beijing'
+      assigns(:account).settings[:teachers_can_create_courses].should == true
     end
 
     it "should failed if user_mobile not correct" do

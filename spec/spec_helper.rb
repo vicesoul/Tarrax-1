@@ -354,6 +354,12 @@ Spec::Runner.configure do |config|
     user_session(@user)
   end
 
+  def course_with_admin_logged_in(opts={})
+    course_with_teacher(opts)
+    site_admin_user :user => @user
+    user_session(@user)
+  end
+
   def course_with_observer(opts={})
     course_with_user('ObserverEnrollment', opts)
     @observer = @user
