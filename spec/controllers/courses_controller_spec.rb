@@ -122,7 +122,8 @@ describe CoursesController do
       @enrollment = @course.enroll_student(user)
       post 'enrollment_invitation', :course_id => @course.id, :reject => '1', :invitation => @enrollment.uuid
       response.should be_redirect
-      response.should redirect_to(root_url)
+      #response.should redirect_to(root_url)
+      response.should redirect_to(dashboard_url)
       assigns[:pending_enrollment].should eql(@enrollment)
       assigns[:pending_enrollment].should be_rejected
     end

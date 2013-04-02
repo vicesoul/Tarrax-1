@@ -7,14 +7,15 @@ module Jxb
         base.class_eval do
           apply_simple_captcha :message => :invalid_code
 
+          attr_accessor :require_presence_of_name
           attr_accessor :user_role, :user_mobile # for validing new account form
           attr_accessible :user_role, :user_mobile, :school_category, :school_scale, :captcha, :captcha_key
 
-          validates_presence_of :name
+          validates_presence_of :name, :if => :require_presence_of_name
           validates_uniqueness_of :name, :scope => :parent_account_id
           validate :validate_user_mobile
 
-          before_create :default_setting
+          before_create :default_setting unless Rails.env.test?
         end
       end
 

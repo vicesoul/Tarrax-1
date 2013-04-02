@@ -160,88 +160,88 @@ describe QuizSubmission do
 
       # 1 wrong answer
       user_answer = QuizSubmission.score_question(q, {
-        "question_1_answer_1111" => "ball-2",
-        "question_1_answer_2222" => "ball-3ball-4",
-        "question_1_answer_5555" => "ball-6ball-7",
-        "question_1_answer_8888" => "ball-9ball-10",
+        "question_1_answer_1111_left" => "ball-2",
+        "question_1_answer_2222_left" => "ball-3ball-4",
+        "question_1_answer_5555_left" => "ball-6ball-7",
+        "question_1_answer_8888_left" => "ball-9ball-10",
       })
       user_answer.delete(:points).should be_close(43.75, 0.01)
       user_answer.should == {
         :question_id => 1, :correct => "partial", :text => "",
-        :answer_1111 => "ball-2",
-        :answer_2222 => "ball-3ball-4",
-        :answer_5555 => "ball-6ball-7",
-        :answer_8888 => "ball-9ball-10",
+        :answer_1111_left => "ball-2",
+        :answer_2222_left => "ball-3ball-4",
+        :answer_5555_left => "ball-6ball-7",
+        :answer_8888_left => "ball-9ball-10",
       }
 
       # 1 wrong answer
       user_answer = QuizSubmission.score_question(q, {
-        "question_1_answer_1111" => "ball-2",
-        "question_1_answer_2222" => "ball-3ball-4",
-        "question_1_answer_5555" => "ball-6ball-7ball-11",
-        "question_1_answer_8888" => "ball-9ball-10ball-11",
+        "question_1_answer_1111_left" => "ball-2",
+        "question_1_answer_2222_left" => "ball-3ball-4",
+        "question_1_answer_5555_left" => "ball-6ball-7ball-11",
+        "question_1_answer_8888_left" => "ball-9ball-10ball-11",
       })
       user_answer.delete(:points).should be_close(43.75, 0.01)
       user_answer.should == {
         :question_id => 1, :correct => "partial", :text => "",
-        :answer_1111 => "ball-2",
-        :answer_2222 => "ball-3ball-4",
-        :answer_5555 => "ball-6ball-7ball-11",
-        :answer_8888 => "ball-9ball-10ball-11",
+        :answer_1111_left => "ball-2",
+        :answer_2222_left => "ball-3ball-4",
+        :answer_5555_left => "ball-6ball-7ball-11",
+        :answer_8888_left => "ball-9ball-10ball-11",
       }
 
       # 1 wrong answer but no partial credit allowed
       user_answer = QuizSubmission.score_question(q.merge(:allow_partial_credit => false), {
-        "question_1_answer_1111" => "ball-2",
-        "question_1_answer_2222" => "ball-3ball-4",
-        "question_1_answer_5555" => "ball-6ball-7",
-        "question_1_answer_8888" => "ball-9ball-10",
+        "question_1_answer_1111_left" => "ball-2",
+        "question_1_answer_2222_left" => "ball-3ball-4",
+        "question_1_answer_5555_left" => "ball-6ball-7",
+        "question_1_answer_8888_left" => "ball-9ball-10",
       })
       user_answer.should == {
         :question_id => 1, :correct => false, :points => 0, :text => "",
-        :answer_1111 => "ball-2",
-        :answer_2222 => "ball-3ball-4",
-        :answer_5555 => "ball-6ball-7",
-        :answer_8888 => "ball-9ball-10",
+        :answer_1111_left => "ball-2",
+        :answer_2222_left => "ball-3ball-4",
+        :answer_5555_left => "ball-6ball-7",
+        :answer_8888_left => "ball-9ball-10",
       }
 
       # all wrong answers
       user_answer = QuizSubmission.score_question(q, {
-        "question_1_answer_1111" => "ball-3",
-        "question_1_answer_2222" => "ball-6ball-7",
-        "question_1_answer_5555" => "ball-9ball-10",
-        "question_1_answer_8888" => "ball-2ball-4",
+        "question_1_answer_1111_left" => "ball-3",
+        "question_1_answer_2222_left" => "ball-6ball-7",
+        "question_1_answer_5555_left" => "ball-9ball-10",
+        "question_1_answer_8888_left" => "ball-2ball-4",
       })
       user_answer.should == {
         :question_id => 1, :correct => false, :points => 0, :text => "",
-        :answer_1111 => "ball-3",
-        :answer_2222 => "ball-6ball-7",
-        :answer_5555 => "ball-9ball-10",
-        :answer_8888 => "ball-2ball-4",
+        :answer_1111_left => "ball-3",
+        :answer_2222_left => "ball-6ball-7",
+        :answer_5555_left => "ball-9ball-10",
+        :answer_8888_left => "ball-2ball-4",
       }
 
       # all correct answers
       user_answer = QuizSubmission.score_question(q, {
-        "question_1_answer_1111" => "ball-2",
-        "question_1_answer_2222" => "ball-3ball-4",
-        "question_1_answer_5555" => "ball-6ball-7",
-        "question_1_answer_8888" => "ball-9ball-10ball-11",
+        "question_1_answer_1111_left" => "ball-2",
+        "question_1_answer_2222_left" => "ball-3ball-4",
+        "question_1_answer_5555_left" => "ball-6ball-7",
+        "question_1_answer_8888_left" => "ball-9ball-10ball-11",
       })
       user_answer.should == {
         :question_id => 1, :correct => true, :points => 50, :text => "",
-        :answer_1111 => "ball-2",
-        :answer_2222 => "ball-3ball-4",
-        :answer_5555 => "ball-6ball-7",
-        :answer_8888 => "ball-9ball-10ball-11",
+        :answer_1111_left => "ball-2",
+        :answer_2222_left => "ball-3ball-4",
+        :answer_5555_left => "ball-6ball-7",
+        :answer_8888_left => "ball-9ball-10ball-11",
       }
 
       # no answer shouldn't be treated as a blank string, breaking undefined_if_blank
       QuizSubmission.score_question(q, { "undefined_if_blank" => "1" }).should == {
         :question_id => 1, :correct => "undefined", :points => 0, :text => "",
-        :answer_1111 => "",
-        :answer_2222 => "",
-        :answer_5555 => "",
-        :answer_8888 => "",
+        :answer_1111_left => "",
+        :answer_2222_left => "",
+        :answer_5555_left => "",
+        :answer_8888_left => "",
       }
     end
 

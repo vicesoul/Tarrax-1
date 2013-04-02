@@ -447,7 +447,8 @@ Spec::Runner.configure do |config|
                       "pseudonym_session[unique_id]" => username,
                       "pseudonym_session[password]" => password
     assert_response :success
-    path.should eql("/?login_success=1")
+    #path.should eql("/?login_success=1")
+    path.should eql("/dashboard?login_success=1")
   end
 
   def assignment_quiz(questions, opts={})
