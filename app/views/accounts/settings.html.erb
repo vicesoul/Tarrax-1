@@ -132,7 +132,19 @@
                     <%= settings.label :allow_sending_scores_in_emails, :en => "Students can opt-in to receiving scores in email notifications" %>
                     </td>
                   </tr>
-                <% end %>
+                <% end # unless @account.site_admin? %>
+                <tr>
+                  <td colspan="2">
+                    <%= settings.check_box :public_account, :checked => @account.settings[:public_account] %>
+                    <%= settings.label :public_account, :en => "This is a public account" %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <%= settings.check_box :allow_homepage_previews, :checked => @account.settings[:allow_homepage_previews] %>
+                    <%= settings.label :allow_homepage_previews, :en => "Allow all the users to preview homepage" %>
+                  </td>
+                </tr>
               <% end %>
             <% end %>
           </table>

@@ -29,7 +29,11 @@ class Jxb::Page < ActiveRecord::Base
     # any user with an association to this page's account can read
     given { |user,session| 
       if self.context.is_a?(Account)
-        user && self.context.user_account_associations.find_by_user_id(user.id) 
+        if self.context.settings[:allow_homepage_previews]
+          true
+        else
+          user && self.context.user_account_associations.find_by_user_id(user.id)
+        end
       elsif self.context.is_a?(User)
         user == self.context
       end

@@ -231,6 +231,9 @@ class Account < ActiveRecord::Base
   add_setting :self_registration, :boolean => true, :root_only => true, :default => false
   add_setting :large_course_rosters, :boolean => true, :root_only => true, :default => false
 
+  add_setting :allow_homepage_previews, :boolean => true, :root_only => false, :default => false
+  add_setting :public_account, :boolean => true, :root_only => false, :default => false
+
   def settings=(hash)
     if hash.is_a?(Hash)
       hash.each do |key, val|
@@ -287,6 +290,13 @@ class Account < ActiveRecord::Base
 
   def self_registration?
     !!settings[:self_registration] && canvas_authentication?
+  end
+
+  def update_courses_be_part_of
+    courses.each do |course|
+      course.is_public = course.indexed = self.settings[:public_account]
+      course.save
+    end
   end
 
   def ip_filters=(params)

@@ -470,6 +470,8 @@ zh-CN:
         allow_invitation_previews: 邀请预览
         allow_sending_scores_in_emails: 学生可以选择通过电子邮件接收分数通知
         allow_sis_import: "SIS 导入"
+        allow_homepage_previews: 允许公开浏览首页
+        public_account: 公开网校
         canvas_authentication: 教学邦身份验证
         default_course_storage_quota: 默认课程空间限制
         default_language: 默认语言
