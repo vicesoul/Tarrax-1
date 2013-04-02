@@ -88,7 +88,8 @@ describe "API Authentication", :type => :integration do
 
       # don't need developer key when we have an actual application session
       post '/login', 'pseudonym_session[unique_id]' => 'test1@example.com', 'pseudonym_session[password]' => 'test123'
-      response.should redirect_to("http://www.example.com/?login_success=1")
+      #response.should redirect_to("http://www.example.com/?login_success=1")
+      response.should redirect_to("http://www.example.com/dashboard?login_success=1")
       get "/api/v1/courses.json", {}
       response.should be_success
       # because this is a normal application session, the response is prepended

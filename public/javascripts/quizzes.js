@@ -49,7 +49,8 @@ define([
   'jqueryui/tabs' /* /\.tabs/ */,
   'jqueryui/droppable',
   'vendor/raphael',
-  'quizzes_tpl'
+  'quizzes_tpl',
+  'bootstrap'
 ], function(I18n,$, calcCmd, htmlEscape, pluralize, wikiSidebar,
             DueDateListView, DueDateOverrideView, Quiz, DueDateList,SectionList,
             MissingDateDialog,MultipleChoiceToggle,TextHelper){
@@ -948,7 +949,7 @@ define([
           activeClass: "ui-state-highlight",
           drop: function( event, ui ) {
             console.log(ui);
-            var imgSrc = ui.helper.attr("data-url");
+            var imgSrc = ui.helper.attr("data-url") || ui.helper.attr("src");
             var $img = $("<img>").attr("src",imgSrc);
             $img.appendTo( $(this).empty())
               .mousedown(function(){
@@ -3255,12 +3256,6 @@ define([
       $(this).parents(".question_form").find(".question_content").editorBox('toggle');
     });
 
-
-    $(".toggle_solution_content_views_link").click(function(event) {
-      event.preventDefault();
-      $(this).parents(".question_form").find(".solution_content").editorBox('toggle');
-    });
-
     $(".toggle_text_after_answers_link").click(function(event) {
       event.preventDefault();
       $(this).parents(".question_form").find(".text_after_answers").editorBox('toggle');
@@ -3669,91 +3664,5 @@ define([
 
     toggler.toggle();
   });
-
-  !function ($) {
-
-    "use strict"; // jshint ;_;
-
-
-    /* BUTTON PUBLIC CLASS DEFINITION
-     * ============================== */
-
-    var Button = function (element, options) {
-      this.$element = $(element)
-      this.options = $.extend({}, $.fn.button.defaults, options)
-    }
-
-    Button.prototype.setState = function (state) {
-      var d = 'disabled'
-        , $el = this.$element
-        , data = $el.data()
-        , val = $el.is('input') ? 'val' : 'html'
-
-      state = state + 'Text'
-      data.resetText || $el.data('resetText', $el[val]())
-
-      $el[val](data[state] || this.options[state])
-
-      // push to event loop to allow forms to submit
-      setTimeout(function () {
-        state == 'loadingText' ?
-          $el.addClass(d).attr(d, d) :
-          $el.removeClass(d).removeAttr(d)
-      }, 0)
-    }
-
-    Button.prototype.toggle = function () {
-      var $parent = this.$element.closest('[data-toggle="buttons-radio"]')
-
-      $parent && $parent
-        .find('.active')
-        .removeClass('active')
-
-      this.$element.toggleClass('active')
-    }
-
-
-    /* BUTTON PLUGIN DEFINITION
-     * ======================== */
-
-    var old = $.fn.button
-
-    $.fn.button = function (option) {
-      return this.each(function () {
-        var $this = $(this)
-          , data = $this.data('button')
-          , options = typeof option == 'object' && option
-        if (!data) $this.data('button', (data = new Button(this, options)))
-        if (option == 'toggle') data.toggle()
-        else if (option) data.setState(option)
-      })
-    }
-
-    $.fn.button.defaults = {
-      loadingText: 'loading...'
-    }
-
-    $.fn.button.Constructor = Button
-
-
-    /* BUTTON NO CONFLICT
-     * ================== */
-
-    $.fn.button.noConflict = function () {
-      $.fn.button = old
-      return this
-    }
-
-
-    /* BUTTON DATA-API
-     * =============== */
-
-    $(document).on('click.button.data-api', '[data-toggle^=button]', function (e) {
-      var $btn = $(e.target)
-      if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
-      $btn.button('toggle')
-    })
-
-  }(window.jQuery);
 
 });

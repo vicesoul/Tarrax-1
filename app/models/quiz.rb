@@ -575,9 +575,11 @@ class Quiz < ActiveRecord::Base
             questions.each do |question|
               if question[:answers]
                 question[:answers] = prepare_answers(question)
-                question[:matches] = question[:matches].sort_by{|m| m[:text] || ""} if question[:matches]
-                question[:matches][:left] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
-                question[:matches][:right] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
+                if question[:matches]
+                  question[:matches] = question[:matches].sort_by{|m| m[:text] || ""}
+                  question[:matches][:left] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
+                  question[:matches][:right] = question[:matches][:left].sort_by{ rand } if question[:matches][:left]
+                end
               end
               question[:points_possible] = q[:question_points]
               question[:published_at] = q[:published_at]
