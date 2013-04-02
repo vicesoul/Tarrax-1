@@ -239,12 +239,14 @@
   position: absolute;
   width: 262px;
   min-height: 300px;
+  max-height: 400px;
   padding: 10px;
   display: none;
   right: -284px;
   background: url(../img/xbg.jpg) #d6f0fd repeat-x top left;
   border: 1px solid #A9CCE2;
   z-index: 100;
+  overflow: scroll;
 }
 #config_courses_holder .x_narrow{
   background: url(../img/x_narrow.png) transparent no-repeat top left;
@@ -409,7 +411,15 @@
   color: #0099ff;
   margin-left: 18px;
 }
-
+#jiaoxuebang .sorting{
+  background: url('../img/sort_both.png') no-repeat center right;
+}
+#jiaoxuebang .sorting_asc {
+  background: url('../img/sort_asc.png') no-repeat center right;
+}
+#jiaoxuebang .sorting_desc {
+  background: url('../img/sort_desc.png') no-repeat center right;
+}
 /*User dashboard*/
 #jiaoxuebang .im_activity_widget{
   float:left;
