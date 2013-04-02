@@ -1,0 +1,32 @@
+---
+zh-CN:
+  accounts:
+    homepages: 主页
+    homepage:
+      home_page: 主页
+      title: 标题
+      body: 内容
+      choose_image: 选择图片
+      upload: 上传
+    homepage_right_side:
+      edit_this_page: 修改页面
+      labels:
+        name: 主题
+        add_new_widget: 新增组件
+        background_image: 背景图片
+        courses: 指定课程
+      add: 添加
+      cancel: 取消
+      save: 保存
+  account:
+    tab_homepage: 主页
+  jxb/widget:
+    activity_index: 活动列表
+    news_index: 新闻列表
+    announcement_index: 公告列表
+    discussion_index: 讨论列表
+    assignment_index: 作业列表
+    custom_index: 自定义组件
+    announcement_account : 网校公告
+    logo_index: Logo
+    course_index: 课程列表

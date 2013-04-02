@@ -12,12 +12,14 @@
 // Components: common
 @import "bootstrap/close";
 @import "bootstrap/wells";
+@import "bootstrap/tables";
 
 // Components: Buttons & Alerts
 @import "bootstrap/alerts"; // Note: alerts share common CSS with buttons and thus have styles in buttons.less
 
 // Components: Nav
 @import "bootstrap/navs"; // look at nav links on styleguide and on dashboard
+@import "bootstrap/pagination";
 
 // Components: Popovers
 //@import "bootstrap/tooltip"; //want

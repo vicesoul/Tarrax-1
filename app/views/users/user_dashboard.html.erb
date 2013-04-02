@@ -13,6 +13,7 @@
 
 <div id="dashboard">
 <%= render :partial => 'shared/dashboard_invitation', :collection => @pending_invitations %>
+<%= render :partial => 'jxb/pages/content', :locals => { :page => @dashboard_page, :partial_name => 'shared/dashboard_widgets' } %>
 <%= render :partial => 'shared/dashboard_messages' %>
 <%= render :partial => 'shared/recent_activity' %>
 </div>

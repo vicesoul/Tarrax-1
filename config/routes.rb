@@ -1,5 +1,10 @@
 ActionController::Routing::Routes.draw do |map|
 
+  map.accounts_discussion_topics 'accounts/:account_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
+  map.users_discussion_topics    'users/:user_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
+
+  map.select_users 'accounts/select/users/ids', :controller => 'accounts', :action => 'select_users'
+  map.resources :widget, :only => :update, :controller => 'jxb/widgets'
   map.welcome 'users/welcome', :controller => 'users', :action => 'welcome'
 
   map.resources :submission_comments, :only => :destroy
@@ -427,6 +432,8 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
+    account.files 'files', :controller => 'accounts', :action => 'create_file'
     account.redirect 'redirect', :controller => 'accounts', :action => 'redirect'
     account.settings 'settings', :controller => 'accounts', :action => 'settings'
     account.add_account_user 'account_users', :controller => 'accounts', :action => 'add_account_user', :conditions => {:method => :post}
@@ -449,6 +456,11 @@ ActionController::Routing::Routes.draw do |map|
     account.confirm_delete_user 'users/:user_id/delete', :controller => 'accounts', :action => 'confirm_delete_user'
     account.delete_user 'users/:user_id', :controller => 'accounts', :action => 'remove_user', :conditions => {:method => :delete}
     account.resources :users
+    account.resources :pages, :controller => 'jxb/pages' do |page|
+      #page.widget 'widget', :action => 'widget', :controller => 'jxb/pages'
+      page.resources :widgets, :controller => 'jxb/widgets'
+    end
+    account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)
     account.resources :assignments
@@ -569,6 +581,8 @@ ActionController::Routing::Routes.draw do |map|
   map.dashboard_sidebar 'dashboard-sidebar', :controller => 'users', :action => 'dashboard_sidebar', :conditions => {:method => :get}
   map.toggle_dashboard 'toggle_dashboard', :controller => 'users', :action => 'toggle_dashboard', :conditions => {:method => :post}
   map.styleguide 'styleguide', :controller => 'info', :action => 'styleguide', :conditions => {:method => :get}
+  map.root :dashboard
+  map.homepage 'homepage', :controller => 'accounts', :action => 'homepage'
   map.root :welcome
   # backwards compatibility with the old /dashboard url
   map.dashboard_redirect 'dashboard', :controller => 'users', :action => 'user_dashboard', :conditions => {:method => :get}

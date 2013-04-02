@@ -106,7 +106,7 @@ namespace :i18n do
 
     # Ruby
     files = (Dir.glob('./*') - ['./vendor'] + ['./vendor/plugins'] - ['./guard', './tmp']).map { |d| Dir.glob("#{d}/**/*rb") }.flatten.
-      reject{ |file| file =~ %r{\A\./(rb-fsevent|vendor/plugins/rails_xss|db|spec)/} }
+      reject{ |file| file =~ %r{\A\./(rb-fsevent|vendor/plugins/rails_xss|vendor/plugins/cells|db|spec)/} }
     files &= only if only
     file_count = files.size
     rb_extractor = I18nExtraction::RubyExtractor.new(:translations => @translations)
@@ -180,7 +180,6 @@ namespace :i18n do
     require 'lib/i18n_extraction/js_extractor.rb'
     I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')] +
                       Dir[Rails.root.join('vendor', 'plugins', '*', 'config', 'locales', '**', '*.{rb,yml}')]
-
     Hash.send :include, HashExtensions
 
     file_translations = {}

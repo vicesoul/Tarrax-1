@@ -3346,6 +3346,7 @@ zh-CN:
     unknown: 未知
   courses: 
     add_users: 
+      pick_up_from_accounts: 从组织架构中挑选
       buttons: 
         add_users: "检查通过, 添加这些用户"
         continue: 继续...
@@ -3550,6 +3551,12 @@ zh-CN:
         links: 
           unenroll_user: 将用户从课程中移除
     settings: 
+      pickup:
+        insert: 插入
+        cancel: 取消
+        name: 名称
+        email: 邮箱
+        title: 挑选
       alerts_title: 警报
       buttons: 
         add_section: 添加班
@@ -4069,6 +4076,10 @@ zh-CN:
     default_title: 无标题
     empty_message: 无消息
   discussion_topics: 
+    more:
+      announcements: 通知
+      discussion_topics: 讨论
+      detail: 详细信息
     assignment_details: 
       available_from: 开始时间
       due: 提交时间
@@ -11181,7 +11192,7 @@ zh-CN:
     event: "%{date} %{time}"
     formats: 
       default: "%a, %d %b %Y %H:%M:%S %z"
-      long: "%B %d, %Y %H:%M"
+      long: "%Y-%m-%d %H:%M"
       short: "%d %b %H:%M"
       tiny: "%l:%M%P"
       tiny_on_the_hour: "%l%P"

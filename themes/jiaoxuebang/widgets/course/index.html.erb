@@ -1,0 +1,41 @@
+<div <%= data_widget %> >
+  <div class="box">
+    <div class="box_head">
+      <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.course.title', 'Course') } %>
+    </div>
+    <div class="box_body">
+      <% unless @courses.blank? %>
+      <ul class="widget_course">
+        <% @courses.each_with_index do |course, index| %>
+          <% last = (index + 1) % 3 == 0 ? 'last' : '' %>
+          <li class='<%= last %>'>
+            <div class="w_head">
+              <i class="imnew"></i>
+              <h3><%= link_to course.name, "/courses/#{course.id}" %></h3>
+              <div class="bottom_block">&nbsp;</div>
+            </div>
+            <div class="w_body">
+              <div class="w_teacher">
+                <% teacher = course.teachers.first %>
+                <% unless teacher.blank? %>
+                  <%= link_to image_tag( avatar_url_for_user(teacher), :style => 'max-width: 50px', :class => 'image-avatar' ), "/courses/#{course.id}/users/#{teacher.id}", :class => 'link_to_image_avatar' %>
+                  <p class="teacher_name"><%= link_to teacher.name, "/courses/#{course.id}/users/#{teacher.id}" %></p>
+                  <div class="clear"></div>
+                <% end %>
+              </div>
+            </div>
+            <div class="w_foot">
+              <div class="w_btn">
+                <%= link_to t('#cells.course.learn', 'Learn'), "/courses/#{course.id}", :class => 'like_btn', :target => '_blank' %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+        <div class="clear"></div>
+      </ul>
+      <% else %>
+        <p><%= t('#cells.course.empty_body', 'Empty courses') %></p>
+      <% end %>
+    </div>
+  </div>
+</div>

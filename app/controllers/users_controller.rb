@@ -312,9 +312,13 @@ class UsersController < ApplicationController
 
     js_env :DASHBOARD_SIDEBAR_URL => dashboard_sidebar_url
 
-    @announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
+    #@announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
+    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) )
     @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
     @stream_items = @current_user.try(:cached_recent_stream_items) || []
+    
+    # Each user has a dashboard page
+    @dashboard_page = @current_user.find_or_create_dashboard_page
   end
 
   def dashboard_sidebar
@@ -688,6 +692,9 @@ class UsersController < ApplicationController
   # @argument pseudonym[sis_user_id] [Optional] [Integer] SIS ID for the user's account. To set this parameter, the caller must be able to manage SIS permissions.
   # @argument pseudonym[send_confirmation] [Optional, 0|1] [Integer] Send user notification of account creation if set to 1.
   #
+  # Addition
+  # @argument user[account_id] [Optional] Special whitch account belongs to. Add by sam
+  #
   # @returns User
   def create
     # Look for an incomplete registration with this pseudonym
@@ -698,7 +705,6 @@ class UsersController < ApplicationController
     @pseudonym = default_domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # Setting it to nil will cause us to try and create a new one, and give user the login already exists error
     @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
-
     manage_user_logins = @context.grants_right?(@current_user, session, :manage_user_logins)
     self_enrollment = params[:self_enrollment].present?
     allow_non_email_pseudonyms = manage_user_logins || self_enrollment && params[:pseudonym_type] == 'username'
@@ -789,8 +795,9 @@ class UsersController < ApplicationController
       @user.save!
 
       # update user-account-associations if account_id given
-      if params[:account_id]
-        associations = User.calculate_account_associations_from_accounts([params[:account_id]])
+      associate_account_id = params[:user][:account_id] || params[:account_id]
+      if associate_account_id
+        associations = User.calculate_account_associations_from_accounts([associate_account_id])
         @user.update_account_associations(:incremental => true, :precalculated_associations => associations)
       end
 

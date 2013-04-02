@@ -1,0 +1,33 @@
+@import compass
+
+@import 'jqueryui/variables'
+
+.ui-sortable-placeholder
+  border: 1px dotted black
+  visibility: visible !important
+
+.ui-sortable-placeholder *
+  visibility: hidden
+
+form.edit_jxb_page
+  display: none
+
+.deletable
+  position: relative
+  img.delete_widget
+    position: absolute
+    top: 0
+    right: 20px
+    cursor: pointer
+  img.edit_widget
+    position: absolute
+    top: 0
+    right: 60px
+    cursor: pointer
+
+.theme_edit
+  [data-position]
+    border: 1px dashed silver
+    margin-bottom: 20px
+    padding: 15px 0 15px 0
+    min-width: 100px

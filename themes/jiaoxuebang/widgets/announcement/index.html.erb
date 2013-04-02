@@ -1,0 +1,28 @@
+<% unless @announcements.blank? && context.is_a?(User) %>
+<div <%= data_widget %> >
+  <div class="box <%= @opts[:box_class] %>">
+    <div class="box_head">
+      <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.announcement.title', 'Announcement') } %>
+    </div>
+    <div class="box_body">
+      <% unless @announcements.blank? %>
+        <%= render :partial => "shared/contexts", :locals => { :objects => @announcements } %>
+      <% else %>
+        <p><%= t('#cells.announcement.empty_body', 'Empty announcements') %></p>
+      <% end %>
+      <% unless @announcements.blank? %>
+      <div class="link_more" style="text-align: right;">
+        <% 
+            more_link = if context.is_a?(User)
+                          "users/#{context.id}/more_discussion_topics?type=announcements"
+                        else
+                          "accounts/#{context.id}/more_discussion_topics?type=announcements"
+                        end
+        %>
+        <%= link_to t('#cells.assignment.more', 'More>>'), more_link %>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<% end %>

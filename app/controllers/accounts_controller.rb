@@ -18,7 +18,7 @@
 
 # @API Accounts
 class AccountsController < ApplicationController
-  before_filter :require_user, :only => [:index, :new, :create]
+  before_filter :require_user, :only => [:index, :new, :create, :homepage]
   before_filter :reject_student_view_student
   before_filter :get_context
 
@@ -47,6 +47,16 @@ class AccountsController < ApplicationController
         format.html { redirect_to :back }
         format.json { render :json => @account.errors.to_json, :status => :bad_request }
       end
+    end
+  end
+
+  def create_file
+    @attachment = Attachment.new(params[:attachment])
+    @attachment.context = @context
+    @attachment.save
+    
+    respond_to do |format|
+      format.json { render :json => { :url => account_file_preview_path(@context, @attachment) }.to_json }
     end
   end
 
@@ -550,6 +560,38 @@ class AccountsController < ApplicationController
         format.json {render :json => {:student_report_id=>student_report.id, :success=>true}.to_json}
       end
     end
+  end
+
+  def pickup
+    respond_to do |format|
+      format.json {render :json => @context.sub_accounts_as_tree_with_user_emails }
+    end
+  end
+
+  def select_users
+    respond_to do |format|
+      format.json {
+        render :json => Account.all_users_with_ids( params[:ids].split('-').map{|id| id.to_i} ).map { |user| 
+          { :name => user.name, :email => user.email }
+        }
+      }
+    end
+  end
+
+  def homepage
+    @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
+    @page = @account.find_or_create_homepage
+
+    if @can_manage_homepage
+      @active_tab = "homepage"
+      add_crumb t(:homepages, "Homepage"), account_homepage_path(@account)
+    elsif authorized_action(@page, @current_user, session, :read)
+      clear_crumbs
+      @show_left_side = false
+    end
+    
+    prepend_view_path Jxb::Theme.path(@page.theme)
+
   end
 
 end

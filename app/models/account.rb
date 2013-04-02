@@ -27,6 +27,8 @@ class Account < ActiveRecord::Base
     :default_user_storage_quota_mb
 
   include Workflow
+  include Jxb::CommonBehavior
+
   belongs_to :parent_account, :class_name => 'Account'
   belongs_to :root_account, :class_name => 'Account'
   authenticates_many :pseudonym_sessions
@@ -85,11 +87,66 @@ class Account < ActiveRecord::Base
   has_many :context_external_tools, :as => :context, :dependent => :destroy, :order => 'name'
   has_many :error_reports
   has_many :announcements, :class_name => 'AccountNotification'
+  def announcements_with_sub_account_announcements
+    accounts = [self, self.sub_accounts].flatten
+    AccountNotification.find(:all, :conditions => ["account_id IN (?)", accounts], :order => 'start_at DESC')
+  end
   has_many :alerts, :as => :context, :include => :criteria
   has_many :associated_alerts, :through => :associated_courses, :source => :alerts, :include => :criteria
   has_many :user_account_associations
   has_many :report_snapshots
   has_one  :subdomain
+
+  has_one  :homepage, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
+  def find_or_create_homepage
+    self.homepage || begin
+      # use jiaoxuebang as default theme
+      # course index widget if root account
+      # account announcement
+      # activity wiget
+      # logo widget
+      page = self.build_homepage(:name => 'homepage', :theme => 'jiaoxuebang')
+      page.widgets.build(
+        :cell_name => 'logo', 
+        :cell_action => 'index', 
+        :body => "#{self.name}",
+        :position => 'caption'
+      )
+      page.widgets.build(
+        :cell_name => 'activity',
+        :cell_action => 'index',
+        :position => 'center',
+        :seq => 0,
+        :body => '<img src="/themes/jiaoxuebang/img/demo1.jpg" alt="demo1"/><img src="/themes/jiaoxuebang/img/demo2.jpg" alt="demo2"/><img src="/themes/jiaoxuebang/img/demo3.jpg" alt="demo3"/>'
+      )
+      page.widgets.build(
+        :cell_name => 'course',
+        :cell_action => 'index',
+        :position => 'center',
+        :seq => 1
+      ) if self.root_account?
+      page.widgets.build(
+        :cell_name => 'announcement',
+        :cell_action => 'index',
+        :position => 'center',
+        :seq => 2
+      )
+      page.widgets.build(
+        :cell_name => 'discussion',
+        :cell_action => 'index',
+        :position => 'center',
+        :seq => 3
+      )
+      page.widgets.build(
+        :cell_name => 'announcement',
+        :cell_action => 'account',
+        :position => 'right',
+        :seq => 0
+      )
+      page.save
+      page
+    end
+  end
 
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
@@ -335,6 +392,24 @@ class Account < ActiveRecord::Base
     res
   end
   
+  def sub_accounts_as_tree_with_user_emails(preloaded_accounts = nil)
+    unless preloaded_accounts
+      preloaded_accounts = {}
+      self.root_account.all_accounts.active.each do |account|
+        (preloaded_accounts[account.parent_account_id] ||= []) << account
+      end
+    end
+    user_emails = self.all_users.map{|u| u.email}
+    title = "<a href='javascript:void(0)' class='node-title' id='account_#{self.id}'><ins>&nbsp;</ins>#{self.name}(#{user_emails.size})</a>".html_safe
+    res = [{ :label => title, :id => self.id, :children => [] }]
+    if preloaded_accounts[self.id]
+      preloaded_accounts[self.id].each do |account|
+        res[0][:children] += account.sub_accounts_as_tree_with_user_emails(preloaded_accounts)
+      end
+    end
+    res
+  end
+
   def users_name_like(query="")
     @cached_users_name_like ||= {}
     @cached_users_name_like[query] ||= self.fast_all_users.name_like(query)
@@ -983,6 +1058,7 @@ class Account < ActiveRecord::Base
   TAB_SIS_IMPORT = 11
   TAB_GRADING_STANDARDS = 12
   TAB_QUESTION_BANKS = 13
+  TAB_HOMEPAGE = 17
   # site admin tabs
   TAB_PLUGINS = 14
   TAB_JOBS = 15
@@ -1015,6 +1091,7 @@ class Account < ActiveRecord::Base
       tabs << { :id => TAB_DEVELOPER_KEYS, :label => t("#account.tab_developer_keys", "Developer Keys"), :css_class => "developer_keys", :href => :developer_keys_path, :no_args => true } if self.grants_right?(user, nil, :manage_developer_keys)
     else
       tabs = []
+      tabs << { :id => TAB_HOMEPAGE, :label => t('#account.tab_homepage', "Homepage"), :css_class => 'homepage', :href => :account_homepage_path } if user && self.grants_right?(user, nil, :manage_homepage)
       tabs << { :id => TAB_COURSES, :label => t('#account.tab_courses', "Courses"), :css_class => 'courses', :href => :account_path } if user && self.grants_right?(user, nil, :read_course_list)
       tabs << { :id => TAB_USERS, :label => t('#account.tab_users', "Users"), :css_class => 'users', :href => :account_users_path } if user && self.grants_right?(user, nil, :read_roster)
       tabs << { :id => TAB_STATISTICS, :label => t('#account.tab_statistics', "Statistics"), :css_class => 'statistics', :href => :statistics_account_path } if user && self.grants_right?(user, nil, :view_statistics)
@@ -1272,5 +1349,14 @@ class Account < ActiveRecord::Base
     migration.progress=100
     migration.workflow_state = :imported
     migration.save
+  end
+
+  def self.all_users_with_ids(ids = [])
+    return [] if ids.blank?
+    User.find(:all,
+              :conditions => [ "user_account_associations.account_id IN (?)", ids ],
+              :include => [:associated_accounts],
+              :select => "DISTINCT id"
+             )
   end
 end

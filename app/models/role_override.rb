@@ -584,6 +584,12 @@ class RoleOverride < ActiveRecord::Base
         :true_for => %w(AccountAdmin),
         :available_to => %w(AccountAdmin AccountMembership)
       },
+      :manage_homepage => {
+        :label => lambda { t('permissions.manage_homepage', "Manage the homepage") },
+        :account_only => true,
+        :true_for => %w(AccountAdmin),
+        :available_to => %w(AccountAdmin AccountMembership)
+      },
       :view_statistics => {
         :label => lambda { t('permissions.view_statistics', "View statistics") },
         :account_only => true,
