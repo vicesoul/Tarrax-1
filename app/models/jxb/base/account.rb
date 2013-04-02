@@ -7,7 +7,7 @@ module Jxb
         end
       end
 
-      def default_account?
+      def default?
         ::Account.default == self
       end
     end

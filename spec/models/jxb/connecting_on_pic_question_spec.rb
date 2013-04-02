@@ -27,7 +27,6 @@ describe QuizQuestion::ConnectingOnPicQuestion do
     user_answer = QuizQuestion::UserAnswer.new(@q.question_id, @q.points_possible, answer_data)
     user_answer.total_parts = @q.total_answer_parts
 
-    debugger
     correct_answers = @q.correct_answer_parts(user_answer)
     correct_answers.should == 1
     incorrect_answers = @q.incorrect_answer_parts(user_answer)

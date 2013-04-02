@@ -858,7 +858,7 @@ class User < ActiveRecord::Base
   def remove_from_root_account(account)
     self.enrollments.find_all_by_root_account_id(account.id).each(&:destroy)
     # ryanw: pseudonym should not be deleted directly, should be deleted with user's destroy callbacks.
-    #self.pseudonyms.active.find_all_by_account_id(account.id).each { |p| p.destroy(true) }
+    self.pseudonyms.active.find_all_by_account_id(account.id).each { |p| p.destroy(true) } unless account.default?
     self.account_users.find_all_by_account_id(account.id).each(&:destroy)
     self.save
     self.update_account_associations

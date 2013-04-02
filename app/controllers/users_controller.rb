@@ -91,6 +91,10 @@ class UsersController < ApplicationController
   before_filter :require_self_registration, :only => [:new, :create]
 
   def welcome
+    if request.path =~ %r{\A/users/welcome\z}
+      return redirect_to(root_path, :status => :moved_permanently)
+    end
+
     @body_classes = ["welcome"]
     #render :layout => false
   end
@@ -300,6 +304,7 @@ class UsersController < ApplicationController
     # trail back to home if you are already home
     clear_crumbs
 
+    # remove following lines since it will cause loop
     #if request.path =~ %r{\A/dashboard\z}
       #return redirect_to(dashboard_url, :status => :moved_permanently)
     #end
