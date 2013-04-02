@@ -230,7 +230,7 @@ class CoursesController < ApplicationController
           }
         else
           flash[:error] = t('errors.create_failed', "Course creation failed")
-          format.html { redirect_to :root_url }
+          format.html { redirect_to :root}
           format.json { render :json => @course.errors.to_json, :status => :bad_request }
         end
       end
