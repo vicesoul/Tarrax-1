@@ -28,6 +28,7 @@ def connecting_lead_question_data
     "points_possible"        => 50.0,
     "question_name"          => "Question",
     "question_type"          => "connecting_lead_question",
+    "connecting_lead_linesNum" => '3',
 
     "matches" => {
       'left' => [

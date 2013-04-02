@@ -31,6 +31,8 @@ class AccountsController < ApplicationController
 
   def create
     @account = Account.new params[:account]
+    @account.require_presence_of_name = true
+    @account.default_setting
 
     respond_to do |format|
       if @account.save_with_captcha

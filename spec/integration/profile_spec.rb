@@ -47,7 +47,8 @@ describe ProfileController do
   end
 
   it "should not show student view student edit profile or other services options" do
-    course_with_teacher_logged_in(:active_all => true)
+    #course_with_teacher_logged_in(:active_all => true)
+    course_with_admin_logged_in(:active_all => true)
     enter_student_view
 
     get '/profile/settings'
