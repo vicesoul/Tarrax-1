@@ -1,6 +1,6 @@
 module DatesOverridable
-  attr_accessor :applied_overrides
-  attr_accessor :overridden_for_user_id
+  attr_accessor :applied_overrides, :overridden_for_user, :overridden
+  attr_writer :without_overrides
 
   def self.included(base)
     base.has_many :assignment_overrides, :dependent => :destroy
@@ -8,6 +8,8 @@ module DatesOverridable
     base.has_many :assignment_override_students, :dependent => :destroy
     
     base.validates_associated :assignment_overrides
+
+    base.extend(ClassMethods)
   end
 
   def overridden_for(user)
@@ -26,6 +28,14 @@ module DatesOverridable
 
   def has_overrides?
     assignment_overrides.count > 0
+  end
+
+  def has_active_overrides?
+    assignment_overrides.active.count > 0
+  end
+
+  def without_overrides
+    @without_overrides || self
   end
 
   # returns two values indicating which due dates for this assignment apply
@@ -47,6 +57,10 @@ module DatesOverridable
   def due_dates_for(user)
     as_student, as_admin = nil, nil
     return nil, nil if context.nil?
+
+    if user.nil?
+      return self.without_overrides.due_date_hash, nil
+    end
 
     if context.user_has_been_student?(user)
       as_student = self.overridden_for(user).due_date_hash
@@ -71,7 +85,13 @@ module DatesOverridable
 
   def all_due_dates
     all_dates = assignment_overrides.overriding_due_at.map(&:as_hash)
-    all_dates << due_date_hash.merge(:base => true)
+    all_dates << without_overrides.due_date_hash.merge(:base => true)
+  end
+
+  def all_dates_visible_to(user)
+    all_dates = overrides_visible_to(user).active
+    all_dates = all_dates.map(&:as_hash)
+    all_dates << without_overrides.due_date_hash.merge(:base => true)
   end
 
   def due_dates_visible_to(user)
@@ -80,7 +100,7 @@ module DatesOverridable
     list = overrides.map(&:as_hash)
 
     # Base
-    list << self.due_date_hash.merge(:base => true)
+    list << without_overrides.due_date_hash.merge(:base => true)
   end
 
   def observed_student_due_dates(user)
@@ -90,10 +110,11 @@ module DatesOverridable
   end
 
   def due_date_hash
-    hash = { :due_at => due_at }
-
+    hash = { :due_at => due_at, :unlock_at => unlock_at, :lock_at => lock_at }
     if self.is_a?(Assignment)
       hash.merge!({ :all_day => all_day, :all_day_date => all_day_date })
+    elsif self.assignment
+      hash.merge!({ :all_day => assignment.all_day, :all_day_date => assignment.all_day_date})
     end
 
     if @applied_overrides && override = @applied_overrides.find { |o| o.due_at == due_at }
@@ -104,10 +125,36 @@ module DatesOverridable
     hash
   end
 
-  def multiple_due_dates_apply_to(user)
+  def multiple_due_dates_apply_to?(user)
     as_instructor = self.due_dates_for(user).second
     as_instructor && as_instructor.map{ |hash|
       self.class.due_date_compare_value(hash[:due_at]) }.uniq.size > 1
+  end
+
+  # deprecated alias method - can be removed once all plugins are updated
+  def multiple_due_dates_apply_to(user)
+    multiple_due_dates_apply_to?(user)
+  end
+
+  def multiple_due_dates?
+    if overridden
+      !!multiple_due_dates_apply_to?(overridden_for_user)
+    else
+      raise "#{self.class.name} has not been overridden"
+    end
+  end
+
+  def due_dates
+    if overridden
+      as_student, as_teacher = due_dates_for(overridden_for_user)
+      as_teacher || [as_student]
+    else
+      raise "#{self.class.name} has not been overridden"
+    end
+  end
+
+  def overridden_for?(user)
+    overridden && (overridden_for_user == user)
   end
 
   # like due_dates_for, but for unlock_at values instead. for consistency, each
@@ -134,7 +181,7 @@ module DatesOverridable
 
       as_instructor << {
         :base => true,
-        :unlock_at => self.unlock_at
+        :unlock_at => self.without_overrides.unlock_at
       }
     end
 
@@ -163,10 +210,21 @@ module DatesOverridable
 
       as_instructor << {
         :base => true,
-        :lock_at => self.lock_at
+        :lock_at => self.without_overrides.lock_at
       }
     end
 
     return as_student, as_instructor
+  end
+
+  module ClassMethods
+    def due_date_compare_value(date)
+      # due dates are considered equal if they're the same up to the minute
+      date.to_i / 60
+    end
+
+    def due_dates_equal?(date1, date2)
+      due_date_compare_value(date1) == due_date_compare_value(date2)
+    end
   end
 end

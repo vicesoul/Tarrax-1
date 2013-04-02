@@ -26,16 +26,17 @@
   has_answer_comment = hash_get(answer, :comments_html).present? || comment_get(answer, :comments).present?
   skip_if_correct ||= nil
   should_skip = (skip_if_correct && selected_answer && correct_answer) ||
-    (hash_get(question, :question_type) == 'fill_in_multiple_blanks_question' &&
+    (hash_get(question, :question_type) == 'fill_in_multiple_blanks_question' ||
       answer.respond_to?(:[]) && answer['text'].blank? && answer['html'].blank?) ||
-    (hash_get(question, :question_type) == 'multiple_dropdowns_question' && !correct_answer && !selected_answer)
+    (hash_get(question, :question_type) == 'multiple_dropdowns_question' && !correct_answer && !selected_answer) ||
+    (hash_get(question, :question_type) == 'drag_and_drop_question' && !correct_answer && !selected_answer)
 %>
-<% unless question && [ "short_answer_question", "fill_in_multiple_blanks_question" ].include?(question[:question_type]) && !show_correct_answers %>
+<% unless question && [ "short_answer_question", "fill_in_multiple_blanks_question"].include?(question[:question_type]) && !show_correct_answers %>
   <% if false %>
     <!-- Display skipped -->
   <% else %>
     <div class="answer answer_for_<%= hash_get(answer, :blank_id) %> <%= "hide_right_arrow" if hide_right_arrow %> <%= 'skipped' if should_skip %> <%= 'wrong_answer' if wrong_answer && show_correct_answers %> <%= 'no_answer' if no_answer %> <%= "selected_answer" if selected_answer %> <%= correct_answer_class %>" id="answer_<%= hash_get(answer, :id, "template") %>" style="<%= hidden unless answer %>" title="<%= t(:selected_answer, "You selected this answer.") if selected_answer %> <%= t(:correct_answer, "This was the correct answer.") if correct_answer && show_correct_answers %>">
-    <% if !user_answer || question_type.display_answers != "xsingle" %>
+      <% if !user_answer || question_type.display_answers != "xsingle" %>
     <div class="select_answer answer_type" <%= hidden(true) unless answer_type == "select_answer" %>>
       <% if %w{radio checkbox}.include?(question_type.entry_type) %>
         <input type="<%= question_type.entry_type %>" <%= 'checked' if selected_answer %> class="question_input" />
@@ -50,11 +51,11 @@
       <div class="answer_match_left" <%= hidden(true) if (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :left) || hash_get(answer, :text)) %></div>
       <div class="answer_match_left_html" <%= hidden(true) unless (hash_get(answer, :left_html) || hash_get(answer, :html)).present? %>><%= (hash_get(answer, :left_html) || hash_get(answer, :html)).to_s.html_safe %></div>
       <div class="answer_match_middle">&nbsp;</div>
-      <div class="answer_match_right">
+      <div class="answer_match_right">          <!-- display_answer.html.erb -->
         <% if user_answer %>
           <% if answer_type == 'matching_answer'
-               user_answer_choice = hash_get(user_answer, "answer_#{hash_get(answer, :id)}".to_sym).to_i
-               display_choice = hash_get(question, :matches).find {|m| hash_get(m, :match_id) == user_answer_choice }
+                user_answer_choice = hash_get(user_answer, "answer_#{hash_get(answer, :id)}".to_sym).to_i
+                display_choice = hash_get(question, :matches).find {|m| hash_get(m, :match_id) == user_answer_choice }
           %>
             <select class="question_input" readonly='readonly' style="max-width: 90%;">
               <option value="" selected><%= display_choice[:text] rescue '' %></option>
@@ -84,6 +85,83 @@
       </div>
       <div class="clear"></div>
     </div>
+
+  <div class="connecting_lead_answer answer_match matching_answer answer_type" <%= hidden(true) unless answer_type == "connecting_lead_answer" %>>
+    <div class="connecting_lead_left">
+      <% if user_answer %>
+        <%	if  answer_type == "connecting_lead_answer"
+              matches = hash_get(question, :matches, {})
+              match_left = hash_get(matches, :left)    # array of {:text => 'some text...', :match_id => id}
+              match_right = hash_get(matches, :right)
+
+         %>
+
+
+          <%  a = match_left[display_answer_counter] %>
+        <span class="btn-white" value="<%= hash_get(a, :match_id) %>" >
+          <%= hash_get(a, :text)  %>
+        </span>
+
+        <% else %>
+
+        <% end %>
+      <% else %>
+        <%= hash_get(answer, :left) %>
+
+      <% end %>
+    </div>
+    <%  answerId = hash_get(answer, :id) %>
+    <div class="connecting_lead_center" answerId=<%= answerId %> left="<%= get_answer_left(user_answer, answerId) %>" right="<%= get_answer_right(user_answer, answerId) %>"  >
+      <input type="hidden" value="<%= get_answer_left(user_answer, answerId) %>" class="left question_input">
+      <input type="hidden" value="<%= get_answer_right(user_answer, answerId) %>" class="right question_input">
+      <input type="hidden" value="<%= hash_get(answer, :match_left_id) %>" class="left real_answer">
+      <input type="hidden" value="<%= hash_get(answer, :match_right_id) %>" class="right real_answer">
+      <span class="btn-white">
+        <%= hash_get(answer, :center) %>
+      </span>
+    </div>
+    <div class="connecting_lead_right">
+      <% if user_answer %>
+        <%	if  answer_type == "connecting_lead_answer"
+              matches = hash_get(question, :matches, {})
+              match_left = hash_get(matches, :left)    # array of {:text => 'some text...', :match_id => id}
+              match_right = hash_get(matches, :right)
+
+        %>
+
+          <%  a = match_right[display_answer_counter] %>
+          <span class="btn-white" value="<%= hash_get(a, :match_id) %>" >
+          <%= hash_get(a, :text)  %>
+        </span>
+
+        <% else %>
+
+        <% end %>
+      <% else %>
+        <%= hash_get(answer, :right) %>
+
+      <% end %>
+    </div>
+  </div>
+
+  <div class="connecting_on_pic_answer answer_match matching_answer answer_type" <%= hidden(true) unless answer_type == "connecting_on_pic_answer" %>>
+    <div class="connecting_on_pic_left">
+      <% if user_answer %>
+
+      <% end %>
+      <span>
+        <%= hash_get(answer, :left) %>
+      </span>
+    </div>
+    <%  answerId = hash_get(answer, :id) %>
+    <div class="connecting_on_pic_right" answerId=<%= answerId %> >
+      <input type="hidden" value="<%= hash_get(user_answer, "answer_#{answerId}_left") %>" class="left question_input">
+      <span>
+        <%= hash_get(answer, :right) %>
+      </span>
+    </div>
+  </div>
+
     <div style="display: none;">
       <span class="numerical_answer_type"><%= hash_get(answer, :numerical_answer_type, "exact_answer") %></span>
       <span class="blank_id"><%= hash_get(answer, :blank_id, "none") %></span>
@@ -145,6 +223,9 @@
       </div>
     <% end %>
 
+
+
     <div class="clear"></div>
   <% end %>
+
 <% end %>

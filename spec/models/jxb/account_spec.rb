@@ -41,4 +41,18 @@ describe Account do
       }.to raise_error( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
     end
   end
+
+  context "new account" do
+    it "should validate user_mobile" do
+      expect {
+        Account.create!(:name => 'bbc', :user_mobile => '11234567890', :captcha => 'true')
+      }.to_not raise_error( ActiveRecord::RecordInvalid, 'Validation failed: User mobile invalid_mobile')
+    end
+
+    it "should validate user_mobile" do
+      expect {
+        Account.create!(:name => 'bbc', :captcha => 'true')
+      }.to raise_error( ActiveRecord::RecordInvalid, 'Validation failed: User mobile invalid_mobile')
+    end
+  end
 end

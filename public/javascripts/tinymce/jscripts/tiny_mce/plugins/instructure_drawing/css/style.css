@@ -1,11 +1,56 @@
 .mceIframeContainer{position: relative;}
-.sketch_app .container{border: 1px solid #ccc;position: relative;overflow: hidden;}
-.ui-dialog.paint .container{margin: 0!important;}
+.sketch_app.paint {padding:0.5em 30px;}
+.sketch_app .container{border: 2px solid #999;position: relative;overflow: hidden;}
+.ui-dialog.paint .container{margin-top: 120px; z-index: 1; background: #fff;}
 .sketch_app .containerDraft canvas {display: none;}
 .setLineSize,.setBrushSize{margin: 20px;display: none;}
 .setLineSize > label,.setBrushSize > label{float: left;}
 .setLineSize > div,.setBrushSize > div{float: left;width: 100px;margin: 0 0 0 20px;}
 .setLineSize input,.setBrushSize input{width: 30px;margin: 0 0 0 20px;}
-.color_setting {height: 45px;width: 100%;overflow: hidden;}
-.color_setting input[type="button"]{width: 40px;height: 40px;text-indent: -999em;border-radius: 50%;margin:  0 5px 0 0;border:1px solid #333;}
-.ui-dialog.paint .ui-dialog-buttonpane,.ui-dialog.handWrite .ui-dialog-buttonpane{position: absolute;right: 0;top: 40px;background: none;border: none;}
+.color_setting {position: absolute; top: 30px; right: 25px; z-index: 0;}
+.color_setting input[type="button"]:focus;{outline:none;}
+
+.color_setting.toolSet-line {top:30px;}
+.color_setting.toolSet-line input[type="button"]{float: left;width: 30px;height: 200px;background: url("/images/jxb/painter-pen.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
+.color_setting.toolSet-line input.black{background-position: 0 0;}
+.color_setting.toolSet-line input.blue{background-position: -155px 0;}
+.color_setting.toolSet-line input.red{background-position: -39px 0;display:none;}
+.color_setting.toolSet-line input.green{background-position: -193px 0;display:none;}
+.color_setting.toolSet-line input.orange{background-position: -232px 0;display:none;}
+.color_setting.toolSet-line input.purple{background-position: -77px 0;display:none;}
+.color_setting.toolSet-line input.pink{background-position: -116px 0;display:none;}
+
+.color_setting.toolSet-ink {top:10px;}
+.color_setting.toolSet-ink input[type="button"]{float: left;width: 30px;height: 200px;background: url("/images/jxb/painter-ink.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
+.color_setting.toolSet-ink input.black{background-position: 0 0;}
+.color_setting.toolSet-ink input.blue{background-position: -155px 0;}
+.color_setting.toolSet-ink input.red{background-position: -39px 0;display:none;}
+.color_setting.toolSet-ink input.green{background-position: -193px 0;display:none;}
+.color_setting.toolSet-ink input.orange{background-position: -232px 0;display:none;}
+.color_setting.toolSet-ink input.purple{background-position: -77px 0;display:none;}
+.color_setting.toolSet-ink input.pink{background-position: -116px 0;display:none;}
+
+.color_setting.toolSet-big_brush {top:75px;}
+.color_setting.toolSet-big_brush input[type="button"]{float: left;width: 37px;height: 34px;margin: 0 0 0 2px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;border:none;}
+.color_setting.toolSet-big_brush input.black{background: #333;}
+.color_setting.toolSet-big_brush input.blue{background: #0000ff;}
+.color_setting.toolSet-big_brush input.red{background: #ff0000;}
+.color_setting.toolSet-big_brush input.green{background: #7cfc00;}
+.color_setting.toolSet-big_brush input.orange{background: #FF7940;}
+.color_setting.toolSet-big_brush input.purple{background: #9932cc;}
+.color_setting.toolSet-big_brush input.pink{background: #ff69b4;}
+
+.color_setting.toolSet-eraser {top:-9999em;}
+.color_setting.toolSet-eraser input{display:none;}
+
+.ui-dialog.paint .ui-dialog-buttonpane,.ui-dialog.handWrite .ui-dialog-buttonpane{float: right;;background: none;border: none;margin: 30px 10px;}
+
+.sketch_app ul.tools {position:absolute; left:0; top:55px;}
+.sketch_app ul.tools li{width: 50px;height: 47px;background: url("/images/jxb/painter-tools.png") no-repeat 0 -47px;float: left;margin-left: -1px;cursor: pointer;}
+.sketch_app ul.tools li:hover, .sketch_app ul.tools li.active{background-position: 0 0;}
+.sketch_app ul.tools li i{background: url("/images/jxb/painter-tools.png") no-repeat;width: 50px;height: 47px;display: inline-block;}
+.sketch_app ul.tools li.clear_all i{background-position: -50px 0;}
+.sketch_app ul.tools li.line i{background-position: -100px 0;}
+.sketch_app ul.tools li.ink i{background-position: -150px 0;}
+.sketch_app ul.tools li.big_brush i{background-position: -200px 0;}
+.sketch_app ul.tools li.eraser i{background-position: -250px 0;}

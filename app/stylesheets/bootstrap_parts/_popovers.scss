@@ -4,7 +4,7 @@
 // --------
 
 // Greater specificity on selection to help override default tooltip styles.
-.popover.ui-widget.ui-tooltip {
+.popover {
   text-align: left;
   z-index: $zindexPopover;
   display: none;
@@ -17,12 +17,18 @@
   font-size: 14px;
   font-weight: normal;
   line-height: 18px;
-  min-height: 90px;                 // keep arrow/carat from mixing with title
+  min-height: 40px;                 // keep arrow/carat from mixing with title
+  max-width: 120px;
   @include opacity(1);
-  min-width: 280px;
+  min-width: 100px;
   color: #333;
+  &.top   { margin-top: -10px; }
   &.left   { margin-left: 10px; }
-
+  &.bottom   { margin-top: 10px; }
+  &.right   { margin-left: -10px; }
+  &:before{
+    display: none;      
+  }
   .arrow,
   .arrow:after {
     position: absolute;
@@ -36,7 +42,7 @@
     z-index: -1;
     content: "";
   }
-  &.left .arrow {
+  &.right .arrow {
     top: 50%;
     left: -10px;
     margin-top: -10px;
@@ -44,11 +50,26 @@
     border-width: 10px 10px 10px 0;
   }
 
-  &.left .arrow:after {
+  &.right .arrow:after {
     bottom: -11px;
     left: -1px;
     border-right-color: rgba(0, 0, 0, 0.25);
     border-width: 11px 11px 11px 0;
+  }
+
+  &.left .arrow {
+    top: 50%;
+    right: -9px;
+    margin-top: -10px;
+    border-left-color: $white;
+    border-width: 10px 0 10px 10px;
+  }
+
+  &.left .arrow:after {
+    bottom: -11px;
+    right: -1px;
+    border-left-color: rgba(0, 0, 0, 0.25);
+    border-width: 11px 0 11px 11px;
   }
 
   .popover-title {
@@ -60,7 +81,7 @@
     border-radius: 5px 5px 0 0;
   }
   .popover-content {
-    padding: 14px;
+    padding: 4px;
     background-color: $white;
     border-radius: 0 0 5px 5px;
     @include background-clip(padding-box);

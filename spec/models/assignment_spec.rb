@@ -421,18 +421,22 @@ describe Assignment do
     @assignment.muted?.should eql false
   end
 
-  describe "infer_due_at" do
+  describe "infer_times" do
     it "should set to all_day" do
-      assignment_model(:due_at => "Sep 3 2008 12:00am")
+      assignment_model(:due_at => "Sep 3 2008 12:00am",
+                      :lock_at => "Sep 3 2008 12:00am",
+                      :unlock_at => "Sep 3 2008 12:00am")
       @assignment.all_day.should eql(false)
-      @assignment.infer_due_at
+      @assignment.infer_times
       @assignment.save!
       @assignment.all_day.should eql(true)
       @assignment.due_at.strftime("%H:%M").should eql("23:59")
+      @assignment.lock_at.strftime("%H:%M").should eql("23:59")
+      @assignment.unlock_at.strftime("%H:%M").should eql("00:00")
       @assignment.all_day_date.should eql(Date.parse("Sep 3 2008"))
     end
 
-    it "should not set to all_day without infer_due_at call" do
+    it "should not set to all_day without infer_times call" do
       assignment_model(:due_at => "Sep 3 2008 12:00am")
       @assignment.all_day.should eql(false)
       @assignment.due_at.strftime("%H:%M").should eql("00:00")
@@ -1381,14 +1385,6 @@ describe Assignment do
       @topic.reload
       @topic.state.should eql(:active)
     end
-
-    it "should clear the lock_at date when converted to a graded topic" do
-      assignment_model
-      @a.lock_at = 10.days.from_now
-      @a.submission_types = "discussion_topic"
-      @a.save!
-      @a.lock_at.should be_nil
-    end
   end
 
   context "broadcast policy" do
@@ -1512,11 +1508,11 @@ describe Assignment do
         @assignment.publish!
         @assignment.should be_published
         @assignment.submissions.size.should == 1
-        Assignment.need_grading_info(15, []).find_by_id(@assignment.id).should be_nil
+        Assignment.need_grading_info(15).find_by_id(@assignment.id).should be_nil
         @assignment.submit_homework(@stu1, :body => "Changed my mind!")
         @sub1.reload
         @sub1.body.should == "Changed my mind!"
-        Assignment.need_grading_info(15, []).find_by_id(@assignment.id).should_not be_nil
+        Assignment.need_grading_info(15).find_by_id(@assignment.id).should_not be_nil
       end
     end
 
@@ -1960,20 +1956,20 @@ describe Assignment do
       assignment.turnitin_settings = {
         :originality_report_visibility => 'invalid',
         :s_paper_check => '2',
-        :internet_check => '2',
-        :journal_check => '2',
-        :exclude_biblio => '2',
-        :exclude_quoted => '2',
+        :internet_check => 1,
+        :journal_check => 0,
+        :exclude_biblio => true,
+        :exclude_quoted => false,
         :exclude_type => '3',
         :exclude_value => 'asdf',
         :bogus => 'haha'
       }
       assignment.turnitin_settings.should eql({
         :originality_report_visibility => 'immediate',
-        :s_paper_check => '0',
-        :internet_check => '0',
+        :s_paper_check => '1',
+        :internet_check => '1',
         :journal_check => '0',
-        :exclude_biblio => '0',
+        :exclude_biblio => '1',
         :exclude_quoted => '0',
         :exclude_type => '0',
         :exclude_value => ''
@@ -2135,10 +2131,6 @@ describe Assignment do
 
       it "should be frozen for nil user" do
         @asmnt.frozen_for_user?(nil).should == true
-      end
-
-      it "should be frozen for teacher" do
-        @asmnt.frozen_for_user?(@teacher).should == true
       end
 
       it "should not be frozen for admin" do
@@ -2434,6 +2426,46 @@ describe Assignment do
           override_student.quiz.should == assignment.quiz
         end
       end
+    end
+  end
+
+  describe "recompute_submission_lateness" do
+    it "is called in a delayed job when due_at changes" do
+      assignment = assignment_model
+      assignment.due_at = 1.week.from_now
+      assignment.expects(:send_later_if_production).with(:recompute_submission_lateness)
+      assignment.save
+    end
+
+    it "is not called when due_at doesn't change" do
+      assignment = assignment_model
+      assignment.expects(:send_later_if_production).with(:recompute_submission_lateness).never
+      assignment.save
+    end
+  end
+
+  describe "#title_slug" do
+    before :each do
+      @assignment = assignment_model
+    end
+
+    it "should hard truncate at 30 characters" do
+      @assignment.title = "a" * 31
+      @assignment.title.length.should == 31
+      @assignment.title_slug.length.should == 30
+      @assignment.title.should =~ /^#{@assignment.title_slug}/
+    end
+
+    it "should not change the title" do
+      title = "a" * 31
+      @assignment.title = title
+      @assignment.title_slug.should_not == @assignment.title
+      @assignment.title.should == title
+    end
+
+    it "should leave short titles alone" do
+      @assignment.title = 'short title'
+      @assignment.title_slug.should == @assignment.title
     end
   end
 end

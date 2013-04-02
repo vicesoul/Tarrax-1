@@ -1,0 +1,21 @@
+<div id='simple_captcha' class='control-group'>
+  <style type="text/css">
+    #simple_captcha img {vertical-align: bottom;}
+  </style>
+
+  <div class='control-label'>
+    <label for="captcha">
+      <%= @simple_captcha_options[:label] %>
+    </label>
+  </div>
+
+  <div class="controls">
+    <%= @simple_captcha_options[:field] %>
+
+    <span>
+      <% link_to render_captcha_path, :title => t('#simple_captcha.change_code', 'Click to change code'), :class => 'captcha_change_code' do %>
+        <%=raw @simple_captcha_options[:image] %>
+      <% end %>
+    </span>
+  </div>
+</div>

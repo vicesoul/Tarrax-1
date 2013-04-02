@@ -4,7 +4,7 @@ require [
   'quiz_inputs'
   'quiz_history'
   # 2012-11-27 rupert add comments.js
-  'comments'
+  # 'comments'
   # end
 ], ($, createQuizArrows, inputMethods) ->
   $ ->

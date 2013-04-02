@@ -3,9 +3,99 @@
 $backgroundColor: #dfe9f0
 $borderColor: #AAA
 $questionHeaderBackground: #F5F5F5
+$blankHeight: 50px
 
-#content
-  background-color: $backgroundColor
+#quiz_show
+  .alert
+    padding-right: 14px
+    .actions
+      text-align: right
+      line-height: 36px
+    .publish_quiz_button
+      width: 90px
+    #preview_quiz_button
+      font-weight: normal
+      color: #333333
+    .unpublished_quiz_warning
+      display: block
+
+
+  .admin-links
+    text-align: left
+    margin-left: 10px
+    .al-options
+      min-width: 125px
+
+  .description.teacher-version
+    padding: 15px
+    overflow-y: auto
+    height: 200px
+    border: 1px solid #AAA
+    resize: vertical
+
+  .lock_explanation
+    text-align: left
+    margin-top: 20px
+
+  .take_quiz_button
+    text-align: center
+    margin-top: 20px
+    font-size: 1.3em
+
+  #quiz_details
+    display: none
+    clear: both
+
+    td
+      vertical-align: top
+
+  .control-group
+    margin-bottom: 0px
+
+    .control-label
+      font-weight: bold
+      width: 33.3%
+
+    .controls 
+      margin-left: 35%
+      .value
+        display: block
+        padding-top: 5px
+
+  .assignment_dates
+    border-collapse: collapse
+    width: 100%
+    margin-bottom: 1em
+
+    tr
+      th
+        font-weight: bold
+        padding: 0.25em 0.5em
+
+      td
+        border-top: 1px solid #BBB
+        border-bottom: 1px solid #BBB
+        padding: 0.25em 0.5em
+
+  ul#quiz_student_details
+    list-style: none
+    padding: 0
+    border-top: 1px solid #BBB
+    border-bottom: 1px solid #BBB
+    width: 100%
+    font-size: 1.1em
+    padding: 0.5em 0.25em
+    margin: 0 0 1em
+
+    li
+      display: inline-block
+
+      .label
+        font-weight: bold
+        margin-right: 2px
+
+      .value
+        padding-right: 2.5em
 
 
 #wrapper-container
@@ -28,6 +118,19 @@ div#content
   border: 1px solid #fff
   padding: 16px
 .quiz-submission
+  .fill_in_blanks_subjective_question
+    .answers
+      display: none
+    .question_text
+      div.blank
+        display: inline-block
+        padding: 5px 10px
+        border-bottom: 1px solid #000!important
+        position: relative
+        p
+          margin: 0
+        img
+          border: none!important
   .question-not-graded-text
     display: none
 
@@ -60,6 +163,103 @@ div#content
     .previous-question:before
       content: '◀'
       left: 5px
+  .text
+    :position relative
+  .paintQuestion
+    .container
+      :border none
+      :position absolute
+      :top 120px
+      :left 20px
+      :z-index 9
+  .paint_question
+    .answers
+      display: none
+    .question_text
+      margin-top: 115px
+      background: #fff
+  .question_text
+    display: block
+  .fill_in_blanks_subjective_question
+    .mceEditor
+      outline: none
+      .mceIframeContainer
+        border-top: none
+        border-bottom: 1px solid #666
+        iframe
+          height: $blankHeight!important
+      >table
+        position: relative
+        width: 260px!important
+        height: $blankHeight!important
+        display: inline-block
+        tr.mceLast td
+          border: none
+      *:focus
+        outline: none
+      .mceToolbar
+        height: 10px
+        border: none
+        background: none
+        position: relative
+        right: -50px
+        .mceButton, td > div, td > span
+          display: none
+        .mce_instructure_drawing
+          position: relative
+          display: block!important
+          opacity: 0
+      &:hover
+        .mce_instructure_drawing
+          opacity: 1
+          
+      .mceStatusbar
+        display: none
+  .connecting_lead_question
+    position: relative
+    .answers
+      position: relative
+      z-index: 1
+      .connecting_lead
+        padding: 3px
+        border: 1px solid rgba( 0, 0, 0, 0)
+        cursor: pointer
+        float: left
+        .popover
+          .popover-title
+            display: none
+        input
+          display: none
+    svg
+      position: absolute!important
+      z-index: 0
+      h5
+        margin: 0
+      button
+        margin: 0 3px 0 0
+        padding: 0
+        
+.connecting_lead_question
+  .word_right, .connecting_lead_right, .answer_match_right
+    :display none
+.connecting_lead_question.threeLines
+  .word_right, .connecting_lead_right, .answer_match_right
+    :display block
+    
+.tool-tip
+  position: absolute
+  left: 0
+  top: 0
+  z-index: 3
+  font-size: 10px
+  border: 1px #ccc solid
+  background: #fff
+  border-radius: 4px
+  padding: 3px
+
+#submit_quiz_form, .question_form
+  .button-container
+    text-align: right
 
 #sort_questions
   :max-height 250px
@@ -271,6 +471,44 @@ div#content
       :display none
     .answer_comment,.question_comment_text
       white-space: pre-wrap
+  .connecting_lead_question.question
+    .btn-group
+      display: block!important
+  .connecting_on_pic_question.question
+    .connecting_on_pic_factory
+      display: block!important
+
+
+.incorrect
+  .question_text
+    display: none
+
+.question.paint_question
+  .answers
+    .quiz_response_text
+      position: relative
+      .paint_question
+        padding: 1.5em 0
+      img
+        border: none!important
+        padding: 0!important
+      img.paint-image
+        position: absolute
+        z-index: 9
+        left:  0
+        top:  23px
+
+.question.connecting_lead_question
+  .answers
+    opacity: 0
+    .answer
+      margin: 0!important
+      padding: 0!important
+      .answer_match
+        padding: 0
+    svg
+      position: absolute!important
+
 
 .question
   :border 1px solid $borderColor
@@ -451,7 +689,9 @@ div#content
   &.marked,&.marked:hover
     .flag_question
       :background-position -48px -17px
-  .no-touch &.hover
+
+  .no-touch &.hover,
+  .touch    &
     .move
       :background-color #fff
       .move_icon
@@ -480,23 +720,18 @@ div#content
   .answer_select
     :vertical-align top
     :padding-top 0.5em
-    
     .answer_weight
       :display none
-
   .answer_match
     :padding 0 0 10px 0
-
     .answer_match_left, .answer_match_left_html
       :float left
       :width 45%
       :font-weight bold
       :overflow auto
-
     .answer_match_middle
       :float left
       :width 10%
-
     .answer_match_right
       float: left
       width: 45%
@@ -506,6 +741,18 @@ div#content
           padding-left: 5px
           .answer_text
             font-weight: bold
+
+  .connecting_lead_answer.answer_match
+    overflow: hidden
+    > div
+      float: left
+    .answer_match_left
+      :width 30%
+    .answer_match_center
+      :width 30%
+      float: left
+    .answer_match_right
+      :width 30%
 
 .form_answers
   .answer
@@ -612,15 +859,20 @@ form.question_form
     overflow: hidden
   .multi_answer_sets
     display: none
-  .fill_in_multiple_blanks_question,.multiple_dropdowns_question
+  .fill_in_multiple_blanks_question, .multiple_dropdowns_question, .drag_and_drop_question
     .multi_answer_sets
       display: block
     .multi_answer_sets_subheader
       font-size: 0.8em
+  .drag_and_drop_question
+    .add_answer, .delete_answer_link
+      display: none
   .explanation
     font-size: 0.8em
     margin-bottom: 5px
   .form_answers
+    .factory
+      display: block
     .answer
       :border 1px solid #fff
       :-moz-border-radius 5px
@@ -666,6 +918,104 @@ form.question_form
         :border-color #4a4
         .comment_top 
           :background-image url(/images/comment_top_correct.png)
+  .connecting_on_pic_question
+    .answer
+      display: none
+      
+.connecting_on_pic_question
+  .connecting_on_pic_position, .connecting_on_pic_image, .connecting_lead, .form_answers
+    display: none
+.dragging
+  list-style: none
+  li
+    display: inline-block
+.blueText
+  line-height: 50px
+  .receive
+    display: inline
+    border-bottom: 1px solid #999
+    padding: 15px 40px
+.factory
+  display: block
+  .menu:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
+  .menu
+    li
+      margin: 10px
+      float: left
+      list-style: none
+    .popover
+      display: none!important
+  span
+    display: inline-block
+    width: 37px
+    height:  37px
+    background: url("/images/jxb/balls.png") no-repeat
+    b
+      display: none
+      cursor: pointer
+      position: absolute
+      right: -8px
+      top: -8px
+      color: #999
+      width: 16px
+      height: 16px
+    .popover
+      display: block
+      width: 100px
+      min-height: 30px
+      position: absolute
+      left: 0
+      top: 0
+      margin: -10px 0 0 50px
+      background: rgba(255,255,255,0.5)
+      textarea, p
+        resize: none
+        width: 80px
+        height: 35px
+        border: none
+        box-shadow: none
+  .grey
+    background-position: 0 0
+    .popover
+      right: 0
+      left: auto
+      margin: -10px 50px 0 0
+  .yellow
+    background-position: -63px 0
+  .menu
+    position: relative
+    z-index: 1
+  .main
+    position: relative
+    height: 500px
+    border: 2px dotted #999
+    svg
+      position: absolute!important
+      left: 0
+      top: 0
+      z-index: 1
+    .bg
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 500px
+      z-index: 0
+    span
+      z-index: 2
+      position: absolute
+    span.active
+      opacity: 0.5
+    span:hover
+      b
+        display: block
+
   .question_comment
     :font-size 0.8em
     :position relative
@@ -753,7 +1103,7 @@ ul#quiz_versions
   .quiz_version
     &.selected
       :font-weight bold
-      
+
 #quiz_options_form
   td
     vertical-align: top
@@ -766,6 +1116,58 @@ ul#quiz_versions
       margin-top: 0.35em
       float: right
       font-size: 0.8em
+
+#quiz_edit_wrapper
+  #quiz_title
+    margin-left: 0
+    margin-top: 5px
+    padding: 0.1em 0.1em 0.1em 0.3em
+  padding: 1em
+  background-color: #ffffff
+  #student_submissions_warning,
+  #unpublished_changes_message
+    padding: 12px
+    border-width: 1px
+  #quiz_display_points_possible
+    line-height: 40px
+    font-size: 1.2em
+    text-align: right
+  .admin-links
+    line-height: 40px
+    margin-left: 10px
+    .al-options
+      min-width: 125px
+  #quiz_tabs
+    margin-top: 0.7em
+    #questions_tab
+      background: $backgroundColor
+      #show_question_details_wrap
+        width: 80%
+        min-width: 415px
+        margin: 1em auto
+    #quiz_options_form
+      margin: 0 auto
+      td
+        vertical-align: top
+      label.checkbox
+        margin-bottom: 10px
+      .inline
+        display: inline-block
+        &.checkbox
+          margin-bottom: 10px
+        &.nowrap
+          white-space: nowrap
+      #keep_score_select,
+      #quiz_access_code,
+      #quiz_ip_filter,
+      #quiz_allowed_attempts
+        margin-left: 10px
+      #quiz_allowed_attempts
+        width: 20px
+        margin-bottom: 5px
+      #keep_score_select
+        width: 100px
+
 .options_header
   font-weight: bold
   font-size: 1.2em
@@ -1164,10 +1566,13 @@ ul#quiz_versions
 
 .answers_wrapper
   position: relative
+.answers_wrapper_correct
+  position: relative
 
 .question, .answer
   img
     max-width: 100%
+    max-height: 100%
 
 #questions
   position: relative
@@ -1214,7 +1619,7 @@ ul#quiz_versions
 
 .form-actions
   border: 1px solid #999
-  margin: 18px -1px -1px
+  margin: 18px 0 -1px
   @include background-image(linear-gradient(#f3f3f3, #e3e3e3))
 
 .hide_solution_text
@@ -1222,3 +1627,8 @@ ul#quiz_versions
 
 .solution
   padding: 14px
+.quiz_results_list
+  li
+    padding: 4px 12px !important
+  li.student
+    padding: 4px 12px !important

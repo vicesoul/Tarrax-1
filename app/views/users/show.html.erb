@@ -37,7 +37,7 @@
 
 <div id="user-info-fieldsets">
   <%= render :partial => 'users/name' %>
-  <%= render :partial => 'users/logins' %>
+  <%= render :partial => 'users/logins' if @domain_root_account == Account.default %>
   <fieldset id="courses" class="">
     <legend><%= t('enrollments', 'Enrollments') %></legend>
     <% num_enrollments = 0 %>

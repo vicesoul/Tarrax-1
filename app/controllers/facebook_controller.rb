@@ -58,7 +58,7 @@ class FacebookController < ApplicationController
       redirect_to facebook_url
       return
     end
-    flash[:notice] = t :authorization_success, "Authorization successful!  Canvas and Facebook are now friends." if params[:just_authorized]
+    flash[:notice] = t :authorization_success, "Authorization successful!  Jiaoxuebang and Facebook are now friends." if params[:just_authorized]
     @messages = []
     if @user
       @messages = @user.messages.to_facebook.to_a
@@ -103,12 +103,13 @@ class FacebookController < ApplicationController
 
   def get_facebook_user
     return false if facebook_disabled?
+    @embeddable = true
 
     if params[:signed_request]
       data, sig = Facebook.parse_signed_request(params[:signed_request])
       if data && sig
         if @facebook_user_id = data['user_id']
-          Shard.with_each_shard do
+          Shard.with_each_shard(UserService.associated_shards('facebook', @facebook_user_id)) do
             @service = UserService.find_by_service_and_service_user_id('facebook', @facebook_user_id)
             break if @service
           end
@@ -129,7 +130,7 @@ class FacebookController < ApplicationController
       @service = @user.user_services.find_by_service('facebook')
     elsif session[:facebook_user_id]
       @facebook_user_id = session[:facebook_user_id]
-      Shard.with_each_shard do
+      Shard.with_each_shard(UserService.associated_shards('facebook', @facebook_user_id)) do
         @service = UserService.find_by_service_and_service_user_id('facebook', @facebook_user_id)
         break if @service
       end

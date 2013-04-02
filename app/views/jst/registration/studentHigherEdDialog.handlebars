@@ -12,24 +12,22 @@
         <input type="text" id="student_higher_ed_email" name="pseudonym[unique_id]">
       </div>
     </div>
-    <div class="control-group">
-      <label class="control-label" for="student_higher_ed_birthdate">{{#t "labels.birthdate"}}Birth Date{{/t}}</label>
-      <div class="controls">
-        {{dateSelect "user[birthdate]" id="student_higher_ed_birthdate" type="birthdate" class="select-birthdate"}}
-      </div>
+
+    <div class="control-group simple_captcha">
     </div>
+
     <div class="control-group">
       <div class="controls">
         <label class="checkbox">
           <input type="checkbox" name="user[terms_of_use]" value="1">
-          {{#t "agree_to_terms"}}You agree to the <a href="{{terms_url}}" target="_new">terms of use</a>.{{/t}}
-        </label>
+          {{#t "agree_to_terms_and_pp"}}You agree to the <a href="{{terms_url}}" target="_blank">terms of use</a> and the <a href="{{privacy_url}}" target="_blank">privacy policy</a>.{{/t}}
+         </label>
       </div>
     </div>
     <div class="control-group">
       <div class="controls">
         <input type="hidden" name="user[initial_enrollment_type]" value="student">
-        <button class="btn btn-primary" type="submit">{{#t "buttons.start_learning"}}Start Learning{{/t}}</button>
+        <button class="btn-blue" type="submit">{{#t "buttons.start_learning"}}Start Learning{{/t}}</button>
       </div>
     </div>
   </form>

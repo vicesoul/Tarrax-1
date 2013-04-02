@@ -48,6 +48,7 @@ class Group < ActiveRecord::Base
   has_many :active_folders, :class_name => 'Folder', :as => :context, :conditions => ['folders.workflow_state != ?', 'deleted'], :order => 'folders.name'
   has_many :active_folders_with_sub_folders, :class_name => 'Folder', :as => :context, :include => [:active_sub_folders], :conditions => ['folders.workflow_state != ?', 'deleted'], :order => 'folders.name'
   has_many :active_folders_detailed, :class_name => 'Folder', :as => :context, :include => [:active_sub_folders, :active_file_attachments], :conditions => ['folders.workflow_state != ?', 'deleted'], :order => 'folders.name'
+  has_many :collaborators
   has_many :external_feeds, :as => :context, :dependent => :destroy
   has_many :messages, :as => :context, :dependent => :destroy
   belongs_to :wiki
@@ -145,6 +146,14 @@ class Group < ActiveRecord::Base
   def self.find_all_by_context_code(codes)
     ids = codes.map{|c| c.match(/\Agroup_(\d+)\z/)[1] rescue nil }.compact
     Group.find(ids)
+  end
+
+  def self.not_in_group_sql_fragment(groups)
+    "AND NOT EXISTS (SELECT * FROM group_memberships gm
+                      WHERE gm.user_id = u.id AND
+                      gm.workflow_state != 'deleted' AND
+                      gm.group_id IN (#{groups.map(&:id).join ','}))" unless groups.empty?
+
   end
 
   workflow do
@@ -310,6 +319,7 @@ class Group < ActiveRecord::Base
     can :read and 
     can :read_roster and
     can :send_messages and
+    can :send_messages_all and
     can :follow
 
     # if I am a member of this group and I can moderate_forum in the group's context
@@ -378,6 +388,12 @@ class Group < ActiveRecord::Base
     return false
   end
   private :can_participate?
+
+  # courses lock this down a bit, but in a group, the fact that you are a
+  # member is good enough
+  def user_can_manage_own_discussion_posts?(user)
+    true
+  end
 
   def file_structure_for(user)
     User.file_structure_for(self, user)
@@ -518,5 +534,23 @@ class Group < ActiveRecord::Base
 
   def associated_shards
     [Shard.default]
+  end
+
+  class Bookmarker
+    def self.bookmark_for(group)
+      group.id
+    end
+
+    def self.validate(bookmark)
+      bookmark.is_a?(Fixnum)
+    end
+
+    def self.restrict_scope(scope, pager)
+      if bookmark = pager.current_bookmark
+        comparison = (pager.include_bookmark ? 'groups.id >= ?' : 'groups.id > ?')
+        scope = scope.scoped(:conditions => [comparison, bookmark])
+      end
+      scope.scoped(:order => "groups.id ASC")
+    end
   end
 end

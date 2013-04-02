@@ -9,6 +9,7 @@
  */
 
 (function() {
+  define(['tinymce/jscripts/tiny_mce/tiny_mce_src'], function( tinymce ){
 	var each = tinymce.each,
 		defs = {
 			paste_auto_cleanup_on_paste : true,
@@ -882,4 +883,5 @@
 
 	// Register plugin
 	tinymce.PluginManager.add("paste", tinymce.plugins.PastePlugin);
-})();
+  })
+}).call(this);

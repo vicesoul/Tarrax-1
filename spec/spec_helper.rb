@@ -25,10 +25,7 @@ require 'webrat'
 require 'mocha_standalone'
 require File.dirname(__FILE__) + '/mocha_extensions'
 
-Dir.glob("#{File.dirname(__FILE__).gsub(/\\/, "/")}/factories/*.rb").each { |file| require file }
-
-# deprecated
-ALL_MODELS = ActiveRecord::Base.all_models
+Dir.glob("#{File.dirname(__FILE__).gsub(/\\/, "/")}/factories/**/*.rb").each { |file| require file }
 
 # rspec aliases :describe to :context in a way that it's pretty much defined
 # globally on every object. :context is already heavily used in our application,
@@ -136,6 +133,7 @@ Spec::Runner.configure do |config|
     Delayed::Job.redis.flushdb if Delayed::Job == Delayed::Backend::Redis::Job
     truncate_all_cassandra_tables
     Rails::logger.try(:info, "Running #{self.class.description} #{@method_name}")
+    Attachment.domain_namespace = nil
   end
 
   # flush redis before the first spec, and before each spec that comes after
@@ -155,8 +153,6 @@ Spec::Runner.configure do |config|
     end
     Canvas.redis_used = false
   end
-
-  def use_remote_services; ENV['ACTUALLY_TALK_TO_REMOTE_SERVICES'].to_i > 0; end
 
   def account_with_cas(opts={})
     @account = opts[:account]
@@ -181,15 +177,18 @@ Spec::Runner.configure do |config|
   end
 
   def course(opts={})
-    @course = Course.create!(:name => opts[:course_name], :account => opts[:account])
-    @course.offer! if opts[:active_course] || opts[:active_all]
-    if opts[:active_all]
-      u = User.create!
-      u.register!
-      e = @course.enroll_teacher(u)
-      e.workflow_state = 'active'
-      e.save!
-      @teacher = u
+    account = opts[:account] || Account.default
+    account.shard.activate do
+      @course = Course.create!(:name => opts[:course_name], :account => account)
+      @course.offer! if opts[:active_course] || opts[:active_all]
+      if opts[:active_all]
+        u = User.create!
+        u.register!
+        e = @course.enroll_teacher(u)
+        e.workflow_state = 'active'
+        e.save!
+        @teacher = u
+      end
     end
     @course
   end
@@ -206,9 +205,13 @@ Spec::Runner.configure do |config|
   end
 
   def account_admin_user(opts={:active_user => true})
-    @user = opts[:user] || user(opts)
+    account = opts[:account] || Account.default
+    @user = opts[:user] || account.shard.activate{ user(opts) }
     @admin = @user
-    @user.account_users.create(:account => opts[:account] || Account.default, :membership_type => opts[:membership_type] || 'AccountAdmin')
+    #account_user = @user.account_users.build(:account => account, :membership_type => opts[:membership_type] || 'AccountAdmin')
+    account_user = @user.account_users.build(:account => account, :role => 'other', :membership_type => opts[:membership_type] || 'AccountAdmin')
+    account_user.shard = account.shard
+    account_user.save!
     @user
   end
 
@@ -220,7 +223,7 @@ Spec::Runner.configure do |config|
   end
 
   def user(opts={})
-    @user = User.create!(:name => opts[:name])
+    @user = User.create!(opts.slice(:name, :short_name))
     @user.register! if opts[:active_user] || opts[:active_all]
     @user.update_attribute :workflow_state, opts[:user_state] if opts[:user_state]
     @user
@@ -288,7 +291,7 @@ Spec::Runner.configure do |config|
 
   def course_with_user(enrollment_type, opts={})
     @course = opts[:course] || course(opts)
-    @user = opts[:user] || user(opts)
+    @user = opts[:user] || @course.shard.activate{ user(opts) }
     @enrollment = @course.enroll_user(@user, enrollment_type, opts)
     @enrollment.course = @course # set the reverse association
     if opts[:active_enrollment] || opts[:active_all]
@@ -351,6 +354,12 @@ Spec::Runner.configure do |config|
     user_session(@user)
   end
 
+  def course_with_admin_logged_in(opts={})
+    course_with_teacher(opts)
+    site_admin_user :user => @user
+    user_session(@user)
+  end
+
   def course_with_observer(opts={})
     course_with_user('ObserverEnrollment', opts)
     @observer = @user
@@ -398,6 +407,33 @@ Spec::Runner.configure do |config|
     user_session(@user)
   end
 
+  def custom_role(base, name, opts={})
+    account = opts[:account] || @account
+    role = account.roles.find_by_name(name)
+    role ||= account.roles.create :name => name
+    role.base_role_type = base
+    role.save!
+    role
+  end
+  def custom_student_role(name, opts={})
+    custom_role('StudentEnrollment', name, opts)
+  end
+  def custom_teacher_role(name, opts={})
+    custom_role('TeacherEnrollment', name, opts)
+  end
+  def custom_ta_role(name, opts={})
+    custom_role('TaEnrollment', name, opts)
+  end
+  def custom_designer_role(name, opts={})
+    custom_role('DesignerEnrollment', name, opts)
+  end
+  def custom_observer_role(name, opts={})
+    custom_role('ObserverEnrollment', name, opts)
+  end
+  def custom_account_role(name, opts={})
+    custom_role(AccountUser::BASE_ROLE_NAME, name, opts)
+  end
+
   def user_session(user, pseudonym=nil)
     unless pseudonym
       pseudonym = stub(:record => user, :user_id => user.id, :user => user, :login_count => 1)
@@ -417,7 +453,8 @@ Spec::Runner.configure do |config|
                       "pseudonym_session[unique_id]" => username,
                       "pseudonym_session[password]" => password
     assert_response :success
-    path.should eql("/?login_success=1")
+    #path.should eql("/?login_success=1")
+    path.should eql("/dashboard?login_success=1")
   end
 
   def assignment_quiz(questions, opts={})
@@ -472,7 +509,7 @@ Spec::Runner.configure do |config|
 
     @topic = course.discussion_topics.build(:title => "topic")
     @assignment = course.assignments.build(:submission_types => 'discussion_topic', :title => @topic.title, :group_category => @group1.group_category)
-    @assignment.infer_due_at
+    @assignment.infer_times
     @assignment.saved_by = :discussion_topic
     @topic.assignment = @assignment
     @topic.save!
@@ -589,7 +626,7 @@ Spec::Runner.configure do |config|
 
   def conversation(*users)
     options = users.last.is_a?(Hash) ? users.pop : {}
-    @conversation = (options.delete(:sender) || @me || users.shift).initiate_conversation(users.map(&:id))
+    @conversation = (options.delete(:sender) || @me || users.shift).initiate_conversation(users)
     @message = @conversation.add_message('test')
     @conversation.update_attributes(options)
     @conversation.reload
@@ -836,6 +873,16 @@ Spec::Runner.configure do |config|
     str
   end
 
+  # from minitest, MIT licensed
+  def capture_io
+    orig_stdout, orig_stderr = $stdout, $stderr
+    $stdout, $stderr = StringIO.new, StringIO.new
+    yield
+    return $stdout.string, $stderr.string
+  ensure
+    $stdout, $stderr = orig_stdout, orig_stderr
+  end
+
   def verify_post_matches(post_lines, expected_post_lines)
     # first lines should match
     post_lines[0].should == expected_post_lines[0]
@@ -851,6 +898,21 @@ Spec::Runner.configure do |config|
     # now check payload
     post_lines[post_lines.index(""),-1].should ==
       expected_post_lines[expected_post_lines.index(""),-1]
+  end
+
+  def compare_json(actual, expected)
+    if actual.is_a?(Hash)
+      actual.each do |k,v|
+        expected_v = expected[k]
+        compare_json(v, expected_v)
+      end
+    elsif actual.is_a?(Array)
+      actual.zip(expected).each do |a,e|
+        compare_json(a,e)
+      end
+    else
+      actual.to_json.should == expected.to_json
+    end
   end
 
   class FakeHttpResponse

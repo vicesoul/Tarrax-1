@@ -25,10 +25,12 @@ require [
   # 'compiled/behaviors/repin-item'
   # 'compiled/behaviors/follow'
   'compiled/behaviors/tooltip'
+  'compiled/behaviors/instructure_inline_media_comment'
+
   # other stuff several bundles use
   'media_comments'
   # add mwEmbedLoader 2012-11-01 rupert
-  'mwEmbedLoader'
+  # 'mwEmbedLoader'
   'order'
   'jqueryui/effects/drop'
   'jqueryui/progressbar'
@@ -41,6 +43,7 @@ require [
   'jquery.fancyplaceholder'
   'jqueryui/autocomplete'
   'link_enrollment'
+  'media_comments'
   'vendor/jquery.pageless'
   'vendor/jquery.scrollTo'
   'compiled/badge_counts'
@@ -48,14 +51,19 @@ require [
   courseList.init()
   helpDialog.initTriggers()
 
+  # Make the font-based icons work in IE8,
+  # it needs to be told to redraw pseudo elements on page load
+  if INST.browser.ie8
+    $('<style>:before,:after{content:"" !important}</style>').appendTo('head').delay(1).remove()
+
   $('#skip_navigation_link').on 'click', ->
     $($(this).attr('href')).attr('tabindex', -1).focus()
 
   # TODO: remove this code once people have had time to update their logo-related
   # custom css. see related code in app/stylesheets/base/_#header.sass.
-  $logo = $('#header-logo')
-  if $logo.length > 0 and $logo.css('background-image').match(/\/canvas\/header_canvas_logo\.png/)
-    $logo.addClass('original')
+  # $logo = $('#header-logo')
+#   if $logo.length > 0 and $logo.css('background-image').match(/\/canvas\/header_canvas_logo\.png/)
+#     $logo.addClass('original')
 
   ##
   # Backbone routes
