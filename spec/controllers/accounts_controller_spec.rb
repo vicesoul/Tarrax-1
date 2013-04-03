@@ -20,8 +20,8 @@ require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe AccountsController do
   def account_with_admin_logged_in(opts = {})
-    @account = Account.default
-    account_admin_user
+    @account = opts[:account] || Account.default
+    account_admin_user :account => @account
     user_session(@admin)
   end
 
@@ -88,9 +88,26 @@ describe AccountsController do
       json_parse(response.body).should == {}
     end
 
-    it "should only remove users from the current account if the user exists in multiple accounts" do
+    it "should not remove users from the default account if the user exists in multiple accounts" do
       @other_account = account_model
       account_with_admin_logged_in
+      user_with_pseudonym :account => @account, :username => "nobody@example.com"
+      pseudonym @user, :account => @other_account, :username => "nobody2@example.com"
+      @user.workflow_state.should == "pre_registered"
+      @user.associated_accounts.map(&:id).include?(@account.id).should be_true
+      @user.associated_accounts.map(&:id).include?(@other_account.id).should be_true
+      post 'remove_user', :account_id => @account.id, :user_id => @user.id
+      flash[:notice].should =~ /successfully deleted/
+      response.should redirect_to(account_users_url(@account))
+      @user.reload
+      @user.workflow_state.should == "pre_registered"
+      @user.associated_accounts.map(&:id).include?(@account.id).should be_true # default account should not be delete
+      @user.associated_accounts.map(&:id).include?(@other_account.id).should be_true
+    end
+
+    it "should only remove users from the account other than Account.default if the user exists in multiple accounts" do
+      @other_account = Account.default
+      account_with_admin_logged_in :account => account_model
       user_with_pseudonym :account => @account, :username => "nobody@example.com"
       pseudonym @user, :account => @other_account, :username => "nobody2@example.com"
       @user.workflow_state.should == "pre_registered"

@@ -2,6 +2,7 @@ require [
   'jquery',
   'jqueryui/sortable',
   'jqueryui/dialog',
+  'jqueryui/effects/highlight'
   'compiled/tinymce',
   'tinymce.editor_box',
   'jquery.form'
@@ -9,7 +10,6 @@ require [
   
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
-    #$("#widget_body").val $obj.find(".data-widget-body").html()
     $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
 
   synToWidget = ($obj)->
@@ -80,6 +80,28 @@ require [
       width: 800
       height: 600
     )
+    
+    $chooseCoursesDialog = $("#choose_courses_dialog").dialog(
+      autoOpen: false
+      width: 400
+      height: 300
+    )
+
+    $(".account_name_checkbox").click ->
+      $allBox = $(this).next(".all_sub_checkboxs").find("input[type='checkbox']")
+      if $(this).is ":checked"
+        $allBox.attr("checked", "checked")
+      else
+        $allBox.removeAttr("checked")
+
+    $(".save_choose_courses_link").click ->
+      $("form.edit_jxb_page #theme_options input.pending").remove()
+      $allBox = $(".all_sub_checkboxs input[type='checkbox']:checked").addClass("pending")
+      $("form.edit_jxb_page #theme_options").append $allBox.clone()
+      $chooseCoursesDialog.dialog "close"
+
+    $("#link_to_choose_courses_dialog").click ->
+      $("#choose_courses_dialog").dialog "open"
 
     $(".save_widget_button").click ->
       synToWidget( $('.editable') )
@@ -111,10 +133,18 @@ require [
       $.ajax(
         url: $("#widget_url").val()
         data: { name:name }
+        beforeSend: () ->
+          $("#add_widget").hide()
+          $(".add_widget_loading_icon").show()
       ).success (data)->
         $data = $(data).addClass("new_widget_ajax")
         $container.append($data)
         makeWidgetsDeletable()
+        $('body').animate({
+          scrollTop: $data.offset().top
+        }, 500, -> $data.effect('highlight', {}, 500) )
+        $(".add_widget_loading_icon").hide()
+        $("#add_widget").show()
 
     $("form.edit_jxb_page").submit ->
       resetPosition()
