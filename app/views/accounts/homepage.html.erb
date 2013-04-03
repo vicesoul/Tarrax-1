@@ -26,7 +26,7 @@
         <%= before_label(:name, 'Theme name') %>
         <%= f.select :theme, Jxb::Theme.themes %>
         <%= before_label(:add_new_widget, 'New widget') %>
-        <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %>
+        <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
         <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %>
       </div><!-- End of div#theme_options -->
       <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
@@ -59,7 +59,7 @@
       <%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %>
       <ul class="all_sub_checkboxs">
       <% courses.each do |course| %>
-        <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.include?(course.id.to_s) %> <%= course.name %></li>
+        <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.include?(course.id.to_s), :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
       <% end %>
       </ul>
     </li>

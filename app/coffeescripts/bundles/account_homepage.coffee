@@ -80,7 +80,7 @@ require [
       height: 600
     )
     
-    $("#choose_courses_dialog").dialog(
+    $chooseCoursesDialog = $("#choose_courses_dialog").dialog(
       autoOpen: false
       width: 400
       height: 300
@@ -94,7 +94,10 @@ require [
         $allBox.removeAttr("checked")
 
     $(".save_choose_courses_link").click ->
-
+      $("form.edit_jxb_page #theme_options input.pending").remove()
+      $allBox = $(".all_sub_checkboxs input[type='checkbox']:checked").addClass("pending")
+      $("form.edit_jxb_page #theme_options").append $allBox.clone()
+      $chooseCoursesDialog.dialog "close"
 
     $("#link_to_choose_courses_dialog").click ->
       $("#choose_courses_dialog").dialog "open"
@@ -129,10 +132,15 @@ require [
       $.ajax(
         url: $("#widget_url").val()
         data: { name:name }
+        beforeSend: () ->
+          $("#add_widget").hide()
+          $(".add_widget_loading_icon").show()
       ).success (data)->
         $data = $(data).addClass("new_widget_ajax")
         $container.append($data)
         makeWidgetsDeletable()
+        $(".add_widget_loading_icon").hide()
+        $("#add_widget").show()
 
     $("form.edit_jxb_page").submit ->
       resetPosition()
