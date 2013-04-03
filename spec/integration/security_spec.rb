@@ -41,7 +41,8 @@ describe "security" do
                                   "pseudonym_session[remember_me]" => "1",
                                   "redirect_to_ssl" => "1"
       assert_response :success
-      path.should eql("/?login_success=1")
+      #path.should eql("/?login_success=1")
+      path.should eql("/dashboard?login_success=1")
       new_cookie = cookies['_normandy_session']
       new_cookie.should be_present
       cookie.should_not eql(new_cookie)
@@ -79,7 +80,9 @@ describe "security" do
       RoleOverride.send(:instance_variable_get, '@cached_permissions').should_not be_empty
       RoleOverride.send(:class_variable_get, '@@role_override_chain').should_not be_empty
 
-      get "/dashboard"
+      #get "/dashboard"
+      #assert_response 301
+      get '/users/welcome'
       assert_response 301
 
       # verify the cache is emptied on every request
@@ -221,20 +224,20 @@ describe "security" do
 
     it "should not remember me when the wrong token is given" do
       # plain persistence_token no longer works
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{@p.persistence_token}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{@p.persistence_token}"
       response.should redirect_to("https://www.example.com/login")
       token = SessionPersistenceToken.generate(@p)
       # correct token id, but nonsense uuid and persistence_token
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.id}::blah::blah"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.id}::blah::blah"
       response.should redirect_to("https://www.example.com/login")
       # correct token id and persistence_token, but nonsense uuid
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.id}::#{@p.persistence_token}::blah"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.id}::#{@p.persistence_token}::blah"
       response.should redirect_to("https://www.example.com/login")
     end
 
     it "should login via persistence token when no session exists" do
       token = SessionPersistenceToken.generate(@p)
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
       response.should be_success
       cookies['_normandy_session'].should be_present
       session[:used_remember_me_token].should be_true
@@ -254,18 +257,18 @@ describe "security" do
 
     it "should not allow login via the same valid token twice" do
       token = SessionPersistenceToken.generate(@p)
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
       response.should be_success
       SessionPersistenceToken.find_by_id(token.id).should be_nil
       reset!
       https!
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
       response.should redirect_to("https://www.example.com/login")
     end
 
     it "should generate a new valid token when a token is used" do
       token = SessionPersistenceToken.generate(@p)
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
       response.should be_success
       s1 = cookies['_normandy_session']
       s1.should be_present
@@ -278,7 +281,7 @@ describe "security" do
       reset!
       https!
       # check that the new token is valid too
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{cookie}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{cookie}"
       response.should be_success
       s2 = cookies['_normandy_session']
       s2.should be_present
@@ -298,7 +301,7 @@ describe "security" do
 
       # verify that the session is now persisting via the session cookie, not
       # using and re-generating a one-time-use pseudonym_credentials token on each request
-      get "/"
+      get "/dashboard"
       cookies['pseudonym_credentials'].should == cookie
     end
 
@@ -335,20 +338,20 @@ describe "security" do
 
       s3 = open_session
       s3.https!
-      s3.get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{c1}"
+      s3.get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{c1}"
       s3.response.should be_success
       s3.get "/logout"
       # make sure c2 can still work
       s4 = open_session
       s4.https!
-      s4.get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{c2}"
+      s4.get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{c2}"
       s4.response.should be_success
     end
 
     it "should not login if the pseudonym is deleted" do
       token = SessionPersistenceToken.generate(@p)
       @p.destroy
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
       response.should redirect_to("https://www.example.com/login")
     end
 
@@ -360,7 +363,7 @@ describe "security" do
       @p.save!
       pers2 = @p.persistence_token
       pers1.should_not == pers2
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{creds}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{creds}"
       response.should redirect_to("https://www.example.com/login")
     end
   end
@@ -418,7 +421,7 @@ describe "security" do
         post_via_redirect "/login",
           { "pseudonym_session[unique_id]" => "second@example.com", "pseudonym_session[password]" => "12341234" },
           { "REMOTE_ADDR" => "5.5.5.5" }
-        path.should eql("/?login_success=1")
+        path.should eql("/dashboard?login_success=1")
       end
 
       it "should apply limitations correctly for cross-account logins" do
@@ -490,10 +493,10 @@ describe "security" do
     it "should require confirmation for becoming a user" do
       user_session(@admin, @admin.pseudonyms.first)
 
-      get "/?become_user_id=#{@student.id}"
+      get "/dashboard?become_user_id=#{@student.id}"
       assert_response 302
       response.location.should match "/users/#{@student.id}/masquerade$"
-      session[:masquerade_return_to].should == "/"
+      session[:masquerade_return_to].should == "/dashboard"
       session[:become_user_id].should be_nil
       assigns['current_user'].id.should == @admin.id
       assigns['real_current_user'].should be_nil
@@ -509,7 +512,7 @@ describe "security" do
       assert_response 302
       session[:become_user_id].should == @student.id.to_s
 
-      get "/"
+      get "/dashboard"
       assert_response 200
       session[:become_user_id].should == @student.id.to_s
       assigns['current_user'].id.should == @student.id
@@ -546,10 +549,10 @@ describe "security" do
       Setting.set('enable_page_views', 'db')
       user_session(@admin, @admin.pseudonyms.first)
 
-      get "/?become_user_id=#{@student.id}"
+      get "/dashboard?become_user_id=#{@student.id}"
       assert_response 302
       response.location.should match "/users/#{@student.id}/masquerade$"
-      session[:masquerade_return_to].should == "/"
+      session[:masquerade_return_to].should == "/dashboard"
       session[:become_user_id].should be_nil
       assigns['current_user'].id.should == @admin.id
       assigns['real_current_user'].should be_nil
@@ -567,7 +570,7 @@ describe "security" do
       assert_response 302
       session[:become_user_id].should == @student.id.to_s
 
-      get "/"
+      get "/dashboard"
       assert_response 200
       session[:become_user_id].should == @student.id.to_s
       assigns['current_user'].id.should == @student.id
@@ -578,7 +581,7 @@ describe "security" do
 
     it "should remember the destination with an intervening auth" do
       token = SessionPersistenceToken.generate(@admin.pseudonyms.first)
-      get "/", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
+      get "/dashboard", {}, "HTTP_COOKIE" => "pseudonym_credentials=#{token.pseudonym_credentials}"
       response.should be_success
       cookies['_normandy_session'].should be_present
       session[:used_remember_me_token].should be_true
@@ -781,11 +784,11 @@ describe "security" do
         response.should be_success
       end
 
-      it "manage_jobs" do
+      it "view_jobs" do
         get "/jobs"
         response.should be_redirect
 
-        add_permission :manage_jobs
+        add_permission :view_jobs
 
         get "/jobs"
         response.should be_success
@@ -1122,6 +1125,28 @@ describe "security" do
 
         delete "/courses/#{@course.id}", :event => 'conclude'
         response.status.should == '401 Unauthorized'
+      end
+
+      it 'view_statistics' do
+        course_with_teacher_logged_in(:active_all => 1)
+
+        @student = user :active_all => true
+        @course.enroll_student(@student).tap do |e|
+          e.workflow_state = 'active'
+          e.save!
+        end
+
+        get "/courses/#{@course.id}/users/#{@student.id}"
+        response.should be_success
+
+        get "/users/#{@student.id}"
+        response.status.should == '401 Unauthorized'
+
+        admin = account_admin_user :account => Account.site_admin
+        user_session(admin)
+
+        get "/users/#{@student.id}"
+        response.should be_success
       end
     end
   end

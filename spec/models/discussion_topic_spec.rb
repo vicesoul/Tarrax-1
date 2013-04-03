@@ -102,6 +102,29 @@ describe DiscussionTopic do
     (@entry.check_policy(@student) & relevant_permissions).map(&:to_s).sort.should == ['read', 'reply'].sort
   end
 
+  describe "allow_student_discussion_topics setting" do
+
+    before(:each) do
+      course_with_teacher(:active_all => 1)
+      student_in_course(:active_all => 1)
+      @topic = @course.discussion_topics.create!(:user => @teacher)
+    end
+
+    it "should allow students to create topics by default" do
+      @topic.check_policy(@teacher).should include :create
+      @topic.check_policy(@student).should include :create
+    end
+
+    it "should disallow students from creating topics" do
+      @course.allow_student_discussion_topics = false
+      @course.save!
+      @topic.reload
+      @topic.check_policy(@teacher).should include :create
+      @topic.check_policy(@student).should_not include :create
+    end
+
+  end
+
   it "should grant observers read permission by default" do
     course_with_teacher(:active_all => true)
     course_with_observer(:course => @course, :active_all => true)
@@ -186,7 +209,7 @@ describe DiscussionTopic do
       @topic.subtopics_refreshed_at.should be_nil
 
       @topic.assignment = @course.assignments.build(:submission_types => 'discussion_topic', :title => @topic.title, :group_category => @group.group_category)
-      @topic.assignment.infer_due_at
+      @topic.assignment.infer_times
       @topic.assignment.saved_by = :discussion_topic
       @topic.save
       @topic.subtopics_refreshed_at.should_not be_nil
@@ -261,7 +284,7 @@ describe DiscussionTopic do
       @parent_topic = @course.discussion_topics.create(:title => "parent topic")
       @subtopic = @parent_topic.child_topics.build(:title => "subtopic")
       @assignment = @course.assignments.build(:submission_types => 'discussion_topic', :title => @subtopic.title, :group_category => group_category)
-      @assignment.infer_due_at
+      @assignment.infer_times
       @assignment.saved_by = :discussion_topic
       @subtopic.assignment = @assignment
       @subtopic.save
@@ -281,7 +304,7 @@ describe DiscussionTopic do
       course_with_student(:active_all => true)
       @topic = @course.discussion_topics.create(:title => "topic")
       @assignment = @course.assignments.build(:submission_types => 'discussion_topic', :title => @topic.title)
-      @assignment.infer_due_at
+      @assignment.infer_times
       @assignment.saved_by = :discussion_topic
       @topic.assignment = @assignment
       @topic.save
@@ -295,7 +318,7 @@ describe DiscussionTopic do
       group_category = @course.group_categories.create(:name => "category")
       @topic = @course.discussion_topics.create(:title => "topic")
       @assignment = @course.assignments.build(:submission_types => 'discussion_topic', :title => @topic.title, :group_category => group_category)
-      @assignment.infer_due_at
+      @assignment.infer_times
       @assignment.saved_by = :discussion_topic
       @topic.assignment = @assignment
       @topic.save
@@ -327,7 +350,7 @@ describe DiscussionTopic do
 
       group_category = @course.group_categories.build(:name => "category")
       @topic.assignment = @course.assignments.build(:submission_types => 'discussion_topic', :title => @topic.title, :group_category => group_category)
-      @topic.assignment.infer_due_at
+      @topic.assignment.infer_times
       @topic.assignment.saved_by = :discussion_topic
       @topic.save
       @topic.should be_for_assignment
@@ -338,7 +361,7 @@ describe DiscussionTopic do
       course_with_student(:active_all => true)
       @topic = @course.discussion_topics.build(:title => "topic")
       @assignment = @course.assignments.build(:submission_types => 'discussion_topic', :title => @topic.title)
-      @assignment.infer_due_at
+      @assignment.infer_times
       @assignment.saved_by = :discussion_topic
       @topic.assignment = @assignment
       @topic.save

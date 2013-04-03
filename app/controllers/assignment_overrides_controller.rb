@@ -21,42 +21,47 @@
 # API for accessing assignment information.
 #
 # @object AssignmentOverride
+#
 #     {
+#       // NOTE: The Assignment Override feature is in beta! This API is not
+#       // finalized and there could be breaking changes before its final
+#       // release.
+#
 #       // the ID of the assignment override
 #       id: 4,
 #
 #       // the ID of the assignment the override applies to
 #       assignment_id: 123,
 #
-#       // the IDs of the override's target students (present iff the override
+#       // the IDs of the override's target students (present if the override
 #       // targets an adhoc set of students)
 #       student_ids: [1, 2, 3],
 #
-#       // the ID of the override's target group (present iff the override
-#       // targets a group)
+#       // the ID of the override's target group (present if the override
+#       // targets a group and the assignment is a group assignment)
 #       group_id: 2,
 #
-#       // the ID of the overrides's target section (present iff the override
+#       // the ID of the overrides's target section (present if the override
 #       // targets a section)
 #       course_section_id: 1
 #
 #       // the title of the override
 #       title: "an assignment override",
 #
-#       // the overridden due at (present iff due_at is overridden)
-#       due_at: '2012-07-01T23:59:00-06:00',
+#       // the overridden due at (present if due_at is overridden)
+#       due_at: "2012-07-01T23:59:00-06:00",
 #
-#       // the overridden all day flag (present iff due_at is overridden)
+#       // the overridden all day flag (present if due_at is overridden)
 #       all_day: true,
 #
-#       // the overridden all day date (present iff due_at is overridden)
-#       all_day_date: '2012-07-01',
+#       // the overridden all day date (present if due_at is overridden)
+#       all_day_date: "2012-07-01",
 #
-#       // the overridden unlock at (present iff unlock_at is overridden)
-#       unlock_at: '2012-07-01T23:59:00-06:00',
+#       // the overridden unlock at (present if unlock_at is overridden)
+#       unlock_at: "2012-07-01T23:59:00-06:00",
 #
-#       // the overridden lock at, if any (present iff lock_at is overridden)
-#       lock_at: '2012-07-01T23:59:00-06:00'
+#       // the overridden lock at, if any (present if lock_at is overridden)
+#       lock_at: "2012-07-01T23:59:00-06:00"
 #     }
 #
 class AssignmentOverridesController < ApplicationController
@@ -70,6 +75,7 @@ class AssignmentOverridesController < ApplicationController
   include Api::V1::AssignmentOverride
 
   # @API List assignment overrides
+  # @beta
   #
   # Returns the list of overrides for this assignment that target
   # sections/groups/students visible to the current user.
@@ -81,6 +87,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   # @API Get a single assignment override
+  # @beta
   #
   # Returns details of the the override with the given id.
   #
@@ -90,6 +97,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   # @API Redirect to the assignment override for a group
+  # @beta
   #
   # Responds with a redirect to the override for the given group, if any
   # (404 otherwise).
@@ -103,6 +111,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   # @API Redirect to the assignment override for a section
+  # @beta
   #
   # Responds with a redirect to the override for the given section, if any
   # (404 otherwise).
@@ -116,6 +125,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   # @API Create an assignment override
+  # @beta
   #
   # @argument assignment_override[student_ids][] [Optional, Integer] The IDs of
   #   the override's target students. If present, the IDs must each identify a
@@ -128,9 +138,14 @@ class AssignmentOverridesController < ApplicationController
   #   instead).
   #
   # @argument assignment_override[group_id] [Optional, Integer] The ID of the
-  #   override's target group. If present, the assignment must be a group
-  #   assignment and the ID must identify an active group in the assignment's
-  #   group category not already targetted by a different override.
+  #   override's target group. If present, the following conditions must be met
+  #   for the override to be successful:
+  #
+  #   1. the assignment MUST be a group assignment (a group_category_id is assigned to it)
+  #   2. the ID must identify an active group in the group set the assignment is in
+  #   3. the ID must not be targetted by a different override
+  #
+  #   See {Appendix: Group assignments} for more info.
   #
   # @argument assignment_override[course_section_id] [Optional, Integer] The ID
   #   of the override's target section. If present, must identify an active
@@ -185,6 +200,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   # @API Update an assignment override
+  # @beta
   #
   # @argument assignment_override[student_ids] [[Integer], Optional] The IDs of the
   #   override's target students. If present, the IDs must each identify a
@@ -241,6 +257,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   # @API Delete an assignment override
+  # @beta
   #
   # Deletes an override and returns its former details.
   #
@@ -251,7 +268,6 @@ class AssignmentOverridesController < ApplicationController
   #   curl 'http://<canvas>/api/v1/courses/1/assignments/2/overrides/3.json' \ 
   #        -X DELETE \ 
   #        -H "Authorization: Bearer <token>"
-  #
   def destroy
     if @override.destroy
       render :json => assignment_override_json(@override)
@@ -283,7 +299,7 @@ class AssignmentOverridesController < ApplicationController
   end
 
   def require_assignment_edit
-    authorized_action(@assignment, @current_user, :update_content)
+    authorized_action(@assignment, @current_user, :update)
   end
 
   def require_override
@@ -294,4 +310,12 @@ class AssignmentOverridesController < ApplicationController
   def bad_request(errors)
     render :json => errors.to_json, :status => :bad_request
   end
+
+  # @!appendix Group assignments
+  #
+  #  {include:file:doc/examples/group_assignment.md}
+  #
+  #  @see api:AssignmentOverridesController#create Creating an assignment override
+  #  @see api:AssignmentsApiController#create Creating an assignment
+  #  @see api:Assignments:Assignment
 end

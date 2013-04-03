@@ -1,0 +1,33 @@
+<div id="jiaoxuebang" class="no_bg_image">
+  <div class="widgets_align">
+    <div class="im_activity_widget">
+      <%= render_cell 'activity', 'index', :theme => 'jiaoxuebang', :widget_body => @current_user.activity_widget_body, :can_select_course => true, :limit => 5 %>
+    </div>
+    <div class="im_account_announcements_widget">
+      <%= render_cell 'announcement', 'account', :theme => 'jiaoxuebang', :announcements => @announcements %>
+    </div>
+    <div class="clear"></div>
+  </div>
+<% @dashboard_page.widgets.each do |widget| %>
+  <%= render_cell widget.cell_name, widget.cell_action, :widget  => widget, :theme => 'jiaoxuebang', :can_select_course => true, :current_user => @current_user, :box_class => 'max_box', :word_length => 65 %>
+<% end %>
+</div>
+<!-- Config courses holder -->
+<div id="config_courses_holder">
+  <div style="position: relative;">
+    <i class="x_narrow"></i>
+    <%= link_to image_tag('close-button.png'), 'javascript:void(0)', :class => 'close' %>
+    <% courses_with_account = @current_user.courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.root_account.name] << course; h } %>
+    <ul>
+    <% courses_with_account.each do |account_name, courses| %>
+      <li><%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %></li>
+      <ul>
+      <% courses.each do |course| %>
+        <li><%= check_box_tag 'course_id', course.id, false, :id => "course_id_#{course.id}", :class => 'course_id_checkbox', 'data-account-name' => account_name %> <%= course.name %></li>
+      <% end %>
+      </ul>
+    <% end %>
+    </ul>
+  </div>
+  <div style="position:absolute;bottom:5px;right:20px;"><%= link_to t('#cells.save', 'save'), 'javascript:void(0)', :class => "save_selector" %></div>
+</div>

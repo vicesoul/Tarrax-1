@@ -1,7 +1,7 @@
 @import 'environment';
 
 body {
-  background: #fff url(/images/registration/page-background.png) 0 0 repeat;
+  background: #fff;
 }
 
 a {
@@ -105,6 +105,35 @@ a {
   opacity: 0.5;
 }
 
+#registration_content {
+  background: #fff url(/images/registration/page-background.png) 0 0 repeat;
+  padding-bottom: 40px;
+}
+
+#registration_footer {
+  border-top: 1px solid rgba(0, 0, 0, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  min-height: 30px;
+  padding: 10px 0 40px;
+  color: #999;
+  font-size: 11px;
+  a {
+    margin-left: 5px;
+    color: #999;
+    &:hover, &:active {
+      color: #2ca4e9;
+    }
+  }
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
 #signup_teacher, #signup_student {
   position: absolute;
   background-image: url(/images/registration/landing_buttons.png);
@@ -186,5 +215,49 @@ a {
     .ie & {
       display: none;
     }
+  }
+}
+
+#wrapper-container .register .container{
+  width: 710px!important;
+  height: 512px;
+  border: 1px solid #ccc;
+  margin: 30px auto 50px;
+  .nav-tabs{
+    margin: 0;
+    padding: 0;
+    border-bottom: none;
+    li{
+      margin: 0;
+      padding: 0;
+      width: 354px;
+      text-align: center;
+      border-radius: 0;
+      border-top: none;
+      height: 46px;
+
+    li:first-child{
+      border-left: none;
+    }
+    li:last-child{
+      border-right: none;
+    }
+      a{
+	    margin: 0;
+	    padding: 0;
+	    border: none;
+	    color: #999;
+	    font-family: "Microsoft Yahei";
+	    font-size: 18px;
+	    line-height: 46px;
+		text-shadow: 0 0 3px rgba(255, 255, 255, 0.5);
+      }
+      a:hover{
+        background: none;
+      }
+    }
+  }
+  .tab-pane{
+    margin:50px 0 0 100px;
   }
 }

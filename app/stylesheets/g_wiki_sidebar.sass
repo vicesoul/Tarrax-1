@@ -3,7 +3,7 @@
 #editor_tabs
   :font-size 11px
 
-  > h4
+  > .wiki-sidebar-header
     font-size: 1.3em
     margin-bottom: 0.3em
 
@@ -40,6 +40,13 @@
 
 #editor_tabs .image_list_holder
   position: relative
+  .image_list:after
+    visibility: hidden
+    display: block
+    font-size: 0
+    content: " "
+    clear: both
+    height: 0
   .dragging_message
     display: none
   &.file_drag
@@ -66,7 +73,6 @@
 #editor_tabs .image_list
   .img_link
     :cursor pointer
-    :overflow hidden
     :border 1px solid #ccc
     :margin 3px
     :padding 3px

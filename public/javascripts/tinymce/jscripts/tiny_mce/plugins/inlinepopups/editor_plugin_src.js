@@ -9,7 +9,10 @@
  */
 
 //**** 2012-11-30  rupert add "tinymce"
-(function(tinymce) {
+(function() {
+  define(['tinymce/jscripts/tiny_mce/tiny_mce_src'], function( tinymce ){
+    
+  
 	var DOM = tinymce.DOM, Element = tinymce.dom.Element, Event = tinymce.dom.Event, each = tinymce.each, is = tinymce.is;
 
 	tinymce.create('tinymce.plugins.InlinePopups', {
@@ -696,5 +699,6 @@
 
 	// Register plugin
 	tinymce.PluginManager.add('inlinepopups', tinymce.plugins.InlinePopups);
-})(tinymce);
+  })
+}).call(this)
 

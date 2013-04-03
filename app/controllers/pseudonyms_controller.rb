@@ -66,8 +66,10 @@ class PseudonymsController < ApplicationController
       if @ccs.empty?
         @ccs += CommunicationChannel.email.by_path(email).all
       end
-      if @domain_root_account
-        @domain_root_account.pseudonyms.active.custom_find_by_unique_id(email, :all).each do |p|
+      #if @domain_root_account
+      if default_domain_root_account
+        #@domain_root_account.pseudonyms.active.custom_find_by_unique_id(email, :all).each do |p|
+        default_domain_root_account.pseudonyms.active.custom_find_by_unique_id(email, :all).each do |p|
           cc = p.communication_channel if p.communication_channel && p.user
           cc ||= p.user.communication_channel rescue nil
           @ccs << cc
@@ -96,7 +98,7 @@ class PseudonymsController < ApplicationController
       format.js { render :json => {:requested => true}.to_json }
     end
   end
-  
+
   def confirm_change_password
     @pseudonym = Pseudonym.find(params[:pseudonym_id])
     @cc = @pseudonym.user.communication_channels.find_by_confirmation_code(params[:nonce])
@@ -109,7 +111,7 @@ class PseudonymsController < ApplicationController
       redirect_to root_url
     end
   end
-  
+
   def change_password
     @pseudonym = Pseudonym.find(params[:pseudonym][:id] || params[:pseudonym_id])
     @cc = @pseudonym.user.communication_channels.find_by_confirmation_code(params[:nonce])
@@ -145,7 +147,8 @@ class PseudonymsController < ApplicationController
   end
 
   def new
-    @pseudonym = @domain_root_account.pseudonyms.build(:user => @current_user)
+    #@pseudonym = @domain_root_account.pseudonyms.build(:user => @current_user)
+    @pseudonym = default_domain_root_account.pseudonyms.build(:user => @current_user)
   end
 
   # @API Create a user login
@@ -170,7 +173,8 @@ class PseudonymsController < ApplicationController
         @account = default_domain_root_account
       else
         @account = default_domain_root_account
-        unless @domain_root_account.settings[:admins_can_change_passwords]
+        #unless @domain_root_account.settings[:admins_can_change_passwords]
+        unless default_domain_root_account.settings[:admins_can_change_passwords]
           params[:pseudonym].delete :password
           params[:pseudonym].delete :password_confirmation
         end
@@ -200,7 +204,7 @@ class PseudonymsController < ApplicationController
     @user = @current_user
     @pseudonym = @current_pseudonym
   end
-  
+
   def get_user
     user_id = params[:user_id] || params[:user].try(:[], :id)
     @user = case

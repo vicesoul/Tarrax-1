@@ -106,7 +106,7 @@ namespace :i18n do
 
     # Ruby
     files = (Dir.glob('./*') - ['./vendor'] + ['./vendor/plugins'] - ['./guard', './tmp']).map { |d| Dir.glob("#{d}/**/*rb") }.flatten.
-      reject{ |file| file =~ %r{\A\./(rb-fsevent|vendor/plugins/rails_xss|db|spec)/} }
+      reject{ |file| file =~ %r{\A\./(rb-fsevent|vendor/plugins/rails_xss|vendor/plugins/cells|db|spec)/} }
     files &= only if only
     file_count = files.size
     rb_extractor = I18nExtraction::RubyExtractor.new(:translations => @translations)
@@ -180,12 +180,17 @@ namespace :i18n do
     require 'lib/i18n_extraction/js_extractor.rb'
     I18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')] +
                       Dir[Rails.root.join('vendor', 'plugins', '*', 'config', 'locales', '**', '*.{rb,yml}')]
-
     Hash.send :include, HashExtensions
 
     file_translations = {}
 
+    I18n.reload! # fixes bugs: locales except :en does not available
     locales = I18n.available_locales - [:en]
+    # allow passing of extra, empty locales by including a comma-separated
+    # list of abbreviations in the LOCALES environment variable. e.g.
+    #
+    # LOCALES=hi,ja,pt,zh-hans rake i18n:generate_js
+    locales = locales + ENV['LOCALES'].split(',') if ENV['LOCALES']
     all_translations = I18n.backend.send(:translations)
     flat_translations = all_translations.flatten_keys
 
@@ -282,7 +287,7 @@ define(['i18nObj', 'jquery'], function(I18n, $) {
           if $?.exitstatus == 0
             if ret.include?(base_filename)
               `git checkout #{arg}`
-              if previous = YAML.load(File.read(base_filename)).flatten_keys rescue nil
+              if previous = YAML.safe_load(File.read(base_filename)).flatten_keys rescue nil
                 last_export = {:type => :commit, :data => previous}
               else
                 $stderr.puts "Unable to load en.yml file"
@@ -297,7 +302,7 @@ define(['i18nObj', 'jquery'], function(I18n, $) {
         else
           puts "Loading previous export..."
           if File.exist?(arg)
-            if previous = YAML.load(File.read(arg)).flatten_keys rescue nil
+            if previous = YAML.safe_load(File.read(arg)).flatten_keys rescue nil
               last_export = {:type => :file, :data => previous}
             else
               $stderr.puts "Unable to load yml file"
@@ -319,7 +324,7 @@ define(['i18nObj', 'jquery'], function(I18n, $) {
       Rake::Task["i18n:generate"].invoke
 
       puts "Exporting #{last_export[:data] ? "new/changed" : "all"} en translations..."
-      current_strings = YAML.load(File.read(base_filename)).flatten_keys
+      current_strings = YAML.safe_load(File.read(base_filename)).flatten_keys
       new_strings = last_export[:data] ?
         current_strings.inject({}){ |h, (k, v)|
           h[k] = v unless last_export[:data][k] == v
@@ -362,7 +367,7 @@ define(['i18nObj', 'jquery'], function(I18n, $) {
     Hash.send :include, HashExtensions
 
     def placeholders(str)
-      str.scan(/%\{[^\}]+\}/).sort
+      str.scan(/%h?\{[^\}]+\}/).sort
     end
 
     def markdown_and_wrappers(str)
@@ -384,9 +389,7 @@ define(['i18nObj', 'jquery'], function(I18n, $) {
     begin
       puts "Enter path to original en.yml file:"
       arg = $stdin.gets.strip
-      source_translations = File.exist?(arg) && YAML.load(File.read(arg))
-    rescue Exception => e
-      puts e
+      source_translations = File.exist?(arg) && YAML.safe_load(File.read(arg)) rescue nil
     end until source_translations
     raise "Source does not have any English strings" unless source_translations.keys.include?('en')
     source_translations = source_translations['en'].flatten_keys
@@ -394,7 +397,7 @@ define(['i18nObj', 'jquery'], function(I18n, $) {
     begin
       puts "Enter path to translated file:"
       arg = $stdin.gets.strip
-      new_translations = File.exist?(arg) && YAML.load(File.read(arg)) rescue nil
+      new_translations = File.exist?(arg) && YAML.safe_load(File.read(arg)) rescue nil
     end until new_translations
     raise "Translation file contains multiple languages" if new_translations.size > 1
     language = new_translations.keys.first

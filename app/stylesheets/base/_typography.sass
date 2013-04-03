@@ -9,9 +9,11 @@ body
   color: #333
   font: 15px/1.5 'Helvetica Neue', Arial, 'Liberation Sans', FreeSans, sans-serif
 
+@media only screen and (max-device-width : 1024px)
+  #wrapper-container
+    *
+      font-size: 1em
 #wrapper-container
-  *
-    font-size: 1em
   h1,h2
     font-size: 1.8em
     font-weight: normal
@@ -21,6 +23,11 @@ body
     font-size: 1.5em
   .defaultSkin .mceListBox .mceText
     font-size: 12px
+  #show_question_details_wrap
+    label
+      display: inline-block
+    input[type=checkbox]
+      margin: 0
 /* Headings
    -------------------------------------------------------------- */
 h1, h2, h3, h4, h5, h6
@@ -60,7 +67,10 @@ p
     &.right
       float: right
       margin: 1.5em 0 1.5em 1.5em
-
+body.fill_in_blanks_subjective_question
+  p
+    line-height: 50px
+    margin: 0
 blockquote
   margin: 1.5em
   color: #666

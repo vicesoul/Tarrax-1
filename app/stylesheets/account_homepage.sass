@@ -1,0 +1,72 @@
+@import compass
+
+@import 'jqueryui/variables'
+
+.ui-sortable-placeholder
+  border: 1px dotted black
+  visibility: visible !important
+
+.ui-sortable-placeholder *
+  visibility: hidden
+
+form.edit_jxb_page
+  display: none
+
+.deletable
+  position: relative
+  img.delete_widget
+    position: absolute
+    top: 8px
+    right: 20px
+    cursor: pointer
+  img.edit_widget
+    position: absolute
+    top: 8px
+    right: 60px
+    cursor: pointer
+
+.theme_edit
+  [data-position]
+    border: 1px dashed silver
+    margin-bottom: 20px
+    padding: 15px 0 15px 0
+    min-width: 100px
+
+#wrapper #main
+  max-width: none
+
+#fixed_right_sider
+  position: fixed
+  width: 145px
+  right: 8px
+  top: 190px
+  form.edit_jxb_page
+    background-color: #f5f5f5
+    border: 1px solid #999
+    border: 1px solid rgba(0, 0, 0, 0.3)
+    *border: 1px solid #999
+    padding: 10px 15px
+    outline: none
+    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3)
+    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3)
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3)
+    -webkit-background-clip: padding-box
+    -moz-background-clip: padding-box
+    background-clip: padding-box
+
+#theme_options
+  font-size: 12px
+  input.pending
+    display: none
+  #jxb_page_theme, #widget_name
+    margin-bottom: 10px
+
+#theme_options_holder
+  .save_theme_button, .cancel
+    font-size: 12px
+
+#choose_courses_dialog
+  ul
+    padding: 0
+    ul
+      padding-left: 18px

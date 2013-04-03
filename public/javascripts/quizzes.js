@@ -16,32 +16,99 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 define([
-    'i18n!quizzes',
-    'jquery' /* $ */,
-    'calcCmd',
-    'str/htmlEscape',
-    'str/pluralize',
-    'wikiSidebar',
-    'compiled/editor/MultipleChoiceToggle',
-    'compiled/str/TextHelper',
-    'compiled/tinymce',
-    'tinymce.editor_box' /* editorBox */,
-    'jquery.ajaxJSON' /* ajaxJSON */,
-    'jquery.instructure_date_and_time' /* time_field, datetime_field */,
-    'jquery.instructure_forms' /* formSubmit, fillFormData, getFormData, formErrors, errorBox */,
-    'jqueryui/dialog',
-    'jquery.instructure_misc_helpers' /* replaceTags, scrollSidebar, /\$\.underscore/ */,
-    'jquery.instructure_misc_plugins' /* .dim, confirmDelete, showIf */,
-    'jquery.keycodes' /* keycodes */,
-    'jquery.loadingImg' /* loadingImage */,
-    'compiled/jquery.rails_flash_notifications',
-    'jquery.templateData' /* fillTemplateData, getTemplateData */,
-    'supercalc' /* superCalc */,
-    'vendor/jquery.placeholder' /* /\.placeholder/ */,
-    'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
-    'jqueryui/sortable' /* /\.sortable/ */,
-    'jqueryui/tabs' /* /\.tabs/ */
-], function(I18n, $, calcCmd, htmlEscape, pluralize, wikiSidebar, MultipleChoiceToggle, TextHelper, tinymce) {
+  'i18n!quizzes',
+  'jquery' /* $ */,
+  'calcCmd',
+  'str/htmlEscape',
+  'str/pluralize',
+  'wikiSidebar',
+  'compiled/views/assignments/DueDateList',
+  'compiled/views/assignments/DueDateOverride',
+  'compiled/models/Quiz',
+  'compiled/models/DueDateList',
+  'compiled/collections/SectionCollection',
+  'compiled/views/calendar/MissingDateDialogView',
+  'compiled/editor/MultipleChoiceToggle',
+  'compiled/str/TextHelper',
+  'jquery.ajaxJSON' /* ajaxJSON */,
+  'jquery.instructure_date_and_time' /* time_field, datetime_field */,
+  'jquery.instructure_forms' /* formSubmit, fillFormData, getFormData, formErrors, errorBox */,
+  'jqueryui/dialog',
+  'jquery.instructure_misc_helpers' /* replaceTags, scrollSidebar, /\$\.underscore/ */,
+  'jquery.instructure_misc_plugins' /* .dim, confirmDelete, showIf */,
+  'jquery.keycodes' /* keycodes */,
+  'jquery.loadingImg' /* loadingImage */,
+  'compiled/jquery.rails_flash_notifications',
+  'jquery.templateData' /* fillTemplateData, getTemplateData */,
+  'supercalc' /* superCalc */,
+  'compiled/tinymce',
+  'tinymce.editor_box' /* editorBox */,
+  'vendor/jquery.placeholder' /* /\.placeholder/ */,
+  'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
+  'jqueryui/sortable' /* /\.sortable/ */,
+  'jqueryui/tabs' /* /\.tabs/ */,
+  'jqueryui/droppable',
+  'vendor/raphael',
+  'quizzes_tpl',
+  'bootstrap'
+], function(I18n,$, calcCmd, htmlEscape, pluralize, wikiSidebar,
+            DueDateListView, DueDateOverrideView, Quiz, DueDateList,SectionList,
+            MissingDateDialog,MultipleChoiceToggle,TextHelper){
+
+  var dueDateList, overrideView, quizModel, sectionList;
+
+  function adjustOverridesForFormParams(overrides){
+    var idx = 0;
+    var overridesLength = overrides.length;
+    var _override = null;
+    var dates = [ 'due_at', 'lock_at', 'unlock_at' ];
+    // make sure we don't send the literal string "null" to the server.
+    for (idx;idx< overridesLength;idx++){
+      _override = overrides[idx]
+      for (var date in dates) {
+        var _date = dates[date];
+        if (!dates.hasOwnProperty(date)) continue;
+        if (_override[_date]) {
+          _override[_date] = _override[_date].toUTCString();
+        } else {
+          _override[_date] = "";
+        }
+      }
+      // TODO: let the quiz API handle this.
+      // The AssignmentOverride model can take care of these values.
+      // See the automatically defined methods via self.override
+      // in app/models/assignment_override.rb
+      delete _override.unlock_at_overridden;
+      delete _override.lock_at_overridden;
+      delete _override.all_day_date;
+      delete _override.due_at_overridden;
+      delete _override.all_day;
+    }
+  }
+
+  if (ENV.QUIZ && ENV.ASSIGNMENT_OVERRIDES != null) {
+
+    ENV.QUIZ.assignment_overrides = ENV.ASSIGNMENT_OVERRIDES;
+    quizModel = new Quiz(ENV.QUIZ);
+
+    sectionList = new SectionList(ENV.SECTION_LIST);
+
+    dueDateList = new DueDateList(quizModel.get('assignment_overrides'),
+                                  sectionList, quizModel);
+
+    overrideView = new DueDateOverrideView({
+      el: '.js-assignment-overrides',
+      model: dueDateList,
+      views: {
+        'due-date-overrides': new DueDateListView({
+          model: dueDateList
+        })
+      }
+    });
+
+    overrideView.render();
+  }
+
 
   var clickSetCorrect = I18n.t('titles.click_to_set_as_correct', "Click to set this answer as correct"),
       isSetCorrect = I18n.t('titles.set_as_correct', "This answer is set as correct"),
@@ -58,13 +125,12 @@ define([
     init: function () {
       this.$questions = $('#questions');
       this.$showDetailsWrap = $('#show_question_details_wrap').hide();
-
       return this;
     },
 
     // Determines whether or not to show the "show question details" link.
     checkShowDetails: function() {
-      var hasQuestions = this.$questions.find('div.display_question:not(.essay_question, .text_only_question)').length;
+      var hasQuestions = this.$questions.find('div.display_question:not(.essay_question, .text_only_question, .paint_question, .fill_in_blanks_subjective_question)').length;
       this.$showDetailsWrap[hasQuestions ? 'show' : 'hide'](200);
     },
 
@@ -149,6 +215,18 @@ define([
 
       if (question_type == "essay_question") {
         templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
+      } else if (question_type == "fill_in_blanks_subjective_question") {
+        templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
+      } else if (question_type == "paint_question") {
+        templateData.comments_header = I18n.beforeLabel('comments_on_question', "Comments for this question");
+      } else if (question_type == "connecting_lead_question") {
+        templateData.answer_match_left_html = answer.answer_match_left_html;
+        templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
+        $answer.find(".comment_focus").attr('title', I18n.t('titles.click_to_enter_comments_on_wrong_match', 'Click to enter comments for the student if they miss this match'));
+      } else if (question_type == "connecting_on_pic_question") {
+        templateData.answer_match_left_html = answer.answer_match_left_html;
+        templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
+        $answer.find(".comment_focus").attr('title', I18n.t('titles.click_to_enter_comments_on_wrong_match', 'Click to enter comments for the student if they miss this match'));
       } else if (question_type == "matching_question") {
         templateData.answer_match_left_html = answer.answer_match_left_html;
         templateData.comments_header = I18n.beforeLabel('comments_on_wrong_match', "Comments if the user gets this match wrong");
@@ -163,6 +241,9 @@ define([
       } else if (question_type == "fill_in_multiple_blanks_question") {
         templateData.blank_id = answer.blank_id;
       } else if (question_type == "multiple_dropdowns_question") {
+        templateData.short_answer_header = I18n.t('answer_text', "Answer text");
+        templateData.blank_id = answer.blank_id;
+      } else if (question_type == "drag_and_drop_question") {
         templateData.short_answer_header = I18n.t('answer_text', "Answer text");
         templateData.blank_id = answer.blank_id;
       }
@@ -194,6 +275,12 @@ define([
       }
 
       if (question_type == "matching_question") {
+        $answer.removeClass('correct_answer');
+      }
+      if (question_type == "connecting_lead_question") {
+        $answer.removeClass('correct_answer');
+      }
+      if (question_type == "connecting_on_pic_question") {
         $answer.removeClass('correct_answer');
       }
 
@@ -248,6 +335,22 @@ define([
         answer_type = "comment";
         question_type = "essay_question";
         n_correct = "none";
+      } else if (qt == 'fill_in_blanks_subjective_question') {
+        answer_type = "comment";
+        question_type = "fill_in_blanks_subjective_question";
+        n_correct = "none";
+      } else if (qt == 'paint_question') {
+        answer_type = "comment";
+        question_type = "paint_question";
+        n_correct = "none";
+      } else if (qt == 'connecting_lead_question') {
+        answer_type = "connecting_lead_answer";
+        question_type = "connecting_lead_question";
+        n_correct = "all";
+      } else if (qt == 'connecting_on_pic_question') {
+        answer_type = "connecting_on_pic_answer";
+        question_type = "connecting_on_pic_question";
+        n_correct = "all";
       } else if (qt == 'matching_question') {
         answer_type = "matching_answer";
         question_type = "matching_question";
@@ -258,6 +361,10 @@ define([
       } else if (qt == 'multiple_dropdowns_question') {
         answer_type = "select_answer";
         question_type = "multiple_dropdowns_question";
+        n_correct = "multiple";
+      } else if (qt == 'drag_and_drop_question') {
+        answer_type = "select_answer";
+        question_type = "drag_and_drop_question";
         n_correct = "multiple";
       } else if (qt == 'numerical_question') {
         answer_type = "numerical_answer";
@@ -286,6 +393,14 @@ define([
         result = "any_answer";
       } else if (question_type == 'essay_question') {
         result = "none";
+      } else if (question_type == 'fill_in_blanks_subjective_question') {
+        result = "none";
+      } else if (question_type == 'paint_question') {
+        result = "none";
+      } else if (question_type == 'connecting_lead_question') {
+        result = "connecting_lead";
+      } else if (question_type == 'connecting_on_pic_question') {
+        result = "connecting_on_pic";
       } else if (question_type == 'matching_question') {
         result = "matching";
       } else if (question_type == 'missing_word_question') {
@@ -294,6 +409,7 @@ define([
       } else if (question_type == 'calculated_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_dropdowns_question') {
+      } else if (question_type == 'drag_and_drop_question') {
       } else if (question_type == 'fill_in_multiple_blanks_question') {
         result = "any_answer";
       } else if (question_type == 'multiple_answers_question') {
@@ -307,7 +423,7 @@ define([
     addExistingQuestion: function(question) {
       var $group = $("#group_top_" + question.quiz_group_id);
       var $bottom = null;
-      if ($group.length > 0) { 
+      if ($group.length > 0) {
         $bottom = $group.next();
         while($bottom.length> 0 && !$bottom.hasClass('group_bottom')) {
           $bottom = $bottom.next();
@@ -324,7 +440,12 @@ define([
       }
       quiz.updateDisplayQuestion($question.find(".question:first"), question, true);
     },
-
+    //*****************************************
+    //
+    //     Update display question
+    //      ( Update question )
+    //
+    //*************************************************
     updateDisplayQuestion: function($question, question, escaped) {
       fillArgs = {
         data: question,
@@ -351,14 +472,16 @@ define([
       $question.find('.question_points').text(question.points_possible);
       var details = quiz.answerTypeDetails(question.question_type);
       var answer_type = details.answer_type,
-          question_type = details.question_type,
-          n_correct = details.n_correct;
+        question_type = details.question_type,
+        n_correct = details.n_correct;
 
       $question.attr('class', 'question display_question').addClass(question_type || 'text_only_question');
 
       if (question.question_type == 'fill_in_multiple_blanks_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       } else if (question.question_type == 'multiple_dropdowns_question') {
+        $question.find(".multiple_answer_sets_holder").css('display', '');
+      } else if (question.question_type == 'drag_and_drop_question') {
         $question.find(".multiple_answer_sets_holder").css('display', '');
       }
 
@@ -425,7 +548,7 @@ define([
             }
             $td.html(answer);
             $tr.append($td);
-            $question.find(".equation_combinations tbody").append($tr);          
+            $question.find(".equation_combinations tbody").append($tr);
           });
         }
       } else {
@@ -457,7 +580,7 @@ define([
         $text.html("<span class='text_before_answers'>" + question.question_text + "</span> ");
         $text.append($select);
         $text.append(" <span class='text_after_answers'>" + question.text_after_answers + "</span>");
-      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question') {
+      } else if (question.question_type == 'multiple_dropdowns_question' || question.question_type == 'fill_in_multiple_blanks_question' || question.question_type == 'drag_and_drop_question') {
         var variables = {}
         $.each(question.answers, function(i, data) {
           variables[data.blank_id] = true;
@@ -474,6 +597,64 @@ define([
       }
       $question.find(".after_answers").empty();
       if (question.question_type == 'matching_question') {
+        var $text = $question.find(".after_answers");
+        var split = [];
+        if (question.matches && question.answers) {
+          var correct_ids = {};
+          for(var idx in question.answers) {
+            correct_ids[question.answers[idx].match_id] = true;
+          }
+          for(var idx in question.matches) {
+            if (!correct_ids[question.matches[idx].match_id]) {
+              split.push(question.matches[idx].text);
+            }
+          }
+        } else {
+          var split = (question.matching_answer_incorrect_matches || "");
+          if (typeof(split) == 'string') {
+            split = split.split("\n");
+          }
+        }
+        var code = "";
+        for(var cdx in split) {
+          if(split[cdx]) {
+            code = code + "<li>" + htmlEscape(split[cdx]) + "</li>";
+          }
+        }
+        if (code) {
+          $text.append(I18n.beforeLabel('other_incorrect_matches', "Other Incorrect Match Options") + "<ul class='matching_answer_incorrect_matches_list'>" + code + "</ul>");
+        }
+      }
+      if (question.question_type == 'connecting_lead_question') {
+        var $text = $question.find(".after_answers");
+        var split = [];
+        if (question.matches && question.answers) {
+          var correct_ids = {};
+          for(var idx in question.answers) {
+            correct_ids[question.answers[idx].match_id] = true;
+          }
+          for(var idx in question.matches) {
+            if (!correct_ids[question.matches[idx].match_id]) {
+              split.push(question.matches[idx].text);
+            }
+          }
+        } else {
+          var split = (question.matching_answer_incorrect_matches || "");
+          if (typeof(split) == 'string') {
+            split = split.split("\n");
+          }
+        }
+        var code = "";
+        for(var cdx in split) {
+          if(split[cdx]) {
+            code = code + "<li>" + htmlEscape(split[cdx]) + "</li>";
+          }
+        }
+        if (code) {
+          $text.append(I18n.beforeLabel('other_incorrect_matches', "Other Incorrect Match Options") + "<ul class='matching_answer_incorrect_matches_list'>" + code + "</ul>");
+        }
+      }
+      if (question.question_type == 'connecting_on_pic_question') {
         var $text = $question.find(".after_answers");
         var split = [];
         if (question.matches && question.answers) {
@@ -529,8 +710,19 @@ define([
         quiz.updateDisplayComments();
       };
     },
+    //*****************************************
+    //
+    //     Update display question
+    //        END
+    //*************************************************
 
-    // Updates the question's form when the type changes
+
+    //*****************************************
+    //
+    //     Update form question
+    //     （edit）
+    //    Updates the question's form when the type changes
+    //*************************************************
     updateFormQuestion: function($form) {
       var $formQuestion = $form.find(".question");
       var question_type = $formQuestion.find(":input[name='question_type']").val();
@@ -551,7 +743,7 @@ define([
       }
       $formQuestion.find(".question_header").text("Question:");
       $formQuestion.addClass(question_type);
-        $formQuestion.find(".question_points_holder").showIf(!$formQuestion.closest(".question_holder").hasClass('group') && question_type != 'text_only_question');
+      $formQuestion.find(".question_points_holder").showIf(!$formQuestion.closest(".question_holder").hasClass('group') && question_type != 'text_only_question');
       $formQuestion.find("textarea.comments").each(function() {
         $(this).val($.trim($(this).val()));
         if ($(this).val()) {
@@ -599,6 +791,36 @@ define([
         result.answer_type = "none";
         result.textValues = [];
         result.htmlValues = [];
+      } else if (question_type == 'fill_in_blanks_subjective_question') {
+        $formQuestion.find(".answer").remove();
+        $formQuestion.removeClass('selectable');
+        $formQuestion.find(".answers_header").hide().end()
+          .find(".question_comment").css('display', 'none').end()
+          .find(".question_neutral_comment").css('display', '').end();
+        options.addable = false;
+        result.answer_type = "none";
+        result.textValues = [];
+        result.htmlValues = [];
+      } else if (question_type == 'paint_question') {
+        $formQuestion.find(".answer").remove();
+        $formQuestion.removeClass('selectable');
+        $formQuestion.find(".answers_header").hide().end()
+          .find(".question_comment").css('display', 'none').end()
+          .find(".question_neutral_comment").css('display', '').end();
+        options.addable = false;
+        result.answer_type = "none";
+        result.textValues = [];
+        result.htmlValues = [];
+      } else if (question_type == 'connecting_lead_question') {
+        $formQuestion.removeClass('selectable');
+        $form.find(".matching_answer_incorrect_matches_holder").show();
+        result.answer_type = "connecting_lead_answer";
+        result.textValues = ['connecting_lead_left', 'connecting_lead_center','connecting_lead_right', 'answer_comment'];
+      } else if (question_type == 'connecting_on_pic_question') {
+        $formQuestion.removeClass('selectable');
+        $form.find(".matching_answer_incorrect_matches_holder").show();
+        result.answer_type = "connecting_on_pic_answer";
+        result.textValues = ['connecting_on_pic_left', 'connecting_on_pic_right', 'answer_comment'];
       } else if (question_type == 'matching_question') {
         $formQuestion.removeClass('selectable');
         $form.find(".matching_answer_incorrect_matches_holder").show();
@@ -622,6 +844,9 @@ define([
       } else if (question_type == 'multiple_dropdowns_question') {
         result.answer_type = "select_answer";
         $formQuestion.multipleAnswerSetsQuestion();
+      } else if (question_type == 'drag_and_drop_question') {
+        result.answer_type = "select_answer";
+        $formQuestion.multipleAnswerSetsQuestion();
       } else if (question_type == 'fill_in_multiple_blanks_question') {
         result.answer_type = "short_answer";
         $formQuestion.multipleAnswerSetsQuestion();
@@ -643,8 +868,10 @@ define([
       $form.find(".add_answer_link").showIf(options.addable);
       var $answers = $formQuestion.find(".form_answers .answer");
       if ($answers.length === 0 && result.answer_type != "none") {
-        $formQuestion.find(".form_answers").append(makeFormAnswer({answer_type: result.answer_type, question_type: question_type}));
-        $formQuestion.find(".form_answers").append(makeFormAnswer({answer_type: result.answer_type, question_type: question_type}));
+        var questionNum = question_type == "drag_and_drop_question" ? 1 : 2;
+        for( var i = 0; i < questionNum; i++){
+          $formQuestion.find(".form_answers").append(makeFormAnswer({answer_type: result.answer_type, question_type: question_type}));
+        }
         $answers = $formQuestion.find(".form_answers .answer");
       }
       if (result.answer_selection_type == "any_answer") {
@@ -668,6 +895,383 @@ define([
       $form.find(".answer_type").hide().filter("." + result.answer_type).show();
       return result;
     },
+    //*********************
+    //       update form question
+    //        end
+    // ********** ********************
+
+    connectingOnPic: function($form){
+
+      // generate HTML
+      var $factory = $form.find(".factory");
+      var $formAnswers = $form.find(".form_answers");
+      var $main = $factory.find(".main");
+      var textWidth = parseFloat( $(".text").width() );
+      if($main.find("svg").size() === 1){$main.find("svg").remove()}
+      var paper = Raphael( $main[0], textWidth, 500 );
+
+      var deleHandle,
+        positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
+        positionData = positionStr == "" ? {} : stringToObject( positionStr ),
+        imageSrc = $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").text(),
+        ballId = 0,
+        $toolTip = $main.find(".tool-tip")
+          .bind("click", function(e){ e.stopPropagation(); }),
+        $toolTipDele = $toolTip.find("button:first"),
+        $toolTipCancel = $toolTip.find("button:last")
+          .bind("click", function(){resetToolTip();});
+      
+      // show uploaded images
+      if( $("#editor_tabs_4").is(":hidden") ){$("#ui-id-5").trigger("click");}
+
+      // semi radical
+      var spanWidth = $factory.find(".menu span:first").css("width");
+      var r = parseFloat(spanWidth)/2;
+
+      // init balls
+      $factory.find(".menu span").draggable({
+        helper: "clone",
+        zIndex: 100,
+        cursorAt: { left: r, top: r }
+      });
+
+      // init images
+      $(".image_list").mouseover(function(){
+        $(this).find("img").draggable({
+          helper: "clone"
+        });
+      });
+
+      // init image container
+      $main.find(".bg")
+        .droppable({
+          accept: ".image_list img",
+          activeClass: "ui-state-highlight",
+          drop: function( event, ui ) {
+            console.log(ui);
+            var imgSrc = ui.helper.attr("data-url") || ui.helper.attr("src");
+            var $img = $("<img>").attr("src",imgSrc);
+            $img.appendTo( $(this).empty())
+              .mousedown(function(){
+                return false;
+              });
+
+            $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( imgSrc );
+          }
+        });
+
+      // init balls container
+      $main.droppable({
+        accept: $factory.find(".menu span"),
+        activeClass: "ui-state-highlight",
+        drop: function( event, ui ) {
+          var $ball = ui.draggable.clone();
+          $ball.css({
+            position: "absolute",
+            left: event.pageX - $(this).offset().left - r,
+            top: event.pageY - $(this).offset().top - r
+          })
+            .draggable({
+              containment: "parent",
+              stop: function( event, ui ) {
+                updatePosition();
+              },
+              drag: function( event, ui ) {
+                updateLines();
+              }
+            })
+            .attr("ball-id", ballId)
+            .appendTo( $(this) )
+            .bind( "click", ballHandle )
+            .find("b")
+            .bind( "click", deleBall );
+
+          $ball.find("textarea").click(function(e){
+            e.stopPropagation();
+          })
+            .blur(function(){
+              saveText( this );
+            });
+
+          ballId ++;
+          updatePosition();
+
+        }
+      });
+
+      // reload balls
+      $.each(positionData, function(i,val){
+        var text = val.text ? val.text : "";
+        var color = val.Grey ? "grey" : "yellow";
+        var $ball = $factory.find(".menu span").filter("." + color).clone();
+        $ball.find("textarea").html(text).end()
+          .css({
+            position: "absolute",
+            left: val.x,
+            top: val.y
+          })
+          .draggable({
+            containment: "parent",
+            stop: function( event, ui ) {
+              updatePosition();
+            },
+            drag: function( event, ui ) {
+              updateLines();
+            }
+          })
+          .attr("ball-id", i)
+          .appendTo( $main )
+          .bind( "click", ballHandle )
+          .find("b")
+          .bind( "click", deleBall );
+
+        $ball.find("textarea").click(function(e){
+          e.stopPropagation();
+        })
+          .blur(function(){
+            saveText( this );
+          });
+
+        ballId = parseInt(ballId) > parseInt(i) ? ballId : i;
+
+      });
+      ballId ++;
+
+      // reload lines
+      updateLines();
+
+      // reload image
+      var bgImage = $("<img>").attr("src", imageSrc);
+      $main.find(".bg").append(bgImage);
+
+      // close tooltip when click document
+      $(document).click(function(){ resetToolTip() });
+
+      function stringToObject(str) {
+        return eval("(" + str + ")");
+      }
+
+      function updateLines(){
+        paper.clear();
+
+        $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+          var greyBallId = $(this).val().slice(5);
+          var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
+          var rightInput = $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input");
+          var rightVal = rightInput.val();
+          if(rightVal == "")return;
+          var yellowBalls = rightVal.split("ball-");
+          $.each(yellowBalls, function(i,val){
+            if(val == "")return;
+            var $yellow = $main.find("> span[ball-id="+ val + "]");
+            drawLine( $grey, $yellow );
+          });
+
+        });
+
+      }
+
+      function ballHandle(){
+        var $active = $main.find( ".active"),
+          $greyBall = $active.is(".grey") ? $active : $(this),
+          $yellowBall = $active.is(".grey") ? $(this) : $active,
+          connected = false;
+
+        // check if they are connected
+        $formAnswers.find(".answer .connecting_on_pic_answer").each(function( i ){
+          var leftVal = $(this).find("input[name=connecting_on_pic_left]").val(),
+            rightVal = $(this).find("input[name=connecting_on_pic_right]").val(),
+            greyBallId = $greyBall.attr("ball-id"),
+            yellowBallId = $yellowBall.attr("ball-id");
+          if( leftVal.slice(5) == greyBallId && rightVal.indexOf("ball-" + yellowBallId) != -1 ) {
+            connected = true;
+            return false;
+          }
+        });
+
+        // toggle class: active
+        if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
+          || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
+          || connected
+          ){
+          $active.removeClass("active");
+          $(this).addClass("active");
+          return;
+        }
+
+
+        if( $main.find(".active").size() !== 0 ){
+          if( !$(this).is(".active") ) {
+            drawLine($greyBall, $yellowBall);
+            addAnswer($greyBall, $yellowBall);
+            $active.removeClass( "active" );
+          }else{
+            $(this).removeClass( "active" )
+          }
+        }else{
+          // $active is not found
+          $(this).addClass("active");
+        }
+
+      }
+
+      function deleBall(){
+        var $ball = $(this).parent("span");
+        var ballId = $ball.attr("ball-id");
+        var isGrey = $ball.is(".grey");
+        deleText($ball.find("textarea"));
+        $ball.remove();
+        delete positionData[ballId];
+
+        updatePosition();
+
+        // dele answers
+        $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+          if(isGrey){
+            if( $(this).val() == "ball-" + ballId ){
+              $(this).closest(".answer").find(".delete_answer_link").trigger("click");
+            }
+          } else{
+            $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub", ballId)
+          }
+
+        });
+        updateLines();
+      }
+
+      function drawLine($active, $end ){
+        var strokeColor = "#08c",
+          x1 = $active.position().left + $active.width()/2,
+          y1 = $active.position().top + $active.height()/2 ,
+          x2 = $end.position().left + $end.width()/2,
+          y2 = $end.position().top + $end.height()/2 ,
+          line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+        line
+          .attr({
+            "stroke": strokeColor,
+            "stroke-width": Global.quizzes.lineWidth
+          })
+          .click(function(e){
+            e.stopPropagation();
+            resetToolTip();
+            this.attr({"stroke-dasharray": "- "});
+            $toolTip
+              .show()
+              .css({
+                left: ( x1 + x2 )/2 - $toolTip.width()/2,
+                top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+              });
+            deleHandle =  deleLine(this, $active, $end);
+            $toolTipDele.bind( "click", deleHandle );
+          });
+
+      }
+
+      function deleLine(line, a, b){
+        return function(){
+          $toolTip.hide();
+          line.remove();
+
+          // delete match answer
+          var $grey = a.is(".grey") ? a : b;
+          var $yellow = a.is(".grey") ? b : a;
+          var greyBallId = $grey.attr("ball-id");
+          var yellowBallId = $yellow.attr("ball-id");
+          $formAnswers.find(".answer_match_left input").each(function(){
+            var inputVal = $(this).val();
+            if("ball-" + greyBallId == inputVal){
+              $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("sub",yellowBallId);
+              return false;
+            }
+
+          });
+        }
+      }
+
+      function addAnswer($greyBall, $yellowBall){
+        var greyBallId = $greyBall.attr("ball-id");
+        var yellowBallId = $yellowBall.attr("ball-id");
+        var isNewBall = true;
+        $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
+          var value = $(this).val();
+          if( "ball-" + greyBallId == value || value == "" ){
+            isNewBall = false;
+            if( value == "" ){
+              $(this).val("ball-" + greyBallId);
+            }
+            $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("add",yellowBallId);
+            return false;
+          }
+        });
+
+        if( isNewBall ){
+          $formAnswers.closest(".question_holder").find(".add_answer_link").trigger("click");
+          $formAnswers.find(".answer input[name=connecting_on_pic_left]:last").val("ball-" + greyBallId );
+          $formAnswers.find(".answer input[name=connecting_on_pic_right]:last").val("ball-" + yellowBallId );
+        }
+
+      }
+
+      function updatePosition(){
+//          if( typeof positionData == "string" )positionData = stringToObject( positionData );
+        $main.find("span.ui-draggable").each(function(){
+          var ballId = $(this).attr("ball-id");
+          var ballX =  parseInt( $(this).css("left") );
+          var ballY =  parseInt( $(this).css("top") );
+          var isGrey = $(this).is(".grey");
+          positionData[ballId] = positionData[ballId] === undefined ? {} : positionData[ballId];
+          positionData[ballId]["x"] = ballX;
+          positionData[ballId]["y"] = ballY;
+          positionData[ballId]["Grey"] = isGrey;
+        });
+        positionData = JSON.stringify(positionData);
+        $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        positionData = stringToObject(positionData);
+      }
+
+      function saveText( textarea ){
+        var ballId = $(textarea).closest("span.ui-draggable").attr("ball-id");
+        positionData[ballId]["text"] = $(textarea).val();
+        positionData = JSON.stringify(positionData);
+        $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        positionData = stringToObject(positionData);
+      }
+
+      function deleText( textarea ){
+        var ballId = $(textarea).closest("span.ui-draggable").attr("ball-id");
+        positionData[ballId]["text"] = $(textarea).val();
+        positionData = JSON.stringify(positionData);
+        $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
+        positionData = stringToObject(positionData);
+      }
+
+      function resetToolTip(){
+        $toolTip.hide();
+        $toolTipDele.unbind( "click", deleHandle );
+        paper.forEach(function (el) {
+          el.attr("stroke-dasharray", "");
+        });
+      }
+
+      $.fn.doVal = function(type, yellowId) {
+        var inputVal = $(this).val();
+        inputVal = inputVal == undefined ? "" : inputVal;
+        if(type == "add"){
+          if(inputVal.indexOf("ball-" + yellowId) !== -1){
+          }else{
+            $(this).val( inputVal + "ball-" + yellowId );
+          }
+
+        }else if( type == "sub" ){
+
+          inputVal = inputVal.replace("ball-" + yellowId, "");
+          $(this).val(inputVal);
+
+        }
+        return this;
+      };
+
+    },
 
     updateDisplayComments: function() {
       this.checkShowDetails();
@@ -681,7 +1285,7 @@ define([
       });
       var tally = 0;
       $("#questions .question_holder:not(.group) .question:not(#question_new)").each(function() {     
-        var val = parseFloat($(this).find(".question_points:visible,.question_points.hidden").text());
+        var val = parseFloat($(this).find(".question_points,.question_points.hidden").text());
         if (isNaN(val)) { val = 0; }
         tally += val;
       });
@@ -693,7 +1297,7 @@ define([
         tally += val * cnt;
       });
       tally = Math.round(tally * 100.0) / 100.0;
-      $("#quiz_options_form").find(".points_possible").text(tally);
+      $(".points_possible").text(tally);
     },
 
     findContainerGroup: function($obj) {
@@ -766,7 +1370,7 @@ define([
       }
       $question.find(".answers").append(makeDisplayAnswer(answer));
     }
-    $question.toggleClass('group', !!(data && data.quiz_group_id)); 
+    $question.toggleClass('group', !!(data && data.quiz_group_id));
     $question.show();
     return $question;
   }
@@ -779,7 +1383,13 @@ define([
     data.answer_comment_html = data.comments_html || data.answer_comment_html;
     data.answer_match_left = data.left || data.answer_match_left;
     data.answer_match_left_html = data.left_html || data.answer_match_left_html;
+    data.answer_match_center = data.center || data.answer_match_center;
     data.answer_match_right = data.right || data.answer_match_right;
+    data.connecting_lead_left = data.left || data.connecting_lead_left;
+    data.connecting_lead_center = data.center || data.connecting_lead_center;
+    data.connecting_lead_right = data.right || data.connecting_lead_right;
+    data.connecting_on_pic_left = data.left || data.connecting_on_pic_left;
+    data.connecting_on_pic_right = data.right || data.connecting_on_pic_right;
     data.answer_exact = data.exact || data.answer_exact;
     data.answer_error_margin = data.answer_error_margin || data.margin;
     data.answer_range_start = data.start || data.answer_range_start;
@@ -818,6 +1428,7 @@ define([
   function makeFormAnswer(data) {
     var answer = $.extend({}, quiz.defaultAnswerData, data);
     var $answer = $("#form_answer_template").clone(true).attr('id', '');
+    console.log("makeFormAnswer")
     $answer.find(".answer_type").hide().filter("." + answer.answer_type).show();
     answer.answer_weight = parseFloat(answer.answer_weight);
 
@@ -839,7 +1450,7 @@ define([
     $list.each(function(i) {
       var $question = $(this);
       var questionData = $question.getTemplateData({
-        textValues: ['question_name', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
+        textValues: ['question_name','connecting_lead_linesNum','connecting_on_pic_position', 'connecting_on_pic_image', 'question_points', 'question_type', 'answer_selection_type', 'assessment_question_id', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'matching_answer_incorrect_matches', 'equation_combinations', 'equation_formulas'],
         htmlValues: ['question_text', 'text_before_answers', 'text_after_answers', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html', 'solution_text']
       });
       questionData = $.extend(questionData, $question.find(".original_question_text").getFormData());
@@ -856,7 +1467,7 @@ define([
       question.answers = [];
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -867,7 +1478,7 @@ define([
         $question.find(".text > .answers .answer").each(function() {
           var $answer = $(this);
           var answerData = $answer.getTemplateData({
-            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right', 'answer_comment'],
+            textValues: ['answer_exact', 'answer_error_margin', 'answer_range_start', 'answer_range_end', 'answer_weight', 'numerical_answer_type', 'blank_id', 'id', 'match_id', 'answer_text', 'answer_match_left', 'answer_match_right','connecting_lead_left','connecting_lead_center', 'connecting_lead_right','connecting_on_pic_left', 'connecting_on_pic_right',  'answer_comment'],
             htmlValues: ['answer_html', 'answer_match_left_html', 'answer_comment_html']
           });
           var answer = $.extend({}, quiz.defaultAnswerData, answerData);
@@ -924,6 +1535,7 @@ define([
     return data;
   }
 
+  //
   function generateFormQuiz(quiz) {
     var data = {};
     var quizAssignmentId = quizAssignmentId || null;
@@ -935,6 +1547,9 @@ define([
       var question = quiz.questions[idx];
       var id = "questions[question_" + idx + "]";
       data[id + '[question_name]'] = question.question_name;
+      data[id + '[connecting_lead_linesNum]'] = question.connecting_lead_linesNum;
+      data[id + '[connecting_on_pic_position]'] = question.connecting_on_pic_position;
+      data[id + '[connecting_on_pic_image]'] = question.connecting_on_pic_image;
       data[id + '[assessment_question_id]'] = question.assessment_question_id;
       data[id + '[question_type]'] = question.question_type;
       data[id + '[points_possible]'] = question.question_points;
@@ -960,29 +1575,35 @@ define([
       data[id + '[answer_tolerance]'] = question.answer_tolerance;
       data[id + '[formula_decimal_places]'] = question.formula_decimal_places;
       for(var jdx in question.answers) {
-          var answer = question.answers[jdx];
-          var jd = id + "[answers][answer_" + jdx + "]";
-          data[jd + '[answer_text]'] = answer.answer_text;
-          data[jd + '[answer_html]'] = answer.answer_html;
-          data[jd + '[answer_comments]'] = answer.answer_comment;
-          data[jd + '[answer_comments_html]'] = answer.answer_comment_html;
-          data[jd + '[answer_weight]'] = answer.answer_weight;
-          data[jd + '[answer_match_left]'] = answer.answer_match_left;
-          data[jd + '[answer_match_left_html]'] = answer.answer_match_left_html;
-          data[jd + '[answer_match_right]'] = answer.answer_match_right;
-          data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
-          data[jd + '[answer_exact]'] = answer.answer_exact;
-          data[jd + '[answer_error_margin]'] = answer.answer_error_margin;
-          data[jd + '[answer_range_start]'] = answer.answer_range_start;
-          data[jd + '[answer_range_end]'] = answer.answer_range_end;
-          data[jd + '[blank_id]'] = answer.blank_id;
-          data[jd + '[match_id]'] = answer.match_id;
-          data[jd + '[id]'] = answer.id;
-          for(var kdx in answer.variables) {
-            var kd = jd + "[variables][variable_" + kdx + "]";
-            data[kd + '[name]'] = answer.variables[kdx].name;
-            data[kd + '[value]'] = answer.variables[kdx].value;
-          }
+        var answer = question.answers[jdx];
+        var jd = id + "[answers][answer_" + jdx + "]";
+        data[jd + '[answer_text]'] = answer.answer_text;
+        data[jd + '[answer_html]'] = answer.answer_html;
+        data[jd + '[answer_comments]'] = answer.answer_comment;
+        data[jd + '[answer_comments_html]'] = answer.answer_comment_html;
+        data[jd + '[answer_weight]'] = answer.answer_weight;
+        data[jd + '[answer_match_left]'] = answer.answer_match_left;
+        data[jd + '[answer_match_left_html]'] = answer.answer_match_left_html;
+        data[jd + '[answer_match_center]'] = answer.answer_match_center;
+        data[jd + '[answer_match_right]'] = answer.answer_match_right;
+        data[jd + '[connecting_lead_left]'] = answer.connecting_lead_left;
+        data[jd + '[connecting_lead_center]'] = answer.connecting_lead_center;
+        data[jd + '[connecting_lead_right]'] = answer.connecting_lead_right;
+        data[jd + '[connecting_on_pic_left]'] = answer.connecting_on_pic_left;
+        data[jd + '[connecting_on_pic_right]'] = answer.connecting_on_pic_right;
+        data[jd + '[numerical_answer_type]'] = answer.numerical_answer_type;
+        data[jd + '[answer_exact]'] = answer.answer_exact;
+        data[jd + '[answer_error_margin]'] = answer.answer_error_margin;
+        data[jd + '[answer_range_start]'] = answer.answer_range_start;
+        data[jd + '[answer_range_end]'] = answer.answer_range_end;
+        data[jd + '[blank_id]'] = answer.blank_id;
+        data[jd + '[match_id]'] = answer.match_id;
+        data[jd + '[id]'] = answer.id;
+        for(var kdx in answer.variables) {
+          var kd = jd + "[variables][variable_" + kdx + "]";
+          data[kd + '[name]'] = answer.variables[kdx].name;
+          data[kd + '[value]'] = answer.variables[kdx].value;
+        }
       }
     }
     return data;
@@ -1018,14 +1639,23 @@ define([
   $(document).ready(function() {
     quiz.init().updateDisplayComments();
 
+    $('#quiz_tabs').tabs();
+    $('#editor_tabs').show();
+
+    //*****************************
+    //
+    // sidebar
+    //
+    // *******
     var $quiz_options_form = $("#quiz_options_form");
+    var $quiz_edit_wrapper = $("#quiz_edit_wrapper");
     $.scrollSidebar();
     $(".datetime_field").datetime_field();
     $("#questions").delegate('.group_top,.question,.answer_select', 'mouseover', function(event) {
       $(this).addClass('hover');
     }).delegate('.group_top,.question,.answer_select', 'mouseout', function(event) {
-      $(this).removeClass('hover');
-    });
+        $(this).removeClass('hover');
+      });
 
     $("#questions").delegate('.answer', 'mouseover', function(event) {
       $("#questions .answer.hover").removeClass('hover');
@@ -1045,13 +1675,15 @@ define([
       }
     }).triggerHandler('change');
 
-    $quiz_options_form.find("#time_limit_option").change(function() {
+    $quiz_options_form.find("#time_limit_option").change(function(event, noFocus) {
       if (!$(this).attr('checked')) {
         $("#quiz_time_limit").val("");
+      } else if (!noFocus) {
+        $("#quiz_time_limit").focus();
       }
-    }).triggerHandler('change');
+    }).triggerHandler('change', [true]);
 
-    $("#limit_attempts_option").change(function() {
+    $("#limit_attempts_option").change(function(event, noFocus) {
       var $item = $("#quiz_allowed_attempts");
       if ($(this).attr('checked')) {
         var val = parseInt($item.data('saved_value') || $item.val() || "2", 10);
@@ -1059,11 +1691,12 @@ define([
           val = 1;
         }
         $item.val(val);
+        if (!noFocus) { $item.focus(); }
       } else {
         $item.data('saved_value', $(this).val());
         $item.val('--');
       }
-    }).triggerHandler('change');
+    }).triggerHandler('change', [true]);
 
     $("#protect_quiz").change(function() {
       var checked = $(this).attr('checked');
@@ -1081,12 +1714,14 @@ define([
 
     $("#lockdown_browser_suboptions").showIf($("#quiz_require_lockdown_browser").attr('checked'));
 
-    $("#ip_filter").change(function() {
+    $("#ip_filter").change(function(event, noFocus) {
       $("#ip_filter_suboptions").showIf($(this).attr('checked'));
       if (!$(this).attr('checked')) {
         $("#quiz_ip_filter").val("");
+      } else if (!noFocus) {
+        $("#quiz_ip_filter").focus();
       }
-    }).triggerHandler('change');
+    }).triggerHandler('change', [true]);
 
     $("#ip_filters_dialog").delegate('.ip_filter', 'click', function(event) {
       event.preventDefault();
@@ -1127,12 +1762,14 @@ define([
       }
     });
 
-    $("#require_access_code").change(function(event) {
+    $("#require_access_code").change(function(event, noFocus) {
       $("#access_code_suboptions").showIf($(this).attr('checked'));
       if (!$(this).attr('checked')) {
         $("#quiz_access_code").val("");
+      } else if (!noFocus) {
+        $("#quiz_access_code").focus();
       }
-    }).triggerHandler('change');
+    }).triggerHandler('change', [true]);
 
     $("#never_hide_results").change(function() {
       var $this = $(this);
@@ -1143,43 +1780,51 @@ define([
       }
     }).triggerHandler('change');
 
+    $("#quiz_one_question_at_a_time").change(function() {
+      var $this = $(this);
+      $("#one_question_at_a_time_options").showIf($this.attr('checked'));
+      if (!$this.attr('checked')) {
+        $("#quiz_cant_go_back").attr('checked', false);
+      }
+    }).triggerHandler('change');
+
     $("#multiple_attempts_option,#limit_attempts_option,#quiz_allowed_attempts").change(function() {
       var checked = $("#multiple_attempts_option").prop('checked') && $("#limit_attempts_option").prop('checked');
       if (checked) {
-          $("#hide_results_only_after_last_holder").show();
-          var $attempts = $('#quiz_allowed_attempts');
-          var $attemptsVal = $attempts.val();
-          if(isNaN($attemptsVal)) {
-              alert(I18n.t('quiz_attempts_nan_error', 'Quiz attempts can only be specified in numbers'));
-              $attempts.val("");
-          } else if($attemptsVal.length > 3) {
-              alert(I18n.t('quiz_attempts_length_error', 'Quiz attempts are limited to 3 digits, if you would like to give your students unlimited attempts, do not check Allow Multiple Attempts box to the left'));
-              $attempts.val("");
-          }
+        $("#hide_results_only_after_last_holder").show();
+        var $attempts = $('#quiz_allowed_attempts');
+        var $attemptsVal = $attempts.val();
+        if(isNaN($attemptsVal)) {
+          alert(I18n.t('quiz_attempts_nan_error', 'Quiz attempts can only be specified in numbers'));
+          $attempts.val("");
+        } else if($attemptsVal.length > 3) {
+          alert(I18n.t('quiz_attempts_length_error', 'Quiz attempts are limited to 3 digits, if you would like to give your students unlimited attempts, do not check Allow Multiple Attempts box to the left'));
+          $attempts.val("");
+        }
       } else {
         $("#hide_results_only_after_last").attr('checked', false);
         $("#hide_results_only_after_last_holder").hide();
       }
     }).triggerHandler('change');
 
-    $quiz_options_form.find(".save_quiz_button").click(function() {
-      $quiz_options_form.data('activator', 'save');
-    });
-
-    $quiz_options_form.find(".publish_quiz_button").click(function() {
-      $quiz_options_form.data('activator', 'publish');
-    });
+    var hasCheckedOverrides = false;
 
     $quiz_options_form.formSubmit({
       object_name: "quiz",
-      required: ['title'],
 
       processData: function(data) {
         $(this).attr('method', 'PUT');
-        if ($(this).data('submit_type') == 'save_only') {
-          delete data['activate'];
+        var quiz_title = $("#quiz_title").val();
+        if (quiz_title.length == 0) {
+          var offset = $("#quiz_title").errorBox(I18n.t('errors.field_is_required', "This field is required")).offset();
+          $('html,body').scrollTo({top: offset.top, left:0});
+          return false;
         }
+        data['quiz[title]'] = quiz_title;
         data['quiz[description]'] = $("#quiz_description").editorBox('get_code');
+        if ($("#quiz_notify_of_update").is(':checked')) {
+          data['quiz[notify_of_update]'] = $("#quiz_notify_of_update").val();
+        }
         var attempts = 1;
         if (data.multiple_attempts) {
           attempts = parseInt(data.allowed_attempts, 10);
@@ -1187,31 +1832,58 @@ define([
         }
         data.allowed_attempts = attempts;
         data['quiz[allowed_attempts]'] = attempts;
+        overrideView.updateOverrides();
+        if (overrideView.containsSectionsWithoutOverrides() && !hasCheckedOverrides) {
+          sections = overrideView.sectionsWithoutOverrides();
+          var missingDateView = new MissingDateDialog({
+            validationFn: function(){ return sections },
+            labelFn: function( section ) { return section.get('name')},
+            success: function(){
+              missingDateView.$dialog.dialog('close').remove();
+              missingDateView.remove();
+              hasCheckedOverrides = true;
+              $quiz_options_form.trigger('submit');
+            }
+          });
+          missingDateView.cancel = function() {
+            missingDateView.$dialog.dialog('close').remove();
+          };
+          missingDateView.render();
+          return false;
+        } else {
+          var finalQuiz = overrideView.getDefaultDueDate();
+          if (finalQuiz) {
+            finalQuiz = finalQuiz.toJSON().assignment_override;
+            adjustOverridesForFormParams([finalQuiz]);
+            data['quiz[due_at]'] = finalQuiz.due_at || ""
+            data['quiz[unlock_at]'] = finalQuiz.unlock_at || "";
+            data['quiz[lock_at]'] = finalQuiz.lock_at || "";
+          }
+          else {
+            data['quiz[due_at]'] = "";
+            data['quiz[unlock_at]'] = "";
+            data['quiz[lock_at]'] = "";
+          }
+          var overrides = overrideView.getOverrides();
+          adjustOverridesForFormParams(overrides);
+          if (overrides.length === 0) { overrides = false; }
+          data['quiz[assignment_overrides]'] = overrides;
+        }
         return data;
       },
 
       beforeSubmit: function(data) {
-        $(this).find(".btn.save_quiz_button").attr('disabled', true);
-        $(this).find(".btn.publish_quiz_button").attr('disabled', true);
-        if ($(this).data('activator') == 'publish') {
-          $(this).find(".btn.publish_quiz_button").text(I18n.t('buttons.publishing', "Publishing..."));
-        } else {
-          $(this).find(".btn.save_quiz_button").text(I18n.t('buttons.saving', "Saving..."));
-        }
+        $quiz_edit_wrapper
+          .find(".btn.save_quiz_button")
+          .attr('disabled', true)
+          .text(I18n.t('buttons.saving', "Saving..."));
       },
 
       success: function(data) {
         var $form = $(this);
-        $(this).find(".btn.save_quiz_button").attr('disabled', false);
-        $(this).find(".btn.publish_quiz_button").attr('disabled', false);
-        if ($(this).data('activator') == 'publish') {
-          $(this).find(".btn.publish_quiz_button").text(I18n.t('buttons.published', "Published!"));
-        } else {
-          $(this).find(".btn.save_quiz_button").text(I18n.t('buttons.saved', "Saved!"));
-        }
-        setTimeout(function() {
-          $form.find(".btn.save_quiz_button").text(I18n.t('buttons.save_settings', "Save Settings"));
-        }, 2500);
+        $quiz_edit_wrapper
+          .find(".btn.save_quiz_button")
+          .text(I18n.t('buttons.saved', "Saved!"));
         if (data.quiz.assignment) {
           var assignment = data.quiz.assignment;
           if ($("#assignment_option_" + assignment.id).length === 0) {
@@ -1228,21 +1900,18 @@ define([
         }
         $(".show_rubric_link").showIf(data.quiz.assignment);
         $("#quiz_assignment_id").val(data.quiz.quiz_type || "practice_quiz").change();
-        if ($(this).data('submit_type') == 'save_and_publish') {
-          location.href = $(this).attr('action');
-        } else {
-          $.flashMessage(I18n.t('notices.quiz_data_saved', "Quiz data saved"));
-        }
+        location.href = $(this).attr('action');
         quiz.updateDisplayComments();
-    },
-    error: function(data) {
-      $(this).formErrors(data);
-      $(this).find(".btn.save_quiz_button").attr('disabled', false);
-      $(this).find(".btn.publish_quiz_button").attr('disabled', false);
+      },
+
+      error: function(data) {
+        $(this).formErrors(data);
+        $quiz_edit_wrapper.find(".btn.save_quiz_button").attr('disabled', false);
+        $quiz_edit_wrapper.find(".btn.publish_quiz_button").attr('disabled', false);
       }
     });
 
-    $quiz_options_form.find(".save_quiz_button").click(function(event) {
+    $quiz_edit_wrapper.find(".save_quiz_button").click(function(event) {
       event.preventDefault();
       event.stopPropagation();
       $quiz_options_form.data('submit_type', 'save_only').submit();
@@ -1282,7 +1951,7 @@ define([
       $("#quiz_options_form .quiz_survey_setting").showIf(assignment_id && assignment_id.match(/survey/));
       $("#quiz_points_possible").showIf(assignment_id == 'graded_survey');
       $("#survey_instructions").showIf(assignment_id == 'survey' || assignment_id == 'graded_survey');
-      $("#quiz_assignment_group").showIf(assignment_id == 'assignment' || assignment_id == 'graded_survey');
+      $("#quiz_assignment_group_id").closest('.control-group').showIf(assignment_id == 'assignment' || assignment_id == 'graded_survey');
       $("#questions").toggleClass('survey_quiz', assignment_id == 'survey' || assignment_id == 'graded_survey');
       $("#quiz_display_points_possible").showIf(assignment_id != 'survey' && assignment_id != 'graded_survey');
       $("#quiz_options_holder").toggleClass('survey_quiz', assignment_id == 'survey' || assignment_id == 'graded_survey');
@@ -1290,6 +1959,22 @@ define([
       $("#quiz_title_input").val(quiz_title);
       $("#quiz_title_text").text(quiz_title);
     }).change();
+
+    // ******
+    // sidebar end
+    // *******
+
+    $("#show_question_details").change(function(event) {
+      $("#questions").toggleClass('brief', !$(this).attr('checked'));
+    }).triggerHandler('change');
+
+    $(".start_over_link").click(function(event) {
+      event.preventDefault();
+      var result = confirm(I18n.t('confirms.scrap_and_restart', "Scrap this quiz and start from scratch?"));
+      if (result) {
+        location.href = location.href + "?fresh=1";
+      }
+    });
 
     $(".question_form :input").keycodes("esc", function(event) {
       $(this).parents("form").find("input[value='" + I18n.t('#buttons.cancel', "Cancel") + "']").click();
@@ -1315,6 +2000,7 @@ define([
 
     $(".blank_id_select").change();
 
+    // ****** delete question
     $(document).delegate(".delete_question_link", 'click', function(event) {
       event.preventDefault();
       $(this).parents(".question_holder").confirmDelete({
@@ -1326,12 +2012,18 @@ define([
         }
       });
     });
+    // end
 
+    // *****************************
+    //    edit
+    //
+    //
+    // *************************************
     $(document).delegate(".edit_question_link", 'click', function(event) {
       event.preventDefault();
       var $question = $(this).parents(".question");
       var question = $question.getTemplateData({
-        textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'question_points', 'answer_selection_type', 'blank_id'],
+        textValues: ['question_type', 'correct_comments', 'incorrect_comments', 'neutral_comments', 'question_name', 'connecting_lead_linesNum','connecting_on_pic_position','connecting_on_pic_image','question_points', 'answer_selection_type', 'blank_id'],
         htmlValues: ['question_text', 'correct_comments_html', 'incorrect_comments_html', 'neutral_comments_html', 'solution_text']
       });
       question.question_text = $question.find("textarea[name='question_text']").val();
@@ -1431,8 +2123,20 @@ define([
       if ($question.hasClass('essay_question')) {
         $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
       }
+      if ($question.hasClass('fill_in_blanks_subjective_question')) {
+        $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
+      }
+      if ($question.hasClass('paint_question')) {
+        $formQuestion.find(".comments_header").text(I18n.beforeLabel('comments_on_question', "Comments for this question"));
+      }
       $question.hide().after($form);
       quiz.showFormQuestion($form);
+      if( data.answer_type === "connecting_on_pic_answer" ) {
+        quiz.connectingOnPic($form);
+      }
+
+
+
       $form.attr('action', $question.find(".update_question_url").attr('href'))
         .attr('method', 'POST')
         .find('.submit_button').text(I18n.t('buttons.update_question', 'Update Question'));
@@ -1442,7 +2146,15 @@ define([
         $formQuestion.find(".question_content").triggerHandler('change');
         $formQuestion.addClass('ready');
       }, 100);
+
+
+
     });
+    // *****************************
+    //    edit
+    //    END
+    //
+    // *************************************
 
     $(document).delegate(".toggle_solution", 'click', function(event){
       event.preventDefault();
@@ -1457,6 +2169,10 @@ define([
 
     $(".question_form :input[name='question_type']").change(function() {
       quiz.updateFormQuestion($(this).parents(".question_form"));
+      var $form = $(this).parents(".question_form");
+      if($(this).val() === "connecting_on_pic_question" && $form.find("svg").size() === 0){
+        quiz.connectingOnPic($form);
+      }
     });
 
     $("#question_form_template .cancel_link").click(function(event) {
@@ -1484,11 +2200,11 @@ define([
     $(document).delegate("textarea.comments", 'focus', function() {
       $(this).parents(".question_comment,.answer_comments").removeClass('empty');
     }).delegate('textarea.comments', 'blur', function() {
-      $(this).val($.trim($(this).val()));
-      if ($(this).val() == "") {
-        $(this).parents(".question_comment,.answer_comments").addClass('empty');
-      }
-    });
+        $(this).val($.trim($(this).val()));
+        if ($(this).val() == "") {
+          $(this).parents(".question_comment,.answer_comments").addClass('empty');
+        }
+      });
 
     $(document).delegate(".numerical_answer_type", 'change', function() {
       var val = $(this).val();
@@ -1639,22 +2355,22 @@ define([
       $(this).addClass('selected');
       $findBankDialog.find(".submit_button").attr('disabled', false);
     }).delegate('.submit_button', 'click', function() {
-      var $bank = $findBankDialog.find(".bank.selected:first");
-      var bank = $bank.getTemplateData({textValues: ['title'], dataValues: ['id', 'context_id', 'context_type']});
-      var $form = $findBankDialog.data('form');
-      $form.find(".bank_id").val(bank.id);
-      bank.bank_name = bank.title;
-      var $formBank = $form.closest('.group_top').next(".assessment_question_bank")
-      if ($formBank.length == 0) {
-        $formBank = $("#group_top_template").next(".assessment_question_bank").clone(true);
-        $form.closest('.group_top').after($formBank);
-      }
-      $formBank.show()
-        .fillTemplateData({data: bank}).data('bank_data', bank);
-      $findBankDialog.dialog('close');
-    }).delegate('.cancel_button', 'click', function() {
-      $findBankDialog.dialog('close');
-    });
+        var $bank = $findBankDialog.find(".bank.selected:first");
+        var bank = $bank.getTemplateData({textValues: ['title'], dataValues: ['id', 'context_id', 'context_type']});
+        var $form = $findBankDialog.data('form');
+        $form.find(".bank_id").val(bank.id);
+        bank.bank_name = bank.title;
+        var $formBank = $form.closest('.group_top').next(".assessment_question_bank")
+        if ($formBank.length == 0) {
+          $formBank = $("#group_top_template").next(".assessment_question_bank").clone(true);
+          $form.closest('.group_top').after($formBank);
+        }
+        $formBank.show()
+          .fillTemplateData({data: bank}).data('bank_data', bank);
+        $findBankDialog.dialog('close');
+      }).delegate('.cancel_button', 'click', function() {
+        $findBankDialog.dialog('close');
+      });
 
     var $findQuestionDialog = $("#find_question_dialog");
 
@@ -1824,90 +2540,90 @@ define([
         showQuestions(data);
       }
     }).delegate('.page_link', 'click', function(event) {
-      event.preventDefault();
-      var $link = $(this);
-      if ($link.hasClass('loading')) { return; }
-      $link.addClass('loading');
-      $findQuestionDialog.find(".page_link").text(I18n.t('loading_more_questions', "loading more questions..."));
-      var $bank = $findQuestionDialog.find(".bank.selected_side_tab");
-      var bank = $bank.data('bank_data');
-      var url = $findQuestionDialog.find(".question_bank_questions_url").attr('href');
-      url = $.replaceTags(url, 'question_bank_id', bank.id);
-      var page = ($findQuestionDialog.find(".page_link").data('page') || 0) + 1;
-      url += "&page=" + page;
-      $.ajaxJSON(url, 'GET', {}, function(data) {
-        $link.removeClass('loading');
-        $findQuestionDialog.find(".page_link").data('page', page);
-        $findQuestionDialog.find(".page_link").text(I18n.t('more_questions', "more questions"));
-        var questions = data.questions;
-        var banks = $findQuestionDialog.data('banks') || {};
-        var bank_data = banks[bank.id] || {};
-        bank_data.pages = data.pages;
-        bank_data.questions = (bank_data.questions || []).concat(data.questions);
-        bank_data.last_page = page;
-        banks[bank.id] = bank_data;
-        $findQuestionDialog.data('banks', banks);
-        $findQuestionDialog.find(".question_message").hide();
-        $findQuestionDialog.find(".question_list_holder").show();
-        showQuestions(data);
-      }, function(data) {
-        $link.removeClass('loading');
-        $findQuestionDialog.find(".question_message").text(I18n.t('errors.loading_questions_failed', "Questions failed to load, please try again"));
-        $findQuestionDialog.find(".page_link").text(I18n.t('errors.loading_more_questions_failed', "loading more questions failed"));
-      });
-    }).delegate('.select_all_link', 'click', function(event) {
-      event.preventDefault();
-      $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', true);
-    }).delegate('.clear_all_link', 'click', function(event) {
-      event.preventDefault();
-      $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', false);
-    }).delegate('.cancel_button', 'click', function(event) {
-      $findQuestionDialog.dialog('close');
-    }).delegate('.group_button', 'click', function(event) {
-      var $dialog = $("#add_found_questions_as_group_dialog");
-      var question_ids = [];
-      $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
-        question_ids.push($(this).parents(".found_question").data('question_data').id);
-      });
-      $dialog.find(".questions_count").text(question_ids.length);
-      $dialog.dialog({
-        autoOpen: false,
-        title: I18n.t('titles.add_questions_as_group', "Add Questions as a Group")
-      });
-    }).delegate('.submit_button', 'click', function(event) {
-      var question_ids = [];
-      $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
-        question_ids.push($(this).parents(".found_question").data('question_data').id);
-      });
-      var params = {};
-      params.quiz_group_id = $findQuestionDialog.find(".quiz_group_select").val();
-      params.assessment_question_bank_id = $findQuestionDialog.find(".bank.selected_side_tab:first").data('bank_data').id;
-      params.assessment_questions_ids = question_ids.join(',');
-      params.existing_questions = '1';
-      var url = $findQuestionDialog.find(".add_questions_url").attr('href');
-      $findQuestionDialog.find("button").attr('disabled', true).filter(".submit_button").text(I18n.t('buttons.adding_questions', "Adding Questions..."));
-      $.ajaxJSON(url, 'POST', params, function(question_results) {
-        $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('buttons.add_selected_questions', "Add Selected Questions"));
-        $findQuestionDialog.find(".selected_side_tab").removeClass('selected_side_tab');
-        var counter = 0;
-        function nextQuestion() { 
-          counter++;
-          var question = question_results.shift();
-          if (question) {
-            quiz.addExistingQuestion(question.quiz_question);
-            if (counter > 5) {
-              setTimeout(nextQuestion, 50);
-            } else {
-              nextQuestion();
+        event.preventDefault();
+        var $link = $(this);
+        if ($link.hasClass('loading')) { return; }
+        $link.addClass('loading');
+        $findQuestionDialog.find(".page_link").text(I18n.t('loading_more_questions', "loading more questions..."));
+        var $bank = $findQuestionDialog.find(".bank.selected_side_tab");
+        var bank = $bank.data('bank_data');
+        var url = $findQuestionDialog.find(".question_bank_questions_url").attr('href');
+        url = $.replaceTags(url, 'question_bank_id', bank.id);
+        var page = ($findQuestionDialog.find(".page_link").data('page') || 0) + 1;
+        url += "&page=" + page;
+        $.ajaxJSON(url, 'GET', {}, function(data) {
+          $link.removeClass('loading');
+          $findQuestionDialog.find(".page_link").data('page', page);
+          $findQuestionDialog.find(".page_link").text(I18n.t('more_questions', "more questions"));
+          var questions = data.questions;
+          var banks = $findQuestionDialog.data('banks') || {};
+          var bank_data = banks[bank.id] || {};
+          bank_data.pages = data.pages;
+          bank_data.questions = (bank_data.questions || []).concat(data.questions);
+          bank_data.last_page = page;
+          banks[bank.id] = bank_data;
+          $findQuestionDialog.data('banks', banks);
+          $findQuestionDialog.find(".question_message").hide();
+          $findQuestionDialog.find(".question_list_holder").show();
+          showQuestions(data);
+        }, function(data) {
+          $link.removeClass('loading');
+          $findQuestionDialog.find(".question_message").text(I18n.t('errors.loading_questions_failed', "Questions failed to load, please try again"));
+          $findQuestionDialog.find(".page_link").text(I18n.t('errors.loading_more_questions_failed', "loading more questions failed"));
+        });
+      }).delegate('.select_all_link', 'click', function(event) {
+        event.preventDefault();
+        $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', true);
+      }).delegate('.clear_all_link', 'click', function(event) {
+        event.preventDefault();
+        $findQuestionDialog.find(".question_list .found_question:not(.blank) :checkbox").attr('checked', false);
+      }).delegate('.cancel_button', 'click', function(event) {
+        $findQuestionDialog.dialog('close');
+      }).delegate('.group_button', 'click', function(event) {
+        var $dialog = $("#add_found_questions_as_group_dialog");
+        var question_ids = [];
+        $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
+          question_ids.push($(this).parents(".found_question").data('question_data').id);
+        });
+        $dialog.find(".questions_count").text(question_ids.length);
+        $dialog.dialog({
+          autoOpen: false,
+          title: I18n.t('titles.add_questions_as_group', "Add Questions as a Group")
+        });
+      }).delegate('.submit_button', 'click', function(event) {
+        var question_ids = [];
+        $findQuestionDialog.find(".question_list :checkbox:checked").each(function() {
+          question_ids.push($(this).parents(".found_question").data('question_data').id);
+        });
+        var params = {};
+        params.quiz_group_id = $findQuestionDialog.find(".quiz_group_select").val();
+        params.assessment_question_bank_id = $findQuestionDialog.find(".bank.selected_side_tab:first").data('bank_data').id;
+        params.assessment_questions_ids = question_ids.join(',');
+        params.existing_questions = '1';
+        var url = $findQuestionDialog.find(".add_questions_url").attr('href');
+        $findQuestionDialog.find("button").attr('disabled', true).filter(".submit_button").text(I18n.t('buttons.adding_questions', "Adding Questions..."));
+        $.ajaxJSON(url, 'POST', params, function(question_results) {
+          $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('buttons.add_selected_questions', "Add Selected Questions"));
+          $findQuestionDialog.find(".selected_side_tab").removeClass('selected_side_tab');
+          var counter = 0;
+          function nextQuestion() {
+            counter++;
+            var question = question_results.shift();
+            if (question) {
+              quiz.addExistingQuestion(question.quiz_question);
+              if (counter > 5) {
+                setTimeout(nextQuestion, 50);
+              } else {
+                nextQuestion();
+              }
             }
           }
-        }
-        setTimeout(nextQuestion, 10);
-        $findQuestionDialog.dialog('close');
-      }, function(data) {
-        $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('errors.adding_questions_failed', "Adding Questions Failed, please try again"));
+          setTimeout(nextQuestion, 10);
+          $findQuestionDialog.dialog('close');
+        }, function(data) {
+          $findQuestionDialog.find("button").attr('disabled', false).filter(".submit_button").text(I18n.t('errors.adding_questions_failed', "Adding Questions Failed, please try again"));
+        });
       });
-    });
 
     $(".add_answer_link").bind('click', function(event, skipFocus) {
       event.preventDefault();
@@ -1935,6 +2651,32 @@ define([
         }];
         answer_type = "comment";
         question_type = "essay_question";
+      } else if ($question.hasClass('fill_in_blanks_subjective_question')) {
+        var answers = [{
+          comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
+        }];
+        answer_type = "comment";
+        question_type = "fill_in_blanks_subjective_question";
+      } else if ($question.hasClass('paint_question')) {
+        var answers = [{
+          comments: I18n.t('default_response_to_essay', "Response to show student after they submit an answer")
+        }];
+        answer_type = "comment";
+        question_type = "paint_question";
+      } else if ($question.hasClass('connecting_lead_question')) {
+        var answers = [{
+          comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
+        }];
+        answer_type = "connecting_lead_answer";
+        question_type = "connecting_lead_question";
+        answer_selection_type = "matching";
+      } else if ($question.hasClass('connecting_on_pic_question')) {
+        var answers = [{
+          comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
+        }];
+        answer_type = "connecting_on_pic_answer";
+        question_type = "connecting_on_pic_question";
+        answer_selection_type = "matching";
       } else if ($question.hasClass('matching_question')) {
         var answers = [{
           comments: I18n.t('default_comments_on_wrong_match', "Response if the user misses this match")
@@ -1971,6 +2713,12 @@ define([
         }];
         answer_type = "select_answer";
         question_type = "multiple_dropdowns_question";
+      } else if ($question.hasClass('drag_and_drop_question')) {
+        var answers = [{
+          comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
+        }];
+        answer_type = "select_answer";
+        question_type = "drag_and_drop_question";
       } else if ($question.hasClass('fill_in_multiple_blanks_question')) {
         var answers = [{
           comments: I18n.t('default_answer_comments', "Response if the student chooses this answer")
@@ -2004,6 +2752,11 @@ define([
       $(this).find(".answer_comment").slideToggle();
     });
 
+    /// *****************************
+    //
+    //        update question submit
+    //
+    // *********************************
     $("#question_form_template").submit(function(event) {
       event.preventDefault();
       event.stopPropagation();
@@ -2013,7 +2766,7 @@ define([
       var $question = $(this).find(".question");
       var answers = [];
       var questionData = $question.getFormData({
-        values: ['question_type', 'question_name', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
+        values: ['question_type', 'question_name', 'connecting_lead_linesNum','connecting_on_pic_position', 'connecting_on_pic_image', 'question_points', 'correct_comments', 'incorrect_comments', 'neutral_comments',
           'question_text', 'answer_selection_type', 'text_after_answers', 'matching_answer_incorrect_matches', 'solution_text']
       });
 
@@ -2027,7 +2780,7 @@ define([
           error_text = I18n.t('errors.no_possible_solution', "Please generate at least one possible solution");
         }
       } else if ($answers.length === 0 || $answers.filter(".correct_answer").length === 0) {
-        if ($answers.length === 0 && questionData.question_type != "essay_question" && questionData.question_type != "text_only_question") {
+        if ($answers.length === 0 && questionData.question_type != "essay_question" && questionData.question_type != "fill_in_blanks_subjective_question" && questionData.question_type != "text_only_question" && questionData.question_type != "paint_question") {
           error_text = I18n.t('errors.no_answer', "Please add at least one answer");
         } else if ($answers.filter(".correct_answer").length === 0 && (questionData.question_type == "multiple_choice_question" || questionData.question_type == "true_false_question" || questionData.question_tyep == "missing_word_question")) {
           error_text = I18n.t('errors.no_correct_answer', "Please choose a correct answer");
@@ -2046,7 +2799,7 @@ define([
       $displayQuestion.find(".blank_id_select").empty();
       var blank_ids_hash = {};
       var only_add_for_blank_ids = false;
-      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question") {
+      if (question.question_type == "multiple_dropdowns_question" || question.question_type == "fill_in_multiple_blanks_question" || question.question_type == "drag_and_drop_question") {
         only_add_for_blank_ids = true;
         $question.find(".blank_id_select option").each(function() {
           blank_ids_hash[$(this).text()] = true;
@@ -2117,7 +2870,7 @@ define([
         });
       }
 
-
+      // ****** key
       quiz.updateDisplayQuestion($displayQuestion, question);
 
       var details = quiz.answerTypeDetails(question.question_type);
@@ -2170,6 +2923,8 @@ define([
         $displayQuestion.formErrors(data);
       });
     });
+    // end
+
 
     $("#sort_questions").sortable({
       revert: false,
@@ -2189,8 +2944,8 @@ define([
         event.preventDefault();
       }
     }).delegate('input.float_value', 'change blur focus', function(event) {
-      quiz.parseInput($(this), $(this).hasClass('long') ? 'float_long' : 'float');
-    });
+        quiz.parseInput($(this), $(this).hasClass('long') ? 'float_long' : 'float');
+      });
 
     $("#questions").delegate('.question_teaser_link', 'click', function(event) {
       event.preventDefault();
@@ -2220,13 +2975,13 @@ define([
         }
       }
     }).delegate('.teaser.question_text', 'click', function(event) {
-      event.preventDefault();
-      $(this).parents(".question_teaser").find(".question_teaser_link").click();
-    }).delegate('.edit_teaser_link', 'click', function(event) {
-      event.preventDefault();
-      $(this).parents(".question_teaser").addClass('to_edit');
-      $(this).parents(".question_teaser").find(".question_teaser_link").click();
-    });
+        event.preventDefault();
+        $(this).parents(".question_teaser").find(".question_teaser_link").click();
+      }).delegate('.edit_teaser_link', 'click', function(event) {
+        event.preventDefault();
+        $(this).parents(".question_teaser").addClass('to_edit');
+        $(this).parents(".question_teaser").find(".question_teaser_link").click();
+      });
 
     $(".keep_editing_link").click(function(event) {
       event.preventDefault();
@@ -2331,12 +3086,12 @@ define([
               $group.before(ui.placeholder);
               $("html,body").scrollTo(ui.placeholder);
             } else {
-            if ($group.hasClass('question_bank_top')){
-              // Groups that point to question banks aren't allowed to have questions
-              $group.before(ui.placeholder).addClass('group');
-            }else{
-              ui.placeholder.addClass('group');
-            }
+              if ($group.hasClass('question_bank_top')){
+                // Groups that point to question banks aren't allowed to have questions
+                $group.before(ui.placeholder).addClass('group');
+              }else{
+                ui.placeholder.addClass('group');
+              }
             }
           } else {
             ui.placeholder.removeClass('group');
@@ -2422,67 +3177,67 @@ define([
         .attr('method', 'PUT');
       $top.find(".submit_button").text(I18n.t('buttons.update_group', "Update Group"));
     }).delegate(".delete_group_link", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      event.preventDefault();
-      var $top = $(this).parents(".group_top");
-      var $list = $("nothing").add($top);
-      var $next = $top.next();
-      while($next.length > 0 && !$next.hasClass('group_bottom')) {
-        $list = $list.add($next);
-        $next = $next.next();
-      }
-      $list = $list.add($next);
-      $top.confirmDelete({
-        url: $top.find(".update_group_url").attr('href'),
-        confirmed: function() {
-          $list.dim();
-        },
-        success: function() {
-          $list.fadeOut(function() {
-            $(this).remove();
-            quiz.updateDisplayComments();
-          });
-        }
-      });
-    }).delegate(".group_edit.cancel_button", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      var $top = $(this).parents(".group_top");
-      $top.removeClass('editing'); 
-      if ($top.attr('id') == 'group_top_new') {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        event.preventDefault();
+        var $top = $(this).parents(".group_top");
+        var $list = $("nothing").add($top);
         var $next = $top.next();
         while($next.length > 0 && !$next.hasClass('group_bottom')) {
-          var $current = $next
-          $next.removeClass('group');
+          $list = $list.add($next);
           $next = $next.next();
-          if ($current.hasClass('assessment_question_bank')) {
-            $current.remove();
-          }
         }
-        $next.remove();
-        $top.remove();
-      }
-      quiz.updateDisplayComments();
-    }).delegate(".collapse_link", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      event.preventDefault();
-      $(this).parents(".group_top").find(".collapse_link").addClass('hidden').end()
-        .find(".expand_link").removeClass('hidden');
-      var $obj = $(this).parents(".group_top").next();
-      while($obj.length > 0 && $obj.hasClass('question_holder')) {
-        $obj.hide();
-        $obj = $obj.next();
-      }
-    }).delegate(".expand_link", 'click', function(event) {
-      if ($(this).closest('.group_top').length == 0) { return; }
-      event.preventDefault();
-      $(this).parents(".group_top").find(".collapse_link").removeClass('hidden').end()
-        .find(".expand_link").addClass('hidden');
-      var $obj = $(this).parents(".group_top").next();
-      while($obj.length > 0 && $obj.hasClass('question_holder')) {
-        $obj.show();
-        $obj = $obj.next();
-      }
-    });
+        $list = $list.add($next);
+        $top.confirmDelete({
+          url: $top.find(".update_group_url").attr('href'),
+          confirmed: function() {
+            $list.dim();
+          },
+          success: function() {
+            $list.fadeOut(function() {
+              $(this).remove();
+              quiz.updateDisplayComments();
+            });
+          }
+        });
+      }).delegate(".group_edit.cancel_button", 'click', function(event) {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        var $top = $(this).parents(".group_top");
+        $top.removeClass('editing');
+        if ($top.attr('id') == 'group_top_new') {
+          var $next = $top.next();
+          while($next.length > 0 && !$next.hasClass('group_bottom')) {
+            var $current = $next
+            $next.removeClass('group');
+            $next = $next.next();
+            if ($current.hasClass('assessment_question_bank')) {
+              $current.remove();
+            }
+          }
+          $next.remove();
+          $top.remove();
+        }
+        quiz.updateDisplayComments();
+      }).delegate(".collapse_link", 'click', function(event) {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        event.preventDefault();
+        $(this).parents(".group_top").find(".collapse_link").addClass('hidden').end()
+          .find(".expand_link").removeClass('hidden');
+        var $obj = $(this).parents(".group_top").next();
+        while($obj.length > 0 && $obj.hasClass('question_holder')) {
+          $obj.hide();
+          $obj = $obj.next();
+        }
+      }).delegate(".expand_link", 'click', function(event) {
+        if ($(this).closest('.group_top').length == 0) { return; }
+        event.preventDefault();
+        $(this).parents(".group_top").find(".collapse_link").removeClass('hidden').end()
+          .find(".expand_link").addClass('hidden');
+        var $obj = $(this).parents(".group_top").next();
+        while($obj.length > 0 && $obj.hasClass('question_holder')) {
+          $obj.show();
+          $obj = $obj.next();
+        }
+      });
 
     if (wikiSidebar) {
       wikiSidebar.init();
@@ -2501,12 +3256,6 @@ define([
       $(this).parents(".question_form").find(".question_content").editorBox('toggle');
     });
 
-
-    $(".toggle_solution_content_views_link").click(function(event) {
-      event.preventDefault();
-      $(this).parents(".question_form").find(".solution_content").editorBox('toggle');
-    });
-
     $(".toggle_text_after_answers_link").click(function(event) {
       event.preventDefault();
       $(this).parents(".question_form").find(".text_after_answers").editorBox('toggle');
@@ -2514,20 +3263,6 @@ define([
 
     $(document).bind('editor_box_focus', function(event, $editor) {
       wikiSidebar.attachToEditor($editor);
-    });
-
-    $(".quiz_options_link,.link_to_content_link").click(function(event) {
-      event.preventDefault();
-      $("#quiz_content_links,#quiz_options_holder").toggle();
-      if ($("#quiz_content_links:visible").length > 0) {
-        if (wikiSidebar) {
-          wikiSidebar.show();
-        }
-      } else {
-        if (wikiSidebar) {
-          wikiSidebar.hide();
-        }
-      }
     });
 
     $("#calc_helper_methods").change(function() {
@@ -2539,15 +3274,30 @@ define([
 
     $("#equations_dialog_tabs").tabs();
 
+    $(".question.connecting_lead_question").each(function(){
+      var linesNum = $(this).find(".connecting_lead_linesNum").text();
+      if(linesNum == 3) $(this).addClass("threeLines");
 
+    });
+
+    $(document).delegate('.changeLines button.three', 'click', function(){
+      $(this).closest(".connecting_lead_question ").find(".answer_match_right input[type='text']").val("");
+      $(this).closest(".connecting_lead_question ").addClass("threeLines");
+      $(this).closest(".connecting_lead_question ").find(".connecting_lead_linesNum").val("3");
+    });
+    $(document).delegate('.changeLines button.two', 'click', function(){
+      
+      $(this).closest(".connecting_lead_question ").removeClass("threeLines");
+      $(this).closest(".connecting_lead_question ").find(".connecting_lead_linesNum").val("2");
+    });
 
   });
 
   $.fn.multipleAnswerSetsQuestion = function() {
     var $question = $(this),
-        $question_content = $question.find(".question_content"),
-        $select = $question.find(".blank_id_select"),
-        $question_type = $question.find(".question_type");
+      $question_content = $question.find(".question_content"),
+      $select = $question.find(".blank_id_select"),
+      $question_type = $question.find(".question_type");
     if ($question.data('multiple_sets_question_bindings')) { return; }
     $question.data('multiple_sets_question_bindings', true);
     $question_content.bind('keypress', function(event) {
@@ -2557,11 +3307,11 @@ define([
 
     $question_content.bind('change', function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question') {
         return;
       }
       var text = $(this).editorBox('get_code');
-      var matches = text.match(/\[[A-Za-z][A-Za-z0-9]*\]/g);
+      var matches = text.match(/\[[A-Za-z0-9_\-.]+\]/g);
       $select.find("option.shown_when_no_other_options_available").remove();
       $select.find("option").addClass('to_be_removed');
       var matchHash = {};
@@ -2592,7 +3342,7 @@ define([
     }).change();
     $select.change(function() {
       var question_type = $question_type.val();
-      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question') {
+      if (question_type != 'multiple_dropdowns_question' && question_type != 'fill_in_multiple_blanks_question' && question_type != 'drag_and_drop_question') {
         return;
       }
       $question.find(".form_answers .answer").hide().addClass('hidden');
@@ -2604,22 +3354,22 @@ define([
       });
       if ($select.val() !== "0") {
         var variable = $select.val(),
-            variableIdx = $select[0].selectedIndex;
+          variableIdx = $select[0].selectedIndex;
         if (variableIdx >= 0) {
           $question.find(".form_answers .answer").each(function() {
             var $this = $(this);
             if (!$this.attr('class').match(/answer_idx_/)) {
               if ($this.attr('class').match(/answer_for_/)) {
                 var idx = null,
-                    blank_id = $this.attr('class').match(/answer_for_[^\s]+/);
+                  blank_id = $this.attr('class').match(/answer_for_[^\s]+/);
                 if (blank_id && blank_id[0]) { blank_id = blank_id[0].substring(11); }
                 $select.find("option").each(function(i) {
                   if ($(this).text() == blank_id) {
                     idx = i;
                   }
                 });
-                if (idx === null) { 
-                  idx = variableIdx; 
+                if (idx === null) {
+                  idx = variableIdx;
                 }
                 $this.addClass('answer_idx_' + idx);
               } else {
@@ -2636,19 +3386,20 @@ define([
         });
         var $valid_answers = $question.find(".form_answers .answer.answer_idx_" + variableIdx).show().removeClass('hidden');
         if (!$valid_answers.length && variable && variable !== '0') {
-          for(var idx = 0; idx < 2; idx++) {
+          var answerNum = $question.is(".drag_and_drop_question") ? 1 : 2;
+          for(var idx = 0; idx < answerNum ; idx++) {
             $question.find(".add_answer_link").triggerHandler('click', true);
-              //*** 2012-11-29 rupert fill the text in the first input
-              if (idx == 0){
-                      var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");
-                      var attr = $option.attr("data-text");
-                      if(typeof attr !== 'undefined' && attr !== false){
-                          var text = $question.find(".blank_id_select option:eq(" + variableIdx +")").attr("data-text");
-                          $('.answer_idx_' + variableIdx).find(".short_answer input").val(text);
-                          $option.removeAttr("data-text");
-                      }
+            //*** 2012-11-29 rupert fill the text in the first input
+            if (idx == 0){
+              var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");
+              var attr = $option.attr("data-text");
+              if(typeof attr !== 'undefined' && attr !== false){
+                var text = $question.find(".blank_id_select option:eq(" + variableIdx +")").attr("data-text");
+                $('.answer_idx_' + variableIdx).find(".short_answer input").val(text);
+                $option.removeAttr("data-text");
               }
-              //*** end
+            }
+            //*** end
           }
           $valid_answers = $question.find(".form_answers .answer.answer_idx_" + variableIdx).show().removeClass('hidden');
         }
@@ -2913,7 +3664,5 @@ define([
 
     toggler.toggle();
   });
-
-
 
 });

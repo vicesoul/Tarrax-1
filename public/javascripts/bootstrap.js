@@ -1,0 +1,5 @@
+define([
+    'vendor/bootstrap'
+  ], function(){
+    
+  });

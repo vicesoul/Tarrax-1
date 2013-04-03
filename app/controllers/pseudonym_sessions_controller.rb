@@ -44,7 +44,7 @@ class PseudonymSessionsController < ApplicationController
 
     @pseudonym_session = PseudonymSession.new
     @headers = false
-    @is_delegated = default_domain_root_account.delegated_authentication? && !default_domain_root_account.ldap_authentication? && !params[:canvas_login]
+    @is_delegated = delegated_authentication_url?
     @is_cas = default_domain_root_account.cas_authentication? && @is_delegated
     @is_saml = default_domain_root_account.saml_authentication? && @is_delegated
     if @is_cas && !params[:no_auto]
@@ -74,7 +74,7 @@ class PseudonymSessionsController < ApplicationController
           else
             logger.warn "Received CAS login for unknown user: #{st.response.user}"
             reset_session
-            session[:delegated_message] = t 'errors.no_matching_user', "Canvas doesn't have an account for user: %{user}", :user => st.response.user
+            session[:delegated_message] = t 'errors.no_matching_user', "Jiaoxuebang doesn't have an account for user: %{user}", :user => st.response.user
             redirect_to(cas_client.logout_url(cas_login_url :no_auto => true))
             return
           end
@@ -92,7 +92,7 @@ class PseudonymSessionsController < ApplicationController
         if aac = default_domain_root_account.account_authorization_configs.find_by_id(params[:account_authorization_config_id])
           initiate_saml_login(request.host_with_port, aac)
         else
-          message = t('errors.login_errors.no_config_for_id', "The Canvas account has no authentication configuration with that id")
+          message = t('errors.login_errors.no_config_for_id', "The Jiaoxuebang account has no authentication configuration with that id")
           if default_domain_root_account.auth_discovery_url
             redirect_to default_domain_root_account.auth_discovery_url + "?message=#{URI.escape message}"
           else
@@ -132,6 +132,10 @@ class PseudonymSessionsController < ApplicationController
   def create
     # reset the session id cookie to prevent session fixation.
     reset_session_for_login
+
+    if params[:pseudonym_session].blank? || params[:pseudonym_session][:password].blank?
+      return unsuccessful_login(t('errors.blank_password', "No password was given"))
+    end
 
     # Try to use authlogic's built-in login approach first
     #@pseudonym_session = @domain_root_account.pseudonym_sessions.new(params[:pseudonym_session])
@@ -212,7 +216,7 @@ class PseudonymSessionsController < ApplicationController
         return
       else
         reset_session
-        flash[:message] = t('errors.logout_errors.no_idp_found', "Canvas was unable to log you out at your identity provider")
+        flash[:message] = t('errors.logout_errors.no_idp_found', "Jiaoxuebang was unable to log you out at your identity provider")
       end
     elsif default_domain_root_account.cas_authentication? and session[:cas_login]
       reset_session
@@ -227,7 +231,7 @@ class PseudonymSessionsController < ApplicationController
     flash[:logged_out] = true
     respond_to do |format|
       session.delete(:return_to)
-      if default_domain_root_account.delegated_authentication? && !default_domain_root_account.ldap_authentication?
+      if delegated_authentication_url?
         format.html { redirect_to login_url(:no_auto=>'true') }
       else
         format.html { redirect_to login_url }
@@ -260,7 +264,7 @@ class PseudonymSessionsController < ApplicationController
           @pseudonym_session.destroy rescue true
           reset_session
           if default_domain_root_account.auth_discovery_url
-            message = t('errors.login_errors.unrecognized_idp', "Canvas did not recognize your identity provider")
+            message = t('errors.login_errors.unrecognized_idp', "Jiaoxuebang did not recognize your identity provider")
             redirect_to default_domain_root_account.auth_discovery_url + "?message=#{URI.escape message}"
           else
             flash[:delegated_message] = t 'errors.login_errors.no_idp_set', "The institution you logged in from is not configured on this account."
@@ -334,7 +338,7 @@ class PseudonymSessionsController < ApplicationController
             logger.warn message
             aac.debug_set(:canvas_login_fail_message, message) if debugging
             # the saml message has to survive a couple redirects
-            session[:delegated_message] = t 'errors.no_matching_user', "Canvas doesn't have an account for user: %{user}", :user => unique_id
+            session[:delegated_message] = t 'errors.no_matching_user', "Jiaoxuebang doesn't have an account for user: %{user}", :user => unique_id
             redirect_to :action => :destroy
           end
         elsif response.auth_failure?
@@ -591,7 +595,7 @@ class PseudonymSessionsController < ApplicationController
 
   def oauth2_accept
     # now generate the temporary code, and respond/redirect
-    code = Canvas::Oauth::Token.generate_code_for(@current_user.id, session[:oauth2][:client_id])
+    code = Canvas::Oauth::Token.generate_code_for(@current_user.global_id, session[:oauth2][:client_id])
     final_oauth2_redirect(session[:oauth2][:redirect_uri], :code => code)
     session.delete(:oauth2)
   end

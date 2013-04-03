@@ -33,7 +33,11 @@ class InfoController < ApplicationController
   def help_links
     render :json => @domain_root_account && @domain_root_account.help_links
   end
-
+  
+  def privacy
+     @body_classes = ["welcome"]
+  end
+  
   def record_error
     error = params[:error] || {}
     error[:user_agent] = request.headers['User-Agent']
@@ -81,6 +85,7 @@ class InfoController < ApplicationController
     Account.connection.select_value("SELECT 1")
     Rails.cache.read 'heartbeat'
     Canvas.redis.get('heartbeat') if Canvas.redis_enabled?
+    Tempfile.new("heartbeat").tap { |f| f.write("heartbeat"); f.flush }
 
     respond_to do |format|
       format.html { render :text => 'canvas ok' }

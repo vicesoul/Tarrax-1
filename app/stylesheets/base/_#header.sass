@@ -1,3 +1,4 @@
+$wrapperWidth: 960px
 #skip_navigation_link
   position: absolute
   left: -10000px
@@ -18,16 +19,15 @@
 // the #header.no-user #header-logo part here is so that it overrides the byuh logo
 #header-logo, #header.no-user #header-logo
   background: url("/images/canvas/header_canvas_logo.png") no-repeat
-  width: 135px
-  height: 26px
-  left: 16px
-  bottom: 21px
-  position: absolute
+  width: 130px
+  height: 59px
+  display: inline-block
+  float: left
   text-indent: -9999px
 // TODO: remove this style once people have time to update their logo-related custom
 // css. See related code in app/coffeescripts/bundles/common.coffee too.
 #header-logo.original, #header.no-user #header-logo.original
-  bottom: 12px
+  bottom: 6px
 #header-logo-secondary
   display: none
   background: url("/images/canvas/header_canvas_logo.png") no-repeat
@@ -37,56 +37,57 @@
   bottom: 6px
   position: absolute
 
-#header-inner
-  padding-top: 26px
-  max-width: $max_main_width
-  position: relative
+
+  
 
 #header
-  position: relative
-  z-index: 11 /* IE7 needs this o so the menu-item-drops get stuck above #main */
-  //*** 2012-12-07 rupert 
-  //background: #7aa3cf url("/images/canvas/header_bg.pngY") repeat-x left bottom 
-  background: #7aa3cf
-  &.no-user
-    background-position: 0 -25px
-    min-height: 45px
-    #header-logo
-      top: 11px
-      left: 6px
-    #header-logo-secondary
-      display: none
+  +pie-clearfix
+  :font-size 12px
+  :background #fff
+  :border-bottom 4px solid #0084fe
+  #header-inner
+    .top-menu
+      margin-bottom: 0!important
+      background: #f4f4f4
+      border-bottom: 1px solid #ccc!important
+      height: 40px
+      min-height: 40px
+      position: relative
+      z-index: 11 
+      /* IE7 needs this o so the menu-item-drops get stuck above #main */
+      &.no-user
+        background-position: 0 -25px
+        min-height: 45px
+        #header-logo
+          top: 11px
+          left: 6px
+        #header-logo-secondary
+          display: none
+
+
 
 #topbar
-  position: absolute
-  top: 0
-  right: 0
-  width: 100%
   overflow: hidden
+  float: right
+  width: auto
 
 #identity
   +reset-list
-  float: right
-  font-size: 12px
-  margin-right: $right_side_margin
-  margin-bottom: 4px /*make room for the drop shadow*/
-  padding: 0 11px
-  background: transparent url('/images/canvas/top_bar_bg.png') repeat-x
-  box-shadow: rgba(0, 0, 0, 0.3) 1px 1px 1px
-  border-bottom-left-radius: 6px
-  border-bottom-right-radius: 5px
-  border: 1px solid rgba(0,0,0, 0.3)
-  border-top: 0
-
-
+  float: none
+  margin: auto
+  padding: 0
+  background: none
+  box-shadow: none
+  border-radius: none
+  border: none
   li
-    color: white
     float: left
-    line-height: 1em
-    margin: 5px 8px 5px 0
-    padding-left: 8px
-    &.first, &#identity-help-container
-      border-left: none
+    margin: 0 0 0 10px
+    color: #666
+    padding: 0
+    line-height: 40px
+    a
+      color: #396EB2
   .user_name
     margin-right: 15px
     a
@@ -110,109 +111,143 @@
 #menu
   +pie-clearfix
   +reset-list
-  padding-top: 3px
-  margin-left: $left_side_width
-.menu-item
-  display: block
-  float: left
-  position: relative
-  .menu-item-title, .menu-item-no-drop
-    text-shadow: 0px 0px 1px #000 /*this gives it the effect of looking thinner*/
-    color: #fff
-    font-size: 16px
-    border: 1px solid transparent
-    border-bottom: 0 none
+  :margin 0 0 0 10px
+  :padding 0
+  .menu-item
     display: block
-    padding: 6px 17px 5px
-    text-decoration: none
+    float: left
     position: relative
-    z-index: 100
-    height: 29px
-    font-size: 15px
-
-  .menu-item-no-drop:hover
-    text-decoration: underline
-  &.hover
-    .menu-item-title
+    .menu-item-title, .menu-item-no-drop
+      margin-top: 13px
+      color: #999
+      height: auto
+      padding: 0 22px
+      font-size: 12px
       text-shadow: none
-      color: $menu-text-color
-      border-top-color: $menu-border-color
-      border-left-color: $menu-border-color
-      border-right-color: $menu-border-color
-      background-color: $menu-background-color
-
+      border-right: 1px solid #999
+      display: inline-block
+      height: 12px
+      line-height: 12px
+      text-decoration: none
+      position: relative
+      z-index: 100
+      background: url("/images/jxb/line-grey.png") no-repeat right 12px
+      i.icon-mini-arrow-down
+        font-size: 12px
+        position: absolute
+        top: -3px
+        right: 0
+    &.hover
+      .menu-item-drop
+        left: 0 
+    //bring it back on screen so you can see it
+      >a
+        background: none
     .menu-item-drop
-      left: 0 // bring it back on screen so you can see it
+      border: 1px solid $menu-border-color
+      background-color: $menu-background-color
+      box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.25)
+      top: 40px
+      z-index: 99
+      font-size: 13px
+      // hide off screen, dont do display:none, so screenreaders can see it
+      overflow: hidden
+      position: absolute
+      left: -999999px
 
-  .menu-item-drop
-    border: 1px solid $menu-border-color
-    background-color: $menu-background-color
-    box-shadow: 7px 7px 9px rgba(0, 0, 0, 0.25)
-    top: 40px
-    z-index: 99
-    font-size: 13px
-    // hide off screen, dont do display:none, so screenreaders can see it
-    overflow: hidden
-    position: absolute
-    left: -999999px
-
-    .menu-item-view-all
-      border-bottom: none
-      font-size: 11px
-      text-align: right
-      white-space: nowrap
-      &:hover
-        background-color: transparent
-      a
-        &:hover, &:focus
-          text-decoration: underline
-
-    .menu-item-drop-column
-      padding: 0
-      border-left: 1px solid lighten($borderColor, 22%)
-
-      min-width: 270px
-      width: 270px
-      vertical-align: top
-      .h2
-        display: block
-        padding: 9px 12px 3px
-        border-bottom: 1px solid lighten($borderColor, 22%)
-        color: $menu-text-color
-        font-size: 1.1em
-        margin: 0
-      &:first-child
-        border-left: none
-    li
-      line-height: .9em
-      .secondary-right, .subtitle
-        font:
-          style: italic
-        color: #555
-      .subtitle
-        display: block
-        color: #bcbcbc
-        font-size: 9px
-      .menu-item-drop-float-right
-        float: right
-        white-space: nowrap
-      &:hover
-        background-color: $activeBG
-
-        .secondary-right, .subtitle
-          color: #666
-      .name-right-wrapper
-        width: 100%
-        display: block
-        overflow: hidden
-      .secondary-right
-        float: right
-        white-space: nowrap
+      .menu-item-view-all
+        border-bottom: none
         font-size: 11px
-      .name
-        display: block
+        text-align: right
+        white-space: nowrap
+        &:hover
+          background-color: transparent
+        a
+          &:hover, &:focus
+            text-decoration: underline
 
+      .menu-item-drop-column
+        padding: 0
+        border-left: 1px solid lighten($borderColor, 22%)
 
+        min-width: 270px
+        width: 270px
+        vertical-align: top
+        .h2
+          display: block
+          padding: 9px 12px 3px
+          border-bottom: 1px solid lighten($borderColor, 22%)
+          color: $menu-text-color
+          font-size: 1.1em
+          margin: 0
+        &:first-child
+          border-left: none
+      li
+        line-height: .9em
+        .secondary-right, .subtitle
+          font:
+            style: italic
+          color: #555
+        .subtitle
+          display: block
+          color: #bcbcbc
+          font-size: 9px
+        .menu-item-drop-float-right
+          float: right
+          white-space: nowrap
+        &:hover
+          background-color: $activeBG
+
+          .secondary-right, .subtitle
+            color: #666
+        .name-right-wrapper
+          width: 100%
+          display: block
+          overflow: hidden
+        .secondary-right
+          float: right
+          white-space: nowrap
+          font-size: 11px
+        .name
+          display: block
+  .menu-item:last-child
+    .menu-item-no-drop
+      background: none
+      :border-right none
+
+.logo-row
+  overflow: hidden
+  margin: 20px auto 15px
+  >.inner
+    #header-logo
+      float: left
+      :margin-left 30px
+    .form-search
+      margin-top: 10px
+      float: right
+      .input-append
+        .search-query
+          border-radius: 5px 0 0 5px
+          width: 156px
+          padding: 4.2px 14px
+          height: 20px
+          line-height: 20px
+          border-right: none
+        .btn
+          border-radius: 0 5px 5px 0
+          background: none
+          padding: 3px 10px 0 0
+          margin-left: -4px
+          box-shadow: none
+          border: 1px solid #ccc
+          border-left: none
+          i
+            background: url("/images/jxb/icon-search.png") no-repeat 6px 0
+            display: inline-block
+            width: 19px
+            height: 20px
+            padding: 0 0 0 6px
+            border-left: 1px solid #ccc
 .customListContent li.customListItem:hover
   background-color: transparent
 

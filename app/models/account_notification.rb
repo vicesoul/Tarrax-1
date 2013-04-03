@@ -20,7 +20,7 @@ class AccountNotification < ActiveRecord::Base
     now = Time.now.utc
     # Refreshes every 10 minutes at the longest
     current = Rails.cache.fetch(['account_notifications2', account].cache_key, :expires_in => 10.minutes) do
-      Shard.partition_by_shard([Account.site_admin, account]) do |accounts|
+      Shard.partition_by_shard([Account.site_admin, account].flatten) do |accounts|
         AccountNotification.find(:all, :conditions => ["account_id IN (?) AND start_at <? AND end_at>?", accounts, now, now], :order => 'start_at DESC')
       end
     end
@@ -36,4 +36,5 @@ class AccountNotification < ActiveRecord::Base
       current.reject { |announcement| closed_ids.include?(announcement.id) }
     end
   end
+
 end

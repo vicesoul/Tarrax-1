@@ -47,7 +47,7 @@
       <% if can_manage_admin_users || (!@enrollments.any?(&:admin?) && !@user.sis_pseudonym_for(@context.root_account) && can_do(@context, @current_user, :manage_students)) %>
         <td class="links" colspan="2" style="text-align: right; font-size: 0.8em; padding-top: 10px;">
           <a href="#" class="edit_user_link"><%= t('edit', 'Edit') %></a>
-          <% if @user != @current_user && @user.can_masquerade?(@real_current_user || @current_user, @domain_root_account) %>
+          <% if @current_user.site_admin? and @user != @current_user && @user.can_masquerade?(@real_current_user || @current_user, @domain_root_account) %>
             |
             <% if @context && !@context.is_a?(Account) %>
               <a href="<%= context_url(@context, :context_url, :become_user_id => @user.id) %>"> <%= t('become', 'Become') %></a>
@@ -55,9 +55,9 @@
               <a href="<%= dashboard_url(:become_user_id => @user.id) %>"> <%= t('become', 'Become') %></a>
             <% end %>
           <% end %>
-          <% if @user.associated_root_accounts.active.any?{|a| can_do(a, @current_user, :manage_user_logins) }  %>
+          <% if @current_user.jxb_admin? and @user.associated_root_accounts.active.any?{|a| can_do(a, @current_user, :manage_user_logins) }  %>
             | 
-            <a href="<%= user_admin_merge_url(@user.id) %>"><%= t('merge_with_another_user', 'Merge with Another User') %></a>
+            <a class="merge_user_link" href="<%= user_admin_merge_url(@user.id) %>"><%= t('merge_with_another_user', 'Merge with Another User')%></a>
           <% end %>
           <% if ((@context.is_a?(User) || @context.is_a?(Account)) && root_account) && @user.grants_right?(@current_user, session, :manage_logins) %>
             |

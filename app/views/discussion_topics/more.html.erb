@@ -1,0 +1,32 @@
+<% jammit_css :ui_accordion %>
+
+<% content_for :foot do %>
+  <%= javascript_include_tag "compiled/bundles/discussion_topics_index_more.js" %>
+<% end %>
+
+<div id="more_discussion_topics">
+  <h1>
+    <% if params[:type] == 'announcements' %>
+      <%= t('announcements', 'Announcements') %>
+    <% else %>
+      <%= t('discussion_topics', 'Discussion topics') %>
+    <% end %>
+    <% @courses.each do |course| %>
+      <% if params[:type] == 'announcements' %>
+        <%= link_to course.name, "/courses/#{course.id}/announcements" %>
+      <% else %>
+        <%= link_to course.name, "/courses/#{course.id}/discussion_topics" %>
+      <% end %>
+    <% end %>
+  </h1>
+<div id="accordion">
+<% @topics.each do |topic| %>
+  <h3><span style="color:#444;"><%= topic.title %></span><%= link_to t('detail', 'Detail'), "/courses/#{topic.context_id}/discussion_topics/#{topic.id}", :class => 'clickable', :style => 'display:inline;color:#0084fe;font-size:12px;font-weight:normal;' %><span class="time"><%= l topic.created_at, :format => :long %></span></h3>
+  <div>
+    <%= raw topic.message %>
+  </div>
+<% end %>
+</div>
+<%= will_paginate(@topics) %>
+</div>
+

@@ -86,7 +86,7 @@ var addRackets = false;
 
                   //*** convey the text to select box, why use setTimeout? the editor check the changes every 200ms
                   setTimeout(function(){
-                      $question.find(".blank_id_select ." + text).attr("data-text",selectedText);
+                      $question.find(".blank_id_select option[value=" + text + "]").attr("data-text",selectedText);
                   },300);
                   //*** end
 

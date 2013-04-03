@@ -60,14 +60,14 @@ module SIS
         @users_to_update_account_associations = []
       end
 
-      def add_user(user_id, login_id, status, first_name, last_name, email=nil, password=nil, ssha_password=nil)
-        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password].inspect}")
+      def add_user(user_id, login_id, status, first_name, last_name, email=nil, password=nil, ssha_password=nil, account=nil, enrollment_type=nil)
+        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password,account,enrollment_type].inspect}")
 
         raise ImportError, "No user_id given for a user" if user_id.blank?
         raise ImportError, "No login_id given for user #{user_id}" if login_id.blank?
         raise ImportError, "Improper status for user #{user_id}" unless status =~ /\A(active|deleted)/i
 
-        @batched_users << [user_id, login_id, status, first_name, last_name, email, password, ssha_password]
+        @batched_users << [user_id.to_s, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type]
         process_batch if @batched_users.size >= @updates_every
       end
 
@@ -84,9 +84,9 @@ module SIS
           while !@batched_users.empty? && tx_end_time > Time.now
             user_row = @batched_users.shift
             @logger.debug("Processing User #{user_row.inspect}")
-            user_id, login_id, status, first_name, last_name, email, password, ssha_password = user_row
+            user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type = user_row
 
-            pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id)
+            pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id.to_s)
             pseudo_by_login = @root_account.pseudonyms.active.by_unique_id(login_id).first
             pseudo ||= pseudo_by_login
             pseudo ||= @root_account.pseudonyms.active.by_unique_id(email).first if email.present?
@@ -115,7 +115,7 @@ module SIS
             # we just leave all users registered now
             # since we've deleted users though, we need to do this to be
             # backwards compatible with the data
-            user.workflow_state = 'registered'
+            user.workflow_state = 'pre_registered'
 
             should_add_account_associations = false
             should_update_account_associations = false
@@ -160,19 +160,40 @@ module SIS
               User.transaction(:requires_new => true) do
                 if user.changed?
                   user_touched = true
-                  raise user.errors.first.join(" ") if !user.save_without_broadcasting && user.errors.size > 0
+                  raise ImportError, user.errors.first.join(" ") if !user.save_without_broadcasting && user.errors.size > 0
                 elsif @batch_id
                   @users_to_set_sis_batch_ids << user.id
                 end
                 pseudo.user_id = user.id
                 if pseudo.changed?
                   pseudo.sis_batch_id = @batch_id if @batch_id
-                  raise pseudo.errors.first.join(" ") if !pseudo.save_without_broadcasting && pseudo.errors.size > 0
+                  raise ImportError, pseudo.errors.first.join(" ") if !pseudo.save_without_broadcasting && pseudo.errors.size > 0
                 end
               end
             rescue => e
               @messages << "Failed saving user. Internal error: #{e}"
               next
+            end
+
+            if account
+              begin
+                associate_account = user.associated_accounts.find_by_name(account)
+                unless associate_account
+                  associate_account = Account.find_by_name(account)
+                  associations = User.calculate_account_associations_from_accounts([associate_account.id])
+                  user.update_account_associations(:incremental => true, :precalculated_associations => associations, :fake => true)
+                end
+
+                UserAccountAssociation.find(:first, :conditions => {
+                  :user_id => user.id,
+                  :account_id => associate_account.id
+                }).update_attributes({
+                  :enrollment_type => enrollment_type
+                }) if enrollment_type
+
+              rescue => e
+                @messages << "Failed associating account #{account}, skipping."
+              end
             end
 
             @users_to_add_account_associations << user.id if should_add_account_associations
@@ -210,7 +231,14 @@ module SIS
               cc.workflow_state = status_is_active ? 'active' : 'retired'
               newly_active = cc.path_changed? || (cc.active? && cc.workflow_state_changed?)
               if cc.changed?
-                cc.save_without_broadcasting
+                if cc.valid?
+                  cc.save_without_broadcasting
+                else
+                  msg = "An email did not pass validation "
+                  msg += "(" + "#{email}, error: "
+                  msg += cc.errors.full_messages.join(", ") + ")"
+                  raise ImportError, msg
+                end
                 user.touch unless user_touched
               end
               pseudo.sis_communication_channel_id = pseudo.communication_channel_id = cc.id
@@ -226,12 +254,20 @@ module SIS
 
             if pseudo.changed?
               pseudo.sis_batch_id = @batch_id if @batch_id
-              pseudo.save_without_broadcasting
+              if pseudo.valid?
+                pseudo.save_without_broadcasting
+                @success_count += 1
+              else
+                msg = "A user did not pass validation "
+                msg += "(" + "user: #{user_id}, error: "
+                msg += pseudo.errors.full_messages.join(", ") + ")"
+                raise ImportError, msg
+              end
             elsif @batch_id && pseudo.sis_batch_id != @batch_id
               @pseudos_to_set_sis_batch_ids << pseudo.id
+              @success_count += 1
             end
 
-            @success_count += 1
           end
         end
       end

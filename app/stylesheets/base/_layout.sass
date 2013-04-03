@@ -37,9 +37,17 @@ body
       border-top: 1px solid #DDD
       box-shadow: inset 0 1px 0 white
       text-align: right
+      a
+        position: absolute
+        left: 1em
+        top: 1.5em
       .controls
         margin-left: 15px
         margin-right: 15px
+    #modal-box
+      background: #fff !important
+      color: #333 !important
+      height: auto !important
     background: #fff
 
 // so we don't get the non-interactionable content
@@ -49,7 +57,8 @@ body
 
 #wrapper-container
   // the sole purpose of this div is to make it so the shadow on #wrapper does not cause the page to have scroll bars.
-  overflow: scroll
+  overflow: auto
+  :margin-top 25px
 #wrapper
   +pie-clearfix
 
@@ -57,7 +66,6 @@ body
   position: relative
   z-index: 10
   background-color: $main_background_color
-  border: 1px solid $listBorderColor
   border-top: 0
   margin-bottom: 40px
   +pie-clearfix
@@ -67,7 +75,8 @@ body
 #content
   padding: 1em
   overflow: hidden
-
+  :border 1px solid $listBorderColor
+  :border-top none
 
 // **********************************************************************************
 // all of the following are classes that should be applied to 'body' when appropriate
@@ -85,8 +94,9 @@ body
     display: block
   #main
     margin-left: $left_side_width
-  #header-inner
-    max-width: $left_side_width + $max_main_width
+  .top-menu
+    >.inner
+      max-width: $left_side_width + $max_main_width
 
 .with-right-side
   min-width: $right_side_width + $min_main_width
@@ -95,18 +105,23 @@ body
     float: right
   #main
     margin-right: $right_side_width
-  #header-inner
-    max-width: $right_side_width + $max_main_width
+  .top-menu
+    >.inner
+      max-width: $right_side_width + $max_main_width
+  .logo-row .inner
+    max-width: $max_main_width
 
 
 
 .with-right-side.with-left-side
   min-width: $right_side_width + $left_side_width + $min_main_width
-  #header-inner
+  .top-menu >.inner
     max-width: $right_side_width + $left_side_width + $max_main_width
+  .logo-row .inner
+    max-width: $left_side_width + $max_main_width
 
 .full-width
-  #header-inner, #main
+  .top-menu >.inner, #main
     max-width: none
 
 
@@ -135,8 +150,8 @@ body
     font-size: 12px
     li
       float: left
-      height: 27px
-      line-height: 29px
+      height: 38px
+      line-height: 38px
       padding-left: 12px
       margin-left: 8px
       background: url(/images/breadcrumb-chevron.png) left 50% no-repeat
@@ -144,12 +159,15 @@ body
         background: none
         padding-left: 0
         margin-left: 0
+      a, span
+        color: #fff
     .home a
-      color: #ccc
+      color: #fff
       i
         font-size: 12px
         margin-right: -5px
         vertical-align: text-bottom
+    
 
   .ellipsis
     display: inline-block

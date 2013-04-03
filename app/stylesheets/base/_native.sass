@@ -47,6 +47,19 @@ table.stylized
   caption
     background: #eee
 
+#quiz_options_form
+  label
+    display: inline-block
+  input[type = text]
+    padding: 4px 2px
+    margin-bottom: 0
+  input[type="checkbox"]
+    margin: 0
+
+#ui-datepicker-div
+  select
+    width: auto
+
 table.striped
   thead th
     //for ie8
@@ -61,3 +74,113 @@ table.striped
 table.bordered
   th, td
     border: 1px solid #ccc
+    
+    
+/* buttons 
+  -------------------------------------------------------------- */  
+  
+  
+.btn-blue
+  border: none
+  cursor: pointer
+  width: 233px
+  height: 52px
+  background: url("/images/jxb/btn-blue.png")
+  text-align: center
+  color: #fff
+  letter-spacing: 10px
+  font-size: 18px
+  text-shadow: none
+.right
+  float: right
+.ui-dialog.paint
+  .ui-dialog-buttonset
+    button
+      background-color: #FAA732
+      background-image: linear-gradient(to bottom, #FBB450, #F89406)
+      background-image: -moz-linear-gradient(top, #FBB450, #F89406)
+      background-image: -ms-linear-gradient(top, white, #F89406)
+      background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#FBB450), to(#F89406))
+      background-image: -webkit-linear-gradient(top, #FBB450, #F89406)
+      background-image: -o-linear-gradient(top, #FBB450, #F89406)
+      background-image: linear-gradient(top, #FBB450, #F89406)
+      background-repeat: repeat-x
+      border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+      color: #FFFFFF
+      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+      border-radius: 4px 4px 4px 4px
+      border-style: solid
+      border-width: 1px
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05)
+      cursor: pointer
+      display: inline-block
+      font-size: 14px
+      line-height: 20px
+      margin-bottom: 0
+      padding: 4px 30px
+      text-align: center
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75)
+      vertical-align: middle
+    
+.btn-white
+  background-color: #fff
+  background-repeat: repeat-x
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+  color: #666
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25)
+  border-radius: 15px
+  border-style: solid
+  border-width: 1px
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 0px rgba(0, 0, 0, 0.2)
+  cursor: pointer
+  display: inline-block
+  font-size: 14px
+  line-height: 20px
+  margin-bottom: 0
+  padding: 4px 10px
+  text-align: center
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75)
+  vertical-align: middle
+  &:hover
+    background-image: linear-gradient(to bottom, #f86e3d, #f15b24)
+    background-color: #FAA732
+    background-image: linear-gradient(to bottom, #f86e3d, #f15b24)
+    background-image: -moz-linear-gradient(top, #f86e3d, #f15b24)
+    background-image: -ms-linear-gradient(top, #f86e3d, #f86e3d)
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f86e3d), to(#f15b24))
+    background-image: -webkit-linear-gradient(top, #f86e3d, #f15b24)
+    background-image: -o-linear-gradient(top, #f86e3d, #f15b24)
+    background-image: linear-gradient(top, #f86e3d, #f15b24)
+    background-repeat: repeat-x
+    color: #fff
+  
+.active .btn-white
+  background-color: #fff
+  background-repeat: repeat-x
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 -2px 0px rgba(0, 0, 0, 0.4)
+  &:hover
+    background-color: #fff
+    background-repeat: repeat-x
+    background-image: linear-gradient(to bottom, #fff, #fff)
+    background-image: -moz-linear-gradient(top, #fff, #fff)
+    background-image: -ms-linear-gradient(top, white, #fff)
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#fff))
+    background-image: -webkit-linear-gradient(top, #fff, #fff)
+    background-image: -o-linear-gradient(top, #fff, #fff)
+    background-image: linear-gradient(top, #fff, #fff)
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25)
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 -2px 0px rgba(0, 0, 0, 0.4)
+    color: #666
+.question .text .question_text .btn-white
+  white-space: nowrap!important
+
+#simple_captcha, .simple_captcha 
+  .controls
+    input
+      :float left
+    img
+      :float left
+      :height 25px
+      :border 1px solid #ccc
+      :margin 1px 0 0 10px

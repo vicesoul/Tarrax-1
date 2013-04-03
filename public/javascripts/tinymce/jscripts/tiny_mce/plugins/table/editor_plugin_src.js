@@ -8,7 +8,9 @@
  * Contributing: http://tinymce.moxiecode.com/contributing
  */
 
-(function(tinymce) {
+(function() {
+  define(['tinymce/jscripts/tiny_mce/tiny_mce_src'], function( tinymce ){
+
 	var each = tinymce.each;
 
 	// Checks if the selection/caret is at the start of the specified block element
@@ -1449,4 +1451,5 @@
 
 	// Register plugin
 	tinymce.PluginManager.add('table', tinymce.plugins.TablePlugin);
-})(tinymce);
+  })
+}).call(this);
