@@ -212,6 +212,12 @@ class CoursesController < ApplicationController
 
       @course = (@sub_account || @account).courses.build(params[:course])
       @course.sis_source_id = sis_course_id if api_request? && @account.grants_right?(@current_user, :manage_sis)
+      course_category = CourseCategory.find(@course.course_category_id) if @course.course_category_id
+      if course_category
+          course_category.used += 1
+          course_category.save
+      end
+          
       respond_to do |format|
         if @course.save
           @course.enroll_user(@current_user, 'TeacherEnrollment', :enrollment_state => 'active') if params[:enroll_me].to_s == 'true'
