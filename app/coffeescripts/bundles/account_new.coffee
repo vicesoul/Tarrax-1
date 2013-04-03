@@ -30,5 +30,4 @@ require [
       .done (data)->
         src = $(data).find("img").attr("src")
         $('#simple_captcha').find("img").attr("src", src)
-        
 
