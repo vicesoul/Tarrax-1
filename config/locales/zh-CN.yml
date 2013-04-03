@@ -123,7 +123,7 @@ zh-CN:
       secondary_ldap_label: "第二 LDAP"
       setting_type_ldap: LDAP
     ldap_settings_fields: 
-      auth_filter_description: "使用 *%{placeholder}* 作为用户所提供的用户名的占位符。ÀýÈç: *(sAMAccountName=%{placeholder})*"
+      auth_filter_description: "使用 *%{placeholder}* 作为用户所提供的用户名的占位符。例如: *(sAMAccountName=%{placeholder})*"
       auth_password_description: 留空则继续使用当前密码。
       identifer_format_description: "LDAP 属性用于查看教学邦登录。保留为空可使用用户提供的用户名。"
       labels: 
@@ -9861,7 +9861,7 @@ zh-CN:
       sign_in: 登录
     ok: 确定
     parent_dialog: 
-      agree_to_terms_and_pp: "您同意*用户使用条款e* 和**隐私政策**."
+      agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."
       buttons: 
         start_participating: 开始参加
       labels: 
@@ -9870,7 +9870,7 @@ zh-CN:
         password: 子密码
         username: 子用户名
     student_dialog: 
-      agree_to_terms_and_pp: "您同意*用户使用条款e* 和**隐私政策**."
+      agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."
       buttons: 
         start_learning: 开始学习
       labels: 
@@ -9882,7 +9882,7 @@ zh-CN:
         username: 用户名
       sign_up_without_code: 没有代码?
     student_higher_ed_dialog: 
-      agree_to_terms_and_pp: "您同意*用户使用条款e* 和**隐私政策**."
+      agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."
       buttons: 
         start_learning: 开始学习
       labels: 
@@ -9890,7 +9890,7 @@ zh-CN:
         email: 电子邮件
         name: 全名
     teacher_dialog: 
-      agree_to_terms_and_pp: "您同意*用户使用条款e* 和**隐私政策**."
+      agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."
       buttons: 
         start_teaching: 开始教学
       labels: 
