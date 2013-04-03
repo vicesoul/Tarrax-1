@@ -168,7 +168,7 @@
         <%= left_side %>
       <% else %>
         <% if @context.try(:short_name) %>
-          <h1 id="section-tabs-header">
+          <h1 class="blue-bar">
             <%= @context.short_name %>
             <% if @context && @context.respond_to?(:context)  %>
               <a href="<%= url_for(@context.context) %>" id="section-tabs-header-subtitle" class="ellipsis"><%= @context.context.name %></a>

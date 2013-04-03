@@ -298,8 +298,26 @@ button.button-secondary {
   a, button {
     &.button-sidebar-wide {
       text-align: left;
-      margin: 5px auto;
+      margin: 15px auto;
       display: block;
+      border-radius: 0;
+      text-shadow: 0 1px 1px rgba(255,255,255,.75);
+      @include buttonBackground(#fed72a, #fcb11c);
+      border: 1px solid #ff9314;
+      border-bottom-color: #e58200;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+      line-height: 36px;
+      color: #993300;
+      font-size: 20px;
+      font-weight: bold;
+      & i{
+        width: 26px;
+        height: 26px;
+        line-height: 26px;
+        color: #993300;
+        font-size: 26px;
+        margin: 0 20px 0 10px;
+      }
       /* 12px is the size of the padding on the button */
       // width: $right_side_width - $right_side_margin - $right_side_margin - 2px - 12px - 12px;
     }
