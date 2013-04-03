@@ -18,7 +18,7 @@
 
 # @API Accounts
 class AccountsController < ApplicationController
-  before_filter :require_user, :only => [:index, :new, :create, :homepage]
+  before_filter :require_user, :only => [:index, :new, :create]
   before_filter :reject_student_view_student
   before_filter :get_context
 
@@ -292,7 +292,9 @@ class AccountsController < ApplicationController
             end
           end
         end
+        cached_public_account_setting = @account.settings[:public_account]
         if @account.update_attributes(params[:account])
+          @account.update_courses_be_part_of if cached_public_account_setting != params[:account][:settings][:public_account]
           format.html { redirect_to account_settings_url(@account) }
           format.json { render :json => @account.to_json }
         else

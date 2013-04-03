@@ -16,6 +16,14 @@ define([
 ], function(I18n, $) {
 
   $(document).ready(function() {
+    
+    $("#account_settings_public_account").click(function(){
+      if ( $(this).prop("checked") ) {
+        $("#account_settings_allow_homepage_previews").attr("checked","true");
+      }else{
+        $("#account_settings_allow_homepage_previews").removeAttr("checked");
+      }
+    });
     $("#account_settings").submit(function() {
       $(".ip_filter .value").each(function() {
         $(this).removeAttr('name');

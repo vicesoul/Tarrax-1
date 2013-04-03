@@ -14,13 +14,30 @@
 <% jammit_css :tinymce, :account_homepage %>
 <% js_bundle  :account_homepage %>
 
-<% content_for :right_side do %>
-  <%= render :partial => 'homepage_right_side' %>
-<% end if @can_manage_homepage %>
-
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
 <% if @can_manage_homepage %>
+<div id="fixed_right_sider">
+  <div>
+    <a href="javascript:void(0)" class="edit_theme_link btn button-sidebar-wide"><i class="icon-edit"></i> <%= t(:edit_this_page, "Edit this page") %></a>
+    <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
+    <div id="theme_options_holder">
+      <div id="theme_options">
+        <%= before_label(:name, 'Theme name') %>
+        <%= f.select :theme, Jxb::Theme.themes %>
+        <%= before_label(:add_new_widget, 'New widget') %>
+        <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
+        <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %>
+      </div><!-- End of div#theme_options -->
+      <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
+      <div class="button-container rs-margin-lr">
+        <button type="submit" class="save_theme_button btn"><%= t(:save, "Save") %></button>
+        <a href="javascript:void(0)" class="cancel"><%= t(:cancel, "cancel") %></a>
+      </div>
+    </div><!-- End of div#theme_options_holder -->
+    <% end # End of form_for %>
+  </div>
+</div>
 <div id="edit_widget_dialog">
   <div class="edit_widget_section">
     <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" /><br />
@@ -32,5 +49,22 @@
     <button type="submit" class="save_widget_button btn"><%= t :save, 'Save' %></button>
     <a href="javascript:$('#edit_widget_dialog').dialog('close');" title="cancel"><%= t :cancel, 'Cancel' %></a>
   </div>
+</div>
+<div id="choose_courses_dialog" title="<%= t(:assign_courses, "Assign courses") %>">
+  <% courses_with_account = @account.all_courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.root_account.name] << course; h } %>
+  <% cached_courses = @page.courses || [] %>
+  <ul>
+  <% courses_with_account.each do |account_name, courses| %>
+    <li>
+      <%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %>
+      <ul class="all_sub_checkboxs">
+      <% courses.each do |course| %>
+        <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.include?(course.id.to_s), :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
+      <% end %>
+      </ul>
+    </li>
+  <% end %>
+  </ul>
+  <a href="javascript:void(0)" class="save_choose_courses_link btn button-sidebar-wide"><%= t(:save, "Save") %></a>
 </div>
 <% end %>
