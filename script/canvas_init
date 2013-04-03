@@ -27,5 +27,11 @@ fi
 #export GEM_HOME=/path/to/gem/home
 export RAILS_ENV=production
 
+export PATH=$HOME/.rbenv/bin:$PATH
+eval "$(rbenv init -)"
+
+echo $(ruby -v)
+echo $(gem env)
+
 # run delayed jobs
 exec script/delayed_job $@
