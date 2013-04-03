@@ -139,6 +139,10 @@ require [
         $data = $(data).addClass("new_widget_ajax")
         $container.append($data)
         makeWidgetsDeletable()
+        $('body').animate({
+          scrollTop: $data.offset().top
+          backgroundColor:'yellow'
+        }, 500)
         $(".add_widget_loading_icon").hide()
         $("#add_widget").show()
 
