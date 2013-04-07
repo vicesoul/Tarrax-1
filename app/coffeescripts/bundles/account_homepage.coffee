@@ -47,13 +47,16 @@ require [
       $widget = $(this).parent(".deletable")
       $widget.addClass("deleted")
       $widget.hide()
-    $editImg = $("<img src='/images/edit.png' title='edit' class='edit_widget' />").click ->
-      $('.editable').removeClass('editable')
-      $widget = $(this).parent("[data-widget]")
-      synToDialog( $widget )
-      $("#edit_widget_dialog").dialog "open"
-      $widget.addClass('editable')
-    $widgets.addClass("deletable").append($deleteImg).append($editImg)
+    $widgets.addClass("deletable").append($deleteImg)
+    $widgets.each ->
+      unless $(this).hasClass "fixed"
+        $editImg = $("<img src='/images/edit.png' title='edit' class='edit_widget' />").click ->
+          $('.editable').removeClass('editable')
+          $widget = $(this).parent("[data-widget]")
+          synToDialog( $widget )
+          $("#edit_widget_dialog").dialog "open"
+          $widget.addClass('editable')
+        $(this).append $editImg
     
   revertWidgets = ->
     $("[data-widget]").removeClass("deletable").removeClass("deleted").show()
@@ -72,7 +75,6 @@ require [
         ui.placeholder.height ui.item.height()
     )
     
-
     $("#widget_body").editorBox tinyOptions: width: '100%'
 
     $("#edit_widget_dialog").dialog(
