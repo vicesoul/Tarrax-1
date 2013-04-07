@@ -1273,6 +1273,16 @@ define([
 
     },
 
+    connectingLead: function($form){
+      var $display_question = $form.prev(".display_question");
+      var isThreeLines = $form.closest(".question_holder").find(".connecting_lead_linesNum").text().trim() === "3";
+      var $question = $form.find(">div.question");
+      if(isThreeLines){
+        $question.addClass("threeLines");
+      }
+      
+    },
+
     updateDisplayComments: function() {
       this.checkShowDetails();
       $(".question_holder > .question > .question_comment").each(function() {
@@ -1989,6 +1999,7 @@ define([
           $(this).closest(".question").find(".answer.answer_idx_" + idx).filter(":not(.answer_for_" + variable + ")").each(function() {
             $(this).attr('class', $(this).attr('class').replace(/answer_for_[A-Za-z0-9]+/g, ""));
             $(this).addClass('answer_for_' + variable);
+            console.log("change")
           });
         }
         $(this).closest(".question").find(".answer.answer_for_" + variable).css('display', '');
@@ -2133,6 +2144,8 @@ define([
       quiz.showFormQuestion($form);
       if( data.answer_type === "connecting_on_pic_answer" ) {
         quiz.connectingOnPic($form);
+      }else if(data.answer_type === "connecting_lead_answer"){
+        quiz.connectingLead($form);
       }
 
 
@@ -3348,7 +3361,7 @@ define([
       $question.find(".form_answers .answer").hide().addClass('hidden');
       $select.find("option").each(function(i) {
         var $option = $(this);
-        $question.find(".form_answers .answer_for_" + $(this).val()).each(function() {
+        $question.find( ".form_answers .answer_for_" + $(this).val() ).each(function() {
           $(this).attr('class', $(this).attr('class').replace(/answer_idx_\d+/g, ""));
         }).addClass('answer_idx_' + i);
       });
