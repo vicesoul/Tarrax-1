@@ -21,9 +21,9 @@ zh-CN:
   account:
     tab_homepage: 主页
   jxb/widget:
-    activity_index: 活动列表
+    activity_index: 活动照片
     news_index: 新闻列表
-    announcement_index: 公告列表
+    announcement_index: 课程公告
     discussion_index: 讨论列表
     assignment_index: 作业列表
     custom_index: 自定义组件

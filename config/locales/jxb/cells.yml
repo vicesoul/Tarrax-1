@@ -25,6 +25,7 @@ zh-CN:
       empty_body: '暂无课程列表'
     activity:
       title: '活动照片'
+      empty_body: '暂无活动照片'
     announcement_account:
       title: '网校公告'
       empty_body: '暂无网校公告'
