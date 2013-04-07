@@ -7,7 +7,7 @@ class AddColumnForCourseCategory< ActiveRecord::Migration
         change_column_used_to_default
     end
 
-    def change_column_used_to_default
+    def self.change_column_used_to_default
         CourseCategory.update_all("used=0")
     end
 
