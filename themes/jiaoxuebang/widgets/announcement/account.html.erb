@@ -1,4 +1,4 @@
-<div <%= data_widget %> >
+<div <%= data_widget %> class="fixed">
   <div class="box">
     <div class="box_head">
       <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.announcement_account.title', 'Account announcement') } %>
@@ -9,7 +9,7 @@
         <div class=<%= v_ticker_class %>>
           <ul class="account_announcement">
           <% @announcements.each do |announcement| %>
-            <li><div class="inner"><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") %></span></div></li>
+            <li><div class="inner"><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") if announcement.start_at %></span></div></li>
           <% end %>
           </ul>
         </div>

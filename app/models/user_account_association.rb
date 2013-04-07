@@ -38,9 +38,7 @@ class UserAccountAssociation < ActiveRecord::Base
   private
 
   def make_sure_only_one_fake_association_each_account
-    if self.fake && self.class.find_by_user_id_and_account_id(self.user_id, self.account_id)
-      return false
-    end  
+    raise 'Only one fake association each account' if self.new_record? && self.fake && self.class.find_by_user_id_and_account_id(self.user_id, self.account_id)
   end
 
 end
