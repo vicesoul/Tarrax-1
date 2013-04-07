@@ -313,7 +313,7 @@ class UsersController < ApplicationController
     js_env :DASHBOARD_SIDEBAR_URL => dashboard_sidebar_url
 
     #@announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
-    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) )
+    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) << @domain_root_account )
     @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
     @stream_items = @current_user.try(:cached_recent_stream_items) || []
     
