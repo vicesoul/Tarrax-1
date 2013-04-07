@@ -842,7 +842,11 @@ class UsersController < ApplicationController
       @pseudonym ||= @user.pseudonym
       @cc = @pseudonym.communication_channel || @user.communication_channel
     else
-      redirect_to root_url
+      if params[:back_url] == 'account_new' 
+        redirect_to root_url << 'accounts/new'
+      else
+        redirect_to root_url
+      end
     end
   end
 
