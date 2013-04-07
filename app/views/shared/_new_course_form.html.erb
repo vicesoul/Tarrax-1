@@ -25,11 +25,11 @@
   </div>
 
   <div class="control-group">
-    <%= f.label :license,
-                :en => "Content License",
+    <%= f.label :course_category_id,
+                :en => "Course Category",
                 :class => "control-label" %>
     <div class="controls">
-      <%= f.select :license, Course.licenses.map { |id, attrs| [attrs[:readable_license], id] } , {}, :class => 'input-xlarge' %>
+        <%= f.select :course_category_id, Course.get_course_categories.map{|category| [category.name, category.id]}, {:prompt => t(:course_category_tip, 'Please select a course category')}, :class => 'input-xlarge' %>
     </div>
   </div>
 

@@ -3629,6 +3629,7 @@ zh-CN:
         course_code: 课程代码
         course_lock_all_announcements: 禁止公告回帖
         course_name: 名称
+        course_category: 课程分类
         course_section_id: 班
         course_section_name: 班名
         course_visibility: 可见性
@@ -10531,12 +10532,14 @@ zh-CN:
     new_course_form: 
       cancel: 取消
       course_cose_explanation: 显示的内容间隔会很小
+      course_category_tip: 请选择课程的类型
       create_course: 创建课程
       creating_course: 创建课程中...
       labels: 
         course_code: 简称
         license: 内容授权
         name: 课程名称
+        course_category_id: 课程分类
       make_course_publicly_visible: 公开课程列表
       new_course_name_placeholder: 课程名称
       sample_course_code: 基础课程-101

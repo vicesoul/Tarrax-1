@@ -60,7 +60,8 @@ class Course < ActiveRecord::Base
                   :locale,
                   :hide_final_grades,
                   :hide_distribution_graphs,
-                  :lock_all_announcements
+                  :lock_all_announcements,
+                  :course_category_id
 
   serialize :tab_configuration
   serialize :settings, Hash
@@ -69,6 +70,7 @@ class Course < ActiveRecord::Base
   belongs_to :enrollment_term
   belongs_to :grading_standard
   belongs_to :template_course, :class_name => 'Course'
+  belongs_to :course_category
   has_many :templated_courses, :class_name => 'Course', :foreign_key => 'template_course_id'
 
   has_many :course_sections
@@ -186,6 +188,7 @@ class Course < ActiveRecord::Base
   validates_length_of :syllabus_body, :maximum => maximum_long_text_length, :allow_nil => true, :allow_blank => true
   validates_length_of :name, :maximum => maximum_string_length, :allow_nil => true, :allow_blank => true
   validates_length_of :course_code, :maximum => maximum_string_length, :allow_nil => true, :allow_blank => true
+  validates_length_of :within => 1..8, :message => 'Please select a course category'
   validates_locale :allow_nil => true
 
   sanitize_field :syllabus_body, Instructure::SanitizeField::SANITIZE
@@ -308,6 +311,11 @@ class Course < ActiveRecord::Base
       },
     ]
   end
+
+  def self.get_course_categories
+    CourseCategory.find(:all)    
+  end
+
 
   def license_data
     licenses = self.class.licenses

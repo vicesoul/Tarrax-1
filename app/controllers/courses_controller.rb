@@ -218,6 +218,12 @@ class CoursesController < ApplicationController
         @course.is_public = @course.indexed = true
       end
 
+      course_category = CourseCategory.find(@course.course_category_id) if @course.course_category_id
+      if course_category
+        course_category.used += 1
+        course_category.save
+      end
+          
       respond_to do |format|
         if @course.save
           @course.enroll_user(@current_user, 'TeacherEnrollment', :enrollment_state => 'active') if params[:enroll_me].to_s == 'true'
@@ -236,7 +242,7 @@ class CoursesController < ApplicationController
           }
         else
           flash[:error] = t('errors.create_failed', "Course creation failed")
-          format.html { redirect_to :root_url }
+          format.html { redirect_to :root}
           format.json { render :json => @course.errors.to_json, :status => :bad_request }
         end
       end

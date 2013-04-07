@@ -12,7 +12,18 @@
     }
   </style>
 <div class="content">
-  <%= render :partial => 'shared/menu_navbar' %>
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav nav-tabs">
+          <li><a href="/">首页</a></li>
+          <% CourseCategory.getAllCategoriesForIndex.each do |category| %>
+            <li><a href="#" onclick="return false;"><%= category.name %></a></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </div>
   <div class="big-eye">
     <div class="big-eye-inner">
       <ul>
