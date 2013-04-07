@@ -426,11 +426,7 @@
 }
 #jiaoxuebang .im_account_announcements_widget{
   float:left;
-<<<<<<< HEAD
   min-width:262px;
-=======
-  width:262px;
->>>>>>> f0ce68f83f804e4dddaa47a23cb22ab87535a651
   margin-left: 20px;
   display: inline;
 }

@@ -38,6 +38,34 @@ class InfoController < ApplicationController
      @body_classes = ["welcome"]
   end
   
+  def aboutus
+     @body_classes = ["welcome"]
+  end
+  
+  def businessmodel
+     @body_classes = ["welcome"]
+  end
+  
+  def advantagesofthesystem
+     @body_classes = ["welcome"]
+  end
+  
+  def functionaladvantages
+     @body_classes = ["welcome"]
+  end  
+  
+  def hr
+     @body_classes = ["welcome"]
+  end
+  
+  def contact
+     @body_classes = ["welcome"]
+  end
+  
+  def partner
+     @body_classes = ["welcome"]
+  end
+  
   def record_error
     error = params[:error] || {}
     error[:user_agent] = request.headers['User-Agent']
