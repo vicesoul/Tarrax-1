@@ -40,7 +40,7 @@ class AccountsController < ApplicationController
         @account.add_admin(@current_user, {:mobile => @account.user_mobile, :role => @account.user_role})
 
         flash[:notice] = t('notices.account_created', "Account Successfully created!")
-        format.html { redirect_to root_url(:subdomain => @account.subdomain) }
+        format.html { redirect_to (root_url(:subdomain => @account.subdomain)) << 'homepage' }
         format.json { render :json => account_json(@account, @current_user, session, []) }
       else
         flash[:error] = t('errors.create_failed', "Account creation failed")
