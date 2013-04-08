@@ -10,22 +10,41 @@
   position: relative
   width: $right_side_width - ($right_side_margin * 2)
   color: $right_side_text_color
-  min-height: 20px
-  z-index: 10 // puts it equal with #main, used so datepickers that pop up from #right-side pop up on top
-  margin: $right_side_margin $right_side_margin 0
+  min-height: 450px
+  z-index: 10 
+  :border 1px solid #bbb
+  :padding 5px 10px
+  // puts it equal with #main, used so datepickers that pop up from #right-side pop up on top
+  margin: 0 $right_side_margin 0
+  :background #fff
+  
 
   hr
     border: dotted #aaa
     border-width: 1px 0 0
     margin: 17px 0 20px
   h2
-    font-size: 14px
-    color: $gray
-    font-weight: bold
-    border-bottom: solid 1px #bbb
     box-shadow: 0 1px 0 white
-    margin: $right_side_margin 0 0
-    overflow: hidden
+    :margin 10px 0 -1px
+  .rs-margin-lr 
+    fieldset
+      :border-top none
+      :margin 0
+      :padding 12px 20px
+      input[type=text]
+        :width 91%
+        :height 20px
+        :margin 10px 0
+        :padding 6px 10px
+        :border-radius 0
+        :border 1px solid #bbb
+      button
+        box-shadow: 0 1px 0 white
+        @include buttonBackground(#fff, #ceddea)
+        :width 120px
+        :line-height 26px
+        :font-size 16px
+        :border-radius 6px
 
 .rs-match-list-indent
   padding-left: 31px
@@ -61,7 +80,8 @@
       border-bottom: none
       box-shadow: none
       
-    small // this is for things like "nothing for the next week"
+    small 
+      // this is for things like "nothing for the next week"
       padding: 3px 0 0px 31px
       display: block
       color: #666

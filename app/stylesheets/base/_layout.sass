@@ -58,7 +58,7 @@ body
 #wrapper-container
   // the sole purpose of this div is to make it so the shadow on #wrapper does not cause the page to have scroll bars.
   overflow: auto
-  border-top: 4px solid #0084fe
+  :margin-top 25px
 #wrapper
   +pie-clearfix
 
@@ -66,7 +66,6 @@ body
   position: relative
   z-index: 10
   background-color: $main_background_color
-  border: 1px solid $listBorderColor
   border-top: 0
   margin-bottom: 40px
   +pie-clearfix
@@ -76,7 +75,8 @@ body
 #content
   padding: 1em
   overflow: hidden
-
+  :border 1px solid $listBorderColor
+  :border-top none
 
 // **********************************************************************************
 // all of the following are classes that should be applied to 'body' when appropriate
@@ -108,6 +108,8 @@ body
   .top-menu
     >.inner
       max-width: $right_side_width + $max_main_width
+  .logo-row .inner
+    max-width: $max_main_width
 
 
 
@@ -148,8 +150,8 @@ body
     font-size: 12px
     li
       float: left
-      height: 27px
-      line-height: 29px
+      height: 38px
+      line-height: 38px
       padding-left: 12px
       margin-left: 8px
       background: url(/images/breadcrumb-chevron.png) left 50% no-repeat
@@ -157,25 +159,38 @@ body
         background: none
         padding-left: 0
         margin-left: 0
+      a, span
+        color: #fff
     .home a
-      color: #ccc
+      color: #fff
       i
         font-size: 12px
         margin-right: -5px
         vertical-align: text-bottom
+    
 
   .ellipsis
     display: inline-block
 
-
 #footer
-  color: #5c5c5c
-  font-size: 11px
-  margin: 0 15px 34px
-  img
-    vertical-align: bottom
-    padding: 0 20px 3px 0
-
+  background: #ccc
+  padding: 30px 0
+  color: #888
+  .pull-right
+    text-align: right
+    line-height: 30px
+    a
+      margin-left: 5px
+  ul
+    list-style: none
+    float: left
+    margin: 0
+    li
+      float: left
+      color: #888
+      a
+        margin: 0 10px
+        color: #888
 #footer-links
   a
     border-left: 1px solid #5C5C5C

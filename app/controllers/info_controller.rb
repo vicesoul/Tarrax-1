@@ -33,7 +33,39 @@ class InfoController < ApplicationController
   def help_links
     render :json => @domain_root_account && @domain_root_account.help_links
   end
-
+  
+  def privacy
+     @body_classes = ["welcome"]
+  end
+  
+  def aboutus
+     @body_classes = ["welcome"]
+  end
+  
+  def businessmodel
+     @body_classes = ["welcome"]
+  end
+  
+  def advantagesofthesystem
+     @body_classes = ["welcome"]
+  end
+  
+  def functionaladvantages
+     @body_classes = ["welcome"]
+  end  
+  
+  def hr
+     @body_classes = ["welcome"]
+  end
+  
+  def contact
+     @body_classes = ["welcome"]
+  end
+  
+  def partner
+     @body_classes = ["welcome"]
+  end
+  
   def record_error
     error = params[:error] || {}
     error[:user_agent] = request.headers['User-Agent']

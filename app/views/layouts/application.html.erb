@@ -53,6 +53,12 @@
       <% if @current_user %>
         <ul role="navigation" id="menu" aria-label="<%= t('navigation.main', 'Main Navigation') %>">
         <%- cache([@current_user, 'home-menu-15m'], :expires_in => 15.minutes) do -%>
+        <li id="calendar_menu_item" class="menu-item">
+          <a href="/" class="menu-item-no-drop">教学邦首页</a>
+        </li>
+        <li id="calendar_menu_item" class="menu-item">
+          <a href="/dashboard" class="menu-item-no-drop">我的主页</a>
+        </li>
         <% if @current_user.associated_accounts.size > 0 %>
           <li id="switch_root_accounts" class="menu-item">
             <%= render :partial => 'shared/menu_switch_accounts' %>
@@ -168,7 +174,7 @@
         <%= left_side %>
       <% else %>
         <% if @context.try(:short_name) %>
-          <h1 id="section-tabs-header">
+          <h1 class="blue-bar">
             <%= @context.short_name %>
             <% if @context && @context.respond_to?(:context)  %>
               <a href="<%= url_for(@context.context) %>" id="section-tabs-header-subtitle" class="ellipsis"><%= @context.context.name %></a>
@@ -202,6 +208,21 @@
       </div>
     </div>
     <footer role="contentinfo" id="footer">
+      <div class="container">
+        <ul>
+          <li><a href="/aboutus">关于我们</a>|</li>
+          <li><a href="/contact">联系方式</a>|</li>
+          <li><a href="/partner">合作伙伴</a>|</li>
+          <li><a href="/hr">诚聘英才</a>|</li>
+          <li><a href="/privacy">法律声明</a></li>
+        </ul>
+        <div class="pull-right">
+          版权所有 © 2013 教学邦保留所有权利<br>
+          关注教学邦：
+          <a href="#"><img src="/images/jxb/weibo-qq.png"></a>
+          <a href="#"><img src="/images/jxb/weibo-sina.png"></a>
+        </div>
+      </div>
       <span id="footer-links">
         <% if false && Setting.get_cached("show_opensource_linkback", "false") == "true" %>
           <a href="http://instructure.com"><%= t('open_source_learning_management_system', 'Open Source LMS') %></a>

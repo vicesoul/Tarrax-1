@@ -12,47 +12,102 @@
     }
   </style>
 <div class="content">
-  <div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <ul class="nav nav-tabs">
-          <li><a href="/">首页</a></li>
-          <li><a href="#">中小学</a></li>
-          <li><a href="#">英语</a></li>
-          <li><a href="#">教辅</a></li>
-          <li><a href="#">企业大学</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <%= render :partial => 'shared/menu_navbar' %>
   <div class="big-eye">
     <div class="big-eye-inner">
+      <ul>
+        <li><a href="/register">我要开设公开课</a></li>
+        <li>
+        <%= link_to "我要建独立网校", new_account_path %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="intro">
+    <div class="container">
+      <ul>
+        <li><a href="/aboutus"></a></li>
+        <li><a href="/businessmodel"></a></li>
+        <li><a href="/advantagesofthesystem"></a></li>
+        <li><a href="/functionaladvantages"></a></li>
+      </ul>
     </div>
   </div>
   <div class="courses">
-    <%= link_to "", new_account_path %>
-    <a href="/register"></a>
-  </div>
-</div>
+    <!-- <%= link_to "", new_account_path %>
+    <a href="/register"></a> -->
+    <div class="inner">
 
-<footer>
-  <div class="container">
-    <ul>
-      <li><a href="/">首页</a>|</li>
-      <li><a href="#">关于我们</a>|</li>
-      <li><a href="#">课程分类</a>|</li>
-      <li><a href="#">课程资源</a>|</li>
-      <li><a href="#">会员专区</a>|</li>
-      <li><a href="#">联系方式</a>|</li>
-      <li><a href="#">服务保障</a></li>
-    </ul>
-    <div class="pull-right">
-      版权所有 © 2003-2011 教学邦保留所有权利<br>
-      关注教学邦：
-      <a href="#"><img src="/images/jxb/weibo-qq.png"></a>
-      <a href="#"><img src="/images/jxb/weibo-sina.png"></a>
+      <ul>
+        <li>
+          <h3>同步牛津小学英语</h3>
+          <h4>
+            <span>英语</span>|<span>一年级上</span>|<span>沪牛津</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/37/self_enrollment/EFB4X4"></a>
+          <button>免费学习</button>
+        </li>
+        <li>
+          <h3>同步牛津小学英语</h3>
+          <h4>
+            <span>英语</span>|<span>一年级下</span>|<span>沪牛津</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/38/self_enrollment/HL9W9F"></a>
+          <button>免费学习</button>
+        </li>
+        <li>
+          <h3>同步小学数学听算练习</h3>
+          <h4>
+            <span>数学</span>|<span>一年级上</span>|<span>沪教版</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/30/self_enrollment/W4GAW8"></a>
+          <button>免费学习</button>
+        </li>
+        <li>
+          <h3>同步小学数学听算练习</h3>
+          <h4>
+            <span>数学</span>|<span>一年级下</span>|<span>沪教版</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/31/self_enrollment/XCENX3"></a>
+          <button>免费学习</button>
+        </li>
+      </ul>  
+      <ul>
+        <li>
+          <h3>同步牛津小学英语</h3>
+          <h4>
+            <span>英语</span>|<span>二年级上</span>|<span>沪牛津</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/39/self_enrollment/RLW6RD"></a>
+          <button>免费学习</button>
+        </li>
+        <li>
+          <h3>同步牛津小学英语</h3>
+          <h4>
+            <span>英语</span>|<span>二年级下</span>|<span>沪牛津</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/40/self_enrollment/P9398D"></a>
+          <button>免费学习</button>
+        </li>
+        <li>
+          <h3>同步小学数学听算练习</h3>
+          <h4>
+            <span>数学</span>|<span>二年级上</span>|<span>沪教版</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/32/self_enrollment/LHY3FD"></a>
+          <button>免费学习</button>
+        </li>
+        <li>
+          <h3>同步小学数学听算练习</h3>
+          <h4>
+            <span>数学</span>|<span>二年级下</span>|<span>沪教版</span>
+          </h4>
+          <a href="http://edu10008.jiaoxuebang.com/courses/33/self_enrollment/RY8DKC"></a>
+          <button>免费学习</button>
+        </li>
+      </ul> 
     </div>
   </div>
-</footer>
+</div>
 
 

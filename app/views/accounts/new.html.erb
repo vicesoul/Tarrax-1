@@ -3,19 +3,7 @@
   jammit_css :registration
 %>
 <div class="content">
-  <div class="navbar">
-    <div class="navbar-inner">
-      <div class="container">
-        <ul class="nav nav-tabs">
-          <li><a href="#">首页</a></li>
-          <li><a href="#">中小学</a></li>
-          <li><a href="#">英语</a></li>
-          <li><a href="#">教辅</a></li>
-          <li><a href="#">企业大学</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <%= render :partial => 'shared/menu_navbar' %>
   <div class="register">
     <div class="container">
       <div class="tab-pane">
@@ -86,22 +74,3 @@
     </div>
   </div>
 </div>
-<footer>
-  <div class="container">
-    <ul>
-      <li><a href="#">首页</a>|</li>
-      <li><a href="#">关于我们</a>|</li>
-      <li><a href="#">课程分类</a>|</li>
-      <li><a href="#">课程资源</a>|</li>
-      <li><a href="#">会员专区</a>|</li>
-      <li><a href="#">联系方式</a>|</li>
-      <li><a href="#">服务保障</a></li>
-    </ul>
-    <div class="pull-right">
-      版权所有 © 2003-2011 教学邦保留所有权利<br>
-      关注教学邦：
-      <a href="#"><img src="/images/jxb/weibo-qq.png"></a>
-      <a href="#"><img src="/images/jxb/weibo-sina.png"></a>
-    </div>
-  </div>
-</footer>
