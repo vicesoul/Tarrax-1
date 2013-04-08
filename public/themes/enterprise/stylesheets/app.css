@@ -1,9 +1,49 @@
-#jiaoxuebang{
-  background: url(../img/bg.jpg) no-repeat top left;
+#enterprise{
   min-height: 600px;
-  padding-top: 250px;
 }
-#jiaoxuebang .link_more a{
+#enterprise #head{
+  height: 129px;
+  background: url(../img/head_bg.jpg) repeat-x top left;
+  margin-bottom: 12px;
+}
+#enterprise #head #theme_main{
+  width: 960px;
+  margin: 0 auto;
+  color: #ffffff;
+}
+#enterprise #head #theme_main .left_part{
+  float:left;
+}
+#enterprise #head #theme_main #logo{
+  width:122px;
+  height:44px;
+  margin-top:22px;
+  margin-right:7px;
+}
+#enterprise #head #theme_main #nav{
+  height:30px;
+  line-height:30px;
+  margin-top:25px;
+  width:684px;
+}
+#enterprise #head #theme_main #nav a{
+  color:#ffffff;
+  margin-right: 20px;
+}
+#enterprise #head #theme_main #nav [data-widget]{
+  float:left;
+}
+#enterprise #head #theme_main #phone{
+  text-align: center;
+  height: 45px;
+  line-height: 45px;
+  font-size: 30px;
+  margin-right: 10px;
+}
+#enterprise #head #theme_main .right_part{
+  float:right;
+}
+#enterprise .link_more a{
   color:#0099ff;
 }
 #dashboard .no_bg_image{
@@ -11,154 +51,160 @@
   padding-top: 0;
   min-height: 0;
 }
-#jiaoxuebang .left_position_holder{
+#enterprise .left_position_holder{
   float: left;
   width: 684px;
 }
-#jiaoxuebang .right_position_holder{
+#enterprise .right_position_holder{
   float: right;
   width: 250px;
 }
-#jiaoxuebang .clear{
+#enterprise .clear{
   clear: both;
 }
-#jiaoxuebang #dashboard{
+#enterprise #dashboard{
   width: 960px;
   margin: 0 auto;
 }
-#jiaoxuebang .box{
+#enterprise .box{
   border: 1px #dbdbdb solid;
   /*width: 684px;*/
   min-height: 100px;
   margin-bottom: 12px;
 }
-#jiaoxuebang .mini_box{
+#enterprise .mini_box{
   width: 684px;
 }
-#jiaoxuebang .box .box_head{
+#enterprise .box .box_head{
   background: url(../img/box_head_bg.jpg) no-repeat;
   height: 33px;
   padding: 0 13px;
 }
-#jiaoxuebang .box .box_head .left{
+#enterprise .box .box_head .left{
   float: left;
 }
-#jiaoxuebang .box .box_head .right{
+#enterprise .box .box_head .right{
   float: right;
 }
-#jiaoxuebang .box .box_head .courses-selector a{
+#enterprise .box .box_head .courses-selector a{
   color: #FFFFFF;
   line-height: 33px;
   height: 33px;
 }
-#jiaoxuebang .box .box_head h4{
+#enterprise .box .box_head h4{
   margin: 0;
   color: #FFFFFF;
   line-height: 33px;
   height: 33px;
 }
-#jiaoxuebang .box .box_body{
+#enterprise .box .box_body{
   padding: 18px 15px;
 }
-#jiaoxuebang .box .box_body .data-widget-body{
+#enterprise .box .box_body .data-widget-body{
   overflow: hidden;
 }
-#jiaoxuebang .box .box_body ul.account_announcement{
+#enterprise .data-widget-body p{
+  margin:0;
+}
+#enterprise .box .box_body ul.account_announcement{
   list-style-type: none;
   margin:0;padding:0;
   color: #999999;
 }
-#jiaoxuebang .box .box_body ul.account_announcement li .inner{
-  margin-bottom: 5px;
-  width: 218px;
+#enterprise .box .box_body ul.account_announcement li{
+  background: url(../img/li_bg.jpg) no-repeat 0 6px;
+  padding-left:15px;
 }
-#jiaoxuebang .box .box_body ul.account_announcement li span{
+#enterprise .box .box_body ul.account_announcement li .inner{
+  margin-bottom: 5px;
+}
+#enterprise .box .box_body ul.account_announcement li span{
   float:right;
 }
-#jiaoxuebang .box .box_body_padding_1{
+#enterprise .box .box_body_padding_1{
   padding: 0px 1px;
 }
-#jiaoxuebang .jxbTable{
+#enterprise .jxbTable{
   border: 1px solid #6699cc;
   border-collapse:collapse;
 }
-#jiaoxuebang .jxbTable th, #jiaoxuebang .jxbTable td{
+#enterprise .jxbTable th, #enterprise .jxbTable td{
   border: 1px solid #6699cc;
   text-align: center;
 }
-#jiaoxuebang .jxbTable thead td{
+#enterprise .jxbTable thead td{
   color: #0066cc;
   font-weight: bold;
   padding: 0;
   line-height: 33px;
 }
-#jiaoxuebang .jxbTable thead tr{
+#enterprise .jxbTable thead tr{
   background: url(../img/table_bg.jpg) repeat top left;
   height: 33px;
 }
-#jiaoxuebang .jxbTable tbody td{
+#enterprise .jxbTable tbody td{
   color: #999999;
 }
-#jiaoxuebang .jxbTable tbody td a{
+#enterprise .jxbTable tbody td a{
   color: #999999;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column{
+#enterprise .box .box_body .contextIndexList .context-column{
   border-bottom: 1px #cccccc dashed;
   padding-bottom: 16px;
   margin-bottom: 16px;
   height: 80px;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column.last{
+#enterprise .box .box_body .contextIndexList .context-column.last{
   border-bottom: 0 none;
   margin-bottom: 0;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column .image-block-image{
+#enterprise .box .box_body .contextIndexList .context-column .image-block-image{
   float: left;
   color: #999999;
   margin-right: 22px;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column .image-block-image .image-avatar{
+#enterprise .box .box_body .contextIndexList .context-column .image-block-image .image-avatar{
   padding: 1px;
   border: 1px solid #CCCCCC;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column .context-title a{
+#enterprise .box .box_body .contextIndexList .context-column .context-title a{
   color: #0099ff;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column .context-last-reply{
+#enterprise .box .box_body .contextIndexList .context-column .context-last-reply{
   float: right;
   color: #0099ff;
   font-size: 12px;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column .context-summary{
+#enterprise .box .box_body .contextIndexList .context-column .context-summary{
   color: #999999;
   margin-top: 5px;
 }
-#jiaoxuebang .box .box_body .contextIndexList .context-column .user-short-name a{
+#enterprise .box .box_body .contextIndexList .context-column .user-short-name a{
   color: #999999;
   font-size: 12px;
 }
-#jiaoxuebang .box .box_body ul.widget_course{
+#enterprise .box .box_body ul.widget_course{
   list-style-type: none;
   margin: 0;padding: 0;
 }
-#jiaoxuebang .box .box_body ul.widget_course li{
+#enterprise .box .box_body ul.widget_course li{
   width: 205px;
   height:224px;
   float:left;
   margin-right: 15px;
   margin-bottom: 15px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li.last{
+#enterprise .box .box_body ul.widget_course li.last{
   margin-right: 0px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_head{
+#enterprise .box .box_body ul.widget_course li .w_head{
   height: 102px;
   border: 1px solid #ebecee;
   border-bottom: 0 none;
   background:url(../img/c_head_bg.jpg) no-repeat transparent;
   position: relative;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_head .bottom_block{
+#enterprise .box .box_body ul.widget_course li .w_head .bottom_block{
   height: 10px;
   border-left: 1px solid #c6c6c6;
   border-right: 1px solid #c6c6c6;
@@ -166,7 +212,7 @@
   bottom: 0px;
   width: 201px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_head .imnew{
+#enterprise .box .box_body ul.widget_course li .w_head .imnew{
   background:url(../img/c_new.png) no-repeat transparent;
   position: absolute;
   display: block;
@@ -174,44 +220,44 @@
   height: 48px;
   right: 0;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_head h3{
+#enterprise .box .box_body ul.widget_course li .w_head h3{
   color:#fff;
   text-align: center;
   font-size:18px;
   margin-top:30px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_head h3 a{
+#enterprise .box .box_body ul.widget_course li .w_head h3 a{
   color:#fff;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_body{
+#enterprise .box .box_body ul.widget_course li .w_body{
   padding: 0 1px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher{
+#enterprise .box .box_body ul.widget_course li .w_body .w_teacher{
   border: 1px solid #c6c6c6;
   border-top: 0 none;
   height: 66px;
   padding:0 11px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher .link_to_image_avatar{
+#enterprise .box .box_body ul.widget_course li .w_body .w_teacher .link_to_image_avatar{
   float:left;
   margin-right:8px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher .teacher_name{
+#enterprise .box .box_body ul.widget_course li .w_body .w_teacher .teacher_name{
   float:left;margin:0;width:120px;word-wrap:break-word; overflow:hidden;color:#000000;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_body .w_teacher .teacher_name a{
+#enterprise .box .box_body ul.widget_course li .w_body .w_teacher .teacher_name a{
   color:#000000;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_foot{
+#enterprise .box .box_body ul.widget_course li .w_foot{
   padding: 0 1px;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_foot .w_btn{
+#enterprise .box .box_body ul.widget_course li .w_foot .w_btn{
   height: 55px;
   border: 1px solid #c6c6c6;
   border-top: 0 none;
   background:url(../img/c_foot_bg.jpg) no-repeat top left #eeeeee;
 }
-#jiaoxuebang .box .box_body ul.widget_course li .w_foot .w_btn .like_btn{
+#enterprise .box .box_body ul.widget_course li .w_foot .w_btn .like_btn{
   background:url(../img/c_btn.jpg) no-repeat top left #57a5ee;
   color: #fff;
   position: relative;
@@ -227,13 +273,9 @@
 
 /*caption*/
 
-#jiaoxuebang #caption{
-  color: #0974d5;
-  font-size: 18px;
-  font-weight: bold;
-  position: absolute;
-  right: 30%;
-  top: 8%;
+#enterprise #caption{
+  margin-top:5px;
+  margin-right:10px;
 }
 #config_courses_holder {
   position: absolute;
@@ -411,32 +453,32 @@
   color: #0099ff;
   margin-left: 18px;
 }
-#jiaoxuebang .sorting{
+#enterprise .sorting{
   background: url('../img/sort_both.png') no-repeat center right;
 }
-#jiaoxuebang .sorting_asc {
+#enterprise .sorting_asc {
   background: url('../img/sort_asc.png') no-repeat center right;
 }
-#jiaoxuebang .sorting_desc {
+#enterprise .sorting_desc {
   background: url('../img/sort_desc.png') no-repeat center right;
 }
 /*User dashboard*/
-#jiaoxuebang .im_activity_widget{
+#enterprise .im_activity_widget{
   float:left;
 }
-#jiaoxuebang .im_account_announcements_widget{
+#enterprise .im_account_announcements_widget{
   float:left;
   min-width:262px;
   margin-left: 20px;
   display: inline;
 }
-#jiaoxuebang .im_account_announcements_widget .box .box_body{
+#enterprise .im_account_announcements_widget .box .box_body{
   height: 248px;
 }
-#jiaoxuebang .max_box .box_head{
+#enterprise .max_box .box_head{
   background: url(../img/max_box_head_bg.jpg) no-repeat;
 }
-#jiaoxuebang .box .box_head .courses-selector a.config_courses{
+#enterprise .box .box_head .courses-selector a.config_courses{
   background: url(/images/cog-with-droparrow-active.png) no-repeat;
   display: block;text-indent: -99999px;height: 16px;width: 16px;margin-top: 9px;
 }

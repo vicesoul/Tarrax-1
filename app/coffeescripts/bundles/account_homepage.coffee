@@ -57,6 +57,12 @@ require [
           $("#edit_widget_dialog").dialog "open"
           $widget.addClass('editable')
         $(this).append $editImg
+
+  makePositionClickable = ->
+    $(".theme_edit [data-position]").click ->
+     $(".theme_edit .position_selected").removeClass "position_selected"
+     $(this).addClass "position_selected"
+     $(this).effect('highlight', {}, 500)
     
   revertWidgets = ->
     $("[data-widget]").removeClass("deletable").removeClass("deleted").show()
@@ -118,6 +124,7 @@ require [
       $("form.edit_jxb_page").show()
       $(".sortable").sortable("enable")
       makeWidgetsDeletable()
+      makePositionClickable()
 
     $("form.edit_jxb_page a.cancel").click ->
       $(".sortable").sortable("cancel")
@@ -131,7 +138,7 @@ require [
 
     $("#add_widget").click ->
       name = $("#widget_name").val()
-      $container = $("[data-position]:last")
+      $container = if $(".position_selected").length > 0 then $(".position_selected") else $("[data-position]:last")
       $.ajax(
         url: $("#widget_url").val()
         data: { name:name }
