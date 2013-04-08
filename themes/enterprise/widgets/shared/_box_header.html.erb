@@ -1,3 +1,4 @@
+<% more_link = nil unless respond_to?(:more_link) %>
 <h4 class="data-widget-title <%= ( @opts[:can_select_course] || more_link ) ? 'left' : '' %>"><%= title header_title %></h4>
 <% if @opts[:can_select_course] && widget.cell_name != 'activity' && !widget.new_record? %>
   <div class="right courses-selector">
