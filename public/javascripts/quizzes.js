@@ -253,7 +253,7 @@ define([
       }
 
       if (answer.blank_index >= 0) {
-        $answer.addClass('answer_idx_' + answer.blank_index);
+        // $answer.addClass('answer_idx_' + answer.blank_index);
       }
 
       $answer.fillTemplateData({
@@ -1995,17 +1995,17 @@ define([
       var idx = $(this)[0].selectedIndex;
       $(this).closest(".question").find(".answer").css('display', 'none');
       if (variable) {
-        if (variable != '0') {
-          $(this).closest(".question").find(".answer.answer_idx_" + idx).filter(":not(.answer_for_" + variable + ")").each(function() {
-            $(this).attr('class', $(this).attr('class').replace(/answer_for_[A-Za-z0-9]+/g, ""));
-            $(this).addClass('answer_for_' + variable);
-            console.log("change")
-          });
-        }
+        // if (variable != '0') {
+//           $(this).closest(".question").find(".answer.answer_idx_" + idx).filter(":not(.answer_for_" + variable + ")").each(function() {
+//             $(this).attr('class', $(this).attr('class').replace(/answer_for_[A-Za-z0-9]+/g, ""));
+//             $(this).addClass('answer_for_' + variable);
+//             console.log("merge")
+//           });
+//         }
         $(this).closest(".question").find(".answer.answer_for_" + variable).css('display', '');
       } else {
         $(this).closest(".question").find(".answer").css('display', '');
-        $(this).closest(".question").find(".answer.answer_idx_" + idx).css('display', '');
+        $(this).closest(".question").find(".answer.answer_for_" + variable).css('display', '');
       }
     });
 
@@ -3359,62 +3359,61 @@ define([
         return;
       }
       $question.find(".form_answers .answer").hide().addClass('hidden');
-      $select.find("option").each(function(i) {
-        var $option = $(this);
-        $question.find( ".form_answers .answer_for_" + $(this).val() ).each(function() {
-          $(this).attr('class', $(this).attr('class').replace(/answer_idx_\d+/g, ""));
-        }).addClass('answer_idx_' + i);
-      });
+      // $select.find("option").each(function(i) {
+//         var $option = $(this);
+//         $question.find( ".form_answers .answer_for_" + $(this).val() ).each(function() {
+//           $(this).attr('class', $(this).attr('class').replace(/answer_idx_\d+/g, ""));
+//         }).addClass('answer_idx_' + i);
+//       });
       if ($select.val() !== "0") {
         var variable = $select.val(),
           variableIdx = $select[0].selectedIndex;
         if (variableIdx >= 0) {
           $question.find(".form_answers .answer").each(function() {
             var $this = $(this);
-            if (!$this.attr('class').match(/answer_idx_/)) {
-              if ($this.attr('class').match(/answer_for_/)) {
-                var idx = null,
-                  blank_id = $this.attr('class').match(/answer_for_[^\s]+/);
-                if (blank_id && blank_id[0]) { blank_id = blank_id[0].substring(11); }
-                $select.find("option").each(function(i) {
-                  if ($(this).text() == blank_id) {
-                    idx = i;
-                  }
-                });
-                if (idx === null) {
-                  idx = variableIdx;
-                }
-                $this.addClass('answer_idx_' + idx);
-              } else {
-                $this.addClass('answer_idx_' + variableIdx);
-              }
-            }
+            // if (!$this.attr('class').match(/answer_idx_/)) {
+//               if ($this.attr('class').match(/answer_for_/)) {
+//                 var idx = null,
+//                   blank_id = $this.attr('class').match(/answer_for_[^\s]+/);
+//                 if (blank_id && blank_id[0]) { blank_id = blank_id[0].substring(11); }
+//                 $select.find("option").each(function(i) {
+//                   if ($(this).text() == blank_id) {
+//                     idx = i;
+//                   }
+//                 });
+//                 if (idx === null) {
+//                   idx = variableIdx;
+//                 }
+//                 $this.addClass('answer_idx_' + idx);
+//               } else {
+//                 $this.addClass('answer_idx_' + variableIdx);
+//               }
+//             }
           });
         }
         $select.find("option").each(function(i) {
-          var text = $(this).text();
-          $question.find(".form_answers .answer.answer_idx_" + i).find(".blank_id").each(function() {
+          var text = $(this).text().trim();
+          $question.find(".form_answers .answer.answer_for_" + text).find(".blank_id").each(function() {
             $(this).text(text);
           });
         });
-        var $valid_answers = $question.find(".form_answers .answer.answer_idx_" + variableIdx).show().removeClass('hidden');
+        var $valid_answers = $question.find(".form_answers .answer.answer_for_" + variable).show().removeClass('hidden');
         if (!$valid_answers.length && variable && variable !== '0') {
           var answerNum = $question.is(".drag_and_drop_question") ? 1 : 2;
           for(var idx = 0; idx < answerNum ; idx++) {
             $question.find(".add_answer_link").triggerHandler('click', true);
             //*** 2012-11-29 rupert fill the text in the first input
             if (idx == 0){
-              var $option = $question.find(".blank_id_select option:eq(" + variableIdx +")");
+              var $option = $question.find(".blank_id_select option[value=" + variable +"]");
               var attr = $option.attr("data-text");
               if(typeof attr !== 'undefined' && attr !== false){
-                var text = $question.find(".blank_id_select option:eq(" + variableIdx +")").attr("data-text");
-                $('.answer_idx_' + variableIdx).find(".short_answer input").val(text);
+                var text = $option.attr("data-text");
+                $('.answer_for_' + variable).find(".short_answer input").val(text);
                 $option.removeAttr("data-text");
               }
             }
             //*** end
           }
-          $valid_answers = $question.find(".form_answers .answer.answer_idx_" + variableIdx).show().removeClass('hidden');
         }
         if (!$valid_answers.filter(".correct_answer").length) {
           $valid_answers.filter(":first").addClass('correct_answer');
