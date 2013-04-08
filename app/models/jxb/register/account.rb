@@ -18,7 +18,7 @@ module Jxb
       end
 
       def validate_user_mobile
-        errors.add(:user_mobile, 'invalid_mobile') unless user_mobile =~ /1[0-9]{10}/ unless captcha.nil? # account new form only
+        errors.add(:user_mobile, 'invalid_mobile') unless user_mobile =~ /^1[0-9]{10}$/ unless captcha.nil? # account new form only
       end
 
       def default_setting
