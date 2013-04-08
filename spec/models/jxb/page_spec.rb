@@ -45,8 +45,8 @@ describe Jxb::Page do
     }.should_not raise_error
   end
 
-  it "should have default theme jxb" do
-    @homepage.theme.should == 'jxb'
+  it "should have default theme jiaoxuebang" do
+    @homepage.theme.should == 'jiaoxuebang'
   end
   
   context "positions" do
