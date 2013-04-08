@@ -27,7 +27,6 @@ class Account < ActiveRecord::Base
     :default_user_storage_quota_mb
 
   include Workflow
-  include Jxb::CommonBehavior
 
   belongs_to :parent_account, :class_name => 'Account'
   belongs_to :root_account, :class_name => 'Account'
@@ -87,66 +86,11 @@ class Account < ActiveRecord::Base
   has_many :context_external_tools, :as => :context, :dependent => :destroy, :order => 'name'
   has_many :error_reports
   has_many :announcements, :class_name => 'AccountNotification'
-  def announcements_with_sub_account_announcements
-    accounts = [self, self.sub_accounts].flatten
-    AccountNotification.find(:all, :conditions => ["account_id IN (?)", accounts], :order => 'start_at DESC')
-  end
   has_many :alerts, :as => :context, :include => :criteria
   has_many :associated_alerts, :through => :associated_courses, :source => :alerts, :include => :criteria
   has_many :user_account_associations
   has_many :report_snapshots
   has_one  :subdomain
-
-  has_one  :homepage, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
-  def find_or_create_homepage
-    self.homepage || begin
-      # use jiaoxuebang as default theme
-      # course index widget if root account
-      # account announcement
-      # activity wiget
-      # logo widget
-      page = self.build_homepage(:name => 'homepage', :theme => 'jiaoxuebang')
-      page.widgets.build(
-        :cell_name => 'logo', 
-        :cell_action => 'index', 
-        :body => "#{self.name}",
-        :position => 'caption'
-      )
-      page.widgets.build(
-        :cell_name => 'activity',
-        :cell_action => 'index',
-        :position => 'center',
-        :seq => 0,
-        :body => '<img src="/themes/jiaoxuebang/img/demo1.jpg" alt="demo1"/><img src="/themes/jiaoxuebang/img/demo2.jpg" alt="demo2"/><img src="/themes/jiaoxuebang/img/demo3.jpg" alt="demo3"/>'
-      )
-      page.widgets.build(
-        :cell_name => 'course',
-        :cell_action => 'index',
-        :position => 'center',
-        :seq => 1
-      ) if self.root_account?
-      page.widgets.build(
-        :cell_name => 'announcement',
-        :cell_action => 'index',
-        :position => 'center',
-        :seq => 2
-      )
-      page.widgets.build(
-        :cell_name => 'discussion',
-        :cell_action => 'index',
-        :position => 'center',
-        :seq => 3
-      )
-      page.widgets.build(
-        :cell_name => 'announcement',
-        :cell_action => 'account',
-        :position => 'right',
-        :seq => 0
-      )
-      page.save
-      page
-    end
-  end
 
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
@@ -292,13 +236,6 @@ class Account < ActiveRecord::Base
     !!settings[:self_registration] && canvas_authentication?
   end
 
-  def update_courses_be_part_of
-    courses.each do |course|
-      course.is_public = course.indexed = self.settings[:public_account]
-      course.save
-    end
-  end
-
   def ip_filters=(params)
     filters = {}
     require 'ipaddr'
@@ -402,24 +339,6 @@ class Account < ActiveRecord::Base
     res
   end
   
-  def sub_accounts_as_tree_with_user_emails(preloaded_accounts = nil)
-    unless preloaded_accounts
-      preloaded_accounts = {}
-      self.root_account.all_accounts.active.each do |account|
-        (preloaded_accounts[account.parent_account_id] ||= []) << account
-      end
-    end
-    user_emails = self.all_users.map{|u| u.email}
-    title = "<a href='javascript:void(0)' class='node-title' id='account_#{self.id}'><ins>&nbsp;</ins>#{self.name}(#{user_emails.size})</a>".html_safe
-    res = [{ :label => title, :id => self.id, :children => [] }]
-    if preloaded_accounts[self.id]
-      preloaded_accounts[self.id].each do |account|
-        res[0][:children] += account.sub_accounts_as_tree_with_user_emails(preloaded_accounts)
-      end
-    end
-    res
-  end
-
   def users_name_like(query="")
     @cached_users_name_like ||= {}
     @cached_users_name_like[query] ||= self.fast_all_users.name_like(query)
@@ -1361,12 +1280,4 @@ class Account < ActiveRecord::Base
     migration.save
   end
 
-  def self.all_users_with_ids(ids = [])
-    return [] if ids.blank?
-    User.find(:all,
-              :conditions => [ "user_account_associations.account_id IN (?)", ids ],
-              :include => [:associated_accounts],
-              :select => "DISTINCT id"
-             )
-  end
 end

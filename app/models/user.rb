@@ -25,11 +25,10 @@ class User < ActiveRecord::Base
 
   include Context
   include UserFollow::FollowedItem
-  include Jxb::CommonBehavior
   include Jxb::Base::User
 
-  attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type, :account_id
-  attr_accessor :original_id, :menu_data, :account_id
+  attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type
+  attr_accessor :original_id, :menu_data
 
   before_save :infer_defaults
   serialize :preferences
@@ -169,24 +168,6 @@ class User < ActiveRecord::Base
 
   has_one :profile, :class_name => 'UserProfile'
   alias :orig_profile :profile
-
-  has_one :dashboard_page, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
-  def find_or_create_dashboard_page
-    self.dashboard_page || begin
-      courses = self.available_courses.map{|c| c.id}.join(',')
-      page = self.build_dashboard_page(:name => 'dashboard', :theme => 'jiaoxuebang')
-      page.widgets.build(:cell_name => "announcement", :cell_action => "index", :seq => 1, :courses => courses)
-      page.widgets.build(:cell_name => "assignment",   :cell_action => "index", :seq => 2, :courses => courses)
-      page.widgets.build(:cell_name => "discussion",   :cell_action => "index", :seq => 3, :courses => courses)
-      page.save
-      page
-    end
-  end
-
-  def activity_widget_body
-    page_ids = Jxb::Page.find( :all, :conditions => [ "name = 'homepage' AND context_type = ? AND context_id IN (?)", 'Account', self.associated_account_ids ] ).map{ |page| page.id }
-    Jxb::Widget.find( :all, :conditions => [ "cell_name = 'activity' AND cell_action = 'index' AND page_id IN (?)", page_ids.uniq ], :order => "updated_at DESC" ).map{ |widget| widget.body }.compact.join("\n")
-  end
 
   has_many :progresses, :as => :context
 
@@ -339,10 +320,6 @@ class User < ActiveRecord::Base
     self.shard.activate do
       User.update_account_associations([self], opts)
     end
-  end
-
-  def observer_of_course?(course)
-    self.observer_enrollments.map{ |e| e.course_id }.uniq.include?(course.id)
   end
 
   # ==== Examples

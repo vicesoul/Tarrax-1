@@ -1,3 +1,5 @@
+# encoding: utf-8
+#
 #create_table "jxb_widgets", :force => true do |t|
 #  t.string   "cell_name"
 #  t.string   "cell_action"
@@ -15,6 +17,8 @@ class Jxb::Widget < ActiveRecord::Base
   set_table_name 'jxb_widgets'
 
   belongs_to :page, :class_name => 'Jxb::Page'
+
+  attr_accessible :cell_name, :cell_action, :title, :body, :position, :seq, :courses
 
   after_update :clear_cache
   
