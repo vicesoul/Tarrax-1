@@ -16,8 +16,6 @@ define [
       $('div.simple_captcha').html($innerCaptcha)
   #$loginForm = null
 
-  #Tim added
-  $('#back_url_id').val(ENV.USER.BACK_URL);
   #$('.signup_link').each (i)->
     #signupDialog($(this).data('template'), $(this).prop('title'), i)
 #  signupDialog("studentDialog", "ddd", 0)
