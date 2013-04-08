@@ -1,0 +1,8 @@
+<div <%= data_widget %> >
+  <div class="x box">
+    <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.announcement.title', 'Announcement') } %>
+    <div class="box-body">
+      <%= render :partial => "shared/contexts", :locals => { :objects => @announcements } %>
+    </div>
+  </div>
+</div>
