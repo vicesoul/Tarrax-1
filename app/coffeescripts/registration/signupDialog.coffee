@@ -52,7 +52,7 @@ define [
         if data.course
           window.location = "/courses/#{data.course.course["id"]}?registration_success=1"
         else
-          window.location = "/?registration_success=1"
+          window.location = data.redirect_url
       formErrors: false
       error: (errors) ->
         promise.reject()
