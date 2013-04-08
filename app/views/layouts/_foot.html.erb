@@ -13,6 +13,7 @@
     paths: <%= raw Canvas::RequireJs.paths %>,
     use: <%= raw Canvas::RequireJs.shims %>
   };
+  document.domain = '<%= HostUrl.default_host.split(':')[0] %>';
 </script>
 
 <%= javascript_include_tag "#{js_base_url}/vendor/require.js" %>
