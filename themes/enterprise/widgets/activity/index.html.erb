@@ -1,0 +1,21 @@
+<div <%= data_widget %> >
+  <div class="box <%= @opts[:can_select_course] ? 'mini_box' : '' %>">
+    <div class="box_head">
+      <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.activity.title', 'Activity'), :more_link => nil } %>
+    </div>
+    <div class="box_body box_body_padding_1">
+      <% if @imgs.blank? %>
+        <p><%= t('#cells.activity.empty_body', 'Empty images') %></p>
+      <% elsif @imgs.size > 1 %>
+        <ul id="mycarousel" class="jcarousel-skin-ie7">
+          <% @imgs.each do |img| %>
+          <li style="display:none;"><%= raw img %></li>
+          <% end # End of @imgs.each %>
+        </ul>
+      <% else %>
+        <%= raw @imgs.first %>
+      <% end # End of @imgs.blank? %>
+      <div class="data-widget-body" style="display:none;"><%= raw widget.body %></div>
+    </div>
+  </div>
+</div>

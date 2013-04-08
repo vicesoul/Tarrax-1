@@ -1,0 +1,22 @@
+<div <%= data_widget %> class="fixed">
+  <div class="box">
+    <div class="box_head">
+      <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.announcement_account.title', 'Account announcement'), :more_link => nil } %>
+    </div>
+    <div class="box_body thin_box_body">
+      <% unless @announcements.blank? %>
+        <% v_ticker_class = @announcements.size > 11 ? 'account_announcement_holder' : '' %>
+        <div class=<%= v_ticker_class %>>
+          <ul class="account_announcement">
+          <% @announcements.each do |announcement| %>
+            <li><div class="inner"><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") if announcement.start_at %></span></div></li>
+          <% end %>
+          </ul>
+        </div>
+      <% else %>
+        <p><%= t('#cells.announcement_account.empty_body', 'Empty announcements') %></p>
+      <% end %>
+    </div>
+  </div>
+  <div class="data-widget-body" style="display:none;"></div>
+</div>

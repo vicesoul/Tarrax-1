@@ -1,0 +1,20 @@
+<div id="<%= @page.theme %>">
+  <div id="head">
+     <div id="theme_main">
+       <div class="left_part">
+        <div data-position="logo" class="sortable" id="logo"><%#= image_tag("/themes/enterprise/img/logo.jpg") %><%= widgets_at_position("logo") %></div>
+        <div id="nav"></div>
+       </div>
+       <div class="right_part">
+        <div data-position="caption" class="sortable" id="caption"><%#= image_tag("/themes/enterprise/img/caption.jpg") %><%= widgets_at_position("caption") %></div>
+        <div data-position="phone" class="sortable" id="phone"><%= widgets_at_position("phone") %></div>
+       </div>
+       <div class="clear"></div>
+     </div>
+  </div>
+  <div id="dashboard">
+    <div data-position="center" class="sortable left_position_holder"><%= widgets_at_position('center') %></div>
+    <div data-position="right" class="sortable right_position_holder"><%= widgets_at_position('right') %></div>
+    <div class="clear"></div>
+  </div>
+</div>
