@@ -815,7 +815,7 @@ class UsersController < ApplicationController
         @cc.send_merge_notification! if @cc.merge_candidates.length != 0
       end
 
-      data = { :user => @user, :pseudonym => @pseudonym, :channel => @cc, :observee => @observee, :message_sent => message_sent, :course => @user.self_enrollment_course }
+      data = { :user => @user, :pseudonym => @pseudonym, :channel => @cc, :observee => @observee, :message_sent => message_sent, :course => @user.self_enrollment_course, :redirect_url => get_redirected_return_to_url}
       if api_request?
         render(:json => user_json(@user, @current_user, session, %w{locale}))
       else
@@ -842,11 +842,7 @@ class UsersController < ApplicationController
       @pseudonym ||= @user.pseudonym
       @cc = @pseudonym.communication_channel || @user.communication_channel
     else
-      if params[:back_url] == 'account_new' 
-        redirect_to root_url << 'accounts/new'
-      else
         redirect_to root_url
-      end
     end
   end
 
