@@ -201,7 +201,7 @@ module AuthenticationMethods
      return_to
   end
 
-  protected :get_redirect_return_to_url
+  protected :get_redirected_return_to_url
 
   def redirect_to_referrer_or_default(default)
     redirect_to(:back)
