@@ -1,8 +1,8 @@
 require([
   "jquery",
-  "/themes/jiaoxuebang/javascripts/jquery.jcarousel.js",
-  "/themes/jiaoxuebang/javascripts/jquery.vticker-min.js",
-  "/themes/jiaoxuebang/javascripts/jquery.dataTables.js",
+  "/themes/enterprise/javascripts/jquery.jcarousel.js",
+  "/themes/enterprise/javascripts/jquery.vticker-min.js",
+  "/themes/enterprise/javascripts/jquery.dataTables.js",
   "/javascripts/vendor/jqueryui/effects/slide.js"], function($){
   
   $(document).ready(function(){

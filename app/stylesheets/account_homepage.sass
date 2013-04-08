@@ -28,9 +28,21 @@ form.edit_jxb_page
 .theme_edit
   [data-position]
     border: 1px dashed silver
-    margin-bottom: 20px
-    padding: 15px 0 15px 0
+    margin-bottom: 5px
+    padding: 0
     min-width: 100px
+    min-height: 30px
+  .position_selected
+    border-color: yellow
+  .data-link
+    a
+      display: none
+    [data-widget]
+      display: block
+      .box
+        min-height: 0 !important
+      .box_body
+        display: none
 
 #wrapper #main
   max-width: none
@@ -70,3 +82,11 @@ form.edit_jxb_page
     padding: 0
     ul
       padding-left: 18px
+
+.new_widget_ajax
+  min-height: 30px
+  border: 1px solid #ddd
+
+.data-link
+  [data-widget]
+    display: none

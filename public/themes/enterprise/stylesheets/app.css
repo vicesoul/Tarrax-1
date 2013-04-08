@@ -20,6 +20,19 @@
   margin-top:22px;
   margin-right:7px;
 }
+#enterprise #head #theme_main #nav{
+  height:30px;
+  line-height:30px;
+  margin-top:25px;
+  width:684px;
+}
+#enterprise #head #theme_main #nav a{
+  color:#ffffff;
+  margin-right: 20px;
+}
+#enterprise #head #theme_main #nav [data-widget]{
+  float:left;
+}
 #enterprise #head #theme_main #phone{
   text-align: center;
   height: 45px;
@@ -85,10 +98,13 @@
   height: 33px;
 }
 #enterprise .box .box_body{
-  padding: 25px;
-}
-#enterprise .box .box_body{
   padding: 18px 15px;
+}
+#enterprise .box .box_body .data-widget-body{
+  overflow: hidden;
+}
+#enterprise .data-widget-body p{
+  margin:0;
 }
 #enterprise .box .box_body ul.account_announcement{
   list-style-type: none;

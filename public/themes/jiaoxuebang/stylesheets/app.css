@@ -58,10 +58,10 @@
   height: 33px;
 }
 #jiaoxuebang .box .box_body{
-  padding: 25px;
-}
-#jiaoxuebang .box .box_body{
   padding: 18px 15px;
+}
+#jiaoxuebang .box .box_body .data-widget-body{
+  overflow: hidden;
 }
 #jiaoxuebang .box .box_body ul.account_announcement{
   list-style-type: none;
