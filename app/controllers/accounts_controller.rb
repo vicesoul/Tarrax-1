@@ -53,6 +53,7 @@ class AccountsController < ApplicationController
   def create_file
     @attachment = Attachment.new(params[:attachment])
     @attachment.context = @context
+    @attachment.file_state = 'public'
     @attachment.save
     
     respond_to do |format|

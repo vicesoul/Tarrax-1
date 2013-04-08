@@ -4,6 +4,7 @@ module Jxb
       def self.included(base)
         base.class_eval do
           include Jxb::Register::User
+          include Jxb::Homepage::User
         end
       end
 
