@@ -87,7 +87,7 @@ body
 .with-left-side
   min-width: $left_side_width + $min_main_width
   #footer
-    margin-left: $left_side_width
+    margin-left: 0
   #wrapper
     margin-left: 0
   #left-side
@@ -167,15 +167,18 @@ body
         font-size: 12px
         margin-right: -5px
         vertical-align: text-bottom
-    
+        &:before
+          color: #fff
+      
 
   .ellipsis
     display: inline-block
 
 #footer
   background: #ccc
-  padding: 30px 0
+  padding: 30px 20px 20px
   color: #888
+  :font-size 12px
   .pull-right
     text-align: right
     line-height: 30px
@@ -185,6 +188,7 @@ body
     list-style: none
     float: left
     margin: 0
+    padding: 0
     li
       float: left
       color: #888
