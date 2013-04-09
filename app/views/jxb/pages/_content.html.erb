@@ -2,6 +2,11 @@
 
 <% content_for :head do %>
   <%= stylesheet_link_tag( Jxb::Theme.css_path('app.css', theme_name) ) %>
+  <style type="text/css" media="all">
+    <% if page.background_image %>
+      #content #<%= theme_name %> [data-bg-varied=true]{ background: <%= page.background_image %> ;}
+    <% end %>
+  </style>
 <% end %>
 
 <% content_for :foot do %>

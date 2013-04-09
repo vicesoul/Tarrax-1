@@ -98,6 +98,12 @@ require [
       height: 300
     )
 
+    $changeBackgroundDialog = $("#change_background_dialog").dialog(
+      autoOpen: false
+      width: 400
+      height: 300
+    )
+
     $(".account_name_checkbox").click ->
       $allBox = $(this).next(".all_sub_checkboxs").find("input[type='checkbox']")
       if $(this).is ":checked"
@@ -114,9 +120,21 @@ require [
     $("#link_to_choose_courses_dialog").click ->
       $("#choose_courses_dialog").dialog "open"
 
+    $("#link_to_change_background_dialog").click ->
+      $changeBackgroundDialog.dialog "open"
+
     $(".save_widget_button").click ->
       synToWidget( $('.editable') )
       $("#edit_widget_dialog").dialog "close"
+
+    $(".save_background_button").click ->
+      color  = if $("#page_background_color").val() == '' then 'transparent' else $("#page_background_color").val()
+      repeat = if $("#repeat").prop("checked") then 'repeat-x' else 'no-repeat'
+      url    = if $("#background_image_holder img").attr('src') then "url( #{ $('#background_image_holder img').attr('src') } )" else ''
+      background_css = "#{color} #{url} #{repeat} center"
+      $('#jxb_page_background_image').val background_css
+      $('[data-bg-varied="true"]').css 'background', background_css
+      $changeBackgroundDialog.dialog "close"
 
     # make disable default
     $(".sortable").sortable("disable")
@@ -166,11 +184,25 @@ require [
     $("#widget_image_uploader").submit ->
       $(this).ajaxSubmit(
         beforeSubmit: ->
-          $("#widget_image").val ""
+          return false if $("#widget_image").val() == ""
         success: (data)->
           img = """
                 <img src="#{data.url}" />
                 """
           $("#widget_body").editorBox "insert_code", img
+          $("#widget_image").val ""
+      )
+      return false
+
+    $("#background_image_uploader").submit ->
+      $(this).ajaxSubmit(
+        beforeSubmit: ->
+          return false if $("#background_bg_image").val() == ""
+        success: (data)->
+          img = """
+                <img src="#{data.url}" />
+                """
+          $("#background_image_holder").html img
+          $("#background_bg_image").val ""
       )
       return false
