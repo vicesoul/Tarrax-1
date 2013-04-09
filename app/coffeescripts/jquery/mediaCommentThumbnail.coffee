@@ -20,10 +20,11 @@ define [
          $.trim($link.parent().find(".media_comment_id:first").text())
 
     if id
-      domain = if window.location.protocol is'https:'
-        "http://#{INST.kalturaSettings.resource_domain}"
-      else
-        "https://#{INST.kalturaSettings.secure_resource_domain || INST.kalturaSettings.domain}"
+      #domain = if window.location.protocol is 'https:'
+      #  "https://#{INST.kalturaSettings.resource_domain}"
+      #else
+      #  "http://#{INST.kalturaSettings.secure_resource_domain || INST.kalturaSettings.domain}"
+      domain = "http://#{INST.kalturaSettings.secure_resource_domain || INST.kalturaSettings.domain}"
 
       backgroundUrl = "#{domain}/p/#{INST.kalturaSettings.partner_id}/thumbnail/entry_id/#{id}/width/" +
                       "#{dimensions.width}/height/#{dimensions.height}/bgcolor/000000/type/2/vid_sec/5"
