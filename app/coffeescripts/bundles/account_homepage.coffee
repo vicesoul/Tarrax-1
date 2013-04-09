@@ -63,6 +63,9 @@ require [
      $(".theme_edit .position_selected").removeClass "position_selected"
      $(this).addClass "position_selected"
      $(this).effect('highlight', {}, 500)
+
+  makePositionUnclickable = ->
+    $("[data-position]").unbind 'click'
     
   revertWidgets = ->
     $("[data-widget]").removeClass("deletable").removeClass("deleted").show()
@@ -135,6 +138,7 @@ require [
       $(".jxb_page_position").remove()
       $(".new_widget").remove()
       $(".edit_theme_link").show()
+      makePositionUnclickable()
 
     $("#add_widget").click ->
       name = $("#widget_name").val()
