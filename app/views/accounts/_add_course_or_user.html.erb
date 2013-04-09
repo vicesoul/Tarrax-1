@@ -86,9 +86,11 @@
         <td><%= f.blabel :name, :en => "Course Name" %></td>
         <td><%= f.text_field :name, :style => "width: 200px;" %></td>
       </tr><tr>
-        <td><%= f.blabel :course_code, :en => "Reference Code" %></td>
-        <td><%= f.text_field :course_code, :style => "width: 100px;" %></td>
-      </tr><tr>
+        <td><%= f.blabel :course_category_id, :en => "Course Category" %></td>
+        <td>
+            <%= f.select :course_category_id, Course.get_course_categories.map{|category| [category.name, category.id]}, {:prompt => t(:course_category_tip, 'Please select a course category')} %>
+        </td>
+        </tr><tr>
         <td><%= f.blabel :account_id, :en => "Department" %></td>
         <td><%= f.select :account_id, @account.sub_accounts_as_options, :selected => @term && @term.id %></td>
       </tr><tr>
@@ -178,7 +180,7 @@ require([
       $("#add_course_form :text:visible:first").focus().select();
     });
     $("#add_course_form").formSubmit({
-      required: ['course[name]', 'course[course_code]'],
+      required: ['course[name]', 'course[course_category_id]'],
       beforeSubmit: function(data) {
         $(this).find("button").attr('disabled', true)
           .filter(".submit_button").text(<%= jt('#accounts.adding_course_message', "Adding Course...") %>);
@@ -202,6 +204,7 @@ require([
         }
         $.flashMessage(<%= jt('#accounts.course_added_message', "%{course} successfully added!", '{course: course.name}') %>);
         $("#add_course_dialog").dialog('close');
+        window.location.reload();
       },
       error: function(data) {
         $(this).find("button").attr('disabled', false)

@@ -1026,11 +1026,11 @@ describe Course, "tabs_available" do
       tab_ids.should_not include(Course::TAB_OUTCOMES)
     end
 
-    it "should show the outcomes tab to an enrolled user" do
-      @course.enroll_student(user).accept!
-      tab_ids = @course.tabs_available(@user).map{|t| t[:id] }
-      tab_ids.should include(Course::TAB_OUTCOMES)
-    end
+    #it "should show the outcomes tab to an enrolled user" do
+    #  @course.enroll_student(user).accept!
+    #  tab_ids = @course.tabs_available(@user).map{|t| t[:id] }
+    #  tab_ids.should include(Course::TAB_OUTCOMES)
+    #end
   end
 end
 

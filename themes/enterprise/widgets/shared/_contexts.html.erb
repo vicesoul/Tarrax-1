@@ -1,0 +1,21 @@
+<div class="contextIndexList">
+<% objects.each_with_index do |obj, index| %>
+  <% result = format_context(obj) %>
+  <% last_id = (index + 1) == objects.size ? 'last' : ''  %>
+  <% style = @ids.include?(result[:id]) ? '' : "style='display:none;'" if @opts[:can_select_course] %>
+  <div class="context-column <%= last_id %>" data-course-id=<%= result[:id] %> <%= style if @opts[:can_select_course] %> >
+    <% unless result[:user_url].blank? %>
+    <div class="image-block-image">
+      <%= link_to image_tag( avatar_url_for_user(obj.user), :style => 'max-width: 50px', :class => 'image-avatar' ),  result[:user_url] %>
+    </div>
+    <% end %>
+    <div class="image-block-content">
+      <div class="context-last-reply"><%= l(obj.last_reply_at, :format => :long) if obj.last_reply_at %></div>
+      <div class="context-title"><%= link_to obj.title, result[:url] %></div>
+      <div class="user-short-name"><%= link_to(result[:user_name], result[:user_url]) if result[:user_url] %> <%= link_to "(#{result[:course_name]})", result[:topics_url] %></div>
+      <div class="context-summary"><%= truncate strip_tags(obj.message), :length => (@opts[:word_length] || 40) %></div>
+    </div>
+  </div>
+<% end %>
+</div>
+<div class="data-widget-body" style="display:none;"></div>

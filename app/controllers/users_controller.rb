@@ -313,7 +313,7 @@ class UsersController < ApplicationController
     js_env :DASHBOARD_SIDEBAR_URL => dashboard_sidebar_url
 
     #@announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
-    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) )
+    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) << @domain_root_account )
     @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
     @stream_items = @current_user.try(:cached_recent_stream_items) || []
     
@@ -815,7 +815,7 @@ class UsersController < ApplicationController
         @cc.send_merge_notification! if @cc.merge_candidates.length != 0
       end
 
-      data = { :user => @user, :pseudonym => @pseudonym, :channel => @cc, :observee => @observee, :message_sent => message_sent, :course => @user.self_enrollment_course }
+      data = { :user => @user, :pseudonym => @pseudonym, :channel => @cc, :observee => @observee, :message_sent => message_sent, :course => @user.self_enrollment_course, :redirect_url => get_redirected_return_to_url}
       if api_request?
         render(:json => user_json(@user, @current_user, session, %w{locale}))
       else
@@ -842,11 +842,7 @@ class UsersController < ApplicationController
       @pseudonym ||= @user.pseudonym
       @cc = @pseudonym.communication_channel || @user.communication_channel
     else
-      if params[:back_url] == 'account_new' 
-        redirect_to root_url << 'accounts/new'
-      else
         redirect_to root_url
-      end
     end
   end
 

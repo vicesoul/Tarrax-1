@@ -38,7 +38,7 @@
     <% if !@available_reports.blank? %>
       <li><a href="#tab-reports" id="tab-reports-link"><%= t(:tab_reports, "Reports") %></a></li>
     <% end %>
-    <% if can_do(@context, @current_user, :manage_account_settings) %>
+    <% if can_do(@context, @current_user, :manage_account_settings) and @current_user.site_admin? # hidden %>
       <li><a href="#tab-tools" id="tab-tools-link"><%= t(:tab_external_tools, "External Tools") %></a></li>
     <% end %>
     <% if @context.root_account.settings[:enable_alerts] && can_do(@context, @current_user, :manage_interaction_alerts) %>
@@ -259,7 +259,7 @@
                 <%= settings.label :users_can_edit_name, :en => "Users can edit display name" %>
               </div>
             <% end %>
-            <% unless @account.site_admin? %>
+            <% unless true || @account.site_admin? # hidden %>
               <div>
                 <input type="checkbox" id="enable_equella" <%= 'checked' if !@account.settings[:equella_endpoint].blank? %> />
                 <label for="enable_equella"><%= t 'labels.equella', 'Equella' %></label>
@@ -270,12 +270,14 @@
               </div>
              <% end %>
           <% end %>
-          <% f.fields_for :services do |services| %>
-            <% Account.services_exposed_to_ui_hash(:setting).sort_by { |k,h| h[:name] }.each do |key, service| %>
-              <div>
-                <%= services.check_box key, :checked => @account.service_enabled?(key) %>
-                <%= services.label key, service[:name] + " " %>
-              </div>
+          <% if @current_user.site_admin? # hidden avatar setting %>
+            <% f.fields_for :services do |services| %>
+              <% Account.services_exposed_to_ui_hash(:setting).sort_by { |k,h| h[:name] }.each do |key, service| %>
+                <div>
+                  <%= services.check_box key, :checked => @account.service_enabled?(key) %>
+                  <%= services.label key, service[:name] + " " %>
+                </div>
+              <% end %>
             <% end %>
           <% end %>
         </fieldset>
@@ -436,7 +438,7 @@
           </fieldset>
         <% end %>
 
-        <% if @account.root_account? && !@account.site_admin? %>
+        <% if @account.root_account? && !@account.site_admin? && @current_user.site_admin? %>
           <fieldset>
             <legend><%= t(:create_courses_title, "Who Can Create New Courses") %></legend>
             <div style="font-size: 0.8em;"><%= t(:create_courses_description, "(Account Administrators can always create courses)") %></div>
@@ -546,16 +548,18 @@
               </blockquote>
             </div>
 
-            <h2><%= t('notifications.external_services', 'Notifications Sent to External Services') %></h2>
-            <table class="formtable">
-              <tr>
-                <td><input type="checkbox" id="account_settings_external_notification_warning_checkbox" <%= 'checked="checked"' if @account.settings[:external_notification_warning] %> /></td>
-                <td>
-                  <label for="account_settings_external_notification_warning_checkbox"><%= t('notifications.external_services_label', 'Display one time pop-up warning on Notification Preferences page.') %></label>
-                  <input type="hidden" name="account[settings][external_notification_warning]" id="account_settings_external_notification_warning" value="<%= @account.settings[:external_notification_warning] ? 1 : 0 %>" />
-                </td>
-              </tr>
-            </table>
+            <% if @current_user.site_admin? # hidden %>
+              <h2><%= t('notifications.external_services', 'Notifications Sent to External Services') %></h2>
+              <table class="formtable">
+                <tr>
+                  <td><input type="checkbox" id="account_settings_external_notification_warning_checkbox" <%= 'checked="checked"' if @account.settings[:external_notification_warning] %> /></td>
+                  <td>
+                    <label for="account_settings_external_notification_warning_checkbox"><%= t('notifications.external_services_label', 'Display one time pop-up warning on Notification Preferences page.') %></label>
+                    <input type="hidden" name="account[settings][external_notification_warning]" id="account_settings_external_notification_warning" value="<%= @account.settings[:external_notification_warning] ? 1 : 0 %>" />
+                  </td>
+                </tr>
+              </table>
+            <% end %>
 
             <table style="margin-left: 1.5em;" cellspacing="0" class="formtable">
               <tr>
@@ -757,7 +761,7 @@
       </table>
     </div>
   <% end %>
-  <% if can_do(@context, @current_user, :manage_account_settings) %>
+  <% if can_do(@context, @current_user, :manage_account_settings) and @current_user.site_admin? # hidden %>
       <div id="tab-tools">
         <h2><%= t(:external_tools_title, "External Tools") %></h2>
         <%= render :partial => 'external_tools/external_tools', :object => @context.context_external_tools.active %>

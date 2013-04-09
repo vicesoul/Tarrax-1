@@ -38,6 +38,7 @@
         <input type="text" id="student_name" name="user[name]">
       </div>
     </div>
+    <%= show_simple_captcha :object => :user, :label => t('#simple_captcha.validation_code', 'Validation Code') %>
     <div class="control-group">
       <div class="controls">
         <label class="checkbox">

@@ -6,7 +6,7 @@ set :application, "jxb"
 set :repository,  "git@58.215.173.29:canvas.git"
 
 set :user, fetch(:user, 'jxb')
-set :deploy_to, fetch(:to, "/home/#{user}/apps/#{application}")
+set :deploy_to, fetch(:to, "/u/apps/#{application}")
 
 set :scm, :git
 set :branch, fetch(:branch, "dev")

@@ -195,6 +195,14 @@ module AuthenticationMethods
   end
   protected :redirect_back_or_default
 
+  def get_redirected_return_to_url
+     return_to = session[:return_to] || root_url
+     session.delete(:return_to)
+     return_to
+  end
+
+  protected :get_redirected_return_to_url
+
   def redirect_to_referrer_or_default(default)
     redirect_to(:back)
   rescue ActionController::RedirectBackError

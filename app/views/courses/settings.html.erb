@@ -26,7 +26,7 @@
     <% if can_do @context, @current_user, :update %>
       <li id="navigation_tab"><a href="#tab-navigation"><%= t('tabs.navigation', %{Navigation}) %></a></li>
     <% end %>
-    <% if can_do @context, @current_user, :update %>
+    <% if can_do(@context, @current_user, :update) and @current_user.site_admin? # hidden %>
       <li id="external_tools_tab"><a href="#tab-tools" id="tab-tools-link"><%= t('tabs.tools', %{External Tools}) %></a></li>
     <% end %>
     <% if publishing_enabled %>
@@ -51,13 +51,16 @@
           <span class="course_info name"><%= @context.name %></span>
         </td>
       </tr>
+      <% if @context.course_category %>
       <tr>
         <th scope="row"><%= f.blabel :course_category, :en => "Course Category" %></th>
         <td class="nobr">
-            <span class="course_form course_category"><%= @context.course_category.name %></span>
-          <span class="course_info course_category"><%= @context.course_category.name %></span>
+            <span class="course_form course_category"><%= @context.course_category.try :name %></span>
+          <span class="course_info course_category"><%= @context.course_category.try :name %></span>
         </td>
       </tr>
+      <tr>
+      <% end %>
       <tr>
         <th scope="row" class="nobr"><%= f.blabel :course_code, :en => "Course Code" %></th>
         <td class="nobr">
@@ -430,7 +433,7 @@ TEXT
 
   <% end %>
 
-  <% if can_do @context, @current_user, :update %>
+  <% if can_do(@context, @current_user, :update) and @current_user.site_admin? # hidden %>
     <div id="tab-tools">
       <h2><%= t('headings.external_tools', %{External Tools}) %></h2>
       <%= render :partial => 'external_tools/external_tools', :object => @context.context_external_tools.active %>

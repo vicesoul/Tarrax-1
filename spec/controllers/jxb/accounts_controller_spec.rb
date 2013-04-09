@@ -65,7 +65,7 @@ describe AccountsController do
       account_with_admin_logged_in
       get 'homepage', :account_id => @account.id
       response.should render_template("accounts/homepage")
-      controller.view_paths.first.to_s.should match(/themes\/jxb/)
+      controller.view_paths.first.to_s.should match(/themes\/jiaoxuebang/)
     end
 
   end

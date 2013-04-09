@@ -225,7 +225,8 @@ class CoursesController < ApplicationController
       end
           
       respond_to do |format|
-        if @course.save
+        course_category_id = @course.course_category_id
+        if (!course_category_id.blank?) && @course.save
           @course.enroll_user(@current_user, 'TeacherEnrollment', :enrollment_state => 'active') if params[:enroll_me].to_s == 'true'
           # offer updates the workflow state, saving the record without doing validation callbacks
           @course.offer if api_request? and params[:offer].present?
@@ -241,8 +242,8 @@ class CoursesController < ApplicationController
              :restrict_enrollments_to_course_dates, :workflow_state, :hide_final_grades], nil)
           }
         else
-          flash[:error] = t('errors.create_failed', "Course creation failed")
-          format.html { redirect_to :root}
+          flash[:error] = course_category_id.blank? ? t('errors.invalid_course_category', "Invalid course category") : t('errors.create_failed', "Course creation failed")
+          format.html { redirect_to dashboard_url}
           format.json { render :json => @course.errors.to_json, :status => :bad_request }
         end
       end

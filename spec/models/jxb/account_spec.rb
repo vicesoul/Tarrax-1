@@ -43,10 +43,16 @@ describe Account do
   end
 
   context "new account" do
-    it "should validate user_mobile" do
+    it "should validate user_mobile past" do
       expect {
         Account.create!(:name => 'bbc', :user_mobile => '11234567890', :captcha => 'true')
       }.to_not raise_error( ActiveRecord::RecordInvalid, 'Validation failed: User mobile invalid_mobile')
+    end
+
+    it "should validate user_mobile failed" do
+      expect {
+        Account.create!(:name => 'bbc', :user_mobile => '911234567890', :captcha => 'true')
+      }.to raise_error( ActiveRecord::RecordInvalid, 'Validation failed: User mobile invalid_mobile')
     end
 
     it "should validate user_mobile" do
