@@ -874,6 +874,10 @@ module ApplicationHelper
     @agree_to_terms ||
     t("#user.registration.agree_to_terms",
       "You agree to the *terms of use*.",
-      :wrapper => link_to('\1', "http://www.instructure.com/terms-of-use", :target => "_new"))
+      :wrapper => link_to('\1', "http://www.jiaoxuebang.com/terms-of-use", :target => "_new"))
+  end
+
+  def root_url
+    "http://#{HostUrl.default_host}"
   end
 end
