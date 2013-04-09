@@ -51,6 +51,7 @@
           <span class="course_info name"><%= @context.name %></span>
         </td>
       </tr>
+      <% if @context.course_category %>
       <tr>
         <th scope="row"><%= f.blabel :course_category, :en => "Course Category" %></th>
         <td class="nobr">
@@ -58,6 +59,8 @@
           <span class="course_info course_category"><%= @context.course_category.try :name %></span>
         </td>
       </tr>
+      <tr>
+      <% end %>
       <tr>
         <th scope="row" class="nobr"><%= f.blabel :course_code, :en => "Course Code" %></th>
         <td class="nobr">
