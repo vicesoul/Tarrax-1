@@ -1,3 +1,6 @@
+<% 
+  js_bundle :account_new
+%>
 <form action="<%= url_for(request.query_parameters) %>" method="post" id="enroll_form" class="form-horizontal bootstrap-form">
   <%= registration_summary || content_tag(:p, mt(:getting_started, "You are enrolling in **%{course}**.", :course => @course.name)) %>
   <p><%= t(:enter_email, "Please enter your email address:") %></p>
@@ -38,6 +41,7 @@
         <input type="text" id="student_name" name="user[name]">
       </div>
     </div>
+    <%= show_simple_captcha :object => :account, :label => t('#simple_captcha.validation_code', 'Validation Code') %>
     <div class="control-group">
       <div class="controls">
         <label class="checkbox">
