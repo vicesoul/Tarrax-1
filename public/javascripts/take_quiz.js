@@ -641,7 +641,7 @@ define([
             .appendTo($toolTip),
           paper = Raphael( $answers[0], $answers.width(), answerHeight );
 
-        if( linesNum !== "2" ) $question.addClass("threeLines");
+        if( linesNum === "2" ) $question.addClass("threeLines");
         $answers.css( "height", answerHeight );
 
         $(document).click(function(){ resetToolTip() });
@@ -974,11 +974,15 @@ define([
     })();
     (function DragAndDop(){
       $("#submit_quiz_form .question.drag_and_drop_question").each(function(){
-        
         var $blueText = $(this).find(".blueText");
         var $select = $blueText.find(".ui-selectmenu");
         var $receive = $("<div class='receive'></div>");
         var $ball = $(this).find(".dragging li span");
+        
+        //fix bug
+        var $firstLi = $(this).find(".dragging li:first");
+        if($firstLi.text().trim() === "") $firstLi.remove();
+        //
 
         $ball.draggable({
           revert: true
