@@ -45,7 +45,8 @@ class SelfEnrollmentsController < ApplicationController
 
   def infer_signup_info
     @embeddable = true
-    @course = @domain_root_account.self_enrollment_course_for(params[:self_enrollment_code])
+    #@course = @domain_root_account.self_enrollment_course_for(params[:self_enrollment_code])
+    @course = Course.find_by_self_enrollment_code(params[:self_enrollment_code])
 
     # TODO: have a join code field in new.html.erb if none is provided in the url
     raise ActiveRecord::RecordNotFound unless @course

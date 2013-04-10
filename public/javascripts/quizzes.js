@@ -1438,7 +1438,7 @@ define([
   function makeFormAnswer(data) {
     var answer = $.extend({}, quiz.defaultAnswerData, data);
     var $answer = $("#form_answer_template").clone(true).attr('id', '');
-    console.log("makeFormAnswer")
+    console.log("make form answer")
     $answer.find(".answer_type").hide().filter("." + answer.answer_type).show();
     answer.answer_weight = parseFloat(answer.answer_weight);
 

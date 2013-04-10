@@ -38,6 +38,10 @@ class InfoController < ApplicationController
      @body_classes = ["welcome"]
   end
   
+  def terms_of_use
+     @body_classes = ["welcome"]
+  end
+
   def aboutus
      @body_classes = ["welcome"]
   end

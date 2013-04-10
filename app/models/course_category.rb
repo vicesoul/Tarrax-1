@@ -5,6 +5,6 @@ class CourseCategory < ActiveRecord::Base
     attr_accessible :name, :used
 
     def self.getAllCategoriesForIndex
-        find(:all, :conditions => ['used != 0'])
+        find(:all, :conditions => ['used != 0'], :order => 'used DESC')
     end
 end
