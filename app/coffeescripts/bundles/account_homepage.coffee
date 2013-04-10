@@ -128,13 +128,23 @@ require [
       $("#edit_widget_dialog").dialog "close"
 
     $(".save_background_button").click ->
+      $target = $('[data-bg-varied="true"]')
       color  = if $("#page_background_color").val() == '' then 'transparent' else $("#page_background_color").val()
-      repeat = if $("#repeat").prop("checked") then 'repeat-x' else 'no-repeat'
-      url    = if $("#background_image_holder img").attr('src') then "url( #{ $('#background_image_holder img').attr('src') } )" else ''
-      background_css = "#{color} #{url} #{repeat} center"
-      $('#jxb_page_background_image').val background_css
-      $('[data-bg-varied="true"]').css 'background', background_css
+      repeat = if $("#repeat").prop("checked") then 'repeat' else 'no-repeat'
+      url    = if $("#background_image_holder img").attr('src') then "url( #{ $('#background_image_holder img').attr('src') } )" else null
+      default_position = $("[data-bg-default-position]").attr('data-bg-default-position') || 'top center'
+      position = if url? then 'top center' else default_position
+      background_style = "background-color: #{color};background-repeat: #{repeat} no-repeat;background-position: #{position};"
+      background_style += "background-image: #{url};" if url?
+      $('#jxb_page_background_image').val background_style
+      $target.css('background-color', color)
+      $target.css('background-repeat', "#{repeat} no-repeat")
+      $target.css('background-position', position)
+      $target.css('background-image', url) if url?
       $changeBackgroundDialog.dialog "close"
+    
+    $("#delete_background_image").click ->
+      $("#background_image_holder").html ''
 
     # make disable default
     $(".sortable").sortable("disable")

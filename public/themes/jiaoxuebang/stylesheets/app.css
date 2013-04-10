@@ -1,7 +1,23 @@
 #jiaoxuebang{
-  background: url(../img/bg.jpg) no-repeat top left;
   min-height: 600px;
-  padding-top: 250px;
+}
+#jiaoxuebang [data-bg-varied=true]{
+  background: url(../img/bg.jpg) no-repeat 0 -80px;
+}
+#jiaoxuebang #head{
+  height: 129px;
+  /*background: url(../img/bg.jpg) repeat-x top left;*/
+}
+#jiaoxuebang #head #theme_main{
+  width: 960px;
+  margin: 0 auto;
+  /*color: #ffffff;*/
+}
+#jiaoxuebang #head #theme_main .left_part{
+  float:left;
+}
+#jiaoxuebang #head #theme_main .right_part{
+  float:right;
 }
 #jiaoxuebang .link_more a{
   color:#0099ff;
@@ -31,6 +47,7 @@
   /*width: 684px;*/
   min-height: 100px;
   margin-bottom: 12px;
+  background-color:#fff;
 }
 #jiaoxuebang .mini_box{
   width: 684px;
@@ -231,9 +248,9 @@
   color: #0974d5;
   font-size: 18px;
   font-weight: bold;
-  position: absolute;
-  right: 30%;
-  top: 8%;
+  width:400px;
+  margin-top: 20px;
+  padding: 10px   0;
 }
 #config_courses_holder {
   position: absolute;

@@ -3,8 +3,10 @@
 }
 #enterprise #head{
   height: 129px;
-  background: url(../img/head_bg.jpg) repeat-x top left;
   margin-bottom: 12px;
+}
+#enterprise [data-bg-varied=true]{
+  background: url(../img/head_bg.jpg) repeat-x top left;
 }
 #enterprise #head #theme_main{
   width: 960px;

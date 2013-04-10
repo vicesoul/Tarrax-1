@@ -589,10 +589,10 @@ class AccountsController < ApplicationController
       @active_tab = "homepage"
       add_crumb t(:homepages, "Homepage"), account_homepage_path(@account)
       @backgroud_data = {}
-      if @page.background_image
-        @backgroud_data[:color]  = $1 if @page.background_image =~ /(#\S{3,6})/
+      unless @page.background_image.blank?
+        @backgroud_data[:color]  = $1 if @page.background_image =~ /(#\S{3,6});/
         @backgroud_data[:image]  = "<img src='#{$1}' />" if @page.background_image =~ /url\s*\(\s*([^)]*)\)/
-        @backgroud_data[:repeat] = true unless @page.background_image =~ /no-repeat/
+        @backgroud_data[:repeat] = true unless @page.background_image =~ /background-repeat:\s*no-repeat/
       end
     elsif authorized_action(@page, @current_user, session, :read)
       clear_crumbs
