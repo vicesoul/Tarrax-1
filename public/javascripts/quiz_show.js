@@ -186,7 +186,7 @@ $(document).ready(function () {
     $(".question.connecting_lead_question").each(function(){
 
       var $question = $(this),
-        linesNum = $question.find(".connecting_lead_linesNum").text(),
+        isThreeLines = $question.find(".connecting_lead_linesNum").text().trim() === "3",
         $answers_wrapper = $question.find(".answers_wrapper"),
         rows = $answers_wrapper.find(".connecting_lead_left").length,
         $answers = $question.find(".answers"),
@@ -196,9 +196,9 @@ $(document).ready(function () {
 
       $answers_wrapper.css( "height", answerHeight );
       
-      if( linesNum == 3 ) $question.addClass("threeLines");
+      if( isThreeLines ) $question.addClass("threeLines");
       
-      var devider = linesNum === "3" ? 3 : 2;
+      var devider = isThreeLines ? 3 : 2;
       $answers_wrapper.add($correctAnswer).each(function(){
         $(this).find(".connecting_lead_answer > div").each( function( i ){
           
@@ -236,7 +236,7 @@ $(document).ready(function () {
       $correctAnswer.find(".connecting_lead_center").each(function(){
         var $wordCenter = $(this);
         $(this).find(".real_answer").each(function(){
-          if( linesNum === "2" && $(this).is(".right") )return;
+          if( !isThreeLines && $(this).is(".right") )return;
           var matchId = $(this).val();
           if(matchId === "0")return;
           var $match = $correctAnswer.find("span[value='" + matchId +"']").parent();
@@ -364,7 +364,10 @@ $(document).ready(function () {
       var $blueText = $(this).find(".blueText");
       var $select = $blueText.find(".ui-selectmenu");
       var $receive = $("<div class='receive'></div>");
-
+      //fix bug
+      var $firstLi = $(this).find(".dragging li:first");
+      if($firstLi.text().trim() === "") $firstLi.remove();
+      //
       $select.each(function(){
         $(this).hide()
           .parent("span")

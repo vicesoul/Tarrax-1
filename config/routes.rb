@@ -582,6 +582,7 @@ ActionController::Routing::Routes.draw do |map|
   map.toggle_dashboard 'toggle_dashboard', :controller => 'users', :action => 'toggle_dashboard', :conditions => {:method => :post}
   map.styleguide 'styleguide', :controller => 'info', :action => 'styleguide', :conditions => {:method => :get}
   map.privacy 'privacy', :controller => 'info', :action => 'privacy', :conditions => {:method => :get}
+  map.terms_of_use 'terms-of-use', :controller => 'info', :action => 'terms_of_use', :conditions => {:method => :get}
   map.aboutus 'aboutus', :controller => 'info', :action => 'aboutus', :conditions => {:method => :get}
   map.businessmodel 'businessmodel', :controller => 'info', :action => 'businessmodel', :conditions => {:method => :get}
   map.advantagesofthesystem 'advantagesofthesystem', :controller => 'info', :action => 'advantagesofthesystem', :conditions => {:method => :get}
