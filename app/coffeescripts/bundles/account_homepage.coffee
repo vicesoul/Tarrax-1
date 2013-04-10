@@ -63,6 +63,9 @@ require [
      $(".theme_edit .position_selected").removeClass "position_selected"
      $(this).addClass "position_selected"
      $(this).effect('highlight', {}, 500)
+
+  makePositionUnclickable = ->
+    $("[data-position]").unbind 'click'
     
   revertWidgets = ->
     $("[data-widget]").removeClass("deletable").removeClass("deleted").show()
@@ -95,6 +98,12 @@ require [
       height: 300
     )
 
+    $changeBackgroundDialog = $("#change_background_dialog").dialog(
+      autoOpen: false
+      width: 400
+      height: 300
+    )
+
     $(".account_name_checkbox").click ->
       $allBox = $(this).next(".all_sub_checkboxs").find("input[type='checkbox']")
       if $(this).is ":checked"
@@ -111,9 +120,31 @@ require [
     $("#link_to_choose_courses_dialog").click ->
       $("#choose_courses_dialog").dialog "open"
 
+    $("#link_to_change_background_dialog").click ->
+      $changeBackgroundDialog.dialog "open"
+
     $(".save_widget_button").click ->
       synToWidget( $('.editable') )
       $("#edit_widget_dialog").dialog "close"
+
+    $(".save_background_button").click ->
+      $target = $('[data-bg-varied="true"]')
+      color  = if $("#page_background_color").val() == '' then 'transparent' else $("#page_background_color").val()
+      repeat = if $("#repeat").prop("checked") then 'repeat' else 'no-repeat'
+      url    = if $("#background_image_holder img").attr('src') then "url( #{ $('#background_image_holder img').attr('src') } )" else null
+      default_position = $("[data-bg-default-position]").attr('data-bg-default-position') || 'top center'
+      position = if url? then 'top center' else default_position
+      background_style = "background-color: #{color};background-repeat: #{repeat} no-repeat;background-position: #{position};"
+      background_style += "background-image: #{url};" if url?
+      $('#jxb_page_background_image').val background_style
+      $target.css('background-color', color)
+      $target.css('background-repeat', "#{repeat} no-repeat")
+      $target.css('background-position', position)
+      $target.css('background-image', url) if url?
+      $changeBackgroundDialog.dialog "close"
+    
+    $("#delete_background_image").click ->
+      $("#background_image_holder").html ''
 
     # make disable default
     $(".sortable").sortable("disable")
@@ -135,6 +166,7 @@ require [
       $(".jxb_page_position").remove()
       $(".new_widget").remove()
       $(".edit_theme_link").show()
+      makePositionUnclickable()
 
     $("#add_widget").click ->
       name = $("#widget_name").val()
@@ -162,11 +194,25 @@ require [
     $("#widget_image_uploader").submit ->
       $(this).ajaxSubmit(
         beforeSubmit: ->
-          $("#widget_image").val ""
+          return false if $("#widget_image").val() == ""
         success: (data)->
           img = """
                 <img src="#{data.url}" />
                 """
           $("#widget_body").editorBox "insert_code", img
+          $("#widget_image").val ""
+      )
+      return false
+
+    $("#background_image_uploader").submit ->
+      $(this).ajaxSubmit(
+        beforeSubmit: ->
+          return false if $("#background_bg_image").val() == ""
+        success: (data)->
+          img = """
+                <img src="#{data.url}" />
+                """
+          $("#background_image_holder").html img
+          $("#background_bg_image").val ""
       )
       return false

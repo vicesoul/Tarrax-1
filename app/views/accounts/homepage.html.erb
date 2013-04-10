@@ -29,9 +29,11 @@
       <div id="theme_options">
         <%= before_label(:name, 'Theme name') %>
         <%= f.select :theme, Jxb::Theme.themes %>
+        <%= f.hidden_field :background_image %>
         <%= before_label(:add_new_widget, 'New widget') %>
         <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
-        <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %>
+        <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %><br/>
+        <%= link_to t(:change_background, 'Change background'), 'javascript:void(0)', :id => 'link_to_change_background_dialog' %>
       </div><!-- End of div#theme_options -->
       <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
       <div class="button-container rs-margin-lr">
@@ -70,5 +72,16 @@
   <% end %>
   </ul>
   <a href="javascript:void(0)" class="save_choose_courses_link btn button-sidebar-wide"><%= t(:save, "Save") %></a>
+</div>
+<div id="change_background_dialog" title="<%= t(:change_background, 'Change background') %>">
+  <%= t :background_color, 'Background color' %>: <input type="text" name="page_background_color" id="page_background_color" value="<%= @backgroud_data[:color] %>" /><br /><br />
+  <form id="background_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
+    <span id="background_image_holder"><%=raw @backgroud_data[:image] %></span><%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "background_bg_image" %> <input type="submit" value="<%= t :upload, 'Upload'%>" />
+  </form>
+  <br />
+  <a href="javascript:void(0);" id="delete_background_image"><%= t :delete_background_image, 'Delete background image' %></a><br />
+  <%= t :repeat, 'Repeat' %> <%= check_box_tag 'repeat', '1', @backgroud_data[:repeat] %><br /><br />
+  <button type="submit" class="save_background_button btn"><%= t :save, 'Save' %></button>
+  <a href="javascript:$('#change_background_dialog').dialog('close');" title="cancel"><%= t :cancel, 'Cancel' %></a>
 </div>
 <% end %>

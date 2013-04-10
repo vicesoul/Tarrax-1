@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.users_discussion_topics    'users/:user_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
 
   map.select_users 'accounts/select/users/ids', :controller => 'accounts', :action => 'select_users'
-  map.resources :widget, :only => :update, :controller => 'jxb/widgets'
+  map.resources :widget, :only => [:update,:show], :controller => 'jxb/widgets'
   map.welcome 'users/welcome', :controller => 'users', :action => 'welcome'
 
   map.resources :submission_comments, :only => :destroy

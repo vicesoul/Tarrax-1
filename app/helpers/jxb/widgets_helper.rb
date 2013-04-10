@@ -12,15 +12,17 @@ module Jxb::WidgetsHelper
     html.html_safe
   end
 
-  def widgets_at_position_as_link(position)
+  def widgets_at_position_as_link(position, can_manage = false)
     widgets = @page.widgets.where(:position => position)
     return if widgets.blank?
 
     links = html = ''
     widgets.each do |widget|
-      links += link_to(widget.title, '#')
-      courses = Course.find(@page.courses) rescue nil
-      html += render_widget( widget, :courses => courses )
+      links += link_to( widget.title, widget_path(widget), :target => '_blank' )
+      if can_manage
+        courses = Course.find(@page.courses) rescue nil
+        html += render_widget( widget, :courses => courses )
+      end
     end
     (links + html).html_safe
   end
