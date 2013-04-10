@@ -126,7 +126,7 @@
             <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
           <%	 else %>
             <ul class="dragging">
-              <% hash_get(question, :answers).each do |variable| %>
+              <% hash_get(question, :answers).sort_by{rand}.each do |variable| %>
                 <li>
                   <span class="btn-white" answerId=<%= hash_get(variable, :id) %> >
                     <%= hash_get(variable, :text) %>
