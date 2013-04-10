@@ -7,6 +7,9 @@ zh-CN:
       title: 标题
       body: 内容
       choose_image: 选择图片
+      background_color: 背景颜色
+      delete_background_image: 删除上传的背景图片
+      repeat: 重复图片
       upload: 上传
       edit_this_page: 修改页面
       labels:
@@ -18,6 +21,7 @@ zh-CN:
       cancel: 取消
       save: 保存
       assign_courses: 指定课程
+      change_background: 改变背景
   account:
     tab_homepage: 主页
   jxb/widget:

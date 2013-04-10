@@ -1,8 +1,18 @@
-<div id="<%= @page.theme %>">
-  <div id="dashboard">
-    <div data-position="caption" class="sortable" id="caption"><%= widgets_at_position("caption") %></div>
-    <div data-position="center" class="sortable left_position_holder"><%= widgets_at_position('center') %></div>
-    <div data-position="right" class="sortable right_position_holder"><%= widgets_at_position('right') %></div>
-    <div class="clear"></div>
+<div id="<%= @page.theme %>" >
+  <div data-bg-varied="true" data-bg-default-position="0 -80px" >
+    <div id="head" data-bg-varied="false">
+      <div id="theme_main">
+        <div class="left_part"></div>
+        <div class="right_part">
+          <div data-position="caption" class="sortable" id="caption"><%= widgets_at_position("caption") %></div>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+    <div id="dashboard">
+      <div data-position="center" class="sortable left_position_holder"><%= widgets_at_position('center') %></div>
+      <div data-position="right" class="sortable right_position_holder"><%= widgets_at_position('right') %></div>
+      <div class="clear"></div>
+    </div>
   </div>
 </div>
