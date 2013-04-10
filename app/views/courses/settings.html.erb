@@ -51,6 +51,7 @@
           <span class="course_info name"><%= @context.name %></span>
         </td>
       </tr>
+      <% if @context.course_category %>
       <tr>
         <th scope="row"><%= f.blabel :course_category, :en => "Course Category" %></th>
         <td class="nobr">
@@ -58,6 +59,8 @@
           <span class="course_info course_category"><%= @context.course_category.try :name %></span>
         </td>
       </tr>
+      <tr>
+      <% end %>
       <tr>
         <th scope="row" class="nobr"><%= f.blabel :course_code, :en => "Course Code" %></th>
         <td class="nobr">
@@ -164,11 +167,6 @@
           <div class="course_form">
             <% no_language = t(:no_language_preference, "Not set (user-configurable, defaults to %{language})", :language => available_locales[infer_locale(:context => @context.account)]) %>
             <%= f.select :locale, [[no_language, nil]] + available_locales.invert.sort, :selected => @context.locale %>
-            <span><%= mt :transifex_message, <<-TEXT, :transifex_url => "https://www.transifex.com/projects/p/canvas-lms/"
-Join the [Jiaoxuebang Translation Community](%{transifex_url})
-TEXT
-            %>
-            </span>
           </div>
           <div style="font-size: 0.8em;">
               <%= t('language_overrides_preferences', "This will override any user/system language preferences. This is only recommended for foreign language courses") %>

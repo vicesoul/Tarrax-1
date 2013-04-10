@@ -22,9 +22,10 @@ define [
   'Backbone'
   'i18n!registration'
   'compiled/registration/registrationErrors'
+  'compiled/fn/preventDefault'
   'jquery.instructure_forms'
   'jquery.ajaxJSON'
-], ($, _, Backbone, I18n, registrationErrors) ->
+], ($, _, Backbone, I18n, registrationErrors, preventDefault) ->
 
   class SelfEnrollmentForm extends Backbone.View
     events:
@@ -40,6 +41,11 @@ define [
         success: @enrollSuccess
         error: @enrollError
         formErrors: false
+      $('a.captcha_change_code').click preventDefault ->
+        $.get(this.href + '?object=account')
+          .done (data)->
+            src = $(data).find("img").attr("src")
+            $('#simple_captcha').find("img").attr("src", src)
 
     changeType: (e) =>
       @userType = $(e.target).val()

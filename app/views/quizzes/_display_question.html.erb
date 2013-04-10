@@ -310,7 +310,7 @@
                   <div class="user_content quiz_response_text">
                     <% if question && answer_list = hash_get(user_answer, :text) %>
                       <ul class="answer-list">
-                        <% answer_list.each do |text| %>
+                        <% answer_list.is_a? Array and answer_list.each do |text| %>
                           <li>
                             <%= text.html_safe %>
                           </li>

@@ -644,11 +644,13 @@ module ApplicationHelper
                   before_label('#shared.menu_enrollment.labels.invited_as', 'Invited as') :
                   before_label('#shared.menu_enrollment.labels.enrolled_as', "Enrolled as")
                  ) + " " + Enrollment.readable_type(course.primary_enrollment)
+      subdomain = course.account.subdomain.blank? ? '' : course.account.subdomain.name
+      host = 'http://' + (subdomain.blank? ? HostUrl.default_host : subdomain + '.' + HostUrl.default_host)
       {
         :root_account => course.root_account.name,
         :longName => "#{course.name} - #{course.short_name}",
         :shortName => course.name,
-        :href => course_path(course, :invitation => course.read_attribute(:invitation)),
+        :href => host + course_path(course, :invitation => course.read_attribute(:invitation)),
         :term => term || nil,
         :subtitle => subtitle,
         :id => course.id
@@ -874,6 +876,10 @@ module ApplicationHelper
     @agree_to_terms ||
     t("#user.registration.agree_to_terms",
       "You agree to the *terms of use*.",
-      :wrapper => link_to('\1', "http://www.instructure.com/terms-of-use", :target => "_new"))
+      :wrapper => link_to('\1', "http://www.jiaoxuebang.com/terms-of-use", :target => "_new"))
+  end
+
+  def root_url
+    "http://#{HostUrl.default_host}"
   end
 end

@@ -23,7 +23,7 @@ class QuizQuestion::FillInBlanksSubjectiveQuestion < QuizQuestion::Base
 
   def correct_answer_parts(user_answer)
     config = Instructure::SanitizeField::SANITIZE
-    user_answer.answer_text.each do |t|
+    user_answer.answer_text.is_a? Array and user_answer.answer_text.each do |t|
       t = Sanitize.clean(t, config) || ""
     end
     nil

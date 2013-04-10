@@ -294,12 +294,14 @@ zh-CN:
       add_user_link: 添加用户
       display_name_help: 在讨论、消息和评论中可见。
       full_name_description: 教师评分时显示名称。
+      course_category_tip: 请选择课程分类
       labels: 
         account_id: 网校
         course_code: 课程代码
         enrollment_term_id: 学期
         full_name: 全名
         name: 课程名称
+        course_category_id: 课程分类
         path: 电子邮件
         send_confirmation: 发送创建账户的消息到到用户电子邮件
         short_name: 显示名称
@@ -3484,6 +3486,7 @@ zh-CN:
         enrollment_type: 注册类型
     errors: 
       create_failed: 课程创建失败
+      invalid_course_category: 课程创建失败
       invalid_email: 电子邮件无效，请重试。
       invalid_role: 角色类型无效
       role_not_active: "不能为生效的角色添加用户: '%{role}'"
@@ -11847,3 +11850,8 @@ zh-CN:
     notices: 
       uploading_complete: 上传完成!
     zip_import_filename: "zip_import_%{id}.zip"
+  
+  validate_course_form:
+    errors:
+      invalid_course_name: 请填写课程名称
+      invalid_course_category: 请选择课程分类
