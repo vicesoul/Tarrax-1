@@ -1,8 +1,19 @@
 <div class="form-horizontal bootstrap-form" id="enroll_form">
-  <p><%= mt :already_enrolled, "You are already enrolled in **%{course}**.", :course => @course.name %></p>
+    <p>
+        <%= mt :already_enrolled, "You are already enrolled in **%{course}**.", :course => @course.name %>
+        <a href="/courses/<%= @course.id %>">5秒钟后自动前往该课程，你也可以手动点击前往。</a>
+    </p>
   
 
   <% if params[:login_warning] %>
     <p><%= t :switch_users, "You are currently signed in as *%{user}*. **Sign in as another user**.", :user => @current_user.name, :wrapper => {'*' => '<b>\1</b>', '**' => link_to('\1', "/logout", :id => 'logout_link')} %></p>
   <% end %>
 </div>
+<script>
+
+window.onload = function() { 
+            setTimeout(function(){
+                window.location.href = '/courses/<%= @course.id %>'
+             }, 5000);
+        }
+</script>
