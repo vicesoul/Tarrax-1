@@ -158,6 +158,7 @@ describe CoursesController, :type => :integration do
         account_admin_user
         @resource_path = "/api/v1/accounts/#{@account.id}/courses"
         @resource_params = { :controller => 'courses', :action => 'create', :format => 'json', :account_id => @account.id.to_s }
+        @course_category_id = CourseCategory.create({:name => 'English'}).id 
       end
 
       it "should create a new course" do
@@ -180,6 +181,7 @@ describe CoursesController, :type => :integration do
             'license'                              => 'Creative Commons',
             'sis_course_id'                        => '12345',
             'public_description'                   => 'Nature is lethal but it doesn\'t hold a candle to man.',
+            'course_category_id'                   => @course_category_id
           }
         }
         course_response = post_params['course'].merge({
@@ -213,7 +215,7 @@ describe CoursesController, :type => :integration do
       it "should offer a course if passed the 'offer' parameter" do
         json = api_call(:post, @resource_path,
           @resource_params,
-          { :account_id => @account.id, :offer => true, :course => { :name => 'Test Course' } }
+          { :account_id => @account.id, :offer => true, :course => { :name => 'Test Course', :course_category_id => @course_category_id } }
         )
         new_course = Course.find(json['id'])
         new_course.should be_available
@@ -222,7 +224,7 @@ describe CoursesController, :type => :integration do
       it "should allow setting sis_course_id without offering the course" do
         json = api_call(:post, @resource_path,
           @resource_params,
-          { :account_id => @account.id, :course => { :name => 'Test Course', :sis_course_id => '9999' } }
+          { :account_id => @account.id, :course => { :name => 'Test Course', :sis_course_id => '9999', :course_category_id => @course_category_id } }
         )
         new_course = Course.find(json['id'])
         new_course.sis_source_id.should == '9999'
