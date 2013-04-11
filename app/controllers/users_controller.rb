@@ -705,6 +705,11 @@ class UsersController < ApplicationController
     @pseudonym = default_domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # Setting it to nil will cause us to try and create a new one, and give user the login already exists error
     @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
+
+    # update user-account-associations if account_id given
+    @associate_account_id = params[:user][:account_id] || params[:account_id]
+    @special_associations = User.calculate_account_associations_from_accounts([@associate_account_id]) if @associate_account_id
+
     manage_user_logins = @context.grants_right?(@current_user, session, :manage_user_logins)
     self_enrollment = params[:self_enrollment].present?
     allow_non_email_pseudonyms = manage_user_logins || self_enrollment && params[:pseudonym_type] == 'username'
@@ -720,7 +725,20 @@ class UsersController < ApplicationController
     sis_user_id = params[:pseudonym].delete(:sis_user_id)
     sis_user_id = nil unless @context.grants_right?(@current_user, session, :manage_sis)
 
-    @user = @pseudonym && @pseudonym.user
+    if @pseudonym.present?
+      @user = @pseudonym.user
+      if @special_associations
+        # when user do not associate with account. we associate them and then return success. Otherwise, return already associate error.
+        if @user.user_account_associations.map{|aa| aa.account_id}.include?(@associate_account_id.to_i)
+          render :json => { :errors => { :pseudonym => { :unique_id => I18n.t(:unique_id_has_already_in_this_account, 'Unique id has already in this account') } } }, :status => :bad_request and return
+        else
+          @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations)
+          data = { :user => @user, :pseudonym => @pseudonym, :message_sent => false }
+          render :json => data and return
+        end
+      end # End of if @special_associations
+    end # End of if @pseudonym.present?
+
     @user ||= User.new
     if params[:user]
       params[:user].delete(:self_enrollment_code) unless self_enrollment
@@ -780,8 +798,14 @@ class UsersController < ApplicationController
     @cc ||= @user.communication_channels.build(:path => email)
     @cc.user = @user
     @cc.workflow_state = 'unconfirmed' unless @cc.workflow_state == 'confirmed'
+    
+    valid_user = if !!params[:skip_captcha]
+      @user.valid?
+    else
+      @user.valid_with_captcha?
+    end
 
-    if @user.valid_with_captcha? && @pseudonym.valid? && @observee.nil?
+    if valid_user && @pseudonym.valid? && @observee.nil?
       # saving the user takes care of the @pseudonym and @cc, so we can't call
       # save_without_session_maintenance directly. we don't want to auto-log-in
       # unless the user is registered/pre_registered (if the latter, he still
@@ -793,13 +817,7 @@ class UsersController < ApplicationController
         @pseudonym.send(:skip_session_maintenance=, true)
       end
       @user.save!
-
-      # update user-account-associations if account_id given
-      associate_account_id = params[:user][:account_id] || params[:account_id]
-      if associate_account_id
-        associations = User.calculate_account_associations_from_accounts([associate_account_id])
-        @user.update_account_associations(:incremental => true, :precalculated_associations => associations)
-      end
+      @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations) if @special_associations
 
       message_sent = false
       if notify == :self_registration

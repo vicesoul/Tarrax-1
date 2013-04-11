@@ -63,7 +63,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <%= check_box :pseudonym, :send_confirmation, :checked => true %>
+          <%= check_box :pseudonym, :send_confirmation, :checked => false %>
           <%= label :pseudonym, :send_confirmation, :en => "Email the user about this account creation" %>
         </td>
       </tr>
@@ -71,6 +71,7 @@
         <td colspan="2">
           <div class="button-container">
             <button type="button" class="btn cancel_button"><%= t("#buttons.cancel", "Cancel") %></button>
+            <%= hidden_field_tag 'skip_captcha', true %>
             <button type="submit" class="btn btn-primary submit_button"><%= t(:add_user_button, "Add User") %></button>
           </div>
         </td>
