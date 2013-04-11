@@ -14,7 +14,7 @@ set :use_sudo, true
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :deploy_server, fetch(:server, '192.168.0.108')
-set :assets_role, 'none' if fetch(:skip_assets, false)
+set :skip_assets, fetch(:skip_assets, false)
 
 role :web, deploy_server                          # Your HTTP server, Apache/etc
 role :app, deploy_server                          # This may be the same as your `Web` server
@@ -73,7 +73,7 @@ namespace :deploy do
   namespace :assets do
     desc "compile assets"
     task :precompile, :roles => lambda { assets_role }, :except => { :no_release => true } do
-      run "cd #{release_path} && bundle exec rake canvas:compile_assets; true"
+      run "cd #{release_path} && bundle exec rake canvas:compile_assets; true" unless skip_assets
     end
 
     # override rollback to do nothing since we have no manifest.yml, which is used by Sprockets
