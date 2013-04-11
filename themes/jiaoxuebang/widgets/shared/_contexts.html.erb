@@ -11,7 +11,14 @@
     <% end %>
     <div class="image-block-content">
       <div class="context-last-reply"><%= l(obj.last_reply_at, :format => :long) if obj.last_reply_at %></div>
-      <div class="context-title"><%= link_to truncate( obj.title, :length => (@opts[:word_length]-15 || 25) ), result[:url] %></div>
+      <div class="context-title">
+        <% if @opts[:word_length].to_i > 15 %>
+          <% title_length = @opts[:word_length].to_i - 15 %>
+        <% else %>
+          <% title_length = 25 %>
+        <% end %>
+        <%= link_to truncate( obj.title, :length => title_length ), result[:url] %>
+      </div>
       <div class="user-short-name"><%= link_to(result[:user_name], result[:user_url]) if result[:user_url] %> <%= link_to "(#{result[:course_name]})", result[:topics_url] %></div>
       <div class="context-summary"><%= truncate strip_tags(obj.message), :length => (@opts[:word_length] || 40) %></div>
     </div>
