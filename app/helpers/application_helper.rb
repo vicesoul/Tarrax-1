@@ -878,8 +878,4 @@ module ApplicationHelper
       "You agree to the *terms of use*.",
       :wrapper => link_to('\1', "/terms-of-use", :target => "_new"))
   end
-
-  def root_url
-    "http://#{HostUrl.default_host}"
-  end
 end

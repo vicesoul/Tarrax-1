@@ -14,6 +14,7 @@ set :use_sudo, true
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 set :deploy_server, fetch(:server, '192.168.0.108')
+set :skip_assets, fetch(:skip_assets, false)
 
 role :web, deploy_server                          # Your HTTP server, Apache/etc
 role :app, deploy_server                          # This may be the same as your `Web` server
@@ -33,13 +34,13 @@ after 'deploy:assets:symlink' , 'jxb:assets:symlink'
 
 namespace :jxb do
   desc 'make deploy dir'
-  task :mkdir do
+  task :mkdir, :except => { :no_release => true } do
     run "#{try_sudo} mkdir -p #{deploy_to}"
     run "#{try_sudo} chown -R #{user}:#{user} #{deploy_to}"
   end
 
   desc 'setup all config files from example file, YOU SHOULD MODIFY THEM YOURSELF!'
-  task :setup_config do
+  task :setup_config, :except => { :no_release => true } do
     run "#{try_sudo} chown -R #{user}:#{user} #{deploy_to}"
     run "mkdir -p #{shared_path}/config"
     run "mkdir -p #{shared_path}/tmp"
@@ -54,7 +55,7 @@ namespace :jxb do
 
   namespace :assets do
     desc 'symlink all config files'
-    task :symlink do
+    task :symlink, :roles => :app, :except => { :no_release => true } do
       %w(cache_store database delayed_jobs 
          domain external_migration file_store
          outgoing_mail redis security session_store).each do |conf|
@@ -71,8 +72,13 @@ end
 namespace :deploy do
   namespace :assets do
     desc "compile assets"
-    task :precompile do
-      run "cd #{release_path} && bundle exec rake canvas:compile_assets; true"
+    task :precompile, :roles => lambda { assets_role }, :except => { :no_release => true } do
+      run "cd #{release_path} && bundle exec rake canvas:compile_assets; true" unless skip_assets
+    end
+
+    # override rollback to do nothing since we have no manifest.yml, which is used by Sprockets
+    task :rollback, :roles => lambda { assets_role }, :except => { :no_release => true } do
+      # do nothing
     end
   end
 end
@@ -87,7 +93,7 @@ end
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
-  task :restart, :roles => :app, :except => { :no_release => true } do
+  task :restart, :except => { :no_release => true } do
     run "touch #{File.join(current_path,'tmp','restart.txt')}"
 
     # restart job
@@ -96,15 +102,15 @@ namespace :deploy do
 end
 
 namespace :job do
-  task :start do
+  task :start, :except => { :no_release => true } do
     run "#{try_sudo} /etc/init.d/canvas_init start"
   end
 
-  task :stop do
+  task :stop, :except => { :no_release => true } do
     run "#{try_sudo} /etc/init.d/canvas_init stop"
   end
 
-  task :restart do
+  task :restart, :except => { :no_release => true } do
     run "#{try_sudo} /etc/init.d/canvas_init restart"
   end
 end
@@ -112,7 +118,7 @@ end
 # rewrite bundle:instal because we don't use a Gemfile.lock
 namespace :bundle do
   desc "install bundle"
-  task :install do
+  task :install, :except => { :no_release => true } do
     run "cd #{release_path} && bundle install --without test"
   end
 end
