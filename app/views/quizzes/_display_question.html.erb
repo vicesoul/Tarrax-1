@@ -126,7 +126,7 @@
             <%= multiple_dropdowns_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
           <%	 else %>
             <ul class="dragging">
-              <% hash_get(question, :answers).each do |variable| %>
+              <% hash_get(question, :answers).sort_by{rand}.each do |variable| %>
                 <li>
                   <span class="btn-white" answerId=<%= hash_get(variable, :id) %> >
                     <%= hash_get(variable, :text) %>
@@ -310,7 +310,7 @@
                   <div class="user_content quiz_response_text">
                     <% if question && answer_list = hash_get(user_answer, :text) %>
                       <ul class="answer-list">
-                        <% answer_list.each do |text| %>
+                        <% answer_list.is_a? Array and answer_list.each do |text| %>
                           <li>
                             <%= text.html_safe %>
                           </li>

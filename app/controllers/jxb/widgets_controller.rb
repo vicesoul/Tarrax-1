@@ -16,10 +16,12 @@ class Jxb::WidgetsController < ApplicationController
   # GET /jxb_widgets/1.xml
   def show
     @widget = Jxb::Widget.find(params[:id])
-
+    @page   = @widget.page
+    clear_crumbs
+    @show_left_side = false
+    prepend_view_path Jxb::Theme.path(@page.theme)
     respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @widget }
+      format.html
     end
   end
 

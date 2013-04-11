@@ -3,8 +3,10 @@
 }
 #enterprise #head{
   height: 129px;
-  background: url(../img/head_bg.jpg) repeat-x top left;
   margin-bottom: 12px;
+}
+#enterprise [data-bg-varied=true]{
+  background: url(../img/head_bg.jpg) repeat-x top left;
 }
 #enterprise #head #theme_main{
   width: 960px;
@@ -481,4 +483,20 @@
 #enterprise .box .box_head .courses-selector a.config_courses{
   background: url(/images/cog-with-droparrow-active.png) no-repeat;
   display: block;text-indent: -99999px;height: 16px;width: 16px;margin-top: 9px;
+}
+/*show widget*/
+.show_widget h1{
+  text-align: center;
+  color:#666;
+}
+.show_widget .info{
+  text-align: center;
+  color:#999;
+  font-size:12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+.show_widget .info .context_widget{
+  margin-right:30px;
 }
