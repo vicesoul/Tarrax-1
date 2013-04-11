@@ -17,6 +17,7 @@ zh-CN:
   ? "#links"
   : 
     switch_views: 切换显示
+  unique_id_has_already_in_this_account: 用户已经在该网校中
   EditAppointmentGroupDetails: 
     affect_reservations: 这对预约有何影响?
     and_n_contexts: "和其他 %{n} 个人"
