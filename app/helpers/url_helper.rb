@@ -7,9 +7,14 @@ module UrlHelper
   end
 
   def url_for(options = nil)
-    if options.kind_of?(Hash) && options.has_key?(:subdomain)
-      options[:host] = with_subdomain(options.delete(:subdomain))
+    if options.kind_of?(Hash)
+      if options.has_key?(:context_host)
+        options[:host] = options.delete(:context_host)
+      elsif options.has_key?(:subdomain)
+        options[:host] = with_subdomain(options.delete(:subdomain))
+      end
     end
     super
   end
 end
+

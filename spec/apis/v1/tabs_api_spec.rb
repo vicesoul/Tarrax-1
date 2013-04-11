@@ -80,12 +80,12 @@ describe TabsController, :type => :integration do
           "label" => "Syllabus",
           "type" => "internal"
         },
-        {
-          "id" => "outcomes",
-          "html_url" => "/courses/#{@course.id}/outcomes",
-          "label" => "Outcomes",
-          "type" => "internal"
-        },
+        #{
+        #  "id" => "outcomes",
+        #  "html_url" => "/courses/#{@course.id}/outcomes",
+        #  "label" => "Outcomes",
+        #  "type" => "internal"
+        #},
         {
           "id" => "quizzes",
           "html_url" => "/courses/#{@course.id}/quizzes",
@@ -167,12 +167,12 @@ describe TabsController, :type => :integration do
           "label" => "Syllabus",
           "type" => "internal"
         },
-        {
-          "id" => "outcomes",
-          "html_url" => "/courses/#{@course.id}/outcomes",
-          "label" => "Outcomes",
-          "type" => "internal"
-        },
+        #{
+        #  "id" => "outcomes",
+        #  "html_url" => "/courses/#{@course.id}/outcomes",
+        #  "label" => "Outcomes",
+        #  "type" => "internal"
+        #},
         {
           "id" => "quizzes",
           "html_url" => "/courses/#{@course.id}/quizzes",
