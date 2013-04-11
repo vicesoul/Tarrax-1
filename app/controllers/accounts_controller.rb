@@ -295,7 +295,9 @@ class AccountsController < ApplicationController
         end
         cached_public_account_setting = @account.settings[:public_account]
         if @account.update_attributes(params[:account])
-          @account.update_courses_be_part_of if cached_public_account_setting != params[:account][:settings][:public_account]
+          if params[:account][:settings] && params[:account][:settings][:public_account].present?
+            @account.update_courses_be_part_of if cached_public_account_setting != params[:account][:settings][:public_account]
+          end
           format.html { redirect_to account_settings_url(@account) }
           format.json { render :json => @account.to_json }
         else
