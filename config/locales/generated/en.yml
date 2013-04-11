@@ -3,8 +3,6 @@ en:
   ? "#buttons"
   : 
     cancel: Cancel
-    manage_rubrics: "Manage Rubrics"
-    save: Save
     submit: Submit
   ? "#editor"
   : 
@@ -14,9 +12,6 @@ en:
     grades: 
       complete: Complete
       incomplete: Incomplete
-  ? "#links"
-  : 
-    switch_views: "Switch Views"
   EditAppointmentGroupDetails: 
     affect_reservations: "How will this affect reservations?"
     and_n_contexts: "and %{n} others"
@@ -37,7 +32,11 @@ en:
     default_site_administrator_account_name: "Site Admin"
     default_term_name: "Default Term"
     errors: 
+      invalid_code: "Invalid Code"
       invalid_discovery_url: "The discovery URL is not valid"
+      invalid_mobile: "Invalid Mobile"
+      required: Required
+      taken: Taken
     manually_created_courses: "Manually-Created Courses"
     root_account_cant_have_sis_id: "SIS IDs cannot be set on root accounts"
     sis_id_in_use: "SIS ID \"%{sis_id}\" is already in use"
@@ -45,13 +44,11 @@ en:
     tab_courses: Courses
     tab_developer_keys: "Developer Keys"
     tab_faculty_journal: "Faculty Journal"
-    tab_grading_standards: "Grading Schemes"
+    tab_homepage: Homepage
     tab_jobs: Jobs
-    tab_outcomes: Outcomes
     tab_permissions: Permissions
     tab_plugins: Plugins
     tab_question_banks: "Question Banks"
-    tab_rubrics: Rubrics
     tab_settings: Settings
     tab_sis_import: "SIS Import"
     tab_statistics: Statistics
@@ -276,11 +273,12 @@ en:
       add_course_link: "Add a New Course"
       add_user_button: "Add User"
       add_user_link: "Add a New User"
+      course_category_tip: "Please select a course category"
       display_name_help: "People will see this name in discussions, messages and comments."
       full_name_description: "This name will be used by teachers for grading."
       labels: 
         account_id: Department
-        course_code: "Reference Code"
+        course_category_id: "Course Category"
         enrollment_term_id: "Enrollment Term"
         full_name: "Full Name"
         name: "Course Name"
@@ -370,6 +368,24 @@ en:
           description: 
             header: Example
             text: "This report shows the student final grade results for all students in a given term. The resulting csv file will have one row per enrollment, and will show the current and final grade that is displayed in the course gradebook."
+    homepage: 
+      assign_courses: "Assign courses"
+      background_color: "Background color"
+      body: Body
+      cancel: Cancel
+      change_background: "Change background"
+      choose_image: "Choose image"
+      delete_background_image: "Delete background image"
+      edit_this_page: "Edit this page"
+      home_page: Homepage
+      labels: 
+        add_new_widget: "New widget"
+        name: "Theme name"
+      repeat: Repeat
+      save: Save
+      title: Title
+      upload: Upload
+    homepages: Homepage
     include_deleted_parameter: 
       account_reports: 
         default: 
@@ -380,6 +396,14 @@ en:
       no_accounts_message: "No Accounts"
       page_title: Accounts
       title: "Accounts I Manage"
+    new: 
+      school: 
+        category: "School Category"
+        name: "School Name"
+        scale: "School Scale"
+      user: 
+        mobile: Mobile
+        role: "User Role"
     no_user_message: "No user found with that id"
     notices: 
       account_created: "Account Successfully created!"
@@ -443,6 +467,7 @@ en:
       labels: 
         account_notification_icon: Icon
         admins_can_change_passwords: "Password setting by admins"
+        allow_homepage_previews: "Allow all the users to preview homepage"
         allow_invitation_previews: "Invitation Previews"
         allow_sending_scores_in_emails: "Students can opt-in to receiving scores in email notifications"
         allow_sis_import: "SIS imports"
@@ -475,6 +500,7 @@ en:
         outgoing_email_default_name_option_custom: "Custom \"From\" Name"
         outgoing_email_default_name_option_default: "Default Jiaoxuebang Setting"
         prevent_course_renaming_by_teachers: "Don't let teachers rename their courses"
+        public_account: "This is a public account"
         self_enrollment: "Allow Self-Enrollment"
         sis_source_id: "SIS ID"
         start_at: Starts
@@ -1648,6 +1674,8 @@ en:
       different_date_for_each_section: "Use a different date for each section"
       end_time: "End Time"
       event_title: "Event Title"
+      links: 
+        switch_views: "Switch Views"
       start_time: "Start Time"
       to: to
     edit_event: 
@@ -1913,6 +1941,39 @@ en:
   cc: 
     private: "Private (Copyrighted)"
     public_domain: "Public Domain"
+  cells: 
+    activity: 
+      empty_body: "Empty images"
+      title: Activity
+    announcement: 
+      empty_body: "Empty announcements"
+      title: Announcement
+    announcement_account: 
+      empty_body: "Empty announcements"
+      title: "Account announcement"
+    assignment: 
+      course: Course
+      created_at: "Created at"
+      done: Done
+      due_at: "Due at"
+      more: More>>
+      name: Name
+      status: Status
+      title: Assignment
+      to_do: "To do"
+    author: author
+    configure: configure>
+    course: 
+      empty_body: "Empty courses"
+      learn: Learn
+      title: Course
+    created_at: created_at
+    custom: 
+      title: "Custom title"
+    discussion: 
+      empty_body: "Empty discussions"
+      title: Discussion
+    save: save
   change_points_possible_to_match_rubric_dialog: 
     prompts: 
       update_assignment_points: "This assignment has %{assignmentPoints} points possible, would you like to change it to have %{rubricPoints} points possible to match this rubric?"
@@ -2172,6 +2233,9 @@ en:
       message: 
         export_started: "The export process has started. This can take awhile for large courses. *You can leave the page* and you'll get an email when the export is complete."
       page_title: "Content Exports"
+      type: 
+        course: Course
+        quiz: Quiz
     labels: 
       new_export: "New Export:"
     links: 
@@ -2944,6 +3008,10 @@ en:
       links: 
         title: 
           remove_prerequisite: "Remove this prerequisite"
+    progress: 
+      completed: Completed
+      in_progress: "In progress"
+      locked: locked
     still_needs_completing: "Still Needs to Complete"
     titles: 
       add: "Add Module"
@@ -3290,6 +3358,7 @@ en:
         limit_privileges_to_course_section: "these admins can only grade students in their section"
       links: 
         add_users: "Add Users"
+      pick_up_from_accounts: "Pick up from accounts"
       teacherless_invite_details: "If you invite a teacher and they accept, you will give up administrative privileges for this course."
       titles: 
         course_section: "Course Section"
@@ -3412,6 +3481,7 @@ en:
         enrollment_type: "Enrollment Type"
     errors: 
       create_failed: "Course creation failed"
+      invalid_course_category: "Invalid course category"
       invalid_role: "Invalid role type"
       role_not_active: "Can't add users for non-active role: '%{role}'"
       role_not_found: "No role named '%{role}' exists."
@@ -3532,6 +3602,7 @@ en:
         allow_student_forum_attachments: "Let students attach files to discussions"
         allow_student_organized_groups: "Let students organize their own groups"
         conclude_at: Ends
+        course_category: "Course Category"
         course_code: "Course Code"
         course_lock_all_announcements: "Disable comments on announcements"
         course_name: Name
@@ -3573,6 +3644,12 @@ en:
       none: None
       not_date_restricted: "These dates will not affect course availability"
       page_title: "Course Details"
+      pickup: 
+        cancel: Cancel
+        email: Email
+        insert: Insert
+        name: Name
+        title: "Pick up"
       private_course: Private
       public_course: Public
       section_sis_id: "SIS ID: %{section_sis}"
@@ -3591,7 +3668,6 @@ en:
         users: Users
       titles: 
         edit_navigation: "Edit Course Navigation"
-      transifex_message: "Join the [Jiaoxuebang Translation Community](%{transifex_url})"
       turnitin: "these comments will be shown to students when submitting a Turnitin-enabled assignment"
       user_view: 
         links: 
@@ -4039,6 +4115,10 @@ en:
       unread: Unread
       your_search_did_not_match_any_announcements: "Your search did not match any announcements."
       your_search_did_not_match_any_discussion_topics: "Your search did not match any discussion topics."
+    more: 
+      announcements: Announcements
+      detail: Detail
+      discussion_topics: "Discussion topics"
     new_and_total_badge: 
       reply_count_tooltip: 
         one: "1 reply"
@@ -4194,6 +4274,7 @@ en:
     more_external_tools: "More External Tools"
     role: 
       duplicate_role_error: "Could not create this role because a role with this name already exists. Please try a different name"
+      permissions: Permissions
       remove_role_confirmation: "If there are any users with this role, they will keep the current permissions but you will not be able to create new users with this role. Click ok to continue deleting this role."
     save_failed: "Failed to save, please try again later"
     saving: Saving...
@@ -4210,7 +4291,7 @@ en:
       formatting: "Formatting, press down to select"
       rte_help: "Rich Text Area. Press ALT F10 for toolbar. Press ALT 0 for help."
   email: 
-    default_from_name: "Instructure Canvas"
+    default_from_name: Jiaoxuebang
   enrollment: 
     default_course_name: Course
     default_email: "No Email"
@@ -5208,6 +5289,7 @@ en:
       not_official: "*NOTE*: This is NOT your official score."
       page_title: "Grades for %{student}"
       percent: Percent
+      print_grades: "Print grades"
       see_rubric_results: "See rubric results"
       see_scoring_details: "See scoring details"
       see_turnitin_results: "See Turnitin results"
@@ -5463,6 +5545,7 @@ en:
     titles: 
       feed_for_course: "%{course} Gradebook Feed"
       total: Total
+    top_level_crumb: Grades
   grading_box: 
     out_of_points_possible: "out of %{assignment.points_possible}"
   grading_standard: 
@@ -5867,6 +5950,30 @@ en:
     titles: 
       job_handler: "Job Handler"
       last_error: "Last Error"
+  jxb/register/account: 
+    school_category: 
+      corporate: Corporate
+      higher_ed: "Higher Ed"
+      k12: K12
+      open: "Open School"
+      other: Other
+  jxb/register/account_user: 
+    role: 
+      institute_admin: "Institute Admin"
+      other: Other
+      student: Student
+      teacher: Teacher
+      technical_support: "Technical Support"
+      training_management: "Training Management"
+  jxb/widget: 
+    activity_index: activity_index
+    announcement_account: account_announcement
+    announcement_index: announcement_index
+    assignment_index: assignment_index
+    course_index: course_index
+    custom_index: custom_index
+    discussion_index: discussion_index
+    logo_index: logo_index
   labels: 
     announcements: Announcements
     assignments: Assignments
@@ -7659,6 +7766,8 @@ en:
     account_standards_description: "To the left you'll notice the standards your institution has created for you to use in your courses."
     blank_error: "Cannot be blank"
     browser: 
+      buttons: 
+        manage_rubrics: "Manage Rubrics"
       links: 
         back: Back
         find: Find
@@ -7726,6 +7835,8 @@ en:
       delete_title: "Can't delete alignments based on rubric associations. To remove these associations you need to remove the row from the asset's rubric"
     outcome_criterion: "Learning Outcome Criterion"
     outcome_form: 
+      buttons: 
+        save: Save
       criterion: "Criterion ratings"
       criterion_dialog: "Learning outcomes can be included in assignment rubrics as an easy way to assess mastery of outcomes aligned to specific assignments. When you define a learning outcome, you should also define a criterion that can be used when building assignment rubrics. Define as many rubric columns as you need, and specify a point threshold that will be used to define mastery of this outcome."
       criterion_info_link: "Click to learn about criterion ratings"
@@ -7739,6 +7850,8 @@ en:
         delete_outcome_group: "Delete Outcome Group"
         edit_outcome_group: "Edit Outcome Group"
     outcome_group_form: 
+      buttons: 
+        save: Save
       group_description: "Describe this group"
       title: "Name this group"
     outcome_result: 
@@ -8835,6 +8948,11 @@ en:
     form_answer: 
       answer_in_range_accessible: "between *range start* and #range end#"
       answer_text: "Answer Text"
+      connecting_lead_center: "Connecting center side"
+      connecting_lead_left: "Connecting left side"
+      connecting_lead_right: "Connecting right side"
+      connecting_on_pic_left: "Connecting left side"
+      connecting_on_pic_right: "Connecting right side"
       exact_answer_with_error_margin_accessible: "*exact answer* with error margin #error margin#"
       labels: 
         answer_comments: "Comments, if the student chooses this answer"
@@ -9150,6 +9268,9 @@ en:
       score_to_keep: "Quiz Score to Keep"
       show_correct_answers: "Show Which Answers Were Correct"
       shuffle_answers: "Shuffle Answers"
+      tabs: 
+        questions: Questions
+        settings: Settings
       time_limit: "How many minutes?"
       titles: 
         click_to_select_filter: "Click to select this filter"
@@ -9372,6 +9493,7 @@ en:
         published: Published!
         publishing: Publishing...
         republish: Re-Publish
+        unlock: Unlock
         unlock_quiz: "Let Students Take this Quiz Now"
         unlock_survey: "Let Students Take this Survey Now"
       confirms: 
@@ -9496,6 +9618,8 @@ en:
       labels: 
         started: Started
         times_up: "Time's Up! Submitting results in"
+      line: 
+        dele_line: "Delete this line?"
       minutes_count: 
         one: "1 Minute"
         other: "%{count} Minutes"
@@ -9608,7 +9732,6 @@ en:
         password: Password
         password_confirmation: "Confirm Password"
         username: Username
-      sign_up_without_code: "don't have a code?"
     student_higher_ed_dialog: 
       agree_to_terms_and_pp: "You agree to the *terms of use* and the **privacy policy**."
       buttons: 
@@ -9651,6 +9774,7 @@ en:
       manage_global_outcomes: "Manage global learning outcomes"
       manage_grades: "Edit grades (includes assessing rubrics)"
       manage_groups: "Manage (create / edit / delete) groups"
+      manage_homepage: "Manage the homepage"
       manage_interaction_alerts: "Manage alerts"
       manage_outcomes: "Manage learning outcomes"
       manage_role_overrides: "Manage permissions"
@@ -9706,6 +9830,10 @@ en:
     site_admin_permissions: "Site Admin Permissions"
     update_failed_notice: "Role creation failed"
   roles: 
+    new_role: 
+      add: Add
+      add_role: "Add Role"
+      role_name: "Role name"
     permission_button: 
       rolebutton: 
         disable: Disable
@@ -9713,6 +9841,9 @@ en:
         enable: Enable
         enable_and_lock: "Enable and Lock"
         use_default: "Use Default"
+    roles_override_index: 
+      account_roles: "Account Roles"
+      course_roles: "Course Roles"
   rubric: 
     context_name_rubric: "%{course_name} Rubric"
     errors: 
@@ -10157,7 +10288,6 @@ en:
         log_in: "Log In"
         logout: Logout
         settings: Settings
-        sign_up_as_teacher: "Sign Up as a Teacher"
       masquerading: 
         as: "As: *%{user_name}*"
     inline_preview: 
@@ -10192,7 +10322,7 @@ en:
       log_in: "Log In"
       login_at_account: "Log in at %{school_name}"
       login_handle: "Enter your %{login_handle_name} and we'll send you a link to change your password."
-      register_for_canvas: "*Need a Jiaoxuebang Account?* **Click Here, It's Free!**"
+      register_for_canvas: "*Need a Canvas Account?* **Click Here, It's Free!**"
     menu_assignment: 
       labels: 
         due: due
@@ -10231,22 +10361,15 @@ en:
           
           Once you have muted this assignment, you can begin sending
           notifications again by clicking the "Unmute Assignment" link.
-    new_account_form: 
-      cancel: Cancel
-      create_a_new_account: "Create a New Account"
-      create_account: "Create account"
-      creating_account: "Creating account..."
-      labels: 
-        name: "Account Name"
-      new_account_name_placeholder: "Account Name"
     new_course_form: 
       cancel: Cancel
+      course_category_tip: "Please select a course category"
       course_cose_explanation: "This will be displayed in places with little space"
       create_course: "Create course"
       creating_course: "Creating course..."
       labels: 
+        course_category_id: "Course Category"
         course_code: "Short Name"
-        license: "Content License"
         name: "Course Name"
       make_course_publicly_visible: "Make course publicly visible"
       new_course_name_placeholder: "Course Name"
@@ -10577,6 +10700,9 @@ en:
         select_file: "Please select a .zip file for uploading"
       titles: 
         uploading: "Uploading, Please Wait."
+  simple_captcha: 
+    change_code: "Click to change code"
+    validation_code: "Validation Code"
   sis_batch: 
     errors: 
       unrecorgnized_type: "Unrecognized import type"
@@ -10801,7 +10927,6 @@ en:
     grades: Grades
     home: Home
     modules: Modules
-    outcomes: Outcomes
     pages: Pages
     people: People
     profile: Profile
@@ -10923,9 +11048,9 @@ en:
     errors: 
       already_enrolled: "You are already enrolled in this course"
       course_full: "This course is full"
-      invalid_code: "Invalid code"
+      invalid_code: "Invalid Code"
       required: Required
-      terms: "You must agree to the terms"
+      terms: "cYou must agree to the terms"
       too_long: "Can't exceed %{max} characters"
     registration: 
       agree_to_terms: "You agree to the *terms of use*."
@@ -11333,6 +11458,7 @@ en:
       title: "Teacher Activity Report"
     twitter_added: "Twitter access authorized!"
     twitter_fail_whale: "Twitter authorization failed. Please try again"
+    unique_id_has_already_in_this_account: "Unique id has already in this account"
     user_dashboard: 
       user_atom_feed: "User Atom Feed (All Courses)"
       user_dashboard: "User Dashboard"
@@ -11354,6 +11480,10 @@ en:
       welcome_to_happiness: "Welcome to Jiaoxuebang!"
   validate: 
     is_required: "This field is required"
+  validate_course_form: 
+    errors: 
+      invalid_course_category: "Please select a course category"
+      invalid_course_name: "Please add a course name"
   web_conference: 
     default_name_for_courses: "Course Web Conference"
     default_name_for_groups: "Group Web Conference"
