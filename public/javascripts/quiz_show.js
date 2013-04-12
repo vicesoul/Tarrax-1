@@ -28,7 +28,8 @@ define([
   'jquery.instructure_misc_plugins' /* ifExists, confirmDelete */,
   'message_students', /* messageStudents */
   'vendor/raphael',
-  'quizzes_tpl'
+  'quizzes_new',
+  'bootstrap'
 ], function(I18n, $, showAnswerArrows, inputMethods, _) {
 
 $(document).ready(function () {
@@ -207,7 +208,9 @@ $(document).ready(function () {
             left: ( $answers.width()/devider ) * (i%3),
             top: 40 * Math.floor(i/3)
           });
-          console.log( ( $answers.width()/devider ) * (i%3) )
+
+
+          Global.quizzes.popHover($(this), i);
 
         });
       });
