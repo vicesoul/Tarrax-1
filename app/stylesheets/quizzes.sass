@@ -225,9 +225,6 @@ div#content
         border: 1px solid rgba( 0, 0, 0, 0)
         cursor: pointer
         float: left
-        .popover
-          .popover-title
-            display: none
         input
           display: none
     svg
@@ -953,41 +950,51 @@ form.question_form
       display: none!important
   span
     display: inline-block
-    width: 37px
-    height:  37px
+    width: 20px
+    height:  20px
     background: url("/images/jxb/balls.png") no-repeat
     b
       display: none
       cursor: pointer
       position: absolute
-      right: -8px
-      top: -8px
+      right: -12px
+      top: -12px
       color: #999
       width: 16px
       height: 16px
     .popover
       display: block
       width: 100px
-      min-height: 30px
       position: absolute
       left: 0
       top: 0
-      margin: -10px 0 0 50px
-      background: rgba(255,255,255,0.5)
-      textarea, p
-        resize: none
-        width: 80px
-        height: 35px
-        border: none
-        box-shadow: none
+      margin: -13px 0 0 35px
+      background: #fff
+      opacity: 0.5
+      padding: 3px 8px
+      box-shadow: 1px 3px 2px rgba(0, 0, 0, 0.2)
+      .popover-content
+        padding: 0
+        textarea, p
+          resize: none
+          width: 100%
+          height: 100%
+          border: none
+          box-shadow: none
+          font-size: 12px
+          padding: 0
+          margin: 0
+      .arrow:after
+        border-right-color: rgba(0, 0, 0, 0.2)
+      
   .grey
-    background-position: 0 0
+    background-position: left top
     .popover
       right: 0
       left: auto
-      margin: -10px 50px 0 0
+      margin: -13px 35px 0 0
   .yellow
-    background-position: -63px 0
+    background-position: right top
   .menu
     position: relative
     z-index: 1

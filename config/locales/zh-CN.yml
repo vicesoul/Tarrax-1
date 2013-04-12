@@ -8997,6 +8997,9 @@ zh-CN:
       range_answer: "在 %{lower_bound} 到 %{upper_bound} 之间"
       selected_answer: 您已选择此答案。
       you_left_this_blank: 您将此项留空
+    question_solution:
+      show_solution: 显示解析
+      hide_solution: 隐藏解析
     display_question: 
       default_question_answer: "[选择]"
       headers: 
@@ -9008,7 +9011,6 @@ zh-CN:
         variable_name: 变量
         variable_precision: 小数位
         variables: 变量
-      hide_solution: 隐藏解析
       labels: 
         additional_comments: 其他评注
         for_answer_number: "答案 %{answer_number}"
@@ -9019,7 +9021,6 @@ zh-CN:
       not_yet_graded: 仍未评分
       points_possible: "%{points_possible} 分"
       show_ansers_for_variable: "显示 %{variable} 的答案"
-      show_solution: 显示解析
       skip_question_text: 转至试题文本。
       titles: 
         question_correct_comment: 如果学生回答试题正确，他们将看到此评注
