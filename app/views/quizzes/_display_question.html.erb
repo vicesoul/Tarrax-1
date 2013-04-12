@@ -410,24 +410,10 @@
         <div class="question_comment_html neutral_comments_html"><%= raw hash_get(question, :neutral_comments_html) %></div>
       </div>
     <% end %>
-    <div class="solution">
-      <% unless ( question && hash_get(question, :question_type) ) == 'text_only_question' %>
-        
-        <% if editing || user_answer %>
-
-          <% solution_content = hash_get(question, :solution_content) %>
-          <% unless solution_content.blank? %>
-            <a class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
-            <div class="solution_text user_content hide_solution_text"><%= raw question && hash_get(question, :solution_content) %></div>
-          <% else %>
-            <a style="display:none;" class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
-            <div class="solution_text user_content hide_solution_text"></div>
-          <% end # solution_content.blank? %>
-
-        <% end %>
-
-      <% end # unless %>
-    </div><!-- div class='solution' -->
+    <%= render :partial => 'quizzes/question_solution', :locals => { :editing => editing,
+                                                                     :user_answer => user_answer,
+                                                                     :solution_content => question && hash_get(question, :solution_content),
+                                                                     :is_a_text_only_question => ( question && hash_get(question, :question_type) ) == 'text_only_question' } %>
     <% if question_bank_id %>
       <div class="bottom_links">
         <a href="#" class="move_question_link"><%= t('links.move_copy_question', "move/copy question to another bank") %></a> 

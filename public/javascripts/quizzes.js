@@ -454,12 +454,14 @@ define([
       };
       if (escaped) {
         fillArgs['htmlValues'].push('question_text');
+        fillArgs['htmlValues'].push('solution_text');
       } else {
         fillArgs['except'].push('question_text');
         fillArgs['htmlValues'].push('solution_text');
       }
       $question.fillTemplateData(fillArgs);
       $question.find(".original_question_text").fillFormData(question);
+      $question.find(".solution .solution_text").html(question.solution_content);
       $question.find(".question_correct_comment").toggleClass('empty', !question.correct_comments && !question.correct_comments_html);
       $question.find(".question_incorrect_comment").toggleClass('empty', !question.incorrect_comments && !question.incorrect_comments_html);
       $question.find(".question_neutral_comment").toggleClass('empty', !question.neutral_comments && !question.neutral_comments_html);
