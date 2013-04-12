@@ -33,7 +33,7 @@ define([
   'sketcher',
   'vendor/raphael',
   'i18n!editor',
-  'quizzes_tpl',
+  'quizzes_new',
   'bootstrap'
 ], function(I18n, $, timing, autoBlurActiveInput) {
 
@@ -679,17 +679,8 @@ define([
             }
 
           });
-          var $popover = $(this).find("span[rel=popover]");
-          var orientation = i%3 === 0 ? "left" : "right";
-          if( $popover.text().trim().length > 12 ){
-            $popover
-              .popover({
-                placement: orientation,
-                trigger: "hover"
-              })
-              .addClass("ellipsis")
-              .css("max-width", "100px");
-          }
+
+          Global.quizzes.popHover($(this), i);
 
         });
 
