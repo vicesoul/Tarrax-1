@@ -72,7 +72,8 @@ define [
                 # we don't reload the form, so we want a subsequent login
                 # or signup attempt to work
                 @userType = 'existing'
-                @logOut()
+                #@logOut()
+                setTimeout (() -> window.location.href="/courses/#{errors['course_id']}"), 1000 
             @$el.submit()
           return false
         when 'authenticated'

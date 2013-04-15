@@ -18,7 +18,7 @@ require [
       promise = $.Deferred()
       $form.disableWhileLoading(promise)
     success: (data) =>
-      window.location = "/accounts/#{data.id}/redirect"
+      window.location = "http://#{data.host}/homepage"
     formErrors: false
     error: (errors) ->
       promise.reject()

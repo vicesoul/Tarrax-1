@@ -37,7 +37,8 @@ class SelfEnrollmentsController < ApplicationController
     if @current_user.save
       render :json => course_json(@current_user.self_enrollment_course, @current_user, session, [], nil)
     else
-      render :json => {:user => @current_user.errors.as_json[:errors]}, :status => :bad_request
+      course_id = Course.find_by_self_enrollment_code(params[:self_enrollment_code]).id
+      render :json => {:user => @current_user.errors.as_json[:errors], :course_id => course_id}, :status => :bad_request
     end
   end
 
