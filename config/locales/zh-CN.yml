@@ -10267,7 +10267,9 @@ zh-CN:
       buttons: 
         enroll_in_course: 报名参加课程
       enter_email: "请输入电子邮件:"
-      existing_user: "我已用 %{institution_name} 登录"
+      #existing_user: "我已用 %{institution_name} 登录"
+      #existing_user: "我已用 %{institution_name} 登录"
+      existing_user: "我用现有账号登录"
       getting_started: "您正报名参加课程 **%{course}**."
       labels: 
         email: 电子邮件
