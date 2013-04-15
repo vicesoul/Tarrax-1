@@ -1,0 +1,17 @@
+<div class="solution">
+  <% unless is_a_text_only_question %>
+    
+    <% if editing || user_answer %>
+
+      <% unless solution_content.blank? %>
+        <a class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
+        <div class="solution_text user_content hide_solution_text"><%= raw solution_content %></div>
+      <% else %>
+        <a style="display:none;" class="toggle_solution" href="javascript:void(0)" data-show-text="<%= t(:show_solution, 'Show solution') %>" data-hide-text="<%= t(:hide_solution, 'Hide solution') %>"><%= t(:show_solution, 'Show solution') %></a>
+        <div class="solution_text user_content hide_solution_text"></div>
+      <% end # solution_content.blank? %>
+
+    <% end %>
+
+  <% end # unless %>
+</div><!-- div class='solution' -->

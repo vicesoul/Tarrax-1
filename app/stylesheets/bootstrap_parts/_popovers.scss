@@ -8,6 +8,7 @@
   text-align: left;
   z-index: $zindexPopover;
   display: none;
+  position: absolute;
   padding: 1px;
   background-color: $white;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
@@ -87,6 +88,13 @@
     @include background-clip(padding-box);
     p, ul, ol {
       margin-bottom: 0;
+    }
+  }
+}
+.connecting_lead, .connecting_lead_answer {
+  .popover {
+    .popover-title {
+      display: none;
     }
   }
 }
