@@ -4356,7 +4356,7 @@ zh:
       canvas_messages: "Canvas 消息"
       configure_notification_preferences_notice: "在*配置您的通知首选项*之后，就可以在此处看到通知，从而知道您的 Canvas 帐户中发生的事情。"
       installation_about: "要安装 Canvas Facebook 应用程序，请转至 Canvas 中的配置文件页面，然后单击 Facebook 按钮将您的帐户连接到 Facebook。"
-      learn_more: "更多信息请参阅 instructure.com"
+      learn_more: "更多信息请参阅 jiaoxuebang.com"
       more_information: "更多信息请参阅 %{domain_list}"
       no_messages_notice: "当课程中发生事情时，您将在此处看到通知，从而知道您的 Canvas 帐户中发生的事情。"
       notification_about: "Canvas Facebook 应用程序旨在方便您访问课程中的互动信息。您可以设置为当您的作业被评分、当期日期更改等事件时向您发送通知。您的私人数据在 Canvas 中仍然保持私密性。"
@@ -4367,7 +4367,7 @@ zh:
       welcome_title: "欢迎使用 Instructure Canvas"
     index_disabled: 
       disabled_notice: "此 Canvas 网站未配置为与 Facebook 通信。"
-      get_help: "请登录 support.instructure.com 获取帮助"
+      get_help: "请登录 support.jiaoxuebang.com 获取帮助"
       instructure_canvas: "Instructure Canvas"
     invalid_signature: "无效的 Facebook 签名"
     message: 

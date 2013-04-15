@@ -16,11 +16,11 @@ parameters is also supported.
 
 OAuth2 Token sent in header:
 
-    curl -H "Authorization: Bearer <ACCESS-TOKEN>" https://canvas.instructure.com/api/v1/courses
+    curl -H "Authorization: Bearer <ACCESS-TOKEN>" https://canvas.jiaoxuebang.com/api/v1/courses
 
 OAuth2 Token sent in query string:
 
-    curl https://canvas.instructure.com/api/v1/courses?access_token=<ACCESS-TOKEN>
+    curl https://canvas.jiaoxuebang.com/api/v1/courses?access_token=<ACCESS-TOKEN>
 
 Storing Tokens
 --------------
@@ -85,7 +85,7 @@ ID and client secret. To obtain these application credentials, you will
 need to register your application.  The client secret should never be shared.
 
 For Canvas Cloud, you can request a client ID and secret from
-http://www.instructure.com/partners , or contact your account
+http://www.jiaoxuebang.com/partners , or contact your account
 representative.
 
 For open source Canvas users, you can generate a client ID and secret in

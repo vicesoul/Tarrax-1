@@ -4710,7 +4710,7 @@ ar:
       canvas_messages: "رسائل Jiaoxuebang"
       configure_notification_preferences_notice: "بعد *تكوين تفضيلات الإعلام* يجب بدء عرض ظهور الإعلامات هنا مما يسمح لك بمعرفة الأمور التي تحدث في حساب Jiaoxuebang."
       installation_about: "لتثبيت تطبيق Jiaoxuebang Facebook، انتقل لصفحة ملف التعريف في موقع Jiaoxuebang وانقر فوق زر Facebook لتوصيل حسابك بـ Facebook."
-      learn_more: "معرفة المزيد في موقع instructure.com"
+      learn_more: "معرفة المزيد في موقع jiaoxuebang.com"
       more_information: "مزيد من المعلومات في %{domain_list}"
       no_messages_notice: "مع توالي الأحداث في المساق سوف تبدأ ترى ظهور إعلامات هنا مما يسمح لك بمعرفة الأمور التي تحدث في حساب Jiaoxuebang الخاص بك."
       notification_about: "يهدف تطبيق Jiaoxuebang Facebook هنا إلى منحك وصولا أسهل للتفاعلات التي تحدث داخل المساقات الخاصة بك. يمكنك ضبطه لإرسال الإعلامات عند تقييم درجات المهام، وعند تغيير مواعيد الاستحقاق إلخ. وستظل البيانات الخاصة في الموقع Jiaoxuebang."
@@ -4721,7 +4721,7 @@ ar:
       welcome_title: "مرحبًا بكم في Jiaoxuebang"
     index_disabled: 
       disabled_notice: "لم يتم تكوين موقع Jiaoxuebang هذا للاتصال بـ Facebook."
-      get_help: "الحصول على المساعدة من خلال موقع support.instructure.com"
+      get_help: "الحصول على المساعدة من خلال موقع support.jiaoxuebang.com"
       instructure_canvas: "Jiaoxuebang"
     invalid_signature: "توقيع Facebook غير صالح"
     message: 

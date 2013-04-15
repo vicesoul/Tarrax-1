@@ -4513,7 +4513,7 @@ es:
       canvas_messages: "Mensaje de Jiaoxuebang"
       configure_notification_preferences_notice: "Despúes que *configure sus preferencias de notificación* debería comenzar a ver notificaciones aparecer aquí permitiéndole saber que sucede en su cuenta de Jiaoxuebang."
       installation_about: "Para instalar la aplicación de Jiaoxuebang en Facebook, vaya a su página de perfil en Jiaoxuebang y haga click en el botón de Facebook para conectar su cuenta a Facebook."
-      learn_more: "Aprenda más en instructure.com"
+      learn_more: "Aprenda más en jiaoxuebang.com"
       more_information: "Más información en %{domain_list}"
       no_messages_notice: "Al suceder cosas en el curso comenzará a ver notificaciones aquí permitiendole conocer qué ocurre en su cuenta de Jiaoxuebang."
       notification_about: "La aplicación de Jiaoxuebang en Facebook le permite tener fácil acceso a las interacciones que suceden en sus cursos. Puede configurarlo para que le envíe notificaciones cuando sus tareas sean calificadas, cuando fechas límite cambien, etc. Su información privada seguirá siendolo en Jiaoxuebang."
@@ -4524,7 +4524,7 @@ es:
       welcome_title: "Bienvenido(a) a Jiaoxuebang"
     index_disabled: 
       disabled_notice: "Este sitio de Jiaoxuebang no está configurado para comunicarse con Facebook."
-      get_help: "Reciba ayuda en support.instructure.com"
+      get_help: "Reciba ayuda en support.jiaoxuebang.com"
       instructure_canvas: "Jiaoxuebang"
     invalid_signature: "Firma Inválida de Facebook"
     message: 
