@@ -193,6 +193,7 @@
     </div>
     <% end %>
     <div id="main">
+      <%= yield :main %>
       <div id="right-side-wrapper">
         <aside id="right-side" role="complementary">
           <%= right_side %>
@@ -286,3 +287,4 @@
 <% end %>
 
 <%= render :partial => 'layouts/foot', :locals => { :include_common_bundle => true } %>
+
