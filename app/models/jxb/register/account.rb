@@ -30,11 +30,11 @@ module Jxb
       module ClassModules
         def school_categories
           [
-            [:open        , t('school_category.open'        , 'Open School') ] ,
-            [:k12         , t('school_category.k12'         , 'K12') ]         ,
-            [:higher_ed   , t('school_category.higher_ed'   , 'Higher Ed') ]   ,
-            [:corporate   , t('school_category.corporate'   , 'Corporate') ]   ,
-            [:other       , t('school_category.other'       , 'Other') ]       ,
+            [:open        , t('#account.school_category.open'        , 'Open School') ] ,
+            [:k12         , t('#account.school_category.k12'         , 'K12') ]         ,
+            [:higher_ed   , t('#account.school_category.higher_ed'   , 'Higher Ed') ]   ,
+            [:corporate   , t('#account.school_category.corporate'   , 'Corporate') ]   ,
+            [:other       , t('#account.school_category.other'       , 'Other') ]       ,
           ]
         end
 

@@ -6755,12 +6755,7 @@ ja:
         subject: "Jiaoxuebang アラート - グループ課題の遅延提出: %{group_name}, %{assignment_name}"
     group_membership_accepted: 
       email: 
-        account_group: !binary |
-            xpJBxpJKxpJFxpLigJzGkmfDgoF1JXthY2NvdW50X25hbWV9w4KBduKAmsOJ
-            4oCaw4LigJrCouKAmsOEw4KBQcaST8aS4oC5w4KBW8aSdsOCgXUle2dyb3Vw
-            X25hbWV9w4KBduKAmsOW4oCaw4zFvVHigLDDgeKAlHbigLnDgoHigJrCqsW9
-            w7PigJjDuOKAmsKz4oCaw6rigJrDnOKAmsK14oCawr3DgoFC
-
+        account_group: "アカウント「%{account_name}」について、グループ「%{group_name}」への参加要求が受諾されました。"
         course_group: "コース「%{course_name}」について、グループ「%{group_name}」への参加要求が受諾されました。"
         group_request_accepted: "グループ要求が受諾されました: %{group_name}"
         labels: 

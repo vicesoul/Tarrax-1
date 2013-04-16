@@ -39,6 +39,12 @@ en:
       taken: Taken
     manually_created_courses: "Manually-Created Courses"
     root_account_cant_have_sis_id: "SIS IDs cannot be set on root accounts"
+    school_category: 
+      corporate: Corporate
+      higher_ed: "Higher Ed"
+      k12: K12
+      open: "Open School"
+      other: Other
     sis_id_in_use: "SIS ID \"%{sis_id}\" is already in use"
     tab_authentication: Authentication
     tab_courses: Courses
@@ -261,6 +267,13 @@ en:
       open_registration_delegated_warning_dialog: "An External Identity Provider is Enabled"
       what_are_quiz_ip_filters: "What are Quiz IP Filters?"
   account_user: 
+    role: 
+      institute_admin: "Institute Admin"
+      other: Other
+      student: Student
+      teacher: Teacher
+      technical_support: "Technical Support"
+      training_management: "Training Management"
     types: 
       account_admin: "Account Admin"
   accounts: 
@@ -5757,7 +5770,7 @@ en:
       create_success: "Group was successfully created."
       delete_success: "Group successfully deleted"
       goodbye: "You have removed yourself from the group %{group_name}."
-      invalid_invitation: ""
+      invalid_invitation: "Invalid invitation"
       no_students_assigned: "Nothing to do."
       students_assigned: "Students assigned to groups."
       update_success: "Group was successfully updated."
@@ -5950,21 +5963,6 @@ en:
     titles: 
       job_handler: "Job Handler"
       last_error: "Last Error"
-  jxb/register/account: 
-    school_category: 
-      corporate: Corporate
-      higher_ed: "Higher Ed"
-      k12: K12
-      open: "Open School"
-      other: Other
-  jxb/register/account_user: 
-    role: 
-      institute_admin: "Institute Admin"
-      other: Other
-      student: Student
-      teacher: Teacher
-      technical_support: "Technical Support"
-      training_management: "Training Management"
   jxb/widget: 
     activity_index: activity_index
     announcement_account: account_announcement
@@ -8868,7 +8866,6 @@ en:
         variable_name: Variable
         variable_precision: "Decimal Places"
         variables: Variables
-      hide_solution: "Hide solution"
       labels: 
         additional_comments: "Additional Comments"
         for_answer_number: "Answer %{answer_number}"
@@ -8879,7 +8876,6 @@ en:
       not_yet_graded: "Not yet graded"
       points_possible: "%{points_possible} pts"
       show_ansers_for_variable: "Show Answers for %{variable}"
-      show_solution: "Show solution"
       skip_question_text: "Skip to question text."
       titles: 
         question_correct_comment: "Students will see this comment if they get the question correct"
@@ -9310,6 +9306,9 @@ en:
     question_list_right_side: 
       headers: 
         questions: Questions
+    question_solution: 
+      hide_solution: "Hide solution"
+      show_solution: "Show solution"
     question_statistic: 
       attempts: 
         one: "1 attempt"
@@ -10043,7 +10042,7 @@ en:
       buttons: 
         enroll_in_course: "Enroll in Course"
       enter_email: "Please enter your email address:"
-      existing_user: "I already have a %{institution_name} login"
+      existing_user: "I already have a account to login"
       getting_started: "You are enrolling in **%{course}**."
       labels: 
         email: Email
