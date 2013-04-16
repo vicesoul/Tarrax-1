@@ -1,7 +1,8 @@
 
 define([
-  'jquery'
-], function($) {
+  'jquery',
+  'underscore'
+], function($, _) {
 var tpl  = window.tpl = {};
 tpl.ball = '<span><div class="popover"><div class="arrow"></div><div class="popover-content"><p></p></div></div></span>';
 
@@ -22,11 +23,10 @@ Global.quizzes = {
       positionData = positionStr == "" ? {} : stringToObject( positionStr ),
       imageSrc = $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").text(),
       ballId = 0,
-      $toolTip = $main.find(".tool-tip")
-        .bind("click", function(e){ e.stopPropagation(); }),
-      $toolTipDele = $toolTip.find("button:first"),
-      $toolTipCancel = $toolTip.find("button:last")
-        .bind("click", function(){resetToolTip();});
+      $toolTip = $("#toolTip").bind("click", function(e){ e.stopPropagation(); });
+
+
+    $toolTip.find("button:last").bind("click", function(){ resetToolTip($toolTip, paper); });
 
     // show uploaded images
     if( $("#editor_tabs_4").is(":hidden") ){$("#ui-id-5").trigger("click");}
@@ -152,11 +152,7 @@ Global.quizzes = {
     $main.find(".bg").append(bgImage);
 
     // close tooltip when click document
-    $(document).click(function(){ resetToolTip() });
-
-    function stringToObject(str) {
-      return eval("(" + str + ")");
-    }
+    $(document).click(function(){ resetToolTip($toolTip, paper) });
 
     function updateLines(){
       paper.clear();
@@ -260,16 +256,16 @@ Global.quizzes = {
         })
         .click(function(e){
           e.stopPropagation();
-          resetToolTip();
+          resetToolTip($toolTip, paper);
           this.attr({"stroke-dasharray": "- "});
           $toolTip
             .show()
             .css({
-              left: ( x1 + x2 )/2 - $toolTip.width()/2,
-              top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+              left: e.pageX,
+              top: e.pageY
             });
           deleHandle =  deleLine(this, $active, $end);
-          $toolTipDele.bind( "click", deleHandle );
+          $toolTip.find("button:first").bind( "click", deleHandle );
         });
 
     }
@@ -351,32 +347,6 @@ Global.quizzes = {
       positionData = stringToObject(positionData);
     }
 
-    function resetToolTip(){
-      $toolTip.hide();
-      $toolTipDele.unbind( "click", deleHandle );
-      paper.forEach(function (el) {
-        el.attr("stroke-dasharray", "");
-      });
-    }
-
-    $.fn.doVal = function(type, yellowId) {
-      var inputVal = $(this).val();
-      inputVal = inputVal == undefined ? "" : inputVal;
-      if(type == "add"){
-        if(inputVal.indexOf("ball-" + yellowId) !== -1){
-        }else{
-          $(this).val( inputVal + "ball-" + yellowId );
-        }
-
-      }else if( type == "sub" ){
-
-        inputVal = inputVal.replace("ball-" + yellowId, "");
-        $(this).val(inputVal);
-
-      }
-      return this;
-    };
-
   },
 
   connectingLead: function($form){
@@ -407,13 +377,153 @@ Global.quizzes = {
   lineWidth: 3
 };
 
-window.stringToObject = function (str) {
-  return eval("(" + str + ")");
+
+
+Global.quizzes.commonFunc = {
+
+  stringToObject : function (str) {
+    return eval("(" + str + ")");
+  },
+
+  ballHandle : function ($question, paper, $toolTip){
+    return function(){
+      var $main = $question.find(".factory .main");
+        $active = $main.find( ".active"),
+        $greyBall = $active.is(".grey") ? $active : $(this),
+        $yellowBall = $active.is(".grey") ? $(this) : $active,
+        greyBallId = $greyBall.attr("ball-id"),
+        yellowBallId = $yellowBall.attr("ball-id"),
+        connected = false;
+
+      // check if they are connected
+      $question.find(".answers .word_left").each(function( i ){
+        var answerId = $(this).find("span").text().trim().slice(5),
+          answerVal = $(this).next(".word_right").find("input.left").val();
+        if( answerId == greyBallId && answerVal.indexOf("ball-" + yellowBallId) != -1 ) {
+          connected = true;
+          return false;
+        }
+      });
+
+      // toggle class: active
+      if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
+        || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
+        || connected
+        ){
+        $active.removeClass("active");
+        $(this).addClass("active");
+        return;
+      }
+
+      if( $main.find(".active").size() !== 0 ){
+        if( !$(this).is(".active") ) {
+          drawLine($greyBall, $yellowBall, $toolTip, paper, $question);
+          addAnswer($greyBall, $yellowBall, $question);
+          $active.removeClass( "active" );
+        }else{
+          $(this).removeClass( "active" )
+        }
+      }else{
+        // $active is not found
+        $(this).addClass("active");
+      }
+    }
+  },
+
+  updateLines : function ($question, paper, $toolTip){
+    paper.clear();
+
+    $question.find(".answers .word_left").each(function(){
+      var greyBallId = $(this).find("span").text().trim().slice(5);
+      var $grey = $question.find(".factory .main > span[ball-id="+ greyBallId + "]");
+      var rightInput = $(this).next(".word_right").find("input.left");
+      var rightVal = rightInput.val();
+      if(rightVal == "" || rightVal == "0")return;
+      var yellowBalls = rightVal.split("ball-");
+      $.each(yellowBalls, function(i,val){
+        if(val == "")return;
+        var $yellow = $question.find(".factory .main > span[ball-id="+ val + "]");
+        drawLine( $grey, $yellow, $toolTip, paper, $question);
+      });
+    });
+
+  },
+
+  drawLine : function ($active, $end, $toolTip, paper, $question){
+    var strokeColor = "#08c",
+      x1 = $active.position().left + $active.width()/2,
+      y1 = $active.position().top + $active.height()/2 ,
+      x2 = $end.position().left + $end.width()/2,
+      y2 = $end.position().top + $end.height()/2 ,
+      line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+    line
+      .attr({
+        "stroke": strokeColor,
+        "stroke-width": Global.quizzes.lineWidth
+      })
+      .click(function(e){
+        e.stopPropagation();
+        resetToolTip($toolTip, paper);
+        this.attr({"stroke-dasharray": "- "});
+        $toolTip
+          .show()
+          .css({
+            left: e.pageX,
+            top: e.pageY
+          });
+        $toolTip.find("button:first").bind( "click", deleLine(this, $active, $end, $toolTip, $question) );
+      });
+
+  },
+
+  addAnswer : function ($greyBall, $yellowBall, $question){
+    var greyBallId = $greyBall.attr("ball-id");
+    var yellowBallId = $yellowBall.attr("ball-id");
+    $question.find(".answers .word_left").each(function(){
+      var answerId = $(this).find("span").text().trim().slice(5);
+      if(greyBallId ==  answerId){
+        $(this).next(".word_right").find("input.left").doVal("add", yellowBallId);
+        return false;
+      }
+    });
+  },
+
+  deleLine : function (line, a, b, $toolTip, $question){
+    return function(){
+      $toolTip.hide();
+      line.remove();
+
+      // delete match answer
+      var $grey = a.is(".grey") ? a : b;
+      var $yellow = a.is(".grey") ? b : a;
+      var greyBallId = $grey.attr("ball-id");
+      var yellowBallId = $yellow.attr("ball-id");
+      $question.find(".answers .word_left").each(function(){
+        var answerId = $(this).find("span").text().trim().slice(5);
+        if(greyBallId ==  answerId){
+          $(this).next(".word_right").find("input.left").doVal("sub", yellowBallId);
+          return false;
+        }
+
+      });
+    }
+  },
+
+  resetToolTip : function ($toolTip, paper){
+    $toolTip.hide();
+    $toolTip.find("button:first").unbind("click");
+    paper.forEach(function (el) {
+      el.attr("stroke-dasharray", "");
+    });
+  }
 };
+
+_.extend(window, Global.quizzes.commonFunc);
+
 
 $.fn.doVal = function(type, yellowId) {
   var inputVal = $(this).val();
-  inputVal = inputVal == "0" ? "" : inputVal;
+  inputVal = inputVal == false ? "" : inputVal;
   if(type == "add"){
     if(inputVal.indexOf("ball-" + yellowId) !== -1){
     }else{
@@ -428,4 +538,6 @@ $.fn.doVal = function(type, yellowId) {
   }
   return this;
 };
+
+
 });
