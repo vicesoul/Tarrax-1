@@ -11,7 +11,7 @@
 <ul class="context_list">
   <% @accounts.each do |account| %>
     <li>
-    <%= link_to account.name, root_url(:subdomain => account.subdomain) %>
+    <%= link_to account.name, homepage_url(:subdomain => account.subdomain) %>
     </li>
   <% end %>
 </ul>

@@ -4703,7 +4703,7 @@ en:
       canvas_messages: "Jiaoxuebang Messages"
       configure_notification_preferences_notice: "After you *configure your notification preferences* you should start to see notifications show up here letting you know about things happening in your Jiaoxuebang account."
       installation_about: "To install the Jiaoxuebang Facebook app, go to your profile page in Jiaoxuebang and click the Facebook button to connect your account to Facebook."
-      learn_more: "Learn More at instructure.com"
+      learn_more: "Learn More at jiaoxuebang.com"
       more_information: "More information at %{domain_list}"
       no_messages_notice: "As things happen in the course you'll start seeing notifications show up here letting you know about things happening in your Jiaoxuebang account."
       notification_about: "The Jiaoxuebang Facebook app is here to give you easier access to the interactions going on inside your courses. You can set it to send you notifications when your assignments are graded, when due dates change, etc. Your private data will still stay private at Jiaoxuebang."
@@ -4714,7 +4714,7 @@ en:
       welcome_title: "Welcome to Instructure Jiaoxuebang"
     index_disabled: 
       disabled_notice: "This Jiaoxuebang site is not configured to communicate with Facebook."
-      get_help: "Get help at support.instructure.com"
+      get_help: "Get help at support.jiaoxuebang.com"
       instructure_canvas: "Instructure Jiaoxuebang"
     invalid_signature: "Invalid Facebook signature"
     message: 

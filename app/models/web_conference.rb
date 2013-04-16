@@ -311,11 +311,11 @@ class WebConference < ActiveRecord::Base
     @attendee_key ||= self.conference_key
   end
   
-  def admin_join_url(user, return_to="http://www.instructure.com")
+  def admin_join_url(user, return_to="http://www.jiaoxuebang.com")
     raise "not implemented"
   end
   
-  def participant_join_url(user, return_to="http://www.instructure.com")
+  def participant_join_url(user, return_to="http://www.jiaoxuebang.com")
     raise "not implemented"
   end
   
@@ -323,7 +323,7 @@ class WebConference < ActiveRecord::Base
     true
   end
   
-  def craft_url(user=nil,session=nil,return_to="http://www.instructure.com")
+  def craft_url(user=nil,session=nil,return_to="http://www.jiaoxuebang.com")
     user ||= self.user
     initiate_conference and touch or return nil
     if (user == self.user || self.grants_right?(user,session,:initiate)) && !active?(true)

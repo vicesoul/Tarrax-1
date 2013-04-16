@@ -36,7 +36,7 @@ found below.
         <blti:title>Protractor Tool</blti:title>
         <blti:description>This tool provides an online, interactive protractor for students to use</blti:description>
         <blti:launch_url>https://example.com/tool_redirect</blti:launch_url>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
         </blti:extensions>
     </cartridge_basiclti_link>
@@ -54,7 +54,7 @@ found below.
         http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
         <blti:title>Protractor Tool</blti:title>
         <blti:description>This tool provides an online, interactive protractor for students to use</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">name_only</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
         </blti:extensions>
@@ -77,7 +77,7 @@ found below.
         <blti:launch_url>https://example.com/attendance</blti:launch_url>
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:options name="course_navigation">
             <lticm:property name="enabled">true</lticm:property>
@@ -100,7 +100,7 @@ found below.
         <blti:launch_url>https://example.com/</blti:launch_url>
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:options name="course_navigation">
             <lticm:property name="url">https://example.com/attendance</lticm:property>
@@ -124,7 +124,7 @@ found below.
         <blti:launch_url>https://example.com/launch</blti:launch_url>
         <blti:title>Mind blowing awesomeness</blti:title>
         <blti:description>Provides something so awesome you'll just have to launch it to believe it</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:options name="course_navigation">
             <lticm:property name="enabled">true</lticm:property>
@@ -151,7 +151,7 @@ found below.
         <blti:launch_url>https://example.com/attendance</blti:launch_url>
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="course_navigation">
@@ -176,7 +176,7 @@ found below.
         <blti:launch_url>https://example.com/attendance</blti:launch_url>
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="course_navigation">
@@ -200,7 +200,7 @@ found below.
         http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="course_navigation">
@@ -232,7 +232,7 @@ found below.
         <blti:launch_url>https://example.com/reports</blti:launch_url>
         <blti:title>Custom Reports</blti:title>
         <blti:description>Department reports pulled from other campus systems</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:property name="text">Other Reports</lticm:property>
@@ -259,7 +259,7 @@ found below.
         <blti:launch_url>https://example.com/profile</blti:launch_url>
         <blti:title>Campus Profile</blti:title>
         <blti:description>Access to campus profile from within Canvas</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="user_navigation">
@@ -285,7 +285,7 @@ found below.
         <blti:launch_url>https://example.com/image_selector</blti:launch_url>
         <blti:title>Image Selector</blti:title>
         <blti:description>This connects to the campus image library and allows inserting images into content directly from this library</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:property name="text">Image Library</lticm:property>
@@ -313,7 +313,7 @@ found below.
         <blti:launch_url>https://example.com/image_selector</blti:launch_url>
         <blti:title>Image Selector</blti:title>
         <blti:description>This connects to the campus image library and allows inserting images into content directly from this library</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:property name="icon_url">https://example.com/image_selector.png</lticm:property>
@@ -349,7 +349,7 @@ matching, and to only return URLs matching that domain.
         http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
         <blti:title>eBook Selector</blti:title>
         <blti:description>Select chapters of available eBooks to insert into course modules</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="resource_selection">
@@ -376,7 +376,7 @@ matching, and to only return URLs matching that domain.
         http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
         <blti:title>eBook Selector</blti:title>
         <blti:description>Select chapters of available eBooks to insert into course modules</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="resource_selection">
@@ -414,7 +414,7 @@ by the service should be scoped to the matching domain.
         http://www.imsglobal.org/xsd/imslticp_v1p0 http://www.imsglobal.org/xsd/lti/ltiv1p0/imslticp_v1p0.xsd">
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:options name="course_navigation">
@@ -447,7 +447,7 @@ by the service should be scoped to the matching domain.
         <blti:launch_url>https://example.com/attendance</blti:launch_url>
         <blti:title>Attendance</blti:title>
         <blti:description>Provides an interactive seating chart and attendance tool</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="text">Attendance</lticm:property>
           <lticm:options name="course_navigation">
@@ -476,7 +476,7 @@ by the service should be scoped to the matching domain.
         <blti:launch_url>https://example.com/wiki</blti:launch_url>
         <blti:title>Global Wiki</blti:title>
         <blti:description>Institution-wide wiki tool with all the trimmings</blti:description>
-        <blti:extensions platform="canvas.instructure.com">
+        <blti:extensions platform="canvas.jiaoxuebang.com">
           <lticm:property name="privacy_level">public</lticm:property>
           <lticm:property name="domain">example.com</lticm:property>
           <lticm:property name="icon_url">https://example.com/wiki.png</lticm:property>

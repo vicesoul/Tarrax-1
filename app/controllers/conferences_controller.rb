@@ -18,6 +18,7 @@
 
 class ConferencesController < ApplicationController
   before_filter :require_context
+  before_filter :require_user
   add_crumb(proc{ t '#crumbs.conferences', "Conferences"}) { |c| c.send(:named_context_url, c.instance_variable_get("@context"), :context_conferences_url) }
   before_filter { |c| c.active_tab = "conferences" }
   before_filter :require_config
