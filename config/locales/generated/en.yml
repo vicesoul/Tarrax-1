@@ -1,17 +1,5 @@
 --- 
 en: 
-  ? "#buttons"
-  : 
-    cancel: Cancel
-    submit: Submit
-  ? "#editor"
-  : 
-    switch_views: "Switch Views"
-  ? "#gradebooks"
-  : 
-    grades: 
-      complete: Complete
-      incomplete: Incomplete
   EditAppointmentGroupDetails: 
     affect_reservations: "How will this affect reservations?"
     and_n_contexts: "and %{n} others"
