@@ -368,8 +368,8 @@ define([
         return {
           longname : 'InstructureLinks',
           author : 'Brian Whitmer',
-          authorurl : 'http://www.instructure.com',
-          infourl : 'http://www.instructure.com',
+          authorurl : 'http://www.jiaoxuebang.com',
+          infourl : 'http://www.jiaoxuebang.com',
           version : tinymce.majorVersion + "." + tinymce.minorVersion
         };
       }

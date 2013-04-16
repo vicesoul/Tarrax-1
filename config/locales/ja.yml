@@ -4459,7 +4459,7 @@ ja:
       canvas_messages: "Jiaoxuebang メッセージ"
       configure_notification_preferences_notice: "*お知らせの基本設定* が完了すると、ここにお知らせが表示されるようになり、ご自分の Jiaoxuebang アカウントで起きている事柄を知ることができます。"
       installation_about: "Jiaoxuebang Facebook アプリをインストールするには、Jiaoxuebang のプロフィール ページに進み、Facebook ボタンをクリックして、アカウントを Facebook に接続します。"
-      learn_more: "instructure.com で詳しく学ぶ"
+      learn_more: "jiaoxuebang.com で詳しく学ぶ"
       more_information: "詳細は %{domain_list} をご覧ください"
       no_messages_notice: "コースで物事が起きるにつれ、ここにお知らせが表示されるようになります。ご自分の Jiaoxuebang アカウントで起きている事柄を知ることができます。"
       notification_about: "Jiaoxuebang Facebook アプリによって、コース内部で行われている交流に、より簡単にアクセスできます。自分の課題が採点されたとき、期日が変更されたときなどに、お知らせを受けるように設定できます。個人情報はJiaoxuebang でも非公開のままとなります。"
@@ -4470,7 +4470,7 @@ ja:
       welcome_title: "Instructure Jiaoxuebang へようこそ。"
     index_disabled: 
       disabled_notice: "この Jiaoxuebang サイトは、Facebook と通信するようには設定されていません。"
-      get_help: "support.instructure.com でヘルプをご覧ください"
+      get_help: "support.jiaoxuebang.com でヘルプをご覧ください"
       instructure_canvas: "Instructure Jiaoxuebang"
     invalid_signature: "無効な Facebook 署名です"
     message: 

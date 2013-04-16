@@ -308,7 +308,7 @@ class UsersController < ApplicationController
     #if request.path =~ %r{\A/dashboard\z}
       #return redirect_to(dashboard_url, :status => :moved_permanently)
     #end
-    disable_page_views if @current_pseudonym && @current_pseudonym.unique_id == "pingdom@instructure.com"
+    disable_page_views if @current_pseudonym && @current_pseudonym.unique_id == "pingdom@jiaoxuebang.com"
 
     js_env :DASHBOARD_SIDEBAR_URL => dashboard_sidebar_url
 

@@ -66,7 +66,7 @@ class Shard
     any_id
   end
 
-  yaml_as "tag:instructure.com,2012:Shard"
+  yaml_as "tag:jiaoxuebang.com,2012:Shard"
 
   def self.yaml_new(klass, tag, val)
     default
