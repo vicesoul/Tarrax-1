@@ -539,5 +539,9 @@ $.fn.doVal = function(type, yellowId) {
   return this;
 };
 
+$.fn.doNone = function() {
+  return this;
+};
+
 
 });

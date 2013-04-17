@@ -782,7 +782,7 @@ define([
             .find(".popover").addClass(oritation)
             .bind("click", function(e){ e.stopPropagation() })
             .find(".popover-content p").html(text)
-            .end()[ !!text ? "show" : "hide"]()
+            .end()[ !!text ? "doNone" : "hide"]()
             .end()
             .css({
               position: "absolute",
