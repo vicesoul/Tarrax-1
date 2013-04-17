@@ -158,7 +158,7 @@ ar:
       certificate_fingerprint: "بصمة الشهادة"
       change_password_url: "تغيير ارتباط كلمة المرور"
       discovery_url: "عنوان URL الخاص بالاكتشاف:\n"
-      discovery_url_description: "إذا تم تعيين عنوان URL الخاص بالاكتشاف، فستقوم canvas بتوجيه جميع المستخدمين لهذا العنوان عند رغبتهم في المصادقة. وستقوم تلك الصفحة بمساعدة المستخدم في معرفة المكان الذي يجب عليه الذهاب إليه لتسجيل الدخول. إذا لم يتم تهيئة عنوان URL الخاص بالاكتشاف، فسيتم استخدام التهيئة الجديدة لـ SAML لمحاولة مصادقة المستخدم.\n"
+      discovery_url_description: "إذا تم تعيين عنوان URL الخاص بالاكتشاف، فستقوم jiaoxuebang بتوجيه جميع المستخدمين لهذا العنوان عند رغبتهم في المصادقة. وستقوم تلك الصفحة بمساعدة المستخدم في معرفة المكان الذي يجب عليه الذهاب إليه لتسجيل الدخول. إذا لم يتم تهيئة عنوان URL الخاص بالاكتشاف، فسيتم استخدام التهيئة الجديدة لـ SAML لمحاولة مصادقة المستخدم.\n"
       identifier_format: "تنسيق المعرف"
       idp_entity_id: "معرف كيان موفر الهوية\n"
       labels: 
@@ -494,7 +494,7 @@ ar:
         example: "مثال:"
         external_services: "التنبيهات المرسلة إلى الخدمات الخارجية"
         external_services_label: "اعرض تحذير كرسالة منبثقة لمرة واحدة في صفحة إعدادات التنبيهات"
-        external_services_warning: "إشعار: قد تحتوي بعض الإعلامات على معلومات سرية. وإن اختيار تلقي الإعلامات على عنوان بريد إلكتروني بخلاف العنوان المقدم من قِبل المؤسسة، قد يؤدي إلى إرسال معلومات حساسة حول الدورة التدريبية ومجموعات Canvas إلى خارج نظام المؤسسة."
+        external_services_warning: "إشعار: قد تحتوي بعض الإعلامات على معلومات سرية. وإن اختيار تلقي الإعلامات على عنوان بريد إلكتروني بخلاف العنوان المقدم من قِبل المؤسسة، قد يؤدي إلى إرسال معلومات حساسة حول الدورة التدريبية ومجموعات jiaoxuebang إلى خارج نظام المؤسسة."
         external_services_warning_label: "محتوى الرسالة المنبثقة"
         from: من
         sample_subject: "تم تغيير التصنيف: استقصاء تسجيل الوصول، دورة الاختبار"
@@ -1960,7 +1960,7 @@ ar:
         wrong_account: "تم إرسال الدعوة بشأن %{course} إلى **%{invited_user}**، لكن تم تسجيل دخولك حاليًا كـ **%{current_user}**"
       labels: 
         password: "كلمة المرور"
-        subscribe_to_emails: "أودّ أن أتلقى معلومات وأخبارًا وتلميحات عن Instructure"
+        subscribe_to_emails: "أودّ أن أتلقى معلومات وأخبارًا وتلميحات عن jiaoxuebang"
         time_zone: "منطقة زمنية"
         unique_id: "عنوان البريد الإلكتروني"
       page_title: "تسجيل %{email}"
@@ -3092,7 +3092,7 @@ ar:
       sis_in_use: "معرف SIS \"%{sis_id}\" قيد الاستخدام بالفعل"
     file_copy_error: "تعذر نسخ الملف \"%{name}\""
     grade_export_types: 
-      instructure_csv: "ملف Instructure بتنسيق CSV"
+      instructure_csv: "ملف jiaoxuebang بتنسيق CSV"
     grade_publishing_status: 
       error: خطأ
       error_with_message: "خطأ: %{message}"
@@ -3120,7 +3120,7 @@ ar:
       assignment_groups: "فشل تصدير مجموعات المهمة"
       assignment_is_locked: "تعذر نسخ التعيين \"%{title}\" لأنه مقفول."
       assignments: "فشل تصدير بعض المهام"
-      canvas_meta: "فشل تصدير بيانات تعريف معينة بواسطة canvas"
+      canvas_meta: "فشل تصدير بيانات تعريف معينة بواسطة jiaoxuebang"
       course_export: "حدث خطأ أثناء إجراء تصدير المساق."
       course_settings: "فشل تصدير إعدادات المساق"
       events: "فشل تصدير أحداث التقويم"
@@ -4717,7 +4717,7 @@ ar:
       notification_settings: "إعدادات الإعلام"
       notifications_notice: "يمكنك عرض قائمة بأحدث الإعلامات من Jiaoxuebang أدناه. يمكنك عرض عدد الإعلامات الجديدة لموقع Jiaoxuebang من الصفحة الرئيسية لـ Facebook إذا وضعت علامة مرجعية لهذا التطبيق."
       welcome: "مرحبًا بعودتك، %{name}!"
-      welcome_message: "مرحبًا بك في إصدار جديد من برنامج التعليم عبر الإنترنت، عبر Instructure. إن مهمتنا أن نجعل استخدام الويب أسهل بالنسبة لك لتحسين عملية التعليم. فالواجهة الخاصة بنا سهلة وواضحة ومفتوحة ونعمل بالأدوات التي تستخدمها أنت والطلاب بالفعل - مثل Facebook - لتقديم خبرة تعليم مفتوحة وتعاونية بشكل أكبر. وقمنا بتجميعها في مجموعة رائعة ومفتوحة لإنجاز أشياء أكثر من مجرد تتبع المهام. فهي تشجع التفاعل وتدعم التعليم."
+      welcome_message: "مرحبًا بك في إصدار جديد من برنامج التعليم عبر الإنترنت، عبر jiaoxuebang. إن مهمتنا أن نجعل استخدام الويب أسهل بالنسبة لك لتحسين عملية التعليم. فالواجهة الخاصة بنا سهلة وواضحة ومفتوحة ونعمل بالأدوات التي تستخدمها أنت والطلاب بالفعل - مثل Facebook - لتقديم خبرة تعليم مفتوحة وتعاونية بشكل أكبر. وقمنا بتجميعها في مجموعة رائعة ومفتوحة لإنجاز أشياء أكثر من مجرد تتبع المهام. فهي تشجع التفاعل وتدعم التعليم."
       welcome_title: "مرحبًا بكم في Jiaoxuebang"
     index_disabled: 
       disabled_notice: "لم يتم تكوين موقع Jiaoxuebang هذا للاتصال بـ Facebook."
@@ -6068,7 +6068,7 @@ ar:
     wikis: Wikis
   layouts: 
     application: 
-      instructure_description: "شركة Instructure: صاحبة نظام إدارة التعليم بالمصدر المفتوح؛ Jiaoxuebang"
+      instructure_description: "شركة jiaoxuebang: صاحبة نظام إدارة التعليم بالمصدر المفتوح؛ Jiaoxuebang"
       keyboard_navigation: 
         close: "اضغط على علامة الفاصلة لإغلاق هذا الحوار"
       links: 
@@ -6129,7 +6129,7 @@ ar:
       standard: 
         failed_to_convert_qti: "فشل استيراد التقييم %{file_identifier}"
     google_docs: 
-      default_document_name: "Instructure Doc"
+      default_document_name: "jiaoxuebang Doc"
     incoming_message_processor: 
       failure_message: 
         body: |-
@@ -6194,7 +6194,7 @@ ar:
       relationships: العلاقات
   media_comments: 
     alerts: 
-      kaltura_disabled: "تم تعطيل Kaltura لموقع Canvas هذا"
+      kaltura_disabled: "تم تعطيل Kaltura لموقع jiaoxuebang هذا"
     buttons: 
       submit: "إرسال ملف الوسائط"
     cancel: إلغاء
@@ -8045,7 +8045,7 @@ ar:
     buttons: 
       saving: "جارٍ الحفظ..."
     canvas_cartridge_importer: 
-      description: "وهذا يؤدي إلى إمكانية تحويل تصدير canvas إلى تنسيق json وسيط ليتم استيراده"
+      description: "وهذا يؤدي إلى إمكانية تحويل تصدير jiaoxuebang إلى تنسيق json وسيط ليتم استيراده"
       file_description: "حزمة تصدير مساق Jiaoxuebang"
       name: "مستورد كارتريدج Jiaoxuebang"
     common_cartridge_importer: 
@@ -8484,7 +8484,7 @@ ar:
         show_user_services: "السماح لأعضاء المساق/المجموعة التابعين برؤية الخدمات التي قمتُ بربطها بملف التعريف الخاص بي"
         skype_name: "اسم Skype"
         sortable_name: "الاسم القابل للفرز"
-        subscribe_to_emails: "أريد تلقي معلومات وأخبارًا ونصائح من Instructure"
+        subscribe_to_emails: "أريد تلقي معلومات وأخبارًا ونصائح من jiaoxuebang"
         time_zone: "Time Zone"
         token: "الرمز المميز"
         token_application: التطبيق
@@ -8615,7 +8615,7 @@ ar:
     notifications: 
       privacy_notice: 
         ok: موافق
-        privacy_notice: "إشعار: قد تحتوي بعض الإعلامات على معلومات سرية. وإن اختيار تلقي الإعلامات على عنوان بريد إلكتروني بخلاف العنوان المقدم من قِبل المؤسسة، قد يؤدي إلى إرسال معلومات حساسة حول مساق  Canvas ومجموعاته إلى خارج نظام المؤسسة."
+        privacy_notice: "إشعار: قد تحتوي بعض الإعلامات على معلومات سرية. وإن اختيار تلقي الإعلامات على عنوان بريد إلكتروني بخلاف العنوان المقدم من قِبل المؤسسة، قد يؤدي إلى إرسال معلومات حساسة حول مساق  jiaoxuebang ومجموعاته إلى خارج نظام المؤسسة."
         privacy_notice_title: "إشعار الخصوصية"
   pseudonym: 
     errors: 
@@ -9974,7 +9974,7 @@ ar:
         email: "البريد الإلكتروني"
         name: الاسم
     too_young_error: "يجب أن يكون عمرك %{min_years} على الأقل للتسجيل في هذا المساق."
-    too_young_error_join_code: "يجب أن يكون عمرك %{min_years} على الأقل لاستخدام Canvas بدون رمز انضمام للمساق."
+    too_young_error_join_code: "يجب أن يكون عمرك %{min_years} على الأقل لاستخدام jiaoxuebang بدون رمز انضمام للمساق."
     welcome_to_canvas: "مرحبًا بك في Jiaoxuebang!"
   retrieve_timeout: "تعذرت استعادة التكوين، انتهت مهلة استجابة الخادم"
   role: 

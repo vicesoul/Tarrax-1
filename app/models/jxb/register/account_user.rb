@@ -12,12 +12,12 @@ module Jxb
       module ClassModules
         def roles
           [
-            ['institute_admin'     , t('role.institute_admin'     , 'Institute Admin')]     ,
-            ['training_management' , t('role.training_management' , 'Training Management')] ,
-            ['technical_support'   , t('role.technical_support'   , 'Technical Support')]   ,
-            ['teacher'             , t('role.teacher'             , 'Teacher')]             ,
-            ['student'             , t('role.student'             , 'Student')]             ,
-            ['other'               , t('role.other'               , 'Other')]               ,
+            ['institute_admin'     , t('#account_user.role.institute_admin'     , 'Institute Admin')]     ,
+            ['training_management' , t('#account_user.role.training_management' , 'Training Management')] ,
+            ['technical_support'   , t('#account_user.role.technical_support'   , 'Technical Support')]   ,
+            ['teacher'             , t('#account_user.role.teacher'             , 'Teacher')]             ,
+            ['student'             , t('#account_user.role.student'             , 'Student')]             ,
+            ['other'               , t('#account_user.role.other'               , 'Other')]               ,
           ]
         end
       end

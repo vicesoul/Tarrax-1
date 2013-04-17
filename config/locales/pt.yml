@@ -1888,7 +1888,7 @@ pt:
         wrong_account: "O convite para %{course} foi enviado para **%{invited_user}**, mas tem sessão iniciada como **%{current_user}**"
       labels: 
         password: Senha
-        subscribe_to_emails: "Eu quero receber informações, notícias e dicas da Instructure"
+        subscribe_to_emails: "Eu quero receber informações, notícias e dicas da jiaoxuebang"
         time_zone: "Fuso Horário"
         unique_id: "Endereço de email"
       page_title: "Registrar %{email}"
@@ -2970,7 +2970,7 @@ pt:
       sis_in_use: "ID do SIS \"%{sis_id}\" já está em uso"
     file_copy_error: "Não foi possível copiar o ficheiro \"%{name}\""
     grade_export_types: 
-      instructure_csv: "CSV formatado pela Instructure"
+      instructure_csv: "CSV formatado pela jiaoxuebang"
     grade_publishing_status: 
       error: Erro
       error_with_message: "Erro: %{message}"
@@ -4010,7 +4010,7 @@ pt:
       formatting: "Formatação, premir para baixo para selecionar"
       rte_help: "Área de Rich Text. Premir ALT F10 para a barra de ferramentas. Premir ALT 0 para ajuda."
   email: 
-    default_from_name: "Instructure Jiaoxuebang"
+    default_from_name: "Jiaoxuebang"
   enrollment: 
     default_course_name: Disciplina
     default_email: "Sem email"
@@ -4426,12 +4426,12 @@ pt:
       notification_settings: "Configurações de notificação"
       notifications_notice: "Abaixo, pode ver uma lista de notificações mais recentes do Jiaoxuebang. Poderá ver o número de novas notificações do Jiaoxuebang na sua página inicial do Facebook, se colocar esta aplicação nos seus favoritos."
       welcome: "Seja bem-vindo mais uma vez, %{name}!"
-      welcome_message: "Bem-vindo à nova geração de software de aprendizagem online, uma cortesia da Instructure. Estamos aqui para facilitar a utilização da web para melhorar a aprendizagem. A nossa interface é simples, clara e aberta, e trabalhamos com ferramentas que já são utilizadas por si e por outros alunos (como o Facebook) para fornecer uma experiência de aprendizagem mais aberta e colaborativa. Reunimos isso tudo num pacote aberto e poderoso que faz muito mais do que apenas acompanhar tarefas. Ele incentiva a interação e promove a aprendizagem."
-      welcome_title: "Bem-vindo ao Instructure Jiaoxuebang"
+      welcome_message: "Bem-vindo à nova geração de software de aprendizagem online, uma cortesia da jiaoxuebang. Estamos aqui para facilitar a utilização da web para melhorar a aprendizagem. A nossa interface é simples, clara e aberta, e trabalhamos com ferramentas que já são utilizadas por si e por outros alunos (como o Facebook) para fornecer uma experiência de aprendizagem mais aberta e colaborativa. Reunimos isso tudo num pacote aberto e poderoso que faz muito mais do que apenas acompanhar tarefas. Ele incentiva a interação e promove a aprendizagem."
+      welcome_title: "Bem-vindo ao Jiaoxuebang"
     index_disabled: 
       disabled_notice: "Este site do Jiaoxuebang não está configurado para se comunicar com o Facebook."
       get_help: "Obtenha ajuda em support.jiaoxuebang.com"
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: "Jiaoxuebang"
     invalid_signature: "Assinatura do Facebook inválida"
     message: 
       hide: Ocultar
@@ -5690,7 +5690,7 @@ pt:
     wikis: Wikis
   layouts: 
     application: 
-      instructure_description: "Instructure, desenvolvedores do sistema de gerenciamento de ensino open source Jiaoxuebang"
+      instructure_description: "jiaoxuebang, desenvolvedores do sistema de gerenciamento de ensino open source Jiaoxuebang"
       keyboard_navigation: 
         close: "Premir vírgula para fechar esta caixa de diálogo"
       links: 
@@ -5753,7 +5753,7 @@ pt:
       standard: 
         failed_to_convert_qti: "Falha na importação de uma avaliação %{file_identifier}"
     google_docs: 
-      default_document_name: "Documento do Instructure"
+      default_document_name: "Documento do jiaoxuebang"
     incoming_message_processor: 
       failure_message: 
         body: |-
@@ -6649,7 +6649,7 @@ pt:
           click_to_reset: "Para definir uma nova senha, clique no link a seguir"
         login_at_account: "%{login_email} em %{account_name}"
         login_managed_by_account: "estas credenciais de login são gerenciadas por %{account_name}"
-        password_from_account: "A palavra-passe deste login deve ser fornecida pelos administradores do sistema em %{account_name}, e a Instructure não tem acesso à sua palavra-passe. Se a sua palavra-passe não funciona, contacte os administradores do sistema para que eles alterem ou verifiquem a sua palavra-passe."
+        password_from_account: "A palavra-passe deste login deve ser fornecida pelos administradores do sistema em %{account_name}, e a jiaoxuebang não tem acesso à sua palavra-passe. Se a sua palavra-passe não funciona, contacte os administradores do sistema para que eles alterem ou verifiquem a sua palavra-passe."
         requested_password_reset: "Pediu uma confirmação de palavra-passe para iniciar sessão no Jiaoxuebang."
         subject: "Esqueci a senha: Jiaoxuebang"
     grade_weight_changed: 
@@ -7721,7 +7721,7 @@ pt:
       canvas_revision_unknown: Desconhecido
       configure_plugin: Configurar
       description: Descrição
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: "Jiaoxuebang"
       name: Nome
       no_plugins: "Não há plugins do Jiaoxuebang instalados"
       page_title: "Plugins do Jiaoxuebang"
@@ -8045,7 +8045,7 @@ pt:
         show_user_services: "Permitir que os membros da minha disciplina ou grupo vejam que serviços associei ao meu perfil"
         skype_name: "Nome do Skype"
         sortable_name: "Nome ordenável"
-        subscribe_to_emails: "Eu quero receber informações, notícias e dicas da Instructure"
+        subscribe_to_emails: "Eu quero receber informações, notícias e dicas da jiaoxuebang"
         time_zone: "Fuso Horário"
         token: Token
         token_application: Aplicativo
@@ -10449,7 +10449,7 @@ pt:
   sis_batch: 
     errors: 
       unrecorgnized_type: "Tipo de importação não reconhecido."
-    instructure_csv: "CSV com formato da Instructure ou arquivo zip de CSVs"
+    instructure_csv: "CSV com formato da jiaoxuebang ou arquivo zip de CSVs"
     upload_filename: "sis_upload_%{id}.zip"
   sis_import: 
     buttons: 

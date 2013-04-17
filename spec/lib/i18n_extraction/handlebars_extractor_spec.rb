@@ -76,10 +76,8 @@ describe I18nExtraction::HandlebarsExtractor do
       extract('{{#t "foo"}}Foo{{/t}}', 'asdf', :scope_results => false).should eql({'asdf' => {'foo' => "Foo"}})
     end
 
-    # TODO handlebar will omit single '#'
     it "should not auto-scope absolute keys" do
-      #extract('{{#t "#foo"}}Foo{{/t}}', 'asdf', :scope_results => false).should eql({'foo' => "Foo"})
-      extract('{{#t "##foo"}}Foo{{/t}}', 'asdf', :scope_results => false).should eql({'#foo' => "Foo"})
+      extract('{{#t "#foo"}}Foo{{/t}}', 'asdf', :scope_results => false).should eql({'foo' => "Foo"})
     end
   end
 

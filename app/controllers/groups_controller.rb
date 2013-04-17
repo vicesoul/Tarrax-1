@@ -518,7 +518,7 @@ class GroupsController < ApplicationController
         format.json { render :json => group_membership_json(@membership, @current_user, session) }
       end
     else
-      flash[:notice] = t('notices.invalid_invitation', "", :group_name => @group.name)
+      flash[:notice] = t('notices.invalid_invitation', "Invalid invitation", :group_name => @group.name)
       respond_to do |format|
         format.html { redirect_to(dashboard_url) }
         format.json { render :json => "Unable to find associated group invitation", :status => :bad_request }

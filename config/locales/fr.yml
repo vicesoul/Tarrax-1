@@ -1927,7 +1927,7 @@ fr:
         wrong_account: "L’invitation pour %{course} a été envoyée à **%{invited_user}**, mais vous êtes actuellement connecté en tant que **%{current_user}**."
       labels: 
         password: "Mot de passe"
-        subscribe_to_emails: "Je souhaite recevoir des informations, des actualités et des conseils d’Instructure."
+        subscribe_to_emails: "Je souhaite recevoir des informations, des actualités et des conseils d’jiaoxuebang."
         time_zone: "Fuseau horaire"
         unique_id: Connexion
       page_title: "Enregistrer %{email}"
@@ -3124,7 +3124,7 @@ fr:
       sis_in_use: "L’ID SIS \"%{sis_id}\" est déjà utilisé."
     file_copy_error: "Impossible de copier le fichier \"%{name}\""
     grade_export_types: 
-      instructure_csv: "Fichier CSV Instructure"
+      instructure_csv: "Fichier CSV jiaoxuebang"
     grade_publishing_status: 
       error: Erreur
       error_with_message: "Erreur : %{message}"
@@ -4685,7 +4685,7 @@ fr:
       notification_settings: "Paramètres de notification"
       notifications_notice: "Ci-dessous, vous trouverez une liste de vos dernières notifications Jiaoxuebang. Si vous ajoutez cette application dans vos signets, vous pourrez voir le nombre de nouvelles notifications Jiaoxuebang depuis votre page d’accueil Facebook."
       welcome: "Bienvenue de retour parmi nous %{name} !"
-      welcome_message: "Bienvenue dans une nouvelle génération de logiciels de formation en ligne, offerte par Instructure. Notre rôle est de vous aider à utiliser simplement le Web pour améliorer la formation. Notre interface est simple, épurée et ouverte, et nous travaillons avec les outils que vous et vos étudiants utilisez déjà -- comme Facebook par exemple -- pour offrir une expérience d’apprentissage ouverte et collaborative. Nous avons tout intégré dans un progiciel puissant et ouvert qui offre davantage qu’un suivi des devoirs. Il encourage les interactions et favorise l’apprentissage."
+      welcome_message: "Bienvenue dans une nouvelle génération de logiciels de formation en ligne, offerte par jiaoxuebang. Notre rôle est de vous aider à utiliser simplement le Web pour améliorer la formation. Notre interface est simple, épurée et ouverte, et nous travaillons avec les outils que vous et vos étudiants utilisez déjà -- comme Facebook par exemple -- pour offrir une expérience d’apprentissage ouverte et collaborative. Nous avons tout intégré dans un progiciel puissant et ouvert qui offre davantage qu’un suivi des devoirs. Il encourage les interactions et favorise l’apprentissage."
       welcome_title: "Bienvenue dans Jiaoxuebang."
     index_disabled: 
       disabled_notice: "Ce site Jiaoxuebang n’est pas configuré pour communiquer avec Facebook."
@@ -5985,7 +5985,7 @@ fr:
     wikis: Wikis
   layouts: 
     application: 
-      instructure_description: "Instructure, créateur du système de gestion d’apprentissage « Open Source » Jiaoxuebang"
+      instructure_description: "jiaoxuebang, créateur du système de gestion d’apprentissage « Open Source » Jiaoxuebang"
       keyboard_navigation: 
         close: "Appuyez sur la virgule pour refermer cette boîte de dialogue."
       links: 
@@ -6064,7 +6064,7 @@ fr:
       standard: 
         failed_to_convert_qti: "Échec d’importation du devoir %{file_identifier}"
     google_docs: 
-      default_document_name: "Doc Instructure"
+      default_document_name: "Doc jiaoxuebang"
     incoming_message_processor: 
       failure_message: 
         body: |-
@@ -7019,7 +7019,7 @@ fr:
           click_to_reset: "Pour définir un nouveau de mot de passe, cliquez sur le lien suivant"
         login_at_account: "%{login_email} sur %{account_name}"
         login_managed_by_account: "les informations de connexion sont gérées par %{account_name}"
-        password_from_account: "Le mot de passe pour cette connexion doit vous avoir été communiqué par l’administrateur système sur %{account_name}, et Instructure n’a pas accès à votre mot de passe. Si votre mot de passe ne fonctionne pas, veuillez contacter l’administrateur système pour le vérifier ou le changer."
+        password_from_account: "Le mot de passe pour cette connexion doit vous avoir été communiqué par l’administrateur système sur %{account_name}, et jiaoxuebang n’a pas accès à votre mot de passe. Si votre mot de passe ne fonctionne pas, veuillez contacter l’administrateur système pour le vérifier ou le changer."
         requested_password_reset: "Vous avez demandé une confirmation de votre mot de passe pour vous connecter à Jiaoxuebang."
         subject: "Mot de passe oublié : Jiaoxuebang"
     grade_weight_changed: 
@@ -8455,7 +8455,7 @@ fr:
         show_user_services: "Laisser voir aux membres de mon cours/groupe les services liés à mon profil"
         skype_name: "Nom Skype"
         sortable_name: "Nom répertorié"
-        subscribe_to_emails: "Je souhaite recevoir des informations, des actualités et des conseils d’Instructure."
+        subscribe_to_emails: "Je souhaite recevoir des informations, des actualités et des conseils d’jiaoxuebang."
         time_zone: "Fuseau horaire"
         token: Jeton
         token_application: Application
@@ -10971,7 +10971,7 @@ fr:
   sis_batch: 
     errors: 
       unrecorgnized_type: "Type d’importation inconnu"
-    instructure_csv: "Fichier CSV Instructure ou fichier zip de CSV"
+    instructure_csv: "Fichier CSV jiaoxuebang ou fichier zip de CSV"
     upload_filename: "sis_upload_%{id}.zip"
   sis_import: 
     buttons: 
