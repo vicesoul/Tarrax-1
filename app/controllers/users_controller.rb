@@ -319,6 +319,7 @@ class UsersController < ApplicationController
     
     # Each user has a dashboard page
     @dashboard_page = @current_user.find_or_create_dashboard_page
+    @body_classes = ["dashboard"]
   end
 
   def dashboard_sidebar
