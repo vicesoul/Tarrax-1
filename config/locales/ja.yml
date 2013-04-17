@@ -1901,7 +1901,7 @@ ja:
         wrong_account: "%{course} への招待が **%{invited_user}** に送信されましたが、現在 **%{current_user}** でログインしています。"
       labels: 
         password: パスワード
-        subscribe_to_emails: "Instructure から、情報、ニュース、ヒントを受け取ることを希望します。"
+        subscribe_to_emails: "jiaoxuebang から、情報、ニュース、ヒントを受け取ることを希望します。"
         time_zone: "タイム ゾーン"
         unique_id: "電子メール アドレス"
       page_title: "%{email} の登録"
@@ -2990,7 +2990,7 @@ ja:
       sis_in_use: "SIS ID \"%{sis_id}\" は既に使用されています"
     file_copy_error: "ファイル \"%{name}\" をコピーできませんでした"
     grade_export_types: 
-      instructure_csv: "Instructure の CSV形式"
+      instructure_csv: "jiaoxuebang の CSV形式"
     grade_publishing_status: 
       error: エラー
       error_with_message: "エラー: %{message}"
@@ -4050,7 +4050,7 @@ ja:
       formatting: 書式設定、押して選択
       rte_help: "リッチ テキスト領域。ツールバーの場合は ALT + F10 を押してください。ヘルプの場合は ALT + 0 を押してください。"
   email: 
-    default_from_name: "Instructure Jiaoxuebang"
+    default_from_name: "Jiaoxuebang"
   enrollment: 
     default_course_name: コース
     default_email: 電子メールなし
@@ -4466,12 +4466,12 @@ ja:
       notification_settings: お知らせ設定
       notifications_notice: "以下に表示されているのは、Jiaoxuebang から送信された最新のお知らせ一覧です。このアプリケーションを Facebook のブックマークに登録すると、Jiaoxuebang の新しいお知らせの数を Facebook のホーム ページから確認できます。"
       welcome: "%{name} さん、お帰りなさい!"
-      welcome_message: "Instructure が提供する、新しいタイプのオンライン ラーニング ソフトウェアへようこそ。学習成果を向上させるため、Web をより簡単に利用できるようにするためのシステムです。当システムのインターフェイスはシンプルで、公平で、オープンです。講師や受講生が既に使用しているツール (Facebook など) を使って作業し、よりオープンな、共同作業による学習体験を提供します。単に課題を追跡するだけにとどまらない、パワフルでオープンな 1 つのパッケージにすべてを包み込んだシステムです。交流を促し、学習を促進します。"
-      welcome_title: "Instructure Jiaoxuebang へようこそ。"
+      welcome_message: "jiaoxuebang が提供する、新しいタイプのオンライン ラーニング ソフトウェアへようこそ。学習成果を向上させるため、Web をより簡単に利用できるようにするためのシステムです。当システムのインターフェイスはシンプルで、公平で、オープンです。講師や受講生が既に使用しているツール (Facebook など) を使って作業し、よりオープンな、共同作業による学習体験を提供します。単に課題を追跡するだけにとどまらない、パワフルでオープンな 1 つのパッケージにすべてを包み込んだシステムです。交流を促し、学習を促進します。"
+      welcome_title: "Jiaoxuebang へようこそ。"
     index_disabled: 
       disabled_notice: "この Jiaoxuebang サイトは、Facebook と通信するようには設定されていません。"
       get_help: "support.jiaoxuebang.com でヘルプをご覧ください"
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: "Jiaoxuebang"
     invalid_signature: "無効な Facebook 署名です"
     message: 
       hide: 非表示
@@ -5743,7 +5743,7 @@ ja:
     wikis: Wiki
   layouts: 
     application: 
-      instructure_description: "Instructure は、オープン ソースのラーニング管理システム Jiaoxuebang の製造元です"
+      instructure_description: "jiaoxuebang は、オープン ソースのラーニング管理システム Jiaoxuebang の製造元です"
       keyboard_navigation: 
         close: "このダイアログを閉じるには、カンマ キーを押してください"
       links: 
@@ -5806,7 +5806,7 @@ ja:
       standard: 
         failed_to_convert_qti: "アセスメント %{file_identifier} のインポートに失敗しました"
     google_docs: 
-      default_document_name: "Instructure ドキュメント"
+      default_document_name: "jiaoxuebang ドキュメント"
     incoming_message_processor: 
       failure_message: 
         body: |-
@@ -6710,7 +6710,7 @@ ja:
           click_to_reset: 新しいパスワードを設定するには、次のリンクをクリックしてください
         login_at_account: "%{login_email} アカウント:  %{account_name}"
         login_managed_by_account: "このログインの資格情報は、%{account_name} によって管理されています"
-        password_from_account: "このログインのパスワードは、%{account_name} のシステム管理者によって供与されているはずです。Instructure はパスワードにはアクセスできません。パスワードが機能しない場合は、システム管理者にご連絡の上、パスワードの変更または確認を依頼してください。"
+        password_from_account: "このログインのパスワードは、%{account_name} のシステム管理者によって供与されているはずです。jiaoxuebang はパスワードにはアクセスできません。パスワードが機能しない場合は、システム管理者にご連絡の上、パスワードの変更または確認を依頼してください。"
         requested_password_reset: "Jiaoxuebang にログインするためのパスワードの確認要求が送られました。"
         subject: "パスワードを忘れた:Jiaoxuebang"
     grade_weight_changed: 
@@ -6755,7 +6755,12 @@ ja:
         subject: "Jiaoxuebang アラート - グループ課題の遅延提出: %{group_name}, %{assignment_name}"
     group_membership_accepted: 
       email: 
-        account_group: "アカウント「%{account_name}」について、グループ「%{group_name}」への参加要求が受諾されました。"
+        account_group: !binary |
+            xpJBxpJKxpJFxpLigJzGkmfDgoF1JXthY2NvdW50X25hbWV9w4KBduKAmsOJ
+            4oCaw4LigJrCouKAmsOEw4KBQcaST8aS4oC5w4KBW8aSdsOCgXUle2dyb3Vw
+            X25hbWV9w4KBduKAmsOW4oCaw4zFvVHigLDDgeKAlHbigLnDgoHigJrCqsW9
+            w7PigJjDuOKAmsKz4oCaw6rigJrDnOKAmsK14oCawr3DgoFC
+
         course_group: "コース「%{course_name}」について、グループ「%{group_name}」への参加要求が受諾されました。"
         group_request_accepted: "グループ要求が受諾されました: %{group_name}"
         labels: 
@@ -7779,7 +7784,7 @@ ja:
       canvas_revision_unknown: 不明
       configure_plugin: 設定
       description: 説明
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: "Jiaoxuebang"
       name: 名前
       no_plugins: "Jiaoxuebang プラグインが 1 つもインストールされていません"
       page_title: "Jiaoxuebang プラグイン"
@@ -8105,7 +8110,7 @@ ja:
         show_user_services: マイプロフィールにリンクされているサービスを、仲間のコース/グループのメンバーが確認できるようにする
         skype_name: "Skype 名"
         sortable_name: 並べ替え可能な名前
-        subscribe_to_emails: "Instructure から、情報、ニュース、ヒントを受け取ることを希望します。"
+        subscribe_to_emails: "jiaoxuebang から、情報、ニュース、ヒントを受け取ることを希望します。"
         time_zone: "タイム ゾーン"
         token: トークン
         token_application: アプリ
@@ -10550,7 +10555,7 @@ ja:
   sis_batch: 
     errors: 
       unrecorgnized_type: "認識できないインポート タイプです"
-    instructure_csv: "Instructure の CSV形式または CSV形式のzip ファイル"
+    instructure_csv: "jiaoxuebang の CSV形式または CSV形式のzip ファイル"
     upload_filename: "sis_upload_%{id}.zip"
   sis_import: 
     buttons: 
