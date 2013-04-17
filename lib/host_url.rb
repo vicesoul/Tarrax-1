@@ -97,7 +97,7 @@ class HostUrl
       # by default only set it for development. useful so that gravatar can
       # proxy our fallback urls
       host = ENV['CANVAS_CDN_HOST']
-      host ||= "canvas.instructure.com" if Rails.env.development?
+      host ||= "canvas.jiaoxuebang.com" if Rails.env.development?
       host
     end
 

@@ -4808,7 +4808,7 @@ ru:
       canvas_messages: "Сообщения Jiaoxuebang"
       configure_notification_preferences_notice: "После *настройки параметров уведомлений* будут отображаться уведомления, позволяющие получить сведения о том, что происходит с учетной записью Jiaoxuebang."
       installation_about: "Для установки приложения Jiaoxuebang Facebook перейдите к странице профиля в Jiaoxuebang и нажмите кнопку Facebook для подключения учетной записи к Facebook."
-      learn_more: "Дополнительные сведения доступны на веб-сайте instructure.com"
+      learn_more: "Дополнительные сведения доступны на веб-сайте jiaoxuebang.com"
       more_information: "Дополнительные сведения доступны в %{domain_list}"
       no_messages_notice: "При работе с курсом вы начнете получать уведомления, позволяющие узнать о действиях в учетной записи Jiaoxuebang."
       notification_about: "Приложение Jiaoxuebang Facebook предоставляет простой доступ к взаимодействиям в курсе. Можно настроить его на отправку уведомлений при оценке заданий, при изменении дат выполнения и т.д. Частные данные останутся частными в Jiaoxuebang."
@@ -4819,7 +4819,7 @@ ru:
       welcome_title: "Вас приветствует Jiaoxuebang"
     index_disabled: 
       disabled_notice: "Этот сайт Jiaoxuebang не настроен для связи с Facebook."
-      get_help: "Получите поддержку на сайте support.instructure.com"
+      get_help: "Получите поддержку на сайте support.jiaoxuebang.com"
       instructure_canvas: "Jiaoxuebang"
     invalid_signature: "Неверная подпись Facebook"
     message: 

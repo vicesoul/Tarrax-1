@@ -214,8 +214,8 @@ define([
       return {
         longname : pluginProp.id,
         author : 'Rupert.qin',
-        authorurl : 'http://www.instructure.com',
-        infourl : 'http://www.instructure.com',
+        authorurl : 'http://www.jiaoxuebang.com',
+        infourl : 'http://www.jiaoxuebang.com',
         version : tinymce.majorVersion + "." + tinymce.minorVersion
       };
     }

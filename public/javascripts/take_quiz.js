@@ -1037,36 +1037,8 @@ define([
 
     }());
 
-    function stringToObject(str) {
-      return eval("(" + str + ")");
-    }
-
-    $.fn.doVal = function(type, yellowId) {
-      var inputVal = $(this).val();
-      inputVal = inputVal == "0" ? "" : inputVal;
-      if(type == "add"){
-        if(inputVal.indexOf("ball-" + yellowId) !== -1){
-        }else{
-          $(this).val( inputVal + "ball-" + yellowId ).trigger("change");
-        }
-
-      }else if( type == "sub" ){
-
-        inputVal = inputVal.replace("ball-" + yellowId, "");
-        $(this).val(inputVal).trigger("change");
-
-      }
-      return this;
-    };
-    /*$.fn.rotate = function(num) {
-      this.css({
-        transform: "rotate(" + num + "deg)",
-        "-webkit-transform": "rotate(" + num + "deg)",
-        "-o-transform": "rotate(" + num + "deg)",
-        "-ms-transform": "rotate(" + num + "deg)"
-      });
-      return this;
-    };*/
+    
+    
   });
 
 

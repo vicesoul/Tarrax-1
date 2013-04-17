@@ -355,10 +355,6 @@ $(document).ready(function () {
 
       }
 
-      function stringToObject(str) {
-        return eval("(" + str + ")");
-      }
-
     });
   })();
 

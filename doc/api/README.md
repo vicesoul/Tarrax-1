@@ -42,18 +42,18 @@ query string or POST parameters is also supported.
 
 OAuth2 Token sent in header:
 
-    curl -H "Authorization: Bearer <ACCESS-TOKEN>" https://canvas.instructure.com/api/v1/courses
+    curl -H "Authorization: Bearer <ACCESS-TOKEN>" https://canvas.jiaoxuebang.com/api/v1/courses
 
 OAuth2 Token sent in query string:
 
-    curl https://canvas.instructure.com/api/v1/courses?access_token=<ACCESS-TOKEN>
+    curl https://canvas.jiaoxuebang.com/api/v1/courses?access_token=<ACCESS-TOKEN>
 
 Read more about <a href="oauth.html">OAuth2 and how to get access tokens.</a>
 
 API Terms of Service
 --------------------
 
-Please carefully review <a href="http://www.instructure.com/policies/api-policy">The Canvas Cloud API Terms of Service</a> before using the API.
+Please carefully review <a href="http://www.jiaoxuebang.com/policies/api-policy">The Canvas Cloud API Terms of Service</a> before using the API.
 
 SSL
 ---
