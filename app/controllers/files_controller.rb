@@ -84,6 +84,12 @@ class FilesController < ApplicationController
   protected :check_file_access_flags
 
   def index
+
+    #fixed the bug: when u click the back button on brower ,the json will be returned.
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=0, must-revalidate"
+    #response.headers["Pragma"] = "no-cache"
+    #response.headers["Expires"] = "Fri, 01 Jan 1990 00:00:00 GMT"
+
     if request.format == :json
       if authorized_action(@context.attachments.build, @current_user, :read)
         @current_folder = Folder.find_folder(@context, params[:folder_id])
