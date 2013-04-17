@@ -366,3 +366,7 @@ $(document).ready(function() {
     </tbody>
   </table>
 </div>
+
+<% content_for :foot do %>
+  <div id='toolTip' style="display: none;"><h5>确定要删除？</h5><button type=button>确认</button><button type=button>取消</button></div>
+<% end %>

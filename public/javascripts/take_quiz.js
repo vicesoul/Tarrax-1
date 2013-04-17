@@ -624,27 +624,20 @@ define([
       $("#submit_quiz_form .question.connecting_lead_question").each(function(){
 
         var readyLine,             // the line that is active
-          deleHandle,
           $question = $(this),
           linesNum = $question.find(".connecting_lead_linesNum").text(),
           rows = $question.find(".word_left").length,
           $answers = $question.find(".answers"),
           answerHeight = 40 * rows,
-          $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
-            .addClass("tool-tip")
-            .hide()
-            .bind("click", function(e){ e.stopPropagation(); })
-            .appendTo( $answers ),
-          $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
-          $toolTipCancel = $( "<button type=button>取消</button>" )
-            .bind("click", function(){resetToolTip();})
-            .appendTo($toolTip),
+          $toolTip = $("#toolTip").bind("click", function(e){ e.stopPropagation(); }),
           paper = Raphael( $answers[0], $answers.width(), answerHeight );
+
+        $toolTip.find("button:last").bind("click", function(){resetToolTip( $toolTip, paper);})
 
         if( linesNum === "2" ) $question.addClass("threeLines");
         $answers.css( "height", answerHeight );
 
-        $(document).click(function(){ resetToolTip() });
+        $(document).click(function(){ resetToolTip( $toolTip, paper ) });
         
         var devider = linesNum === "3" ? 3 : 2;
         $(this).find(".connecting_lead").each( function( i ){
@@ -721,16 +714,15 @@ define([
             })
             .click(function(e){
               e.stopPropagation();
-              resetToolTip();
+              resetToolTip( $toolTip, paper );
               this.attr({"stroke-dasharray": "- "});
               $toolTip
                 .show()
                 .css({
-                  left: ( x1 + x2 )/2 - $toolTip.width()/2,
-                  top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
+                  left: e.pageX,
+                  top: e.pageY
                 });
-              deleHandle =  deleLine(this, $active, $end);
-              $toolTipDele.bind( "click", deleHandle );
+              $toolTip.find("button:first").bind( "click", deleLine(this, $active, $end) );
             });
 
           var $A = $active.is( ".word_center" ) ? $active : $end;    // is center
@@ -755,14 +747,6 @@ define([
           }
         }
 
-        function resetToolTip(){
-          $toolTip.hide();
-          $toolTipDele.unbind( "click", deleHandle );
-          paper.forEach(function (el) {
-            el.attr("stroke-dasharray", "");
-          });
-        }
-
       });
 
     })();
@@ -771,24 +755,16 @@ define([
 
       $("#submit_quiz_form .question.connecting_on_pic_question").each(function(){
 
-        var deleHandle,
-          $question = $(this),
+        var $question = $(this),
           imageSrc = $question.find(".connecting_on_pic_image").text(),
           positionData = stringToObject( $question.find(".connecting_on_pic_position").text() ),
           $answers = $question.find(".answers"),
           $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
           $main = $factory.find(".main"),
-          $toolTip = $("<div><h5>" + I18n.t('line.dele_line', "Delete this line?") + "</h5></div>")
-            .addClass("tool-tip")
-            .hide()
-            .bind("click", function(e){ e.stopPropagation(); })
-            .appendTo( $answers ),
-          $toolTipDele = $("<button type=button>确认</button>").appendTo($toolTip),
-          $toolTipCancel = $( "<button type=button>取消</button>" )
-            .bind("click", function(){resetToolTip();})
-            .appendTo($toolTip),
+          $toolTip = $("#toolTip").bind("click", function(e){ e.stopPropagation(); }),
           paper = Raphael( $main[0], $answers.width(), 500 );
 
+        $toolTip.find("button:last").bind("click", function(){resetToolTip($toolTip, paper); })
         $factory.prependTo($answers);
         //$answers.css( "height", 500 );
 
@@ -804,7 +780,10 @@ define([
           var oritation = val.Grey ? "left" : "right";
           $ball.addClass(color)
             .find(".popover").addClass(oritation)
-            .find(".popover-content p").html(text).end().end()
+            .bind("click", function(e){ e.stopPropagation() })
+            .find(".popover-content p").html(text)
+            .end()[ !!text ? "doNone" : "hide"]()
+            .end()
             .css({
               position: "absolute",
               left: val.x,
@@ -812,12 +791,12 @@ define([
             })
             .attr("ball-id", i)
             .appendTo( $main )
-            .bind( "click", ballHandle );
+            .bind( "click", ballHandle($question, paper, $toolTip) );
         });
 
-        updateLines();
+        updateLines($question, paper, $toolTip);
 
-        $(document).click(function(){ resetToolTip() });
+        $(document).click(function(){ resetToolTip($toolTip, paper) });
 
 
         // show answer after drawing lines
@@ -827,142 +806,11 @@ define([
           return false;
         });
 
-        function ballHandle(){
-          var $active = $main.find( ".active"),
-            $greyBall = $active.is(".grey") ? $active : $(this),
-            $yellowBall = $active.is(".grey") ? $(this) : $active,
-            greyBallId = $greyBall.attr("ball-id"),
-            yellowBallId = $yellowBall.attr("ball-id"),
-            connected = false;
+      });
 
-          // check if they are connected
-          $question.find(".answers .word_left").each(function( i ){
-            var answerId = $(this).find("span").text().trim().slice(5),
-              answerVal = $(this).next(".word_right").find("input.left").val();
-            if( answerId == greyBallId && answerVal.indexOf("ball-" + yellowBallId) != -1 ) {
-              connected = true;
-              return false;
-            }
-          });
-
-          // toggle class: active
-          if( $(this).is(".grey") && $active.is(".grey") && !$(this).is(".active")
-            || $(this).is(".yellow") && $active.is(".yellow") && !$(this).is(".active")
-            || connected
-            ){
-            $active.removeClass("active");
-            $(this).addClass("active");
-            return;
-          }
-
-          if( $main.find(".active").size() !== 0 ){
-            if( !$(this).is(".active") ) {
-              drawLine($greyBall, $yellowBall);
-              addAnswer($greyBall, $yellowBall);
-              $active.removeClass( "active" );
-            }else{
-              $(this).removeClass( "active" )
-            }
-          }else{
-            // $active is not found
-            $(this).addClass("active");
-          }
-
-        }
-
-        function updateLines(){
-          paper.clear();
-
-          $question.find(".answers .word_left").each(function(){
-            var greyBallId = $(this).find("span").text().trim().slice(5);
-            var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
-            var rightInput = $(this).next(".word_right").find("input.left");
-            var rightVal = rightInput.val();
-            if(rightVal == "" || rightVal == "0")return;
-            var yellowBalls = rightVal.split("ball-");
-            $.each(yellowBalls, function(i,val){
-              if(val == "")return;
-              var $yellow = $main.find("> span[ball-id="+ val + "]");
-              drawLine( $grey, $yellow );
-            });
-          });
-
-        }
-
-        function drawLine($active, $end ){
-          var strokeColor = "#08c",
-            x1 = $active.position().left + $active.width()/2,
-            y1 = $active.position().top + $active.height()/2 ,
-            x2 = $end.position().left + $end.width()/2,
-            y2 = $end.position().top + $end.height()/2 ,
-            line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
-          line
-            .attr({
-              "stroke": strokeColor,
-              "stroke-width": Global.quizzes.lineWidth
-            })
-            .click(function(e){
-              e.stopPropagation();
-              resetToolTip();
-              this.attr({"stroke-dasharray": "- "});
-              $toolTip
-                .show()
-                .css({
-                  left: ( x1 + x2 )/2 - $toolTip.width()/2,
-                  top: ( y1 + y2 )/2 - $toolTip.height() * 1.5
-                });
-              deleHandle =  deleLine(this, $active, $end);
-              $toolTipDele.bind( "click", deleHandle );
-            });
-
-        }
-
-        function addAnswer($greyBall, $yellowBall){
-          var greyBallId = $greyBall.attr("ball-id");
-          var yellowBallId = $yellowBall.attr("ball-id");
-          $question.find(".answers .word_left").each(function(){
-            var answerId = $(this).find("span").text().trim().slice(5);
-            if(greyBallId ==  answerId){
-              $(this).next(".word_right").find("input.left").doVal("add", yellowBallId);
-              return false;
-            }
-          });
-        }
-
-        function deleLine(line, a, b){
-          return function(){
-            $toolTip.hide();
-            line.remove();
-
-            // delete match answer
-            var $grey = a.is(".grey") ? a : b;
-            var $yellow = a.is(".grey") ? b : a;
-            var greyBallId = $grey.attr("ball-id");
-            var yellowBallId = $yellow.attr("ball-id");
-            $question.find(".answers .word_left").each(function(){
-              var answerId = $(this).find("span").text().trim().slice(5);
-              if(greyBallId ==  answerId){
-                $(this).next(".word_right").find("input.left").doVal("sub", yellowBallId);
-                return false;
-              }
-
-            });
-          }
-        }
-
-        function resetToolTip(){
-          $toolTip.hide();
-          $toolTipDele.unbind( "click", deleHandle );
-          paper.forEach(function (el) {
-            el.attr("stroke-dasharray", "");
-          });
-        }
-
-
-
-        });
 
     })();
+
     (function DragAndDop(){
       $("#submit_quiz_form .question.drag_and_drop_question").each(function(){
         var $blueText = $(this).find(".blueText");
@@ -1033,7 +881,7 @@ define([
           $questionText.find("iframe").contents().find("body").addClass("fill_in_blanks_subjective_question");
         }, 3000);
 
-    });
+      });
 
     }());
 
