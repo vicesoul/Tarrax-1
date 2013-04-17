@@ -1,22 +1,5 @@
 --- 
 zh-CN: 
-  ? "#buttons"
-  : 
-    cancel: 取消
-    manage_rubrics: 维护评分标准
-    save: 保存
-    submit: 提交
-  ? "#editor"
-  : 
-    switch_views: 切换显示
-  ? "#gradebooks"
-  : 
-    grades: 
-      complete: 完成
-      incomplete: 未完成
-  ? "#links"
-  : 
-    switch_views: 切换显示
   EditAppointmentGroupDetails: 
     affect_reservations: 这对预约有何影响?
     and_n_contexts: "和其他 %{n} 个人"
@@ -48,7 +31,6 @@ zh-CN:
       corporate: 企事业
       higher_ed: 大中专
       k12: 中小学
-      one: 其他
       open: 开放网校
       other: 其他
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
@@ -56,15 +38,12 @@ zh-CN:
     tab_courses: 课程
     tab_developer_keys: 开发成员密钥
     tab_faculty_journal: 教师日志
-    tab_grading_standards: 评分方案
     tab_homepage: 主页
     tab_jobs: 工作队列
-    tab_outcomes: 结果
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
-    tab_rubrics: 评分标准
-    tab_settings: 网校管理
+    tab_settings: 管理设置
     tab_sis_import: 系统导入
     tab_statistics: 统计
     tab_sub_accounts: 组织架构
@@ -252,13 +231,11 @@ zh-CN:
   account_reports: 
     default: 
       all_terms: 所有学期
-      extra_text_term: "学期: %{term_name};"
-      message: "%{type} 报表已经生成. 网校: %{account}; %{options}"
-    grades: 
-      deleted: "包括已删除的项目: 是;"
-    sis_exporter: 
-      deleted: "包括已删除的项目: 是;"
-      reports: "报表: %{files}"
+      extra_text: "学期: %{term_name}"
+      grade: 
+        message: "学期 %{term_name} 的评分导出已生成"
+      outcome: 
+        message: "网校 %{account_name}的学生-作业-结果报表已生成"
   account_settings: 
     confirms: 
       delete_announcement: 确定要删除此公告?
@@ -279,7 +256,6 @@ zh-CN:
   account_user: 
     role: 
       institute_admin: 机构负责
-      one: 其他
       other: 其他
       student: 学生
       teacher: 教师
@@ -303,7 +279,6 @@ zh-CN:
       labels: 
         account_id: 网校
         course_category_id: 课程分类
-        course_code: 课程代码
         enrollment_term_id: 学期
         full_name: 姓名
         name: 课程名称
@@ -440,7 +415,6 @@ zh-CN:
         sis_export: 
           description: 
             text: 本报表将导出教学邦各个类别相关信息。
-    retry_login: "重新登录"
     settings: 
       about_google_docs: |-
           为了让用户更方便，而不强制他们下载诸如 Word 文档、PDF、Excel 电子表格等内容以及打开办公文档（此外还需要在其计算机上安装这些程序），在整个教学邦的许多区域，用户可以内联预览文档。
@@ -505,11 +479,9 @@ zh-CN:
         default_language: 默认语言
         default_time_zone: 默认时区
         default_user_storage_quota: 默认最大文件限制
-        edit_institution_email: "用户可以删除网校分配的EMAIL地址"
         enable_alerts: 警报
         enable_eportfolios: 个人空间
         enable_profiles: 启用个人资料
-        enable_scheduler: "启用日历 2"
         enable_user_notes: 教师日志
         end_at: 结束
         equella: Equella
@@ -533,7 +505,6 @@ zh-CN:
         prevent_course_renaming_by_teachers: 不让教师重命名课程
         public_account: 公开网校
         self_enrollment: 允许自行报名参课
-        show_scheduler: 启用计划程序
         sis_source_id: "SIS ID"
         start_at: 开始
         students_can_create_courses: 学生
@@ -732,12 +703,10 @@ zh-CN:
     test_ldap_result_canceled: 已取消
     test_ldap_result_failed: 已失败
     test_ldap_result_ok: 确定
-    test_login: "测试登录"
-    testing: 正在测试...
     update_failed_notice: 网校设置更新失败
     user_add_failed_message: 添加用户失败，请重试
-    user_added_message: "*%{user}*  已添加！"
-    user_added_message_sent_message: "*%{user}* 已添加！他们应该很快会收到确认电子邮件。"
+    user_added_message: "%{user} 已添加！"
+    user_added_message_sent_message: "%{user} 已添加！他们应该很快会收到确认电子邮件。"
     user_deleted_message: "%{username} 已删除"
   activerecord: 
     errors: 
@@ -758,7 +727,6 @@ zh-CN:
         less_than: "必须小于 %{count}"
         less_than_or_equal_to: "必须小于或等于 %{count}"
         not_a_number: 非数字
-        not_an_integer: 必须是整数
         odd: 必须为奇数
         record_invalid: "验证失败: %{errors}"
         taken: 已存在
@@ -879,7 +847,6 @@ zh-CN:
       page_disabled_for_group: 该网页已对此组禁用
     warnings: 
       please_log_in: 为安全起见，请输入您的密码方可继续
-      unsupported_browser: "您的浏览器版本过低. 请见 *教学邦推荐浏览器* 清单."
     wiki_front_page_default_content_course: 欢迎使用新课程维基！
     wiki_front_page_default_content_group: 欢迎使用新组维基！
   appointment_group: 
@@ -1008,9 +975,7 @@ zh-CN:
         never_drop: 不删除
         no_assignments: "[无作业]"
         weighted_by_points: 按分加权
-      percent_of_total_grade: "% 总成绩"
-    assignment: 
-      default_content: 无内容
+      percent_of_total_grade: "总评分的 %{percent} %"
     assignment_count: 
       one: "1 份作业"
       other: "%{count} 份作业"
@@ -1041,7 +1006,6 @@ zh-CN:
         submit: 提交作业
       titles: 
         unpublished: 已取消发布
-      turnitin_enabled: "Turnitin 已为此作业启用。"
       warnings: 
         unpublished: 您应发布已完成评分的作业，以便学生"正视"其评分。
     assignments_content: 
@@ -1142,8 +1106,7 @@ zh-CN:
           
           *确保不要更改提交的名称，以便我们组织。*
       titles: 
-        submission: 提交 
-        related_items: "相关项目"
+        submission: 提交
     graded: 此作业已评分
     grading_type_selector: 
       grading_type: 评分类型
@@ -1185,7 +1148,7 @@ zh-CN:
         add_assignment_or_group: a
         delete_assignment_or_group: d
         edit_assignment_or_group: e
-        full_preview: f
+        full_preview: false
         next_assignment_or_group: j
         previous_assignment_or_group: k
       links: 
@@ -1266,8 +1229,6 @@ zh-CN:
         no_content: 无内容
       due: 提交时间
       due_at: 提交时间
-      errors: 
-        upload_as_zip: "请以 .zip 形式上传文件"
       for: 针对
       links: 
         add_rubric: 添加评分标准
@@ -1363,7 +1324,6 @@ zh-CN:
       labels: 
         uploaded_data: 上传的文件
         url: "Website URL"
-      link: 网页链接
       links: 
         add_another_file: 添加其他文件
         authorize_google_docs: "授权 Google Docs 访问"
@@ -1383,7 +1343,6 @@ zh-CN:
       no_files: 无文件
       titles: 
         media_recordings_disabled: 没有为此教学邦网站启用录制/上传视频语音
-        view_in_separate_window: 在单独的窗口中查看
       upload_or_choose_file: 上传文件，或选择您已上传的文件。
     syllabus: 
       page_title: "%{course} 的纲要"
@@ -1460,9 +1419,6 @@ zh-CN:
         edit_assignment_in_detail: （允许上传、编辑说明等）
       titles: 
         wizard_box: "我要:"
-  assignments_api: 
-    errors: 
-      no_edit_frozen: 您无法编辑已锁定的作业。
   attachment: 
     default_filename: 文件
     errors: 
@@ -1498,7 +1454,6 @@ zh-CN:
   button: 
     submit_assignment: 提交作业
   buttons: 
-    add: 添加
     add_external_tool: 添加外部工具
     add_item: 添加项目
     apply: 应用
@@ -1510,7 +1465,6 @@ zh-CN:
     filter: 筛选
     hide_all_artifacts: 隐藏所有产物
     import: 导入
-    manage_rubrics: 管理评分标准
     ok: 确定
     refresh: 刷新
     save: 保存
@@ -1642,7 +1596,6 @@ zh-CN:
         calendar_scheduler: 日程安排
         calendar_week: 周
       refresh: 刷新
-      use_old_calendar: 返回到旧日历
     cancel_appointment: "确定要取消您和 %{name} 的预约?"
     confirm_appointment_group_deletion: 确定要删除此预约组?
     confirm_deletion: 确认删除
@@ -1657,6 +1610,9 @@ zh-CN:
       confirm_delete_calendar_event: 确定要删除此日历活动?
       event_deleted: "%{event_title} 活动已删除"
       event_saved: 已保存活动
+      missingDueDate: 
+        one: "%{sections} 没有设置提交时间."
+        other: "%{sections} 没有设置提交时间."
       titles: 
         warning: 警报
     edit_appointment_group: 
@@ -1669,10 +1625,8 @@ zh-CN:
       date: 日期
       details: 详细描述
       group_category: 组类别
-      group_signup: "有学生已经加入这个组."
       groups: 小组
       have_students_sign_up_in_groups: 让学生注册这个小组。
-      groups: 组.
       into_slots_of: 成
       limit_each_time_slot_to: 限制每段时间
       limit_participants: 预约限制
@@ -1985,12 +1939,6 @@ zh-CN:
         login_expiration_minimum: "会话过期必须为 20 分钟或更长时间"
         need_integer: 请输入一个整数的播放列表缓存
   cc: 
-    by: "CC Attribution"
-    by_nc: "CC Attribution Non-Commercial"
-    by_nc_nd: "CC Attribution Non-Commercial No Derivatives"
-    by_nc_sa: "CC Attribution Non-Commercial Share Alike"
-    by_nd: "CC Attribution No Derivatives"
-    by_sa: "CC Attribution Share Alike"
     private: 私密（版权保护）
     public_domain: 公开
   cells: 
@@ -2058,9 +2006,6 @@ zh-CN:
         people: 成员
         remove_all: 全部删除
       member_instructions: 点击左边栏添加用户/组.
-    collaborators: 
-      labels: 
-        collaborate_with: 协作方
     edit: 
       buttons: 
         cancel: 取消
@@ -2753,7 +2698,6 @@ zh-CN:
       enrollment_linked_to: "已链接到 *%{linked_user}*"
       headings: 
         recent_messages: 最近的消息
-        user_details: 用户详细信息
         user_services: 注册WEB服务
       help: 
         list_services: 您未启用已注册服务的列表。启用此列表可让课程和组的同伴成员在课外更轻松地与您链接。
@@ -2934,7 +2878,6 @@ zh-CN:
           remove_prerequisite: 删除前提条件
       module: 单元
       module_details: "单元按顺序显示，因此只有显示在 %{name} 上方的单元可以设置为前提条件。"
-      module_name: "单元名称"
       must_complete_prerequisites: 必须完成
       no_preprequisites: 未定义前提条件
       no_requirements: 未定义要求前提条件
@@ -2968,8 +2911,6 @@ zh-CN:
           complete: 单元已完成
           incomplete: 单元未完成
           locked: 单元已锁定
-      labels: 
-        prerequisites: 前提条件
       links: 
         add_item: 添加单元项目
         hide_contents: 隐藏单元内容
@@ -2982,7 +2923,6 @@ zh-CN:
         title: 
           delete_module: 删除此单元
           edit_module: 编辑单元设置
-          remove_prerequisite: 删除此前提条件
           student_progress: 查看学生学习此单元的进度
         unpublish: 未发布
       module_will_unlock_at: "解锁日期 *%{unlock_date}*"
@@ -2990,17 +2930,11 @@ zh-CN:
       progression_started_count: "*%{count}* 进行中"
       reorder_modules: 拖动以重新排序单元
       unpublish: 未发布
-    context_module_right_side: 
-      links: 
-        student_progress: 查看学生学习单元的进度
-      loading_progressions: 正在加载学生进度...
     context_modules: 
       publish: 发布
     errors: 
       reorder: 重新排序失败，请重试。
     index: 
-      headings: 
-        course_modules: 课程单元
       titles: 
         course_modules: 课程单元
     module_empty: "单元 \"%{module}\" 中没有项目"
@@ -3069,7 +3003,6 @@ zh-CN:
       completed: 完成
       in_progress: 正在进行
       locked: 已锁住
-      no_information: 没有信息
     still_needs_completing: 仍需完成
     titles: 
       add: 添加单元
@@ -3127,31 +3060,18 @@ zh-CN:
     conversations_pane: 
       confirm: 
         delete_conversation: "确定要删除您拥有的此会话? 此操作将不可撤销。"
-    crumbs: 
-      messages: 会话
     enrollments_everyone: 每个人
     errors: 
       field_is_required: 此字段为必填字段
     filter_by_course: 以此课程筛选
     filter_by_group: 以此组筛选
-    groups_count: 
-      one: "1 个组"
-      other: "%{count} 个组"
     headings: 
       new_message: 新消息
     index: 
       add_recipients_instructions: 您加入会话的人将会看到所有之前的消息。
       inbox_actions: 
-        archive: 存档
         delete: 删除
         forward: 转发
-        mark_as_read: 标记为已读
-        mark_as_unread: 标记为未读
-        star: 标记
-        subscribe: 订阅
-        unarchive: 取消存档
-        unstar: 取消标记
-        unsubscribe: 取消订阅
       inbox_view: 查看
       inbox_views: 
         archived_messages: 已存档
@@ -3204,7 +3124,6 @@ zh-CN:
       done_sending_message: "已将 *%{message_preview}* 发给 *%{num_people}*"
       error_sending_message: "发送消息时出现错误:"
       sending_message: "正在发送 *%{message_preview}* 给 *%{num_people}*"
-    no_results: 未找到任何结果
     not_applicable: 不适用
     not_scored: 没有分数
     notes_to_self: 备忘
@@ -3218,10 +3137,6 @@ zh-CN:
       one: "1 个人"
       other: "%{count} 个人"
     recipient_error: 您选择的课程或小组没有有效的接收人
-    recipient_field_placeholder: 输入姓名、课程名或小组名
-    sections_count: 
-      one: "1 个班"
-      other: "%{count} 个班"
     select_all: 全选
     title: 
       add_recipients: 添加接收人
@@ -3558,7 +3473,6 @@ zh-CN:
     errors: 
       create_failed: 课程创建失败
       invalid_course_category: 无效课程类型
-      invalid_email: 电子邮件无效，请重试。
       invalid_role: 角色类型无效
       role_not_active: "不能为生效的角色添加用户: '%{role}'"
       role_not_found: "没有 '%{role}'角色 ."
@@ -3592,12 +3506,10 @@ zh-CN:
       backup_restored: 备份成功恢复！
       concluded: 课程成功结束
       deleted: 课程成功删除
-      enrolled: 您已注册此课程。
       enrollment_not_active: "您在课程 %{course} 中的成员资格尚未激活。"
       failed_conclude: 课程无法结业
       invitation_accepted: "邀请已接受！欢迎参加 %{course}！"
       invitation_cancelled: 邀请已取消。
-      login_required: 请登录以参加此课程。
       login_to_accept: 您需要登录后才能接受课程注册。
       preview_course: 您已被邀请参加此课程。您可以任意浏览课程，但只能在接受注册邀请之后才可参加课程。
       reset_test_student: 该测试学生已重置。
@@ -3630,12 +3542,8 @@ zh-CN:
       alerts_title: 警报
       buttons: 
         add_section: 添加班
-        add_users: 邮件地址有效，添加这些用户
-        continue: 添加
-        modify_users: 返回编辑用户列表
         move_course: 移动课程
         update_course: 更新课程详细信息
-      cannot_add_users_to_concluded_course: 您不能将用户添加到已结业课程。
       course_open_enrollment: "本课程已启用开放注册。学生们可以通过您发送的链接 *%{url}* 自行注册课程。学生也可以先在 *%{url2}* 报名，然后再使用 *%{code}* 参加代码加入课程。"
       course_overrides_term: 这将覆盖任何学期可用性设置
       date_restricted: 用户只能参加这些日期之间的课程
@@ -3651,18 +3559,11 @@ zh-CN:
       grading_standard_currently_set: 现已设置
       grading_standard_not_set: 未设置
       headings: 
-        add_users: 添加课程用户
-        current_users: 当前用户
-        designers: 课程设计
         details: 课程详细信息
         external_tools: 外部工具
         grade_publishing: 评分发布
         move_course: 将课程移动到其他网校
-        observers: 观察员
         sections: 课程班
-        students: 学生
-        tas: 助教
-        teachers: 教师
       help: 
         edit_navigation: 在课程导航中拖放项目可对其进行重新排序
         public_course: （学生资料将保持私密性）
@@ -3677,7 +3578,6 @@ zh-CN:
         invitations_pending_publish: 邀请在课程*发布*之后才会发送
         student_invitation_unaccepted_available: "%{name} 尚未接受参加课程的邀请。邀请发送时间: %{time}"
         student_invitation_unaccepted_unavailable: "%{name} 被添加到课程的时间: %{time}"
-      invite_to_unpublished_course: 由于课程尚未发布，虽然可添加学生和助教，但不会发送参加课程的邀请。邀请将在课程发布时发送。
       keycode_descriptions: 
         next_navigation_link: 选择下一个导航链接
         previous_navigation_link: 选择上一个导航链接
@@ -3688,7 +3588,6 @@ zh-CN:
         toggle_navigation_dragging: 空格
       labels: 
         account_id: 部门
-        allow_student_assignment_edits: 允许学生编辑作业说明
         allow_student_discussion_editing: 允许学生删除修改上传的回帖
         allow_student_discussion_topics: 允许学生创建讨论主题
         allow_student_forum_attachments: 允许学生附加文件到讨论贴
@@ -3698,11 +3597,9 @@ zh-CN:
         course_code: 课程代码
         course_lock_all_announcements: 禁止公告回帖
         course_name: 名称
-        course_section_id: 班
         course_section_name: 班名
         course_visibility: 可见性
         enrollment_term_id: 学期
-        enrollment_type: 添加更多
         grading_scheme: 评分方案
         grading_standard_enabled: 启用课程评分方案
         hide_distribution_graphs: 对学生隐藏成绩分布示意图
@@ -3711,7 +3608,6 @@ zh-CN:
         is_public: 使此课程公开可见
         language: 语言
         license: 许可证
-        limit_privileges_to_course_section: 这些管理员只能在其负责的班中为学生评分
         open_enrollment: "添加 \"参加此课程\" 链接到课程主页"
         restrict_enrollments_to_course_dates: 用户只能参加这些日期之间的课程
         root_account_id: 网校
@@ -3725,7 +3621,6 @@ zh-CN:
         link_student_action: "要将课程观察员 *%{name}* 链接至某个学生，可从以下列表中选择该学生的姓名。"
         link_student_desc: 观察员在链接至某个学生后，就可访问该学生的评分和课程互动。
       links: 
-        add_users: 添加用户
         edit_course: 编辑课程详细信息
         more_options: 更多选项
         move_course: 转移到其他网校
@@ -3739,12 +3634,6 @@ zh-CN:
       no_language_preference: "未设置（用户可配置，默认使用 %{language}）"
       none: 无
       not_date_restricted: 这些日期不会影响课程可用性
-      option: 
-        designers: 课程设计
-        observers: 观察员
-        students: 学生
-        tas: 助教
-        teachers: 教师
       page_title: 课程详细信息
       pickup: 
         cancel: 取消
@@ -3768,11 +3657,8 @@ zh-CN:
         sections: 班
         tools: 外部工具
         users: 用户
-      teacherless_invite_details: 如果您邀请了教师并且被其接受，您将放弃对此课程的管理权限。
       titles: 
-        course_section: 课程班
         edit_navigation: 编辑课程导航
-        enrollment_type: 注册类型
       turnitin: "这些评注在提交 Turnitin 启用的任务时显示给学生"
       user_view: 
         links: 
@@ -3793,12 +3679,6 @@ zh-CN:
         current_users: 当前用户
       help: 
         reset_course_content: 重置课程内容将永久性删除所有相关的作业、讨论、测试、单元、评分标准、网页、文件、学习结果、题库、协作、在线视频课或任何其他内容。此操作不可逆，删除的数据将*无法*撤销。确定要继续?
-      labels: 
-        designers: 课程设计
-        observers: 观察员
-        students: 学生
-        tas: 助教
-        teachers: 教师
       links: 
         calendar: 课程日历
         conclude: 结束此课程
@@ -3818,23 +3698,19 @@ zh-CN:
         assignments: 此视图显示本课程的**作业列表**，即将到来和近期的作业显示在顶部。
         confirm_unenroll: 确定要取消注册此课程?您将不再能够看到课程清单或与教师沟通，并且您的通信流和通知中再看不到课程活动。
         custom_page: 您可以**设计自己的课程主页**，在其中包含您喜欢的任何链接、图片或富视频语音。
-        joining_a_course: 在参加课程后，该课程将显示在您的课程列表中。您能够参加课程的已评分部分，并且能够与教师及其他学生直接沟通。.您还将在您的通信流和通知中看到本课程的交流和活动。
         modules: |-
             您可以将课程组织成**单元或章节**，每章节包含一组相关的文件、作业和网页等。还可以通过定义每个单元解锁之前需要完成的标准和前提条件来组织单元序列。
             
             这种布局可能最适合没有特定时间表（例如学期）的课程。
         recent_activity_dashboard: "**最近活动仪表板**让参加者能看到此课程最近的谈话、公告、讨论和互动。它很类似于用户在第一次登录时看到的仪表板，但只显示此特定课程的内容。"
         syllabus: "**纲要视图**允许您编写有关课程期望的说明，或通过链接、图片等方式介绍课程。还显示涵盖所有作业和课程活动的日历视图。"
-      dropping_course: 正在放弃课程...
       empty_body: 无内容
       headings: 
         confirm_unenroll: 确认取消注册
         importing: 正在导入课程
-        joining_a_course: 正参加课程
         set_layout: 设置主页布局
         unpublished: 此课程未发布
       importing: 课程复制/迁移进行中。这意味着某些内容暂时不可用。
-      joining_course: 正参加课程...
       labels: 
         set_layout: 当用户访问课程网页时，显示
       license_notice: "此课程的内容根据 %{license_type} 许可证提供。本课程的内容可用性取决于此许可证，除非另有说明。"
@@ -3860,7 +3736,6 @@ zh-CN:
       teachers_only: 在*发布*之前只有教师才能查看此课程内容
       titles: 
         drop_course: 放弃此课程
-        join_course: 参加此课程
         recent_feedback: 最近更新
     sidebar_weighting: 
       default_name: 组
@@ -3950,7 +3825,6 @@ zh-CN:
     eportfolio_welcome: 欢迎使用个人空间
     error_reports: 错误报表
     files: 资源管理
-    grades: 成绩
     grading_schemes: 评分方案
     groups: 组
     jobs: 任务
@@ -3984,15 +3858,10 @@ zh-CN:
     out_of_points_possible: " %{assignment.points_possible}"
   dashboard: 
     coming_up: 新近事项
-    date_changes: 日期变更
     disable_dashboard: 返回到旧仪表板
     enable_dashboard: 试用新仪表板
     event_created: 活动已创建
-    grading_notifications: 评分提醒
-    group_membership_notifications: 小组成员提醒
     message_sent: 消息已发送
-    new_assignments_and_events: 新的作业和活动
-    scheduling_notifications: 预约提醒
     show_less: 显示更少
     show_more: 显示更多
   date: 
@@ -4056,9 +3925,9 @@ zh-CN:
       - 11月
       - 12月
     order: 
-      - !ruby/symbol year
-      - !ruby/symbol month
-      - !ruby/symbol day
+      - year
+      - month
+      - day
   dates: 
     no_date: 无日期
   datetime: 
@@ -4184,15 +4053,10 @@ zh-CN:
     edit_crumb: 编辑
     edit_view: 
       allow_threaded_replies: 允许对回帖进行跟贴
-      assignment_group: 作业组
       attachment: 附件
       delay_posting: 定时发布
-      due: 提交时间
-      editor: 
-        switch_views: 切换视图
       enable_podcast_feed: 启用播客源
       include_replies_in_podcast_feed: 在播客源中包括回帖
-      loading: 正在加载...
       options: 选项
       points_possible: 满分
       post_at: 发布时间
@@ -4266,7 +4130,6 @@ zh-CN:
       zero: 无回帖
     show: 
       add_rubric: 添加评分标准
-      assignment_settings: 作业详细信息
       authors_name: 作者姓名
       collapse_replies: 隐藏回帖
       confirm_delete_discussion: 确定要删除这个讨论?
@@ -4275,14 +4138,12 @@ zh-CN:
       discussion_atom_feed_title: "讨论 Atom Feed"
       discussion_podcast_feed_title: 讨论播客Feed
       edit: 编辑
-      edit_assignment_settings: 编辑作业设置
       edit_current_message: 编辑当前消息
       edited_by: "此主题由 %{user} 进行编辑"
       expand_replies: 展示回帖
       filter_replies: 按搜索术语筛选回帖
       from_context: "来自 *%{context_name}*"
       initial_post_required: 只有至少发布了一条回帖的用户才可看见回帖。
-      jump_to_next_unread: 到下一个未读
       links: 
         peer_reviews: 交互审阅
       loading_replies: 载入回帖中...
@@ -4297,7 +4158,6 @@ zh-CN:
       retrieved_from_feed: "从 %{feed} 检索"
       search_entries: 搜索条目或作者
       search_entries_placeholder: 搜索条目或作者
-      separated_conversation_notice: 有关此主题的会话被分成不同的组。以下是您可以访问的组主题列表。
       show_rubric: 显示评分标准
       speed_grader: 快速评分器
       topic: 主题
@@ -4366,11 +4226,6 @@ zh-CN:
       one: 显示一个回帖
       other: "显示所有 %{count} 个回帖"
     show_due_dates: 显示提交时间
-    toolbar: 
-      filter_replies: 按搜索术语筛选回帖
-      search_entries: 搜索条目或作者
-      search_entries_placeholder: 搜索条目或作者
-      unread: 未读
     uknown_author: 未知作者
     unknown: 未知
     unknown_author: 未知作者
@@ -4392,6 +4247,7 @@ zh-CN:
       find_existing_rubric: 查找现有评分标准
   editor: 
     alt_text: "替换文本:"
+    based_on_type: "基于 %{base_type}"
     button: 
       insert_equation: 插入公式
     cancel: 取消
@@ -4881,7 +4737,6 @@ zh-CN:
       folder_locked: 已锁定文件夹
       locked_file: 已锁定文件
     buttons: 
-      add_collaboration: 添加协作
       update_collaboration: 更新协作
       update_file: 更新文件
     cancel: 取消
@@ -4913,6 +4768,7 @@ zh-CN:
       upload_failed: 上传失败，请重试。
       uploading: 上传出错
       uploading_zip: "上传 zip 文件时出错。"
+    feed_title: "%{course_or_group} 文件Feed"
     fields: 
       file: 文件
     full_index: 
@@ -4956,7 +4812,6 @@ zh-CN:
       links: 
         add_file: 添加文件
         add_folder: 添加文件夹
-        all_collaborations: 所有协作
         delete_file: 删除此文件
         delete_folder: 删除此文件夹
         download_as_zip: 将此文件夹中的文件下载为压缩文件
@@ -4976,6 +4831,7 @@ zh-CN:
         unlock_file: 解锁此文件
         unlock_folder: 解锁此文件夹
         view_collaboration: 查看此协作
+        view_item: "单击此处查看 %{name}"
       locked: 此文件尚未解锁，因此无法下载
       locked2: 此文件被锁定，学生无法下载。
       messages: 
@@ -4989,6 +4845,10 @@ zh-CN:
       storage_used: "已用存储: %{size1} 限额 %{size2}"
       switch_views: 切换视图
       titles: 
+        collaborations: "%{name} 的协作"
+        collaborators: 协作者
+        created_by_etherpad: "此文档是使用 EtherPad 创建的。"
+        created_by_google_docs: "此文档是使用 Google Docs 创建的。"
         edit_file: "编辑 %{file}"
         edit_file_contents: 编辑文件内容
         file_locked: 已锁定
@@ -5043,7 +4903,6 @@ zh-CN:
     text_show: 
       page_title: 文件预览
     titles: 
-      add_collaboration: 添加新协作
       click_and_drag: 单击并拖动可将文件夹移动到其他文件夹
       download_folder_contents: 下载文件夹内容
       drag_to_move: 拖动以移动到其他文件夹
@@ -5071,9 +4930,7 @@ zh-CN:
     default_folder_name: 文件夹
     errors: 
       invalid_recursion: 文件夹不能是自身的父级
-    files_folder_name: 文件
     folder_created: "文件夹 \"%{name}\" 已创建"
-    my_files_folder_name: 我的文件
   folders: 
     event_updated: 活动已更新。
     file_zip_in_process: 正在压缩文件...
@@ -5082,20 +4939,6 @@ zh-CN:
     no_deleting_folders_with_content: 无法删除包含内容的文件夹
     no_deleting_root: 无法删除根文件夹
     only_one_folder: "无法设置文件夹的路径和 ID"
-  full_assignment: 
-    buttons: 
-      select_url: 选择
-    links: 
-      hide_grading_options: 隐藏评分选项
-      more_grading_options: 更多评分选项
-    messages: 
-      hidden_errors: 一个或多个高级选项中存在错误
-      lock_after_due: 作业在提交时间之前不应再次锁定
-      need_online_submission_type: 请选择至少一种在线提交类型
-      need_url: 请指定有效的链接
-      unlock_before_due: 作业应在提交时间之前解锁
-    titles: 
-      criterion_long_description: 标准详细说明
   global_message_icons: 
     announcement: 公告
     calendar: 日历
@@ -5167,7 +5010,6 @@ zh-CN:
     new_assessment: "[新评阅]"
     no_submission_time: 无提交时间
     nth_student: "学生 %{n}"
-    percent: 百分比
     publish_to_sis: "发布评分到 SIS"
     reupload_submission_files: 重新上传提交
     reupload_submissions: 重新上传提交
@@ -5241,6 +5083,9 @@ zh-CN:
       set_default_grade: 设置默认评分
       speedgrader: SpeedGrader
     hide_student_names: 隐藏学生姓名
+    invalid_assignment_groups_warning: 
+      one: "因未设置分数，没有统计 %{groups}成绩"
+      other: "因未设置分数，没有统计 %{groups} 成绩"
     jxb: 
       gradebook: 成绩册
     no_assignments_have_points_warning: 只有有分数的作业才可统计
@@ -5411,7 +5256,7 @@ zh-CN:
         due: 提交时间
         grades: "%{student} 的评分"
         name: 名称
-        out_of: ~
+        out_of: 超出
         score: 分数
       labels: 
         final_grade_hidden: 总分计算已禁用
@@ -5516,7 +5361,6 @@ zh-CN:
         upload: 文件上传提交
         url: "URL 提交"
         view: 查看
-      try_out_the_new_gradebook: 试用新成绩册
       upload_info: 如果您对此前下载的学生提交作出了更改，只需压缩其备份并使用以下表单上传该压缩文件。学生将在其提交评注中看到修改的文件。
       upload_warning: 确保不要更改提交的名称，以便我们组织。
       weight_final: 根据组加权最终评分
@@ -5688,6 +5532,7 @@ zh-CN:
       renamed_file: "从 %{filename} 重命名"
       submissions_upload: "%{assignment} 提交上传"
     titles: 
+      feed_for_course: "%{course} 成绩册Feed"
       total: 总计
     top_level_crumb: 成绩
   grading_box: 
@@ -5840,7 +5685,6 @@ zh-CN:
       messages: 
         no_students: 尚未添加学生到此课程
       page_title: 课程组
-    default_category_title: 学习组
     edit: 
       buttons: 
         update: 更新组
@@ -5855,9 +5699,7 @@ zh-CN:
       restricted_self_signup: 要求组成员在相同的班中
       self_signup_help_tooltip: 什么是自行注册组?
     errors: 
-      cant_restrict_self_signup: 当类别中存在班不同的组时无法启用。
       category_in_use: "\"%{category_name}\" 已在使用"
-      category_name_too_long: 输入更短的类别名称将学生分组
       creating_category_failed: 类别创建失败，请重试
       creating_group_failed: 创建组失败
       unknown: 发生意外错误。
@@ -5894,15 +5736,12 @@ zh-CN:
       creating_group: 正在创建组...
     notices: 
       already_deleted: 该组已删除
-      create_category_success: 类别已创建。
       create_success: 组已创建。
-      delete_category_success: 类别已删除
       delete_success: 组已删除
       goodbye: "您已经退出了组 %{group_name}。"
-      invalid_invitation: ""
+      invalid_invitation: 无效的邀请
       no_students_assigned: 未分配到组的学生。
       students_assigned: 已分配到组的学生。
-      update_category_success: 类别已更新。
       update_success: 组已更新。
       welcome: "欢迎加入组 %{group_name}！"
     show: 
@@ -5981,7 +5820,6 @@ zh-CN:
   instructure: 
     alerts: 
       file_previews_disabled: 此教学邦网站已禁用文件预览
-      kaltura_disabled: "此教学邦网站已禁用 Kaltura"
     browsers: 
       unrecognized: 无法识别的浏览器
     buttons: 
@@ -6010,7 +5848,6 @@ zh-CN:
       datepicker: 
         time: 时间
     links: 
-      minimize_embedded_kaltura_content: 最小化嵌入内容
       minimize_file_preview: 最小化文件预览
       minimize_youtube_video: 最小化视频
       view_equella_content_in_new_window: 在新窗口中查看内容
@@ -6095,9 +5932,6 @@ zh-CN:
     titles: 
       job_handler: 任务处理程序
       last_error: 上次的错误
-  jxb: 
-    gradebook: 成绩册
-    question_banks: 题库
   jxb/widget: 
     activity_index: 活动照片
     announcement_account: 网校公告
@@ -6159,7 +5993,7 @@ zh-CN:
     head: 
       default_page_title: 教学邦网校平台
     menu: 
-      view_all_accounts: 查看所有网校
+      view_all_accounts: 查看所有账号
       view_all_enrollments: 查看所有课程
       view_all_groups: 查看所有组
   learning_outcome: 
@@ -6238,7 +6072,6 @@ zh-CN:
     switch_views: 切换视图
   locales: 
     en: 英语
-    zh: 中文
     zh-CN: 简体中文
   logic: 
     false_logic: 错误
@@ -6288,7 +6121,6 @@ zh-CN:
       submitted: 已提交视频语音文件！
       submitting: 正在提交视频语音文件...
     titles: 
-      click_to_view: 单击查看
       media_contribution: 视频语音参加
       play_comment: 播放视频语音评注
       record_upload_media_comment: 记录/上传视频语音评注
@@ -7190,10 +7022,6 @@ zh-CN:
     index: 
       titles: 
         messages: "%{name} 的邮件"
-    layout: 
-      email: 
-        html: 
-          click_to_preferences: "点击进行通信设置"
     merge_email_communication_channel: 
       email: 
         body: "已在 %{url} 为您创建一个账号，但您已有教学邦账号。如果想要将其合并在一起，请访问以下链接:"
@@ -7714,7 +7542,6 @@ zh-CN:
       late_grading: 最新评分
       membership_update: 成员资格更新
       migration: 迁移
-      one: 其他
       other: 其他
       registration: 注册
       reminder: 提醒
@@ -7812,7 +7639,6 @@ zh-CN:
       summaries: 总结
       updated_wiki_page: 更新的维基网页
       web_conference_invitation: "Web 在线视频课邀请"
-    no_comments: 无评论
     no_subject: 无主题
     other_description: 有关任何其他通知
     other_display: 管理通知
@@ -7852,7 +7678,6 @@ zh-CN:
       course: 课程活动
       discussions: 讨论
       groups: 组
-      one: 其他
       other: 其他
       parent: 父电子邮件
       scheduling: 预约安排
@@ -8061,8 +7886,6 @@ zh-CN:
         time: 时间
         url: 链接
         user_agent: 用户代理
-  paginated_collection: 
-    no_items: "没有项目."
   paginated_list: 
     no_results_found: 无结果
     view_more_link: 查看更多
@@ -8533,7 +8356,6 @@ zh-CN:
         short_name: 在讨论、消息和评注中看到的名称
         sortable_name: 此名称出现在检索列表中
       labels: 
-        birthdate: 生日
         change_password: 更改密码
         confirm_password: 确认密码
         default_email: 默认电子邮件
@@ -8644,7 +8466,6 @@ zh-CN:
         register_email: 注册电子邮件
         register_sms: 注册短信
       carriers: 
-        one: 其他运营商
         other: 其他运营商
       confirming_contact: 正在确认...
       contact_types: 
@@ -8751,8 +8572,6 @@ zh-CN:
         allow_application: "%{app_name} 正在请求访问您的账号。"
         email: "您的电子邮件为 %{email}。"
         login_name: "您正在作为 %{user_name} 登录到此应用程序。"
-      labels: 
-        remember_access: "记住注册服务"
       log_in: 登录
       page_title: 应用程序登录
     otp_login: 
@@ -8983,9 +8802,6 @@ zh-CN:
       creating_group: 正在创建组...
       generating: 正在生成...
       generating_combinations_progress: "正在生成... (%{done}/%{total})"
-      published: 已发布！
-      publishing: 正在发布...
-      save_settings: 保存设置
       saved: 已保存！
       saving: 正在保存...
       update_group: 更新组
@@ -8993,7 +8809,6 @@ zh-CN:
     choose_option: "[选择]"
     confirms: 
       delete_question: 确定要删除此试题?
-      delete_quiz: "确定要删除这个试题?"
       scrap_and_restart: 取消此测试并从头开始?
     current_filter: 当前筛选器
     default_answer_comments: 学生选择此答案时响应
@@ -9026,7 +8841,6 @@ zh-CN:
         variable_name: 变量
         variable_precision: 小数位
         variables: 变量
-      hide_solution: 隐藏解析
       labels: 
         additional_comments: 其他评注
         for_answer_number: "答案 %{answer_number}"
@@ -9037,7 +8851,6 @@ zh-CN:
       not_yet_graded: 仍未评分
       points_possible: "%{points_possible} 分"
       show_ansers_for_variable: "显示 %{variable} 的答案"
-      show_solution: 显示解析
       skip_question_text: 转至试题文本。
       titles: 
         question_correct_comment: 如果学生回答试题正确，他们将看到此评注
@@ -9349,19 +9162,6 @@ zh-CN:
       links: 
         download_lockdown: "[下载 Respondus LockDown Browser]"
       requires_lockdown: "此测试需要 Respondus LockDown Browser。请启动 Respondus LockDown Browser 以进行此测试或查看您的测试结果。"
-    managed_quiz_data: 
-      anonymous_student: "学生 %{n}"
-      headers: 
-        quiz_unsubmitted_students: "未参加测试学生"
-        submitted_students_quiz: "已参加测试学生"
-        submitted_students_survey: "已参加问卷调查学生"
-        survey_unsubmitted_students: "未参加问卷调查学生"
-      quiz_all_students_submitted: "所有学生已参加测试"
-      quiz_no_submissions: "还没有学生参加测试"
-      survey_all_students_submitted: "所有学生已参加问卷调查"
-      survey_no_submissions: "还没有学生参加问卷调查"
-      titles: 
-        submission_needs_review: "作业需要评分"
     moderate: 
       add_time: 添加时间
       buttons: 
@@ -9435,11 +9235,7 @@ zh-CN:
       filter: "IP 筛选"
       group: 作业组
       headers: 
-        create_new_quiz: 添加测试
-        edit_quiz: 编辑测试
         ip_filters: "什么是测试 IP 限制?"
-        link_to_content: 链接至内容
-        quiz_options: 测试选项
       hints: 
         question_detail_disabled: "注意:超过  %{question_count} 道题时不能显示详细信息。"
         quiz_score: 一旦进行问卷调查，学生将自动获得满分
@@ -9448,42 +9244,22 @@ zh-CN:
         time_limit: 时间限制
       labels: 
         allow_multiple_attempts: 允许多次答题
-        anonymous_submissions: 提交保持匿名
-        code: 代码
-        due_date: 提交时间
-        filter: 筛选
-        group: 组
         hide_results_only_after_last: 仅在其上次答题后
         ip_filter: "筛选 IP 地址"
-        limited_attempts: 限制答题
-        locked_after: 锁定条件
-        locked_until: 锁定至
         never_hide_results: 允许学生查看测试结果
         quiz_instructions: 测试说明
-        quiz_name: 测试名称
         quiz_notify: 通知用户测试更新信息
         quiz_score: 分数
-        quiz_type: 类型
         require_access_code: 需要访问代码
-        require_lockdown_browser: "需要 Respondus LockDown Browser"
-        require_lockdown_browser_for_results: 查看测试结果时需要
         restrict_quiz: 地点限制
-        score_to_keep: 要保留的测试分数
-        show_correct_answers: 显示正确答案
         show_question_details: 显示试题答案信息
       limited_attempts: 允许答题次数
       links: 
-        add_new_question: 添加新试题
         cancel: 取消
         find_questions: 查找试题
-        link_to_content: 链接至内容
         new_question: 新试题
         new_question_group: 新试题组
-        preview_quiz: 预览测试
-        quiz_options: 测试选项
-        return_to_quiz_page: 返回测试网页
         show_assignment_rubric: 显示作业评分标准
-        start_over: 重新开始
         switch_views: 切换视图
       minutes: 分
       one_question_at_a_time: 逐题回答
@@ -9511,7 +9287,6 @@ zh-CN:
       has_submissions_already: 请记住，某些学生已经进行或开始进行此测试
       less_than_allotted_time: 您开始此测试时测试已接近提交时间，因此您没有足够的时间量进行测试。
       no_submission_for_user: 没有可用于该用户的提交
-      quiz_data_saved: 测试数据已保存
       quiz_updated: 测试已更新
       quizzes_published: 
         one: "1 个测试已发布!"
@@ -9538,6 +9313,9 @@ zh-CN:
     question_list_right_side: 
       headers: 
         questions: 试题
+    question_solution: 
+      hide_solution: 隐藏解析
+      show_solution: 显示解析
     question_statistic: 
       attempts: 
         one: "1 次答题"
@@ -9563,9 +9341,7 @@ zh-CN:
       headers: 
         available: 可用
         due: 提交时间
-        limits: 限制
         points: 分数
-        questions: 试题
         time_limit: 限时
       multiple_due_dates: 多个提交时间
       no_due_date: 无提交时间
@@ -9576,7 +9352,6 @@ zh-CN:
         zero: 没有试题
       quiz_availabile_through: "%{start_time} - %{end_time}"
       quiz_available_after: "%{start_time} 之后"
-      quiz_available_always: 始终可用
       quiz_available_until: "结束时间 %{end_time}"
       requires_lockdown: "需要 Respondus LockDown Browser"
       time_limit: 
@@ -9599,8 +9374,6 @@ zh-CN:
       links: 
         preview_quiz_again: 再次预览测试
         preview_survey_again: 再次预览问卷调查
-        take_quiz_again: 再次进行测试
-        take_survey_again: 再次进行问卷调查
       no_more_attempts: 没有更多可用答题次数
       questions_not_graded: 有些试题尚未评分
       score_set_manually: 教师已设定此分数
@@ -9678,9 +9451,6 @@ zh-CN:
         quiz_due: 提交时间
         quiz_time_limit: 时间限制
         survey_details: 问卷调查详细信息
-      links: 
-        resume_quiz: 继续测试
-        resume_survey: 继续问卷调查
       no_details: 无详细信息
       points_possible: "%{points_possible} 满分"
       question_count: 
@@ -9713,6 +9483,7 @@ zh-CN:
       titles: 
         details: 作业评分标准详细信息
     show: 
+      anonymous_student: "学生 %{n}"
       answers: 
         correct: 正确!
         correct_answers: 正确答案
@@ -9744,18 +9515,11 @@ zh-CN:
         submitted_students_survey: 已进行问卷调查的学生
         survey_unsubmitted_students: 尚未进行问卷调查的学生
       labels: 
-        access_code: 访问代码
         available_until: 结束时间
-        instructions: 说明
         no_time_limit: 没有时间限制
-        quiz_due: 提交时间
       links: 
-        delete_this_quiz: 删除此测试
-        delete_this_survey: 删除此问卷调查
         edit: 编辑
         edit_assignment_details: 编辑作业详细信息
-        edit_this_quiz: 编辑此测试
-        edit_this_survey: 编辑此问卷调查
         hide_student_quiz_results: 隐藏学生测试结果
         hide_student_survey_results: 隐藏学生问卷调查结果
         keep_editing_this_quiz: 继续编辑此测试
@@ -9765,20 +9529,27 @@ zh-CN:
         moderate_this_survey: 调整此问卷调查
         preview: 预览
         quiz_statistics: 测试统计
-        resume_quiz: 继续测试
-        resume_survey: 继续问卷调查
         see_full_quiz: 查看完整测试
         show_assignment_rubric: 显示作业评分标准
         show_student_quiz_results: 显示学生测试结果
         show_student_survey_results: 显示学生问卷调查结果
         survey_statistics: 问卷调查统计
       only_registered_users: 只有注册的登记用户才能进行评分测试
-      quiz_in_progress: "你正在进行测试当中."
+      points_possible: 
+        one: "1 分"
+        other: "%{count} 分"
+      quiz_all_students_submitted: 所有学生均已进行测试
+      quiz_for_assignment: "此测试是针对作业 **%{assignment}**"
+      quiz_in_progress: 您正在进行此测试的过程中。
+      quiz_no_submissions: 学生尚未进行测试
       speed_grader: SpeedGrader™
       students_submitted_so_far: 
         one: "目前 1 个学生已提交"
         other: "目前 %{count} 个学生已提交"
+      survey_all_students_submitted: 所有学生均已进行问卷调查
+      survey_for_assignment: "此问卷调查是针对作业 **%{assignment}**"
       survey_in_progress: 您正在进行此问卷调查的过程中。
+      survey_no_submissions: 学生尚未进行问卷调查
       titles: 
         delete: 删除
         related_items: 相关项
@@ -9853,8 +9624,6 @@ zh-CN:
       labels: 
         started: 开始时间
         times_up: 时间到！提交结果
-      line: 
-        dele_line: 删除此连线?
       minutes_count: 
         one: "1 分钟"
         other: "%{count} 分钟"
@@ -9929,7 +9698,6 @@ zh-CN:
     last_logged_in: "上次登录时间 %{last_login}"
   recipient_input: 
     context_search_placeholder: 输入名称、课程或组
-    enrollments_everyone: 每个人
     groups_count: 
       one: "1 个组"
       other: "%{count} 个组"
@@ -9940,7 +9708,6 @@ zh-CN:
     sections_count: 
       one: "1  班"
       other: "%{count} 班"
-    select_all: 全选
   registration: 
     get_started: 开始
     incomplete_registration_warning: 
@@ -9950,7 +9717,6 @@ zh-CN:
       password: 密码
       remember_me: 记住密码
       sign_in: 登录
-    ok: 确定
     parent_dialog: 
       agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."
       buttons: 
@@ -9965,19 +9731,16 @@ zh-CN:
       buttons: 
         start_learning: 注册
       labels: 
-        birthdate: 出生日期
         join_code: 加入代码
         name: 姓名
         password: 密码
         password_confirmation: 确认密码
         username: 用户名
-      sign_up_without_code: 没有代码?
     student_higher_ed_dialog: 
       agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."
       buttons: 
         start_learning: 注册
       labels: 
-        birthdate: 出生日期
         email: 电子邮件
         name: 姓名
     teacher_dialog: 
@@ -9987,8 +9750,6 @@ zh-CN:
       labels: 
         email: 电子邮件
         name: 名称
-    too_young_error: "必须超过 %{min_years} 岁才可参加课程."
-    too_young_error_join_code: "没有代码需要超过 %{min_years} 岁才可参加课程."
     welcome_to_canvas: 欢迎使用教学邦！
   retrieve_timeout: 无法检索配置，服务器响应超时
   role: 
@@ -10286,7 +10047,7 @@ zh-CN:
       buttons: 
         enroll_in_course: 报名参加课程
       enter_email: "请输入电子邮件:"
-      existing_user: "我已有网校 %{institution_name} 登录账号"
+      existing_user: 我用现有账号登录
       getting_started: "您正报名参加课程 **%{course}**."
       labels: 
         email: 电子邮件
@@ -10355,23 +10116,16 @@ zh-CN:
     add_assignment_group: 
       buttons: 
         add_group: 添加新组
-      errors: 
-        add_group_failed: 添加新组失败
       labels: 
         group_weight: 权重
         name: 名称
-      messages: 
-        adding_group: 正在添加组...
       percent_of_grade: "评分的 %{percent} %"
-      titles: 
-        add_assignment_group: 添加新作业组
     assignment: 
       due_at: "%{date} %{time}"
       graded_count: "%{graded_count} 个已评分"
       links: 
         delete_assignment: 删除作业
         edit_assignment: 编辑作业
-        preview_assignment: 预览作业
         submission_comments: 提交评注
         view_rubric_evaluation: 查看评分标准评阅
       points_out_of: "%{points} 满分 %{possible}"
@@ -10391,14 +10145,12 @@ zh-CN:
       group_weight: "*总评分的 %{percent} %"
       links: 
         add_an_assignment: 添加新作业
-        add_assignment: 添加新作业
         edit_group_details: 编辑组详细信息
         hide_info: 隐藏信息
         more_info: 更多信息...
         reorder_groups: 重新排序组
       no_assignments: 尚无作业
       titles: 
-        delete_assignment_group: 删除作业组
         percent_of_final_grade: 最终评分的百分比
     assignment_rubric_dialog: 
       links: 
@@ -10540,7 +10292,6 @@ zh-CN:
         log_in: 登录
         logout: 注销
         settings: 设置
-        sign_up_as_teacher: 作为教师注册
       masquerading: 
         as: "作为: *%{user_name}*"
     inline_preview: 
@@ -10614,14 +10365,6 @@ zh-CN:
           
           一旦您取消屏蔽此作业，即可通过单击
           "取消屏蔽作业"链接再次开始发送通知。
-    new_account_form: 
-      cancel: 取消
-      create_a_new_account: 开设网校
-      create_account: 开设网校
-      creating_account: 正在创建网校
-      labels: 
-        name: 网校名称
-      new_account_name_placeholder: 网校名称
     new_course_form: 
       cancel: 取消
       course_category_tip: 请选择课程的类型
@@ -10631,7 +10374,6 @@ zh-CN:
       labels: 
         course_category_id: 课程分类
         course_code: 简称
-        license: 内容授权
         name: 课程名称
       make_course_publicly_visible: 公开课程列表
       new_course_name_placeholder: 课程名称
@@ -10834,30 +10576,6 @@ zh-CN:
       assignment: 作业
       grading_alt: 评分
       submission_comment: 提交评注
-    turnitin_settings: 
-      buttons: 
-        update_settings: 更新设置
-      errors: 
-        error_updating_settings: 更新设置时出错
-      labels: 
-        compare_against: 比较
-        dont_consider: 不考虑
-        exclude_biblio: 文献材料
-        exclude_quoted: 引用的材料
-        exclude_small_matches: 小匹配
-        internet_check: "Internet 数据库"
-        journal_check: 杂志、期刊和出版物
-        student_paper_check: 其他学生论文
-      messages: 
-        updating_settings: 正在更新设置...
-      originality_report_visibility: 学生可以查看原始报表
-      originality_report_visible_after_due_date: 在提交时间之后
-      originality_report_visible_after_grading: 在作业评分之后
-      originality_report_visible_immediately: 立即
-      titles: 
-        exclude_count: 排除少于这些字的匹配
-        exclude_percent: 排除包含少于文档此百分比的匹配
-        turnitin_options: "Turnitin 设置"
     unauthorized: 
       headings: 
         needs_cookies: "需要 Cookie"
@@ -11037,7 +10755,6 @@ zh-CN:
       loading: 正在加载...
     titles: 
       value_over_time: "%{value} 超时"
-  site_name: 教学邦
   slideshow: 
     titles: 
       back: 返回
@@ -11216,12 +10933,11 @@ zh-CN:
     grades: 成绩
     home: 主页
     modules: 单元
-    outcomes: 结果
     pages: 网页
     people: 成员
     profile: 个人资料
     quizzes: 测试
-    settings: 课程管理
+    settings: 管理设置
     syllabus: 纲要
   terms: 
     index: 
@@ -11342,7 +11058,6 @@ zh-CN:
       required: 需要
       terms: 您必须同意这些条款
       too_long: "不能超过 %{max} 个字符"
-      too_young: 年龄太小
     registration: 
       agree_to_terms: 您同意*用户使用条款*.
   user_follow: 
@@ -11429,7 +11144,6 @@ zh-CN:
       messages: 
         no_entries: 没有此学生的日志条目。
       page_title: 教师日志
-      title: 标题
       titles: 
         journal_for: "%{user} 的教师日志"
     messages: 
@@ -11448,7 +11162,6 @@ zh-CN:
       links: 
         delete: 删除此条目
       no_title: 无标题
-      subheader: "%{creator} 创建于 %{created_at}"
     user_notes: 
       crumbs: 
         faculty_journal: 教师日志
@@ -11684,7 +11397,6 @@ zh-CN:
     new: 
       create_a_canvas_account: 创建一个教学邦账号
     no_deleting_sis_user: 您不能删除系统生成的用户
-    no_open_registration: 此网校未开放公开注册
     no_self_registration: 此网校没有开放公开自行注册
     oauth_fail: "OAuth 请求失败。无法找到有效的请求"
     recaptcha_settings: 
@@ -11754,9 +11466,6 @@ zh-CN:
     twitter_fail_whale: "Twitter 授权失败。请重试"
     unique_id_has_already_in_this_account: 该帐号已经存在
     user_dashboard: 
-      coming_up: 新近事项
-      recent_feedback: 最近更新
-      start_new_course: 新建课程
       user_atom_feed: "用户 Atom Feed（所有课程）"
       user_dashboard: 用户面板
     user_is_deleted: "%{user_name} 已删除"
@@ -11929,7 +11638,6 @@ zh-CN:
         more: 更多...
         rename_page: 重命名此网页
         show_all: 全部显示...
-      title: "新页面标题"
       wiki_description_for_course: 将其视为容纳内容的无限制场所。您可以使用它描述您的课程，提供难题的有用说明，或甚至允许学生一起编写项目。
       wiki_description_for_group: 将其视为容纳内容的无限制场所。您可以使用它描述您的组，提供难题的有用说明，或甚至允许成员一起编写项目。
       wiki_description_header: 维基的目的是什么?

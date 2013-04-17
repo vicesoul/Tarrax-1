@@ -9605,8 +9605,6 @@ en:
       labels: 
         started: Started
         times_up: "Time's Up! Submitting results in"
-      line: 
-        dele_line: "Delete this line?"
       minutes_count: 
         one: "1 Minute"
         other: "%{count} Minutes"
