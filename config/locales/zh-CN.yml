@@ -43,7 +43,7 @@ zh-CN:
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
-    tab_settings: 管理设置
+    tab_settings: 网校管理
     tab_sis_import: 系统导入
     tab_statistics: 统计
     tab_sub_accounts: 组织架构
@@ -5256,7 +5256,7 @@ zh-CN:
         due: 提交时间
         grades: "%{student} 的评分"
         name: 名称
-        out_of: 超出
+        out_of: 满分
         score: 分数
       labels: 
         final_grade_hidden: 总分计算已禁用
@@ -5448,7 +5448,7 @@ zh-CN:
       labels: 
         add_comment: 添加评语
         average: 平均分数
-        grade: 成绩
+        grade: 成绩册
         group_comment: 给全组发送评语
         hide_names: "在 评分器中隐藏学生姓名"
         show_assessment_by: 显示评阅依据
@@ -5993,7 +5993,7 @@ zh-CN:
     head: 
       default_page_title: 教学邦网校平台
     menu: 
-      view_all_accounts: 查看所有账号
+      view_all_accounts: 查看所有网校
       view_all_enrollments: 查看所有课程
       view_all_groups: 查看所有组
   learning_outcome: 
@@ -8851,6 +8851,7 @@ zh-CN:
       not_yet_graded: 仍未评分
       points_possible: "%{points_possible} 分"
       show_ansers_for_variable: "显示 %{variable} 的答案"
+      show_solution: 显示解析
       skip_question_text: 转至试题文本。
       titles: 
         question_correct_comment: 如果学生回答试题正确，他们将看到此评注
@@ -10937,7 +10938,7 @@ zh-CN:
     people: 成员
     profile: 个人资料
     quizzes: 测试
-    settings: 管理设置
+    settings: 课程管理
     syllabus: 纲要
   terms: 
     index: 
