@@ -33,6 +33,26 @@ describe Account do
       }.to_not raise_error( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
     end
 
+    it "should successfully create a account with existed name in different scope" do
+      root = Account.create!(:name => 'abc')
+      root.destroy
+      root.workflow_state.should == 'deleted'
+      expect {
+        Account.create!(:name => 'abc')
+      }.to_not raise_error( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
+    end
+
+    it "should successfully delete same name account twice" do
+      root = Account.create!(:name => 'abc')
+      root.destroy
+      root.workflow_state.should == 'deleted'
+      expect {
+        root = Account.create!(:name => 'abc')
+        root.destroy
+        root.workflow_state.should == 'deleted'
+      }.to_not raise_error( ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken' )
+    end
+
     it "should failed to create a sub account with existed name" do
       root = Account.create!(:name => 'abc')
       Account.create!(:name => 'abc', :parent_account => root)

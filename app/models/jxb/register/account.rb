@@ -12,7 +12,7 @@ module Jxb
           attr_accessible :user_role, :user_mobile, :school_category, :school_scale, :captcha, :captcha_key
 
           validates_presence_of :name, :if => :require_presence_of_name
-          validates_uniqueness_of :name, :scope => :parent_account_id
+          validates_uniqueness_of :name, :scope => [:parent_account_id, :workflow_state], :on => :create
           validate :validate_user_mobile
         end
       end

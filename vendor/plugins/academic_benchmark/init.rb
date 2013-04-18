@@ -3,7 +3,7 @@ Rails.configuration.to_prepare do
   Canvas::Plugin.register :academic_benchmark_importer, :export_system, {
           :name => proc { t(:name, 'Academic Benchmark Importer') },
           :author => 'Instructure',
-          :description => I18n.t('plugins.ab.description', 'This enables importing Academic Benchmark standards into Canvas.'),
+          :description => I18n.t('plugins.ab.description', 'This enables importing Academic Benchmark standards into Jiaoxuebang.'),
           :version => '1.0.0',
           :settings_partial => 'plugins/academic_benchmark_settings',
           :settings => {

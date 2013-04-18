@@ -1283,7 +1283,7 @@ class Course < ActiveRecord::Base
   def self.valid_grade_export_types
     @valid_grade_export_types ||= {
         "instructure_csv" => {
-            :name => t('grade_export_types.instructure_csv', "Instructure formatted CSV"),
+            :name => t('grade_export_types.instructure_csv', "Jiaoxuebang formatted CSV"),
             :callback => lambda { |course, enrollments, publishing_user, publishing_pseudonym|
                 course.generate_grade_publishing_csv_output(enrollments, publishing_user, publishing_pseudonym)
             },
