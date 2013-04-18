@@ -4,7 +4,7 @@ end
 
 Canvas::Plugin.register('facebook', nil, {
   :name => lambda{ t :name, 'Facebook' },
-  :description => lambda{ t :description, 'Canvas Facebook application' },
+  :description => lambda{ t :description, 'Jiaoxuebang Facebook application' },
   :website => 'http://www.facebook.com',
   :author => 'Instructure',
   :author_website => 'http://www.jiaoxuebang.com',
@@ -125,12 +125,12 @@ Canvas::Plugin.register('tinychat', nil, {
 })
 require_dependency 'cc/importer/cc_worker'
 Canvas::Plugin.register 'canvas_cartridge_importer', :export_system, {
-  :name => lambda{ t :name, 'Canvas Cartridge Importer' },
+  :name => lambda{ t :name, 'Jiaoxuebang Cartridge Importer' },
   :author => 'Instructure',
   :author_website => 'http://www.jiaoxuebang.com',
-  :description => lambda{ t :description, 'This enables converting a canvas export to the intermediary json format to be imported' },
+  :description => lambda{ t :description, 'This enables converting a Jiaoxuebang export to the intermediary json format to be imported' },
   :version => '1.0.0',
-  :select_text => lambda{ t :file_description, "Canvas Course Export Package" },
+  :select_text => lambda{ t :file_description, "Jiaoxuebang Course Export Package" },
   :settings => {
     :worker => 'CCWorker',
     :migration_partial => 'canvas_config',

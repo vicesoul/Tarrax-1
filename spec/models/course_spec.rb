@@ -1424,7 +1424,7 @@ describe Course, 'grade_publishing' do
 
     context 'valid_grade_export_types' do
       it "should support instructure_csv" do
-        Course.valid_grade_export_types["instructure_csv"][:name].should == "Instructure formatted CSV"
+        Course.valid_grade_export_types["instructure_csv"][:name].should == "Jiaoxuebang formatted CSV"
         course = mock()
         enrollments = [mock(), mock()]
         publishing_pseudonym = mock()

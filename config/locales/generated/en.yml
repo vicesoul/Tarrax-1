@@ -3249,7 +3249,7 @@ en:
       assignment_groups: "Failed to export assignment groups"
       assignment_is_locked: "The assignment \"%{title}\" could not be copied because it is locked."
       assignments: "Failed to export some assignments"
-      canvas_meta: "Failed to export canvas-specific meta data"
+      canvas_meta: "Failed to export jiaoxuebang-specific meta data"
       course_export: "Error running course export."
       course_settings: "Failed to export course settings"
       events: "Failed to export calendar events"
@@ -4711,12 +4711,12 @@ en:
       notification_settings: "Notification Settings"
       notifications_notice: "Below you can see a list of your most recent notifications from Jiaoxuebang. You can see the number of new Jiaoxuebang notifications from your Facebook home page if you bookmark this application."
       welcome: "Welcome back, %{name}!"
-      welcome_message: "Welcome to a new breed of online learning software, courtesy of Instructure. We're here to make it easy for you to use the web to improve learning. Our interface is simple, clean and open, and we work with the tools you and your students are already using -- tools like Facebook -- to provide a more open, collaborative learning experience. We roll it all up into one powerful, open package that does more than just tracks assignments. It encourages interaction and fosters learning."
-      welcome_title: "Welcome to Instructure Jiaoxuebang"
+      welcome_message: "Welcome to a new breed of online learning software, courtesy of Jiaoxuebang. We're here to make it easy for you to use the web to improve learning. Our interface is simple, clean and open, and we work with the tools you and your students are already using -- tools like Facebook -- to provide a more open, collaborative learning experience. We roll it all up into one powerful, open package that does more than just tracks assignments. It encourages interaction and fosters learning."
+      welcome_title: "Welcome to Jiaoxuebang"
     index_disabled: 
       disabled_notice: "This Jiaoxuebang site is not configured to communicate with Facebook."
       get_help: "Get help at support.jiaoxuebang.com"
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: "Jiaoxuebang"
     invalid_signature: "Invalid Facebook signature"
     message: 
       hide: Hide
