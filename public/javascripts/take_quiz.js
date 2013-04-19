@@ -642,10 +642,32 @@ define([
 
       $("#submit_quiz_form .paint_question").each(function(){
         // sketchSetting.canvasW = $(this).find(".text").width();
-        sketchSetting.canvasH = $(this).find(".text").height() - 120;
-        sketchSetting.stageId = $(this).attr("id");
-        var Painter = new Paint(sketchSetting);
-        Painter.App.find(".tools .line").trigger("click");
+        var $question = $(this);
+        var $text = $question.find(".text");
+        var $images = $text.find("img");
+
+        // check all the images is loaded
+        if( !!$images.size() ){
+          if($images.prop('complete')){
+            triggerApp($question)
+          } else{
+            $images.load(function(){
+              triggerApp($question)
+            });
+          }
+        }else{
+          triggerApp($question)
+        }
+
+        function triggerApp($question){
+          sketchSetting.canvasH = $text.height() - 120;
+          sketchSetting.stageId = $question.attr("id");
+          var Painter = new Paint(sketchSetting);
+          Painter.App.find(".tools .line").trigger("click");
+        }
+
+        
+        
 
       });
       

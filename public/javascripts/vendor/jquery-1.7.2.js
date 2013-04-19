@@ -9398,6 +9398,7 @@ window.jQuery = window.$ = jQuery;
 if ( typeof define === "function" && define.amd && define.amd.jQuery ) {
   // INSTRUCTURE, we make this define anonymous
 	define( [], function () { return jQuery; } );
+//  define( "jquery", [], function () { return jQuery; } );
 }
 
 

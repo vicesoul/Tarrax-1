@@ -1661,7 +1661,7 @@ class User < ActiveRecord::Base
           res << pending_enrollment
           res.uniq!
         end
-        res
+        res.map(&:reload) # TODO bug #477 temporally solution
       end
     end + temporary_invitations
   end
