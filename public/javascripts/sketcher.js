@@ -86,6 +86,10 @@ define([
                   height: this.get("canvasH")
               });
 
+          // fix windows 8 touchmove bug    
+          if (typeof this.canvas[0].style.msTouchAction != 'undefined')
+          this.canvas[0].style.msTouchAction = "none";
+
           this.context = this.canvas.get(0).getContext("2d");
 
           this.App.find(".container").append( this.canvas );
