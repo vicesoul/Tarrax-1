@@ -730,7 +730,7 @@ class UsersController < ApplicationController
       if @special_associations
         # when user do not associate with account. we associate them and then return success. Otherwise, return already associate error.
         if @user.user_account_associations.map{|aa| aa.account_id}.include?(@associate_account_id.to_i)
-          render :json => { :errors => { :pseudonym => { :unique_id => I18n.t(:unique_id_has_already_in_this_account, 'Unique id has already in this account') } } }, :status => :bad_request and return
+          render :json => { :errors => { :pseudonym => { :unique_id => [{:attribute => "unique_id", :type => "already_associated", :message => "already_associated"}]}, :observee => {}}}, :status => :bad_request and return
         else
           @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations)
           data = { :user => @user, :pseudonym => @pseudonym, :message_sent => false }

@@ -8518,6 +8518,7 @@ zh-CN:
       taken: 这个电子邮件已被使用
       too_long: "不能超过 %{max} 个字符"
       too_short: "必须至少包含 %{min} 个字符"
+      already_associated: "此用户已在该网校中"
   pseudonym_session: 
     errors: 
       max_attempts: 登录答题失败次数过多。请稍后重试或联系您的系统管理员。
