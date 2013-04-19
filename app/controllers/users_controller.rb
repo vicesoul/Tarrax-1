@@ -704,7 +704,7 @@ class UsersController < ApplicationController
     # pseudonym always exists in default domain root account
     @pseudonym = default_domain_root_account.pseudonyms.active.custom_find_by_unique_id(params[:pseudonym][:unique_id])
     # Setting it to nil will cause us to try and create a new one, and give user the login already exists error
-    @pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
+    #@pseudonym = nil if @pseudonym && !['creation_pending', 'pre_registered', 'pending_approval'].include?(@pseudonym.user.workflow_state)
 
     # update user-account-associations if account_id given
     @associate_account_id = params[:user][:account_id] || params[:account_id]
