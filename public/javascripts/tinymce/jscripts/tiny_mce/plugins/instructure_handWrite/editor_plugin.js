@@ -6,7 +6,7 @@ define([
     'jqueryui/slider',
     'jquery.instructure_misc_helpers',
     "modernizr.custom.34982",
-    'backbone-0.9.9',
+    'Backbone',
     "sketcher"
 ], function(tinymce, I18n, $) {
 

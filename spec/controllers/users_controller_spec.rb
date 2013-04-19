@@ -195,7 +195,7 @@ describe UsersController do
       it "should complain about conflicting unique_ids" do
         u = User.create! { |u| u.workflow_state = 'registered' }
         p = u.pseudonyms.create!(:unique_id => 'jacob@instructure.com')
-        post 'create', :pseudonym => { :unique_id => 'jacob@instructure.com' }, :user => { :name => 'Jacob Fugal', :terms_of_use => '1' }
+        post 'create', :pseudonym => { :unique_id => 'jacob@instructure.com' }, :user => { :name => 'Jacob Fugal', :terms_of_use => '1', :account_id => Account.default.id }
         response.status.should =~ /400 Bad Request/
         json = JSON.parse(response.body)
         json["errors"]["pseudonym"]["unique_id"].should be_present

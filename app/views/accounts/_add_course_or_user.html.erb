@@ -118,12 +118,13 @@ require([
   'i18nObj' /* I18n.t */,
   'jquery' /* $ */,
   'str/htmlEscape' /* htmlEscape, /\$\.h/ */,
+  'compiled/registration/registrationErrors',
   'jquery.instructure_forms' /* formSubmit */,
   'jqueryui/dialog',
   'compiled/jquery/fixDialogButtons' /* fix dialog formatting */,
   'compiled/jquery.rails_flash_notifications',
   'jquery.templateData' /* fillTemplateData */
-], function(I18n, $, htmlEscape) {
+], function(I18n, $, htmlEscape, registrationErrors) {
 
   $(document).ready(function() {
     $(".add_user_link").click(function(event) {
@@ -143,7 +144,8 @@ require([
       }
       $("#add_user_form :text:visible:first").focus().select();
     });
-    $("#add_user_form").formSubmit({
+    var addUserForm = $("#add_user_form");
+    addUserForm.formSubmit({
       required: ['user[name]'],
       beforeSubmit: function(data) {
         $(this).find("button").attr('disabled', true)
@@ -163,9 +165,11 @@ require([
         $.flashMessage(message);
         $("#add_user_dialog").dialog('close');
       },
+      formErrors: false,
       error: function(data) {
         $(this).find("button").attr('disabled', false)
           .filter(".submit_button").text(<%= jt('#accounts.user_add_failed_message', "Adding User Failed, please try again") %>);
+        addUserForm.formErrors(registrationErrors(data));
       }
     });
     $("#add_user_dialog .cancel_button").click(function() {

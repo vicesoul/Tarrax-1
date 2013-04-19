@@ -1,3 +1,5 @@
+body.dashboard #main{min-width: 1000px;}
+
 #jiaoxuebang{
   min-height: 600px;
 }
