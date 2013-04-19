@@ -16,6 +16,8 @@
 # with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 
+if File.exists?(File.dirname(__FILE__) + '/../../../config/cassandra.yml')
+
 require File.expand_path(File.dirname(__FILE__) + '/../../cassandra_spec_helper.rb')
 
 describe "Canvas::Redis::Cassandra" do
@@ -155,3 +157,5 @@ describe "Canvas::Redis::Cassandra" do
     end
   end
 end
+
+end # end if

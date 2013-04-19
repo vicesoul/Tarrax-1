@@ -1,17 +1,5 @@
 --- 
 en: 
-  ? "#buttons"
-  : 
-    cancel: Cancel
-    submit: Submit
-  ? "#editor"
-  : 
-    switch_views: "Switch Views"
-  ? "#gradebooks"
-  : 
-    grades: 
-      complete: Complete
-      incomplete: Incomplete
   EditAppointmentGroupDetails: 
     affect_reservations: "How will this affect reservations?"
     and_n_contexts: "and %{n} others"
@@ -39,6 +27,12 @@ en:
       taken: Taken
     manually_created_courses: "Manually-Created Courses"
     root_account_cant_have_sis_id: "SIS IDs cannot be set on root accounts"
+    school_category: 
+      corporate: Corporate
+      higher_ed: "Higher Ed"
+      k12: K12
+      open: "Open School"
+      other: Other
     sis_id_in_use: "SIS ID \"%{sis_id}\" is already in use"
     tab_authentication: Authentication
     tab_courses: Courses
@@ -261,6 +255,13 @@ en:
       open_registration_delegated_warning_dialog: "An External Identity Provider is Enabled"
       what_are_quiz_ip_filters: "What are Quiz IP Filters?"
   account_user: 
+    role: 
+      institute_admin: "Institute Admin"
+      other: Other
+      student: Student
+      teacher: Teacher
+      technical_support: "Technical Support"
+      training_management: "Training Management"
     types: 
       account_admin: "Account Admin"
   accounts: 
@@ -3248,7 +3249,7 @@ en:
       assignment_groups: "Failed to export assignment groups"
       assignment_is_locked: "The assignment \"%{title}\" could not be copied because it is locked."
       assignments: "Failed to export some assignments"
-      canvas_meta: "Failed to export canvas-specific meta data"
+      canvas_meta: "Failed to export jiaoxuebang-specific meta data"
       course_export: "Error running course export."
       course_settings: "Failed to export course settings"
       events: "Failed to export calendar events"
@@ -4710,12 +4711,12 @@ en:
       notification_settings: "Notification Settings"
       notifications_notice: "Below you can see a list of your most recent notifications from Jiaoxuebang. You can see the number of new Jiaoxuebang notifications from your Facebook home page if you bookmark this application."
       welcome: "Welcome back, %{name}!"
-      welcome_message: "Welcome to a new breed of online learning software, courtesy of Instructure. We're here to make it easy for you to use the web to improve learning. Our interface is simple, clean and open, and we work with the tools you and your students are already using -- tools like Facebook -- to provide a more open, collaborative learning experience. We roll it all up into one powerful, open package that does more than just tracks assignments. It encourages interaction and fosters learning."
-      welcome_title: "Welcome to Instructure Jiaoxuebang"
+      welcome_message: "Welcome to a new breed of online learning software, courtesy of Jiaoxuebang. We're here to make it easy for you to use the web to improve learning. Our interface is simple, clean and open, and we work with the tools you and your students are already using -- tools like Facebook -- to provide a more open, collaborative learning experience. We roll it all up into one powerful, open package that does more than just tracks assignments. It encourages interaction and fosters learning."
+      welcome_title: "Welcome to Jiaoxuebang"
     index_disabled: 
       disabled_notice: "This Jiaoxuebang site is not configured to communicate with Facebook."
       get_help: "Get help at support.jiaoxuebang.com"
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: "Jiaoxuebang"
     invalid_signature: "Invalid Facebook signature"
     message: 
       hide: Hide
@@ -5757,7 +5758,7 @@ en:
       create_success: "Group was successfully created."
       delete_success: "Group successfully deleted"
       goodbye: "You have removed yourself from the group %{group_name}."
-      invalid_invitation: ""
+      invalid_invitation: "Invalid invitation"
       no_students_assigned: "Nothing to do."
       students_assigned: "Students assigned to groups."
       update_success: "Group was successfully updated."
@@ -5950,21 +5951,6 @@ en:
     titles: 
       job_handler: "Job Handler"
       last_error: "Last Error"
-  jxb/register/account: 
-    school_category: 
-      corporate: Corporate
-      higher_ed: "Higher Ed"
-      k12: K12
-      open: "Open School"
-      other: Other
-  jxb/register/account_user: 
-    role: 
-      institute_admin: "Institute Admin"
-      other: Other
-      student: Student
-      teacher: Teacher
-      technical_support: "Technical Support"
-      training_management: "Training Management"
   jxb/widget: 
     activity_index: activity_index
     announcement_account: account_announcement
@@ -8868,7 +8854,6 @@ en:
         variable_name: Variable
         variable_precision: "Decimal Places"
         variables: Variables
-      hide_solution: "Hide solution"
       labels: 
         additional_comments: "Additional Comments"
         for_answer_number: "Answer %{answer_number}"
@@ -8879,7 +8864,6 @@ en:
       not_yet_graded: "Not yet graded"
       points_possible: "%{points_possible} pts"
       show_ansers_for_variable: "Show Answers for %{variable}"
-      show_solution: "Show solution"
       skip_question_text: "Skip to question text."
       titles: 
         question_correct_comment: "Students will see this comment if they get the question correct"
@@ -9310,6 +9294,9 @@ en:
     question_list_right_side: 
       headers: 
         questions: Questions
+    question_solution: 
+      hide_solution: "Hide solution"
+      show_solution: "Show solution"
     question_statistic: 
       attempts: 
         one: "1 attempt"
@@ -9618,8 +9605,6 @@ en:
       labels: 
         started: Started
         times_up: "Time's Up! Submitting results in"
-      line: 
-        dele_line: "Delete this line?"
       minutes_count: 
         one: "1 Minute"
         other: "%{count} Minutes"
@@ -10043,7 +10028,7 @@ en:
       buttons: 
         enroll_in_course: "Enroll in Course"
       enter_email: "Please enter your email address:"
-      existing_user: "I already have a %{institution_name} login"
+      existing_user: "I already have a account to login"
       getting_started: "You are enrolling in **%{course}**."
       labels: 
         email: Email

@@ -13,6 +13,7 @@ define [
         taken:        I18n.t("errors.taken", "Email already in use")
         bad_credentials: I18n.t("errors.bad_credentials", "Invalid username or password")
         not_email:    I18n.t("errors.not_email", "Not a valid email address")
+        already_associated:    I18n.t("errors.unique_id_has_already_in_this_account", 'Unique id has already in this account')
       password:
         too_short:    I18n.t("errors.too_short", "Must be at least %{min} characters", {min: 6})
         confirmation: I18n.t("errors.mismatch", "Doesn't match")

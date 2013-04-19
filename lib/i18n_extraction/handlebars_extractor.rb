@@ -36,7 +36,7 @@ module I18nExtraction
         opts = $2
         content = $3
 
-        raise "invalid translation key #{key.inspect} on line #{line_number}" if options[:strict] && key !~ /\A(##)?[\w.]+\z/
+        raise "invalid translation key #{key.inspect} on line #{line_number}" if options[:strict] && key !~ /\A(#)?[\w.]+\z/
         key = scope + key unless key.sub!(/\A#/, '')
         convert_placeholders!(content, line_number)
         wrappers = extract_wrappers!(content)

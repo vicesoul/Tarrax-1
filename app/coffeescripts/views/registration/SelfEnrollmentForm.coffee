@@ -61,6 +61,9 @@ define [
 
       switch @userType
         when 'new'
+          @enrollErrorOnce = (errors) =>
+            if @hasError(errors.pseudonym?.unique_id, 'taken')
+              setTimeout (()-> $('#user_type_existing').click()), 500
           # create user and self-enroll in course(s)
           @$el.attr('action', '/users')
         when 'existing'

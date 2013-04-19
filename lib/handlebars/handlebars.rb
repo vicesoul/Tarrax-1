@@ -104,8 +104,9 @@ JS
       @extractor ||= I18nExtraction::HandlebarsExtractor.new
       scope = scope.sub(/\A_/, '').gsub(/\/_?/, '.')
       keys = []
-      content = @extractor.scan(source, :method => :gsub) do |data|
+      content = @extractor.scan(source, :scope => scope, :method => :gsub) do |data|
         wrappers = data[:wrappers].map{ |value, delimiter| " w#{delimiter.size-1}=#{value.inspect}" }.join
+        data[:key].prepend('#') unless data[:key].sub!("#{scope}.", '')
         keys << data[:key]
         "{{{t #{data[:key].inspect} #{data[:value].inspect} scope=#{scope.inspect}#{wrappers}#{data[:options]}}}}"
       end

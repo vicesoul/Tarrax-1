@@ -12,7 +12,7 @@ module Jxb
           attr_accessible :user_role, :user_mobile, :school_category, :school_scale, :captcha, :captcha_key
 
           validates_presence_of :name, :if => :require_presence_of_name
-          validates_uniqueness_of :name, :scope => :parent_account_id
+          validates_uniqueness_of :name, :scope => [:parent_account_id, :workflow_state], :on => :create
           validate :validate_user_mobile
         end
       end
@@ -30,11 +30,11 @@ module Jxb
       module ClassModules
         def school_categories
           [
-            [:open        , t('school_category.open'        , 'Open School') ] ,
-            [:k12         , t('school_category.k12'         , 'K12') ]         ,
-            [:higher_ed   , t('school_category.higher_ed'   , 'Higher Ed') ]   ,
-            [:corporate   , t('school_category.corporate'   , 'Corporate') ]   ,
-            [:other       , t('school_category.other'       , 'Other') ]       ,
+            [:open        , t('#account.school_category.open'        , 'Open School') ] ,
+            [:k12         , t('#account.school_category.k12'         , 'K12') ]         ,
+            [:higher_ed   , t('#account.school_category.higher_ed'   , 'Higher Ed') ]   ,
+            [:corporate   , t('#account.school_category.corporate'   , 'Corporate') ]   ,
+            [:other       , t('#account.school_category.other'       , 'Other') ]       ,
           ]
         end
 

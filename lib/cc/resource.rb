@@ -57,7 +57,7 @@ module CC
     def create_resources
       @manifest_node.resources do |resources|
         @resources = resources
-        run_and_set_progress(:add_canvas_non_cc_data, 15, I18n.t('course_exports.errors.canvas_meta', "Failed to export canvas-specific meta data"))
+        run_and_set_progress(:add_canvas_non_cc_data, 15, I18n.t('course_exports.errors.canvas_meta', "Failed to export jiaoxuebang-specific meta data"))
         run_and_set_progress(:add_wiki_pages, 30, I18n.t('course_exports.errors.wiki_pages', "Failed to export wiki pages"))
         run_and_set_progress(:add_assignments, 35, I18n.t('course_exports.errors.assignments', "Failed to export some assignments"))
         run_and_set_progress(:add_topics, 37, I18n.t('course_exports.errors.topics', "Failed to export some topics"))

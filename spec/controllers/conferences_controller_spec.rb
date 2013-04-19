@@ -29,7 +29,9 @@ describe ConferencesController do
     it "should require authorization" do
       course_with_student(:active_all => true)
       get 'index', :course_id => @course.id
-      assert_unauthorized
+      #assert_unauthorized
+      response.should be_redirect
+      response['Location'].should =~ /login/
     end
     
     it "should redirect 'disabled', if disabled by the teacher" do
@@ -78,7 +80,9 @@ describe ConferencesController do
     it "should require authorization" do
       course_with_teacher(:active_all => true)
       post 'create', :course_id => @course.id, :web_conference => {:title => "My Conference", :conference_type => 'DimDim'}
-      assert_unauthorized
+      #assert_unauthorized
+      response.should be_redirect
+      response['Location'].should =~ /login/
     end
     
     it "should create a conference" do
@@ -92,7 +96,9 @@ describe ConferencesController do
     it "should require authorization" do
       course_with_teacher(:active_all => true)
       post 'create', :course_id => @course.id, :web_conference => {:title => "My Conference", :conference_type => 'DimDim'}
-      assert_unauthorized
+      #assert_unauthorized
+      response.should be_redirect
+      response['Location'].should =~ /login/
     end
     
     it "should update a conference" do
@@ -108,7 +114,9 @@ describe ConferencesController do
       course_with_teacher(:active_all => true)
       @conference = @course.web_conferences.create(:conference_type => 'DimDim', :duration => 60)
       post 'join', :course_id => @course.id, :conference_id => @conference.id
-      assert_unauthorized
+      #assert_unauthorized
+      response.should be_redirect
+      response['Location'].should =~ /login/
     end
 
     it "should let admins join a conference" do
