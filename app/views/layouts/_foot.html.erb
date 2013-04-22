@@ -23,6 +23,9 @@
 <!--
 <%= include_kaltura_html5_player_js %>
 -->
+<% if HostUrl.default_host == 'jiaoxuebang.com' %>
+<script src="http://exp.cms.grandcloud.cn/speed_test.php?host_id=1897&style=6" type="text/javascript"></script>
+<% end %>
 <%= yield :foot %>
 <script>
 // Determines if the scripts are loaded.
