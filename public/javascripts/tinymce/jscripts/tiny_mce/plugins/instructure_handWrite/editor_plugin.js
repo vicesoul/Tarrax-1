@@ -13,17 +13,20 @@ define([
     var HandWrite,
         $mask,
         pluginProp = {id:"instructureHandWrite",name:"instructure_handWrite"},
+
         sketchSetting = {  
             sketchType:"handWrite",
             id:"",
             lineW : 10,
-            canvasW : 700,
+            canvasW : $(window).width() <= 1024 ? 700 : 1000,
             canvasH : 240,
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
             appTitle : "写字板"
         };
+
+
 
   tinymce.create('tinymce.plugins.' + pluginProp.id,  {
     init : function(ed, url) {
