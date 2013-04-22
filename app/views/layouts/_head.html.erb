@@ -13,8 +13,11 @@
   <meta charset="utf-8">
   <title><%= yield :page_title || t('default_page_title', "Jiaoxuebang LMS") %></title>
   <noscript> <meta http-equiv=refresh content="0; URL=/enable-javascript.html" /> </noscript>
-  <!--[if lte IE 6]> <meta http-equiv=refresh content="0; URL=/ie-6-is-not-supported.html" /> <![endif]-->
-
+  
+  <% if @current_user %>
+    <!--[if lte IE 6]> <meta http-equiv=refresh content="0; URL=/ie-6-is-not-supported.html" /> <![endif]-->
+  <% end %>
+  
   <%= yield :auto_discovery %>
   <%= yield :head %>
   <%= include_css_bundles %>
