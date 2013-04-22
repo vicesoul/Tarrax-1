@@ -3876,7 +3876,7 @@ zh:
       go_to_parent: 回到父级
       go_to_topic: 返回主题
       manage_discussion_entry: 管理讨论条目
-      open_in_speedgrader: "在 SpeedGrader 中打开"
+      open_in_speedgrader: "在 评分器 中打开"
       unknown_author: 未知作者
     entry_stats: 
       show_more: 显示更多
@@ -4704,7 +4704,7 @@ zh:
     showing_section: "正在显示章节: %{section}"
     sort_columns_by: 列排序依据...
     sort_rows_by: 行排序依据...
-    speed_grader: SpeedGrader
+    speed_grader: 评分器
     student: 学生
     student_mute_notification: 教师正在进行评分
     student_name: 学生姓名
@@ -4764,7 +4764,7 @@ zh:
       message_students_who: 发送消息到学生...
       re_upload_submissions: 重新上传提交文件
       set_default_grade: 设置默认评分
-      speedgrader: SpeedGrader
+      speedgrader: 评分器
     hide_student_names: 隐藏学生姓名
     percent_of_grade: "%{percentage} 的评分 "
     points_out_of: "超出 %{points_possible}"
@@ -5120,7 +5120,7 @@ zh:
         average: 平均
         grade: 评分
         group_comment: 发送评论到全组
-        hide_names: "在 SpeedGrader 中隐藏学生姓名"
+        hide_names: "在 评分器 中隐藏学生姓名"
         show_assessment_by: 显示评估依据
         showing: 正在显示
         sort_by: 排序学生列表
@@ -5142,7 +5142,7 @@ zh:
       new_assessment_option: "[新评估]"
       no_annotation: 本文档的注释不可用
       not_newest_notice: "注:这不是最近的提交文件"
-      page_title: "%{assignment_name}, SpeedGrader, %{course_name}"
+      page_title: "%{assignment_name}, 评分器, %{course_name}"
       portion_graded: "%{x} / %{y} 已评分"
       sort_by: 
         status: 根据提交状态（需要评分、未提交等）
@@ -9097,7 +9097,7 @@ zh:
       quiz_in_progress: 您正在进行此测验的过程中。
       quiz_no_submissions: 学生尚未进行测验
       quiz_not_published: 此测验尚未发布。学生无法进行测验，直至其发布。
-      speed_grader: SpeedGrader™
+      speed_grader: 评分器
       students_submitted_so_far: 
         one: "目前 1 个学生已提交"
         other: "目前 %{count} 个学生已提交"
@@ -10427,7 +10427,7 @@ zh:
   submission_detail: 
     go_to_submission_url: "转至提交 URL"
     no_submission: 无提交
-    online_text_entry_see_details_in_the_speedgrader: "在线文本输入，*请参阅 SpeedGrader 中的详细信息*。"
+    online_text_entry_see_details_in_the_speedgrader: "在线文本输入，*请参阅 评分器 中的详细信息*。"
     submitted_files: "提交的文件:"
   submission_details_dialog: 
     add_a_comment: 添加评论
@@ -10438,11 +10438,11 @@ zh:
     links: 
       click_to_view: 单击此处查看
     loading_comments: 正在加载评论...
-    more_details_in_the_speedgrader: "SpeedGrader 中的更多详细信息"
+    more_details_in_the_speedgrader: "评分器 中的更多详细信息"
     post_comment: 发表评论
     submitted: 已提交
     this_was_submitted_multiple_times_choose_a_submission_to_view: "已提交多次，选择要查看哪个提交:"
-    view_rubric_assessment_in_the_speedgrader: "在 SpeedGrader 中查看题目评估"
+    view_rubric_assessment_in_the_speedgrader: "在 评分器 中查看题目评估"
   submissions: 
     assignment_submit_success: 作业已成功提交。
     assignment_submitted: 作业已提交。
@@ -10491,7 +10491,7 @@ zh:
       peer_review_steps_complete: 您已完成此同伴审阅所需的步骤。
       sent_to_whole_group: 发送评论到全组
       show_rubric: 显示题目
-      speedgrader: SpeedGrader™
+      speedgrader: 评分器
       student_mute_notification: 评分不可用，原因是教师正在进行处理。
       submission_details: 提交详细信息
       submitted_at: "提交时间 %{submit_date}"
