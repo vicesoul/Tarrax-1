@@ -644,16 +644,16 @@ define([
         // sketchSetting.canvasW = $(this).find(".text").width();
         var $question = $(this);
         var $text = $question.find(".text");
-        var $images = $text.find("img");
+        var $images = $text.find("img:last");
 
         // check all the images is loaded
         if( !!$images.size() ){
           if($images.prop('complete')){
             triggerApp($question)
           } else{
-            $images.load(function(){
+            $images[0].onload = function(){
               triggerApp($question)
-            });
+            };
           }
         }else{
           triggerApp($question)
