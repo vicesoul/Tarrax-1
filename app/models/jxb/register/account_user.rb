@@ -6,6 +6,8 @@ module Jxb
 
         base.class_eval do
           attr_accessible :mobile, :role
+          named_scope :root_account_users, :include => :account, :order => 'accounts.id',
+            :conditions => ["membership_type = 'AccountAdmin' and accounts.root_account_id is null and accounts.workflow_state = 'active'"]
         end
       end
 
