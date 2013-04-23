@@ -301,7 +301,17 @@ define([
 
         var params = $.extend({}, params, {name: 'KRecordVideo'});
         var recordVars = $.extend({}, recordVars, {useCamera: '1'});
-        $("#video_record").html("Flash required for recording video.")
+        var $swf = $(
+          '<object width="400" height="300">'
+          + '<param value="/media_record/KRecord.swf" name="movie">'
+          + '<param value="High" name="quality">'
+          + '<param value="opaque" name="wmode">'
+          + '<param value="always" name="allowscriptaccess">'
+          + '<param value="adlink=&amp;_did=3391707" name="flashvars">'
+          + '<embed width="400" height="300" flashvars="adlink=&amp;_did=3391707" allowscriptaccess="always" wmode="opaque" pluginspage="http://www.macromedia.com/go/getflashplayer" quality="High" src="/media_record/KRecord.swf" id="ad_16827_swf">'
+          + '</object>'
+          );
+        $("#video_record").html($swf);
         swfobject.embedSWF("/media_record/KRecord.swf", "video_record", "400", "300", "9.0.0", false, recordVars, params);
 
         // give all swfs integer positions in the DOM to avoid a chrome 21
