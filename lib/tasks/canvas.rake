@@ -93,9 +93,9 @@ namespace :canvas do
 
   desc "Compile javascript and css assets."
   task :compile_assets, :generate_documentation do |t, args|
-    args.with_defaults(:generate_documentation => 'true')
+    args.with_defaults(:generate_documentation => 'false')
     generate_docs = args[:generate_documentation]
-    generate_docs = 'true' if !['true', 'false'].include?(args[:generate_documentation])
+    generate_docs = 'false' if !['true', 'false'].include?(args[:generate_documentation])
 
     puts "--> Compiling static assets [css]"
     Rake::Task['css:generate'].invoke

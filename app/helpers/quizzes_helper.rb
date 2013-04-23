@@ -419,11 +419,11 @@ module QuizzesHelper
   end
 
   def get_question_answer_left(hash, qid, aid)
-    hash_get(hash, "question_#{qid}_answer_#{aid}_left").to_i
+    hash_get(hash, "question_#{qid}_answer_#{aid}_left") || ''
   end
 
   def get_question_answer_right(hash, qid, aid)
-    hash_get(hash, "question_#{qid}_answer_#{aid}_right").to_i
+    hash_get(hash, "question_#{qid}_answer_#{aid}_right") || '' 
   end
 
 end

@@ -1,7 +1,6 @@
 define([
     "modernizr.custom.34982",
-    'underscore',
-    'backbone-0.9.9'
+    'Backbone'
 ], function() {
     var Sketcher = window.Sketcher = Backbone.Model.extend({
         initialize: function() {
@@ -27,7 +26,7 @@ define([
             }
 
             this.generalHTML();
-            this.context = this.canvas.get(0).getContext("2d");
+            
 
             //set color and line width
             this.context.strokeStyle = "#" + this.get("color").hex;
@@ -37,6 +36,7 @@ define([
             this.canvas.bind( this.mouseDownEvent, this.onCanvasMouseDown() );
             this.renderFunction = this.updateCanvasByLine;
 
+            
         },
 
         defaults: {
@@ -86,6 +86,12 @@ define([
                   height: this.get("canvasH")
               });
 
+          // fix windows 8 touchmove bug    
+          if (typeof this.canvas[0].style.msTouchAction != 'undefined')
+          this.canvas[0].style.msTouchAction = "none";
+
+          this.context = this.canvas.get(0).getContext("2d");
+
           this.App.find(".container").append( this.canvas );
 
           this.App.find(".clear_all").click(function(){
@@ -128,13 +134,13 @@ define([
             
           })
 
+          this.dealWithApp();
 
-          if( this.get("sketchType") === "paintQuestion" ){
-            $( "#" + this.get("stageId") ).find("div.text").prepend( this.App );
-          }else{
+        },
+
+        dealWithApp : function(){
             $("body").append( this.App );
-          }
-
+            
         },
 
         setTools : function(){

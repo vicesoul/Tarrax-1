@@ -31,6 +31,7 @@ define([
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
   'compiled/behaviors/quiz_selectmenu',
   'sketcher',
+  'Backbone',
   'vendor/raphael',
   'i18n!editor',
   'quizzes_new',
@@ -439,16 +440,6 @@ define([
     });
 
     $("#submit_quiz_form").submit(function(event) {
-      $(".question_holder .paint_question canvas.paintQuestion").each(function(){
-        var data = $(this)[0].toDataURL();
-        var $img = $("<img>").attr( "src", data).addClass("paint-image");
-        var $div = $("<div></div>").append($img);
-        var $editor = $(this).closest(".paint_question").find(".question_input");
-        $editor.editorBox( 'set_code', "" );
-        $editor.editorBox( 'insert_code', $div.html() );
-
-
-      });
       $(".question_holder textarea.question_input").each(function() { $(this).change(); });
 
       var unanswered;
@@ -598,23 +589,86 @@ define([
       if( $(".question.paint_question").size() === 0 ) return false;
       
       var sketchSetting = {
-            sketchType:"paintQuestion",
-            stageId:"",
-            lineW : 1,
-            canvasW : 800,
-            canvasH : 400,
-            color : {hex:"000000",rgb:[0,0,0]},
-            tools : {type:"line",src:""},
-            appName : "sketch_app",
-            appTitle : "画板"
-          };
+        sketchType:"paintQuestion",
+        stageId:"",
+        lineW : 1,
+        canvasW : 740,
+        canvasH : 400,
+        color : {hex:"000000",rgb:[0,0,0]},
+        tools : {type:"line",src:""},
+        appName : "sketch_app",
+        appTitle : "画板"
+      };
           
+      var Paint = Sketcher.extend({
+
+        dealWithApp : function () {
+          var self = this;
+          var $text = $( "#" + self.get("stageId") ).find("div.text");
+          $text.prepend( self.App );
+
+          var $editor = self.canvas.closest(".paint_question").find(".question_input");
+          var str = $editor.text();
+          var $img = $(str).find("img");
+          if( $img.size() !== 0 ){
+            $img[0].onload = function() {
+              self.context.drawImage(this, 0, 0);
+            };
+
+            
+          }
+
+        },
+
+        onCanvasMouseUp : function (event) {
+          var self = this;
+
+          return function(event) {
+            self.canvas.unbind( self.mouseMoveEvent, self.mouseMoveHandler );
+            $(document).unbind(self.mouseUpEvent,self.mouseUpHandler);
+
+            var data = self.canvas[0].toDataURL();
+            var $img = $("<img>").attr( "src", data).addClass("paint-image");
+            var $div = $("<div></div>").append($img);
+            var $editor = self.canvas.closest(".paint_question").find(".question_input");
+            $editor.editorBox( 'set_code', "" );
+            $editor.editorBox( 'insert_code', $div.html() );
+
+          }
+        }
+
+
+      });
+
       $("#submit_quiz_form .paint_question").each(function(){
         // sketchSetting.canvasW = $(this).find(".text").width();
-        sketchSetting.canvasH = $(this).find(".text").height() - 120;
-        sketchSetting.stageId = $(this).attr("id");
-        var Painter = new Sketcher(sketchSetting);
-        Painter.App.find(".tools .line").trigger("click");
+        var $question = $(this);
+        var $text = $question.find(".text");
+        var $images = $text.find("img:last");
+
+        // check all the images is loaded
+        if( !!$images.size() ){
+          if($images.prop('complete')){
+            triggerApp($question)
+          } else{
+            $images[0].onload = function(){
+              triggerApp($question)
+            };
+          }
+        }else{
+          triggerApp($question)
+        }
+
+        function triggerApp($question){
+          sketchSetting.canvasH = $text.height() - 120;
+          sketchSetting.stageId = $question.attr("id");
+          var Painter = new Paint(sketchSetting);
+          Painter.App.find(".tools .line").trigger("click");
+        }
+
+        
+        
+
       });
       
     })();
@@ -682,7 +736,7 @@ define([
           var $wordCenter = $(this);
           $(this).find(".question_input").each(function(){
             var matchId = $(this).val();
-            if(matchId === "0")return;
+            if( !matchId )return;
             var $match = $question.find("span[value='" + matchId +"']").parent();
             drawLine($wordCenter, $match );
           });

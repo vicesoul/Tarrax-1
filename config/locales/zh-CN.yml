@@ -3825,6 +3825,7 @@ zh-CN:
     eportfolio_welcome: 欢迎使用个人空间
     error_reports: 错误报表
     files: 资源管理
+    gradebook: 成绩册
     grading_schemes: 评分方案
     groups: 组
     jobs: 任务
@@ -4194,7 +4195,7 @@ zh-CN:
       go_to_parent: 回到父级
       go_to_topic: 返回主题
       manage_discussion_entry: 管理讨论条目
-      open_in_speedgrader: "在 SpeedGrader 中打开"
+      open_in_speedgrader: "在 评分器 中打开"
       unknown_author: 未知作者
     entry_stats: 
       show_more: 显示更多
@@ -5020,7 +5021,7 @@ zh-CN:
     showing_section: "正在显示班: %{section}"
     sort_columns_by: 列排序依据...
     sort_rows_by: 行排序依据...
-    speed_grader: SpeedGrader
+    speed_grader: 评分器
     student: 学生
     student_mute_notification: 教师正在进行评分
     student_name: 学生姓名
@@ -5081,13 +5082,11 @@ zh-CN:
       message_students_who: 发送消息到学生...
       re_upload_submissions: 重新上传提交
       set_default_grade: 设置默认评分
-      speedgrader: SpeedGrader
+      speedgrader: 评分器
     hide_student_names: 隐藏学生姓名
     invalid_assignment_groups_warning: 
       one: "因未设置分数，没有统计 %{groups}成绩"
       other: "因未设置分数，没有统计 %{groups} 成绩"
-    jxb: 
-      gradebook: 成绩册
     no_assignments_have_points_warning: 只有有分数的作业才可统计
     percent_of_grade: "%{percentage} 的评分 "
     points_out_of: " %{points_possible}"
@@ -5472,7 +5471,7 @@ zh-CN:
       new_assessment_option: "[新评阅]"
       no_annotation: 本文档的注释不可用
       not_newest_notice: "注:这不是最近的提交"
-      page_title: "%{assignment_name}, SpeedGrader, %{course_name}"
+      page_title: "%{assignment_name}, 评分器, %{course_name}"
       portion_graded: "%{x} / %{y} 已评分"
       sort_by: 
         status: 根据提交状态（需要评分、未提交等）
@@ -8510,6 +8509,7 @@ zh-CN:
         privacy_notice_title: 隐私提示
   pseudonym: 
     errors: 
+      already_associated: 此用户已在该网校中
       bad_credentials: 用户名或密码无效
       invalid: "只能包含字母、数字或以下字符: %{characters}"
       mismatch: 不匹配
@@ -8518,7 +8518,6 @@ zh-CN:
       taken: 这个电子邮件已被使用
       too_long: "不能超过 %{max} 个字符"
       too_short: "必须至少包含 %{min} 个字符"
-      already_associated: "此用户已在该网校中"
   pseudonym_session: 
     errors: 
       max_attempts: 登录答题失败次数过多。请稍后重试或联系您的系统管理员。
@@ -9544,7 +9543,7 @@ zh-CN:
       quiz_for_assignment: "此测试是针对作业 **%{assignment}**"
       quiz_in_progress: 您正在进行此测试的过程中。
       quiz_no_submissions: 学生尚未进行测试
-      speed_grader: SpeedGrader™
+      speed_grader: 评分器
       students_submitted_so_far: 
         one: "目前 1 个学生已提交"
         other: "目前 %{count} 个学生已提交"
@@ -10757,6 +10756,7 @@ zh-CN:
       loading: 正在加载...
     titles: 
       value_over_time: "%{value} 超时"
+  site_title: 教学邦
   slideshow: 
     titles: 
       back: 返回
@@ -10806,7 +10806,7 @@ zh-CN:
   submission_detail: 
     go_to_submission_url: 转至提交链接
     no_submission: 无提交
-    online_text_entry_see_details_in_the_speedgrader: "在线文本输入，*请参阅 SpeedGrader 中的详细信息*。"
+    online_text_entry_see_details_in_the_speedgrader: "在线文本输入，*请参阅 评分器 中的详细信息*。"
     submitted_files: "提交的文件:"
   submission_details_dialog: 
     add_a_comment: 添加新评论
@@ -10817,11 +10817,11 @@ zh-CN:
     links: 
       click_to_view: 单击此处查看
     loading_comments: 正在加载评论...
-    more_details_in_the_speedgrader: "SpeedGrader 中的更多详细信息"
+    more_details_in_the_speedgrader: "评分器 中的更多详细信息"
     post_comment: 发表评论
     submitted: 已提交
     this_was_submitted_multiple_times_choose_a_submission_to_view: "已提交多次，选择要查看哪个提交:"
-    view_rubric_assessment_in_the_speedgrader: "在 SpeedGrader 中查看评分标准评阅"
+    view_rubric_assessment_in_the_speedgrader: "在 评分器 中查看评分标准评阅"
   submissions: 
     assignment_submit_success: 作业已提交。
     assignment_submitted: 作业已提交。
@@ -10870,7 +10870,7 @@ zh-CN:
       peer_review_steps_complete: 您已完成此交互审阅所需的步骤。
       sent_to_whole_group: 发送评注到全组
       show_rubric: 显示评分标准
-      speedgrader: SpeedGrader™
+      speedgrader: 评分器
       student_mute_notification: 评分不可用，原因是教师正在进行处理。
       submission_details: 提交详细信息
       submitted_at: "提交时间 %{submit_date}"

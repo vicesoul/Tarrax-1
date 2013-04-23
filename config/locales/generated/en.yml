@@ -167,7 +167,7 @@ en:
       certificate_fingerprint: "Certificate Fingerprint"
       change_password_url: "Change Password Link"
       discovery_url: "Discovery URL:"
-      discovery_url_description: "If a discovery url is set, canvas will forward all users to that URL when they need to be authenticated. That page will need to then help the user figure out where they need to go to log in. If no discovery url is configured, the first SAML configuration will be used to attempt to authenticate the user."
+      discovery_url_description: "If a discovery url is set, jiaoxuebang will forward all users to that URL when they need to be authenticated. That page will need to then help the user figure out where they need to go to log in. If no discovery url is configured, the first SAML configuration will be used to attempt to authenticate the user."
       identifier_format: "Identifier Format"
       idp_entity_id: "IdP Entity ID"
       labels: 
@@ -2126,7 +2126,7 @@ en:
         wrong_account: "The invitation for %{course} was sent to **%{invited_user}**, but you are currently logged in as **%{current_user}**"
       labels: 
         password: Password
-        subscribe_to_emails: "I want to receive information, news and tips from Instructure"
+        subscribe_to_emails: "I want to receive information, news and tips from Jiaoxuebang"
         time_zone: "Time Zone"
         unique_id: Login
       page_title: "Register %{email}"
@@ -3160,7 +3160,7 @@ en:
   conversations_intro: 
     slide1: 
       paragraph1: "Take a look at your Inbox!"
-      paragraph2: "Conversations—the new Canvas messaging system—has arrived!"
+      paragraph2: "Conversations—the new Jiaoxuebang messaging system—has arrived!"
       paragraph3: "Use Conversations to send a private message to a classmate or use Conversations to talk to an entire group of people."
       paragraph4: "Ready for a short intro? Click the right arrow to get started."
     slide2: 
@@ -3221,7 +3221,7 @@ en:
       sis_in_use: "SIS ID \"%{sis_id}\" is already in use"
     file_copy_error: "Couldn't copy file \"%{name}\""
     grade_export_types: 
-      instructure_csv: "Instructure formatted CSV"
+      instructure_csv: "Jiaoxuebang formatted CSV"
     grade_publishing_status: 
       error: Error
       error_with_message: "Error: %{message}"
@@ -3835,6 +3835,7 @@ en:
     eportfolio_welcome: "Welcome to Your ePortfolio"
     error_reports: "Error Reports"
     files: Files
+    gradebook: Gradebook
     grading_schemes: "Grading Schemes"
     groups: Groups
     jobs: Jobs
@@ -4716,7 +4717,7 @@ en:
     index_disabled: 
       disabled_notice: "This Jiaoxuebang site is not configured to communicate with Facebook."
       get_help: "Get help at support.jiaoxuebang.com"
-      instructure_canvas: "Jiaoxuebang"
+      instructure_canvas: Jiaoxuebang
     invalid_signature: "Invalid Facebook signature"
     message: 
       hide: Hide
@@ -5098,8 +5099,6 @@ en:
     invalid_assignment_groups_warning: 
       one: "Score does not include %{groups} because it has                  no points possible"
       other: "Score does not include %{groups} because they have                    no points possible"
-    jxb: 
-      gradebook: Gradebook
     no_assignments_have_points_warning: "Can't compute score until an assignment has points possible"
     percent_of_grade: "%{percentage} of grade"
     points_out_of: "out of %{points_possible}"
@@ -5797,9 +5796,9 @@ en:
     message_will_be_sent_to_all_the_teachers_tas_in_the_course: "Message will be sent to all the Teachers / TA's in the course."
     please_select_one: "Please select one..."
     report_problem: "Report a Problem"
-    report_problem_sub: "If Canvas misbehaves, tell us about it"
-    search_the_canvas_guides: "Search the Canvas Guides"
-    see_if_your_issue_is_addressed_in_the_canvas_guides: "See if your issue is addressed in the *Canvas Guides*."
+    report_problem_sub: "If Jiaoxuebang misbehaves, tell us about it"
+    search_the_canvas_guides: "Search the Jiaoxuebang Guides"
+    see_if_your_issue_is_addressed_in_the_canvas_guides: "See if your issue is addressed in the *Jiaoxuebang Guides*."
     send_message: "Send Message"
     sending: Sending...
     somethings_broken_but_i_can_work_around_it_for_now: "Something's broken but I can work around it for now"
@@ -5838,7 +5837,7 @@ en:
     authorize_google_docs: "Before you can collaborate on documents, you need to authorize Jiaoxuebang to access your Google Docs account:"
   instructure: 
     alerts: 
-      file_previews_disabled: "File previews have been disabled for this Canvas site"
+      file_previews_disabled: "File previews have been disabled for this Jiaoxuebang site"
     browsers: 
       unrecognized: "Unrecognized Browser"
     buttons: 
@@ -6042,18 +6041,18 @@ en:
       standard: 
         failed_to_convert_qti: "Failed to import Assessment %{file_identifier}"
     google_docs: 
-      default_document_name: "Instructure Doc"
+      default_document_name: "Jiaoxuebang Doc"
     incoming_message_processor: 
       failure_message: 
         body: |-
-            The message titled "%{subject}" could not be delivered.  The message was sent to an unknown mailbox address.  If you are trying to contact someone through Canvas you can try logging in to your account and sending them a message using the Inbox tool.
+            The message titled "%{subject}" could not be delivered.  The message was sent to an unknown mailbox address.  If you are trying to contact someone through Jiaoxuebang you can try logging in to your account and sending them a message using the Inbox tool.
             
                     Thank you,
                     Canvas Support
         subject: "Message Reply Failed: %{subject}"
       locked_topic: 
         body: |-
-            The message titled "%{subject}" could not be delivered because the discussion topic is locked. If you are trying to contact someone through Canvas you can try logging in to your account and sending them a message using the Inbox tool.
+            The message titled "%{subject}" could not be delivered because the discussion topic is locked. If you are trying to contact someone through Jiaoxuebang you can try logging in to your account and sending them a message using the Inbox tool.
             
                     Thank you,
                     Canvas Support
@@ -6118,7 +6117,7 @@ en:
       relationships: Relationships
   media_comments: 
     alerts: 
-      kaltura_disabled: "Kaltura has been disabled for this Canvas site"
+      kaltura_disabled: "Kaltura has been disabled for this Jiaoxuebang site"
     buttons: 
       submit: "Submit Media File"
     cancel: Cancel
@@ -6956,7 +6955,7 @@ en:
           click_to_reset: "To set a new password, please click the following link"
         login_at_account: "%{login_email} at %{account_name}"
         login_managed_by_account: "this login's credentials are managed by %{account_name}"
-        password_from_account: "The password for this login should have been given to you by the system administrators at %{account_name}, and Instructure doesn't have access to your password.  If your password is not working, please contact the system administrators about changing or verifying your password."
+        password_from_account: "The password for this login should have been given to you by the system administrators at %{account_name}, and Jiaoxuebang doesn't have access to your password.  If your password is not working, please contact the system administrators about changing or verifying your password."
         requested_password_reset: "You requested a confirmation of your password for logging into Jiaoxuebang."
         subject: "Forgot Password: Jiaoxuebang"
     grade_weight_changed: 
@@ -7800,7 +7799,7 @@ en:
       instructions: 
         main: 
           manage: 
-            description: "*Outcomes are created here to track mastery in a course. To get started, checkout the menu bar along the top. Click on the New button to create a new outcome, or the New Group button to create a new group to organize your outcomes into. The Find button will allow you to use outcomes that have been created by your state or institution. As you create and use outcomes you will be able to use the panel to the left to navigate through your outcomes. You can drag and drop outcomes between the different levels to create structure.* *More importantly, Canvas allows you to add outcomes to your grading rubrics so that you can evaluate mastery as you grade assignments. Once you've set up outcomes, click Manage Rubrics to start using your outcomes for grading.*"
+            description: "*Outcomes are created here to track mastery in a course. To get started, checkout the menu bar along the top. Click on the New button to create a new outcome, or the New Group button to create a new group to organize your outcomes into. The Find button will allow you to use outcomes that have been created by your state or institution. As you create and use outcomes you will be able to use the panel to the left to navigate through your outcomes. You can drag and drop outcomes between the different levels to create structure.* *More importantly, Jiaoxuebang allows you to add outcomes to your grading rubrics so that you can evaluate mastery as you grade assignments. Once you've set up outcomes, click Manage Rubrics to start using your outcomes for grading.*"
             title: "Setting up Outcomes"
     mastery_error: "Must be greater than or equal to 0"
     missing_outcome: "Couldn't find that learning outcome"
@@ -7906,7 +7905,7 @@ en:
       name: "Academic Benchmark Importer"
       plugins: 
         ab: 
-          description: "This enables importing Academic Benchmark standards into Canvas."
+          description: "This enables importing Academic Benchmark standards into Jiaoxuebang."
     academic_benchmark_settings: 
       api_url_description: "(e.g. %{url})"
       common_core_guid: "(e.g. %{guid})"
@@ -7939,9 +7938,9 @@ en:
     buttons: 
       saving: Saving...
     canvas_cartridge_importer: 
-      description: "This enables converting a canvas export to the intermediary json format to be imported"
-      file_description: "Canvas Course Export Package"
-      name: "Canvas Cartridge Importer"
+      description: "This enables converting a Jiaoxuebang export to the intermediary json format to be imported"
+      file_description: "Jiaoxuebang Course Export Package"
+      name: "Jiaoxuebang Cartridge Importer"
     common_cartridge_importer: 
       description: "This enables converting a Common Cartridge packages in the intermediary json format to be imported"
       file_description: "Common Cartridge 1.0/1.1/1.2 Package"
@@ -8006,7 +8005,7 @@ en:
       sketchpad: SketchPad
       typewithme: TypeWith.me
     facebook: 
-      description: "Canvas Facebook application"
+      description: "Jiaoxuebang Facebook application"
       name: Facebook
     facebook_settings: 
       description: |-
@@ -8058,7 +8057,7 @@ en:
       canvas_revision_unknown: Unknown
       configure_plugin: Configure
       description: Description
-      instructure_canvas: "Instructure Jiaoxuebang"
+      instructure_canvas: Jiaoxuebang
       name: Name
       no_plugins: "There are no Jiaoxuebang plugins installed"
       page_title: "Jiaoxuebang Plugins"
@@ -8386,7 +8385,7 @@ en:
         show_user_services: "Let fellow course/group members see which services I've linked to my profile"
         skype_name: "Skype Name"
         sortable_name: "Sortable Name"
-        subscribe_to_emails: "I want to receive information, news and tips from Instructure"
+        subscribe_to_emails: "I want to receive information, news and tips from Jiaoxuebang"
         time_zone: "Time Zone"
         token: Token
         token_application: App
@@ -8519,7 +8518,7 @@ en:
     notifications: 
       privacy_notice: 
         ok: Ok
-        privacy_notice: "Notice: Some notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive Canvas course and group information outside of the institutional system."
+        privacy_notice: "Notice: Some notifications may contain confidential information. Selecting to receive notifications at an email other than your institution provided address may result in sending sensitive Jiaoxuebang course and group information outside of the institutional system."
         privacy_notice_title: "Privacy Notice"
   pseudonym: 
     errors: 
@@ -9731,7 +9730,7 @@ en:
       labels: 
         email: Email
         name: Name
-    welcome_to_canvas: "Welcome to Canvas!"
+    welcome_to_canvas: "Welcome to Jiaoxuebang!"
   retrieve_timeout: "could not retrieve configuration, the server response timed out"
   role: 
     roles: 
@@ -10307,7 +10306,7 @@ en:
       log_in: "Log In"
       login_at_account: "Log in at %{school_name}"
       login_handle: "Enter your %{login_handle_name} and we'll send you a link to change your password."
-      register_for_canvas: "*Need a Canvas Account?* **Click Here, It's Free!**"
+      register_for_canvas: "*Need a Jiaoxuebang Account?* **Click Here, It's Free!**"
     menu_assignment: 
       labels: 
         due: due
@@ -10691,7 +10690,7 @@ en:
   sis_batch: 
     errors: 
       unrecorgnized_type: "Unrecognized import type"
-    instructure_csv: "Instructure formatted CSV or zipfile of CSVs"
+    instructure_csv: "Jiaoxuebang formatted CSV or zipfile of CSVs"
     upload_filename: "sis_upload_%{id}.zip"
   sis_import: 
     buttons: 
@@ -10736,6 +10735,7 @@ en:
       loading: loading...
     titles: 
       value_over_time: "%{value} Over Time"
+  site_title: Jiaoxuebang
   slideshow: 
     titles: 
       back: Back
@@ -11443,7 +11443,6 @@ en:
       title: "Teacher Activity Report"
     twitter_added: "Twitter access authorized!"
     twitter_fail_whale: "Twitter authorization failed. Please try again"
-    unique_id_has_already_in_this_account: "Unique id has already in this account"
     user_dashboard: 
       user_atom_feed: "User Atom Feed (All Courses)"
       user_dashboard: "User Dashboard"
