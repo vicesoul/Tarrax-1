@@ -13,17 +13,20 @@ define([
     var HandWrite,
         $mask,
         pluginProp = {id:"instructureHandWrite",name:"instructure_handWrite"},
+
         sketchSetting = {  
             sketchType:"handWrite",
             id:"",
             lineW : 10,
-            canvasW : 1000,
+            canvasW : $(window).width() <= 1024 ? 700 : 1000,
             canvasH : 240,
             color : {hex:"000000",rgb:[0,0,0]},
             tools : {type:"line",src:""},
             appName : "sketch_app",
             appTitle : "写字板"
         };
+
+
 
   tinymce.create('tinymce.plugins.' + pluginProp.id,  {
     init : function(ed, url) {
@@ -56,7 +59,6 @@ define([
                       return function(event) {
                           if( event.button == 2 )return false;        // forbidden right mouse
                           self.writeState = true;
-                          console.log("down")
                           clearTimeout(self.timeOut_mouseUp);
                           self.lines.push([]);
 
@@ -83,7 +85,6 @@ define([
                       return function(event) {
 
                           if( !self.writeState ) return;
-                          console.log("up")
                           self.timeOut_mouseUp = setTimeout(function(){
 
                               if( !self.writeState ) return;
