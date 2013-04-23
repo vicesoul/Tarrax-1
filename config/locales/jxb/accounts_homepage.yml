@@ -22,6 +22,13 @@ zh-CN:
       save: 保存
       assign_courses: 指定课程
       change_background: 改变背景
+      dialog:
+          error:
+              empty_image: 请选择图片后上传
+              incorrect_image_type: 请确认您要上传的图片格式是正确的
+          tip:
+              uploaded_success: 上传图片成功
+              
   account:
     tab_homepage: 主页
   jxb/widget:

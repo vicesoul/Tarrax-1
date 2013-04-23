@@ -35,6 +35,7 @@ class ApplicationController < ActionController::Base
   include SimpleCaptcha::ControllerHelpers
   protect_from_forgery
   # load_user checks masquerading permissions, so this needs to be cleared first
+  before_filter :prevent_browser_cache if RAILS_ENV == 'development'
   before_filter :clear_cached_contexts
   before_filter :load_account, :load_user
   before_filter :check_pending_otp
@@ -692,6 +693,12 @@ class ApplicationController < ActionController::Base
   def clear_cached_contexts
     ActiveRecord::Base.clear_cached_contexts
     RoleOverride.clear_cached_contexts
+  end
+
+  def prevent_browser_cache
+    response.headers["Cache-Control"] = "no-cache, no-store, max-age=, must-revalidate"  
+    response.headers["Pragma"] = "no-cache"  
+    response.headers["Expires"] = "Comes to an end, 01 Jan 1990 00:00:00 GMT"  
   end
 
   def set_page_view

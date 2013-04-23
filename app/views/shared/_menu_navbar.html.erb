@@ -4,9 +4,11 @@
     <div class="container">
       <ul class="nav nav-tabs">
         <li><a href="/">首页</a></li>
-            <% CourseCategory.getAllCategoriesForIndex.each do |category| %>
-               <li><a href="#" onclick="return false;"><%= category.name %></a></li>
-           <% end %>
+            <%- cache('global_course_category', :expires_in => 6.hour) do -%>
+                <% CourseCategory.getAllCategoriesForIndex.each do |category| %>
+                    <li><a href="#" onclick="return false;"><%= category.name %></a></li>
+                <% end %>
+            <%- end -%>
       </ul>
     </div>
   </div>
