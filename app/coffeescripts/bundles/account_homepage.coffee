@@ -1,12 +1,15 @@
 require [
   'jquery',
+  'i18n!homepage_dialog'
   'jqueryui/sortable',
+  'jqueryui/draggable',
   'jqueryui/dialog',
   'jqueryui/effects/highlight'
   'compiled/tinymce',
   'tinymce.editor_box',
-  'jquery.form'
-], ($)->
+  'jquery.form',
+  'jqueryui/easyDialog'
+], ($, I18n)->
   
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
@@ -150,6 +153,7 @@ require [
     $(".sortable").sortable("disable")
 
     $(".edit_theme_link").click ->
+      $('#fixed_right_sider').draggable()
       $(this).hide()
       $("#content-wrapper").addClass("theme_edit")
       $("form.edit_jxb_page").show()
@@ -194,25 +198,61 @@ require [
     $("#widget_image_uploader").submit ->
       $(this).ajaxSubmit(
         beforeSubmit: ->
-          return false if $("#widget_image").val() == ""
+          return validateUploadedImage $("#widget_image").val()
         success: (data)->
           img = """
                 <img src="#{data.url}" />
                 """
           $("#widget_body").editorBox "insert_code", img
           $("#widget_image").val ""
+          afterUploadedImageSuccess()
       )
       return false
 
     $("#background_image_uploader").submit ->
       $(this).ajaxSubmit(
         beforeSubmit: ->
-          return false if $("#background_bg_image").val() == ""
+          return validateUploadedImage $("#background_bg_image").val()
         success: (data)->
           img = """
                 <img src="#{data.url}" />
                 """
           $("#background_image_holder").html img
           $("#background_bg_image").val ""
+          afterUploadedImageSuccess()
       )
       return false
+
+    init = ->
+      $("#widget_image").change(->
+        $('#widget_image_uploader').submit()
+      )
+      $("#background_bg_image").change(->
+        $('#background_image_uploader').submit()
+      )
+
+    validateUploadedImage = (imageVal)->
+      flag = true
+      content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty')
+      if imageVal == ''
+        flag = false
+      else if !(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test imageVal)
+        content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct')
+        flag = false
+      unless flag
+        $('#jxb-message-dialog').easyDialog({
+          modal: true
+          content: content
+        })
+      return flag
+
+    afterUploadedImageSuccess = ->
+      $('#jxb-message-dialog').easyDialog({
+        modal: true
+        content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
+      })
+
+    $(document).ready(
+      ->
+        init()
+    )
