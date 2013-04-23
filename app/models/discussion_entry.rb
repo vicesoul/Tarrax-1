@@ -42,7 +42,7 @@ class DiscussionEntry < ActiveRecord::Base
   after_save :update_discussion
   after_save :context_module_action_later
   after_create :create_participants
-  validates_length_of :message, :maximum => maximum_text_length, :allow_nil => true, :allow_blank => true
+  validates_length_of :message, :maximum => maximum_long_text_length, :allow_nil => true, :allow_blank => true
   validates_presence_of :discussion_topic_id
   before_validation_on_create :set_depth
   validate_on_create :validate_depth
