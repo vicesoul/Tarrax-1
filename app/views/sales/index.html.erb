@@ -5,6 +5,7 @@
     <tr>
       <th>#</th>
       <th>网校名</th>
+      <th>注册时间</th>
       <th>联系人</th>
       <th>角色</th>
       <th>电话</th>
@@ -12,11 +13,12 @@
     </tr>
   </thead>
   <tbody>
-    <% @account_users.each do |au| %>
+    <% @account_users.each_with_index do |au, index| %>
       <% account = au.account %>
       <tr>
-        <td><%= account.id %></td>
+        <td><%= ((params[:page] || 1).to_i - 1) * SalesController::PER_PAGE + index + 1 %></td>
         <td><%= link_to account.name, account_path(account) %></td>
+        <td><%= account.created_at.to_date %></td>
         <td><%= link_to au.user.try(:name) || '', user_path(au.user) %></td>
         <td><%= Hash[AccountUser::roles][au.role] %></td>
         <td><%= au.mobile %></td>
@@ -27,7 +29,7 @@
 </table>
 
 <% content_for :pagination do %>
-  <% if params[:action] == 'accounts' %>
+  <% if params[:action] == 'index' %>
     <%= will_paginate(@account_users, :page_links => false) %>
   <% end %>
 <% end %>
