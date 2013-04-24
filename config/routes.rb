@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :sales
 
   map.accounts_discussion_topics 'accounts/:account_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
   map.users_discussion_topics    'users/:user_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
