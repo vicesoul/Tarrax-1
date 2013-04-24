@@ -9,7 +9,7 @@ ul, ol
   
 body.welcome
   .top-menu
-    >.inner
+    .inner
       margin: 0 auto
       :padding 0
       :max-width $wrapperWidth
@@ -66,6 +66,7 @@ body.welcome
               text-shadow: none
               font-size: 14px
               border: none
+              display: inline-block
             a.help
               :background none
               :color #ffff00
@@ -116,12 +117,14 @@ body.welcome
     height: 381px
     .big-eye-inner
       background: url("/images/jxb/big-eye.jpg") no-repeat top center
-      height: inherit
+      height: 381px
+      width: 100%
       ul
         :position absolute
         :left 50%
         :top 255px
-        :margin 0 0 0 -150px
+        :margin 0 0 0 -110px
+        :padding 0
         li
           :float left
           :margin 0 30px 0 0
@@ -143,16 +146,19 @@ body.welcome
   .courses
     text-align: center
     :overflow hidden
-    >.inner
+    .inner
       :width 980px
       :margin 0 auto
-      >ul
+      ul
         :background url("/images/jxb/desk.png") no-repeat left bottom
         :overflow hidden
         :padding 0 0 0 62px
+        :float left
+        :width 100%
         li
           :float left
           :margin 0 5px 0 0
+          :overflow hidden
           a
             :display block
             :width 206px
@@ -162,6 +168,7 @@ body.welcome
             :font-size 14px
             :color $blue
             :margin 0 0 8px
+            :padding 5px
           h4
             :font-size 12px
             span
@@ -197,6 +204,7 @@ body.welcome
     .container
       ul
         :padding 0 0 0 10px
+        :margin-left 0
         li
           :float left
           :margin 0 11px 0 0

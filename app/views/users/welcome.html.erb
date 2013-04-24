@@ -9,7 +9,14 @@
 
       }
     }
+    #flash_message_buffer, #flash_message_holder{display:none;}
+    .courses .inner {display:block;*display:none;}
+    .ie6-courses {display:none;*display:block;}
+    #menu .menu-item .menu-item-title, #menu .menu-item .menu-item-no-drop {*padding-top: 1px; *position: relative; *top: -1px;}
+    .logo-row .inner .form-search .input-append .btn {*height: 20px;*position: relative;*left: -3px;}
+    .logo-row .inner .form-search .input-append .btn i span{*display: block;}
   </style>
+
 <div class="content">
     <%= render :partial => "shared/menu_navbar" %>
   <div class="big-eye">
@@ -33,8 +40,6 @@
     </div>
   </div>
   <div class="courses">
-    <!-- <%= link_to "", new_account_path %>
-    <a href="/register"></a> -->
     <div class="inner">
 
       <ul>
@@ -104,9 +109,16 @@
           <a href="http://edu10008.jiaoxuebang.com/courses/33/self_enrollment/RY8DKC"></a>
           <button>免费学习</button>
         </li>
-      </ul> 
+      </ul>
+      
+    </div>
+    <div class="ie6-courses">
+      <a href="/login"><img src="/images/jxb/courses.png"></a>
     </div>
   </div>
+
+  
+
 </div>
 
 
