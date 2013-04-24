@@ -29,7 +29,7 @@
                 :en => "Course Category",
                 :class => "control-label" %>
     <div class="controls">
-        <%= f.select :course_category_id, Course.get_course_categories.map{|category| [category.name, category.id]}, {:prompt => t(:course_category_tip, 'Please select a course category')}, :class => 'input-xlarge' %>
+        <%= f.select :course_category_id, CourseCategory.get_sorted_categories.map{|category| [category.name, category.id]}, {:prompt => t(:course_category_tip, 'Please select a course category')}, :class => 'input-xlarge' %>
     </div>
   </div>
 
