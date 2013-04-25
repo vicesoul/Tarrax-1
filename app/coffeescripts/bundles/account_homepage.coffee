@@ -161,7 +161,7 @@ require [
       makeWidgetsDeletable()
       makePositionClickable()
 
-    $("form.edit_jxb_page a.cancel").click ->
+    $("form.edit_jxb_page button.cancel").click ->
       $(".sortable").sortable("cancel")
       $(".sortable").sortable("disable")
       revertWidgets()
