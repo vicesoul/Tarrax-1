@@ -3,9 +3,9 @@
   <div class="navbar-inner">
     <div class="container">
       <ul class="nav nav-tabs">
-        <li><a href="/">首页</a></li>
+          <li><a href="/"><%= t('homepage', 'Homepage')%></a></li>
             <%- cache('global_course_category', :expires_in => 6.hour) do -%>
-                <% CourseCategory.getAllCategoriesForIndex.each do |category| %>
+                <% CourseCategory.get_all_categories_for_index.each do |category| %>
                     <li><a href="#" onclick="return false;"><%= category.name %></a></li>
                 <% end %>
             <%- end -%>

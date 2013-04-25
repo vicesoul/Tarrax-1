@@ -39,6 +39,7 @@ body.modal
 
     .login-options
       overflow: hidden
+      clear: both
 
 
     .button_box
@@ -108,7 +109,7 @@ body.modal
 
 
 // weird specificity here is to match the input.text above
-body.webkit #modal-box.login-box input.text
+body.webkit #modal-box input.text
   background: #fff
   border: 1px solid #ccc
   padding: 15px 10px
@@ -119,6 +120,7 @@ body.webkit #modal-box.login-box input.text
   font-size: 12px
   margin: 0 auto
   width: 580px
+  _width: 470px
   .fill-in
     width: 110%
     input
@@ -133,6 +135,9 @@ body.webkit #modal-box.login-box input.text
         line-height: 1.75em
       #login_forgot_password
         float: right
+    button.btn-blue
+      clear: both
+
 body.modal
   #forgot_password_form
     margin: 0 auto
@@ -181,6 +186,7 @@ span.field-with-fancyplaceholder
       overflow: hidden
 .link-register
   text-align: right
+  clear: both
   #register_link
     i
       color: #444

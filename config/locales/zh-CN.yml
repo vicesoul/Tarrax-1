@@ -5975,9 +5975,14 @@ zh-CN:
         assignments_recently_graded: 最近评分
         calendar: 日历
         grades: 成绩
+        jiaoxuebang_index: 教学邦首页
+        my_homepage: 我的主页
       navigation: 
         main: 主导航
       open_source_learning_management_system: "开源 LMS"
+      search:
+        tip: 请输入关键词
+        title: 搜索
     facebook: 
       title: "Facebook 网页"
     fixed_bottom: 
@@ -10294,8 +10299,11 @@ zh-CN:
         log_in: 登录
         logout: 注销
         settings: 设置
+        signup_for_free: 免费注册
       masquerading: 
         as: "作为: *%{user_name}*"
+      title: 
+        welcome_to_jiaoxuebang: 您好，欢迎来到教学邦！请  
     inline_preview: 
       links: 
         course_home: 课程主页
@@ -10318,6 +10326,7 @@ zh-CN:
       prompt: 按逗号查看快捷键列表.
     login: 
       back_to_login: 返回登录
+      back_to_enroll: 返回报名
       buttons: 
         request_password: 请求密码
       default_login_message: 在您的账号登录
@@ -10339,6 +10348,8 @@ zh-CN:
       labels: 
         enrolled_as: 注册为
         invited_as: 邀请作为
+    menu_navbar:
+      homepage: 首页  
     menu_switch_accounts: 
       links: 
         associated_accounts: 我的网校
@@ -11399,6 +11410,8 @@ zh-CN:
       update_instructions: 您可以更新此用户的部分信息，但他们可以选择改回来。
     new: 
       create_a_canvas_account: 创建一个教学邦账号
+      have_course_code: 我有课程代码
+      dont_have_course_code: 没有课程代码    
     no_deleting_sis_user: 您不能删除系统生成的用户
     no_self_registration: 此网校没有开放公开自行注册
     oauth_fail: "OAuth 请求失败。无法找到有效的请求"
@@ -11480,6 +11493,9 @@ zh-CN:
       no_courses_message: 您没有任何课程，因此此网页现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
       unpublished_courses_message: "您已报名参加一个或多个尚未发布的课程. 课程一旦发布，您可以在导航栏中看到课程清单. 在此期间，您可以报名其它课程和设置您的个人资料."
       welcome_to_happiness: 欢迎使用教学邦!
+      acts:
+        create_course: 我要开设公开课
+        create_account: 我要建独立网校
   validate: 
     is_required: 此字段为必填字段
   validate_course_form: 
@@ -11659,3 +11675,14 @@ zh-CN:
     notices: 
       uploading_complete: 上传完成!
     zip_import_filename: "zip_import_%{id}.zip"
+  course_category:
+    k12: "中小学" 
+    college: "大中专"
+    postgraduate_examinations: "考研" 
+    civil_servants: "公务员考试"
+    selfstudy_examination: "自学考试"
+    adult_college: "成人高考"
+    foreign_language: "外语留学"
+    culture_and_arts: "文化艺术"
+    professional_skills: "职业技能"
+    computer: "计算机"
