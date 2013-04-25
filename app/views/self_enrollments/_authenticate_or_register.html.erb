@@ -28,6 +28,7 @@
       <label class="control-label" for="student_password"><%= t "labels.password", "Password" %></label>
       <div class="controls">
         <input type="password" id="student_password" name="pseudonym[password]">
+        <%= link_to t('dont_know_password', "Don't know your password?"), request.url, :class => "forgot_password_link", :id => "login_forgot_password" %>
       </div>
     </div>
   </div>
@@ -55,3 +56,27 @@
     </div>
   </div>
 </form>
+
+<% login_handle_name = @domain_root_account.login_handle_name rescue AccountAuthorizationConfig.default_login_handle_name %>
+
+<div id="modal-box-inner">
+    <%= render :partial => "shared/forgot_password_form", :locals => {:login_handle_name => login_handle_name, :type => 'enroll'} %>
+</div>
+<% js_block do %>
+<script type="text/javascript" charset="utf-8">
+    require([
+      'jquery' /* $ */,
+    ], function($) {
+
+        $(document).ready(function(){
+            $('#login_forgot_password').bind('click', function(){
+                $('#enroll_form').hide();
+                if($('#student_email').val()) $('#pseudonym_session_unique_id_forgot').val($('#student_email').val());
+                $('#forgot_password_form').show();
+                return false;
+            });
+        });   
+    }
+    );
+</script>
+<% end %>

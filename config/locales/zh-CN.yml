@@ -10326,6 +10326,7 @@ zh-CN:
       prompt: 按逗号查看快捷键列表.
     login: 
       back_to_login: 返回登录
+      back_to_enroll: 返回报名
       buttons: 
         request_password: 请求密码
       default_login_message: 在您的账号登录
