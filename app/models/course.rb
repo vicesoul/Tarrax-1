@@ -312,11 +312,6 @@ class Course < ActiveRecord::Base
     ]
   end
 
-  def self.get_course_categories
-    CourseCategory.find(:all)    
-  end
-
-
   def license_data
     licenses = self.class.licenses
     licenses[license] || licenses['private']

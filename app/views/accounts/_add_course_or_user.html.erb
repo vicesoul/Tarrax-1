@@ -89,7 +89,7 @@
       </tr><tr>
         <td><%= f.blabel :course_category_id, :en => "Course Category" %></td>
         <td>
-            <%= f.select :course_category_id, Course.get_course_categories.map{|category| [category.name, category.id]}, {:prompt => t(:course_category_tip, 'Please select a course category')} %>
+            <%= f.select :course_category_id, CourseCategory.get_sorted_categories.map{|category| [category.name, category.id]}, {:prompt => t(:course_category_tip, 'Please select a course category')} %>
         </td>
         </tr><tr>
         <td><%= f.blabel :account_id, :en => "Department" %></td>
