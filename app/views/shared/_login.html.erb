@@ -7,12 +7,13 @@ require([
   'i18nObj' /* I18n.t */,
   'jquery' /* $ */,
   'str/htmlEscape',
+  'compiled/jquery.commonValidation',
   'jquery.fancyplaceholder' /* fancyPlaceholder */,
   'jquery.google-analytics' /* trackPage, trackPageview */,
   'jquery.instructure_forms' /* formSubmit, getFormData, formErrors, errorBox */,
   'jquery.loadingImg' /* loadingImage */,
   'compiled/jquery.rails_flash_notifications',
-], function(I18n, $, htmlEscape) {
+], function(I18n, $, htmlEscape, valid) {
 
 $(document).ready(function() {
   $("#register_link").click(function(){
@@ -37,7 +38,10 @@ $(document).ready(function() {
   });
   $(".forgot_password_link").click(function(event) {
     event.preventDefault();
-    if($('#pseudonym_session_unique_id').val()) $('#pseudonym_session_unique_id_forgot').val($('#pseudonym_session_unique_id').val());
+    var emailValue = '';
+    var emailInput = $('#pseudonym_session_unique_id').val();
+    if(valid.isEmail(emailInput)) emailValue = emailInput;
+    $('#pseudonym_session_unique_id_forgot').val(emailValue);
     $("#login_form").hide();
     $("#forgot_password_form").show();
   });
