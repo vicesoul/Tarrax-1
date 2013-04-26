@@ -3030,7 +3030,7 @@ define([
               var attr = $option.attr("data-text");
               if(typeof attr !== 'undefined' && attr !== false){
                 var text = $option.attr("data-text");
-                $('.answer_for_' + variable).find(".short_answer input").val(text);
+                $('.answer_for_' + variable + ':first').find(".short_answer input, .select_answer input").val(text);
                 $option.removeAttr("data-text");
               }
             }

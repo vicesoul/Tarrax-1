@@ -45,7 +45,9 @@ var addRackets = false;
               if($question.is(".calculated_question")){
                   if(!selectedText || checkChinese(selectedText)){return;}
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
-              }else if($question.is(".fill_in_multiple_blanks_question")){
+              }else if( $question.is(".fill_in_multiple_blanks_question") 
+                || $question.is(".multiple_dropdowns_question")
+                ){
                   //*** var this term before insert_code,coz after insert_code this element will be remove
                   var hasOption = !!$question.find(".multi_answer_sets .blank_id_select .shown_when_no_other_options_available").size();
                   //*** end
