@@ -66,12 +66,16 @@
 <script type="text/javascript" charset="utf-8">
     require([
       'jquery' /* $ */,
-    ], function($) {
+      'compiled/jquery.commonValidation'
+    ], function($, valid) {
 
         $(document).ready(function(){
             $('#login_forgot_password').bind('click', function(){
                 $('#enroll_form').hide();
-                if($('#student_email').val()) $('#pseudonym_session_unique_id_forgot').val($('#student_email').val());
+                var emailValue = '';
+                var emailInput = $('#student_email').val();
+                if(valid.isEmail(emailInput)) emailValue = emailInput;
+                $('#pseudonym_session_unique_id_forgot').val(emailValue);
                 $('#forgot_password_form').show();
                 return false;
             });
