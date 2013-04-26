@@ -377,6 +377,12 @@ zh-CN:
       change_background: 改变背景
       choose_image: 选择图片
       delete_background_image: 删除上传的背景图片
+      dialog: 
+        error: 
+          empty_image: 请选择图片后上传
+          incorrect_image_type: 请确认您要上传的图片格式是正确的
+        tip: 
+          uploaded_success: 上传图片成功
       edit_this_page: 修改页面
       home_page: 主页
       labels: 
@@ -3233,6 +3239,17 @@ zh-CN:
       all: 任何人
       only_teachers: 仅教师
       teachers_students: 教师和学生
+  course_category: 
+    adult_college: 成人高考
+    civil_servants: 公务员考试
+    college: 大中专
+    computer: 计算机
+    culture_and_arts: 文化艺术
+    foreign_language: 外语留学
+    k12: 中小学
+    postgraduate_examinations: 考研
+    professional_skills: 职业技能
+    selfstudy_examination: 自学考试
   course_exports: 
     errors: 
       assignment: "作业 \"%{title}\" 无法导出"
@@ -5980,7 +5997,7 @@ zh-CN:
       navigation: 
         main: 主导航
       open_source_learning_management_system: "开源 LMS"
-      search:
+      search: 
         tip: 请输入关键词
         title: 搜索
     facebook: 
@@ -8523,6 +8540,7 @@ zh-CN:
       taken: 这个电子邮件已被使用
       too_long: "不能超过 %{max} 个字符"
       too_short: "必须至少包含 %{min} 个字符"
+      unique_id_has_already_in_this_account: 该帐号已经存在
   pseudonym_session: 
     errors: 
       max_attempts: 登录答题失败次数过多。请稍后重试或联系您的系统管理员。
@@ -9809,9 +9827,9 @@ zh-CN:
       send_messages_all: 发消息给全班
       view_all_grades: 查看所有评分
       view_error_reports: 查看错误报表
-      view_sales_accounts: 查看注册网校
       view_group_pages: 查看所有学生组的组网页
       view_jobs: "查看后台 jobs"
+      view_sales_accounts: 查看注册网校
       view_statistics: 查看统计
     roles: 
       account_admin: 网校管理员
@@ -10053,6 +10071,7 @@ zh-CN:
     authenticate_or_register: 
       buttons: 
         enroll_in_course: 报名参加课程
+      dont_know_password: 忘记密码
       enter_email: "请输入电子邮件:"
       existing_user: 我用现有账号登录
       getting_started: "您正报名参加课程 **%{course}**."
@@ -10264,6 +10283,12 @@ zh-CN:
         select_and_add_criterion: 选择并添加标准
     flash_notices: 
       close: 关闭
+    forgot_password_form: 
+      back_to_enroll: 返回报名
+      back_to_login: 返回登录
+      buttons: 
+        request_password: 请求密码
+      login_handle: "输入您的 %{login_handle_name}，更改密码的链接将发送到你的邮箱。"
     global_dialogs: 
       buttons: 
         install_video_plugin: 安装视频插件
@@ -10303,7 +10328,7 @@ zh-CN:
       masquerading: 
         as: "作为: *%{user_name}*"
       title: 
-        welcome_to_jiaoxuebang: 您好，欢迎来到教学邦！请  
+        welcome_to_jiaoxuebang: 您好，欢迎来到教学邦！请
     inline_preview: 
       links: 
         course_home: 课程主页
@@ -10325,10 +10350,6 @@ zh-CN:
     keyboard_navigation_hint: 
       prompt: 按逗号查看快捷键列表.
     login: 
-      back_to_login: 返回登录
-      back_to_enroll: 返回报名
-      buttons: 
-        request_password: 请求密码
       default_login_message: 在您的账号登录
       dont_know_password: 忘记密码
       labels: 
@@ -10336,7 +10357,6 @@ zh-CN:
         remember_me: 记住密码
       log_in: 登录
       login_at_account: "在 %{school_name} 登录"
-      login_handle: "输入您的 %{login_handle_name} 将通过邮件给您发送更改密码的链接。"
       register_for_canvas: "*没有帐号?* **立即免费注册**"
     menu_assignment: 
       labels: 
@@ -10348,8 +10368,8 @@ zh-CN:
       labels: 
         enrolled_as: 注册为
         invited_as: 邀请作为
-    menu_navbar:
-      homepage: 首页  
+    menu_navbar: 
+      homepage: 首页
     menu_switch_accounts: 
       links: 
         associated_accounts: 我的网校
@@ -11410,8 +11430,8 @@ zh-CN:
       update_instructions: 您可以更新此用户的部分信息，但他们可以选择改回来。
     new: 
       create_a_canvas_account: 创建一个教学邦账号
+      dont_have_course_code: 没有课程代码
       have_course_code: 我有课程代码
-      dont_have_course_code: 没有课程代码    
     no_deleting_sis_user: 您不能删除系统生成的用户
     no_self_registration: 此网校没有开放公开自行注册
     oauth_fail: "OAuth 请求失败。无法找到有效的请求"
@@ -11490,12 +11510,12 @@ zh-CN:
     user_not_found: "未找到具有此 ID 的活动用户。"
     user_updated: 用户已更新。
     welcome: 
+      acts: 
+        create_account: 我要建独立网校
+        create_course: 我要开设公开课
       no_courses_message: 您没有任何课程，因此此网页现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
       unpublished_courses_message: "您已报名参加一个或多个尚未发布的课程. 课程一旦发布，您可以在导航栏中看到课程清单. 在此期间，您可以报名其它课程和设置您的个人资料."
       welcome_to_happiness: 欢迎使用教学邦!
-      acts:
-        create_course: 我要开设公开课
-        create_account: 我要建独立网校
   validate: 
     is_required: 此字段为必填字段
   validate_course_form: 
@@ -11675,14 +11695,3 @@ zh-CN:
     notices: 
       uploading_complete: 上传完成!
     zip_import_filename: "zip_import_%{id}.zip"
-  course_category:
-    k12: "中小学" 
-    college: "大中专"
-    postgraduate_examinations: "考研" 
-    civil_servants: "公务员考试"
-    selfstudy_examination: "自学考试"
-    adult_college: "成人高考"
-    foreign_language: "外语留学"
-    culture_and_arts: "文化艺术"
-    professional_skills: "职业技能"
-    computer: "计算机"

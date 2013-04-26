@@ -377,6 +377,12 @@ en:
       change_background: "Change background"
       choose_image: "Choose image"
       delete_background_image: "Delete background image"
+      dialog: 
+        error: 
+          empty_image: "Please confirm your image is not empty"
+          incorrect_image_type: "Please confirm your image type is correct"
+        tip: 
+          uploaded_success: "Image has bean uploaded"
       edit_this_page: "Edit this page"
       home_page: Homepage
       labels: 
@@ -3243,6 +3249,17 @@ en:
       all: Anyone
       only_teachers: "Only Teachers"
       teachers_students: "Teacher and Students"
+  course_category: 
+    adult_college: "Adult college"
+    civil_servants: "Civil servants"
+    college: College
+    computer: Computer
+    culture_and_arts: "Culture and Arts"
+    foreign_language: "Foreign language"
+    k12: K12
+    postgraduate_examinations: "Postgraduate examinations"
+    professional_skills: "Professional skills"
+    selfstudy_examination: "Self-study examination"
   course_exports: 
     errors: 
       assignment: "The assignment \"%{title}\" failed to export"
@@ -5113,7 +5130,6 @@ en:
       arrange_columns_by_group: "Arrange columns by assignment group"
       download_scores: "Download Scores (.csv)"
       filter_by_student: "Filter by student name or secondary ID"
-      go_back_to_the_old_gradebook: "Go back to the old gradebook"
       hide_student_names: "Hide Student Names"
       include_ungraded: "Treat Ungraded as 0's"
       publish_to_sis: "Publish grades to SIS"
@@ -5984,7 +6000,7 @@ en:
       links: 
         close: Close
         dashboard: "My Dashboard"
-        home: Home
+        home: Homepage
         skip_to_content: "Skip To Content"
       menu: 
         assignments: Assignments
@@ -5993,9 +6009,14 @@ en:
         assignments_recently_graded: "Recently Graded"
         calendar: Calendar
         grades: Grades
+        jiaoxuebang_index: Jiaoxuebang
+        my_homepage: "My Homepage"
       navigation: 
         main: "Main Navigation"
       open_source_learning_management_system: "Open Source LMS"
+      search: 
+        tip: "Type Your Keywords"
+        title: Search
     facebook: 
       title: "Facebook Page"
     fixed_bottom: 
@@ -8530,6 +8551,7 @@ en:
       taken: "Email already in use"
       too_long: "Can't exceed %{max} characters"
       too_short: "Must be at least %{min} characters"
+      unique_id_has_already_in_this_account: "Unique id has already in this account"
   pseudonym_session: 
     errors: 
       max_attempts: "Too many failed login attempts. Please try again later or contact your system administrator."
@@ -9785,6 +9807,7 @@ en:
       view_error_reports: "View error reports"
       view_group_pages: "View the group pages of all student groups"
       view_jobs: "View background jobs"
+      view_sales_accounts: "View sales accounts"
       view_statistics: "View statistics"
     roles: 
       account_admin: "Account Admin"
@@ -10026,6 +10049,7 @@ en:
     authenticate_or_register: 
       buttons: 
         enroll_in_course: "Enroll in Course"
+      dont_know_password: "Don't know your password?"
       enter_email: "Please enter your email address:"
       existing_user: "I already have a account to login"
       getting_started: "You are enrolling in **%{course}**."
@@ -10237,6 +10261,12 @@ en:
         select_and_add_criterion: "Select and Add Criterion"
     flash_notices: 
       close: Close
+    forgot_password_form: 
+      back_to_enroll: "Back to Enroll"
+      back_to_login: "Back to Login"
+      buttons: 
+        request_password: "Request Password"
+      login_handle: "Enter your %{login_handle_name} and we'll send you a link to change your password."
     global_dialogs: 
       buttons: 
         install_video_plugin: "Install the Video Plugin"
@@ -10272,8 +10302,11 @@ en:
         log_in: "Log In"
         logout: Logout
         settings: Settings
+        signup_for_free: "Sign up for free"
       masquerading: 
         as: "As: *%{user_name}*"
+      title: 
+        welcome_to_jiaoxuebang: "Hi Welcome to Jiaoxuebang.com!"
     inline_preview: 
       links: 
         course_home: "Course Home"
@@ -10295,9 +10328,6 @@ en:
     keyboard_navigation_hint: 
       prompt: "Press comma to hear a list of keyboard shortcuts for this page."
     login: 
-      back_to_login: "Back to Login"
-      buttons: 
-        request_password: "Request Password"
       default_login_message: "Log in at your institution"
       dont_know_password: "Don't know your password?"
       labels: 
@@ -10305,7 +10335,6 @@ en:
         remember_me: "Stay signed in"
       log_in: "Log In"
       login_at_account: "Log in at %{school_name}"
-      login_handle: "Enter your %{login_handle_name} and we'll send you a link to change your password."
       register_for_canvas: "*Need a Jiaoxuebang Account?* **Click Here, It's Free!**"
     menu_assignment: 
       labels: 
@@ -10317,6 +10346,8 @@ en:
       labels: 
         enrolled_as: "Enrolled as"
         invited_as: "Invited as"
+    menu_navbar: 
+      homepage: Homepage
     menu_switch_accounts: 
       links: 
         associated_accounts: "Associated Accounts"
@@ -11375,6 +11406,8 @@ en:
       update_instructions: "You can update some of this user's information, but they can change it back if they choose."
     new: 
       create_a_canvas_account: "Create a Jiaoxuebang Account"
+      dont_have_course_code: "I have course code"
+      have_course_code: "I don't have course code"
     no_deleting_sis_user: "You cannot delete a system-generated user"
     no_self_registration: "Self registration has not been enabled for this account"
     oauth_fail: "OAuth Request failed. Couldn't find valid request"
@@ -11452,6 +11485,9 @@ en:
     user_not_found: "No active user with that ID was found."
     user_updated: "User was successfully updated."
     welcome: 
+      acts: 
+        create_account: "Create Account"
+        create_course: "Create Course"
       no_courses_message: |-
           You don't have any courses, so this page won't be very exciting for now.
                   Once you've created or signed up for courses, you'll start to see
