@@ -95,11 +95,11 @@ body.modal
         text-decoration: underline
   
       input.text
-        background: url(/images/login-input-bg.png) no-repeat
-        border: 0 none
+        background: #fff
+        border: 1px solid #ccc
         font-size: 13px
         padding: 19px 9px 18px 22px
-        width: 204px
+        width: 257px
         color: #303030
         margin: 0 6px 6px 0
         +transition(none)
@@ -109,12 +109,9 @@ body.modal
 
 
 // weird specificity here is to match the input.text above
-body.webkit #modal-box input.text
-  background: #fff
-  border: 1px solid #ccc
+body.webkit.modal #modal-box input.text
   padding: 15px 10px
   background-clip: padding-box
-  width: 257px
   border-radius: 0
 #login_form
   font-size: 12px
