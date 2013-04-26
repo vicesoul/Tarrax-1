@@ -37,6 +37,7 @@ $(document).ready(function() {
   });
   $(".forgot_password_link").click(function(event) {
     event.preventDefault();
+    if($('#pseudonym_session_unique_id').val()) $('#pseudonym_session_unique_id_forgot').val($('#pseudonym_session_unique_id').val());
     $("#login_form").hide();
     $("#forgot_password_form").show();
   });
