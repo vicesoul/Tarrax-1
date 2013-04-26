@@ -7,7 +7,7 @@ class AddI18nColumnForCourseCategory < ActiveRecord::Migration
   end
 
   def self.down
-
+    remove_column :course_categories, :i18n_key
   end
 
   def self.init_i18n_data
