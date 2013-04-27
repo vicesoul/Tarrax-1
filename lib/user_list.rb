@@ -144,7 +144,8 @@ class UserList
   end
   
   def resolve
-    all_account_ids = [@root_account.id] + @root_account.trusted_account_ids
+    #all_account_ids = [@root_account.id] + @root_account.trusted_account_ids
+    all_account_ids = [Account.default.id] # pseudonym only exists in default account
     # Search for matching pseudonyms
     Shard.partition_by_shard(all_account_ids) do |account_ids|
       Pseudonym.active.find(:all,
@@ -221,10 +222,12 @@ class UserList
       number = sms[:address].gsub(/[^\d\w]/, '')
       sms[:address] = "(#{number[0,3]}) #{number[3,3]}-#{number[6,4]}"
     end
-    sms_account_ids = @search_method != :closed ? [@root_account] : all_account_ids
-    Shard.partition_by_shard(sms_account_ids) do |account_ids|
-      sms_scope = @search_method != :closed ? Pseudonym : Pseudonym.scoped(:conditions => {:account_id => account_ids})
-      sms_scope.active.find(:all,
+    #sms_account_ids = @search_method != :closed ? [@root_account] : all_account_ids
+    #Shard.partition_by_shard(sms_account_ids) do |account_ids|
+      #sms_scope = @search_method != :closed ? Pseudonym : Pseudonym.scoped(:conditions => {:account_id => account_ids})
+      #sms_scope.active.find(:all,
+    Shard.partition_by_shard(all_account_ids) do |account_ids|
+      Pseudonym.active.find(:all,
           :select => 'path AS address, users.name AS name, communication_channels.user_id AS user_id',
           :joins => { :user => :communication_channels },
           :conditions => "communication_channels.workflow_state='active' AND (#{smses.map{|x| "path LIKE '#{x[:address].gsub(/[^\d]/, '')}%'" }.join(" OR ")})"

@@ -20,6 +20,18 @@ define([
   'jquery.instructure_misc_plugins' /* fillWindowWithMe */
 ], function(jQuery) {
 jQuery(function($) {
+
+	$(".logo-row").hide();
+
   $("#file_content").css('width', '100%').fillWindowWithMe();
+
+  // fix bug that in ie the flash obj is too small 
+  if ( $.browser.msie ) {
+		var $content = $("#file_content").contents();
+	  $content.find("table object").css({
+	  	"min-height": 600
+	  })
+	}
+
 });
 });

@@ -2604,7 +2604,7 @@ define([
       fileUpload.updateUploadCount();
       $.ajaxJSON('/files/pending', 'POST', post_params, function(data) {
         file.upload_url = data.proxied_upload_url || data.upload_url;
-        file.upload_params = _.extend(data.upload_params, {authenticity_token: $("#ajax_authenticity_token").text()});
+        file.upload_params = data.upload_params;
         $file.data('success_url', data.success_url);
         if(!$file.hasClass('done')) {
           fileUpload.swfQueuedAndPendingFiles.push(file);
