@@ -181,6 +181,7 @@ define([
       extended_valid_elements : "iframe[src|width|height|name|align|style|class|sandbox]",
       content_css: "/stylesheets/compiled/instructure_style.css,/stylesheets/compiled/tinymce.editor_box.css",
       editor_css: editor_css,
+      iframe_width: '',
 
       onchange_callback: function(e) {
         $("#" + id).trigger('change');
@@ -192,6 +193,9 @@ define([
           $(document).triggerHandler('editor_box_focus', $editor);
           $.publish('editorBox/focus', $editor);
         };
+        
+        //document.getElementById(ed.id + '_ifr').style.height = '300px';
+        
         ed.onClick.add(focus);
         ed.onKeyPress.add(focus);
         ed.onActivate.add(focus);
@@ -247,6 +251,8 @@ define([
               .after("<td class='mceSeparatorRight'><span/></td>")
               .remove();
           });
+
+          if(this.settings.iframe_width) document.getElementById(ed.editorId+'_ifr').style.height = this.settings.iframe_width;
 
           var focusImg = (function(){
             var iframe = $("#"+id+"_ifr");
