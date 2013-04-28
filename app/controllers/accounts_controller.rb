@@ -353,7 +353,9 @@ class AccountsController < ApplicationController
       # current one, remove them from the current account
       # instead of deleting them completely
       if @user
-        if !(@user.associated_root_accounts.map(&:id).compact.uniq - [@root_account.id]).empty?
+        if @root_account.default?
+          @user.destroy(true)
+        elsif !(@user.associated_root_accounts.map(&:id).compact.uniq - [@root_account.id]).empty?
           @user.remove_from_root_account(@root_account)
         else
           @user.destroy(true)
