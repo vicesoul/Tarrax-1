@@ -69,10 +69,14 @@ require [
         $(this).append $editImg
 
   makePositionClickable = ->
-    $(".theme_edit [data-position]").click ->
-     $(".theme_edit .position_selected").removeClass "position_selected"
-     $(this).addClass "position_selected"
-     $(this).effect('highlight', {}, 500)
+     $(".theme_edit [data-position]").bind(
+       click: ->
+         $(".theme_edit .position_selected").removeClass "position_selected"
+         $(this).addClass "position_selected"
+         $(this).effect('highlight', {}, 500)
+       #dblclick: ->
+         #$('#add_widget_dialog').dialog();
+     )
 
   makePositionUnclickable = ->
     $("[data-position]").unbind 'click'
@@ -168,8 +172,53 @@ require [
       $("#content-wrapper").addClass("theme_edit")
       $("form.edit_jxb_page").show()
       $(".sortable").sortable("enable")
+      $("#add_widget").draggable(
+        connectToSortable: ".sortable"
+        helper: "clone"
+        revert: "invalid"
+      )
       makeWidgetsDeletable()
       makePositionClickable()
+
+      #############################
+      $(".sortable").sortable(
+        revert: true
+        stop: (event, ui) ->
+          if ui.item.hasClass 'add_widget_icon'
+            name = $("#widget_name").val()
+            #$container = if $(".position_selected").length > 0 then $(".position_selected") else $("[data-position]:last")
+            $context = ui.item
+            $container = ui.item.prev()
+            _this = $(this)
+            $.ajax(
+              url: $("#widget_url").val()
+              data: { name:name }
+              beforeSend: () ->
+                $("#add_widget").hide()
+                $(".add_widget_loading_icon").show()
+            ).success (data)->
+              $data = $(data).addClass("new_widget_ajax")
+              
+              if $container.length == 0
+                $container = _this.find('[data-widget]')
+                if $container.length == 0
+                  _this.append($data)
+                else
+                  $container.before($data)
+              else
+                $container.after($data)
+              $('[data-position]').find('.add_widget_icon').remove()
+              $(".sortable").sortable()
+              makeWidgetsDeletable()
+              $('body').animate({
+                scrollTop: $data.offset().top
+              }, 500, -> $data.effect('highlight', {}, 500) )
+              $(".add_widget_loading_icon").hide()
+              $("#add_widget").show()
+
+      )
+      return
+      #############################
 
     $("form.edit_jxb_page button.cancel").click ->
       $(".sortable").sortable("cancel")
