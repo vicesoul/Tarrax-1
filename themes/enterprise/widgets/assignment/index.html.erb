@@ -23,7 +23,7 @@
             <td><%= l(assignment.due_at, :format => :long) if assignment.due_at %></td>
             <td>
               <% unless assignment.submission_types.blank? %>
-                <%= @has_submited_assignment_ids.include?(assignment.id) ? t('#cells.assignment.done', 'Done') : t('#cells.assignment.to_do', 'To do') %>
+                <%= @has_submited_assignment_ids.include?(assignment.id) ? t('#cells.assignment.done', 'Done') : t('#cells.assignment.to_do', 'To do') if @has_submited_assignment_ids %>
               <% else %>
                 -
               <% end %>
