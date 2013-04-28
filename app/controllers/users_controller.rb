@@ -817,8 +817,10 @@ class UsersController < ApplicationController
       else
         @pseudonym.send(:skip_session_maintenance=, true)
       end
-      @user.save!
-      @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations) if @special_associations
+      User.skip_updating_account_associations do
+        @user.save!
+        @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations) if @special_associations
+      end
 
       message_sent = false
       if notify == :self_registration
