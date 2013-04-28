@@ -15,8 +15,17 @@ Global.quizzes = {
     var $formAnswers = $form.find(".form_answers");
     var $main = $factory.find(".main");
     var textWidth = parseFloat( $(".text").width() );
+    
     if($main.find("svg").size() === 1){$main.find("svg").remove()}
-    var paper = Raphael( $main[0], textWidth, 500 );
+    
+    var defaultWidth = 680;
+    var defaultHeight = 500;
+    var factoryWidth = parseFloat( $factory.width() );
+    var mainHeight = ( defaultHeight / defaultWidth ) * factoryWidth;
+    var paper = Raphael( $main[0], textWidth, mainHeight );
+    $main.css({
+      height: mainHeight
+    });
 
     var deleHandle,
       positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
@@ -318,8 +327,8 @@ Global.quizzes = {
     function updatePosition(){
       $main.find("span.ui-draggable").each(function(){
         var ballId = $(this).attr("ball-id");
-        var ballX =  parseInt( $(this).css("left") );
-        var ballY =  parseInt( $(this).css("top") );
+        var ballX =  Math.round( parseInt( $(this).css("left") ) / factoryWidth * 10000) / 100.00 + "%";
+        var ballY =  Math.round( parseInt( $(this).css("top") ) / 500 * 10000 ) / 100.00 + "%";
         var isGrey = $(this).is(".grey");
         positionData[ballId] = positionData[ballId] === undefined ? {} : positionData[ballId];
         positionData[ballId]["x"] = ballX;

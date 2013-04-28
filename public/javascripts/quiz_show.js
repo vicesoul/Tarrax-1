@@ -187,7 +187,7 @@ $(document).ready(function () {
     $(".question.connecting_lead_question").each(function(){
 
       var $question = $(this),
-        isThreeLines = $question.find(".connecting_lead_linesNum").text().trim() === "3",
+        linesNum = $question.find(".connecting_lead_linesNum").text().trim(),
         $answers_wrapper = $question.find(".answers_wrapper"),
         rows = $answers_wrapper.find(".connecting_lead_left").length,
         $answers = $question.find(".answers"),
@@ -197,6 +197,7 @@ $(document).ready(function () {
 
       $answers_wrapper.css( "height", answerHeight );
       
+      var isThreeLines = linesNum === "3";
       if( isThreeLines ) $question.addClass("threeLines");
       
       var devider = isThreeLines ? 3 : 2;
@@ -302,7 +303,14 @@ $(document).ready(function () {
 
       $factory.prependTo($answers_wrapper);
 
-      var paper = Raphael( $main[0], $answers.width(), 500 );
+      var defaultWidth = 680;
+      var defaultHeight = 500;
+      var factoryWidth = parseFloat( $factory.width() );
+      var mainHeight = ( defaultHeight / defaultWidth ) * factoryWidth;
+      var paper = Raphael( $main[0], $answers.width(), mainHeight );
+      $main.css({
+        height: mainHeight
+      });
 
       updateUserAnswerLines();
 
