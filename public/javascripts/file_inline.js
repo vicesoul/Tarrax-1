@@ -28,8 +28,9 @@ jQuery(function($) {
   // fix bug that in ie the flash obj is too small 
   if ( $.browser.msie ) {
 		var $content = $("#file_content").contents();
+		var $height = $("#file_content").height();
 	  $content.find("table object").css({
-	  	"min-height": 600
+	  	"min-height": $height
 	  })
 	}
 

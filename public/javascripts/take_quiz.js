@@ -679,7 +679,7 @@ define([
 
         var readyLine,             // the line that is active
           $question = $(this),
-          linesNum = $question.find(".connecting_lead_linesNum").text(),
+          linesNum = $question.find(".connecting_lead_linesNum").text().trim(),
           rows = $question.find(".word_left").length,
           $answers = $question.find(".answers"),
           answerHeight = 40 * rows,
@@ -688,7 +688,7 @@ define([
 
         $toolTip.find("button:last").bind("click", function(){resetToolTip( $toolTip, paper);})
 
-        if( linesNum === "2" ) $question.addClass("threeLines");
+        if( linesNum === "3" ) $question.addClass("threeLines");
         $answers.css( "height", answerHeight );
 
         $(document).click(function(){ resetToolTip( $toolTip, paper ) });
@@ -815,11 +815,22 @@ define([
           $answers = $question.find(".answers"),
           $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
           $main = $factory.find(".main"),
-          $toolTip = $("#toolTip").bind("click", function(e){ e.stopPropagation(); }),
-          paper = Raphael( $main[0], $answers.width(), 500 );
+          $toolTip = $("#toolTip").bind("click", function(e){ e.stopPropagation(); });
 
-        $toolTip.find("button:last").bind("click", function(){resetToolTip($toolTip, paper); })
+
+
+        $toolTip.find("button:last").bind("click", function(){resetToolTip($toolTip, paper); });
         $factory.prependTo($answers);
+
+        var defaultWidth = 680;
+        var defaultHeight = 500;
+        var factoryWidth = parseFloat( $factory.width() );
+        var mainHeight = ( defaultHeight / defaultWidth ) * factoryWidth;
+        var paper = Raphael( $main[0], $answers.width(), mainHeight );
+        $main.css({
+          height: mainHeight
+        });
+        
         //$answers.css( "height", 500 );
 
         // reload image
