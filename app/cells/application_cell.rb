@@ -15,9 +15,10 @@ class ApplicationCell < ::Cell::Base
     !widget.title.blank? && widget.title.strip || default_title
   end
 
-  def format_contexts(contexts)
-    if @opts[:can_select_course]
-      @ids = widget.courses && widget.courses.split(",").map(&:to_i) || [] 
+  def format_contexts(contexts, can_select_course=true)
+    @opts[:can_select_course] = can_select_course
+    if can_select_course
+      @ids = widget.page.courses && widget.page.courses.map(&:to_i) || [] 
       @has_content = @ids & contexts.map{|obj| obj.context.id} != []
     else
       @has_content = true
