@@ -3,7 +3,10 @@ define([
   'jquery.instructure_misc_plugins' /* fragmentChange */,
   'jquery.templateData' /* getTemplateData */,
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
-  'compiled/behaviors/quiz_selectmenu'
+  'compiled/behaviors/quiz_selectmenu',
+  'vendor/raphael',
+  'quizzes_new',
+  'bootstrap'
 ], function($) {
 
   var data = $("#submission_details").getTemplateData({textValues: ['version_number', 'user_id']});
@@ -107,6 +110,9 @@ define([
       total = total + fudge;
       $total.text(total || "0");
     });
+
+    Global.quizzes.quizzesShow();
+
   });
 
   if (ENV.SCORE_UPDATED) {
