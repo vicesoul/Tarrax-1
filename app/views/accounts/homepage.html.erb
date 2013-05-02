@@ -40,7 +40,7 @@
       <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
       <div class="button-container rs-margin-lr">
         <button type="submit" class="save_theme_button btn btn-primary"><%= t(:save, "Save") %></button>
-        <button class="btn cancel" onclick='$("form.edit_jxb_page").hide();$(".edit_theme_link").show();return false;'><%= t(:cancel, "Cancel") %></button>
+        <button class="btn cancel"><%= t(:cancel, "Cancel") %></button>
       </div>
     </div><!-- End of div#theme_options_holder -->
     <% end # End of form_for %>

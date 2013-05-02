@@ -221,16 +221,28 @@ require [
       #############################
 
     $("form.edit_jxb_page button.cancel").click ->
-      $(".sortable").sortable("cancel")
-      $('[data-position]').find('.add_widget_icon').remove()
-      $(".sortable").sortable("disable")
-      revertWidgets()
-      $("#content-wrapper").removeClass("theme_edit")
-      $("form.edit_jxb_page").hide()
-      $(".jxb_page_position").remove()
-      $(".new_widget_ajax").remove()
-      $(".edit_theme_link").show()
-      makePositionUnclickable()
+      fn = ->
+        $(".sortable").sortable("cancel")
+        $('[data-position]').find('.add_widget_icon').remove()
+        $(".sortable").sortable("disable")
+        revertWidgets()
+        $("#content-wrapper").removeClass("theme_edit")
+        $("form.edit_jxb_page").hide()
+        $(".jxb_page_position").remove()
+        $(".new_widget_ajax").remove()
+        $(".edit_theme_link").show()
+        makePositionUnclickable()
+
+      if $(".new_widget_ajax").size() != 0
+        $('#jxb-message-dialog').easyDialog({
+          confirmButton: '请帮我取消'
+          confirmButtonClass: 'btn-primary'
+          content: '您有新添加的组件未保存<br/ ><br />确定要取消之前所有的编辑操作吗？'
+          confirmCallback: fn
+        }, 'confirm')
+      else
+        fn()
+      return false
 
     #themes selector onchange  
     $('#jxb_page_theme').bind({
