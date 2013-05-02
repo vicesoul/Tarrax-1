@@ -221,7 +221,8 @@ require [
       #############################
 
     $("form.edit_jxb_page button.cancel").click ->
-      #$(".sortable").sortable("cancel")
+      $(".sortable").sortable("cancel")
+      $('[data-position]').find('.add_widget_icon').remove()
       $(".sortable").sortable("disable")
       revertWidgets()
       $("#content-wrapper").removeClass("theme_edit")
