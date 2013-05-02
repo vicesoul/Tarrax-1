@@ -200,7 +200,7 @@ require [
               $data = $(data).addClass("new_widget_ajax")
               
               if $container.length == 0
-                $container = _this.find('[data-widget]')
+                $container = _this.find('[data-widget]:first')
                 if $container.length == 0
                   _this.append($data)
                 else
@@ -228,7 +228,7 @@ require [
       $("#content-wrapper").removeClass("theme_edit")
       $("form.edit_jxb_page").hide()
       $(".jxb_page_position").remove()
-      $(".new_widget").remove()
+      $(".new_widget_ajax").remove()
       $(".edit_theme_link").show()
       makePositionUnclickable()
 
