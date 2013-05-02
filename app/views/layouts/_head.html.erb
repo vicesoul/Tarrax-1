@@ -15,7 +15,7 @@
   <noscript> <meta http-equiv=refresh content="0; URL=/enable-javascript.html" /> </noscript>
   
   <% if @current_user %>
-    <!--[if lte IE 6]> <meta http-equiv=refresh content="0; URL=/ie-6-is-not-supported.html" /> <![endif]-->
+    <!--[if lte IE 8]> <meta http-equiv=refresh content="0; URL=/browser-out-of-date.html" /> <![endif]-->
   <% end %>
   
   <%= yield :auto_discovery %>
