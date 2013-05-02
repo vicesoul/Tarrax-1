@@ -221,7 +221,7 @@ require [
       #############################
 
     $("form.edit_jxb_page button.cancel").click ->
-      $(".sortable").sortable("cancel")
+      #$(".sortable").sortable("cancel")
       $(".sortable").sortable("disable")
       revertWidgets()
       $("#content-wrapper").removeClass("theme_edit")
@@ -230,6 +230,30 @@ require [
       $(".new_widget").remove()
       $(".edit_theme_link").show()
       makePositionUnclickable()
+
+    #themes selector onchange  
+    $('#jxb_page_theme').bind({
+      change: ->
+        $('#jxb-message-dialog').easyDialog({
+          confirmButton: '我确定更换主题'
+          confirmButtonClass: 'btn-primary'
+          content: '您确定要更换主页的主题吗？'
+          confirmCancelCallback: ->
+             $('#jxb_page_theme').val($('#jxb_page_theme').prop('defauleSelected'))
+          confirmCallback: ->
+            $.ajaxJSON(
+              $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
+              'post',
+              {},
+              (data) ->
+                if data.flag
+                  window.location.reload()
+                else
+                  alert '更换主题失败，请重试!'
+
+            )
+        }, 'confirm')
+    })
 
     $("#add_widget").click ->
       name = $("#widget_name").val()
@@ -289,6 +313,10 @@ require [
       $("#background_bg_image").change(->
         $('#background_image_uploader').submit()
       )
+      #tooltip
+      $('.account_announcement, #add_widget').tooltip()
+      #stage current theme
+      #$('#jxb_page_theme').val($('#jxb_page_theme').prop('defauleSelected'));
 
     validateUploadedImage = (imageVal)->
       flag = true
