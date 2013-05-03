@@ -73,7 +73,7 @@ require [
        click: ->
          $(".theme_edit .position_selected").removeClass "position_selected"
          $(this).addClass "position_selected"
-         $(this).effect('highlight', {}, 500)
+         $(this).effect('highlight', {}, 3000)
        #dblclick: ->
          #$('#add_widget_dialog').dialog();
      )
