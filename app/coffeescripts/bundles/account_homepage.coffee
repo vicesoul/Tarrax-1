@@ -87,7 +87,9 @@ require [
     $(".edit_widget").remove()
 
   $ ->
-    
+
+    $('#jxb_page_theme').prop('defaultSelected', $('#jxb_page_theme').val())
+
     $("#content").css("overflow", "scroll")
 
     $(".sortable").sortable(
@@ -248,11 +250,11 @@ require [
     $('#jxb_page_theme').bind({
       change: ->
         $('#jxb-message-dialog').easyDialog({
-          confirmButton: '我确定更换主题'
+          confirmButton: '确定'
           confirmButtonClass: 'btn-primary'
-          content: '您确定要更换主页的主题吗？'
+          content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
           confirmCancelCallback: ->
-             $('#jxb_page_theme').val($('#jxb_page_theme').prop('defauleSelected'))
+            $('#jxb_page_theme').val($('#jxb_page_theme').prop('defaultSelected'))
           confirmCallback: ->
             $.ajaxJSON(
               $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
