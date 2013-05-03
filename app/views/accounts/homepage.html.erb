@@ -35,7 +35,7 @@
         <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon', :title => t('tip.drag_add_widget', 'Dragging me to the area you want to edit') %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
         <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %><br />
         <%= link_to t(:change_background, 'Change background'), 'javascript:void(0)', :id => 'link_to_change_background_dialog' %><br />
-        <%= link_to t(:reset_homepage, 'Reset homepage'), account_reset_homepage_path, :id => 'reset_homepage' %>
+        <%= link_to t(:reset_homepage, 'Reset homepage'), account_reset_homepage_path(@account), :id => 'reset_homepage' %>
       </div><!-- End of div#theme_options -->
       <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
       <div class="button-container rs-margin-lr">
