@@ -605,4 +605,16 @@ class AccountsController < ApplicationController
 
   end
 
+  def reset_homepage
+    @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
+    if @can_manage_homepage && @account.homepage
+      page_id = @account.homepage.id     
+      Jxb::Page.transaction do
+        Jxb::Widget.delete_all(['page_id = ?', page_id]) 
+        Jxb::Page.delete(page_id)
+      end
+    end
+    redirect_to :action => 'homepage'
+  end
+
 end

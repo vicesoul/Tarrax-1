@@ -165,6 +165,16 @@ require [
     $("#delete_background_image").click ->
       $("#background_image_holder").html ''
 
+    $('#reset_homepage').click ->
+      _this = $(this)
+      $('#jxb-message-dialog').easyDialog({
+        content: '您确定要重置主页吗？该操作是不可逆的!'
+        confirmButtonClass: 'btn-primary'
+        confirmCallback: ->
+          window.location.href = _this.attr('href')
+      }, 'confirm')
+      return false
+
     # make disable default
     $(".sortable").sortable("disable")
 

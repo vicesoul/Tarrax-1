@@ -375,6 +375,7 @@ zh-CN:
       body: 内容
       cancel: 取消
       change_background: 改变背景
+      reset_homepage: 重置主页
       choose_image: 选择图片
       delete_background_image: 删除上传的背景图片
       dialog: 
@@ -394,6 +395,8 @@ zh-CN:
       save: 保存
       title: 标题
       upload: 上传
+      tip:
+        drag_add_widget: 试试看拖动我到你想要编辑的区域
     homepages: 主页
     include_deleted_parameter: 
       account_reports: 

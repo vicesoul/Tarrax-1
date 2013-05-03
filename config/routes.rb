@@ -464,6 +464,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     #account.update_theme 'update_theme/:theme', :controller => 'jxb/pages', :action => 'update_theme'
     account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
+    account.reset_homepage  'reset_homepage', :controller => 'accounts', :action => 'reset_homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)
     account.resources :assignments
