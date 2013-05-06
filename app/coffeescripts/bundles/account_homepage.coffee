@@ -1,6 +1,6 @@
 require [
   'jquery',
-  'i18n!homepage_dialog'
+  'i18n!account_homepage'
   'jqueryui/sortable',
   'jqueryui/draggable',
   'jqueryui/dialog',
@@ -10,7 +10,6 @@ require [
   'jquery.form',
   'jqueryui/easyDialog'
 ], ($, I18n)->
-  
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
     $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
@@ -68,15 +67,16 @@ require [
           $widget.addClass('editable')
         $(this).append $editImg
 
-  makePositionClickable = ->
-     $(".theme_edit [data-position]").bind(
-       click: ->
-         $(".theme_edit .position_selected").removeClass "position_selected"
-         $(this).addClass "position_selected"
-         $(this).effect('highlight', {}, 3000)
-       #dblclick: ->
-         #$('#add_widget_dialog').dialog();
-     )
+  makePositionClickable = ($tipA) ->
+    
+    $(".theme_edit [data-position]").bind(
+      click: ->
+        $(".theme_edit .position_selected").removeClass "position_selected"
+        $(this).addClass "position_selected"
+        $(this).effect('highlight', {}, 3000)
+        #dblclick: ->
+          #$('#add_widget_dialog').dialog();
+    )
 
   makePositionUnclickable = ->
     $("[data-position]").unbind 'click'
@@ -191,6 +191,36 @@ require [
       )
       makeWidgetsDeletable()
       makePositionClickable()
+
+      $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
+      $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
+      $tipA.add($tipB).appendTo("body").hide()
+
+      $(".theme_edit [data-position]").bind(
+        mouseenter: ->
+          position = $(this).offset()
+          w = $tipA.width()
+          $tipA.show().css({
+            left: position.left - w
+            top: position.top
+            })
+
+        mouseleave: ->
+          $tipA.hide()
+      )
+
+      $(".theme_edit .box_head").bind(
+        mouseenter: ->
+          position = $(this).offset()
+
+          $tipB.show().css({
+            left: position.left
+            top: position.top - 15
+            })
+
+        mouseleave: ->
+          $tipB.hide()
+      )
 
       #############################
       $(".sortable").sortable(
@@ -340,7 +370,7 @@ require [
       )
       #tooltip
       $('.account_announcement, #add_widget').tooltip({
-        position: { my: "left bottom", at: "left bottom-30" }
+        position: { my: "left bottom+30", at: "left bottom" }
         })
       #stage current theme
       #$('#jxb_page_theme').val($('#jxb_page_theme').prop('defauleSelected'));

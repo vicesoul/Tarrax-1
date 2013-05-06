@@ -224,6 +224,10 @@ en:
       logout_request_to_idp: "LogoutRequest sent to IdP"
       logout_response_from_idp: "LogoutResponse from IdP"
       saml_required: "A SAML configuration is required to test SAML"
+  account_homepage: 
+    tip: 
+      choose: "click to choose a insertable area -->"
+      drag: "drag & move to a new area"
   account_notifications: 
     announcement_created_notice: "Announcement successfully created"
     announcement_creation_failed_notice: "Announcement creation failed"
@@ -389,7 +393,10 @@ en:
         add_new_widget: "New widget"
         name: "Theme name"
       repeat: Repeat
+      reset_homepage: "Reset homepage"
       save: Save
+      tip: 
+        drag_add_widget: "Dragging me to the area you want to edit"
       title: Title
       upload: Upload
     homepages: Homepage

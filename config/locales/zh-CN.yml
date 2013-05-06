@@ -6166,6 +6166,10 @@ zh-CN:
       sending_message: 正在发送邮件...
     message_student: "向学生发送有关 %{course_name} 的邮件"
     send_message: 发送邮件
+  account_homepage:
+    tip:
+      choose: 点击选择插入区域-->
+      drag: 拖动以移动组件
   messages: 
     account_user_notification: 
       email: 
