@@ -1,4 +1,5 @@
 require [
+  'underscore'
   'compiled/views/DiscussionTopic/EntryView'
   'compiled/models/DiscussionFilterState'
   'compiled/views/DiscussionTopic/DiscussionToolbarView'
@@ -13,7 +14,7 @@ require [
   'compiled/views/DiscussionTopic/TopicView'
   'compiled/views/DiscussionTopic/EntriesView'
   'compiled/jquery/sticky'
-], (EntryView, DiscussionFilterState, DiscussionToolbarView, DiscussionFilterResultsView, MarkAsReadWatcher, $, Backbone, Entry, MaterializedDiscussionTopic, SideCommentDiscussionTopic, EntryCollection, TopicView, EntriesView) ->
+], (_, EntryView, DiscussionFilterState, DiscussionToolbarView, DiscussionFilterResultsView, MarkAsReadWatcher, $, Backbone, Entry, MaterializedDiscussionTopic, SideCommentDiscussionTopic, EntryCollection, TopicView, EntriesView) ->
 
   perPage     = 10
   descendants = 3
@@ -64,7 +65,8 @@ require [
   ##
   # connect them ...
   data.on 'change', ->
-    entries.reset data.get 'entries'
+    entries.reset _.reject data.get('entries'), (e)->
+      e.deleted
 
   entriesView.on 'scrollAwayFromEntry', ->
     # prevent scroll to top for non-pushstate browsers when hash changes

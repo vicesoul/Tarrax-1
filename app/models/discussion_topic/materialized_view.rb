@@ -69,7 +69,6 @@ class DiscussionTopic::MaterializedView < ActiveRecord::Base
 
       if opts[:include_new_entries]
         new_entries = discussion_topic.discussion_entries.all(:conditions => ["updated_at >= ?", (self.generation_started_at || self.updated_at)])
-        new_entries.reject! {|e| e.deleted? } if opts[:exclude_deleted_entries]
         participant_ids = (Set.new(participant_ids) + new_entries.map(&:user_id).compact + new_entries.map(&:editor_id).compact).to_a
         entry_ids = (Set.new(entry_ids) + new_entries.map(&:id)).to_a
         new_entries_json_structure = discussion_entry_api_json(new_entries, discussion_topic.context, nil, nil, []).to_json
