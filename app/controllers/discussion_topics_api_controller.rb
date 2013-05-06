@@ -89,7 +89,7 @@ class DiscussionTopicsApiController < ApplicationController
   #   }
   def view
     return unless authorized_action(@topic, @current_user, :read)
-    structure, participant_ids, entry_ids, new_entries_structure = @topic.materialized_view(:include_new_entries => params[:include_new_entries] == '1', :exclude_deleted_entries => true)
+    structure, participant_ids, entry_ids, new_entries_structure = @topic.materialized_view(:include_new_entries => params[:include_new_entries] == '1')
 
     if structure
       participant_info = User.find(participant_ids).map do |user|
