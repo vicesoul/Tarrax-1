@@ -13,7 +13,7 @@ module Jxb
       active_discussions_of_courses(filter_concluded_courses Course.find(ids) )
     end
 
-    def active_discussions_of_courses(kourses = nil, limit = 8)
+    def active_discussions_of_courses(kourses = nil, limit = 10)
       DiscussionTopic.active.where(:type => nil).for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'created_at DESC')
     end
 
@@ -21,7 +21,7 @@ module Jxb
       active_announcements_of_courses(filter_concluded_courses Course.find(ids) )
     end
 
-    def active_announcements_of_courses(kourses = nil, limit = 5)
+    def active_announcements_of_courses(kourses = nil, limit = 10)
       Announcement.active.for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'created_at DESC')
     end
 
