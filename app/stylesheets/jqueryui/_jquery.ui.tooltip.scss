@@ -13,12 +13,12 @@
   text-decoration: none;
   background-color: $bgColorTooltip;
   @include opacity(0.8);
-  border: none;
+  border: 1px solid #666;
 }
 
 .ui-tooltip {
   &:before {
-    border-color: transparent transparent $bgColorTooltip transparent;
+    border-color: transparent transparent #666 transparent;
     position: absolute;
     border-style:solid;
     border-width: $tooltipCaretSize;

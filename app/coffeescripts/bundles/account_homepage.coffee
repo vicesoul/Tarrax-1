@@ -339,7 +339,9 @@ require [
         $('#background_image_uploader').submit()
       )
       #tooltip
-      $('.account_announcement, #add_widget').tooltip()
+      $('.account_announcement, #add_widget').tooltip({
+        position: { my: "left bottom", at: "left bottom-30" }
+        })
       #stage current theme
       #$('#jxb_page_theme').val($('#jxb_page_theme').prop('defauleSelected'));
 
