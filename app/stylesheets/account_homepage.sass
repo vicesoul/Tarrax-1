@@ -17,7 +17,7 @@ form.edit_jxb_page
   img.delete_widget
     position: absolute
     top: 8px
-    right: 20px
+    right: 35px
     cursor: pointer
   img.edit_widget
     position: absolute
@@ -27,13 +27,32 @@ form.edit_jxb_page
 
 .theme_edit
   [data-position]
-    border: 1px dashed silver
+    border: 1px dashed #ccc
     margin-bottom: 5px
     padding: 0
     min-width: 100px
     min-height: 30px
   .position_selected
-    border-color: yellow
+    border: 1px solid #ff6600
+    box-shadow: 0 0 0 1px #ff6600
+    position: relative
+    
+  .sortable
+    position: relative
+    &:hover:before
+      content: "点击选择插入区域-->"
+      position: absolute
+      left: -120px
+      font-size: 12px
+      color: #ff6600
+  .ui-sortable
+    .box_head
+      &:hover:before
+        content: "拖动以移动组件"
+        position: absolute
+        top: -15px
+        font-size: 12px
+        color: #ff6600
   .data-link
     a
       display: none
