@@ -16,6 +16,7 @@ class ApplicationCell < ::Cell::Base
   end
 
   def format_contexts(contexts, can_select_course=true)
+    can_select_course = false if widget.page.context_type == 'User'
     @opts[:can_select_course] = can_select_course
     if can_select_course
       @ids = widget.page.courses && widget.page.courses.map(&:to_i) || [] 
