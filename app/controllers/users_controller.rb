@@ -825,6 +825,8 @@ class UsersController < ApplicationController
       end
       User.skip_updating_account_associations do
         @user.save!
+        # if new user, should be associated to default account
+        @special_associations ||= User.calculate_account_associations_from_accounts([Account.default.id])
         @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations) if @special_associations
       end
 

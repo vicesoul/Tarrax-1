@@ -134,7 +134,7 @@ class ErrorReport < ActiveRecord::Base
     unless self.email
       domain = HostUrl.outgoing_email_domain.gsub(/[^a-zA-Z0-9]/, '-')
       # example.com definitely won't exist
-      self.email = "unknown-#{domain}@instructure.example.com"
+      self.email = "unknown-#{domain}@jiaoxuebang.example.com"
     end
     self.email
   end
