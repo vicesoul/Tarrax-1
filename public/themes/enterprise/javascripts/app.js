@@ -70,10 +70,12 @@ require([
       $.ajax({
         type: "put",
         url: $(this).attr("data-url"),
-        data: {"widget":{"courses": $.unique(ids).join(",") }}
+        data: {"widget":{"courses": $.unique(ids).join(",") }},
+        success: function(){
+          $("#config_courses_holder").hide();
+          window.location.reload();
+        }
       });
-      $("#config_courses_holder").hide();
-      window.location.reload();
       return false;
     });
 
