@@ -586,8 +586,10 @@ class AccountsController < ApplicationController
   def homepage
     @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
     @page = @account.find_or_create_homepage
+    @show_left_side = false
 
     if @can_manage_homepage
+      @show_homepage_left_editor_side = true
       @active_tab = "homepage"
       add_crumb t(:homepages, "Homepage"), account_homepage_path(@account)
       @backgroud_data = {}
@@ -598,7 +600,6 @@ class AccountsController < ApplicationController
       end
     elsif authorized_action(@page, @current_user, session, :read)
       clear_crumbs
-      @show_left_side = false
     end
     
     prepend_view_path Jxb::Theme.path(@page.theme)

@@ -8,7 +8,8 @@ require [
   'compiled/tinymce',
   'tinymce.editor_box',
   'jquery.form',
-  'jqueryui/easyDialog'
+  'jqueryui/easyDialog',
+  'jqueryui/accordion'
 ], ($, I18n)->
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
@@ -179,88 +180,49 @@ require [
     $(".sortable").sortable("disable")
 
     $(".edit_theme_link").click ->
-      $('#fixed_right_sider').draggable()
-      $(this).hide()
-      $("#content-wrapper").addClass("theme_edit")
-      $("form.edit_jxb_page").show()
-      $(".sortable").sortable("enable")
-      $("#add_widget").draggable(
-        connectToSortable: ".sortable"
-        helper: "clone"
-        revert: "invalid"
-      )
-      makeWidgetsDeletable()
-      makePositionClickable()
+      $('form.edit_jxb_page').submit()
+      #$('#fixed_right_sider').draggable()
+      #$(this).hide()
+      #$("#content-wrapper").addClass("theme_edit")
+      #$("form.edit_jxb_page").show()
+      #$(".sortable").sortable("enable")
+      #$("#add_widget").draggable(
+        #connectToSortable: ".sortable"
+        #helper: "clone"
+        #revert: "invalid"
+      #)
+      #makeWidgetsDeletable()
+      #makePositionClickable()
 
-      $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
-      $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
-      $tipA.add($tipB).appendTo("body").hide()
+      #$tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
+      #$tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
+      #$tipA.add($tipB).appendTo("body").hide()
 
-      $(".theme_edit [data-position]").bind(
-        mouseenter: ->
-          position = $(this).offset()
-          w = $tipA.width()
-          $tipA.show().css({
-            left: position.left - w
-            top: position.top
-            })
+    $(".theme_edit [data-position]").bind(
+      mouseenter: ->
+        position = $(this).offset()
+        w = $tipA.width()
+        $tipA.show().css({
+          left: position.left - w
+          top: position.top
+          })
 
-        mouseleave: ->
-          $tipA.hide()
-      )
+      mouseleave: ->
+        $tipA.hide()
+    )
 
-      $(".theme_edit .box_head").bind(
-        mouseenter: ->
-          position = $(this).offset()
+    $(".theme_edit .box_head").bind(
+      mouseenter: ->
+        position = $(this).offset()
 
-          $tipB.show().css({
-            left: position.left
-            top: position.top - 15
-            })
+        $tipB.show().css({
+          left: position.left
+          top: position.top - 15
+          })
 
-        mouseleave: ->
-          $tipB.hide()
-      )
-
-      #############################
-      $(".sortable").sortable(
-        revert: true
-        stop: (event, ui) ->
-          if ui.item.hasClass 'add_widget_icon'
-            name = $("#widget_name").val()
-            #$container = if $(".position_selected").length > 0 then $(".position_selected") else $("[data-position]:last")
-            $context = ui.item
-            $container = ui.item.prev()
-            _this = $(this)
-            $.ajax(
-              url: $("#widget_url").val()
-              data: { name:name }
-              beforeSend: () ->
-                $("#add_widget").hide()
-                $(".add_widget_loading_icon").show()
-            ).success (data)->
-              $data = $(data).addClass("new_widget_ajax")
-              
-              if $container.length == 0
-                $container = _this.find('[data-widget]:first')
-                if $container.length == 0
-                  _this.append($data)
-                else
-                  $container.before($data)
-              else
-                $container.after($data)
-              $('[data-position]').find('.add_widget_icon').remove()
-              $(".sortable").sortable()
-              makeWidgetsDeletable()
-              $('body').animate({
-                scrollTop: $data.offset().top
-              }, 500, -> $data.effect('highlight', {}, 500) )
-              $(".add_widget_loading_icon").hide()
-              $("#add_widget").show()
-
-      )
-      return
-      #############################
+      mouseleave: ->
+        $tipB.hide()
+    )
 
     $("form.edit_jxb_page button.cancel").click ->
       fn = ->
@@ -396,7 +358,77 @@ require [
         content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
       })
 
+    initSaveButton = ->
+      $('form.edit_jxb_page').show()
+      #$('#fixed_right_sider').draggable()
+      #$(this).hide()
+      $("form.edit_jxb_page").show()
+      $(".sortable").sortable("enable")
+      #$("#add_widget").draggable(
+        #connectToSortable: ".sortable"
+        #helper: "clone"
+        #revert: "invalid"
+      #)
+      
+      unless $('.homepage-editable').size() == 0
+        $("#content-wrapper").addClass("theme_edit")
+        makeWidgetsDeletable()
+        makePositionClickable()
+
+      #############################
+      return
+      ############################
+
     $(document).ready(
       ->
         init()
+
+        ##################################
+
+        initSaveButton()
+
+        $('#left-side').accordion()
+
+        #$('.edit_theme_link').click()
+
+        $('.editor-component').draggable(
+          connectToSortable: ".sortable"
+          helper: "clone"
+          revert: "invalid"
+        )
+
+        $(".sortable").sortable(
+          revert: true
+          stop: (event, ui) ->
+            if ui.item.hasClass 'editor-component'
+              name = ui.item.attr('cpType')
+
+              $context = ui.item
+              $container = ui.item.prev()
+              _this = $(this)
+              $.ajax(
+                url: $("#widget_url").val()
+                data: { name:name }
+                beforeSend: () ->
+              ).success (data)->
+                $data = $(data).addClass("new_widget_ajax")
+
+                if $container.length == 0
+                  $container = _this.find('[data-widget]:first')
+                  if $container.length == 0
+                    _this.append($data)
+                  else
+                    $container.before($data)
+                else
+                  $container.after($data)
+                $('[data-position]').find('.editor-component').remove()
+                $(".sortable").sortable()
+                makeWidgetsDeletable()
+                $('body').animate({
+                  scrollTop: $data.offset().top
+                }, 500, -> $data.effect('highlight', {}, 500) )
+
+        )
+
+        ##################################
     )

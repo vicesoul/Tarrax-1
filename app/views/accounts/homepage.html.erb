@@ -23,27 +23,9 @@
 <% if @can_manage_homepage %>
 <div id="fixed_right_sider">
   <div>
-    <a href="javascript:void(0)" class="edit_theme_link btn button-sidebar-wide"><i class="icon-edit"></i> <%= t(:edit_this_page, "Edit this page") %></a>
+    <a href="javascript:void(0)" class="edit_theme_link btn button-sidebar-wide"><i class="icon-edit"></i> <%= t(:save, "Save") %></a>
     <%= hidden_field_tag 'hidden_update_theme_url', account_page_update_theme_path(@account, @page, '') %>
-    <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
-    <div id="theme_options_holder">
-      <div id="theme_options">
-        <%= before_label(:name, 'Theme name') %>
-        <%= f.select :theme, Jxb::Theme.themes %>
-        <%= f.hidden_field :background_image %>
-        <%= before_label(:add_new_widget, 'New widget') %>
-        <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon', :title => t('tip.drag_add_widget', 'Dragging me to the area you want to edit') %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
-        <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %><br />
-        <%= link_to t(:change_background, 'Change background'), 'javascript:void(0)', :id => 'link_to_change_background_dialog' %><br />
-        <%= link_to t(:reset_homepage, 'Reset homepage'), account_reset_homepage_path(@account), :id => 'reset_homepage' %>
-      </div><!-- End of div#theme_options -->
-      <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
-      <div class="button-container rs-margin-lr">
-        <button type="submit" class="save_theme_button btn btn-primary"><%= t(:save, "Save") %></button>
-        <button class="btn cancel"><%= t(:cancel, "Cancel") %></button>
-      </div>
-    </div><!-- End of div#theme_options_holder -->
-    <% end # End of form_for %>
+    <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
   </div>
 </div>
 <div id="edit_widget_dialog">
