@@ -39,6 +39,17 @@ class EnrollmentsFromUserList
     raise ArgumentError, "Must provide a UserList" unless list.is_a?(UserList)
     @enrollments = []
 
+    list.addresses.reject! do |a|
+      @course.users.find(:all,
+         :include => :communication_channels,
+         :conditions => [
+           "type = ? and communication_channels.workflow_state = 'unconfirmed' and communication_channels.path = ? and communication_channels.path_type = ?",
+           @enrollment_type,
+           a[:address],
+           a[:type].to_s
+      ]).present?
+    end
+
     list.addresses.slice!(0,@limit) if @limit
     list.users.each { |user| enroll_user(user) }
     @enrollments
