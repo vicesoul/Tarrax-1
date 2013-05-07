@@ -230,7 +230,7 @@ class UserList
       Pseudonym.active.find(:all,
           :select => 'path AS address, users.name AS name, communication_channels.user_id AS user_id',
           :joins => { :user => :communication_channels },
-          :conditions => "communication_channels.workflow_state='active' AND (#{smses.map{|x| "path LIKE '#{x[:address].gsub(/[^\d]/, '')}%'" }.join(" OR ")})"
+          :conditions => "account_id = #{Account.default.id} AND communication_channels.workflow_state='active' AND (#{smses.map{|x| "path LIKE '#{x[:address].gsub(/[^\d]/, '')}%'" }.join(" OR ")})"
       ).map { |pseudonym| pseudonym.attributes.symbolize_keys }.each do |sms|
         address = sms.delete(:address)[/\d+/]
         addresses = smses.select { |a| a[:address].gsub(/[^\d]/, '') == address }
