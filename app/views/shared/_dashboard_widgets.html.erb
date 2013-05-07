@@ -10,7 +10,9 @@
     <div class="im_account_announcements_widget">
       <%= render_cell 'announcement', 'account', 
         :theme => 'jiaoxuebang', 
-        :announcements => ( @announcements || [] ) %>
+        :announcements => ( @announcements || [] ),
+        :current_user => @current_user
+      %>
     </div>
     <div class="clear"></div>
   </div>

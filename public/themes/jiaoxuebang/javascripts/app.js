@@ -57,22 +57,23 @@ require([
     $(".save_selector").click(function(){
       var $widget = $( "[data-widget='" + $(this).attr("data-widget") + "']" );
       var ids = [];
-      $widget.find("[data-course-id]").hide();
+      //$widget.find("[data-course-id]").hide();
       $("#config_courses_holder .course_id_checkbox:checked").each(function(){
         $widget.find("[data-course-id=" + $(this).val() + "]").show();
         ids.push( $(this).val() );
       });
-      if (ids.length <= 0) { 
-        $widget.find(".box-body").hide(); 
-      }else{
-        $widget.find(".box-body").show(); 
-      }
+      //if (ids.length <= 0) { 
+        //$widget.find(".box-body").hide(); 
+      //}else{
+        //$widget.find(".box-body").show(); 
+      //}
       $.ajax({
         type: "put",
         url: $(this).attr("data-url"),
         data: {"widget":{"courses": $.unique(ids).join(",") }}
       });
       $("#config_courses_holder").hide();
+      window.location.reload();
       return false;
     });
 

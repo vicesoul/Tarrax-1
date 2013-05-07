@@ -2,7 +2,7 @@ class AnnouncementCell < ApplicationCell
   helper :avatar
 
   def index
-    @announcements = context.active_announcements_of_courses
+    @announcements = context.active_announcements_of_courses(get_widget_courses)
     format_contexts(@announcements)
 
     prepend_view_path Jxb::Theme.widget_path(theme)

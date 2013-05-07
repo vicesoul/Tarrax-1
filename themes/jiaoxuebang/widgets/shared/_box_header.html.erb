@@ -1,5 +1,5 @@
 <h4 class="data-widget-title left"><%= title header_title %></h4>
-<% if widget.cell_name != 'activity' && !widget.new_record? %>
+<% if @opts[:user_can_select_course] && widget.cell_name != 'activity' && !widget.new_record? %>
   <div class="right courses-selector">
     <%= link_to t('#cells.configure', 'configure>'), 'javascript:void(0)', "data-ids" => (@ids || []).join(','), :class => 'config_courses', 'data-url' => widget_path(widget) %>
   </div>

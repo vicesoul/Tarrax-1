@@ -59,6 +59,7 @@ class Jxb::WidgetsController < ApplicationController
     @widget = Jxb::Widget.find(params[:id])
 
     respond_to do |format|
+      params[:widget][:courses] = params[:widget][:courses].split(',')
       if @widget.update_attributes(params[:widget])
         format.js { head :ok }
       else
