@@ -14,7 +14,7 @@ module Jxb
 
       def find_or_create_dashboard_page
         self.dashboard_page || begin
-          courses = self.available_courses.map{|c| c.id}.join(',')
+          courses = self.available_courses.map{|c| c.id}
           page = self.build_dashboard_page(:name => 'dashboard', :theme => 'jiaoxuebang')
           page.widgets.build(:cell_name => "announcement", :cell_action => "index", :seq => 1, :courses => courses)
           page.widgets.build(:cell_name => "assignment",   :cell_action => "index", :seq => 2, :courses => courses)

@@ -20,6 +20,8 @@ class Jxb::Widget < ActiveRecord::Base
 
   attr_accessible :cell_name, :cell_action, :title, :body, :position, :seq, :courses
 
+  serialize :courses
+
   after_update :clear_cache
   
   # custom_index         自定义组件

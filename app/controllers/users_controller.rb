@@ -312,8 +312,14 @@ class UsersController < ApplicationController
 
     js_env :DASHBOARD_SIDEBAR_URL => dashboard_sidebar_url
 
+    association_accounts = @current_user.user_account_associations
+    unless association_accounts.blank?
+      @announcements = AccountNotification.find_all_by_account_id(association_accounts.map{|a| a.account_id}, :conditions => ['start_at <= ? and end_at  >= ?', Time.now.to_date, Time.now.to_date], :order => 'updated_at desc')
+    else
+      @announcements = nil
+    end
     #@announcements = AccountNotification.for_user_and_account(@current_user, @domain_root_account)
-    @announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) << @domain_root_account )
+    #@announcements = AccountNotification.for_user_and_account( @current_user, @current_user.associated_accounts.where(:parent_account_id => @domain_root_account.id) << @domain_root_account )
     @pending_invitations = @current_user.cached_current_enrollments(:include_enrollment_uuid => session[:enrollment_uuid]).select { |e| e.invited? }
     @stream_items = @current_user.try(:cached_recent_stream_items) || []
     

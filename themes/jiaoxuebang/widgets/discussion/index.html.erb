@@ -1,4 +1,3 @@
-<% unless @discussions.blank? && context.is_a?(User) %>
 <div <%= data_widget %> class="fixed">
   <div class="box <%= @opts[:box_class] %>">
     <div class="box_head">
@@ -10,7 +9,6 @@
       <% else %>
         <p><%= t('#cells.discussion.empty_body', 'Empty discussions') %></p>
       <% end %>
-      <% unless @discussions.blank? %>
       <div class="link_more" style="text-align: right;">
         <% 
             more_link = if context.is_a?(User)
@@ -21,8 +19,6 @@
         %>
         <%= link_to t('#cells.assignment.more', 'More>>'), more_link %>
       </div>
-      <% end %>
     </div>
   </div>
 </div>
-<% end %>
