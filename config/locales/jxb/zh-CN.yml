@@ -155,8 +155,10 @@ zh-CN:
       words_connector: ! ', '
   time:
     am: 上午
-    formats:
-      default: ! '%Y年%b%d日 %A %H:%M:%S %Z'
-      long: ! '%Y年%b%d日 %H:%M'
-      short: ! '%b%d日 %H:%M'
+    formats: 
+      default: "%a, %d %b %Y %H:%M:%S %z"
+      long: "%Y-%m-%d %H:%M"
+      short: "%d %b %H:%M"
+      tiny: "%l:%M%P"
+      tiny_on_the_hour: "%l%P"
     pm: 下午
