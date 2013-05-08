@@ -440,7 +440,9 @@ describe "Groups API", :type => :integration do
       @moderator = user_model
       @group.add_user(@moderator, 'accepted', true)
 
-      @member = user_with_pseudonym(:account => @account)
+      # UserList only search pseudonyms in default account
+      #@member = user_with_pseudonym(:account => @account)
+      @member = user_with_pseudonym
 
       @user = @moderator
       api_call(
