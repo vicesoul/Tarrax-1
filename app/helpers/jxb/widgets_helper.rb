@@ -37,4 +37,7 @@ module Jxb::WidgetsHelper
     render_widget(widget)
   end
 
+  def get_selected_courses widget
+    (widget && widget.courses) ? widget.courses.join(',') : nil
+  end
 end

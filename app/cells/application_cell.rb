@@ -1,6 +1,6 @@
 class ApplicationCell < ::Cell::Base
   cache :index, :expires_in => 5.minutes
-
+  helper Jxb::WidgetsHelper
   helper_method :data_widget, :widget, :extract_images, :title, :context, :service_enabled?, :widget_body, :current_user, :current_session, :format_context
 
   def data_widget

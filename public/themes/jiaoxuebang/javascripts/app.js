@@ -83,10 +83,10 @@ require([
       var $widget = $(this).parents("[data-widget]");
       var top = $widget.offset().top - 163;
       var $courses_holder = $("#config_courses_holder").css("top", top);
-      var ids = [];
-      $widget.find("[data-course-id]:visible").each(function(){
-        ids.push( $(this).attr("data-course-id") );
-      });
+      var ids = $widget.attr('selected_courses').split(',');
+      //$widget.find("[data-course-id]:visible").each(function(){
+        //ids.push( $(this).attr("data-course-id") );
+      //});
       $courses_holder.find(".save_selector").attr( "data-widget", $widget.attr("data-widget") ).attr( "data-url", $(this).attr("data-url") );
       $(".course_id_checkbox").each(function(){
         if ( $.inArray( $(this).val(), ids ) === -1 ) {

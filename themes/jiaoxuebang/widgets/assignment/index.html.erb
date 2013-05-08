@@ -1,4 +1,4 @@
-<div <%= data_widget %> >
+<div <%= data_widget %> selected_courses="<%= get_selected_courses widget %>">
   <div class="box <%= @opts[:box_class] %>">
     <div class="box_head">
       <%= render :partial => "shared/box_header", :locals => { :header_title => t('#cells.assignment.title', 'Assignment') } %>
