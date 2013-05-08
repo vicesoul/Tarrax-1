@@ -13,6 +13,7 @@ class AnnouncementCell < ApplicationCell
   def account
     @announcements = @opts[:announcements] || context.announcements_with_sub_account_announcements
 
+    @show_account_name = true if @opts[:announcements]
     prepend_view_path Jxb::Theme.widget_path(theme)
 
     render

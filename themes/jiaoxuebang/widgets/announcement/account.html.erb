@@ -10,8 +10,9 @@
           <ul class="account_announcement">
           <% @announcements.each do |announcement| %>
             <li>
-              <div class="inner" title="<%= strip_tags announcement.message %>">
-                <a href="#" onclick="return false;"><%= announcement.subject %></a>
+              <% account_name = @show_account_name ? "(#{announcement.account.name})" : ''%>
+              <div class="inner" title="<%= account_name unless account_name.blank? %><%= strip_tags announcement.message %>">
+                <a href="#" onclick="return false;"><%= truncate announcement.subject, :length => 22 %></a>
                 <span><%= announcement.start_at.strftime("%m-%d") if announcement.start_at %></span>
               </div>
             </li>
