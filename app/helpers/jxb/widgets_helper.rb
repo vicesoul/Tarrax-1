@@ -38,6 +38,10 @@ module Jxb::WidgetsHelper
   end
 
   def get_selected_courses widget
-    (widget && widget.courses) ? widget.courses.join(',') : nil
+    if widget && widget.courses
+      widget.courses.is_a?(String) ? widget.courses : widget.courses.join(',') 
+    else
+      nil
+    end
   end
 end
