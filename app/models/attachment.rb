@@ -715,7 +715,10 @@ class Attachment < ActiveRecord::Base
     has_attachment(
         :path_prefix => file_store_config['path_prefix'],
         :thumbnails => { :thumb => '128x128' },
-        :thumbnail_class => 'Thumbnail'
+        :thumbnail_class => 'Thumbnail',
+        :processor => 'MiniMagick',
+        :resize_to => 900,
+        :resize_strategy => 'limit'
     )
     def authenticated_s3_url(*args)
       return root_attachment.authenticated_s3_url(*args) if root_attachment

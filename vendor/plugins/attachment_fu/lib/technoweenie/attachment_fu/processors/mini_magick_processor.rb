@@ -38,8 +38,18 @@ module Technoweenie # :nodoc:
         # Performs the actual resizing operation for a thumbnail
         def resize_image(img, size)
           size = size.first if size.is_a?(Array) && size.length == 1
+          resize_strategy = begin
+            unless attachment_options[:resize_strategy]
+              "!"
+            else
+              attachment_options[:resize_strategy] == 'limit' ? '>' : ''
+            end
+          end
+
           img.combine_options do |commands|
             commands.strip unless attachment_options[:keep_profile]
+            #why do this, see http://www.imagemagick.org/script/command-line-options.php#quality
+            commands.quality('75%') if img[:format] =~ /^(jpg|jpeg)$/i
 
             # gif are not handled correct, this is a hack, but it seems to work.
             if img.output =~ / GIF /
@@ -49,9 +59,9 @@ module Technoweenie # :nodoc:
             if size.is_a?(Fixnum) || (size.is_a?(Array) && size.first.is_a?(Fixnum))
               if size.is_a?(Fixnum)
                 size = [size, size]
-                commands.resize(size.join('x'))
+                commands.resize(size.join('x') + resize_strategy)
               else
-                commands.resize(size.join('x') + '!')
+                commands.resize(size.join('x') + resize_strategy)
               end
             # extend to thumbnail size
             elsif size.is_a?(String) and size =~ /e$/
