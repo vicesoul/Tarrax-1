@@ -3,13 +3,16 @@
 <% end %>
 
 <% define_content :subject do %>
+  教学邦最新信息
   <%= t :subject, "Recent Jiaoxuebang Notifications" %>
 <% end %>
 
 <% m = (delayed_messages || []).find{|m| m.frequency == Notification::FREQ_WEEKLY} || delayed_messages.first %>
 <% if !m || m.frequency == Notification::FREQ_DAILY %>
+  您已注册接收来自教学邦网校的日报表。下面是 <%= (date_string(force_zone(m.send_at), :no_words) rescue t("#date.days.today_lower", "today")) %> 的报表:
   <%= t :daily_body, "You're signed up to receive a daily report of some notifications from your Jiaoxuebang account.  Below is the report for %{date}:", :date => (date_string(force_zone(m.send_at), :no_words) rescue t("#date.days.today_lower", "today")) %>
 <% elsif m.frequency == Notification::FREQ_WEEKLY %>
+  您已注册接收来自教学邦网校的每周报表。下面是截止到 <%= (date_string(force_zone(m.send_at), :no_words) rescue t("#date.days.today_lower", "today")) %> 的周报表:
   <%= t :weekly_body, "You're signed up to receive a weekly report of some notifications from your Jiaoxuebang account.  Below is the report for the week ending %{date}:", :date => (date_string(force_zone(m.send_at), :no_words) rescue t("#date.days.today_lower", "today")) %>
 <% end %>
 
@@ -23,6 +26,6 @@
     <%= delayed_message.link %>
 <% end %>
 
-
+您可通过点击链接更改通知设置:
 <%= t :notifications_link, "You can change your notification settings by visiting the following page:" %>
 <%= HostUrl.protocol %>://<%= HostUrl.context_host(user.pseudonym.try(:account))  %>/profile/communication
