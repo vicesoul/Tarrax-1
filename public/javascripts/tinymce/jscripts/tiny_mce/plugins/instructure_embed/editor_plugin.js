@@ -49,7 +49,7 @@ define([
   };
 
   function initShared () {
-    $box = $('<div/>', {html: TRANSLATIONS.instructions + "<form id='instructure_embed_prompt_form' style='margin-top: 5px;'><table class='formtable' style='margin-left: 30;'><tr><td style='text-align:right;'>"+ TRANSLATIONS.url +"</td><td><input type='text' class='prompt' style='width: 250px;' value='http://'/></td></tr><tr><td class='nobr' style='text-align:right;'>"+TRANSLATIONS.alt_text+"</td><td><input type='text' class='alt_text' style='width: 150px;' value=''/></td></tr><tr><td></td><td style='text-align: left;'><input class='btn' type='submit' value=" + I18n.t('click_to_embed', "Embed Image") +  " /></td></tr></table></form><div class='actions'></div>"}).hide();
+    $box = $('<div/>', {html: TRANSLATIONS.instructions + "<form id='instructure_embed_prompt_form' style='margin-top: 5px;'><table class='formtable' style='margin-left: 30;'><tr><td style='text-align:right;'>"+ TRANSLATIONS.url +"</td><td><input type='text' class='prompt' style='width: 250px;' value='http://'/></td></tr><tr><td class='nobr' style='text-align:right;'>"+TRANSLATIONS.alt_text+"</td><td><input type='text' class='alt_text' style='width: 150px;' value=''/></td></tr><tr><td></td><td style='text-align: left;'><input class='btn' type='submit' value=" + I18n.t('click_to_embed', "Click to embed the image") +  " /></td></tr></table></form><div class='actions'></div>"}).hide();
 
     $altText = $box.find('.alt_text');
     $actions = $box.find('.actions');
