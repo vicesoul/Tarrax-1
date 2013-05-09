@@ -10208,6 +10208,8 @@ zh-CN:
         accept: 接受
         decline: 拒绝
       invitation_text: "您已经受邀参加 **[%{course}](%{link_to_course})** 角色 %{enrollment_type_with_indefinite_article}"
+    dashboard_widgets:
+      select_deselect_all: 全选/反选
     enrollment: 
       enrolled_as_designer: 注册为课程设计
       enrolled_as_limited_designer: 注册为仅班访问权限的课程设计

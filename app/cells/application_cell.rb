@@ -84,7 +84,11 @@ class ApplicationCell < ::Cell::Base
     course_ids = @opts[:widget][:courses]
     #compatible old data structure
     course_ids = course_ids.split(',') if course_ids.is_a?(String)
-    course_ids.blank? ? nil : Course.find(course_ids)
+    if course_ids.blank?
+      nil
+    else
+      course_ids[0] == '0' ? 0 : Course.find(course_ids)
+    end
   end
 
 end

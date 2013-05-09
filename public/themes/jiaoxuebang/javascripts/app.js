@@ -88,16 +88,21 @@ require([
         //ids.push( $(this).attr("data-course-id") );
       //});
       $courses_holder.find(".save_selector").attr( "data-widget", $widget.attr("data-widget") ).attr( "data-url", $(this).attr("data-url") );
-      $(".course_id_checkbox").each(function(){
-        if ( $.inArray( $(this).val(), ids ) === -1 ) {
-          $(this).removeAttr("checked");
-        }else{
-          $(this).attr("checked", "checked");
-        }
-      });
+      if(ids && !ids[0]) {
+        $courses_holder.find('input[type=checkbox]').prop('checked', true); 
+      }else{
+        $(".course_id_checkbox").each(function(){
+          if ( $.inArray( $(this).val(), ids ) === -1 ) {
+            $(this).removeAttr("checked");
+          }else{
+            $(this).attr("checked", "checked");
+          }
+        });
+      }
       syncCourseCheckBoxs();
       $courses_holder.hide();
       $courses_holder.show('slide', {direction: 'left'}, 500);
+
     });
 
     $("#config_courses_holder .close").click(function(){
@@ -124,7 +129,15 @@ require([
         $allBox.removeAttr("checked");
       }
     });
+
+    $('#selector-fn').bind('click', function(){
+      var checkedFlag = true;
+      if($('#config_courses_holder input[type=checkbox]').size() == $('#config_courses_holder input[type=checkbox]:checked').size()){
+        checkedFlag = false;
+      }
+      $('#config_courses_holder input[type=checkbox]').prop('checked', checkedFlag); 
+      return false;
+    });
   });
   
-  
-});
+ });

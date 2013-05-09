@@ -6,6 +6,7 @@ module Jxb
     end
 
     def active_assignments_of_courses(kourses = nil, limit = 10)
+      return [] if kourses.to_s == '0'
       Assignment.active.for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'updated_at DESC')
     end
 
@@ -14,6 +15,7 @@ module Jxb
     end
 
     def active_discussions_of_courses(kourses = nil, limit = 10)
+      return [] if kourses.to_s == '0'
       DiscussionTopic.active.where(:type => nil).for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'updated_at DESC')
     end
 
@@ -22,6 +24,7 @@ module Jxb
     end
 
     def active_announcements_of_courses(kourses = nil, limit = 10)
+      return [] if kourses.to_s == '0'
       Announcement.active.for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'updated_at DESC')
     end
 
