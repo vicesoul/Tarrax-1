@@ -8,8 +8,7 @@ require [
   'compiled/tinymce',
   'tinymce.editor_box',
   'jquery.form',
-  'jqueryui/easyDialog',
-  'jqueryui/accordion'
+  'jqueryui/easyDialog'
 ], ($, I18n)->
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
@@ -194,11 +193,12 @@ require [
       #makeWidgetsDeletable()
       #makePositionClickable()
 
-      #$tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
-      #$tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
-      #$tipA.add($tipB).appendTo("body").hide()
 
-    $(".theme_edit [data-position]").bind(
+    $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
+    $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
+    $tipA.add($tipB).appendTo("body").hide()
+
+    $(".theme_edit [data-position]").live(
       mouseenter: ->
         position = $(this).offset()
         w = $tipA.width()
@@ -211,7 +211,7 @@ require [
         $tipA.hide()
     )
 
-    $(".theme_edit .box_head").bind(
+    $(".theme_edit .box_head").live(
       mouseenter: ->
         position = $(this).offset()
 
@@ -383,24 +383,38 @@ require [
       ->
         init()
 
-        ##################################
-
         initSaveButton()
 
-        $('#left-side').accordion()
-
-        #$('.edit_theme_link').click()
-
         $('.editor-component').draggable(
-          connectToSortable: ".sortable"
           helper: "clone"
           revert: "invalid"
         )
 
+        # drag to logo
+        $('.editor-component[cptype=logo_index]').draggable( "option", "connectToSortable", ".sortable[data-position=caption]" );
+
+        # drag to left
+        $('.editor-component[cptype=activity_index],' +
+          '.editor-component[cptype=announcement_index],' +
+          '.editor-component[cptype=assignment_index],' +
+          '.editor-component[cptype=discussion_index],' +
+          '.editor-component[cptype=course_index]').draggable( "option", "connectToSortable", ".sortable[data-position=center]" );
+
+        # drag to left & right
+        $('.editor-component[cptype=custom_index]').draggable( "option", "connectToSortable", $(".sortable[data-position=right], .sortable[data-position=center]") );
+
+        # drag to right
+        $('.editor-component[cptype=announcement_account]').draggable( "option", "connectToSortable", ".sortable[data-position=right]" );
+
         $(".sortable").sortable(
           revert: true
+          forceHelperSize: true
+          cancel: "a,button,li"
           stop: (event, ui) ->
-            if ui.item.hasClass 'editor-component'
+            if !ui.item.is("[data-widget^=custom]") and !ui.item.is("[cptype]") 
+              if $(event.target).attr("data-position") is "right" and ui.item.closest(".sortable").is("[data-position=center]") or $(event.target).attr("data-position") is "center" and ui.item.closest(".sortable").is("[data-position=right]")
+                return false
+            else if ui.item.hasClass 'editor-component'
               name = ui.item.attr('cpType')
 
               $context = ui.item
@@ -427,8 +441,20 @@ require [
                 $('body').animate({
                   scrollTop: $data.offset().top
                 }, 500, -> $data.effect('highlight', {}, 500) )
-
+            
         )
+        
+        # left to right or right to left
+        $( ".sortable[data-position=right]" ).sortable( "option", "connectWith", ".sortable[data-position=center]" )
+        $( ".sortable[data-position=center]" ).sortable( "option", "connectWith", ".sortable[data-position=right]" )
+
+        # others stay in their own area
+        $( ".sortable[data-position=logo]" ).sortable( "option", "connectWith", ".sortable[data-position=logo]" )
+        $( ".sortable[data-position=nav]" ).sortable( "option", "connectWith", ".sortable[data-position=nav]" )
+        $( ".sortable[data-position=caption]" ).sortable( "option", "connectWith", ".sortable[data-position=caption]" )
+        $( ".sortable[data-position=phone]" ).sortable( "option", "connectWith", ".sortable[data-position=phone]" )
+
+
 
         ##################################
     )
