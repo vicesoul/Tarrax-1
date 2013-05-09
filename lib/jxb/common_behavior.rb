@@ -25,7 +25,7 @@ module Jxb
 
     def active_announcements_of_courses(kourses = nil, limit = 10)
       return [] if kourses.to_s == '0'
-      Announcement.active.for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'updated_at DESC')
+      Announcement.active.for_context_codes(filter_concluded_courses (kourses || self.courses) ).scoped(:limit => limit, :order => 'created_at DESC')
     end
 
     def filter_concluded_courses courses
