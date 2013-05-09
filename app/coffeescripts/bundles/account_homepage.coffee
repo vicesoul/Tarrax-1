@@ -1,13 +1,13 @@
 require [
-  'jquery',
-  'i18n!homepage_dialog'
-  'jqueryui/sortable',
-  'jqueryui/draggable',
-  'jqueryui/dialog',
+  'jquery'
+  'i18n!account_homepage'
+  'jqueryui/sortable'
+  'jqueryui/draggable'
+  'jqueryui/dialog'
   'jqueryui/effects/highlight'
-  'compiled/tinymce',
-  'tinymce.editor_box',
-  'jquery.form',
+  'compiled/tinymce'
+  'tinymce.editor_box'
+  'jquery.form'
   'jqueryui/easyDialog'
 ], ($, I18n)->
   
