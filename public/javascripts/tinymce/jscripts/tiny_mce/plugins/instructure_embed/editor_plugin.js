@@ -24,7 +24,11 @@ define([
   'i18n!editor',
   'jquery',
   'str/htmlEscape',
+  'i18n!account_homepage',
+  // 'compiled/bundles/account_homepage',
   'jqueryui/dialog',
+  'jqueryui/easyDialog',
+  'jquery.form',
   'jquery.instructure_misc_helpers'
 ], function(tinymce, I18n, $, htmlEscape) {
 
@@ -45,7 +49,8 @@ define([
   };
 
   function initShared () {
-    $box = $('<div/>', {html: TRANSLATIONS.instructions + "<form id='instructure_embed_prompt_form' style='margin-top: 5px;'><table class='formtable'><tr><td>"+ TRANSLATIONS.url +"</td><td><input type='text' class='prompt' style='width: 250px;' value='http://'/></td></tr><tr><td class='nobr'>"+TRANSLATIONS.alt_text+"</td><td><input type='text' class='alt_text' style='width: 150px;' value=''/></td></tr><tr><td colspan='2' style='text-align: right;'><input type='submit' value='Embed Image'/></td></tr></table></form><div class='actions'></div>"}).hide();
+    $box = $('<div/>', {html: TRANSLATIONS.instructions + "<form id='instructure_embed_prompt_form' style='margin-top: 5px;'><table class='formtable' style='margin-left: 30;'><tr><td style='text-align:right;'>"+ TRANSLATIONS.url +"</td><td><input type='text' class='prompt' style='width: 250px;' value='http://'/></td></tr><tr><td class='nobr' style='text-align:right;'>"+TRANSLATIONS.alt_text+"</td><td><input type='text' class='alt_text' style='width: 150px;' value=''/></td></tr><tr><td></td><td style='text-align: left;'><input class='btn' type='submit' value=" + I18n.t('click_to_embed', "Embed Image") +  " /></td></tr></table></form><div class='actions'></div>"}).hide();
+
     $altText = $box.find('.alt_text');
     $actions = $box.find('.actions');
     $userURL = $box.find('.prompt');
@@ -59,7 +64,58 @@ define([
     $actions.delegate('.embed_image_link', 'click', embedURLImage);
     $flickrLink.click(flickrLinkClickHandler);
     $box.append($flickrLink).find('#instructure_embed_prompt_form').submit(embedURLImage);
+    var accountId = ENV.current_user_id;
+    var upload = "<form id='background_image_uploader' action='/accounts/" + accountId + "/files' method='POST' enctype='multipart/form-data'>" +
+        "<span>" + I18n.t('choose_a_picture', 'choose a picture:') +
+        "<input id='background_bg_image' name='attachment[uploaded_data]' type='file' placeholder='请'>" +
+        "</span>" +
+        "</form>";
+    var $message = $("<div id='message-dialog'></div>").appendTo("body");
+    $upload = $(upload);
+    $box.append($upload);
+
+    // css
+    $box.add($box.find("a")).css({
+      color: "#01abf2",
+      fontSize: 15
+    }).find("input[type=text]").css({
+      
+    }).end().find("td").css({
+      color: "#666"
+    }).end().find("form:first").css({
+      borderBottom: "1px dashed #999",
+      padding: "10px 0"
+    }).end().find(".flickr_search_link").css({
+      display: "block",
+      textAlign: "center",
+      borderBottom: "1px dashed #999",
+      padding: "10px 0",
+      textDecoration: "underline"
+    }).end().find("form").css({
+      margin: "10px 0"
+    })
+    
     $('body').append($box);
+
+    $upload.submit(function() {
+      $(this).ajaxSubmit({
+        beforeSubmit: function() {
+          return validateUploadedImage( $upload.find("#background_bg_image").val() );
+        },
+        success: function(data) {
+          var img = "<img src=" + data.url + " />";
+          $editor.editorBox('insert_code', img);
+          $upload.find("#background_bg_image").val("");
+          afterUploadedImageSuccess();
+        }
+      });
+      return false;
+    });
+
+    $upload.find("#background_bg_image").change(function() {
+      $upload.submit();
+    });
+
     $box.dialog({
       autoOpen: false,
       width: 425,
@@ -69,6 +125,31 @@ define([
       }
     });
     initted = true;
+  }
+
+  function validateUploadedImage (imageVal) {
+    var flag = true;
+    var content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty');
+    if(imageVal == ''){
+      flag = false;
+    }else if (!(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test(imageVal))) {
+      content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct');
+      flag = false;
+    }
+    if (!flag) {
+      $("#message-dialog").easyDialog({
+        modal: true,
+        content: content
+      });
+    }
+    return flag;
+  }
+
+  function afterUploadedImageSuccess () {
+    $("#message-dialog").easyDialog({
+      modal: true,
+      content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
+    })
   }
 
   function flickrLinkClickHandler (event) {

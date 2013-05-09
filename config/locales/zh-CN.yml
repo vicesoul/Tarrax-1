@@ -4293,6 +4293,7 @@ zh-CN:
     search_flickr: "搜索 flickr 知识共享"
     switch_views: 切换视图
     url: "URL:"
+    choose_a_picture: 选择图片：
   editor_accessibility: 
     accessibles: 
       background_color: "背景色, 按下选择"
