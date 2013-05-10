@@ -64,7 +64,8 @@ define([
     var accountId = ENV.current_user_id;
     var upload = "<form id='background_image_uploader' action='/accounts/" + accountId + "/files' method='POST' enctype='multipart/form-data'>" +
         "<span>" + I18n.t('choose_a_picture', 'choose a picture:') +
-        "<input id='background_bg_image' name='attachment[uploaded_data]' type='file' placeholder='请'>" +
+        "<input id='background_bg_image' name='attachment[uploaded_data]' type='file'>" +
+        "<input type='button' value='comfirm' class='comfirm'>" +
         "</span>" +
         "</form>";
     var $message = $("<div id='message-dialog'></div>").appendTo("body");
@@ -109,7 +110,7 @@ define([
       return false;
     });
 
-    $upload.find("#background_bg_image").change(function() {
+    $upload.find(".comfirm").click(function() {
       $upload.submit();
     });
 

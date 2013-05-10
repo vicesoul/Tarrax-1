@@ -53,7 +53,7 @@
     <%= t :body, 'Body' %>: <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea><br />
     <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
         <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> 
-        <!-- <input type="submit" value="<%= t :upload, 'Upload'%>" /> -->
+        <input type="submit" value="<%= t :upload, 'Upload'%>" />
     </form>
     <br />
     <button type="submit" class="save_widget_button btn btn-primary"><%= t :save, 'Save' %></button>
@@ -80,7 +80,8 @@
 <div id="change_background_dialog" title="<%= t(:change_background, 'Change background') %>">
   <%= t :background_color, 'Background color' %>: <input type="text" name="page_background_color" id="page_background_color" value="<%= @backgroud_data[:color] %>" /><br /><br />
   <form id="background_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
-    <span id="background_image_holder"><%=raw @backgroud_data[:image] %></span><%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "background_bg_image" %> 
+    <span id="background_image_holder"><%=raw @backgroud_data[:image] %></span><%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "background_bg_image" %>
+    <input type="submit" value="<%= t :upload, 'Upload'%>" /> 
   </form>
   <br />
   <a href="javascript:void(0);" id="delete_background_image"><%= t :delete_background_image, 'Delete background image' %></a><br />
