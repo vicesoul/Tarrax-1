@@ -18,7 +18,7 @@ module LuckySneaks
             CODEPOINTS[code_group(unpacked)][grouped_point(unpacked)]
           rescue
             # Hopefully this won't come up much
-            "?"
+            "-"
           end
         end
       end

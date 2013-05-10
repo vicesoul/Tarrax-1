@@ -210,9 +210,7 @@ require [
         beforeSubmit: ->
           return validateUploadedImage $("#widget_image").val()
         success: (data)->
-          img = """
-                <img src="#{data.url}" />
-                """
+          img = "<img src=" + data.url + "/>" 
           $("#widget_body").editorBox "insert_code", img
           $("#widget_image").val ""
           afterUploadedImageSuccess()
