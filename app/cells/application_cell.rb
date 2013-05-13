@@ -81,13 +81,14 @@ class ApplicationCell < ::Cell::Base
   end
 
   def get_widget_courses
-    course_ids = @opts[:widget][:courses]
+    page = @opts[:widget].page
+    course_ids = page.context_type == 'User' ? @opts[:widget][:courses] : page.courses
     #compatible old data structure
     course_ids = course_ids.split(',') if course_ids.is_a?(String)
     if course_ids.blank?
       nil
     else
-      course_ids[0] == '0' ? 0 : Course.find(course_ids)
+      course_ids[0].to_s == '0' ? 0 : Course.find(course_ids)
     end
   end
 

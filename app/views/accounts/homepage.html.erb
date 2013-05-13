@@ -69,7 +69,7 @@
       <%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %>
       <ul class="all_sub_checkboxs">
       <% courses.each do |course| %>
-        <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.include?(course.id.to_s), :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
+        <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.map(&:to_s).include?(course.id.to_s), :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
       <% end %>
       </ul>
     </li>
