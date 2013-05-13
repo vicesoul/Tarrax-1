@@ -232,10 +232,10 @@ require [
       return false
 
     init = ->
-      $("#widget_image").change(->
+      $("#widget_image").closest("form").find("input[type=submit]").click(->
         $('#widget_image_uploader').submit()
       )
-      $("#background_bg_image").change(->
+      $("#background_bg_image").closest("form").find("input[type=submit]").click(->
         $('#background_image_uploader').submit()
       )
 
