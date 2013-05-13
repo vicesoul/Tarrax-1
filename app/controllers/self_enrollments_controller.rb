@@ -35,7 +35,9 @@ class SelfEnrollmentsController < ApplicationController
     @current_user.require_self_enrollment_code = true
     @current_user.self_enrollment_code = params[:self_enrollment_code]
     if @current_user.save
-      render :json => course_json(@current_user.self_enrollment_course, @current_user, session, [], nil)
+      self_enrollment_course = @current_user.self_enrollment_course
+      Jxb::Widget.update_courses_while_course_was_added(@current_user.dashboard_page.id, self_enrollment_course.id) unless @current_user.dashboard_page.blank?
+      render :json => course_json(self_enrollment_course, @current_user, session, [], nil)
     else
       course_id = Course.find_by_self_enrollment_code(params[:self_enrollment_code]).id
       render :json => {:user => @current_user.errors.as_json[:errors], :course_id => course_id}, :status => :bad_request

@@ -693,6 +693,7 @@ class CoursesController < ApplicationController
   def accept_enrollment(enrollment)
     if @current_user && enrollment.user == @current_user
       if enrollment.workflow_state == 'invited'
+        Jxb::Widget.update_courses_while_course_was_added(@current_user.dashboard_page.id, enrollment.course_id) unless @current_user.dashboard_page.blank?
         enrollment.accept!
         flash[:notice] = t('notices.invitation_accepted', 'Invitation accepted!  Welcome to %{course}!', :course => @context.name)
       end

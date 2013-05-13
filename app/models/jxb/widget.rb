@@ -44,6 +44,15 @@ class Jxb::Widget < ActiveRecord::Base
       %W( #{t(:course_index, 'course_index')}   course_index )
     ]
   end
+
+  def self.update_courses_while_course_was_added page_id, course_id
+    find_all_by_page_id(page_id).each do |widget|
+      unless widget.courses.blank?
+        widget.courses.include?("0") ? widget.courses = [course_id] : widget.courses = widget.courses.push(course_id)
+        widget.save
+      end
+    end
+  end
   
   def cell_data
     [cell_name, cell_action, id].join(',')

@@ -60,7 +60,7 @@ class Jxb::WidgetsController < ApplicationController
 
     respond_to do |format|
       params[:widget][:courses] = params[:widget][:courses].split(',')
-      params[:widget][:courses].unshift('0') if params[:widget][:courses].blank?
+      params[:widget][:courses] = params[:widget][:courses].blank? ? params[:widget][:courses].unshift('0') : params[:widget][:courses].map(&:to_i)
       if @widget.update_attributes(params[:widget])
         format.js { head :ok }
       else
