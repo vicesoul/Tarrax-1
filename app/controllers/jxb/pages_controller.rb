@@ -58,6 +58,8 @@ class Jxb::PagesController < ApplicationController
   def update
     if authorized_action(@account, @current_user, nil, :manage_homepage)
       @page = Jxb::Page.find(params[:id])
+
+      params[:jxb_page][:courses] = params[:jxb_page][:courses].blank? ? ["0"] : params[:jxb_page][:courses].map(&:to_i)
       if @page.update_attributes(params[:jxb_page]) and @page.name == 'homepage'
         redirect_to account_homepage_path(@account), :notice => 'Homepage was successfully updated.'
       end
