@@ -46,7 +46,7 @@ define([
   };
 
   function initShared () {
-    $box = $('<div/>', {html: TRANSLATIONS.instructions + "<form id='instructure_embed_prompt_form' style='margin-top: 5px;'><table class='formtable' style='margin-left: 30;'><tr><td style='text-align:right;'>"+ TRANSLATIONS.url +"</td><td><input type='text' class='prompt' style='width: 250px;' value='http://'/></td></tr><tr><td class='nobr' style='text-align:right;'>"+TRANSLATIONS.alt_text+"</td><td><input type='text' class='alt_text' style='width: 150px;' value=''/></td></tr><tr><td></td><td style='text-align: left;'><input class='btn' type='submit' value=" + TRANSLATIONS.click_to_embed +  " /></td></tr></table></form><div class='actions'></div>"}).hide();
+    $box = $('<div/>', {html: TRANSLATIONS.instructions + "<form id='instructure_embed_prompt_form'><table class='formtable'><tr><td>"+ TRANSLATIONS.url +"</td><td><input type='text' class='prompt' value='http://'/></td></tr><tr><td class='nobr'>"+TRANSLATIONS.alt_text+"</td><td><input type='text' class='alt_text' value=''/></td></tr><tr><td></td><td><input class='btn' type='submit' value=" + TRANSLATIONS.click_to_embed +  " /></td></tr></table></form><div class='actions'></div>"}).hide();
 
     $altText = $box.find('.alt_text');
     $actions = $box.find('.actions');
@@ -63,47 +63,44 @@ define([
     $box.append($flickrLink).find('#instructure_embed_prompt_form').submit(embedURLImage);
     var accountId = ENV.current_user_id;
     var upload = "<form id='background_image_uploader' action='/accounts/" + accountId + "/files' method='POST' enctype='multipart/form-data'>" +
-        "<span>" + I18n.t('choose_a_picture', 'choose a picture:') +
+        "<table>" +
+        "<tr>" +
+        "<td>" +
+        I18n.t('choose_a_picture', 'choose a picture:') +
+        "</td>" +
+        "<td>" +
         "<input id='background_bg_image' name='attachment[uploaded_data]' type='file'>" +
-        "<input type='button' value='comfirm' class='comfirm'>" +
-        "</span>" +
+        "</td>" +
+        "</tr>" +
+        "<tr>" +
+        "<td>" +
+        "</td>" +
+        "<td>" +
+        "<input type='button' value=" + I18n.t('#accounts.homepage.upload', 'upload') + " class='btn comfirm'>" +
+        "</td>" +
+        "</tr>" +
+        "</table>" +
         "</form>";
     var $message = $("<div id='message-dialog'></div>").appendTo("body");
     $upload = $(upload);
     $box.append($upload);
-
-    // css
-    $box.add($box.find("a")).css({
-      color: "#01abf2",
-      fontSize: 15
-    }).find("input[type=text]").css({
-      
-    }).end().find("td").css({
-      color: "#666"
-    }).end().find("form:first").css({
-      borderBottom: "1px dashed #999",
-      padding: "10px 0"
-    }).end().find(".flickr_search_link").css({
-      display: "block",
-      textAlign: "center",
-      borderBottom: "1px dashed #999",
-      padding: "10px 0",
-      textDecoration: "underline"
-    }).end().find("form").css({
-      margin: "10px 0"
-    })
     
     $('body').append($box);
+
+    var $textUploading = $("<span>上传中...</span>");
 
     $upload.submit(function() {
       $(this).ajaxSubmit({
         beforeSubmit: function() {
-          return validateUploadedImage( $upload.find("#background_bg_image").val() );
+          var imageValidated = validateUploadedImage( $upload.find("#background_bg_image").val() );
+          if(imageValidated) $upload.find(".comfirm").hide().after($textUploading);
+          return imageValidated;
         },
         success: function(data) {
           var img = "<img src=" + data.url + " />";
           $editor.editorBox('insert_code', img);
           $upload.find("#background_bg_image").val("");
+          $upload.find(".comfirm").show().next("span").remove();
           afterUploadedImageSuccess();
         }
       });
@@ -118,6 +115,7 @@ define([
       autoOpen: false,
       width: 425,
       title: TRANSLATIONS.embed_external,
+      dialogClass: "instructure_embed",
       open: function () {
         $userURL.select();
       }
