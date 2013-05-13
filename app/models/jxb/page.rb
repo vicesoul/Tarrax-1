@@ -57,6 +57,14 @@ class Jxb::Page < ActiveRecord::Base
     end # End of positions#each
   end
 
+  def self.update_courses_while_courses_added homepage, course_id
+    if !homepage.blank? && (!homepage.courses.blank?)
+      homepage.courses = homepage.courses.split(',').map(&:to_i) if homepage.courses.is_a?(String)
+      homepage.courses.include?("0") ? homepage.courses = [course_id] : homepage.courses = homepage.courses.push(course_id)
+      homepage.save
+    end
+  end
+
   private
 
     def save_widgets

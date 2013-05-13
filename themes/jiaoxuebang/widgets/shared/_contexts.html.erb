@@ -2,7 +2,7 @@
 <% objects.each_with_index do |obj, index| %>
   <% result = format_context(obj) %>
   <% last_id = (index + 1) == objects.size ? 'last' : ''  %>
-  <% style = @ids.include?(result[:id]) ? '' : "style=display:none;" if @opts[:can_select_course] %>
+  <% style = (@ids.blank? || @ids.include?(result[:id])) ? '' : "style=display:none;" if @opts[:can_select_course] %>
   <div class="context-column <%= last_id %>" data-course-id=<%= result[:id] %> <%= style if @opts[:can_select_course] %> >
     <% unless result[:user_url].blank? %>
     <div class="image-block-image">

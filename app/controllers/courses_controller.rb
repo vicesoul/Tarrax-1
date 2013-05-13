@@ -230,12 +230,7 @@ class CoursesController < ApplicationController
           @course.enroll_user(@current_user, 'TeacherEnrollment', :enrollment_state => 'active') if params[:enroll_me].to_s == 'true'
           # offer updates the workflow state, saving the record without doing validation callbacks
           @course.offer if api_request? and params[:offer].present?
-          homepage = @domain_root_account.homepage
-          
-          if !homepage.blank? && (!homepage.courses.blank?)
-            homepage.courses.include?("0") ? homepage.courses = [@course.id] : homepage.courses = homepage.courses.push(@course.id)
-            homepage.save
-          end
+          Jxb::Page.update_courses_while_courses_added(@domain_root_account.homepage, @course.id)
 
           format.html { redirect_to @course }
           format.json { render :json => course_json(
