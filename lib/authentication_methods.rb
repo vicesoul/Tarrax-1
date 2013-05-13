@@ -71,7 +71,8 @@ module AuthenticationMethods
         raise AccessTokenError
       end
       @current_user = @access_token.user
-      @current_pseudonym = @current_user.find_pseudonym_for_account(@domain_root_account, true)
+      #@current_pseudonym = @current_user.find_pseudonym_for_account(@domain_root_account, true)
+      @current_pseudonym = @current_user.find_pseudonym_for_account(default_domain_root_account, true)
       unless @current_user && @current_pseudonym
         raise AccessTokenError
       end
