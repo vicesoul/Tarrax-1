@@ -283,7 +283,7 @@ class UsersController < ApplicationController
   def masquerade
     @user = User.find(:first, :conditions => {:id => params[:user_id]})
     #return render_unauthorized_action(@user) unless @user.can_masquerade?(@real_current_user || @current_user, @domain_root_account)
-    return render_unauthorized_action(@user) unless @current_user.site_admin?
+    return render_unauthorized_action(@user) unless (@real_current_user || @current_user).site_admin?
     if request.post?
       if @user == @real_current_user
         session.delete(:become_user_id)
