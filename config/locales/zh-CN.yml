@@ -4281,13 +4281,8 @@ zh-CN:
     button: 
       insert_equation: 插入公式
     cancel: 取消
-<<<<<<< HEAD
     choose_a_picture: 上传本地图片：
     click_to_embed: 链接图片
-=======
-    choose_a_picture: 选择图片：
-    click_to_embed: 单击以嵌入图片
->>>>>>> account_reports
     done: 
       title: 单击以完成编辑富文本区域
     done_as_in_finished: 完成
@@ -4307,11 +4302,7 @@ zh-CN:
     saving: 正在保存...
     search_flickr: 搜索外部网站图片
     switch_views: 切换视图
-<<<<<<< HEAD
     url: "链接地址:"
-=======
-    url: "URL:"
->>>>>>> account_reports
   editor_accessibility: 
     accessibles: 
       background_color: "背景色, 按下选择"
