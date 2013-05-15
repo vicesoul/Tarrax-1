@@ -556,6 +556,12 @@ zh-CN:
       quiz_ip_filters_title: "测试 IP 地址筛选器"
       report_last_run_never: 没有
       report_running: 报表正在运行。*完成时您会收到电子邮件。*
+      reports: 
+        title: 
+          grade_export: 成绩导出
+          provisioning: 定制
+          sis_export: SIS导出
+          student_competency: 学生能力
       select: 
         mfa: 
           disabled: 已禁用
@@ -699,6 +705,12 @@ zh-CN:
         one: "*1 个文件*的 %{file_size}"
         other: "*%{count} 个文件*的 %{file_size}"
       uploaded_file_storage_header: 已上传的文件存储
+    student_assignment_outcome_map_csv_description: 
+      account_reports: 
+        student_export: 
+          description: 
+            header: 例如
+            text: 此报表显示所有学生的学习成果。导出的csv文件中每一位学生成果显示一行，该详细信息包括关联的作业。
     terms_parameters: 
       account_reports: 
         default: 
@@ -4269,8 +4281,13 @@ zh-CN:
     button: 
       insert_equation: 插入公式
     cancel: 取消
+<<<<<<< HEAD
     choose_a_picture: 上传本地图片：
     click_to_embed: 链接图片
+=======
+    choose_a_picture: 选择图片：
+    click_to_embed: 单击以嵌入图片
+>>>>>>> account_reports
     done: 
       title: 单击以完成编辑富文本区域
     done_as_in_finished: 完成
@@ -4290,7 +4307,11 @@ zh-CN:
     saving: 正在保存...
     search_flickr: 搜索外部网站图片
     switch_views: 切换视图
+<<<<<<< HEAD
     url: "链接地址:"
+=======
+    url: "URL:"
+>>>>>>> account_reports
   editor_accessibility: 
     accessibles: 
       background_color: "背景色, 按下选择"

@@ -39,4 +39,12 @@ module AccountsHelper
     "#{course.course_code if show_code}#{', ' if show_term && show_code}#{course.enrollment_term.name if show_term}"
   end
 
+  def i18n_for_reports_title(title)
+    {
+      "Student Competency" => t('#accounts.settings.reports.title.student_competency' , 'Student Competency') ,
+      "Grade Export"       => t('#accounts.settings.reports.title.grade_export'       , 'Grade Export')       ,
+      "SIS Export"         => t('#accounts.settings.reports.title.sis_export'         , 'SIS Export')         ,
+      "Provisioning"       => t('#accounts.settings.reports.title.provisioning'       , 'Provisioning')
+    }[title] || title
+  end
 end

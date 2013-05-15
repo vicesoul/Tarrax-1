@@ -56,10 +56,11 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['user_id','login_id','password','first_name','last_name','email','status']
         else
-          headers = ['canvas_user_id','user_id','login_id','first_name','last_name','email','status']
+          headers = ['jxb_user_id','user_id','login_id','first_name','last_name','email','status']
         end
         csv << headers
-        users = @domain_root_account.pseudonyms.scoped(:include => :user ).scoped(
+        #users = @domain_root_account.pseudonyms.scoped(:include => :user ).scoped(
+        users = Pseudonym.of_account(domain_root_account).scoped(:include => :user ).scoped(
           :select => "pseudonyms.id, pseudonyms.sis_user_id, pseudonyms.user_id,
                       pseudonyms.unique_id, pseudonyms.workflow_state")
 
@@ -113,7 +114,7 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['account_id','parent_account_id', 'name','status']
         else
-          headers = ['canvas_account_id','account_id','canvas_parent_id','parent_account_id',
+          headers = ['jxb_account_id','account_id','jxb_parent_id','parent_account_id',
                      'name','status']
         end
         csv << headers
@@ -156,7 +157,7 @@ module Canvas::AccountReports
     def terms
       list_csv = FasterCSV.generate do |csv|
         headers = ['term_id','name','status', 'start_date', 'end_date']
-        headers.unshift 'canvas_term_id' unless @sis_format
+        headers.unshift 'jxb_term_id' unless @sis_format
         csv << headers
         terms = @domain_root_account.enrollment_terms
 
@@ -192,8 +193,8 @@ module Canvas::AccountReports
           headers = ['course_id','short_name', 'long_name','account_id','term_id','status',
                      'start_date', 'end_date']
         else
-          headers = ['canvas_course_id','course_id','short_name','long_name','canvas_account_id',
-                     'account_id','canvas_term_id','term_id','status', 'start_date', 'end_date']
+          headers = ['jxb_course_id','course_id','short_name','long_name','jxb_account_id',
+                     'account_id','jxb_term_id','term_id','status', 'start_date', 'end_date']
         end
 
         csv << headers
@@ -261,8 +262,8 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['section_id','course_id','name','status','start_date','end_date']
         else
-          headers = [ 'canvas_section_id','section_id','canvas_course_id','course_id','name',
-                      'status','start_date','end_date','canvas_account_id','account_id']
+          headers = [ 'jxb_section_id','section_id','jxb_course_id','course_id','name',
+                      'status','start_date','end_date','jxb_account_id','account_id']
         end
         csv << headers
         sections = @domain_root_account.course_sections.scoped(
@@ -343,8 +344,8 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['course_id', 'user_id', 'role', 'section_id', 'status', 'associated_user_id']
         else
-          headers = ['canvas_course_id', 'course_id', 'canvas_user_id', 'user_id', 'role',
-                     'canvas_section_id', 'section_id', 'status', 'canvas_associated_user_id',
+          headers = ['jxb_course_id', 'course_id', 'jxb_user_id', 'user_id', 'role',
+                     'jxb_section_id', 'section_id', 'status', 'jxb_associated_user_id',
                      'associated_user_id']
         end
         csv << headers
@@ -362,10 +363,11 @@ module Canvas::AccountReports
           :joins => "INNER JOIN course_sections cs ON cs.id = enrollments.course_section_id
                      INNER JOIN courses ON courses.id = cs.course_id
                      INNER JOIN pseudonyms ON pseudonyms.user_id=enrollments.user_id
+                     INNER JOIN user_account_associations ON pseudonyms.user_id=user_account_associations.user_id
                      LEFT OUTER JOIN courses nxc ON cs.nonxlist_course_id = nxc.id
                      LEFT OUTER JOIN pseudonyms AS ob ON ob.user_id = enrollments.associated_user_id
                        AND ob.account_id = enrollments.root_account_id",
-          :conditions => "pseudonyms.account_id = enrollments.root_account_id")
+          :conditions => "user_account_associations.account_id = enrollments.root_account_id")
 
         if @term
           enrol = enrol.scoped(:conditions => ["courses.enrollment_term_id = ?", @term])
@@ -429,7 +431,7 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['group_id', 'account_id', 'name', 'status']
         else
-          headers = ['canvas_group_id', 'group_id', 'canvas_account_id', 'account_id', 'name',
+          headers = ['jxb_group_id', 'group_id', 'jxb_account_id', 'account_id', 'name',
                      'status']
         end
 
@@ -478,15 +480,16 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['group_id', 'user_id', 'status']
         else
-          headers = ['canvas_group_id', 'group_id','canvas_user_id', 'user_id', 'status']
+          headers = ['jxb_group_id', 'group_id','jxb_user_id', 'user_id', 'status']
         end
 
         csv << headers
         gm = @domain_root_account.all_groups.scoped(
           :select => "groups.*, group_memberships.*, pseudonyms.sis_user_id AS user_sis_id",
           :joins => "INNER JOIN group_memberships ON groups.id = group_memberships.group_id
-                     INNER JOIN pseudonyms ON pseudonyms.user_id=group_memberships.user_id",
-          :conditions => "pseudonyms.account_id = groups.root_account_id")
+                     INNER JOIN pseudonyms ON pseudonyms.user_id=group_memberships.user_id
+                     INNER JOIN user_account_associations ON pseudonyms.user_id=user_account_associations.user_id",
+          :conditions => "user_account_associations.account_id = groups.root_account_id")
 
         if @sis_format
           gm = gm.scoped(:conditions => "pseudonyms.sis_user_id IS NOT NULL
@@ -527,7 +530,7 @@ module Canvas::AccountReports
         if @sis_format
           headers = ['xlist_course_id', 'section_id', 'status']
         else
-          headers = ['canvas_xlist_course_id','xlist_course_id','canvas_section_id','section_id',
+          headers = ['jxb_xlist_course_id','xlist_course_id','jxb_section_id','section_id',
                      'status']
         end
         csv << headers

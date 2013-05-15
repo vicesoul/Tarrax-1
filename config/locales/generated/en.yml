@@ -554,6 +554,12 @@ en:
       quiz_ip_filters_title: "Quiz IP Address Filters"
       report_last_run_never: Never
       report_running: "The report is running.*You'll receive an email when it is done.*"
+      reports: 
+        title: 
+          grade_export: "Grade Export"
+          provisioning: Provisioning
+          sis_export: "SIS Export"
+          student_competency: "Student Competency"
       select: 
         mfa: 
           disabled: Disabled
@@ -697,6 +703,12 @@ en:
         one: "%{file_size} *from one file*"
         other: "%{file_size} *from %{count} files*"
       uploaded_file_storage_header: "Uploaded File Storage"
+    student_assignment_outcome_map_csv_description: 
+      account_reports: 
+        student_export: 
+          description: 
+            header: Example
+            text: "This report shows the learning outcome results for all students. The resulting csv file will have one row per user-outcome-result pair, and will show the details of the result including the associated assignment."
     terms_parameters: 
       account_reports: 
         default: 
@@ -4279,6 +4291,7 @@ en:
     button: 
       insert_equation: "Insert Equation"
     cancel: Cancel
+    choose_a_picture: "choose a picture:"
     click_to_embed: "Click to embed the image"
     done: 
       title: "Click to finish editing the rich text area"
@@ -10186,6 +10199,8 @@ en:
         accept: Accept
         decline: Decline
       invitation_text: "You have been invited to join **[%{course}](%{link_to_course})** as %{enrollment_type_with_indefinite_article}"
+    dashboard_widgets: 
+      select_deselect_all: "Select/Deselect All"
     enrollment: 
       enrolled_as_designer: "enrolled as a designer"
       enrolled_as_limited_designer: "enrolled as a designer with section-only access"
