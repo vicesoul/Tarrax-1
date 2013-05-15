@@ -46,6 +46,7 @@ class PseudonymsController < ApplicationController
 
     if @context.is_a?(Account)
       return unless context_is_root_account?
+      # TODO pseudonym-account
       scope = @context.pseudonyms.active.scoped(:conditions => { :user_id => @user.id })
       @pseudonyms = Api.paginate(
         scope,
@@ -183,6 +184,7 @@ class PseudonymsController < ApplicationController
 
     params[:pseudonym][:user] = @user
     sis_user_id = params[:pseudonym].delete(:sis_user_id)
+    # TODO pseudonym-account
     @pseudonym = @account.pseudonyms.build(params[:pseudonym])
     @pseudonym.sis_user_id = sis_user_id if sis_user_id.present? && @account.grants_right?(@current_user, session, :manage_sis)
     @pseudonym.generate_temporary_password if !params[:pseudonym][:password]

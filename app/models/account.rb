@@ -818,6 +818,7 @@ class Account < ActiveRecord::Base
   end
   
   def find_users(string)
+    # TODO pseudonym-account
     self.pseudonyms.map{|p| p.user }.select{|u| u.name.match(string) }
   end
 
@@ -913,6 +914,7 @@ class Account < ActiveRecord::Base
     account.parent_account = self
     account.root_account = self.root_account
     account.save!
+    # TODO pseudonym-account
     account.pseudonyms.each do |pseudonym|
       pseudonym.account = self.root_account
       pseudonym.save!
