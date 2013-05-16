@@ -6025,7 +6025,9 @@ zh-CN:
         reset_explanation: "重置该测试学生将清除所有历史记录，%{line_break} 重置后将作为新学生访问课程。"
         warning_title: 您当前已登录到学生视图
     head: 
-      default_page_title: 教学邦网校平台
+      default_page_title: 教学邦-网校平台(jiaoxuebang.com)-国内真正首家纯教育云平台、国内首创开放网校平台服务、全球首创终身网络教育模式、独家全方位实现听说读写画
+      default_page_description: 教学邦jiaoxuebang.com-国内首家基于领先创新技术，独家真正教育云平台构架和新颖的教学模式，为企事业单位培训，教学机构,教师达人开设独立网校和公开课提供云平台服务。支持模式： 同时支持独立网校，公开课。适合对象：中小学，大中专，企事业，教育达人。
+      default_page_kewords: 零成本建网校,半分钟开课程,一用户多角色,十八大种类课程,任意时空访问,无限容量扩,教学邦
     menu: 
       view_all_accounts: 查看所有网校
       view_all_enrollments: 查看所有课程
