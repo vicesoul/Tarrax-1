@@ -271,9 +271,9 @@ class FilesController < ApplicationController
       end
       return
     end
-    if (params[:download] && params[:verifier] && params[:verifier] == @attachment.uuid) || authorized_action(@attachment, @current_user, :read)
+    if (params[:download] && params[:verifier] && params[:verifier] == @attachment.token_for_verify) || authorized_action(@attachment, @current_user, :read)
       if params[:download]
-        if (params[:verifier] && params[:verifier] == @attachment.uuid) || (@attachment.grants_right?(@current_user, session, :download))
+        if (params[:verifier] && params[:verifier] == @attachment.token_for_verify) || (@attachment.grants_right?(@current_user, session, :download))
           disable_page_views if params[:preview]
           begin
             send_attachment(@attachment)
