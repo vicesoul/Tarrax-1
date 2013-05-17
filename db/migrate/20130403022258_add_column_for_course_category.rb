@@ -11,7 +11,7 @@ class AddColumnForCourseCategory< ActiveRecord::Migration
         CourseCategory.update_all("used=0")
     end
 
-    #ingore
     def self.down
+        remove_column :course_categories, :used
     end
 end
