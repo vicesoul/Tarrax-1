@@ -15,13 +15,22 @@
   <noscript> <meta http-equiv=refresh content="0; URL=/enable-javascript.html" /> </noscript>
   
   <% if @current_user %>
-    <!--[if lte IE 8]> <meta http-equiv=refresh content="0; URL=/browser-out-of-date.html" /> <![endif]-->
+
+    <!--[if IE 8 ]>
+      <script src="/javascripts/vendor/jquery-1.7.2.js"></script>
+      <script src="/javascripts/detect_browser.js"></script>
+    <![endif]-->
+    
+    <!--[if lte IE 7]> 
+      <meta http-equiv=refresh content="0; URL=/browser-out-of-date-xp.html" /> 
+    <![endif]-->
+
   <% end %>
   
   <%= yield :auto_discovery %>
   <%= yield :head %>
   <%= include_css_bundles %>
-  <!--[if lte IE 8]> <%= javascript_include_tag "vendor/html5.js" %> <![endif]-->
+  <!--[if lt IE 8]> <%= javascript_include_tag "vendor/html5.js" %> <![endif]-->
   <%= yield :stylesheets %>
   <%= include_account_css %>
   <script>
