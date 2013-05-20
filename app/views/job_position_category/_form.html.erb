@@ -1,0 +1,14 @@
+
+<tr>
+  <td><%= f.blabel :name, :name, :en => "Name" %></td>
+  <td><%= f.text_field :name, :value => @category.name %></td>
+</tr>
+
+<tr>
+  <td colspan="2">
+    <div class="button-container">
+      <button type="button" class="btn cancel_button"><%= t("#buttons.cancel", "Cancel") %></button>
+      <button type="submit" class="btn btn-primary submit_button"><%= t('', "Save job position category") %></button>
+    </div>
+  </td>
+</tr>

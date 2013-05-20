@@ -442,6 +442,8 @@ ActionController::Routing::Routes.draw do |map|
 
     account.resources :grading_standards, :only => %w(index create update destroy)
 
+    account.resources :job_position_categories, :except => ['show'], :controller => 'job_position_category'
+
     account.statistics 'statistics', :controller => 'accounts', :action => 'statistics'
     account.statistics_graph 'statistics/over_time/:attribute', :controller => 'accounts', :action => 'statistics_graph'
     account.formatted_statistics_graph 'statistics/over_time/:attribute.:format', :controller => 'accounts', :action => 'statistics_graph'

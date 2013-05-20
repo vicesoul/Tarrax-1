@@ -1,0 +1,11 @@
+
+<div>
+  
+  <% form_for :job_position_category, :url => account_job_position_category_url(@category.account_id, @category.id), :html => {:method => 'PUT'} do |f| %>
+    <%= f.hidden_field :account_id, :value => @category.account_id %>
+    <table>
+      <%= render :partial => 'form', :locals => {:f => f } %>
+    </table>
+  <% end %>
+
+</div>

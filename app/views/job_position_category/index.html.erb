@@ -1,0 +1,27 @@
+
+<div>
+  <div><a href="<%= new_account_job_position_category_url %>">Add a new category</a></div>
+
+  <% unless @categories.blank? %>
+    <table>
+      <thead>
+        <tr>
+          <td width="100px">ID</td>
+          <td width="100px">Name</td>
+          <td>Op</td>
+        </tr>
+      </thead>
+      <tbody>
+        <% @categories.each do |c| %>
+          <tr>
+            <td><%= c.id %></td>
+            <td><%= c.name %></td>
+            <td><a href="<%= edit_account_job_position_category_url(params[:account_id], c.id) %>">edit</a></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    Empty Category
+  <% end %>
+</div>
