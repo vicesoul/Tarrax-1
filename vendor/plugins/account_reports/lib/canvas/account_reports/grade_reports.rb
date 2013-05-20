@@ -55,7 +55,7 @@ module Canvas::AccountReports
       # in order to exclude the pesky :user that is included by default in
       # the Account#pseudonyms association, and one after the .active, to
       # actually perform the query.
-      students = @domain_root_account.pseudonyms.
+      students = Pseudonym.of_account(@domain_root_account).
         scoped(:include => { :exclude => :user }).scoped(
         :select => %{
           pseudonyms.id,
@@ -174,7 +174,7 @@ module Canvas::AccountReports
         :root_account_id => @domain_root_account.id
       }
       @account_report.parameters["extra_text"] = I18n.t('account_reports.default.extra_text', "For Term: %{term_name}", :term_name => name)
-      students = @domain_root_account.pseudonyms.scoped(:include => { :exclude => :user }).scoped(
+      students = Pseudonym.of_account(@domain_root_account).scoped(:include => { :exclude => :user }).scoped(
         :select => "pseudonyms.id, u.name AS user_name, enrollments.user_id, pseudonyms.sis_user_id, courses.name AS course_name,
                     enrollments.course_id, courses.sis_source_id AS course_sis_id, course_sections.name AS section_name,
                     enrollments.course_section_id, course_sections.sis_source_id AS section_sis_id,

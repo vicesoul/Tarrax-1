@@ -374,6 +374,9 @@ class Pseudonym < ActiveRecord::Base
     nil
   end
 
+  named_scope :of_account, lambda{|account|
+    {:joins => {:user => :user_account_associations}, :conditions => ['pseudonyms.account_id = ? AND user_account_associations.account_id = ?', Account.default, account.id]}
+  }
   named_scope :account_unique_ids, lambda{|account, *unique_ids|
     {:conditions => {:account_id => account.id, :unique_id => unique_ids}, :order => :unique_id}
   }

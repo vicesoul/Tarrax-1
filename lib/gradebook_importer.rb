@@ -199,6 +199,7 @@ class GradebookImporter
   
   protected
     def all_pseudonyms
+      # TODO pseudonym-account
       @all_pseudonyms ||= @context.root_account.pseudonyms.active.find(:all, :select => 'id, unique_id, sis_user_id, user_id', :conditions => {:user_id => @all_students.values.map(&:id)})
     end
 

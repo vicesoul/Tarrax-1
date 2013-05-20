@@ -85,8 +85,8 @@ zh-CN:
       ip_address_list_description: "如果使用身份验证服务要求教学邦服务器与您的服务器直接链接，例如 LDAP，则需确保您的服务器可以接受来自以下 IP 地址的链接:"
       no_auth_type_description: 此网校目前未与身份提供商集成。
       page_title: 身份验证设置
-      profile_page_link_example: "列如，此为您的配置文件网页: [%{friendlyname}](%{url})"
-      settings_description: "为使用户通过外部身份提供商 (IdP) 身份验证，用户需要在网校中维护一个与IdP 相匹配的登录标识符。要查看用户的当前登录，请参阅用户配置文件网页上的\"登录信息\"部分。（可通过在\"用户\"选项卡上搜索用户来查找。）"
+      profile_page_link_example: "列如，此为您的配置文件页面: [%{friendlyname}](%{url})"
+      settings_description: "为使用户通过外部身份提供商 (IdP) 身份验证，用户需要在网校中维护一个与IdP 相匹配的登录标识符。要查看用户的当前登录，请参阅用户配置文件页面上的\"登录信息\"部分。（可通过在\"用户\"选项卡上搜索用户来查找。）"
       settings_title: 身份验证设置
       test_ldap_link: 测试身份验证
       title: 身份验证设置
@@ -166,7 +166,7 @@ zh-CN:
       certificate_fingerprint: 证书指纹
       change_password_url: 更改密码链接
       discovery_url: "发现链接:"
-      discovery_url_description: "如果设置了发现链接，当需要对用户进行身份验证时，教学邦会将所有用户转到该链接。之后该网页需要帮助用户了解去哪里才能登录。如果没有配置发现链接，则将使用第一个 SAML 配置答题对用户进行身份验证。"
+      discovery_url_description: "如果设置了发现链接，当需要对用户进行身份验证时，教学邦会将所有用户转到该链接。之后该页面需要帮助用户了解去哪里才能登录。如果没有配置发现链接，则将使用第一个 SAML 配置答题对用户进行身份验证。"
       identifier_format: 标识符格式
       idp_entity_id: "IdP 实体 ID"
       labels: 
@@ -380,7 +380,7 @@ zh-CN:
       dialog: 
         error: 
           empty_image: 请选择图片后上传
-          incorrect_image_type: 请确认您要上传的图片格式为:jpg,jpeg,png,bmp或gif中的一种
+          incorrect_image_type: "请确认您要上传的图片格式为:jpg,jpeg,png,bmp或gif中的一种"
         tip: 
           uploaded_success: 上传图片成功
       edit_this_page: 修改页面
@@ -461,7 +461,7 @@ zh-CN:
       features_title: 功能
       global_announcements_description: 您可以在网校中使用全局通知在所有用户的面板上发布即时消息。这些消息将会在每个用户的面板上显示指定的时长，或者显示至用户单击"关闭"链接忽略该警报。**这些通知应尽量少用。**
       global_announcements_title: 全局公告
-      global_js_and_css_includes_description: 这些文件将包含在为您的网校加载的所有网页中
+      global_js_and_css_includes_description: 这些文件将包含在为您的网校加载的所有页面中
       global_js_and_css_includes_title: "全局 JavaScript 和 CSS 包含"
       headers: 
         report_last_run: 上次运行
@@ -556,6 +556,12 @@ zh-CN:
       quiz_ip_filters_title: "测试 IP 地址筛选器"
       report_last_run_never: 没有
       report_running: 报表正在运行。*完成时您会收到电子邮件。*
+      reports: 
+        title: 
+          grade_export: 成绩导出
+          provisioning: 定制
+          sis_export: SIS导出
+          student_competency: 学生能力
       select: 
         mfa: 
           disabled: 已禁用
@@ -639,7 +645,7 @@ zh-CN:
       import_failed_message: "导入 SIS 数据时出错。未导入记录。"
       import_failed_with_messages_message: "未导入 SIS 记录。导入失败，显示以下消息:"
       import_log_title: 导入进度日志
-      import_started_message: 导入过程已开始！如果要导入的内容很多，可能需要一段时间。您可以离开该网页，稍后再回来。
+      import_started_message: 导入过程已开始！如果要导入的内容很多，可能需要一段时间。您可以离开该页面，稍后再回来。
       import_type_label: 导入类型
       imported_message: "所有 SIS 数据都已导入。"
       imported_with_messages_message: "SIS 数据已导入，但显示下列消息:"
@@ -699,6 +705,12 @@ zh-CN:
         one: "*1 个文件*的 %{file_size}"
         other: "*%{count} 个文件*的 %{file_size}"
       uploaded_file_storage_header: 已上传的文件存储
+    student_assignment_outcome_map_csv_description: 
+      account_reports: 
+        student_export: 
+          description: 
+            header: 例如
+            text: 此报表显示所有学生的学习成果。导出的csv文件中每一位学生成果显示一行，该详细信息包括关联的作业。
     terms_parameters: 
       account_reports: 
         default: 
@@ -748,7 +760,7 @@ zh-CN:
     error_heading: "Ajax 错误: %{status_code}"
     errors: 
       connection_lost: "到 %{host} 的连接中断。请确保连接到Internet，然后重试。"
-      timeout: 您的请求有问题，可能是无活动时间太长所致。请重新加载网页，然后重试。
+      timeout: 您的请求有问题，可能是无活动时间太长所致。请重新加载页面，然后重试。
       unhandled: 上一个请求还未解决。
     links: 
       details: 详细信息...
@@ -832,7 +844,7 @@ zh-CN:
       invalid_tag_type: 无法识别此标记的项目类型
       invalid_verification_code: 验证代码无效。
       mismatched_verification_code: 验证代码与当前注册的任何用户都不匹配。
-      permission_denied: 您没有访问该网页的权限
+      permission_denied: 您没有访问该页面的权限
       quota_exceeded: 已超过存储空间限制
       quota_exceeded_account: 已超过网校存储空间限制
       quota_exceeded_course: 已超过课程存储空间限制
@@ -847,10 +859,10 @@ zh-CN:
       first_teacher: 此课程已有归属，而您已经注册成为其第一位教师。
       first_teacher_with_email: 此课程已有归属，而您已经注册成为其第一位教师。您很快就会收到电子邮件，用以完成注册过程。
       need_to_accept_enrollment: "您必须 [接受注册邀请](%{url})，然后才可完全参加此课程。"
-      page_disabled: 该网页已禁用
-      page_disabled_for_account: 该网页已对此网校禁用
-      page_disabled_for_course: 该网页已对此课程禁用
-      page_disabled_for_group: 该网页已对此组禁用
+      page_disabled: 该页面已禁用
+      page_disabled_for_account: 该页面已对此网校禁用
+      page_disabled_for_course: 该页面已对此课程禁用
+      page_disabled_for_group: 该页面已对此组禁用
     warnings: 
       please_log_in: 为安全起见，请输入您的密码方可继续
     wiki_front_page_default_content_course: 欢迎使用新课程维基！
@@ -1141,7 +1153,7 @@ zh-CN:
         group_weight: 权重
         total: 总计
     index: 
-      assignment_locked: 此作业当前锁定。更多信息请访问作业详细信息网页。
+      assignment_locked: 此作业当前锁定。更多信息请访问作业详细信息页面。
       assignment_locked_tooltip: 已锁定
       keycode_descriptions: 
         add_assignment_or_group: 添加作业到当前组
@@ -1163,7 +1175,7 @@ zh-CN:
     messages: 
       adding_group: 正在添加组...
       agree_to_pledge: 您需同意提交承诺后才可提交此作业。
-      not_submitted_yet: 尚未完成作业提交。需单击"提交"完成提交。是否仍要离开此网页?
+      not_submitted_yet: 尚未完成作业提交。需单击"提交"完成提交。是否仍要离开此页面?
       now_overdue: 此作业现已逾期。任何新提交将被标记为晚交。是否仍要继续?
       overdue: 此作业已逾期。是否仍要提交?
       record_before_submitting: 在提交前记录
@@ -1204,8 +1216,8 @@ zh-CN:
       not_yet_submitted: 尚未提交
       options: 
         select_student: "[选择学生]"
-      overview: 当学生至少在网页上做一次评论后，学生交互审阅便视为完成。
-      overview_with_rubric: 当学生至少在网页做一次评论并且填写作业的评分标准表时，学生交互审阅便视为完成。
+      overview: 当学生至少在页面上做一次评论后，学生交互审阅便视为完成。
+      overview_with_rubric: 当学生至少在页面做一次评论并且填写作业的评分标准表时，学生交互审阅便视为完成。
       page_title: 交互审阅
       reviews_per_user: "每个用户 %{count} 次审阅"
       submitted: 已提交
@@ -1273,7 +1285,7 @@ zh-CN:
           details: 提交详细信息
           download_attachment: "下载 %{attachment_display_name}"
           view_original_entry: 查看原始条目
-          view_original_page: 查看原始网页
+          view_original_page: 查看原始页面
           view_quiz: 查看测试提交
           view_survey: 查看问卷调查提交
         submit: 提交作业
@@ -1305,7 +1317,7 @@ zh-CN:
         allow_file_uploads: 可上传附件
         allow_media_recordings: 可录制视频语音
         allow_text_entry: 可富文本编辑
-        allow_url: 可插入网页链接
+        allow_url: 可插入页面链接
         allowed_extensions: 允许文件格式
         restrict_file_extensions: 限制文件格式
       submission_type: 提交方式
@@ -1326,7 +1338,7 @@ zh-CN:
         google_docs: 从下面选择文件。
         media_recording: 使用下面的链接来录制/上传视频语音。完成后点击"保存\。
         online_text_entry: 在此复制，粘贴或输入文本。
-        online_url: 输入网页链接。
+        online_url: 输入页面链接。
       labels: 
         uploaded_data: 上传的文件
         url: "Website URL"
@@ -1361,7 +1373,7 @@ zh-CN:
         details: 详细信息
       instructions: 
         syllabus: |-
-            纲要网页是以表格的视图方式显示课程日程表以及课程评分的信息。您可以添加其他评论、课程信息。
+            纲要页面是以表格的视图方式显示课程日程表以及课程评分的信息。您可以添加其他评论、课程信息。
             要添加刚要说明，请单击右边的 "编辑纲要说明" 链接。
       labels: 
         syllabus_body: 纲要说明
@@ -1410,7 +1422,7 @@ zh-CN:
           details: "在提交时间和获得所需分数之前，还有许多作业要分配。如果要输入作业说明、允许文件上传、更改评分类型或多项其他设置，请单击作业名称或单击 %{edit_icon} 图标，然后单击\"更多选项\"。"
           group: 
             step1: 作业组用于组织作业。可为每个组提供名称。如果选择根据组加权最终评分（*位置?*），则亦可为每个组设置比例分数。单击"添加作业组"创建组。
-          overview: 此网页用于在高级别设置课程。可以添加作业、组织作业，然后加权这些组。方法是先组织，然后再研究细班。即使这样，在这里也可以执行许多操作。
+          overview: 此页面用于在高级别设置课程。可以添加作业、组织作业，然后加权这些组。方法是先组织，然后再研究细班。即使这样，在这里也可以执行许多操作。
           quizzes: 测试是特殊类型的作业。可以单击左侧栏中的"测试"链接来创建或导入测试。
           step1: "作业始终要分配到组中，因此要添加作业，必须先知道要将其加入哪个组。选择该组，然后单击\"添加作业到\"或单击 %{add_icon} 图标，开始为组分配新作业。"
           step2: 很好！现在输入详细信息。可以输入作业的标题、提交时间以及最高分数。如果还要执行其他操作，只有等到作业创建后。
@@ -2059,14 +2071,14 @@ zh-CN:
           **协作对我们意味着什么?**  我们讨论的是用于共同处理共享文档的
           Web 工具。您可以使用诸如
           [Google Docs](%{google_url}) 和 [EtherPad](%{etherpad_url})
-          等资源协作处理组论文或笔记等任务。此网页是
+          等资源协作处理组论文或笔记等任务。此页面是
           跟踪这些协作的便利位置，无需交换电子邮件
           也可设置。
       description_teacher: |-
           **协作对我们意味着什么?**  我们讨论的 Web 工具很可能
           您的学生已经熟悉。学生可以使用诸如
           [Google Docs](%{google_url}) 和 [EtherPad](%{etherpad_url})
-          等资源协作处理组论文或笔记等任务。此网页为他们
+          等资源协作处理组论文或笔记等任务。此页面为他们
           （及您）提供跟踪这些协作的便利位置，无需交换电子邮件
           也可设置。
       how_to_start_a_new_collaboration: 要了解有关特定协作类型的详细信息，请单击"开始新协作"，然后从下拉列表中选择该类型。
@@ -2182,9 +2194,9 @@ zh-CN:
       page_title: "Web 在线视频课"
       title: "Web 在线视频课"
     loading_urls_message: 正在加载，请稍候...
-    multiple_urls_message: "有多个 %{type} 网页可用于此在线视频课。请选择一个:"
-    no_settings_error: 在线视频课没有高级设置网页
-    no_urls_error: "抱歉，看起来好像还没有用于此在线视频课的任何 %{type} 网页。"
+    multiple_urls_message: "有多个 %{type} 页面可用于此在线视频课。请选择一个:"
+    no_settings_error: 在线视频课没有高级设置页面
+    no_urls_error: "抱歉，看起来好像还没有用于此在线视频课的任何 %{type} 页面。"
     notifications: 
       inaccessible: "警告: 此页包含第三方内容，对于屏幕阅读器是不可访问的。"
     show: 
@@ -2232,7 +2244,7 @@ zh-CN:
         download: "课程导出从 %{date}:*单击此处下载*"
         download_qti: "%{date} 导出的 QTI: *点此下载*"
       message: 
-        export_started: 导出过程已开始。大型课程可能需要一段时间。*您可以离开网页*，在导出完成时您会收到电子邮件。
+        export_started: 导出过程已开始。大型课程可能需要一段时间。*您可以离开页面*，在导出完成时您会收到电子邮件。
       page_title: 课程导出
       type: 
         course: 课程
@@ -2319,7 +2331,7 @@ zh-CN:
         files: "%{course} 的文件"
         modules: "%{course} 的模块"
         quizzes: "%{course} 的测试"
-        wiki_ages: "属于 %{course} 的 维基网页"
+        wiki_ages: "属于 %{course} 的 维基页面"
       links: 
         back: "返回到 %{course} 的主页"
       page_title: "从 %{course} 复制成绩"
@@ -2341,7 +2353,7 @@ zh-CN:
         question_banks: "%{course} 的题库"
         quizzes: "%{course} 的测试"
         rubrics: "%{course} 评分标准"
-        wiki_ages: "属于 %{course} 的 维基网页"
+        wiki_ages: "属于 %{course} 的 维基页面"
     crumbs: 
       content_imports: 内容导入
     date_shift_form: 
@@ -2405,7 +2417,7 @@ zh-CN:
         you_can_also: "也可以:"
     messages: 
       copying: "正在复制... 可能需要几分钟"
-      import_complete: "导入完成! 正在返回到课程网页..."
+      import_complete: "导入完成! 正在返回到课程页面..."
       importing_button: "导入中... 这可能需要一些时间"
       uploading: 正在上传课程导出...
     migrate_content: 
@@ -2452,9 +2464,9 @@ zh-CN:
         this_course_date_range: "**此课程**日期范围"
       links: 
         add_day_substitution: 定义日期替换
-        back: 返回课程网页
+        back: 返回课程页面
       messages: 
-        import_started: 导入过程已开始！大型课程可能需要几小时，因此尽可离开此网页。我们会在导入完成时向您发送电子邮件。
+        import_started: 导入过程已开始！大型课程可能需要几小时，因此尽可离开此页面。我们会在导入完成时向您发送电子邮件。
         importing: "**谢谢！ **我们将从 %{course} 导入选择的内容，并在此过程完成时向您发送电子邮件。此过程通常会在一个小时内完成。"
         loading: 正在加载已迁移资源的列表...
       move_from_to: "将 %{old_day} 的所有事务改在 %{new_day}"
@@ -2553,10 +2565,10 @@ zh-CN:
       file_locked_module: "此文件是单元 *%{module}* 的一部分，尚未解锁。"
       file_locked_no_reason: 此文件已锁定。尚未提供其他原因。
       file_locked_until: "此文件锁定至 %{date}。"
-      page_locked_at: "此网页锁定于 %{at}。"
-      page_locked_module: "此网页是单元 *%{module}* 的一部分，尚未解锁。"
-      page_locked_no_reason: 此网页已锁定。尚未提供其他原因。
-      page_locked_until: "此网页锁定至 %{date}。"
+      page_locked_at: "此页面锁定于 %{at}。"
+      page_locked_module: "此页面是单元 *%{module}* 的一部分，尚未解锁。"
+      page_locked_no_reason: 此页面已锁定。尚未提供其他原因。
+      page_locked_until: "此页面锁定至 %{date}。"
       quiz_locked_at: "此测试锁定于 %{at}。"
       quiz_locked_module: "此测试是单元 *%{module}* 的一部分，尚未解锁。"
       quiz_locked_no_reason: 此测试已锁定。尚未提供其他原因。
@@ -2565,7 +2577,7 @@ zh-CN:
       topic_locked_module: "此主题是单元 *%{module}* 的一部分，尚未解锁。"
       topic_locked_no_reason: 此主题已锁定。尚未提供其他原因。
       topic_locked_until: "此主题锁定至 %{date}。"
-      visit_modules_page_for_details: 有关如何解锁此内容的信息，请访问单元网页。
+      visit_modules_page_for_details: 有关如何解锁此内容的信息，请访问单元页面。
     titles: 
       content_is_locked: 内容已锁定
   content_migration: 
@@ -2575,11 +2587,11 @@ zh-CN:
   content_tags: 
     defaults: 
       comments: 评论
-      page_title: 网页标题
+      page_title: 页面标题
     prompts: 
       delete_tag: 确定要删除此标记?
     titles: 
-      tag_external_web_page: 标记外部网页
+      tag_external_web_page: 标记外部页面
   context: 
     all_marked_read: 收件箱消息全部标记为已读
     bad_message: 此消息无法显示
@@ -2764,7 +2776,7 @@ zh-CN:
       headings: 
         user_access_report: "%{user} 访问报表"
       links: 
-        back_to_user: 返回用户网页
+        back_to_user: 返回用户页面
       table_headings: 
         content: 内容
         last_viewed_time: 上次查看
@@ -2787,9 +2799,9 @@ zh-CN:
     requirements: 
       max_score: "得分不得超过 %{score}"
       min_score: "得分至少为 %{score}"
-      must_contribute: 必须参加网页
+      must_contribute: 必须参加页面
       must_submit: 必须提交作业
-      must_view: 必须查看网页
+      must_view: 必须查看页面
   context_modules: 
     buttons: 
       add: 添加单元
@@ -2818,7 +2830,7 @@ zh-CN:
         students_unlocked: 已解锁（但未启动）单元的学生
       help: 
         create: |-
-            课程单元可让您将作业、网页、文件等组织为更小的班或单元。单元可围绕主题组织，集中于具体的课题，或只是按时间顺序组织。
+            课程单元可让您将作业、页面、文件等组织为更小的班或单元。单元可围绕主题组织，集中于具体的课题，或只是按时间顺序组织。
             
             您也可以定义每个单元的标准和前提条件，以此安排单元的顺序。学生在其解锁所有前提条件之前无法访问单元。这样可以防止学生在评审测试中获得一定分数（例如 75%）之前访问特定内容或文件。
             
@@ -2891,7 +2903,7 @@ zh-CN:
         another_module: 其他单元
       prerequisites_need_item: 添加项目后才可指定用户完成此单元条件
       requirements: 
-        must_contribute: 提供网页
+        must_contribute: 提供页面
         must_score_at_least: 至少得分
         must_submit: 提交作业
         must_view: 查看项目
@@ -2979,14 +2991,14 @@ zh-CN:
         fulfilled: "得分至少为 %{score}"
         unfulfilled: "得分至少为 %{score}"
       must_contribute: 
-        fulfilled: 已参加网页的内容
-        unfulfilled: 必须参加网页的内容
+        fulfilled: 已参加页面的内容
+        unfulfilled: 必须参加页面的内容
       must_submit: 
         fulfilled: 已提交作业
         unfulfilled: 必须提交作业
       must_view: 
-        fulfilled: 已查看网页
-        unfulfilled: 必须查看网页
+        fulfilled: 已查看页面
+        unfulfilled: 必须查看页面
     multiple_due_dates: 多个提交时间
     none_in_progress: 无进展
     optgroup: 
@@ -2996,7 +3008,7 @@ zh-CN:
       external_urls: 外部链接
       files: 文件
       quizzes: 测试
-      wiki_pages: 维基网页
+      wiki_pages: 维基页面
     points_possible_short: "%{points} 分"
     prerequisits_footer: 
       default_module_name: 单元
@@ -3281,14 +3293,14 @@ zh-CN:
       topic_is_locked: "由于主题 \"%{title}\" 已被锁定，所以无法复制。"
       topics: 无法导出某些主题
       web_links: "无法导出某些 Web 链接"
-      wiki_page: "维基网页 \"%{title}\" 无法导出"
-      wiki_pages: 无法导出维基网页
+      wiki_page: "维基页面 \"%{title}\" 无法导出"
+      wiki_pages: 无法导出维基页面
     errors_list_message: "导出 %{export_id} 出错:"
     unknown_titles: 
       assignment: 未知作业
       file: 未知文件
       topic: 未知主题
-      wiki_page: 未知维基网页
+      wiki_page: 未知维基页面
   course_list: 
     wrapper: 
       close_course_menu_title: 关闭
@@ -3441,7 +3453,7 @@ zh-CN:
               
               请**登录**或***注册***以领受本课程。
         files: "\"文件\"选项卡是用于分享讲义的区域，例如文档、学习帮助等 – 学生需要下载的任何文件。在教学邦中，上传和组织文件是轻而易举的事情。我们会告诉您如何操作。"
-        home: "此网页是用户访问本课程时看到的网页。您可以设置它显示活动流、课程单元列表、纲要或自己编写的自定义网页。默认显示为课程活动流。要自定义此显示，只需单击 %{change_layout}。"
+        home: "此页面是用户访问本课程时看到的页面。您可以设置它显示活动流、课程单元列表、纲要或自己编写的自定义页面。默认显示为课程活动流。要自定义此显示，只需单击 %{change_layout}。"
         import: 如果您曾使用其他课程管理系统，您可能需要将其中的材料转移到教学邦中。我们可以引导您轻松将内容迁移到教学邦。
         navigation: 默认情况下会启用课程的所有相关链接。对于没有内容的部分，学生将无法看到其链接。例如，如果您尚未创建任何测试，学生将无法看到测试链接。对于您不希望学生访问的课程部分，您可以归类并明确禁用这些链接。
         publish: 
@@ -3566,7 +3578,7 @@ zh-CN:
       date_restricted: 用户只能参加这些日期之间的课程
       deatils: 
         move_course: 为此课程选择新的网校在移动课程之后，还需要为课程指定新的部门。
-      drag_details: 禁用大部分网页会导致访问这些网页的学生被重定向至课程主页。
+      drag_details: 禁用大部分页面会导致访问这些页面的学生被重定向至课程主页。
       drag_to_hide: 拖动项目到此处可对学生隐藏它们。
       edit_sections_view: 
         edit_sections_desc: "班是组织用户的另一种方式。通过它，您可以教授多个参加同一门课程的班级，这样您就可以将课程内容都保存在同一位置。在下面，您可以将用户移至其他班，或添加/删除班注册。 用户必须始终至少位于一个班。"
@@ -3663,9 +3675,9 @@ zh-CN:
       section_sis_id: "SIS ID: %{section_sis}"
       set_grading_scheme: 设置评分方案
       sis_source_id: "SIS ID"
-      tab_cant_disable: 此网页无法禁用，只能隐藏
-      tab_disabled: 被禁用的网页将重定向至课程主页
-      tab_hidden_if_disabled: 被禁用的网页将不会显示在导航中
+      tab_cant_disable: 此页面无法禁用，只能隐藏
+      tab_disabled: 被禁用的页面将重定向至课程主页
+      tab_hidden_if_disabled: 被禁用的页面将不会显示在导航中
       tabs: 
         alerts: 警报
         details: 课程明细
@@ -3686,8 +3698,8 @@ zh-CN:
           user_details: 用户详细信息
         manage: 管理
       view_grading_scheme: 查看评分方案
-      wiki_editing_roles: 默认情况下可编辑课程维基网页
-      wiki_editing_roles_change_existing: "通过 \"%{current_setting}\" 到 \"%{new_setting}\" 更改当前可编辑的网页。"
+      wiki_editing_roles: 默认情况下可编辑课程维基页面
+      wiki_editing_roles_change_existing: "通过 \"%{current_setting}\" 到 \"%{new_setting}\" 更改当前可编辑的页面。"
     settings_sidebar: 
       buttons: 
         reset: 重置课程内容
@@ -3695,7 +3707,7 @@ zh-CN:
       headings: 
         current_users: 当前用户
       help: 
-        reset_course_content: 重置课程内容将永久性删除所有相关的作业、讨论、测试、单元、评分标准、网页、文件、学习结果、题库、协作、在线视频课或任何其他内容。此操作不可逆，删除的数据将*无法*撤销。确定要继续?
+        reset_course_content: 重置课程内容将永久性删除所有相关的作业、讨论、测试、单元、评分标准、页面、文件、学习结果、题库、协作、在线视频课或任何其他内容。此操作不可逆，删除的数据将*无法*撤销。确定要继续?
       links: 
         calendar: 课程日历
         conclude: 结束此课程
@@ -3716,7 +3728,7 @@ zh-CN:
         confirm_unenroll: 确定要取消注册此课程?您将不再能够看到课程清单或与教师沟通，并且您的通信流和通知中再看不到课程活动。
         custom_page: 您可以**设计自己的课程主页**，在其中包含您喜欢的任何链接、图片或富视频语音。
         modules: |-
-            您可以将课程组织成**单元或章节**，每章节包含一组相关的文件、作业和网页等。还可以通过定义每个单元解锁之前需要完成的标准和前提条件来组织单元序列。
+            您可以将课程组织成**单元或章节**，每章节包含一组相关的文件、作业和页面等。还可以通过定义每个单元解锁之前需要完成的标准和前提条件来组织单元序列。
             
             这种布局可能最适合没有特定时间表（例如学期）的课程。
         recent_activity_dashboard: "**最近活动仪表板**让参加者能看到此课程最近的谈话、公告、讨论和互动。它很类似于用户在第一次登录时看到的仪表板，但只显示此特定课程的内容。"
@@ -3729,7 +3741,7 @@ zh-CN:
         unpublished: 此课程未发布
       importing: 课程复制/迁移进行中。这意味着某些内容暂时不可用。
       labels: 
-        set_layout: 当用户访问课程网页时，显示
+        set_layout: 当用户访问课程页面时，显示
       license_notice: "此课程的内容根据 %{license_type} 许可证提供。本课程的内容可用性取决于此许可证，除非另有说明。"
       links: 
         change_layout: 更改主页布局
@@ -3741,7 +3753,7 @@ zh-CN:
         restore_role: 恢复角色和权限
       options: 
         assignments: 作业列表
-        custom_page: 自定义网页
+        custom_page: 自定义页面
         modules: 课程单元/章节
         recent_activity_dashboard: 最近活动仪表板
         syllabus: 含有纲要的作业
@@ -3863,7 +3875,7 @@ zh-CN:
     syllabus: 纲要
     users: 用户
     wiki_page_revisions: 修订版
-    wiki_pages: 网页
+    wiki_pages: 页面
   curve_grades_dialog: 
     average_score: 平均分数
     buttons: 
@@ -4264,21 +4276,22 @@ zh-CN:
       criterion_long_description: 标准详细说明
       find_existing_rubric: 查找现有评分标准
   editor: 
-    alt_text: "替换文本:"
+    alt_text: "图片文本:"
     based_on_type: "基于 %{base_type}"
     button: 
       insert_equation: 插入公式
     cancel: 取消
-    click_to_embed: 单击以嵌入图片
+    choose_a_picture: 上传本地图片：
+    click_to_embed: 链接图片
     done: 
       title: 单击以完成编辑富文本区域
     done_as_in_finished: 完成
-    embed_external: 插入外部图片
+    embed_external: 链接外部图片
     embed_from_external_tool: “使用外部工具嵌入内容”
-    embed_image: 嵌入图片
+    embed_image: 链接图片
     equation_editor_title: "使用工具栏或 LaTeX  格式的输入/粘贴来添加公式"
-    image_not_found: 未找到图片，请答题新的链接
-    instructions: "粘贴或输入您想嵌入的图片的链接:"
+    image_not_found: 未找到图片，请用新的链接
+    instructions: "链接外部网站图片:"
     loading: 正在加载...
     more_external_tools: 更多外部工具
     role: 
@@ -4287,10 +4300,9 @@ zh-CN:
       remove_role_confirmation: "已有该角色的用户权限保持不变, 点击确定删除此角色."
     save_failed: 保存失败，请稍后重试
     saving: 正在保存...
-    search_flickr: "搜索 flickr 知识共享"
+    search_flickr: 搜索外部网站图片
     switch_views: 切换视图
-    url: "URL:"
-    choose_a_picture: 选择图片：
+    url: "链接地址:"
   editor_accessibility: 
     accessibles: 
       background_color: "背景色, 按下选择"
@@ -4336,7 +4348,7 @@ zh-CN:
       manage_sections: 管理班
     confirm_delete_message: 确定要删除此消息?
     confirm_delete_page: 删除此页及其所有内容?
-    confirm_delete_section: 删除此班及其所有网页?
+    confirm_delete_section: 删除此班及其所有页面?
     default_description: "这是我在 %{course} 中提交的 %{assignment}。"
     eportfolio_settings: 个人空间设置
     errors: 
@@ -4350,11 +4362,11 @@ zh-CN:
     links: 
       manage_pages: 单击可编辑，拖放可重新排序
     titles: 
-      add_submission: 添加提交网页
+      add_submission: 添加提交页面
       download_eportfolio: 下载个人空间
       section_list: 拖放可排列，单击可编辑
   eportfolio_categories: 
-    default_name: 新网页
+    default_name: 新页面
     errors: 
       missing_page: 找不到该页
   eportfolio_category: 
@@ -4366,9 +4378,9 @@ zh-CN:
       missing_page: 找不到该页
   eportfolio_entry: 
     atom_author: 个人空间项目
-    click_through: 单击以查看网页内容
+    click_through: 单击以查看页面内容
     default_content: 尚未添加内容
-    default_name: 网页名称
+    default_name: 页面名称
   eportfolios: 
     _page_section: 
       section_types: 
@@ -4384,7 +4396,7 @@ zh-CN:
         other: "*%{count}* 页"
       updated_at: "上次更新时间 %{updated_at}"
     help_link_text: "%{help_icon} 帮助...?"
-    manage_pages_link_text: 组织/管理网页
+    manage_pages_link_text: 组织/管理页面
     manage_sections_link_text: 管理班
     notices: 
       created: "Portfolio 已创建"
@@ -4394,16 +4406,16 @@ zh-CN:
     page_list: 
       buttons: 
         done_editing: 完成编辑
-      default_page_name: 网页名称
-      edit_instructions: 单击任何网页名称可对其重命名，单击并拖动可重新排序。
+      default_page_name: 页面名称
+      edit_instructions: 单击任何页面名称可对其重命名，单击并拖动可重新排序。
       headers: 
-        page_list: 此班的网页
+        page_list: 此班的页面
       links: 
-        add_page: 添加其他网页
+        add_page: 添加其他页面
       titles: 
-        delete_page: 删除此网页
-        manage_pages: 添加、删除或重排此班的网页
-        rename_page: 重命名网页
+        delete_page: 删除此页面
+        manage_pages: 添加、删除或重排此班的页面
+        rename_page: 重命名页面
     page_section: 
       links: 
         download_attachment: "单击此处下载 *%{attachment}*"
@@ -4439,24 +4451,24 @@ zh-CN:
         manage_sections: 添加、删除或重排此文件包的班
         rename_section: 重命名此班
     show: 
-      add_submission: 要为此提交添加新网页，请选择班并输入新网页的名称。
+      add_submission: 要为此提交添加新页面，请选择班并输入新页面的名称。
       attachment_count: 
         one: "1 个附件"
         other: "%{count} 个附件"
       buttons: 
         add_comment: 添加评论
-        add_page: 添加网页
+        add_page: 添加页面
         delete: 删除个人空间
         keep_editing: 继续编辑
         preview: 预览
-        save_page: 保存网页
+        save_page: 保存页面
         select_submission: 选择提交
         update_eportfolio: 更新个人空间
         upload_file: 选择/上传文件
-      current_pages: 当前网页
+      current_pages: 当前页面
       delete_confirm: 
-        one: "你当前个人空间中有1个网页. 确定要删除个人空间吗?"
-        other: "您当前的个人空间中已经有一个网页。您真的要删除个人空间吗? 您当前的个人空间中已经有 %{count} 个网页。您真的要删除整个个人空间吗?"
+        one: "你当前个人空间中有1个页面. 确定要删除个人空间吗?"
+        other: "您当前的个人空间中已经有一个页面。您真的要删除个人空间吗? 您当前的个人空间中已经有 %{count} 个页面。您真的要删除整个个人空间吗?"
       headers: 
         add_content: 添加内容
         export_progress: 正在收集个人空间资源。如果个人空间中的文件较多，这可能需要一些时间。
@@ -4465,7 +4477,7 @@ zh-CN:
         recent_submissions: 最近提交
         welcome: 欢迎使用个人空间
       headings: 
-        page_comments: 网页评论
+        page_comments: 页面评论
       labels: 
         add_comment: 添加新评论
         allow_comments: 允许在此页添加评论
@@ -4476,7 +4488,7 @@ zh-CN:
         html_content: "将 HTML 代码复制粘贴到下框中"
         loading_submission: 正在加载提交
         make_public: 使其公开
-        page_name: 网页名称
+        page_name: 页面名称
         section: 班
         show_comments: 使评论公开
         uploading_file: 正在上传
@@ -4502,7 +4514,7 @@ zh-CN:
       private_comments: 现在只有您可以查看此页的评论。如果需要，您可以通过*更改此页的设置*使评论公开可见。
       private_eportfolio: "这意味着没有相关权限的用户无法找到或查看它。您可以查看它，因为它是您的文件包，但如果您想让任何人都能够查看它，则需要复制并分享以下特殊链接，使他们有权访问您的文件包:"
       public_eportfolio: 这意味着知道您的文件包地址的人都能够查看它。您可以通过*更改文件包设置*将其变成私人可见。
-      recent_submissions: 单击任何提交将其添加到个人空间中的新网页。
+      recent_submissions: 单击任何提交将其添加到个人空间中的新页面。
       titles: 
         already_used: 该提交已包含在您的文件包中
         feed: "Eportfolio Atom Feed"
@@ -4514,7 +4526,7 @@ zh-CN:
     static_page: 
       created_with_canvas: 使用教学邦创建
       headers: 
-        page_comments: 网页评论
+        page_comments: 页面评论
       links: 
         skip_navigation: 跳过导航
       logo: LOGO
@@ -4551,37 +4563,37 @@ zh-CN:
              准备好了吗?单击按钮。
     wizard_box: 
       finish: 
-        body: "准备好了吗?通过单击 \"%{help_link_text}\" 链接可随时从任何网页返回到此向导。"
+        body: "准备好了吗?通过单击 \"%{help_link_text}\" 链接可随时从任何页面返回到此向导。"
       headers: 
         finish: 开始行动
         getting_started: 开始
         instructions: 使用个人空间
         introduction: 简介
-        page_content: 网页内容
-        pages: 班网页
+        page_content: 页面内容
+        pages: 班页面
         sections: 文件包班
         settings: 个人空间设置
         submissions: 添加提交
       introduction: 
-        body: "个人空间是用于展示作品的地方。它们由班和网页组成。窗口 (%{showme1}) 左侧显示班列表。每班可能有多个网页，这些网页显示在窗口 (%{showme2}) 右侧。"
+        body: "个人空间是用于展示作品的地方。它们由班和页面组成。窗口 (%{showme1}) 左侧显示班列表。每班可能有多个页面，这些页面显示在窗口 (%{showme2}) 右侧。"
       links: 
         portfolio: 查看文件包
       page_content: 
-        body1: "您在网页上看到的内容与任何访客看到的内容相同。要编辑此内容，请单击 \"%{edit_link_text}\" 链接 (%{showme})，网页将会变为编辑模式。"
-        body2: "现在可以编辑了！根据需要重命名网页或更改评论选项 (%{showme1})。通过单击右侧的按钮 (%{showme2})，可随时保存、预览或取消更改。"
+        body1: "您在页面上看到的内容与任何访客看到的内容相同。要编辑此内容，请单击 \"%{edit_link_text}\" 链接 (%{showme})，页面将会变为编辑模式。"
+        body2: "现在可以编辑了！根据需要重命名页面或更改评论选项 (%{showme1})。通过单击右侧的按钮 (%{showme2})，可随时保存、预览或取消更改。"
         body3: "内容分为多个小班，每个小班都有虚线边框。通过单击小班右上角的 %{edit_icon} 或 %{delete_icon} 图标，可编辑或删除该小班的内容。"
-        body4: "要添加新小班，请在网页 (%{showme}) 右侧的选项列表中查找并单击要添加的内容类型。"
+        body4: "要添加新小班，请在页面 (%{showme}) 右侧的选项列表中查找并单击要添加的内容类型。"
       pages: 
-        body1: "班含有多个网页。您可以在窗口 (%{showme1}) 右侧查看当前班的网页列表。要组织或添加网页，请单击 \"%{manage_pages}\" 链接 (%{showme2})。"
-        body2: "您可以通过单击 %{edit_icon} 图标来重命名任何网页，通过单击 %{delete_icon} 图标来删除网页，或通过单击并拖动来重排网页顺序。"
+        body1: "班含有多个页面。您可以在窗口 (%{showme1}) 右侧查看当前班的页面列表。要组织或添加页面，请单击 \"%{manage_pages}\" 链接 (%{showme2})。"
+        body2: "您可以通过单击 %{edit_icon} 图标来重命名任何页面，通过单击 %{delete_icon} 图标来删除页面，或通过单击并拖动来重排页面顺序。"
       sections: 
-        body1: "窗口 (%{showme1}) 左侧列出各个班。每个班可能含有多个网页。要组织或添加班，请单击 \"%{manage_sections}\" 链接 (%{showme2})。"
+        body1: "窗口 (%{showme1}) 左侧列出各个班。每个班可能含有多个页面。要组织或添加班，请单击 \"%{manage_sections}\" 链接 (%{showme2})。"
         body2: "您可以通过单击 %{edit_icon} 图标来重命名任何班，通过单击并拖动来重新排列班，或通过单击 %{delete_icon} 图标来删除班。"
       settings: 
         body: "要更改个人空间的设置，请单击 \"个人空间Settings\" 链接 (%{showme})。您可以重命名文件包，也可以将其可见性更改为公开或私人。私人公文包只有您授权的用户才能查看。"
       submissions: 
-        body1: "您可能已经注意到，此页的底部是班级 (%{showme}) 最近提交的文件列表。您可以在此页中快速添加提交到文件包中的新网页。只需单击要添加的提交，就会弹出一个简单的对话框。"
-        body2: "很好！现在要完成添加提交的操作，您需要选择要添加到的班，并指定网页名称。单击 \"添加网页\" 之后，您将会转到新网页，以便能够根据需要进行详细编辑。"
+        body1: "您可能已经注意到，此页的底部是班级 (%{showme}) 最近提交的文件列表。您可以在此页中快速添加提交到文件包中的新页面。只需单击要添加的提交，就会弹出一个简单的对话框。"
+        body2: "很好！现在要完成添加提交的操作，您需要选择要添加到的班，并指定页面名称。单击 \"添加页面\" 之后，您将会转到新页面，以便能够根据需要进行详细编辑。"
   errors: 
     bad_navigation_config: 课程标签配置无效
     failed: 已失败
@@ -4598,7 +4610,7 @@ zh-CN:
         user: 用户
       message_contains: 消息包含
     no_attached_file: 您至少要为作业添加一份文件
-    registration_incomplete: 您需要确认您的电子邮件，然后才能查看此网页
+    registration_incomplete: 您需要确认您的电子邮件，然后才能查看此页面
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
   external_content: 
     cancel: 
@@ -4699,10 +4711,10 @@ zh-CN:
       load_tool_button: "加载 %{tool}"
       load_tool_new_tab_button: "在新窗口中加载 %{tool}"
       new_tab: 此工具需要在新的浏览器窗口中加载
-      new_tab_expired: 此工具的会话已过期。请重新加载网页以再次访问工具。
-      new_tab_loaded: 此工具在新的浏览器窗口中成功加载。重新加载网页可再次访问工具。
+      new_tab_expired: 此工具的会话已过期。请重新加载页面以再次访问工具。
+      new_tab_loaded: 此工具在新的浏览器窗口中成功加载。重新加载页面可再次访问工具。
   facebook: 
-    authorization_required: 只有经授权的用户才能访问该网页。
+    authorization_required: 只有经授权的用户才能访问该页面。
     authorization_success: "授权成功！教学邦和 Facebook 现在是盟友。"
     deleted: 已删除
     index: 
@@ -4710,7 +4722,7 @@ zh-CN:
       bookmark_notice: "您可以从 Facebook 主页查看教学邦新通知的数量（如果您制作了此应用程序的书签）。"
       canvas_messages: 教学邦消息
       configure_notification_preferences_notice: 在*配置您的通知首选项*之后，就可以在此处看到通知，从而知道您的教学邦网校中发生的事情。
-      installation_about: "要安装教学邦Facebook 应用程序，请转至教学邦中的配置文件网页，然后单击 Facebook 按钮将您的账号链接到 Facebook。"
+      installation_about: "要安装教学邦Facebook 应用程序，请转至教学邦中的配置文件页面，然后单击 Facebook 按钮将您的账号链接到 Facebook。"
       learn_more: "更多信息请参阅 jiaoxuebang.com"
       more_information: "更多信息请参阅 %{domain_list}"
       no_messages_notice: 当课程中发生事情时，您将在此处看到通知，从而知道您的教学邦网校中发生的事情。
@@ -4933,7 +4945,7 @@ zh-CN:
     update_file: 更新文件
     upload_error: 上传您的文件时出错
     warnings: 
-      file_uploaded_without_response: 文件可能已上传，但服务器没有响应。请重新加载网页以确认。
+      file_uploaded_without_response: 文件可能已上传，但服务器没有响应。请重新加载页面以确认。
   find_outcome: 
     errors: 
       outcome_retrieval_failed: 结果检索意外失败。请重试。
@@ -5002,7 +5014,7 @@ zh-CN:
     download_submissions: 下载提交
     edit_view_rubric: 查看评分标准
     errors: 
-      failed_to_load: 成绩册加载失败，请答题刷新网页
+      failed_to_load: 成绩册加载失败，请答题刷新页面
       none_to_update: 无更新
       select_an_option: 请选择选项
       upload_as_zip: "请以 .zip 形式上传文件"
@@ -5089,7 +5101,7 @@ zh-CN:
     concluded_course_error_message: 这是个结业的课程，因此只提供结业登记。
     dropped_for_grading: 因评分目的删去
     error: 
-      update: 更新此作业时出错。请刷新网页，然后重试。
+      update: 更新此作业时出错。请刷新页面，然后重试。
     errors: 
       none_to_update: 无更新
       upload_as_zip: "请以 .zip 形式上传文件"
@@ -5397,7 +5409,7 @@ zh-CN:
       submission_count: 
         one: "1 处更改"
         other: "%{count} 处更改"
-      temporary_disabled: 对于此等大小的课程，成绩册历史网页当前不可用。
+      temporary_disabled: 对于此等大小的课程，成绩册历史页面当前不可用。
       titles: 
         feed: "课程成绩册 Atom Feed"
         submission_graded: "%{graded_date} 评分者 %{grader}"
@@ -5533,17 +5545,17 @@ zh-CN:
       comments_made: 
         one: "已做 1 条评价"
         other: "已做 %{count} 条评价"
-      done: 完成！我们针对您上传的文件发表简短的评注，然后将其附加到每个用户的提交网页上。学生会收到已添加新评注的通知。
-      failures: 有些文件我们不知道如何处理。它们尚未被添加到用户的提交网页。您可以查看左侧的列表。
+      done: 完成！我们针对您上传的文件发表简短的评注，然后将其附加到每个用户的提交页面上。学生会收到已添加新评注的通知。
+      failures: 有些文件我们不知道如何处理。它们尚未被添加到用户的提交页面。您可以查看左侧的列表。
       files_ignored: 
         one: "已忽略 1 个文件"
         other: "已忽略 %{count} 文件"
       header: 
         ignored_files: 已忽略以下文件
       headers: 
-        attached_files: 已附加文件到以下用户提交网页
+        attached_files: 已附加文件到以下用户提交页面
       links: 
-        back_to_assignment: 返回作业网页
+        back_to_assignment: 返回作业页面
         back_to_gradebook: "返回 Gradebook"
       no_comments_added: 未添加评注
       renamed_file: "从 %{filename} 重命名"
@@ -5565,7 +5577,7 @@ zh-CN:
     errors: 
       cannot_delete_grading_scheme: 删除此评分方案时出错
       cannot_load_grading_standards: 加载评分标准失败。请重试
-      cannot_remove_grading_scheme: 删除此评分方案时出错。请重新加载网页，然后重试。
+      cannot_remove_grading_scheme: 删除此评分方案时出错。请重新加载页面，然后重试。
       save_failed: 保存失败
     grading_scheme_currently_set: 现已设置
     grading_scheme_not_set: 未设置
@@ -5588,7 +5600,7 @@ zh-CN:
       discussions: 讨论
       files: 文件
       home: 主页
-      pages: 网页
+      pages: 页面
       people: 成员
   group_categories: 
     default_category_title: 学生组
@@ -5671,7 +5683,7 @@ zh-CN:
       buttons: 
         create: 创建组
       course_groups: 课程组
-      group_explanation: 分组是项目协作或安排学习时间的良好方式。每个组使用一份日历和一个维基网页，共同讨论并共享一些存储文件的空间。各组可协作处理文档，甚至安排网络在线视频课。它就像一个小型班级，学生数量更少，可开展更有针对性的项目。
+      group_explanation: 分组是项目协作或安排学习时间的良好方式。每个组使用一份日历和一个维基页面，共同讨论并共享一些存储文件的空间。各组可协作处理文档，甚至安排网络在线视频课。它就像一个小型班级，学生数量更少，可开展更有针对性的项目。
       groups_disabled: 此课程已禁用学生组织的组，因此您只能加入教师组织的组。
       headings: 
         available_groups: 可用组
@@ -5695,7 +5707,7 @@ zh-CN:
       drag_and_drop_instructions: 单击并拖动可将学生移动到其他组。
       get_started_info: "要成立新组，请单击右侧的 \"成立新组\" 链接。"
       group_assignment_instructions: "您可以随机分配学生到指定规模的组，或手动创建并组织组。创建组之后，您可以设置作业为 \"组提交\" 作业，这意味着每个组的所有用户将提交相同主题的提交。"
-      group_pages: 组网页
+      group_pages: 组页面
       headings: 
         account_groups: 网校级学生组
         course_groups: 学生组
@@ -6002,7 +6014,7 @@ zh-CN:
         tip: 请输入关键词
         title: 搜索
     facebook: 
-      title: "Facebook 网页"
+      title: "Facebook 页面"
     fixed_bottom: 
       masquerading: 
         stop: 停止模拟
@@ -6013,7 +6025,9 @@ zh-CN:
         reset_explanation: "重置该测试学生将清除所有历史记录，%{line_break} 重置后将作为新学生访问课程。"
         warning_title: 您当前已登录到学生视图
     head: 
-      default_page_title: 教学邦网校平台
+      default_page_title: 教学邦-网校平台(jiaoxuebang.com)-国内真正首家纯教育云平台、国内首创开放网校平台服务、全球首创终身网络教育模式、独家全方位实现听说读写画
+      default_page_description: 教学邦jiaoxuebang.com-国内首家基于领先创新技术，独家真正教育云平台构架和新颖的教学模式，为企事业单位培训，教学机构,教师达人开设独立网校和公开课提供云平台服务。支持模式： 同时支持独立网校，公开课。适合对象：中小学，大中专，企事业，教育达人。
+      default_page_kewords: 零成本建网校,半分钟开课程,一用户多角色,十八大种类课程,任意时空访问,无限容量扩,教学邦
     menu: 
       view_all_accounts: 查看所有网校
       view_all_enrollments: 查看所有课程
@@ -6032,7 +6046,7 @@ zh-CN:
     auth: 
       authentication_required: 需要用户授权
       errors: 
-        not_authenticated: 您必须登录才能访问此网页
+        not_authenticated: 您必须登录才能访问此页面
         student_not_found: 未找到学生
         teacher_not_found: 未找到教师
     basic_lti: 
@@ -6169,7 +6183,7 @@ zh-CN:
       email: 
         subject: 网校管理员通知
         url_info: |-
-            此处访问网校网页:
+            此处访问网校页面:
             %{url}
     account_user_registration: 
       email: 
@@ -6793,7 +6807,7 @@ zh-CN:
         body_student: "我们邀请您作为学生参加课程 %{course}。"
         body_ta: "我们邀请您作为助教参加课程 %{course}。"
         body_teacher: "我们邀请您作为教师参加课程 %{course}。"
-        details: "此处访问课程网页:"
+        details: "此处访问课程页面:"
         labels: 
           email: 电子邮件
           name: 名称
@@ -6839,7 +6853,7 @@ zh-CN:
         body_student: "您已作为学生注册课程 %{course}。"
         body_ta: "您已作为助教注册课程 %{course}。"
         body_teacher: "您已作为教师注册课程 %{course}。"
-        details: "此处访问课程网页:"
+        details: "此处访问课程页面:"
         labels: 
           email: 电子邮件
           name: 名称
@@ -7288,11 +7302,11 @@ zh-CN:
         subject: 新用户
       twitter: 
         body: "教学邦警报 - 新用户:%{user}，%{account}"
-    page_locked: 此网页当前锁定。
-    page_locked_at: "此网页锁定于 %{at}。"
-    page_locked_module: "此网页是单元 *%{module}* 的一部分，尚未解锁。"
-    page_locked_until: "此网页锁定至 %{date}"
-    page_unpublished_module: 此网页在未解锁的单元中，暂时不能访问.
+    page_locked: 此页面当前锁定。
+    page_locked_at: "此页面锁定于 %{at}。"
+    page_locked_module: "此页面是单元 *%{module}* 的一部分，尚未解锁。"
+    page_locked_until: "此页面锁定至 %{date}"
+    page_unpublished_module: 此页面在未解锁的单元中，暂时不能访问.
     pseudonym_registration: 
       email: 
         body: "您已在 %{account} 注册教学邦网校！您需要完成配置过程，然后才能登录和开始使用教学邦。"
@@ -7490,19 +7504,19 @@ zh-CN:
     topic_unpublished_module: "This topic is part of an unpublished module and is not available yet."
     updated_wiki_page: 
       email: 
-        body: "维基上针对 %{title} 的网页已更新，这可以使您的生活更轻松。"
+        body: "维基上针对 %{title} 的页面已更新，这可以使您的生活更轻松。"
         link_message: "您可在此处进行审阅: %{link}"
-        subject: "更新的维基网页:%{title}，%{user}"
+        subject: "更新的维基页面:%{title}，%{user}"
       facebook: 
-        body: "维基上针对 %{title} 的网页已更新。"
+        body: "维基上针对 %{title} 的页面已更新。"
       sms: 
         more_info: "更多信息请访问 %{url}"
         updated_message: "%{title}，%{user} 更新:"
       summary: 
-        subject: "更新的维基网页:%{title}，%{user}"
+        subject: "更新的维基页面:%{title}，%{user}"
       twitter: 
-        tweet: "教学邦警报 - 网页更新:%{title}，%{user}。"
-    visit_modules_page: "*有关如何解锁此内容的信息，请访问课程单元网页。*"
+        tweet: "教学邦警报 - 页面更新:%{title}，%{user}。"
+    visit_modules_page: "*有关如何解锁此内容的信息，请访问课程单元页面。*"
     web_conference_invitation: 
       email: 
         body: "我们邀请您参加 %{name} 的 Web 在线视频课 %{title}。"
@@ -7571,7 +7585,7 @@ zh-CN:
       submission_comment: 提交评注
     conversation_message_description: 有关新会话消息
     conversation_message_display: 会话消息
-    course_content_description: 有关课程网页的更改
+    course_content_description: 有关课程页面的更改
     course_content_display: 课程内容
     discussion_description: 有关新主题
     discussion_display: 讨论
@@ -7659,7 +7673,7 @@ zh-CN:
       submission_grade_changed: 提交评分已更改
       submission_graded: 提交已评分
       summaries: 总结
-      updated_wiki_page: 更新的维基网页
+      updated_wiki_page: 更新的维基页面
       web_conference_invitation: "Web 在线视频课邀请"
     no_subject: 无主题
     other_description: 有关任何其他通知
@@ -7974,7 +7988,7 @@ zh-CN:
       description: "针对集合请求 Embedly 信息"
       name: "Embedly 集成"
     embedly_settings: 
-      description: "此插件集成了 Embedly 服务以预先填充有关集合项目的信息。该付费计划会返回免费计划所没有的额外信息: 您可以从网页上的多个图片中进行选择，之后系统会返回可直接预览的嵌入式信息（播放 youtube 视频等）。"
+      description: "此插件集成了 Embedly 服务以预先填充有关集合项目的信息。该付费计划会返回免费计划所没有的额外信息: 您可以从页面上的多个图片中进行选择，之后系统会返回可直接预览的嵌入式信息（播放 youtube 视频等）。"
       labels: 
         api_key: "Embedly API 密钥"
         plan_type: "Embedly 计划类型"
@@ -8026,7 +8040,7 @@ zh-CN:
           
           * **网站 -- 站点链接:** 设置为 %{site_url}
           * **网站 -- 站点域:** 您的教学邦主站点的域。此项必须匹配站点链接 设置
-          * **Facebook 集成 --教学邦网页:** 记下您的选择并在下面的表单中输入
+          * **Facebook 集成 --教学邦页面:** 记下您的选择并在下面的表单中输入
           * **Facebook 集成 --教学邦URL:** 设置为 %{canvas_url}
           * 确保已启用**高级 -- OAuth 2.0 for教学邦**
           * 保存应用程序之后，记下应用程序 ID、API 密钥和应用程序密码
@@ -8035,7 +8049,7 @@ zh-CN:
         domain_settings: 域设置
       hints: 
         canvas_domain: 此项是"教学邦URL"中指定的域
-        canvas_name: 此项是"教学邦网页"中指定的路径
+        canvas_name: 此项是"教学邦页面"中指定的路径
         disable_ssl: 仅用于本地测试
       labels: 
         api_key: "API 密钥"
@@ -8239,7 +8253,7 @@ zh-CN:
     headers: 
       completion_prerequisites: 完成前提条件
     labels: 
-      requirements_must_be_completed: 需要完成以下要求，然后才能解锁此网页
+      requirements_must_be_completed: 需要完成以下要求，然后才能解锁此页面
   profile: 
     access_token: 
       default_app_name: 无应用程序
@@ -8342,7 +8356,7 @@ zh-CN:
       error_loading_token_details: 加载令牌详细信息时出错
       facebook_description: "如果您有 Facebook 账号，您可以安装教学邦应用程序并在个人资料中接收课程通知。您可以指定要接收哪些类型的通知以及多久发送一次。"
       full_token_warning: |-
-          **立即复制此令牌**。一旦离开此网页，您将无法
+          **立即复制此令牌**。一旦离开此页面，您将无法
           再检索完整的令牌，您将不得不重新生成令牌以获取一个新
           值。
       generate_access_token_description: |-
@@ -8520,7 +8534,7 @@ zh-CN:
       validations: 
         should_be_10_digits: "应为 10 位数字"
     ways_to_contact_me: 我的联系方式
-    you_have_no_services: 您尚未注册任何服务，您可以在*设置*网页添加一些服务。
+    you_have_no_services: 您尚未注册任何服务，您可以在*设置*页面添加一些服务。
   profiles: 
     notification_preferences: 
       captions: 
@@ -9101,8 +9115,8 @@ zh-CN:
       headers: 
         quiz_submissions: 测试提交
         survey_submissions: 问卷调查提交
-      latest_quiz_results: "以下是 %{user} 的最新测试结果。您可以修改任何试题的分数和添加更多评注，然后单击网页底部的\"更新分数\"。"
-      latest_survey_results: "以下是 %{user} 的最新问卷调查结果。您可以修改任何试题的分数和添加更多评注，然后单击网页底部的\"更新分数\"。"
+      latest_quiz_results: "以下是 %{user} 的最新测试结果。您可以修改任何试题的分数和添加更多评注，然后单击页面底部的\"更新分数\"。"
+      latest_survey_results: "以下是 %{user} 的最新问卷调查结果。您可以修改任何试题的分数和添加更多评注，然后单击页面底部的\"更新分数\"。"
       links: 
         back_to_quiz: 返回测试
         back_to_survey: 返回问卷调查
@@ -9204,7 +9218,7 @@ zh-CN:
       end_quiz_reference_time_now: 立即
       end_quiz_when: "%{reference_time} 过 %{n} 分钟结束测试。"
       errors: 
-        server_communication_failed: 与服务器通信时出现问题。系统将在五分钟内重试，或者您可以重新加载该网页
+        server_communication_failed: 与服务器通信时出现问题。系统将在五分钟内重试，或者您可以重新加载该页面
       extended_quiz_time_explanation: 您可以为此学生提供有关其当前测试答题的额外时间。您想要为其提供多长时间?
       extensions_for_student: "%{student} 的延时"
       extensions_for_students: 
@@ -9245,7 +9259,7 @@ zh-CN:
     multi_answer: 
       choose_answer: 选择
     muted: 
-      muted_quiz_description: 您的测试分数不可用，因为教师还没有完成评分。教师完成此测试的评分后，您的分数将在此网页上提供。
+      muted_quiz_description: 您的测试分数不可用，因为教师还没有完成评分。教师完成此测试的评分后，您的分数将在此页面上提供。
       muted_quiz_header: 您的测试已屏蔽
     new: 
       allowed_attempts: 允许答题的次数
@@ -9501,7 +9515,7 @@ zh-CN:
         question_details: 显示测试明细
         quiz_instructions: 测试说明
       links: 
-        back_to_quiz_page: 返回测试网页
+        back_to_quiz_page: 返回测试页面
     retrieving_filters: 正在检索筛选器...
     rubric: 
       loading: 正在加载...
@@ -9626,7 +9640,7 @@ zh-CN:
         submit_quiz: 提交测试
       confirms: 
         cant_go_back_blank: 您单击”下一个“后，就不能返回此试题。确定要留空?
-        navigate_away: 您将要导航离开此网页。是否仍要继续?
+        navigate_away: 您将要导航离开此页面。是否仍要继续?
         unanswered_questions: 
           one: "您有 1 个试题未回答（参见右侧边栏了解详细信息）。仍要提交吗?"
           other: "您有 %{count} 个试题未回答（参见右侧边栏了解详细信息）。 仍要提交吗?"
@@ -9681,7 +9695,7 @@ zh-CN:
       headers: 
         loading_in_lockdown: "正在 Respondus LockDown Browser 中加载测试"
       links: 
-        return_to_quiz_page: "[单击此处](%{url}) 以返回测试网页。"
+        return_to_quiz_page: "[单击此处](%{url}) 以返回测试页面。"
     take_quiz_right_side: 
       labels: 
         attempt_due: 答题提交时间
@@ -9813,7 +9827,7 @@ zh-CN:
       manage_students: 添加/删除课程的学生
       manage_user_logins: 修改用户的登录详细信息
       manage_user_notes: 管理教师日志条目
-      manage_wiki: 管理维基（添加/编辑/删除网页）
+      manage_wiki: 管理维基（添加/编辑/删除页面）
       managed_jobs: 管理后台工作
       moderate_form: 调整讨论（删除/编辑其他人的发布内容、锁定主题）
       post_to_forum: 发布到讨论
@@ -9828,7 +9842,7 @@ zh-CN:
       send_messages_all: 发消息给全班
       view_all_grades: 查看所有评分
       view_error_reports: 查看错误报表
-      view_group_pages: 查看所有学生组的组网页
+      view_group_pages: 查看所有学生组的组页面
       view_jobs: "查看后台 jobs"
       view_sales_accounts: 查看注册网校
       view_statistics: 查看统计
@@ -9933,7 +9947,7 @@ zh-CN:
       none_invited: 未邀请任何人
       special_instructions: 输入针对评阅您工作的成员的任何特殊说明
       submitting_instructions: 输入针对提交项目进行评阅的成员的任何说明
-      view_assessed_page: 查看所评阅的网页
+      view_assessed_page: 查看所评阅的页面
     show: 
       buttons: 
         delete: 删除评分标准
@@ -10201,7 +10215,7 @@ zh-CN:
       enrolled_as_teacher: 注册为教师
     custom_search_results: 
       links: 
-        search_for_resources: 搜索与此网页有关的开放资源
+        search_for_resources: 搜索与此页面有关的开放资源
       status: 
         loading: 正在加载
     dashboard_invitation: 
@@ -10209,7 +10223,7 @@ zh-CN:
         accept: 接受
         decline: 拒绝
       invitation_text: "您已经受邀参加 **[%{course}](%{link_to_course})** 角色 %{enrollment_type_with_indefinite_article}"
-    dashboard_widgets:
+    dashboard_widgets: 
       select_deselect_all: 全选/反选
     enrollment: 
       enrolled_as_designer: 注册为课程设计
@@ -10232,24 +10246,24 @@ zh-CN:
         course_section: 课程班
     errors: 
       400_message: 
-        description: 嗯。看起来加载您所请求的网页时出现问题。
+        description: 嗯。看起来加载您所请求的页面时出现问题。
         headings: 
-          page: 网页错误
-        title: 网页错误
+          page: 页面错误
+        title: 页面错误
       404_message: 
-        generic_description: 哎呀，我们无法找到该网页。
+        generic_description: 哎呀，我们无法找到该页面。
         headings: 
-          page: 网页未找到
-        title: 网页未找到
+          page: 页面未找到
+        title: 页面未找到
       500_message: 
         description: 嗯，好像有些内容意外损坏了。抱歉，您不得不看到该内容。如果您有时间，请让我们知道错误发生时您在做什么。
         headings: 
-          page: 网页错误
-        title: 网页错误
+          page: 页面错误
+        title: 页面错误
       AUT_message: 
-        description: 您的上一请求出现问题。您可能在长时间不活动后答题执行操作。如果是这种情况，请答题返回，重新加载您要使用的网页，然后重新提交。否则，请让我们知道错误发生时您在做什么。
+        description: 您的上一请求出现问题。您可能在长时间不活动后答题执行操作。如果是这种情况，请答题返回，重新加载您要使用的页面，然后重新提交。否则，请让我们知道错误发生时您在做什么。
         headings: 
-          page: 网页错误
+          page: 页面错误
         title: 会话超时
       error_form: 
         buttons: 
@@ -10465,7 +10479,7 @@ zh-CN:
       close: 关闭
       unread: 未读
     registration_incomplete: 
-      confirm_email_instructions: "在查看此网页之前，您需要*验证电子邮件* (%{email})。单击电子邮件中的链接以完成您的网校设置。如果您没有看到电子邮件，**单击以重新发送电子邮件**，然后确保检查您的垃圾邮件箱。"
+      confirm_email_instructions: "在查看此页面之前，您需要*验证电子邮件* (%{email})。单击电子邮件中的链接以完成您的网校设置。如果您没有看到电子邮件，**单击以重新发送电子邮件**，然后确保检查您的垃圾邮件箱。"
       headings: 
         confirm_email: 确认您的电子邮件
     right_side: 
@@ -10565,13 +10579,13 @@ zh-CN:
       add_to_module: "添加新 %{item} 到*单元*"
       assignment_item: 作业
       assignment_notice: 选择您要与此*单元*关联的作业，或通过选择"新作业"添加一个作业。
-      content_page_item: 内容网页
+      content_page_item: 内容页面
       discussion_item: 讨论
       domain_match_notice: "要使用此工具，域必须匹配 %{domain}"
       external_tool_item: 外部工具
       external_tool_notice: "从下面的列表中选择一个工具，或输入已知通过 Basic LTI 配置的外部工具的链接，从而将指向它的链接添加到此*单元*。"
       external_url_item: 外部链接
-      external_url_notice: "输入一个链接 和网页名称以将指向任何网站链接 的链接添加到此*单元*。"
+      external_url_notice: "输入一个链接 和页面名称以将指向任何网站链接 的链接添加到此*单元*。"
       file_item: 文件
       file_notice: 选择您要与此*单元*关联的文件，或通过选择"新文件"添加一个文件。
       indent_level: 
@@ -10584,7 +10598,7 @@ zh-CN:
         folder: 文件夹
         header: 标题
         indentation: 缩进
-        page_name: 网页名称
+        page_name: 页面名称
         quiz_group: 组
         quiz_name: 测试名称
         topic_name: 主题名称
@@ -10592,7 +10606,7 @@ zh-CN:
       loading: 正在加载...
       new_assignment_option: "[新作业]"
       new_file_option: "[新文件]"
-      new_page_option: "[新网页]"
+      new_page_option: "[新页面]"
       new_quiz_option: "[新测试]"
       new_tab: 在新选项卡中加载此工具
       new_topic_option: "[新主题]"
@@ -10603,7 +10617,7 @@ zh-CN:
       sub_header_notice: 输入您想要作为*单元*副标题添加的文本。
       text_header_item: 文本标题
       topic_notice: 选择您要与此*单元*关联的主题，或通过选择"新主题"添加一个主题。
-      wiki_page_notice: 选择您要与此*单元*关联的维基网页，或通过选择"新网页"添加一个新网页。
+      wiki_page_notice: 选择您要与此*单元*关联的维基页面，或通过选择"新页面"添加一个新页面。
     sequence_footer: 
       full_course_sequence: 查看完整课程序列
       next: 下一个
@@ -10619,16 +10633,16 @@ zh-CN:
         unauthorized_action: 未授权
         unpublished: 尚不可用
       needs_cookies: "您的浏览器中未启用 Cookie。请在您的安全首选项中调整此项，然后再继续。"
-      needs_login: 此网页仅限授权用户访问。您当前没有查看此网页的权限。
-      public_course: "此网页是课程 **%{course}** 的部分内容。"
+      needs_login: 此页面仅限授权用户访问。您当前没有查看此页面的权限。
+      public_course: "此页面是课程 **%{course}** 的部分内容。"
       titles: 
         log_in: 请登录
         unauthorized_action: 未授权
-      unauthorized_1: 没有访问此网页的权限。请确认您有访问此内容的授权。
-      unauthorized_2: 如果您应该可以查看此网页，请使用"帮助"链接通知支持团队解决此问题。
-      unauthorized_action: 该网页仅限授权用户访问。请登录后才可访问此网页。
-      unauthorized_user: "%{user_name}，登录后才可访问此网页。如果您忘记或不知道密码，请单击 \"忘记密码\" ."
-      unauthorized_user_is_other: "%{current_user}，您没有访问该网页的授权。这个链接是 **%{unauthorized_user} (%{unauthorized_user_email})**。如果邮件账户是您本人，您可注销当前登录的账号，然后用这个电子邮件登录访问。"
+      unauthorized_1: 没有访问此页面的权限。请确认您有访问此内容的授权。
+      unauthorized_2: 如果您应该可以查看此页面，请使用"帮助"链接通知支持团队解决此问题。
+      unauthorized_action: 该页面仅限授权用户访问。请登录后才可访问此页面。
+      unauthorized_user: "%{user_name}，登录后才可访问此页面。如果您忘记或不知道密码，请单击 \"忘记密码\" ."
+      unauthorized_user_is_other: "%{current_user}，您没有访问该页面的授权。这个链接是 **%{unauthorized_user} (%{unauthorized_user_email})**。如果邮件账户是您本人，您可注销当前登录的账号，然后用这个电子邮件登录访问。"
     unauthorized_feed: 
       bad_params: 参数无效。
       feedback: 如果您确定此链接应该有效，请通过单击下面的链接告知错误详情，以便我们帮助排查。
@@ -10656,7 +10670,7 @@ zh-CN:
         insert_link: 插入链接
         upload: 上传
         upload_files: 上传文件到文件夹
-      click_links: 单击下列信息将把该链接插入到左边网页。
+      click_links: 单击下列信息将把该链接插入到左边页面。
       course_links: 插入课程中其它内容。
       drop_files: 将文件拖到此处以上传
       drop_images: 将图片拖到此处以上传
@@ -10665,27 +10679,27 @@ zh-CN:
       files_tab: 单击任何文件以插入该文件的下载链接。
       group_links: 链接至组中的其他内容。
       headings: 
-        insert_content: 将内容插入到网页中
+        insert_content: 将内容插入到页面中
       images: 
         alt: 
           loading: 正在加载...
-      images_tab: 单击任何图片以在该网页中嵌入图片。
+      images_tab: 单击任何图片以在该页面中嵌入图片。
       insert: 
         announcements: 单击以插入指向此公告的链接
-        announcements_page: 单击以插入指向公告网页的链接
+        announcements_page: 单击以插入指向公告页面的链接
         assignments: 单击以插入指向此作业的链接
-        assignments_page: 单击以插入指向作业网页的链接
-        collaborations_page: 单击以插入指向协作网页的链接
+        assignments_page: 单击以插入指向作业页面的链接
+        collaborations_page: 单击以插入指向协作页面的链接
         discussions: 单击以插入指向此主题的链接
-        discussions_page: 单击以插入指向讨论网页的链接
-        files_page: 单击以插入指向文件网页的链接
-        grades_page: 单击以插入指向评分网页的链接
+        discussions_page: 单击以插入指向讨论页面的链接
+        files_page: 单击以插入指向文件页面的链接
+        grades_page: 单击以插入指向评分页面的链接
         modules: 单击以插入指向此单元的链接
-        modules_page: 单击以插入指向单元网页的链接
+        modules_page: 单击以插入指向单元页面的链接
         quizzes: 单击以插入指向此测试的链接
         syllabus_page: 单击以插入指向纲要的链接
-        users_page: 单击以插入指向成员网页的链接
-        wiki_pages: 单击以插入指向此网页的链接
+        users_page: 单击以插入指向成员页面的链接
+        wiki_pages: 单击以插入指向此页面的链接
         wiki_pages_index: 单击以插入指向维基的链接
       labels: 
         folder: 文件夹
@@ -10702,7 +10716,7 @@ zh-CN:
         grades_page: 评分
         modules: 单元列表
         modules_page: 单元
-        new_page: 链接至新网页
+        new_page: 链接至新页面
         quizzes: 测试列表
         syllabus: 课程纲要
         upload_file: 上传新文件
@@ -10718,10 +10732,10 @@ zh-CN:
           course: 课程导航
           group: 组导航
         quizzes: 测试
-        wiki_pages: 维基网页
+        wiki_pages: 维基页面
       messages: 
         loading: 正在加载...
-      new_page_name: 您想要新网页叫什么名字?
+      new_page_name: 您想要新页面叫什么名字?
       select_destination: "选择这 %{count} 个文件的目标文件夹:"
       tabs: 
         collections: 集合
@@ -10912,9 +10926,9 @@ zh-CN:
       teachers_notified_of_comments: 将通知教师和提交者所有评注
     show_preview: 
       discussion_submission_description: "此作业的提交在作业的讨论中发布。下面是 %{user} 的讨论发布，或者您可以*查看完整讨论*。"
-      entry_no_image: 请记住，此网页自最初进行提交后可能已更改。
-      entry_with_image: 我们包括了网页提交时所显示内容的快照。或者您可以单击以查看原始提交。
-      external_url_submission: 此提交是指向外部网页的一个链接。
+      entry_no_image: 请记住，此页面自最初进行提交后可能已更改。
+      entry_with_image: 我们包括了页面提交时所显示内容的快照。或者您可以单击以查看原始提交。
+      external_url_submission: 此提交是指向外部页面的一个链接。
       file_uploads_for_user: "**%{user}** 的文件上传"
       group_discussion_submission_description: |-
           此作业的提交在该组的作业讨论中发布。下面是 %{user} 的讨论帖
@@ -10926,7 +10940,7 @@ zh-CN:
       paper_view: 纸面视图
       plain_view: 纯文本视图
       preview_document: 预览文档
-      quiz_submission: 此提交是测试提交。正在重定向到测试网页。
+      quiz_submission: 此提交是测试提交。正在重定向到测试页面。
       show_entire_discussion: 显示全部讨论
       student: 学生
       url_preview: 预览链接
@@ -10970,7 +10984,7 @@ zh-CN:
     grades: 成绩
     home: 主页
     modules: 单元
-    pages: 网页
+    pages: 页面
     people: 成员
     profile: 个人资料
     quizzes: 测试
@@ -11216,8 +11230,8 @@ zh-CN:
       settings: 设置
   user_service: 
     descriptions: 
-      delicious: "Delicious 是一个协作的链接分享工具。您可以标记 Internet 上的任何网页供今后参考。您还可以链接至其他用户的 Delicious 账号以分享相似兴趣的链接。"
-      diigo: "Diigo 是一个协作的链接分享工具。您可以标记 Internet 上的任何网页供今后参考。您还可以链接至其他用户的 Diigo 账号以分享相似兴趣的链接。"
+      delicious: "Delicious 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Delicious 账号以分享相似兴趣的链接。"
+      diigo: "Diigo 是一个协作的链接分享工具。您可以标记 Internet 上的任何页面供今后参考。您还可以链接至其他用户的 Diigo 账号以分享相似兴趣的链接。"
       facebook: "列出您的 Facebook 个人资料可以更轻松地与班级和组中的好友进行联系。"
       google_docs: "学生可以使用 Google Docs 协作组项目。Google Docs 可以实时协作编辑文档、电子表格和演示文稿。"
       linked_in: "LinkedIn 是一种业务网络资源。您在学校时建立的许多关系在您进入职场后仍然会有帮助。"
@@ -11242,7 +11256,7 @@ zh-CN:
       merge_result_explanation: "确定要将账号 %{source_user_name} (%{source_user_email}) 合并到此账号 %{target_user_name} (%{target_user_email})?此过程将有以下最终结果:"
       merge_result_explanation_again: "您已选择将用户 %{user_name} (%{user_email}) 合并到账号 %{pending_other_user_name} (%{pending_other_user_email}) 中。此过程将有以下最终结果:"
       merge_somone_else: "将其他人与 %{user_name} 合并"
-      merge_user_initial_instructions: "您已选择将用户 %{user_name} (%{user_email}) 与另一个账号合并。您可以使用下面的表单搜索想要与此用户合并的用户，或者仅仅导航到该用户的网页并再次单击\"合并用户\"以将其他人与此用户合并。"
+      merge_user_initial_instructions: "您已选择将用户 %{user_name} (%{user_email}) 与另一个账号合并。您可以使用下面的表单搜索想要与此用户合并的用户，或者仅仅导航到该用户的页面并再次单击\"合并用户\"以将其他人与此用户合并。"
       no_merge_undo: 此过程无法撤消，因此请确保确定合并，然后再继续。
       no_permission: 您没有搜索任何账号的权限
       prepare_to_merge: 准备合并用户
@@ -11474,7 +11488,7 @@ zh-CN:
       links: 
         message_user: "消息 %{user}"
       none_yet: 还没有。
-      page_views: 网页视图
+      page_views: 页面视图
       see_outcomes: "查看 %{user} 的结果"
     teacher_activity: 
       crumbs: 
@@ -11516,7 +11530,7 @@ zh-CN:
       acts: 
         create_account: 我要建独立网校
         create_course: 我要开设公开课
-      no_courses_message: 您没有任何课程，因此此网页现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
+      no_courses_message: 您没有任何课程，因此此页面现在不会非常精彩。一旦您创建或注册课程后，您将开始看到来自所有班级的会话。
       unpublished_courses_message: "您已报名参加一个或多个尚未发布的课程. 课程一旦发布，您可以在导航栏中看到课程清单. 在此期间，您可以报名其它课程和设置您的个人资料."
       welcome_to_happiness: 欢迎使用教学邦!
   validate: 
@@ -11566,21 +11580,21 @@ zh-CN:
       titles: 
         select_folder_for_uploads: 选择文件夹进行文件上传
   wiki_page: 
-    atom_author: 维基网页
-    atom_entry_title: "维基网页 %{course_or_group_name}: %{page_title}"
+    atom_author: 维基页面
+    atom_entry_title: "维基页面 %{course_or_group_name}: %{page_title}"
     defaults: 
       no_content: 无内容
     errors: 
       blank_title: 标题不能为空
       title_characters: 标题必须包含至少一个字母或数字
       title_too_long: "标题不能超过 %{max_characters} 个字符"
-    missing_name: 未命名网页
+    missing_name: 未命名页面
     notices: 
-      wiki_page_created: "维基网页\"%{title}\"已创建"
+      wiki_page_created: "维基页面\"%{title}\"已创建"
     title_for_topics_category: "%{category} 主题"
     unknown_user_name: 未知
     warnings: 
-      truncated_wiki_title: "以下维基网页的标题已截短: %{title}"
+      truncated_wiki_title: "以下维基页面的标题已截短: %{title}"
   wiki_page_revisions: 
     index: 
       links: 
@@ -11590,7 +11604,7 @@ zh-CN:
       titles: 
         revisions_for_page: "修订: %{title}"
     notices: 
-      page_rolled_back: 网页已回滚到之前版本。
+      page_rolled_back: 页面已回滚到之前版本。
     show: 
       buttons: 
         roll_back_version: 回滚到此版本
@@ -11615,42 +11629,42 @@ zh-CN:
         anyone: 任何人
         only_teachers: 仅教师
         teachers_and_students: 教师和学生
-      course_home_wiki_page_description: 您可以使用此网页组织或介绍您喜欢的课程。您可以轻松地使用"网页工具"班链接至作业、文件等；一旦开始编辑后，您将在右侧看到。
-      course_wiki_page_description: 您可以使用此维基创建课程材料的补充网页或说明。您可以从作业轻松地链接至维基网页，或从任何维基网页链接至其他课程材料和文件。这使它成为说明困难概念的绝佳场所，允许分组项目，或创建您的课程中可能需要的几乎任何类型的网页。
-      default_wiki_page_description: 此网页是默认维基网页，学生单击此课程的"网页"选项卡时将看到它。
+      course_home_wiki_page_description: 您可以使用此页面组织或介绍您喜欢的课程。您可以轻松地使用"页面工具"班链接至作业、文件等；一旦开始编辑后，您将在右侧看到。
+      course_wiki_page_description: 您可以使用此维基创建课程材料的补充页面或说明。您可以从作业轻松地链接至维基页面，或从任何维基页面链接至其他课程材料和文件。这使它成为说明困难概念的绝佳场所，允许分组项目，或创建您的课程中可能需要的几乎任何类型的页面。
+      default_wiki_page_description: 此页面是默认维基页面，学生单击此课程的"页面"选项卡时将看到它。
       default_wiki_page_is_course_home_page_warning: |-
-          目前，此网页还设置为默认课程网页，因此您的课程的访问者
-          也将首先看到此网页。您可以从 [课程主页](%{link}) 进行更改。
+          目前，此页面还设置为默认课程页面，因此您的课程的访问者
+          也将首先看到此页面。您可以从 [课程主页](%{link}) 进行更改。
       editing_content: 编辑内内容.
       editing_roles: 
         anyone: 任何人
         only_members: 仅成员
-        prompt: "%{options} 可以编辑此网页"
-      group_wiki_warning: "此网页是组维基的组成部分，*而不是*课程维基。如果您查找课程维基，[单击此处](%{link})。"
+        prompt: "%{options} 可以编辑此页面"
+      group_wiki_warning: "此页面是组维基的组成部分，*而不是*课程维基。如果您查找课程维基，[单击此处](%{link})。"
       headings: 
-        page_comments: 网页评注
+        page_comments: 页面评注
       labels: 
-        hide_from_students: 对学生隐藏此网页
+        hide_from_students: 对学生隐藏此页面
         last_edited: "由 %{name} 在 %{time_ago} 天前上次编辑"
         notify_of_update: 通知用户此内容已更改
       links: 
-        page_history: 网页历史记录
+        page_history: 页面历史记录
       notices: 
-        page_deleted: 此网页已删除。
-        page_does_not_exist: 此网页不存在。
-        page_edited_while_viewing: "自从您开始查看后，此网页已被其他人更新。[单击此处重新加载该网页。](%{link})"
-        page_edited_while_viewing_detailed: 自从您初次加载后，其他人已编辑此网页，如果您现在提交，将会覆盖其更改。您可能会想要重新加载该网页并重新输入您的更改以确保没有丢失其他人的工作。
+        page_deleted: 此页面已删除。
+        page_does_not_exist: 此页面不存在。
+        page_edited_while_viewing: "自从您开始查看后，此页面已被其他人更新。[单击此处重新加载该页面。](%{link})"
+        page_edited_while_viewing_detailed: 自从您初次加载后，其他人已编辑此页面，如果您现在提交，将会覆盖其更改。您可能会想要重新加载该页面并重新输入您的更改以确保没有丢失其他人的工作。
       welcome_message: 欢迎使用课程维基
     delete_comment_confirmation: 确定要删除此评注?
     errors: 
-      permission_denied: 您不得删除该网页。
+      permission_denied: 您不得删除该页面。
     front_page: 首页
     loading_comments: 正在加载其他结果
     notices: 
       add_comment_failed: 添加评注失败，请重试
       adding_comment: 正在添加评注...
-      page_deleted: "网页\"%{title}\"已删除。"
-      page_updated: 网页已更新。
+      page_deleted: "页面\"%{title}\"已删除。"
+      page_updated: 页面已更新。
     page_link: 
       link_hidden_from_students_warning: 学生不会看到此链接
     wiki_page_comment: 
@@ -11665,20 +11679,20 @@ zh-CN:
       buttons: 
         create: 创建
         rename: 重命名
-      delete_page_confirmation: 确定要删除此网页?此操作无法撤消！
+      delete_page_confirmation: 确定要删除此页面?此操作无法撤消！
       headers: 
-        all_pages: 所有网页
-        common_pages: 常用网页
-        page_tools: 网页工具
+        all_pages: 所有页面
+        common_pages: 常用页面
+        page_tools: 页面工具
         recent_changes: 最近更改
       labels: 
-        title: 新网页标题
+        title: 新页面标题
       links: 
-        create_page: 创建新网页
-        delete_page: 删除此网页
-        edit_page: 编辑此网页
+        create_page: 创建新页面
+        delete_page: 删除此页面
+        edit_page: 编辑此页面
         more: 更多...
-        rename_page: 重命名此网页
+        rename_page: 重命名此页面
         show_all: 全部显示...
       wiki_description_for_course: 将其视为容纳内容的无限制场所。您可以使用它描述您的课程，提供难题的有用说明，或甚至允许学生一起编写项目。
       wiki_description_for_group: 将其视为容纳内容的无限制场所。您可以使用它描述您的组，提供难题的有用说明，或甚至允许成员一起编写项目。

@@ -23,6 +23,7 @@ module Api::V1::Submission
   include Api::V1::DiscussionTopics
   include Api::V1::Course
   include Api::V1::User
+  include ActionView::Helpers::NumberHelper
 
   def submission_json(submission, assignment, user, session, context = nil, includes = [])
     context ||= assignment.context
@@ -99,6 +100,8 @@ module Api::V1::Submission
     end
 
     hash = api_json(attempt, user, session, :only => json_fields)
+    # format grade only if it is a float score
+    hash['grade'] = number_with_precision(hash['grade'].to_f, 2) if hash['grade'] && hash['grade'].match('\.')
     if hash['body'].present?
       hash['body'] = api_user_content(hash['body'], context, user)
     end

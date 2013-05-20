@@ -86,6 +86,7 @@ module SIS
             @logger.debug("Processing User #{user_row.inspect}")
             user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type = user_row
 
+            # TODO pseudonym-account
             pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id.to_s)
             pseudo_by_login = @root_account.pseudonyms.active.by_unique_id(login_id).first
             pseudo ||= pseudo_by_login

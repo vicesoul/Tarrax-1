@@ -28,7 +28,7 @@ Rails.configuration.to_prepare do
       :parameters => {
         :enrollment_term => {
           :required => false,
-          :description => 'The canvas id of the term of courses to report on'
+          :description => 'The jiaoxuebang id of the term of courses to report on'
         },
         :include_deleted => {
           :required => false,
@@ -43,7 +43,7 @@ Rails.configuration.to_prepare do
       :parameters => {
         :enrollment_term => {
           :required => true,
-          :description => 'The canvas id of the term to get grades from'
+          :description => 'The jiaoxuebang id of the term to get grades from'
         },
         :include_deleted => {
           :required => false,

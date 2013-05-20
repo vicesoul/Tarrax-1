@@ -935,6 +935,7 @@ class User < ActiveRecord::Base
       self.pseudonyms.detect { |p| p.active? && p.sis_user_id && p.account_id == root_account.id }
     else
       root_account.shard.activate do
+        # TODO pseudonym-account
         root_account.pseudonyms.active.find_by_user_id(self.id, :conditions => "sis_user_id IS NOT NULL")
       end
     end
@@ -2561,9 +2562,11 @@ class User < ActiveRecord::Base
       templates.concat active_pseudonyms
       templates.uniq!
 
+      # TODO pseudonym-account
       template = templates.detect { |template| !account.pseudonyms.custom_find_by_unique_id(template.unique_id) }
       if template
         # creating this not attached to the user's pseudonyms is intentional
+        # TODO pseudonym-account
         pseudonym = account.pseudonyms.build
         pseudonym.user = self
         pseudonym.unique_id = template.unique_id

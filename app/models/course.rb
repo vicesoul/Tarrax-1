@@ -1452,7 +1452,7 @@ class Course < ActiveRecord::Base
         student_section = (student_enrollment.course_section.display_name rescue nil) || ""
         student_submissions = assignments.map do |a|
           submission = submissions[[student.id, a.id]]
-          submission.try(:score)
+          submission.try(:score).try(:round, 2)
         end
         #Last Row
         row = [student.last_name_first, student.id]
