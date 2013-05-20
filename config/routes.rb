@@ -6,6 +6,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.select_users 'accounts/select/users/ids', :controller => 'accounts', :action => 'select_users'
   map.resources :widget, :only => [:update,:show], :controller => 'jxb/widgets'
+  map.resources :account_notification_categories, :only => [:create, :update, :index], :controller => 'account_notification_category'
   map.welcome 'users/welcome', :controller => 'users', :action => 'welcome'
 
   map.resources :submission_comments, :only => :destroy
@@ -440,6 +441,7 @@ ActionController::Routing::Routes.draw do |map|
     account.add_account_user 'account_users', :controller => 'accounts', :action => 'add_account_user', :conditions => {:method => :post}
     account.remove_account_user 'account_users/:id', :controller => 'accounts', :action => 'remove_account_user', :conditions => {:method => :delete}
 
+    account.resources :account_notification_categories, :controller => 'account_notification_category', :only => [:index, :create, :update]
     account.resources :grading_standards, :only => %w(index create update destroy)
 
     account.statistics 'statistics', :controller => 'accounts', :action => 'statistics'
@@ -562,6 +564,8 @@ ActionController::Routing::Routes.draw do |map|
     user.student_teacher_activity 'teacher_activity/student/:student_id', :controller => 'users', :action => 'teacher_activity'
     user.media_download 'media_download', :controller => 'users', :action => 'media_download'
     user.resources :messages, :only => [:index, :create]
+    user.account_notifications 'account_notifications.:format', :controller => 'users', :action => 'account_notifications', :conditions => {:method => :get}
+
   end
   map.resource :profile, :only => %w(show update),
                :controller => "profile",

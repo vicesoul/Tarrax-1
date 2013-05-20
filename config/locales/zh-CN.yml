@@ -263,6 +263,20 @@ zh-CN:
       training_management: 教学管理
     types: 
       account_admin: 网校管理员
+  account_notification_category:
+    index:
+      add_new_category: 添加新分类
+    add_notification_category:
+      category_name: 分类名称
+      save_category: 保存分类
+      title:
+        add_new_category: 添加新分类
+        edit_category: 修改分类
+      tip:
+        add_category_successfully: 添加公告分类成功
+        add_category_failure: 添加公告分类失败
+        edit_catgory_successfully: 修改公告分类成功
+        edit_category_failure: 修改公告分类失败
   accounts: 
     account_user: 
       remove_admin_tooltip: 删除此管理员
@@ -473,8 +487,11 @@ zh-CN:
       if_you_would_like_to_link_to_your_own_campus_support_website_in_the_help_dialog_you_can_do_that_here: 如果您想要将自己学院的支持网站加入到帮助对话中，可以在此处操作
       ip_filter_filter_label: IP限制
       ip_filter_name_label: 名称
+      tip:
+        select_account_notification_category: 请选择公告分类
       labels: 
         account_notification_icon: 图标
+        account_notification_category_id: 公告分类
         admins_can_change_passwords: 管理员密码设置
         allow_homepage_previews: 允许公开浏览首页
         allow_invitation_previews: 邀请预览
@@ -544,6 +561,7 @@ zh-CN:
         from: 发件人
         sample_subject: 评分已更改：请查看问卷调查，测试课程
         subject: 主题
+      notification_category_management: 网校公告分类管理
       open_registration_delegated_warning_message: "启用外部身份提供程序，通过开放注册创建的用户可能无法登录，除非外部身份提供程序的登录窗体包含返回到 %{url} 的链接。"
       open_registration_delegated_warning_tooltip: 已启用外部身份提供程序
       page_title: 网校设置
@@ -11244,6 +11262,12 @@ zh-CN:
     a_quiz: 测试
     a_text_entry_box: 文本输入
     a_website_url: 网站URL
+    account_notifications:
+      subject: 标题
+      category: 分类
+      message: 内容
+      start_at: 开始时间
+      end_at: 结束时间
     admin_merge: 
       buttons: 
         go: 执行

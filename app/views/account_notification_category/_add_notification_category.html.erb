@@ -1,0 +1,93 @@
+
+<div id="add_account_notification_dialog" style="display:none">
+  <% form_for :account_notification_category, :url => account_account_notification_categories_url, :html => {:id => "add_account_notification_category_form"} do |f| %>
+    <%= f.hidden_field :account_id, :value => params[:account_id] %>
+    <%= f.hidden_field :id, {:id => 'hidden-category-id'} %>
+    <table class="formtable">
+      <tr>
+        <td><%= t'category_name', 'Category name'%>: </td>
+        <td><%= f.text_field :name, {:style => "width: 200px;", :id => "category-name"} %></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <div class="button-container">
+            <button type="button" class="btn dialog_closer"><%= t("#buttons.cancel", "Cancel") %></button>
+            <button type="submit" class="btn btn-primary"><%= t("save_category", "Save Category") %></button>
+          </div>
+        </td>
+      </tr>
+  </table>
+  <% end %>
+</div>
+
+<% js_block do %>
+<script>
+require([
+  'i18nObj' /* I18n.t */,
+  'jquery' /* $ */,
+  'str/htmlEscape' /* htmlEscape, /\$\.h/ */,
+  'jquery.instructure_forms' /* formSubmit */,
+  'jqueryui/dialog',
+  'compiled/jquery/fixDialogButtons' /* fix dialog formatting */,
+  'compiled/jquery.rails_flash_notifications',
+], function(I18n, $, htmlEscape) {
+
+  $(document).ready(function(){
+
+    var form = $('#add_account_notification_category_form');
+    var formAction = form.attr('action');
+
+    $('.category_fn').live('click', function(){
+      var _this = $(this);
+      var title = <%= jt('title.add_new_category', "Add a New Notification Category") %>;
+
+      if(!_this.hasClass('add_category')){
+        $('#hidden-category-id').val(_this.attr('category_id'));
+        title = <%= jt('title.edit_category', "Edit Notification Category") %>;
+        $('#category-name').val(_this.siblings().html());
+        form.attr('method', 'put').attr('action', formAction + '/' + _this.attr('category_id'));
+      }else{
+        form.attr('method', 'post');
+        form.attr('action', formAction);
+      }
+      $('#add_account_notification_dialog').dialog({
+        title: title,
+        width: 500,
+        close: function(){
+          $('#add_account_notification_category_form')[0].reset();
+          $('#hidden-category-id').val('');
+        }
+      }).fixDialogButtons();
+      return false;
+    });
+
+    form.formSubmit({
+      required: ['account_notification_category[name]'],
+      beforeSubmit: function(data) {
+        $(this).find("button").attr('disabled', true)
+          .filter(".submit_button").text(<%= jt('save_category', "Saving Notification Category") %>);
+      },
+      success: function(data) {
+        $(this).find("button").attr('disabled', false)
+          .filter(".submit_button").text(<%= jt('title.add_new_category', "Save a Notification Category") %>);
+        var message = data.flag ? <%= jt('tip.add_category_successfully', 'Add category successfully') %> : <%= jt('tip.add_category_failure', 'Add category failure') %>;
+        if($('#hidden-category-id').val()){
+          message = data.flag ? <%= jt('tip.edit_catgory_successfully', 'Edit category successfully') %> : <%= jt('tip.edit_catgory_failure', 'Edit category failure') %>;
+        }
+        var category = data.categories.account_notification_category;
+        $.flashMessage(message);
+        $('#add_account_notification_dialog').dialog('close');
+        if(!data.type){
+          $('#category-list').append('<li><span>'+category.name+'</span><a class="icon-edit category_fn" href="#" category_id="'+category.id+'"></a></li>')
+        }else{
+          $('[category_id='+category.id+']').siblings().html(category.name); 
+        }
+        $(this)[0].reset();
+      } 
+    });
+
+  });
+});
+</script>
+<% end %>

@@ -296,6 +296,46 @@ class UsersController < ApplicationController
     end
   end
 
+  def account_notifications
+    respond_to do |format|
+      format.json {
+        association_accounts = @current_user.user_account_associations
+        announcements_scoped = association_accounts.blank? ? nil : AccountNotification.scoped(:include => [:account_notification_category], :conditions => ['account_notifications.account_id in (?)', association_accounts.map{|a| a.id}], :order => get_notifications_query_order_by)
+
+        params[:per_page] = params[:iDisplayLength] || 2
+        params[:page] = (params[:iDisplayStart].to_i/params[:iDisplayLength].to_i rescue 0)+1
+        @announcements = Api.paginate(announcements_scoped, self, user_account_notifications_url) if announcements_scoped
+        render :json => account_notifications_json(@announcements, announcements_scoped.count)
+      }
+      format.html {
+        render_unauthorized_action unless params[:user_id] == @current_user.id.to_s
+      }
+    end
+  end
+  
+  def get_notifications_query_order_by
+    order_map = {
+      '0' => "subject ",
+      '1' => "account_notification_categories.name ",
+      '2' => 'message ',
+      '3' => 'start_at ',
+      '4' => 'end_at '
+    }
+    order = params[:iSortCol_0].blank? ? 'updated_at desc' : order_map[params[:iSortCol_0]] + params[:sSortDir_0]
+  end
+  private :get_notifications_query_order_by
+  
+  def account_notifications_json notifications, total_size
+    data = notifications.map{|n| [n.subject, n.account_notification_category ? n.account_notification_category.name : '-', n.message, n.start_at.to_formatted_s(:db), n.end_at.to_formatted_s(:db) ]}
+    hash = {
+      "sEcho" => params[:sEcho] || -1,
+      "iTotalRecords" => total_size,
+      "iTotalDisplayRecords" => total_size,
+      "aaData" => data
+    }.to_json
+  end
+  private :account_notifications_json
+
   def user_dashboard
     check_incomplete_registration
     get_context
@@ -325,6 +365,7 @@ class UsersController < ApplicationController
     
     # Each user has a dashboard page
     @dashboard_page = @current_user.find_or_create_dashboard_page
+    @show_account_notifications_flag = true
     @body_classes = ["dashboard"]
   end
 

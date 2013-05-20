@@ -590,6 +590,12 @@ class RoleOverride < ActiveRecord::Base
         :true_for => %w(AccountAdmin),
         :available_to => %w(AccountAdmin AccountMembership)
       },
+      :manage_account_notification_category => {
+        :label => lambda { t('permissions.manage_account_notification_category', "Manage account notification category") },
+        :account_only => true,
+        :true_for => %w(AccountAdmin),
+        :available_to => %w(AccountAdmin AccountMembership)
+      },
       :view_statistics => {
         :label => lambda { t('permissions.view_statistics', "View statistics") },
         :account_only => true,

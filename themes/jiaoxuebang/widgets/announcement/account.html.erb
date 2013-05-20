@@ -22,6 +22,11 @@
       <% else %>
         <p><%= t('#cells.announcement_account.empty_body', 'Empty announcements') %></p>
       <% end %>
+      <% if @show_account_notifications_flag %>
+        <div class="link_more" style="text-align: right;">
+          <%= link_to t('#cells.assignment.more', 'More>>'), user_account_notifications_url(@current_user) %>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="data-widget-body" style="display:none;"></div>
