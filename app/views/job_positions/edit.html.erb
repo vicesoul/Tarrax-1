@@ -1,0 +1,9 @@
+
+<div>
+  <%= error_messages_for :job_position %>
+  <% form_for(@job_position, :url => account_job_position_path(@job_position.account_id, @job_position.id), :html => {:method => 'PUT'}) do |f| %>
+      <%= f.hidden_field :account_id, :value => @job_position.account_id %>
+      <table>
+        <%= render :partial => 'form', :locals => {:f => f } %>
+      </table>
+  <% end %>
