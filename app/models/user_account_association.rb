@@ -28,12 +28,18 @@
 class UserAccountAssociation < ActiveRecord::Base
   belongs_to :user
   belongs_to :account
+  belongs_to :job_position
+  has_many :user_account_association_change_logs
 
   validates_presence_of :user_id, :account_id
 
-  attr_accessible :account_id, :depth, :enrollment_type, :fake
+  attr_accessible :account_id, :depth, :enrollment_type, :fake, :job_number, :source, :external
 
   before_save :make_sure_only_one_fake_association_each_account
+
+  acts_as_taggable_on :tags
+
+  named_scope :filter_by_account_id, lambda { |account_id| {:conditions => ['account_id = ?', account_id]} }
 
   private
 

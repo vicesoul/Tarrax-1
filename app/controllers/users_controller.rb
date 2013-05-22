@@ -79,6 +79,7 @@
 #     }
 class UsersController < ApplicationController
 
+  USER_ADDITIONAL_ATTRIBUTES = %w{job_number job_position_id external source tags}
 
   include GoogleDocs
   include Twitter
@@ -642,18 +643,19 @@ class UsersController < ApplicationController
   def show
     get_context
     @context_account = @context.is_a?(Account) ? @context : @domain_root_account
-    @user = params[:id] && params[:id] != 'self' ? User.find(params[:id]) : @current_user
-    if authorized_action(@user, @current_user, :view_statistics)
-      add_crumb(t('crumbs.profile', "%{user}'s profile", :user => @user.short_name), @user == @current_user ? user_profile_path(@current_user) : user_path(@user) )
+    origin_user = params[:id] && params[:id] != 'self' ? User.find(params[:id]) : @current_user
+    @user = wrap_staff_attributes_for_exsited_user_from_db(origin_user, @context_account.id)
+    if authorized_action(origin_user, @current_user, :view_statistics)
+      add_crumb(t('crumbs.profile', "%{user}'s profile", :user => origin_user.short_name), origin_user == @current_user ? user_profile_path(@current_user) : user_path(origin_user) )
 
       # course_section and enrollment term will only be used if the enrollment dates haven't been cached yet;
       # maybe should just look at the first enrollment and check if it's cached to decide if we should include
       # them here
-      @enrollments = @user.enrollments.with_each_shard { |scope| scope.scoped(:conditions => "enrollments.workflow_state<>'deleted' AND courses.workflow_state<>'deleted'", :include => [{:course => { :enrollment_term => :enrollment_dates_overrides }}, :associated_user, :course_section]) }
+      @enrollments = origin_user.enrollments.with_each_shard { |scope| scope.scoped(:conditions => "enrollments.workflow_state<>'deleted' AND courses.workflow_state<>'deleted'", :include => [{:course => { :enrollment_term => :enrollment_dates_overrides }}, :associated_user, :course_section]) }
       @enrollments = @enrollments.sort_by {|e| [e.state_sortable, e.rank_sortable, e.course.name] }
       # pre-populate the reverse association
-      @enrollments.each { |e| e.user = @user }
-      @group_memberships = @user.current_group_memberships.scoped(:include => :group)
+      @enrollments.each { |e| e.user = origin_user }
+      @group_memberships = origin_user.current_group_memberships.scoped(:include => :group)
 
       respond_to do |format|
         format.html
@@ -733,13 +735,29 @@ class UsersController < ApplicationController
     sis_user_id = nil unless @context.grants_right?(@current_user, session, :manage_sis)
 
     if @pseudonym.present?
-      @user = @pseudonym.user
+      @user = wrap_staff_attributes_for_exsited_user_from_request(@pseudonym.user, params[:user])
       if @special_associations
         # when user do not associate with account. we associate them and then return success. Otherwise, return already associate error.
         if @user.user_account_associations.map{|aa| aa.account_id}.include?(@associate_account_id.to_i)
           render :json => { :errors => { :pseudonym => { :unique_id => [{:attribute => "unique_id", :type => "already_associated", :message => "already_associated"}]}, :observee => {}}}, :status => :bad_request and return
         else
-          @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations)
+          begin
+            @user.update_account_associations(
+              :incremental => true,
+              :precalculated_associations => @special_associations,
+              :staff_attributes => get_staff_attributes(@user),
+              :user_basic_attributes => {:birthday => params[:user][:birthday], :mobile_phone => params[:user][:mobile_phone]}
+            )
+          rescue => err
+            errors = {
+              :errors => {
+                :user => @user.errors.as_json[:errors],
+                :pseudonym => @pseudonym ? @pseudonym.errors.as_json[:errors] : {},
+                :observee => @observee ? @observee.errors.as_json[:errors] : {}
+              }
+            }
+            render :json => errors, :status => :bad_request and return
+          end
           data = { :user => @user, :pseudonym => @pseudonym, :message_sent => false }
           render :json => data and return
         end
@@ -827,7 +845,8 @@ class UsersController < ApplicationController
         @user.save!
         # if new user, should be associated to default account
         @special_associations ||= User.calculate_account_associations_from_accounts([Account.default.id])
-        @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations) if @special_associations
+
+        @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations, :staff_attributes => get_staff_attributes(@user)) if @special_associations
       end
 
       message_sent = false
@@ -875,6 +894,37 @@ class UsersController < ApplicationController
     end
   end
 
+  #staff attributes like job_number, job_position_id
+  def get_staff_attributes user
+    USER_ADDITIONAL_ATTRIBUTES.inject({}){|result, attr| result.merge!(attr.to_sym => user.__send__(attr)) if user.__send__(attr) }
+  end
+  private :get_staff_attributes
+
+  def wrap_staff_attributes_for_exsited_user_from_request user, user_params
+    USER_ADDITIONAL_ATTRIBUTES.each{ |attr| user.__send__(attr+"=", user_params[attr]) }
+    user
+  end
+  private :wrap_staff_attributes_for_exsited_user_from_request
+
+  def wrap_staff_attributes_for_exsited_user_from_db user, account_id
+    user_account_association = user.user_account_associations.filter_by_account_id(account_id).first
+    USER_ADDITIONAL_ATTRIBUTES.each do |attr|
+      if attr == 'tags'
+        user.__send__('tags=', user_account_association.tag_list)
+      else
+        user.__send__(attr+"=", user_account_association.__send__(attr))
+      end
+    end
+    user
+  end
+  private :wrap_staff_attributes_for_exsited_user_from_db
+
+  def update_user_other_attributes user
+    user.birthday = params[:user][:birthday]
+    user.mobile_phone = params[:user][:mobile_phone]
+    user.save!
+  end
+  private :update_user_other_attributes
   # @API Edit a user
   # Modify an existing user. To modify a user's login, see the documentation for logins.
   #

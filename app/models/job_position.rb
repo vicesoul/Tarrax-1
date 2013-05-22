@@ -2,6 +2,7 @@ class JobPosition < ActiveRecord::Base
 
   belongs_to :job_position_category
   belongs_to :account
+  has_many :user_account_associations
 
   validates_presence_of :code 
   validates_presence_of :name 
