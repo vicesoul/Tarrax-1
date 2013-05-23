@@ -75,6 +75,7 @@
         <td><%= f.blabel :tags, :en => "Tags" %></td>
         <td>
           <%= f.text_field :tags %>
+          <%= render :partial => 'shared/tag_selector' %>
           <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Your staff tags.") %></div>
         </td>
       </tr>

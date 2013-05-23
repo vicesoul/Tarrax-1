@@ -5,6 +5,9 @@
     <%= link_to 'New job_position', new_account_job_position_path %>
   </div>
 
+  <div> 
+    <%= link_to t('tim', 'Job position category management'), account_job_position_categories_path %>
+  </div>
   <% unless @job_positions.blank? %>
   <table>
     <thead>

@@ -40,18 +40,44 @@
   <h2><%= t('titles.all_users', 'All Users') %></h2>
 <% end %>
 
-<%= will_paginate(@users, :style=>"margin-bottom: 1em;") %>
+<% unless @users.blank? %>
+  <%= will_paginate(@users, :style=>"margin-bottom: 1em;") %>
 
-<ul class="users">
-  <% @users.each do |user| %>
-    <% content_tag_for(:li, user) do %>
-      <%= link_to(user.last_name_first_or_unnamed, context_url(@context, :context_user_url, user)) %>
-    <% end %>
-  <% end %>
-</ul>
+  <table border="1">
+    <thead>
+      <tr>
+        <td width="200px">Name</td>
+        <td>Account</td>
+        <td>Job Number</td>
+        <td>Job Position</td>
+        <td>Is External</td>
+        <td>Tags</td>
+        <td>State</td>
+        <td>Source</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <% user_account_association = user.user_account_associations.filter_by_account_id(params[:account_id]).first %>
+        <tr>
+          <td><%= link_to(user.last_name_first_or_unnamed, context_url(@context, :context_user_url, user)) %></td>
+          <td>
+            <%= get_user_associated_accounts(user, params[:account_id]) %>
+          <td><%= user_account_association.job_number %></td>
+          <td><%= user_account_association.call_or_mock('job_position', 'name') %></td>
+          <td><%= user_account_association.external == 'true' ? 'yes' : 'no' %></td>
+          <td><%= user_account_association.tag_list %></td>
+          <td><%= link_to format_state(user_account_association.state), '#' %></td>
+          <td><%= user_account_association.source %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 
-<%= will_paginate(@users, :style=>"margin-top: 1em;") %>
-
+  <%= will_paginate(@users, :style=>"margin-top: 1em;") %>
+<% else %>
+  Empty users
+<% end %>
 <% js_block do %>
 <script type="text/javascript">
 require([

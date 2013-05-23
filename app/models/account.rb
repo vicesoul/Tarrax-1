@@ -341,9 +341,9 @@ class Account < ActiveRecord::Base
     res
   end
   
-  def users_name_like(query="")
+  def users_name_like(query="", account_id=nil)
     @cached_users_name_like ||= {}
-    @cached_users_name_like[query] ||= self.fast_all_users.name_like(query)
+    @cached_users_name_like[query] ||= self.fast_all_users(nil, account_id).name_like(query)
   end
 
   def fast_course_base(opts)
@@ -360,14 +360,15 @@ class Account < ActiveRecord::Base
     @cached_fast_all_courses[opts] ||= self.fast_course_base(opts)
   end
 
-  def all_users(limit=250)
+  def all_users(limit=250, account_id=nil)
+    account = account_id.blank? ? self : Account.find(account_id)
     @cached_all_users ||= {}
-    @cached_all_users[limit] ||= User.of_account(self).scoped(:limit=>limit)
+    @cached_all_users[limit] ||= User.of_account(account).scoped(:limit=>limit)
   end
   
-  def fast_all_users(limit=nil)
+  def fast_all_users(limit=nil, account_id=nil)
     @cached_fast_all_users ||= {}
-    @cached_fast_all_users[limit] ||= self.all_users(limit).active.order_by_sortable_name.scoped(:select => "users.id, users.name, users.sortable_name")
+    @cached_fast_all_users[limit] ||= self.all_users(limit.blank? ? 250 : limit, account_id).active.order_by_sortable_name.scoped(:select => "users.id, users.name, users.sortable_name")
   end
 
   def users_not_in_groups_sql(groups, opts={})

@@ -78,7 +78,7 @@ module Api::V1::User
       if context.grants_right?(current_user, session, :read_as_admin)
       # include a permissions check here to only allow teachers and admins
       # to see user email addresses.
-        json[:email] = user.email if includes.includes?('email')
+        json[:email] = user.email if includes.include?('email')
       end
 
       json[:locale] = user.locale if includes.include?('locale')

@@ -236,7 +236,7 @@ class UsersController < ApplicationController
       @query = (params[:user] && params[:user][:name]) || params[:term]
       ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
         if @context && @context.is_a?(Account) && @query
-          @users = @context.users_name_like(@query)
+          @users = @context.users_name_like(@query, params[:user][:account_id])
         elsif params[:enrollment_term_id].present? && @root_account == @context
           @users = @context.fast_all_users.scoped({
             :joins => :courses,

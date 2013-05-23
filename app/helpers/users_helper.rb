@@ -17,4 +17,28 @@
 #
 
 module UsersHelper
+
+  def format_state state
+    case state
+    when 0
+      'Actived'
+    when 1
+      'Be frozen'
+    when 2
+      'Frozen'
+    end
+  end
+
+  def get_user_associated_accounts user, account_id
+    user.user_account_associations.select do |a|
+      if Account.find(account_id).root_account?
+        a.account.parent_account_id.to_s == account_id
+      else
+        a.account.id.to_s == account_id
+      end
+    end.map do |b|
+      link_to(b.account.name, account_users_url(b.account.id))
+    end.join('<br />').html_safe
+  end
+
 end

@@ -44,11 +44,13 @@
       </tr>
       <tr>
         <th><%= before_label('tags', 'Tags') %></th>
-        <td class="tags"><%=h user_account_association.tag_list %></td>
+        <td class="tags">
+          <%=h user_account_association.tag_list %>
+        </td>
       </tr>
       <tr>
         <th><%= before_label('state', 'State') %></th>
-        <td class="state"><%=h user_account_association.state == 0 ? 'Actived' : (user_account_association.state == 1 ? 'Be frozen' : 'Frozen') %></td>
+        <td class="state"><%=h format_state(user_account_association.state)%></td>
       </tr>
       <tr>
         <th><%= before_label('source', 'Source') %></th>
@@ -142,7 +144,10 @@
       </tr>
       <tr>
         <td><%= f.blabel :tags, :en => "Tags" %></td>
-        <td><%= f.text_field :tags %></td>
+        <td>
+          <%= f.text_field :tags %>
+          <%= render :partial => 'shared/tag_selector' %>
+        </td>
       </tr>
       <% if can_manage_admin_users %>
         <tr>
@@ -160,3 +165,4 @@
     </table>
   <% end %>
 </div>
+
