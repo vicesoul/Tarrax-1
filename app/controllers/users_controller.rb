@@ -79,7 +79,8 @@
 #     }
 class UsersController < ApplicationController
 
-  USER_ADDITIONAL_ATTRIBUTES = %w{job_number job_position_id external source tags}
+  #USER_ADDITIONAL_ATTRIBUTES = %w{job_number job_position_id external source tags}
+  USER_ADDITIONAL_ATTRIBUTES = Api::V1::User::USER_ADDITIONAL_ATTRIBUTES
 
   include GoogleDocs
   include Twitter
@@ -959,7 +960,7 @@ class UsersController < ApplicationController
     end
 
     managed_attributes = []
-    managed_attributes.concat [:name, :short_name, :sortable_name] if @user.grants_right?(@current_user, nil, :rename)
+    managed_attributes.concat [:name, :short_name, :sortable_name, :birthday, :mobile_phone, :job_number, :job_position_id, :external, :tags] if @user.grants_right?(@current_user, nil, :rename)
     if @user.grants_right?(@current_user, nil, :manage_user_details)
       managed_attributes.concat([:time_zone, :locale])
     end
@@ -1001,10 +1002,11 @@ class UsersController < ApplicationController
             @user.avatar_state = (old_avatar_state == :locked ? old_avatar_state : 'approved')
             @user.save
           end
+          update_user_account_association(@user)
           flash[:notice] = t('user_updated', 'User was successfully updated.')
           format.html { redirect_to user_url(@user) }
           format.json {
-            render :json => user_json(@user, @current_user, session, %w{locale avatar_url},
+            render :json => user_json(wrap_staff_attributes_for_exsited_user_from_request(@user, params[:user]), @current_user, session, %w{locale avatar_url staff_attributes},
               @current_user.pseudonym.account) }
         else
           format.html { render :action => "edit" }
@@ -1015,6 +1017,18 @@ class UsersController < ApplicationController
       render_unauthorized_action(@user)
     end
   end
+
+  def update_user_account_association user
+    if params[:account_id]
+      user_account_association = user.user_account_associations.filter_by_account_id(params[:account_id]).first
+      user_account_association.external = params[:user][:external]
+      user_account_association.job_number = params[:user][:job_number]
+      user_account_association.job_position_id = params[:user][:job_position_id]
+      user_account_association.tag_list = params[:user][:tags]
+      user_account_association.save
+    end
+  end
+  private :update_user_account_association
 
   def media_download
     asset = Kaltura::ClientV3.new.media_sources(params[:entryId]).find{|a| a[:fileExt] == params[:type] }

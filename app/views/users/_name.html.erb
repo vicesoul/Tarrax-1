@@ -39,8 +39,8 @@
         <td class="job_position"><%=h user_account_association.call_or_mock('job_position', 'name') %></td>
       </tr>
       <tr>
-        <th><%= before_label('is_external', 'Is External') %></th>
-        <td class="is_external"><%=h user_account_association.external ? 'yes' : 'no' %></td>
+        <th><%= before_label('external', 'Is External') %></th>
+        <td class="external"><%=h user_account_association.external ? 'yes' : 'no' %></td>
       </tr>
       <tr>
         <th><%= before_label('tags', 'Tags') %></th>
@@ -103,6 +103,7 @@
 <div title="<%= t 'titles.edit_user_details', 'Edit User Details' %>" id="edit_student_dialog" style="display: none;">
   <p><%= t('update_instructions', "You can update some of this user's information, but they can change it back if they choose.") %></p>
   <% form_for @user, :url => user_url(@user), :html => {:id => "edit_student_form"} do |f| %>
+    <input type="hidden" name="account_id" value="<%= params[:account_id] %>" />
     <table class="formtable">
       <tr>
         <td><%= f.blabel :name, :en => "Full Name" %></td>
