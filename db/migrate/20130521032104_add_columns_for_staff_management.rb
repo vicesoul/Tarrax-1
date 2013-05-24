@@ -18,6 +18,8 @@ class AddColumnsForStaffManagement < ActiveRecord::Migration
       t.timestamps
     end
 
+    UserAccountAssociation.update_all(:state => 0)
+
   end
 
   def self.down

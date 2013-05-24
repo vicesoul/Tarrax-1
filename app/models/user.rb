@@ -272,7 +272,7 @@ class User < ActiveRecord::Base
   validates_length_of :short_name, :maximum => maximum_string_length, :allow_nil => true
   validates_length_of :sortable_name, :maximum => maximum_string_length, :allow_nil => true
   validates_presence_of :name, :if => :require_presence_of_name
-  validates_presence_of :external
+  #validates_presence_of :external
   validates_format_of :birthday, :with => /^($|\d{4}-\d{2}-\d{2}$)/
   validates_format_of :mobile_phone, :with => /^($|\d{11}$)/
   validates_locale :locale, :browser_locale, :allow_nil => true
