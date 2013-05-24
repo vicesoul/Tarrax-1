@@ -133,7 +133,7 @@
       </tr>
       <tr>
         <td><%= f.blabel :job_position_id, :en => "Job Position" %></td>
-        <td><%= f.select :job_position_id, account.root_account.job_positions.map{|j| [j.name, j.id ]} %></td>
+        <td><%= f.select :job_position_id, account.root_account.job_positions.map{|j| [j.name, j.id ]}, { :include_blank => true } %></td>
       </tr>
       <tr>
         <td><%= f.blabel :external, :en => "Is external" %></td>

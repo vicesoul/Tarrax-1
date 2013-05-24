@@ -532,11 +532,18 @@ class User < ActiveRecord::Base
             aa = UserAccountAssociation.new
             aa.user_id = user_id
             aa.account_id = account_id
-            aa.job_number = staff_attributes[:job_number] if staff_attributes.has_key?(:job_number)
-            aa.job_position_id = staff_attributes[:job_position_id] if staff_attributes.has_key?(:job_position_id)
-            aa.external = staff_attributes[:external] if staff_attributes.has_key?(:external)
-            aa.source = staff_attributes[:source] if staff_attributes.has_key?(:source)
-            aa.tag_list = staff_attributes[:tags] if staff_attributes.has_key?(:tags)
+            staff_attributes.each do |key, value|
+              if key.to_s == 'tags'
+                aa.tag_list = value unless value.blank?
+              else
+                aa.__send__("#{key}=", value) unless value.blank?
+              end
+            end
+            #aa.job_number = staff_attributes[:job_number] if staff_attributes.has_key?(:job_number)
+            #aa.job_position_id = staff_attributes[:job_position_id] if staff_attributes.has_key?(:job_position_id)
+            #aa.external = staff_attributes[:external] if staff_attributes.has_key?(:external)
+            #aa.source = staff_attributes[:source] if staff_attributes.has_key?(:source)
+            #aa.tag_list = staff_attributes[:tags] if staff_attributes.has_key?(:tags)
             aa.depth = depth
             aa.fake = true if opts[:fake]
             aa.shard = Shard.shard_for(account_id)

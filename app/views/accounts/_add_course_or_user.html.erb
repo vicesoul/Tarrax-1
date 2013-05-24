@@ -59,7 +59,7 @@
       <tr>
         <td><%= f.blabel :job_position_id, :en => "Job Position" %></td>
         <td>
-          <%= f.select :job_position_id, @account.root_account.job_positions.map{|j| [j.name, j.id]} %>
+          <%= f.select :job_position_id, @account.root_account.job_positions.map{|j| [j.name, j.id]}, { :include_blank => true } %>
           <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Job position.") %></div>
         </td>
       </tr>

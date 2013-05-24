@@ -1022,8 +1022,8 @@ class UsersController < ApplicationController
     if params[:account_id]
       user_account_association = user.user_account_associations.filter_by_account_id(params[:account_id]).first
       user_account_association.external = params[:user][:external]
-      user_account_association.job_number = params[:user][:job_number]
-      user_account_association.job_position_id = params[:user][:job_position_id]
+      user_account_association.job_number = params[:user][:job_number] unless params[:user][:job_number].blank?
+      user_account_association.job_position_id = params[:user][:job_position_id] unless params[:user][:job_position_id].blank?
       user_account_association.tag_list = params[:user][:tags]
       user_account_association.save
     end
