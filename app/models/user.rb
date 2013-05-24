@@ -279,7 +279,8 @@ class User < ActiveRecord::Base
     if value.blank?
       record.errors.add(attr, "blank")
     elsif record.validation_root_account
-      course = record.validation_root_account.self_enrollment_course_for(value)
+      #course = record.validation_root_account.self_enrollment_course_for(value)
+      course = Course.where(:self_enrollment_code => value).first
       record.self_enrollment_course = course
       if course && course.self_enrollment?
         record.errors.add(attr, "full") if course.self_enrollment_limit_met?
