@@ -3332,9 +3332,8 @@ ja:
       edit_sections_view: 
         edit_sections_desc: "セクションはユーザの編成手段の 1 つです。セクションを利用することで、1 つのコースで複数のクラスを教えることができ、コースの内容を 1 箇所に置くことができます。以下では、ユーザを別のセクションに移動したり、セクションの登録を追加/削除できます。ユーザは常に 1 つ以上のセクションに含まれる必要があります。"
       enrollment_count: 
-        other: |-
-            1 人のユーザ
-            %{count} 人のユーザ
+        one: "1 人のユーザ"
+        other: "%{count} 人のユーザ"
       grading_standard_currently_set: 現在設定されています
       grading_standard_not_set: 設定されていません
       headings: 
