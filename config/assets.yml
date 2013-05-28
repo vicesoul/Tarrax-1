@@ -41,8 +41,8 @@ stylesheets:
     - public/stylesheets/compiled/g_wiki_sidebar.css
     - public/stylesheets/compiled/g_syllabus.css
     - public/stylesheets/compiled/g_mini_calendar.css
-    # - public/stylesheets/compiled/helpDialog.css
-    # - public/stylesheets/compiled/print.css
+    - public/stylesheets/compiled/helpDialog.css
+    - public/stylesheets/compiled/print.css
   context_modules: 
     - public/stylesheets/compiled/context_modules.css
   collection_item_save:
