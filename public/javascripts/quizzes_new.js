@@ -1,28 +1,69 @@
 
 define([
   'jquery',
-  'underscore'
-], function($, _) {
+  'underscore',
+  'i18n!account_homepage'
+], function($, _, I18n) {
 var tpl  = window.tpl = {};
-tpl.ball = '<span><div class="popover"><div class="arrow"></div><div class="popover-content"><p></p></div></div></span>';
+tpl.factory = {};
+tpl.factory.structure = "<div class='factory'><div class='main'><div class='bg'></div><div class='lines'></div></div></div>";
+tpl.factory.menu = "<div class='menu'><ul><li><span class='grey'><b>╳</b></span></li><li><span class='yellow'><b>╳</b></span></li></ul></div>";
+tpl.factory.ball = '<span><div class="popover"><div class="arrow"></div><div class="popover-content"><p></p></div></div></span>';
+tpl.factory.popover = "<div class='popover'><div class='arrow'></div><div class='popover-content'><textarea></textarea></div></div>";
 
 var Global = window.Global = {};
 Global.quizzes = {
+  lineWidth: 5,
+  strokeColor: "#08c",
+  strokeChosenColor: "grey",
+
+  dragLine : {
+
+    state : false,
+
+    start : function(){
+      this.attr({"stroke": Global.quizzes.strokeChosenColor});
+    },
+
+    move : function(){
+      Global.quizzes.dragLine.state = true
+    },
+
+    up : function(deleFunc, $active, $end, $toolTip, $question){
+      return function(){
+        if(Global.quizzes.dragLine.state == true){
+          deleFunc(this, $active, $end, $toolTip, $question)();
+          Global.quizzes.dragLine.state = false;
+        }
+      }
+      
+    }
+
+  },
+
   connectingOnPic:  function ($form){
 
+    // fixes svg bug
+    if($form.find(".factory").size() === 1){
+      $form.find(".factory").remove();
+    }
+
     // generate HTML
-    var $factory = $form.find(".factory");
+    var $imageInput = $form.find("input.connecting_on_pic_image");
+    var $factory = $(tpl.factory.structure);
     var $formAnswers = $form.find(".form_answers");
     var $main = $factory.find(".main");
+    var $lines = $factory.find(".lines");
     var textWidth = parseFloat( $(".text").width() );
-    
-    if($main.find("svg").size() === 1){$main.find("svg").remove()}
+    var $menu = $(tpl.factory.menu);
+    $main.before($menu);
+    $imageInput.after($factory);
     
     var defaultWidth = 680;
     var defaultHeight = 500;
     var factoryWidth = parseFloat( $factory.width() );
     var mainHeight = ( defaultHeight / defaultWidth ) * factoryWidth;
-    var paper = Raphael( $main[0], textWidth, mainHeight );
+    var paper = Raphael( $lines[0], textWidth, mainHeight );
     $main.css({
       height: mainHeight
     });
@@ -82,11 +123,15 @@ Global.quizzes = {
       activeClass: "ui-state-highlight",
       drop: function( event, ui ) {
         var $ball = ui.draggable.clone();
-        $ball.css({
-          position: "absolute",
-          left: event.pageX - $(this).offset().left - r,
-          top: event.pageY - $(this).offset().top - r
-        })
+        var orientation = $ball.is(".grey") ? "left" : "right";
+        var $popover = $(tpl.factory.popover).addClass(orientation);
+        $ball
+          .append($popover)
+          .css({
+            position: "absolute",
+            left: event.pageX - $(this).offset().left - r,
+            top: event.pageY - $(this).offset().top - r
+          })
           .draggable({
             containment: "parent",
             stop: function( event, ui ) {
@@ -102,9 +147,10 @@ Global.quizzes = {
           .find("b")
           .bind( "click", deleBall );
 
-        $ball.find("textarea").click(function(e){
-          e.stopPropagation();
-        })
+        $ball.find("textarea")
+          .bind("click mousedown", function(e){
+            e.stopPropagation();
+          })
           .blur(function(){
             saveText( this );
           });
@@ -119,8 +165,13 @@ Global.quizzes = {
     $.each(positionData, function(i,val){
       var text = val.text ? val.text : "";
       var color = val.Grey ? "grey" : "yellow";
+      var orientation = val.Grey ? "left" : "right";
+      var $popover = $(tpl.factory.popover).addClass(orientation);
       var $ball = $factory.find(".menu span").filter("." + color).clone();
-      $ball.find("textarea").html(text).end()
+
+      $ball
+        .append($popover)
+        .find("textarea").html(text).end()
         .css({
           position: "absolute",
           left: val.x,
@@ -141,9 +192,10 @@ Global.quizzes = {
         .find("b")
         .bind( "click", deleBall );
 
-      $ball.find("textarea").click(function(e){
-        e.stopPropagation();
-      })
+      $ball.find("textarea")
+        .bind("click mousedown", function(e){
+          e.stopPropagation();
+        })
         .blur(function(){
           saveText( this );
         });
@@ -163,11 +215,18 @@ Global.quizzes = {
     // close tooltip when click document
     $(document).click(function(){ resetToolTip($toolTip, paper) });
 
+
+
     function updateLines(){
       paper.clear();
 
       $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
         var greyBallId = $(this).val().slice(5);
+        // fix ie8 bug
+        if($(this).val() == $(this).attr("placeholder")){
+          return;
+        }
+
         var $grey = $main.find("> span[ball-id="+ greyBallId + "]");
         var rightInput = $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input");
         var rightVal = rightInput.val();
@@ -252,27 +311,36 @@ Global.quizzes = {
     }
 
     function drawLine($active, $end ){
-      var strokeColor = "#08c",
-        x1 = $active.position().left + $active.width()/2,
+      var x1 = $active.position().left + $active.width()/2,
         y1 = $active.position().top + $active.height()/2 ,
         x2 = $end.position().left + $end.width()/2,
         y2 = $end.position().top + $end.height()/2 ,
+        offx1 = $active.offset().left + $active.width()/2,
+        offy1 = $active.offset().top + $active.height()/2 ,
+        offx2 = $end.offset().left + $end.width()/2,
+        offy2 = $end.offset().top + $end.height()/2 ,
         line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+
+
+      var dragLine = Global.quizzes.dragLine;
       line
         .attr({
-          "stroke": strokeColor,
+          "stroke": Global.quizzes.strokeColor,
           "stroke-width": Global.quizzes.lineWidth
         })
+        .drag( dragLine.move, dragLine.start, dragLine.up(deleLine, $active, $end) )
         .click(function(e){
           e.stopPropagation();
           resetToolTip($toolTip, paper);
-          this.attr({"stroke-dasharray": "- "});
+          this.attr({"stroke": Global.quizzes.strokeChosenColor});
           $toolTip
-            .show()
             .css({
-              left: e.pageX,
-              top: e.pageY
-            });
+              left: e.pageX || (offx1 + offx2)/2,
+              top: e.pageY || (offy2 + offy2)/2
+            })
+            .show();
+
           deleHandle =  deleLine(this, $active, $end);
           $toolTip.find("button:first").bind( "click", deleHandle );
         });
@@ -305,14 +373,30 @@ Global.quizzes = {
       var yellowBallId = $yellowBall.attr("ball-id");
       var isNewBall = true;
       $formAnswers.find(".connecting_on_pic_answer .answer_match_left input").each(function(){
-        var value = $(this).val();
-        if( "ball-" + greyBallId == value || value == "" ){
+        var leftValue = $(this).val();
+        var leftPlaceholderAttr = $(this).attr("placeholder");
+        var $rightInput = $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input");
+
+        if( "ball-" + greyBallId == leftValue || leftValue == "" || leftValue == leftPlaceholderAttr){
+
           isNewBall = false;
-          if( value == "" ){
+          
+          // ie8 bug
+          if( leftValue == "" || leftValue == leftPlaceholderAttr ){
             $(this).val("ball-" + greyBallId);
+            $rightInput.val("");
           }
-          $(this).closest(".connecting_on_pic_answer").find(".answer_match_right input").doVal("add",yellowBallId);
+
+          // ie8 bug
+          var rightValue = $rightInput.val();
+          var rightPlaceholderAttr = $rightInput.attr("placeholder");
+          if( rightValue == rightPlaceholderAttr ){
+            $rightInput.val("");
+          }
+
+          $rightInput.doVal("add",yellowBallId);
           return false;
+
         }
       });
 
@@ -374,19 +458,20 @@ Global.quizzes = {
     if( text.length > 14 ){
       $target
         .addClass("ellipsis")
-        .css("max-width", "100px")
         .attr("data-content", text)
         .popover({
           placement: orientation,
           trigger: "hover"
         });
+
+        $target.add($container).css("max-width", "100px");
+
     }
   },
 
   quizzesShow: function(){
     (function connectingLead(){
       $(".question.connecting_lead_question").each(function(){
-
         var $question = $(this),
           linesNum = $question.find(".connecting_lead_linesNum").text().trim(),
           $answers_wrapper = $question.find(".answers_wrapper"),
@@ -459,7 +544,7 @@ Global.quizzes = {
             y1 = $nodeA.position().top + $nodeA.height()/2,
             line = svg.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
 
-          color = color === undefined ? "#08c" : color;
+          color = color === undefined ? Global.quizzes.strokeColor : color;
           line
             .attr({
               "stroke": color,
@@ -477,8 +562,9 @@ Global.quizzes = {
           positionData = stringToObject( $question.find(".connecting_on_pic_position").text() ),
           $answers_wrapper = $question.find(".answers_wrapper"),
           $answers = $question.find(".answers"),
-          $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
-          $main = $factory.find(".main");
+          $factory = $(tpl.factory.structure),
+          $main = $factory.find(".main"),
+          $lines = $factory.find(".main .lines");
 
         // reload image
         var bgImage = $("<img>").attr("src", imageSrc);
@@ -487,7 +573,7 @@ Global.quizzes = {
         // reload balls
         $.each(positionData, function(i,val){
           var text = val.text ? val.text : "";
-          var $ball = $(tpl.ball);
+          var $ball = $(tpl.factory.ball);
           var color = val.Grey ? "grey" : "yellow";
           var oritation = val.Grey ? "left" : "right";
           $ball.addClass(color)
@@ -508,7 +594,7 @@ Global.quizzes = {
         var defaultHeight = 500;
         var factoryWidth = parseFloat( $factory.width() );
         var mainHeight = ( defaultHeight / defaultWidth ) * factoryWidth;
-        var paper = Raphael( $main[0], $answers.width(), mainHeight );
+        var paper = Raphael( $lines[0], $answers.width(), mainHeight );
         $main.css({
           height: mainHeight
         });
@@ -553,7 +639,7 @@ Global.quizzes = {
             y2 = $end.position().top + $end.height()/2 ,
             line = which.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
 
-          color = color === undefined ? "#08c" : color;
+          color = color === undefined ? Global.quizzes.strokeColor : color;
           var lineType = dash ? "- " : "";
           line
             .attr({
@@ -606,16 +692,16 @@ Global.quizzes = {
       });
 
     }());
-  },
+  }
 
-  lineWidth: 3
+  
 };
 
 
 
 Global.quizzes.commonFunc = {
 
-  stringToObject : function (str) {
+  stringToObject : function (str) { 
     return eval("(" + str + ")");
   },
 
@@ -684,28 +770,38 @@ Global.quizzes.commonFunc = {
   },
 
   drawLine : function ($active, $end, $toolTip, paper, $question){
-    var strokeColor = "#08c",
-      x1 = $active.position().left + $active.width()/2,
+    var x1 = $active.position().left + $active.width()/2,
       y1 = $active.position().top + $active.height()/2 ,
       x2 = $end.position().left + $end.width()/2,
       y2 = $end.position().top + $end.height()/2 ,
+      offx1 = $active.offset().left + $active.width()/2,
+      offy1 = $active.offset().top + $active.height()/2 ,
+      offx2 = $end.offset().left + $end.width()/2,
+      offy2 = $end.offset().top + $end.height()/2 ,
       line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
+
+    var dragLine = Global.quizzes.dragLine;
     line
       .attr({
-        "stroke": strokeColor,
+        "stroke": Global.quizzes.strokeColor,
         "stroke-width": Global.quizzes.lineWidth
       })
+      .drag( dragLine.move, dragLine.start, dragLine.up(deleLine, $active, $end, $toolTip, $question) )
       .click(function(e){
         e.stopPropagation();
+
         resetToolTip($toolTip, paper);
-        this.attr({"stroke-dasharray": "- "});
+        this.attr({"stroke": Global.quizzes.strokeChosenColor});
+
         $toolTip
-          .show()
           .css({
-            left: e.pageX,
-            top: e.pageY
-          });
+            left: e.pageX || (offx1 + offx2)/2,
+            top: e.pageY || (offy2 + offy2)/2
+          })
+          .show();
+
         $toolTip.find("button:first").bind( "click", deleLine(this, $active, $end, $toolTip, $question) );
+        
       });
 
   },
@@ -747,13 +843,51 @@ Global.quizzes.commonFunc = {
     $toolTip.hide();
     $toolTip.find("button:first").unbind("click");
     paper.forEach(function (el) {
-      el.attr("stroke-dasharray", "");
+      el.attr("stroke", Global.quizzes.strokeColor);
     });
   }
 };
 
-_.extend(window, Global.quizzes.commonFunc);
 
+
+Global.uploadImage = {
+  afterUploadedImageSuccess : function() {
+    var content = I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded");
+    dialogMessage(content);
+
+  },
+
+  validateUploadedImage : function(imageVal) {
+    var content, flag;
+    flag = true;
+    content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty');
+    if (imageVal === '') {
+      flag = false;
+    } else if (!(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test(imageVal))) {
+      content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct');
+      flag = false;
+    }
+    if (!flag) {
+      dialogMessage(content);
+    }
+    return flag;
+  },
+
+  dialogMessage : function(content){
+    $('<div>' + content + '</div>').dialog({
+      open: function( event, ui ) {
+        $dialog = $(this);
+        var closeDialog = function(){ 
+          $dialog.remove() 
+        };
+        var t = setTimeout(closeDialog, 1500);
+      }
+    });
+  }
+
+};
+_.extend(window, Global.quizzes.commonFunc);
+_.extend(window, Global.uploadImage);
 
 $.fn.doVal = function(type, yellowId) {
   var inputVal = $(this).val();

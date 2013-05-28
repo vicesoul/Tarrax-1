@@ -62,12 +62,16 @@ function getPlatForm(){
 
 var platform = getPlatForm();
 
-if( $.cookie('showIt') ){
-	if( platform == "Winxp" ){
-		this.location.url = "/browser-out-of-date-xp.html"
+var hasShow = $.cookie('showIt');
+
+if( !hasShow ){
+	if( platform == "WinXP" ){
+		window.location = "/browser-out-of-date-xp.html"
+		$.cookie('showIt', "yes");	
+
 	} else if( platform == "Win7" ){
-		this.location.url = "/browser-out-of-date.html"
+		window.location = "/browser-out-of-date.html"
+		$.cookie('showIt', "yes");	
 	}
 }
 
-$.cookie('showIt', true);	

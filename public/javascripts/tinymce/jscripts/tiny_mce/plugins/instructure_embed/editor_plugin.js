@@ -24,10 +24,12 @@ define([
   'i18n!editor',
   'jquery',
   'str/htmlEscape',
+  'quizzes_new',
   'jqueryui/dialog',
   'jqueryui/easyDialog',
   'jquery.form',
   'jquery.instructure_misc_helpers'
+
 ], function(tinymce, I18n, $, htmlEscape) {
   var $box, $editor, $userURL, $altText, $actions, $flickrLink;
 
@@ -62,7 +64,7 @@ define([
     $flickrLink.click(flickrLinkClickHandler);
     $box.append($flickrLink).find('#instructure_embed_prompt_form').submit(embedURLImage);
     var accountId = ENV.current_user_id;
-    var upload = "<form id='background_image_uploader' action='/accounts/" + accountId + "/files' method='POST' enctype='multipart/form-data'>" +
+    var upload = "<form id='background_image_uploader' action='/accounts/" + accountId + "/files' method='POST' enctype='multipart/form-data' >" +
         "<table>" +
         "<tr>" +
         "<td>" +
@@ -76,39 +78,43 @@ define([
         "<td>" +
         "</td>" +
         "<td>" +
-        "<input type='button' value=" + I18n.t('#accounts.homepage.upload', 'upload') + " class='btn comfirm'>" +
+        "<input type='submit' value=" + I18n.t('#accounts.homepage.upload', 'upload') + " class='btn confirm'>" +
         "</td>" +
         "</tr>" +
         "</table>" +
         "</form>";
-    var $message = $("<div id='message-dialog'></div>").appendTo("body");
+    
     $upload = $(upload);
     $box.append($upload);
     
     $('body').append($box);
 
     var $textUploading = $("<span>上传中...</span>");
+    var $inputFile = $upload.find("#background_bg_image");
+    var $confirm = $upload.find(".confirm");
 
-    $upload.submit(function() {
+    $upload.on('submit', function(e) {
+      e.preventDefault();
       $(this).ajaxSubmit({
+        clearForm: true,
+        dataType: 'json',
         beforeSubmit: function() {
-          var imageValidated = validateUploadedImage( $upload.find("#background_bg_image").val() );
-          if(imageValidated) $upload.find(".comfirm").hide().after($textUploading);
+          var imageValidated = validateUploadedImage( $inputFile.val() );
+          if(imageValidated) $confirm.hide().after($textUploading);
           return imageValidated;
         },
         success: function(data) {
           var img = "<img src=" + data.url + " />";
           $editor.editorBox('insert_code', img);
-          $upload.find("#background_bg_image").val("");
-          $upload.find(".comfirm").show().next("span").remove();
+          $confirm.show();
+          $textUploading.remove();
+        },
+        complete: function(){
           afterUploadedImageSuccess();
         }
       });
-      return false;
-    });
 
-    $upload.find(".comfirm").click(function() {
-      $upload.submit();
+
     });
 
     $box.dialog({
@@ -121,31 +127,6 @@ define([
       }
     });
     initted = true;
-  }
-
-  function validateUploadedImage (imageVal) {
-    var flag = true;
-    var content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty');
-    if(imageVal == ''){
-      flag = false;
-    }else if (!(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test(imageVal))) {
-      content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct');
-      flag = false;
-    }
-    if (!flag) {
-      $("#message-dialog").easyDialog({
-        modal: true,
-        content: content
-      });
-    }
-    return flag;
-  }
-
-  function afterUploadedImageSuccess () {
-    $("#message-dialog").easyDialog({
-      modal: true,
-      content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
-    })
   }
 
   function flickrLinkClickHandler (event) {

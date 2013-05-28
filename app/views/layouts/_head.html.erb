@@ -11,20 +11,13 @@
 <!--[if !(IE)]><!--> <html class="not-ie scripts-not-loaded" lang=<%= @locale %>> <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title><%= (yield :page_title) || t('default_page_title', "Jiaoxuebang LMS") %></title>
-  <meta name="description" content="<%= (yield :page_description) || t('default_page_description', 'Jiaoxuebang LMS') %>">
-  <meta name="Keywords" content="<%= (yield :page_keywords) || t('default_page_kewords', 'Jiaoxuebang LMS') %>">
+  <title><%= yield :page_title || t('default_page_title', "Jiaoxuebang LMS") %></title>
   <noscript> <meta http-equiv=refresh content="0; URL=/enable-javascript.html" /> </noscript>
-  
+    
   <% if @current_user %>
 
-    <!--[if IE 8 ]>
-      <script src="/javascripts/vendor/jquery-1.7.2.js"></script>
-      <script src="/javascripts/detect_browser.js"></script>
-    <![endif]-->
-    
     <!--[if lte IE 7]> 
-      <meta http-equiv=refresh content="0; URL=/browser-out-of-date-xp.html" /> 
+      <meta http-equiv=refresh content="0; URL=/browser-out-of-date.html" /> 
     <![endif]-->
 
   <% end %>
@@ -32,7 +25,7 @@
   <%= yield :auto_discovery %>
   <%= yield :head %>
   <%= include_css_bundles %>
-  <!--[if lt IE 8]> <%= javascript_include_tag "vendor/html5.js" %> <![endif]-->
+  <!--[if lte IE 8]> <%= javascript_include_tag "vendor/html5.js" %> <![endif]-->
   <%= yield :stylesheets %>
   <%= include_account_css %>
   <script>

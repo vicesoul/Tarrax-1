@@ -5,11 +5,7 @@
     :LOGIN_HANDLE_NAME => (@domain_root_account.login_handle_name rescue AccountAuthorizationConfig.default_login_handle_name)
   }
   content_for :page_title, t('create_a_canvas_account', "Create a Jiaoxuebang Account")
-  content_for :head, include_stylesheets(:common, :media => "all")
 %>
-<% content_for :head do %>
-  <%= include_stylesheets :common, :media => "all" %>
-<% end %>
 <style>
   @media only screen and (max-device-width : 1024px)  {
     .container {
@@ -33,7 +29,6 @@
     </div>
   </div>
 </div>
-
 
 <!--<a href="#" id="dd" class="signup_link" data-template="haveACode" title="Parent Signup">Parents sign up here</a>
 <a href="#" id="dddd" class="signup_link" data-template="haveCodeNot" title="Parent Signup">Parents sign up here</a>-->

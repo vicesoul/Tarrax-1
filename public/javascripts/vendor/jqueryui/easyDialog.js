@@ -54,7 +54,7 @@ define(['jquery',
 					setTimeout(function() {
 						dialog.dialog('close')
 					},
-					2500);
+					1500);
 				},
 				buttons: []
 			});

@@ -2,7 +2,8 @@
 # Requires all tinymce dependencies and prevents it from loading  assets
 
 # 2012-11-21 rupert add hasFlash or isCanvasSupported
-instrPlugins = [  'compiled/editor/markScriptsLoaded'
+instrPlugins = [  
+  'compiled/editor/markScriptsLoaded'
   'compiled/editor/stocktiny'
 
   # instructure plugins
@@ -13,17 +14,24 @@ instrPlugins = [  'compiled/editor/markScriptsLoaded'
   'tinymce/jscripts/tiny_mce/plugins/instructure_external_tools/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_links/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_add_rackets/editor_plugin'
-  'tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/editor_plugin'
-  'tinymce/jscripts/tiny_mce/plugins/instructure_record/editor_plugin'
 ]
 
 isCanvasSupported = ->
   elem = document.createElement('canvas');
-  !!(elem.getContext && elem.getContext('2d'));
-if isCanvasSupported
-  instrPlugins.push 'tinymce/jscripts/tiny_mce/plugins/instructure_drawing/editor_plugin'
+  !!( elem.getContext && elem.getContext('2d') )
 
-hasFlash = swfobject.hasFlashPlayerVersion("9") and navigator.userAgent.match(/iPad/i) is null;
+if isCanvasSupported()
+  instrPlugins.push(
+    'tinymce/jscripts/tiny_mce/plugins/instructure_drawing/editor_plugin'
+    'tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/editor_plugin'
+    )
+
+device = !!navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g)
+
+if !device
+  instrPlugins.push 'tinymce/jscripts/tiny_mce/plugins/instructure_record/editor_plugin'
+
+# hasFlash = swfobject.hasFlashPlayerVersion("9") and navigator.userAgent.match(/iPad/i) is null;
 # if hasFlash
 #   instrPlugins.push 'tinymce/jscripts/tiny_mce/plugins/instructure_record/editor_plugin'
 # end
