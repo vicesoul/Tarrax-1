@@ -101,6 +101,31 @@ class UsersController < ApplicationController
     #render :layout => false
   end
 
+  def active_or_forzen_user_by_account
+    if authorized_action(Account.find(params[:account_id]), @current_user, :manage)
+      flag = true
+      account = Account.find(params[:op_account_id])
+      begin
+        if account.root_account?
+          sub_account_ids = account.sub_accounts.map{|s| s.id}
+          UserAccountAssociation.find_all_by_account_id_and_user_id((sub_account_ids | [account.id]), params[:user_id]).each do |s|
+            UserAccountAssociation.transaction do
+              s.state = params[:state]
+              s.save!
+            end
+          end
+        else
+          user_account_association = UserAccountAssociation.find_by_account_id_and_user_id(account.id, params[:user_id])
+          user_account_association.state = params[:state]
+          user_account_association.save!
+        end
+      rescue => err
+        flag = false
+      end
+      render :json => {:flag => flag}.to_json
+    end
+  end
+
   def grades
     @user = User.find_by_id(params[:user_id]) if params[:user_id].present?
     @user ||= @current_user

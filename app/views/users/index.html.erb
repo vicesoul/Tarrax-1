@@ -52,7 +52,6 @@
         <td>Job Position</td>
         <td>Is External</td>
         <td>Tags</td>
-        <td>State</td>
         <td>Source</td>
       </tr>
     </thead>
@@ -67,7 +66,6 @@
           <td><%= user_account_association.call_or_mock('job_position', 'name') %></td>
           <td><%= user_account_association.external == 'true' ? 'yes' : 'no' %></td>
           <td><%= user_account_association.tag_list %></td>
-          <td><%= link_to format_state(user_account_association.state), '#' %></td>
           <td><%= user_account_association.source %></td>
         </tr>
       <% end %>
@@ -81,11 +79,33 @@
 <% js_block do %>
 <script type="text/javascript">
 require([
-  'jquery' /* $ */
+  'jquery', /* $ */
+  'jqueryui/dialog',
+  'jqueryui/easyDialog'
 ], function($) {
 
   $(document).ready(function() {
       $('#enrollment_term_id').change(function() { $(this).closest('form').submit(); });
+
+      $('.user-state-op').bind('click', function(){
+        var _this = $(this);
+        var text = _this.attr('state') == '0' ? '冻结' : '激活';
+        $('#jxb-message-dialog').easyDialog({
+          title: '用户状态更改提醒',
+          content: '您确定要'+ text +'该用户吗?',
+          confirmCallback: function(){
+            $.getJSON(_this.attr('link'), function(data){
+              if(data.flag) {
+                alert('更新成功, TODO: 刷新表格且不刷新页面');
+                window.location.reload();
+              }else{
+                alert('更新失败!');
+              }
+            });
+          }
+        }, 'confirm');
+        return false;
+      });
   });
 });
 </script>

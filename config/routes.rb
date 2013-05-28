@@ -433,6 +433,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.active_or_forzen_user_by_account 'active_or_forzen_user_by_account/:user_id/:op_account_id/:state', :controller => 'users', :action => 'active_or_forzen_user_by_account'
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
     account.files 'files', :controller => 'accounts', :action => 'create_file'
     account.redirect 'redirect', :controller => 'accounts', :action => 'redirect'
