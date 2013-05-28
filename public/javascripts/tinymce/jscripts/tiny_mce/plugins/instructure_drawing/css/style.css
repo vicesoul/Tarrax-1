@@ -8,7 +8,7 @@
 .setLineSize > div,.setBrushSize > div{float: left;width: 100px;margin: 0 0 0 20px;}
 .setLineSize input,.setBrushSize input{width: 30px;margin: 0 0 0 20px;}
 .color_setting {position: absolute; top: 30px; right: 25px; z-index: 0;}
-.color_setting input[type="button"]:focus;{outline:none;}
+.color_setting input[type="button"]:focus{outline:none;}
 
 .color_setting.toolSet-line {top:30px;}
 .color_setting.toolSet-line input[type="button"]{float: left;width: 30px;height: 200px;background: url("/images/jxb/painter-pen.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}

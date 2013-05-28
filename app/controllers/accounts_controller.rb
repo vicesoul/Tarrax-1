@@ -57,13 +57,13 @@ class AccountsController < ApplicationController
     @attachment.save
     
     respond_to do |format|
-      format.json { render :json => { :url => account_file_preview_path(@context, @attachment) }.to_json }
+      format.json { render :json => { :url => account_file_preview_path(@context, @attachment) }.to_json , :content_type=>'text/html'}
     end
   end
 
   def redirect
     account = Account.find params[:account_id]
-    redirect_to root_url(:subdomain => account.subdomain)
+    redirect_to root_url(:subdomain => account.subdomain) 
   end
 
   # @API List associated accounts

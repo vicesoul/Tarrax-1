@@ -726,11 +726,10 @@ define([
             }
 
           });
-
+          
           Global.quizzes.popHover($(this), i);
 
         });
-
         // ****** when reload, redraw the lines
         $(this).find(".word_center").each(function(){
           var $wordCenter = $(this);
@@ -759,23 +758,29 @@ define([
             y2 = $nodeB.position().top + $nodeB.height()/2 + 5,
             x1 = $nodeA.position().left + $nodeA.width() + 10,
             y1 = $nodeA.position().top + $nodeA.height()/2 + 5,
+            offx1 = $nodeA.offset().left + $nodeA.width() + 10,
+            offy1 = $nodeA.offset().top + $nodeA.height()/2 + 5,
+            offx2 = $nodeB.offset().left - 10,
+            offy2 = $nodeB.offset().top + $nodeB.height()/2 + 5,
             line = paper.path("M" + x1 + " " + y1 + "L" + x2 + " " + y2);
 
+          var dragLine = Global.quizzes.dragLine;
           line
             .attr({
-              "stroke": "#08c",
+              "stroke": Global.quizzes.strokeColor,
               "stroke-width": Global.quizzes.lineWidth
             })
+            .drag( dragLine.move, dragLine.start, dragLine.up(deleLine, $active, $end) )
             .click(function(e){
               e.stopPropagation();
               resetToolTip( $toolTip, paper );
-              this.attr({"stroke-dasharray": "- "});
+              this.attr({"stroke": Global.quizzes.strokeChosenColor});
               $toolTip
-                .show()
                 .css({
-                  left: e.pageX,
-                  top: e.pageY
-                });
+                  left: e.pageX || (offx1 + offx2)/2,
+                  top: e.pageY || (offy2 + offy2)/2 + 20
+                })
+                .show();
               $toolTip.find("button:first").bind( "click", deleLine(this, $active, $end) );
             });
 
@@ -813,8 +818,9 @@ define([
           imageSrc = $question.find(".connecting_on_pic_image").text(),
           positionData = stringToObject( $question.find(".connecting_on_pic_position").text() ),
           $answers = $question.find(".answers"),
-          $factory = $("<div class='factory'><div class='main'><div class='bg'></div></div></div>"),
+          $factory = $("<div class='factory'><div class='main'><div class='bg'></div><div class='lines'></div></div></div>"),
           $main = $factory.find(".main"),
+          $lines = $factory.find(".main .lines"),
           $toolTip = $("#toolTip").bind("click", function(e){ e.stopPropagation(); });
 
 
@@ -826,11 +832,13 @@ define([
         var defaultHeight = 500;
         var factoryWidth = parseFloat( $factory.width() );
         var mainHeight = ( defaultHeight / defaultWidth ) * factoryWidth;
-        var paper = Raphael( $main[0], $answers.width(), mainHeight );
+        var paper = Raphael( $lines[0], $answers.width(), mainHeight );
         $main.css({
           height: mainHeight
         });
         
+
+
         //$answers.css( "height", 500 );
 
         // reload image
@@ -840,7 +848,7 @@ define([
         // reload balls
         $.each(positionData, function(i,val){
           var text = val.text ? val.text : "";
-          var $ball = $(tpl.ball);
+          var $ball = $(tpl.factory.ball);
           var color = val.Grey ? "grey" : "yellow";
           var oritation = val.Grey ? "left" : "right";
           $ball.addClass(color)
@@ -858,6 +866,7 @@ define([
             .appendTo( $main )
             .bind( "click", ballHandle($question, paper, $toolTip) );
         });
+
 
         updateLines($question, paper, $toolTip);
 
