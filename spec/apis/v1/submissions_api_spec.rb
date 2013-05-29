@@ -1233,7 +1233,7 @@ describe 'Submissions API', :type => :integration do
   end
 
   it "should allow submitting points" do
-    submit_with_grade({ :grading_type => 'points', :points_possible => 15 }, '13.2', 13.2, '13.2')
+    submit_with_grade({ :grading_type => 'points', :points_possible => 15 }, '13.2', 13.2, '13.20')
   end
 
   it "should allow submitting points above points_possible (for extra credit)" do
@@ -1241,7 +1241,7 @@ describe 'Submissions API', :type => :integration do
   end
 
   it "should allow submitting percent to a points assignment" do
-    submit_with_grade({ :grading_type => 'points', :points_possible => 15 }, '50%', 7.5, '7.5')
+    submit_with_grade({ :grading_type => 'points', :points_possible => 15 }, '50%', 7.5, '7.50')
   end
 
   it "should allow submitting percent" do
