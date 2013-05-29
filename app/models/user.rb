@@ -577,6 +577,19 @@ class User < ActiveRecord::Base
             end
             # remove from list of existing for non-incremental
             current_associations.delete(key) unless incremental
+
+            unless staff_attributes.blank?
+              association_obj = UserAccountAssociation.find(association[0])
+              staff_attributes.each do |key, value|
+                if key.to_s == 'tags'
+                  association_obj.tag_list = value unless value.blank?
+                else
+                  association_obj.__send__("#{key}=", value) unless value.blank?
+                end
+              end
+              association_obj.save
+            end
+
           end
         end
       end

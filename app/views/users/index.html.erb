@@ -64,7 +64,7 @@
             <%= get_user_associated_accounts(user, params[:account_id]) %>
           <td><%= user_account_association.job_number %></td>
           <td><%= user_account_association.call_or_mock('job_position', 'name') %></td>
-          <td><%= user_account_association.external == 'true' ? 'yes' : 'no' %></td>
+          <td><%= user_account_association.external == true ? 'yes' : 'no' %></td>
           <td><%= user_account_association.tag_list %></td>
           <td><%= user_account_association.source %></td>
         </tr>

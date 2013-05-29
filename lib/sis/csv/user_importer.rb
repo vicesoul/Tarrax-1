@@ -46,7 +46,14 @@ module SIS
                 row['password'], 
                 row['ssha_password'], 
                 row['account'],
-                row['enrollment_type']
+                row['enrollment_type'],
+                row['birthday'],
+                row['mobile_phone'],
+                row['job_number'],
+                row['job_position'],
+                row['external'],
+                row['tags'],
+                row['state']
               )
             rescue ImportError => e
               messages << "#{e}"
