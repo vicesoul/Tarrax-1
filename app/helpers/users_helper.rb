@@ -21,11 +21,11 @@ module UsersHelper
   def format_state state
     case state
     when 0
-      'Actived'
+      t('#rails_helper.user_state.actived', 'Actived')
     when 1
-      'Be frozen'
+      t('#rails_helper.user_state.be_frozen', 'Be frozen')
     when 2
-      'Frozen'
+      t('#rails_helper.user_state.frozen', 'Frozen')
     end
   end
 

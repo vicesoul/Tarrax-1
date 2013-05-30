@@ -35,8 +35,8 @@
         <td class="job_number"><%=h user_account_association.job_number %></td>
       </tr>
       <tr>
-        <th><%= before_label('job_position', 'Job Position') %></th>
-        <td class="job_position"><%=h user_account_association.call_or_mock('job_position', 'name') %></td>
+        <th><%= before_label('job_position_id', 'Job Position') %></th>
+        <td class="job_position_id"><%=h user_account_association.call_or_mock('job_position', 'name') %></td>
       </tr>
       <tr>
         <th><%= before_label('external', 'Is External') %></th>
@@ -138,8 +138,8 @@
       <tr>
         <td><%= f.blabel :external, :en => "Is external" %></td>
         <td>
-          <%= f.radio_button :external, 'false' %>Internal
-          <%= f.radio_button :external, 'true' %>External
+          <%= f.radio_button :external, 'false' %><%= t 'internal', 'Internal' %>
+          <%= f.radio_button :external, 'true' %><%= t 'external', 'External' %>
         </td>
       </tr>
       <tr>

@@ -39,36 +39,33 @@
         <td><%= f.blabel :birthday, :en => "Birthday" %></td>
         <td>
           <%= f.text_field :birthday %>
-          <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Birthday, such as '1980-01-01'.") %></div>
+          <div style="font-size: 0.8em; color: #888;"><%= t('birthday_help', "Birthday, such as '1980-01-01'.") %></div>
         </td>
       </tr>
       <tr>
         <td><%= f.blabel :mobile_phone, :en => "Mobile Phone" %></td>
         <td>
           <%= f.text_field :mobile_phone %>
-          <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Mobile phone, must be 13 bytes") %></div>
+          <div style="font-size: 0.8em; color: #888;"><%= t('mobile_phone_help', "Mobile phone, must be 13 bytes") %></div>
         </td>
       </tr>
       <tr>
         <td><%= f.blabel :job_number, :en => "Job Number" %></td>
         <td>
           <%= f.text_field :job_number %>
-          <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Job number.") %></div>
         </td>
       </tr>
       <tr>
         <td><%= f.blabel :job_position_id, :en => "Job Position" %></td>
         <td>
           <%= f.select :job_position_id, @account.root_account.job_positions.map{|j| [j.name, j.id]}, { :include_blank => true } %>
-          <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Job position.") %></div>
         </td>
       </tr>
       <tr>
         <td><%= f.blabel :external, :en => "Is external" %></td>
         <td>
-          <%= f.radio_button :external, 'false', {:checked => true} %> Internal
-          <%= f.radio_button :external, 'true' %> External
-          <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Is external staff?") %></div>
+          <%= f.radio_button :external, 'false', {:checked => true} %><%= t 'internal', 'Internal' %>
+          <%= f.radio_button :external, 'true' %><%= t 'external', 'External' %>
         </td>
       </tr>
       <tr>
@@ -76,7 +73,6 @@
         <td>
           <%= f.text_field :tags %>
           <%= render :partial => 'shared/tag_selector' %>
-          <div style="font-size: 0.8em; color: #888;"><%= t('tim', "Your staff tags.") %></div>
         </td>
       </tr>
       <tr>

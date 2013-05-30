@@ -1,5 +1,45 @@
 --- 
 zh-CN: 
+  rails_helper:
+    user_state:
+      actived: 激活的
+      be_frozen: 被冻结的
+      frozen: 自己冻结的
+  job_positions:
+    index:
+      new_job_position: 创建新岗位
+      job_position_category_management: 岗位分类管理
+      table_headings:
+        id: 编号
+        code: 代码
+        name: 名称
+        job_position_category: 岗位分类
+        rank: 等级
+        op: 操作
+      buttons:
+        edit: 修改
+      empty_job_position: 没有岗位信息
+    form:
+      labels:
+        id: 编号
+        code: 代码
+        name: 名称
+        job_position_category_id: 岗位分类
+        rank: 等级
+      select_category_tip: 请选择岗位分类
+  job_position_category:
+    index:
+      buttons:
+        edit: 修改
+      table_headings:
+        id: 编号
+        name: 名称
+        op: 操作
+      new_category: 创建新的岗位分类
+      empty_category: 没有岗位分类信息
+    form:
+      labels:
+        name: 名称
   EditAppointmentGroupDetails: 
     affect_reservations: 这对预约有何影响?
     and_n_contexts: "和其他 %{n} 个人"
@@ -273,11 +313,21 @@ zh-CN:
       add_course_link: 添加新课程
       add_user_button: 添加新用户
       add_user_link: 添加新用户
+      birthday_help: "生日格式为: '1980-01-01'"
+      mobile_phone_help: 手机必须为13位
       course_category_tip: 请选择课程类型
       display_name_help: 在讨论、消息和评论中可见。
       full_name_description: 教师评分时显示名称。
+      internal: 内部
+      external: 外部
       labels: 
         account_id: 网校
+        birthday: 生日
+        mobile_phone: 手机
+        job_number: 工号
+        job_position_id: 岗位
+        external: 是否为外部人员
+        tags: 标签
         course_category_id: 课程分类
         enrollment_term_id: 学期
         full_name: 姓名
@@ -448,6 +498,7 @@ zh-CN:
       confirm_turnitin_settings_link: "确认 Turnitin 设置"
       create_courses_description: （网校管理员可随时创建课程）
       create_courses_title: 谁可以创建新课程
+      job_position_management_fieldset: 岗位管理
       custom_links_to_include_in_the_help_dialog_popup: 定制链接以包含帮助对话框弹出窗口
       default_language_description: 将覆盖所有浏览器/操作系统的语言设置。还可在课程/用户级管理中进行首选的语言设置。
       delete: 删除
@@ -10126,11 +10177,15 @@ zh-CN:
     set_grades_button: 设置默认评分
     set_grades_button_loading: 正在设置评分...
   shared: 
+    tag_selector:
+      tags_tip: 选择已有标签
+      split_tip: 用半角逗号分开
     account_notification: 
       close: 关闭
     accounts_right_side_shared: 
       buttons: 
         go: 执行
+      account_query_tip: 请选择组织架构进行查询
       titles: 
         find_user: 查找用户
     accounts_secondary_content: 
@@ -11364,10 +11419,25 @@ zh-CN:
         user_groups: 查看用户组
       crumbs: 
         users: 用户
+      empty_users: 没有人员信息
       labels: 
         show_users_for_term: 显示在学期内注册的用户
       no_results_found: 未找到结果
+      js:
+        user_state_modify_tip: 用户状态更改提醒
+        edit_confirm_to_freeze: "您确定要冻结该用户吗?"
+        edit_confirm_to_active: "您确定要激活该用户吗?"
+        update_failure: 更新失败
+        update_successfully: 更新成功
       search_for_user: "%{user_name} 的用户搜索结果"
+      table_headings:
+        name: 人员名
+        account: 组织架构
+        job_number: 工号
+        job_position: 岗位
+        is_external: 是否为外部人员
+        tags: 标签
+        source: 来源
       titles: 
         all_users: 所有用户
         choose_term: 选择学期
@@ -11428,8 +11498,18 @@ zh-CN:
       buttons: 
         update_details: 更新详细信息
       delete_from_account: "从 %{account} 删除"
+      external: 外部
+      internal: 内部
       edit: 编辑
       labels: 
+        birthday: 生日
+        mobile_phone: 手机
+        job_number: 工号
+        job_position_id: 岗位
+        external: 是否为外部人员
+        tags: 标签
+        source: 来源
+        state: 状态
         default_email: 默认电子邮件
         display_name: 显示名称
         full_name: 姓名

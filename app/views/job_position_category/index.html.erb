@@ -1,14 +1,14 @@
 
 <div>
-  <div><a href="<%= new_account_job_position_category_url %>">Add a new category</a></div>
+  <div><a href="<%= new_account_job_position_category_url %>"><%= t 'new_category', 'Add a New Category'%></a></div>
 
   <% unless @categories.blank? %>
     <table>
       <thead>
         <tr>
-          <td width="100px">ID</td>
-          <td width="100px">Name</td>
-          <td>Op</td>
+          <td width="100px"><%= t 'table_headings.id', 'ID'%></td>
+          <td width="100px"><%= t 'table_headings.name', 'Name' %></td>
+          <td><%= t 'table_headings.op', 'Operation' %></td>
         </tr>
       </thead>
       <tbody>
@@ -16,12 +16,12 @@
           <tr>
             <td><%= c.id %></td>
             <td><%= c.name %></td>
-            <td><a href="<%= edit_account_job_position_category_url(params[:account_id], c.id) %>">edit</a></td>
+            <td><a href="<%= edit_account_job_position_category_url(params[:account_id], c.id) %>"><%= t 'buttons.edit', 'Edit'%></a></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   <% else %>
-    Empty Category
+    <%= t 'empty_category', 'Empty job position category' %>
   <% end %>
 </div>
