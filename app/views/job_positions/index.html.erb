@@ -9,7 +9,7 @@
     <%= link_to t('job_position_category_management', 'Job position category management'), account_job_position_categories_path %>
   </div>
   <% unless @job_positions.blank? %>
-  <table>
+  <table class="table table-striped table-bordered">
     <thead>
       <tr>
         <td width="50px"><%= t('table_headings.id', 'ID') %></td>
