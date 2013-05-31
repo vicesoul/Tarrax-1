@@ -72,6 +72,7 @@ module Api::V1::User
         end
       end
 
+      json[:job_position_name] = JobPosition.find(user.job_position_id).name unless user.job_position_id.blank?
       json[:birthday] = user.birthday if user.birthday
       json[:mobile_phone] = user.mobile_phone if user.mobile_phone
 
