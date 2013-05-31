@@ -25,8 +25,9 @@ define([
   'jquery',
   'str/htmlEscape',
   'quizzes_new',
+  'i18n!account_homepage',
+  // 'compiled/bundles/account_homepage',
   'jqueryui/dialog',
-  'jqueryui/easyDialog',
   'jquery.form',
   'jquery.instructure_misc_helpers'
 

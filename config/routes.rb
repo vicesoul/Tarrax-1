@@ -459,9 +459,12 @@ ActionController::Routing::Routes.draw do |map|
     account.resources :users
     account.resources :pages, :controller => 'jxb/pages' do |page|
       #page.widget 'widget', :action => 'widget', :controller => 'jxb/pages'
+      page.update_theme 'update_theme/:theme', :controller => 'jxb/pages', :action => 'update_theme'
       page.resources :widgets, :controller => 'jxb/widgets'
     end
+    #account.update_theme 'update_theme/:theme', :controller => 'jxb/pages', :action => 'update_theme'
     account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
+    account.reset_homepage  'reset_homepage', :controller => 'accounts', :action => 'reset_homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)
     account.resources :assignments

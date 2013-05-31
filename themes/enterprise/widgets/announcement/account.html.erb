@@ -9,7 +9,12 @@
         <div class=<%= v_ticker_class %>>
           <ul class="account_announcement">
           <% @announcements.each do |announcement| %>
-            <li><div class="inner"><%= announcement.subject %><span><%= announcement.start_at.strftime("%m-%d") if announcement.start_at %></span></div></li>
+            <li>
+              <div class="inner">
+                <a href="#" onclick="return false" title="<%= strip_tags announcement.message %>"><%= announcement.subject %></a>
+                <span><%= announcement.start_at.strftime("%m-%d") if announcement.start_at %></span>
+              </div>
+            </li>
           <% end %>
           </ul>
         </div>

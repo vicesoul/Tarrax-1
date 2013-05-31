@@ -1,11 +1,40 @@
 #left-side
-  float: left
-  width: $left_side_width
-  border-bottom: solid 1px #ccc
-  display: none
-  .blue-bar
-    :margin-bottom 0
+	float: left
+	width: $left_side_width
+	border-bottom: solid 1px #ccc
+	display: none
+	.blue-bar
+		margin-bottom: 0
 
 #section-tabs li.hidden a
-  color: #bbb
+	color: #bbb
 
+body.homepage #left-side
+	background-color: #054f98
+	overflow: visible
+	>.inner
+		padding: 8px
+		ul#homepage-editor-left-side
+			padding: 0
+			margin: 8px 0
+			list-style: none
+			+pie-clearfix
+
+			li
+				float: left
+				z-index: 11
+				width: 76px
+				height: 76px
+				background: #0669cd
+				margin: 0 0 8px
+				color: #8acaf5
+				text-align: center
+				&:nth-child(2n+2)
+					float: right
+		h3
+			background: #0669cd
+			margin-bottom: 8px
+			color: #8acaf5
+			font-size: 14px
+			text-indent: 1em
+			padding: 6px 0

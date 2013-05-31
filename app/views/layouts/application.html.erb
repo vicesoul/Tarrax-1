@@ -16,7 +16,7 @@
       left_side_custom = yield :left_side_custom
       @show_left_side ||= (section_tabs.length > 0 || left_side_custom.try(:length))
     end
-    @body_classes << "with-left-side" if @show_left_side
+    @body_classes << "with-left-side" if @show_left_side || @show_homepage_left_editor_side
     #we dont want to render a right side unless there is actually content in it.
     @body_classes << "with-right-side" if right_side and not right_side.strip.empty?
     @body_classes << "padless-content" if @padless
@@ -197,6 +197,41 @@
         </div>
       <% end %>
     </div>
+    <% elsif @show_homepage_left_editor_side && @can_manage_homepage %>
+      <div id="left-side" class="list-view homepage-editable">
+        <div class="inner">
+          <h3>添加组件</h3>
+          <div>
+            <ul id="homepage-editor-left-side">
+              <li class="editor-component" cpType="custom_index">自定义组件</li>
+              <li class="editor-component" cpType="activity_index">活动照片</li>
+              <li class="editor-component" cpType="announcement_index">课程公告</li>
+              <li class="editor-component" cpType="discussion_index">讨论列表</li>
+              <li class="editor-component" cpType="assignment_index">作业列表</li>
+              <li class="editor-component" cpType="announcement_account">网校公告</li>
+              <li class="editor-component" cpType="logo_index">Logo</li>
+              <li class="editor-component" cpType="course_index">课程列表</li>
+            </ul>
+          </div>
+          <h3>更换主题</h3>
+          <div>
+            <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
+              <%= f.hidden_field :background_image %>
+              <%= before_label(:name, 'Theme name') %>
+              <%= f.select :theme, Jxb::Theme.themes %>
+            <% end %>
+          </div>
+          <h3>更换背景</h3>
+          <div>
+            <%= link_to t(:change_background, 'Change background'), 'javascript:void(0)', :id => 'link_to_change_background_dialog' %><br />
+          </div>
+          <h3>其他选项</h3>
+          <div>
+            <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %><br />
+            <%= link_to t(:reset_homepage, 'Reset homepage'), account_reset_homepage_path(@account), :id => 'reset_homepage' %>
+          </div>
+        </div>
+      </div>
     <% end %>
     <div id="main">
       <%= yield :main %>

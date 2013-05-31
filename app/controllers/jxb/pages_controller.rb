@@ -66,6 +66,20 @@ class Jxb::PagesController < ApplicationController
     end
   end
 
+  def update_theme
+    if authorized_action(@account, @current_user, nil, :manage_homepage)
+      page = Jxb::Page.find_by_context_id_and_context_type(params[:account_id], params[:context_type])
+      page.theme = params[:theme]
+      respond_to do |format|
+        if page.save
+          format.json {render :json => {:flag => true}.to_json}
+        else
+          format.json {render :json => {:flag => false}.to_json}
+        end
+      end
+    end
+  end
+
   # DELETE /jxb_pages/1
   # DELETE /jxb_pages/1.xml
   def destroy

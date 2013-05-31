@@ -11,7 +11,6 @@ require [
   'jqueryui/easyDialog'
   'quizzes_new'
 ], ($, I18n)->
-  
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
     $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
@@ -69,11 +68,16 @@ require [
           $widget.addClass('editable')
         $(this).append $editImg
 
-  makePositionClickable = ->
-    $(".theme_edit [data-position]").click ->
-     $(".theme_edit .position_selected").removeClass "position_selected"
-     $(this).addClass "position_selected"
-     $(this).effect('highlight', {}, 500)
+  makePositionClickable = ($tipA) ->
+    
+    $(".theme_edit [data-position]").bind(
+      click: ->
+        $(".theme_edit .position_selected").removeClass "position_selected"
+        $(this).addClass "position_selected"
+        $(this).effect('highlight', {}, 3000)
+        #dblclick: ->
+          #$('#add_widget_dialog').dialog();
+    )
 
   makePositionUnclickable = ->
     $("[data-position]").unbind 'click'
@@ -84,7 +88,9 @@ require [
     $(".edit_widget").remove()
 
   $ ->
-    
+
+    $('#jxb_page_theme').prop('defaultSelected', $('#jxb_page_theme').val())
+
     $("#content").css("overflow", "scroll")
 
     $(".sortable").sortable(
@@ -160,28 +166,112 @@ require [
     $("#delete_background_image").click ->
       $("#background_image_holder").html ''
 
+    $('#reset_homepage').click ->
+      _this = $(this)
+      $('#jxb-message-dialog').easyDialog({
+        content: '您确定要重置主页吗？该操作是不可逆的!'
+        confirmButtonClass: 'btn-primary'
+        confirmCallback: ->
+          window.location.href = _this.attr('href')
+      }, 'confirm')
+      return false
+
     # make disable default
     $(".sortable").sortable("disable")
 
     $(".edit_theme_link").click ->
-      $('#fixed_right_sider').draggable()
-      $(this).hide()
-      $("#content-wrapper").addClass("theme_edit")
-      $("form.edit_jxb_page").show()
-      $(".sortable").sortable("enable")
-      makeWidgetsDeletable()
-      makePositionClickable()
+      $('form.edit_jxb_page').submit()
+      #$('#fixed_right_sider').draggable()
+      #$(this).hide()
+      #$("#content-wrapper").addClass("theme_edit")
+      #$("form.edit_jxb_page").show()
+      #$(".sortable").sortable("enable")
+      #$("#add_widget").draggable(
+        #connectToSortable: ".sortable"
+        #helper: "clone"
+        #revert: "invalid"
+      #)
+      #makeWidgetsDeletable()
+      #makePositionClickable()
+
+
+    $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
+    $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
+    $tipA.add($tipB).appendTo("body").hide()
+
+    $(".theme_edit [data-position]").live(
+      mouseenter: ->
+        position = $(this).offset()
+        w = $tipA.width()
+        $tipA.show().css({
+          left: position.left - w
+          top: position.top
+          })
+
+      mouseleave: ->
+        $tipA.hide()
+    )
+
+    $(".theme_edit .box_head").live(
+      mouseenter: ->
+        position = $(this).offset()
+
+        $tipB.show().css({
+          left: position.left
+          top: position.top - 15
+          })
+
+      mouseleave: ->
+        $tipB.hide()
+    )
 
     $("form.edit_jxb_page button.cancel").click ->
-      $(".sortable").sortable("cancel")
-      $(".sortable").sortable("disable")
-      revertWidgets()
-      $("#content-wrapper").removeClass("theme_edit")
-      $("form.edit_jxb_page").hide()
-      $(".jxb_page_position").remove()
-      $(".new_widget").remove()
-      $(".edit_theme_link").show()
-      makePositionUnclickable()
+      fn = ->
+        $(".sortable").sortable("cancel")
+        $('[data-position]').find('.add_widget_icon').remove()
+        $(".sortable").sortable("disable")
+        revertWidgets()
+        $("#content-wrapper").removeClass("theme_edit")
+        $("form.edit_jxb_page").hide()
+        $(".jxb_page_position").remove()
+        $(".new_widget_ajax").remove()
+        $(".edit_theme_link").show()
+        makePositionUnclickable()
+
+      if $(".new_widget_ajax").size() != 0
+        $('#jxb-message-dialog').easyDialog({
+          confirmButton: '请帮我取消'
+          confirmButtonClass: 'btn-primary'
+          content: '您有新添加的组件未保存<br/ ><br />确定要取消之前所有的编辑操作吗？'
+          confirmCallback: fn
+        }, 'confirm')
+      else
+        fn()
+      return false
+
+    #themes selector onchange  
+    $('#jxb_page_theme').bind({
+      change: ->
+        $('#jxb-message-dialog').easyDialog({
+          confirmButton: '确定'
+          confirmButtonClass: 'btn-primary'
+          content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
+          confirmCancelCallback: ->
+            $('#jxb_page_theme').val($('#jxb_page_theme').prop('defaultSelected'))
+          confirmCallback: ->
+            $.ajaxJSON(
+              $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
+              'post',
+              {},
+              (data) ->
+                if data.flag
+                  window.location.reload()
+                else
+                  alert '更换主题失败，请重试!'
+
+            )
+        }, 'confirm')
+    })
 
     $("#add_widget").click ->
       name = $("#widget_name").val()
@@ -236,29 +326,107 @@ require [
           afterUploadedImageSuccess()
       )
 
-  # window.afterUploadedImageSuccess = ->
-  #   $('<div></div>').easyDialog({
-  #     modal: true
-  #     content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
-  #     close: ( event, ui )->
-  #         $(this).remove()
-  #   })
+      #tooltip
+      $('.account_announcement, #add_widget').tooltip({
+        position: { my: "left bottom+30", at: "left bottom" }
+        })
 
-  # window.validateUploadedImage = (imageVal)->
-  #   flag = true
-  #   content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty')
-  #   if imageVal == ''
-  #     flag = false
-  #   else if !(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test imageVal)
-  #     content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct')
-  #     flag = false
-  #   unless flag
-  #     $('<div></div>').easyDialog({
-  #       modal: true
-  #       content: content
-  #       open: ( event, ui )->
-  #         alert("open")
-  #       close: ( event, ui )->
-  #         $(this).remove()
-  #     })
-  #   return flag
+    initSaveButton = ->
+      $('form.edit_jxb_page').show()
+      #$('#fixed_right_sider').draggable()
+      #$(this).hide()
+      $("form.edit_jxb_page").show()
+      $(".sortable").sortable("enable")
+      #$("#add_widget").draggable(
+        #connectToSortable: ".sortable"
+        #helper: "clone"
+        #revert: "invalid"
+      #)
+      
+      unless $('.homepage-editable').size() == 0
+        $("#content-wrapper").addClass("theme_edit")
+        makeWidgetsDeletable()
+        makePositionClickable()
+
+      #############################
+      return
+      ############################
+
+    $(document).ready(
+      ->
+
+        initSaveButton()
+
+        $('.editor-component').draggable(
+          helper: "clone"
+          revert: "invalid"
+        )
+
+        # drag to logo
+        $('.editor-component[cptype=logo_index]').draggable( "option", "connectToSortable", ".sortable[data-position=caption]" );
+
+        # drag to left
+        $('.editor-component[cptype=activity_index],' +
+          '.editor-component[cptype=announcement_index],' +
+          '.editor-component[cptype=assignment_index],' +
+          '.editor-component[cptype=discussion_index],' +
+          '.editor-component[cptype=course_index]').draggable( "option", "connectToSortable", ".sortable[data-position=center]" );
+
+        # drag to left & right
+        $('.editor-component[cptype=custom_index]').draggable( "option", "connectToSortable", $(".sortable[data-position=right], .sortable[data-position=center]") );
+
+        # drag to right
+        $('.editor-component[cptype=announcement_account]').draggable( "option", "connectToSortable", ".sortable[data-position=right]" );
+
+        $(".sortable").sortable(
+          revert: true
+          forceHelperSize: true
+          cancel: "a,button,li"
+          stop: (event, ui) ->
+            if !ui.item.is("[data-widget^=custom]") and !ui.item.is("[cptype]") 
+              if $(event.target).attr("data-position") is "right" and ui.item.closest(".sortable").is("[data-position=center]") or $(event.target).attr("data-position") is "center" and ui.item.closest(".sortable").is("[data-position=right]")
+                return false
+            else if ui.item.hasClass 'editor-component'
+              name = ui.item.attr('cpType')
+
+              $context = ui.item
+              $container = ui.item.prev()
+              _this = $(this)
+              $.ajax(
+                url: $("#widget_url").val()
+                data: { name:name }
+                beforeSend: () ->
+              ).success (data)->
+                $data = $(data).addClass("new_widget_ajax")
+
+                if $container.length == 0
+                  $container = _this.find('[data-widget]:first')
+                  if $container.length == 0
+                    _this.append($data)
+                  else
+                    $container.before($data)
+                else
+                  $container.after($data)
+                $('[data-position]').find('.editor-component').remove()
+                $(".sortable").sortable()
+                makeWidgetsDeletable()
+                $('body').animate({
+                  scrollTop: $data.offset().top
+                }, 500, -> $data.effect('highlight', {}, 500) )
+            
+        )
+        
+        # left to right or right to left
+        $( ".sortable[data-position=right]" ).sortable( "option", "connectWith", ".sortable[data-position=center]" )
+        $( ".sortable[data-position=center]" ).sortable( "option", "connectWith", ".sortable[data-position=right]" )
+
+        # others stay in their own area
+        $( ".sortable[data-position=logo]" ).sortable( "option", "connectWith", ".sortable[data-position=logo]" )
+        $( ".sortable[data-position=nav]" ).sortable( "option", "connectWith", ".sortable[data-position=nav]" )
+        $( ".sortable[data-position=caption]" ).sortable( "option", "connectWith", ".sortable[data-position=caption]" )
+        $( ".sortable[data-position=phone]" ).sortable( "option", "connectWith", ".sortable[data-position=phone]" )
+
+
+
+        ##################################
+    )
