@@ -168,7 +168,7 @@ require [
 
     $('#reset_homepage').click ->
       _this = $(this)
-      $('#jxb-message-dialog').easyDialog({
+      $('<div></div>').easyDialog({
         content: '您确定要重置主页吗？该操作是不可逆的!'
         confirmButtonClass: 'btn-primary'
         confirmCallback: ->
@@ -239,7 +239,7 @@ require [
         makePositionUnclickable()
 
       if $(".new_widget_ajax").size() != 0
-        $('#jxb-message-dialog').easyDialog({
+        $('<div></div>').easyDialog({
           confirmButton: '请帮我取消'
           confirmButtonClass: 'btn-primary'
           content: '您有新添加的组件未保存<br/ ><br />确定要取消之前所有的编辑操作吗？'
@@ -252,7 +252,7 @@ require [
     #themes selector onchange  
     $('#jxb_page_theme').bind({
       change: ->
-        $('#jxb-message-dialog').easyDialog({
+        $('<div></div>').easyDialog({
           confirmButton: '确定'
           confirmButtonClass: 'btn-primary'
           content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
