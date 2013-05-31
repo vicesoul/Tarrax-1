@@ -43,7 +43,7 @@
 <% unless @users.blank? %>
   <%= will_paginate(@users, :style=>"margin-bottom: 1em;") %>
 
-  <table border="1">
+  <table border="1" class="table table-striped ">
     <thead>
       <tr>
         <td width="200px"><%= t 'table_headings.name', 'Name' %></td>

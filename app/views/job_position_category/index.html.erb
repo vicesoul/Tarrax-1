@@ -3,7 +3,7 @@
   <div><a href="<%= new_account_job_position_category_url %>"><%= t 'new_category', 'Add a New Category'%></a></div>
 
   <% unless @categories.blank? %>
-    <table>
+    <table class="table table-striped table-bordered">
       <thead>
         <tr>
           <td width="100px"><%= t 'table_headings.id', 'ID'%></td>
