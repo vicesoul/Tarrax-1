@@ -443,6 +443,16 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def context_is_root_account_filter
+    raise 'Context is not an account' unless @context.is_a?(Account)
+    if @context.root_account?
+      true
+    else
+      render :text => t('#rails_helper.action_must_be_called_on_root_account', 'Action must be called on a root account.')
+      false
+    end
+  end
+
   # This is used by a number of actions to retrieve a list of all contexts
   # associated with the given context.  If the context is a user then it will
   # include all the user's current contexts.
