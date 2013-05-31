@@ -1,10 +1,15 @@
 class JobPositionsController < ApplicationController
   before_filter :get_context
+  before_filter :auth
+  before_filter :context_is_root_account_filter
 
   @show_left_side = true
   
   add_crumb(proc{t('#accounts.settings.job_position_management_fieldset', 'Job position management')}, :account_job_positions_path)
 
+  def auth
+    authorized_action(@context, @current_user, :manage_account_settings)
+  end
   # GET /job_positions
   # GET /job_positions.xml
   def index
@@ -15,17 +20,6 @@ class JobPositionsController < ApplicationController
       format.xml  { render :xml => @job_positions }
     end
   end
-
-  # GET /job_positions/1
-  # GET /job_positions/1.xml
-  #def show
-    #@job_position = JobPosition.find(params[:id])
-
-    #respond_to do |format|
-      #format.html # show.html.erb
-      #format.xml  { render :xml => @job_position }
-    #end
-  #end
 
   # GET /job_positions/new
   # GET /job_positions/new.xml
@@ -75,15 +69,4 @@ class JobPositionsController < ApplicationController
     end
   end
 
-  # DELETE /job_positions/1
-  # DELETE /job_positions/1.xml
-  #def destroy
-    #@job_position = JobPosition.find(params[:id])
-    #@job_position.destroy
-
-    #respond_to do |format|
-      #format.html { redirect_to(job_positions_url) }
-      #format.xml  { head :ok }
-    #end
-  #end
 end

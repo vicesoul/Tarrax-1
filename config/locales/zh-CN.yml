@@ -1,6 +1,7 @@
 --- 
 zh-CN: 
   rails_helper:
+    action_must_be_called_on_root_account: 只有顶级组织架构才能执行改操作
     user_state:
       actived: 激活的
       be_frozen: 被冻结的

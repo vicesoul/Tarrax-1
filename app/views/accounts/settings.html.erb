@@ -458,12 +458,17 @@
             <% end %>
           </fieldset>
 
+        <% end %>
+
+        <% if @account.root_account? && can_do(@context, @current_user, :manage_account_settings) %>
+
           <fieldset>
             <legend><%= t('job_position_management_fieldset', 'Job Position Management')%></legend>
             <div> 
               <%= link_to t('job_position_management_fieldset', 'Job Position Management'), account_job_positions_path %>
             </div>
           </fieldset>
+
         <% end %>
 
         <div class="button-container">
