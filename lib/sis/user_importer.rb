@@ -64,12 +64,12 @@ module SIS
         user_id,
         login_id,
         status,
-        first_name,
-        last_name,
+        first_name='',
+        last_name='',
         email=nil,
         password=nil,
         ssha_password=nil,
-        account=nil,
+        account_id=nil,
         enrollment_type=nil,
         birthday=nil,
         mobile_phone=nil,
@@ -77,15 +77,16 @@ module SIS
         job_position=nil,
         external=nil,
         tags='',
-        state='0'
+        state='0',
+        ex_account_id=nil
       )
-        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state].inspect}")
+        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id].inspect}")
 
         raise ImportError, "No user_id given for a user" if user_id.blank?
         raise ImportError, "No login_id given for user #{user_id}" if login_id.blank?
         raise ImportError, "Improper status for user #{user_id}" unless status =~ /\A(active|deleted)/i
 
-        @batched_users << [user_id.to_s, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state]
+        @batched_users << [user_id.to_s, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id]
         process_batch if @batched_users.size >= @updates_every
       end
 
@@ -102,7 +103,7 @@ module SIS
           while !@batched_users.empty? && tx_end_time > Time.now
             user_row = @batched_users.shift
             @logger.debug("Processing User #{user_row.inspect}")
-            user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state = user_row
+            user_id, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id = user_row
 
             # TODO pseudonym-account
             pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id.to_s)
@@ -131,7 +132,7 @@ module SIS
             else
               user = User.new
               user.name = "#{first_name} #{last_name}" if (first_name.present? && last_name.present?)
-              user.sortable_name = last_name.present? && first_name.present? ? "#{last_name}, #{first_name}" : "#{first_name}#{last_name}"
+              user.sortable_name = (last_name.present? && first_name.present?) ? "#{last_name}, #{first_name}" : "#{first_name}#{last_name}"
             end
 
             # we just leave all users registered now
@@ -199,18 +200,18 @@ module SIS
               next
             end
 
-            if account
+            if account_id
               begin
-                associate_account = user.associated_accounts.find_by_name(account)
+                associate_account = user.associated_accounts.find(account_id)
                 staff_attributes = {
                   :job_number => job_number,
                   :external => external,
-                  :tags => tags.split(';'),
+                  :tags => tags.nil? ? '' : tags.split(';'),
                   :source => 'created',
                   :state => state 
                 }
                 unless associate_account
-                  associate_account = Account.find_by_name(account)
+                  associate_account = Account.find(account_id)
                   job_position_obj = excute_and_get_job_position(associate_account.id, job_position)
                   staff_attributes.merge!(:job_position_id => job_position_obj.id)
                   associations = User.calculate_account_associations_from_accounts([associate_account.id])
@@ -229,7 +230,7 @@ module SIS
                 }) if enrollment_type
 
               rescue => e
-                @messages << "Failed associating account #{account} and user name is #{user.blank? ? 'unknown' : user.name}, skipping."
+                @messages << "Failed associating account ID is: #{account_id} and user name is #{user.blank? ? 'unknown' : user.name}, skipping."
                 @messages << "Exception is #{e}" if RAILS_ENV == 'development'
               end
             end
