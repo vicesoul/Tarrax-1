@@ -1,4 +1,8 @@
 class JobPositionsController < ApplicationController
+  before_filter :get_context
+
+  @show_left_side = true
+
   # GET /job_positions
   # GET /job_positions.xml
   def index

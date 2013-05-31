@@ -1,5 +1,8 @@
 class JobPositionCategoryController < ApplicationController
+  before_filter :get_context
 
+  @show_left_side = true
+  
   def new
     @category = JobPositionCategory.new
   end
