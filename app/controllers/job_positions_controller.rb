@@ -2,6 +2,8 @@ class JobPositionsController < ApplicationController
   before_filter :get_context
 
   @show_left_side = true
+  
+  add_crumb(proc{t('#accounts.settings.job_position_management_fieldset', 'Job position management')}, :account_job_positions_path)
 
   # GET /job_positions
   # GET /job_positions.xml

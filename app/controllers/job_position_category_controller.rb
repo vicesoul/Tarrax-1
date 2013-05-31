@@ -1,6 +1,8 @@
 class JobPositionCategoryController < ApplicationController
   before_filter :get_context
 
+  add_crumb(proc{t('#job_positions.index.job_position_category_management', 'Job position category management')}, :account_job_position_categories_path)
+
   @show_left_side = true
   
   def new
