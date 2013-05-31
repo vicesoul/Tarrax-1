@@ -182,7 +182,7 @@ $(document).ready(function () {
       location.reload();
     }
   });
-  
+
   Global.quizzes.quizzesShow();
 
 });

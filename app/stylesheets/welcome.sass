@@ -65,6 +65,7 @@ body.welcome
           :margin 0
           li
             :float left
+            :margin-bottom -3px
             a
               padding: 5px 30px 7.5px
               margin: 6px 5px 0
@@ -144,15 +145,14 @@ body.welcome
             &:hover
               :background-position 0 -57px
   .courses
-    text-align: center
     :overflow hidden
     .inner
       :width 980px
       :margin 0 auto
       ul
-        :background url("/images/jxb/desk.png") no-repeat left bottom
+        :background url("/images/jxb/desk.jpg") no-repeat left bottom
         :overflow hidden
-        :padding 0 0 0 62px
+        :padding 0 0 0 80px
         :float left
         :width 100%
         li
@@ -161,16 +161,35 @@ body.welcome
           :overflow hidden
           a
             :display block
-            :width 206px
-            :height 180px
-            :background url("/images/jxb/books.png") no-repeat
+            :width 201px
+            :height 207px
+            :margin 0 0 86px 
+            :background url("/images/jxb/books.jpg") no-repeat
+          &.cat-1 a
+            :background-position 15px 0
+          &.cat-2 a
+            :background-position -211px 0
+          &.cat-3 a
+            :background-position -437px 0
+          &.cat-4 a
+            :background-position -663px 0
+          &.cat-5 a
+            :background-position 15px -345px
+          &.cat-6 a
+            :background-position -211px -345px
+          &.cat-7 a
+            :background-position -437px -345px
+          &.cat-8 a
+            :background-position -663px -345px
           h3
             :font-size 14px
             :color $blue
             :margin 0 0 8px
             :padding 5px
+            :text-align left
           h4
             :font-size 12px
+            :margin 8px 0 25px
             span
               :margin 0 5px
           button
@@ -181,26 +200,11 @@ body.welcome
             :margin 10px 0 86px 
             :font-size 14px
             :color #ebbba4
-        &:first-child
-          li:nth-child(100n+1) a
-            :background-position 35px 0
-          li:nth-child(100n+2) a
-            :background-position -191px 0
-          li:nth-child(100n+3) a
-            :background-position -417px 0
-          li:nth-child(100n+4) a
-            :background-position -643px 0
-        &:last-child
-          li:nth-child(100n+1) a
-            :background-position 35px -345px
-          li:nth-child(100n+2) a
-            :background-position -191px -345px
-          li:nth-child(100n+3) a
-            :background-position -417px -345px
-          li:nth-child(100n+4) a
-            :background-position -643px -345px
+            :display none
+          
   .intro
     :overflow hidden
+    :margin-bottom 50px
     .container
       ul
         :padding 0 0 0 10px

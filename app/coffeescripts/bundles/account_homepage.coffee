@@ -9,6 +9,7 @@ require [
   'tinymce.editor_box'
   'jquery.form'
   'jqueryui/easyDialog'
+  'quizzes_new'
 ], ($, I18n)->
   
   synToDialog = ($obj) ->
@@ -205,62 +206,59 @@ require [
       resetPosition()
       return true
 
-    $("#widget_image_uploader").submit ->
-      $(this).ajaxSubmit(
-        beforeSubmit: ->
-          return validateUploadedImage $("#widget_image").val()
-        success: (data)->
-          img = "<img src=" + data.url + "/>" 
-          $("#widget_body").editorBox "insert_code", img
-          $("#widget_image").val ""
-          afterUploadedImageSuccess()
-      )
-      return false
+    $("#widget_image_uploader, #background_image_uploader").submit (e)->
+      e.preventDefault()
+      $form = $(this)
+      $textUploading = $("<span>上传中...</span>")
+      $confirm = $form.find(".confirm")
 
-    $("#background_image_uploader").submit ->
-      $(this).ajaxSubmit(
+      $form.ajaxSubmit(
+        clearForm: true
+        dataType: 'json'
         beforeSubmit: ->
-          return validateUploadedImage $("#background_bg_image").val()
+          imageValidated = validateUploadedImage( $form.find("input[type=file]").val() )
+          if imageValidated 
+            $confirm.hide().after($textUploading)
+          return imageValidated;
         success: (data)->
           img = """
                 <img src="#{data.url}" />
                 """
+
+          if $form.is("#widget_image_uploader")
+            $("#widget_body").editorBox "insert_code", img
+          else
           $("#background_image_holder").html img
-          $("#background_bg_image").val ""
+          
+          $confirm.show()
+          $textUploading.remove()
+        complete: ->
           afterUploadedImageSuccess()
       )
-      return false
 
-    init = ->
-      $("#widget_image").closest("form").find("input[type=submit]").click(->
-        $('#widget_image_uploader').submit()
-      )
-      $("#background_bg_image").closest("form").find("input[type=submit]").click(->
-        $('#background_image_uploader').submit()
-      )
+  # window.afterUploadedImageSuccess = ->
+  #   $('<div></div>').easyDialog({
+  #     modal: true
+  #     content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
+  #     close: ( event, ui )->
+  #         $(this).remove()
+  #   })
 
-    validateUploadedImage = (imageVal)->
-      flag = true
-      content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty')
-      if imageVal == ''
-        flag = false
-      else if !(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test imageVal)
-        content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct')
-        flag = false
-      unless flag
-        $('#jxb-message-dialog').easyDialog({
-          modal: true
-          content: content
-        })
-      return flag
-
-    afterUploadedImageSuccess = ->
-      $('#jxb-message-dialog').easyDialog({
-        modal: true
-        content: I18n.t('#accounts.homepage.dialog.tip.uploaded_success', "Image has bean uploaded")
-      })
-
-    $(document).ready(
-      ->
-        init()
-    )
+  # window.validateUploadedImage = (imageVal)->
+  #   flag = true
+  #   content = I18n.t('#accounts.homepage.dialog.error.empty_image', 'Please confirm your image is not empty')
+  #   if imageVal == ''
+  #     flag = false
+  #   else if !(/\.(?:png|jpg|jpeg|bmp|gif)$/i.test imageVal)
+  #     content = I18n.t('#accounts.homepage.dialog.error.incorrect_image_type', 'Please confirm your image type is correct')
+  #     flag = false
+  #   unless flag
+  #     $('<div></div>').easyDialog({
+  #       modal: true
+  #       content: content
+  #       open: ( event, ui )->
+  #         alert("open")
+  #       close: ( event, ui )->
+  #         $(this).remove()
+  #     })
+  #   return flag

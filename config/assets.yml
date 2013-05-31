@@ -43,7 +43,6 @@ stylesheets:
     - public/stylesheets/compiled/g_mini_calendar.css
     - public/stylesheets/compiled/helpDialog.css
     - public/stylesheets/compiled/print.css
-    - public/stylesheets/compiled/welcome.css
   context_modules: 
     - public/stylesheets/compiled/context_modules.css
   collection_item_save:
@@ -168,13 +167,13 @@ stylesheets:
   notification_preferences:
     - public/stylesheets/compiled/notification_preferences.css
   tinymce:
+    # - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_embed/css/style.css
+    # - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/css/style.css
+    # - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/css/style.css
     - public/javascripts/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/ui.css
     - public/stylesheets/compiled/tiny_like_ck_with_external_tools.css
     - public/javascripts/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/window.css
-    - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_embed/css/style.css
-    - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_drawing/css/style.css
-    - public/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/css/style.css
-    - public/stylesheets/static/mathquill.css
+
   messages:
     - public/stylesheets/compiled/messages.css
   account_homepage:

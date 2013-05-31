@@ -1632,4 +1632,8 @@ class Attachment < ActiveRecord::Base
   def crocodoc_available?
     crocodoc_document.try(:available?)
   end
+
+  def token_for_verify
+    root_attachment ? root_attachment.uuid : uuid
+  end
 end

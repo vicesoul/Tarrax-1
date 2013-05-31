@@ -34,6 +34,11 @@
 <%= render :partial => "layouts/head" %>
 <%= render :partial => 'shared/flash_notices' %>
 
+<!--[if IE 8 ]>
+  <div id="ie8-fixed">
+    您正在使用的浏览器为ie8,为了更好的体验我们的网站,<a href="/browser-out-of-date.html">请点击此处说明</a>
+  </div>
+<![endif]-->
 <div id="header" class="no-print <%= 'no-user' unless @current_user %>">
   <div id="header-inner">
     <div class="top-menu">
@@ -151,7 +156,7 @@
         <form class="form-search">
           <div class="input-append">
             <input type="text" placeholder="<%= t('search.tip', 'Type Your Keywords')  %>" class="span2 search-query">
-            <button class="btn" type="submit"><i class="icon-search"><span><%= t 'search.title', 'Search'%></span></i></button>
+            <button class="btn" type="submit"><i class="icon-search"></i><span><%= t 'search.title', 'Search'%></span></button>
           </div>
         </form>
       </div>
