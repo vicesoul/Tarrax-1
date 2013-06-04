@@ -344,6 +344,8 @@
   if (!vendor(probe, 'transform') && probe.adj) initVML()
   else useCssAnimations = vendor(probe, 'animation')
 
-  return Spinner
+  window.Spinner = Spinner;
+
+  return Spinner;
 
 }));

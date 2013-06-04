@@ -101,6 +101,7 @@
 }
 #enterprise .box .box_body{
   padding: 18px 15px;
+  background: #fff;
 }
 #enterprise .box .box_body .data-widget-body{
   overflow: hidden;

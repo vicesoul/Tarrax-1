@@ -11,6 +11,23 @@ require [
   'jqueryui/easyDialog'
   'quizzes_new'
 ], ($, I18n)->
+
+  matchWidget = [ 
+    ["announcement,account", "announcement_account"], 
+    ["activity", "activity"], 
+    ["discussion", "discussion"], 
+    ["course", "course"], 
+    ["announcement,index", "announcement_index"], 
+    ["assignment", "assignment"], 
+    ["logo", "logo"] 
+  ]
+
+  isCustom = false
+
+  $allArea = {}
+
+  $customArea = {}
+
   synToDialog = ($obj) ->
     $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
     $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
@@ -43,6 +60,9 @@ require [
       <input class="jxb_page_position" name="jxb_page[positions][#{position}][title]" type="hidden" value="#{title}" />
       <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][body]" style="display:none;">#{body}</textarea>
       """
+  toggleGhost = ( sortable, draggable )->
+    flag = $("div[data-widget^='" + sortable + "']").filter(":visible").size() isnt 0
+    $("#homepage-editor-left-side li[cptype^='" + draggable + "']")[ if flag then "addClass" else "removeClass" ] "ghost"
 
   makeWidgetsDeletable = ->
     $widgets = $("[data-widget]").not(".deletable")
@@ -50,6 +70,8 @@ require [
       $widget = $(this).parent(".deletable")
       $widget.addClass("deleted")
       $widget.hide()
+      toggleGhost.apply {}, widget for widget in matchWidget
+
     $widgets.addClass("deletable").append($deleteImg)
     $widgets.each ->
       unless $(this).hasClass "fixed"
@@ -68,13 +90,14 @@ require [
           $widget.addClass('editable')
         $(this).append $editImg
 
+
   makePositionClickable = ($tipA) ->
     
     $(".theme_edit [data-position]").bind(
       click: ->
-        $(".theme_edit .position_selected").removeClass "position_selected"
-        $(this).addClass "position_selected"
-        $(this).effect('highlight', {}, 3000)
+        # $(".theme_edit .position_selected").removeClass "position_selected"
+        # $(this).addClass "position_selected"
+        # $(this).effect('highlight', {}, 3000)
         #dblclick: ->
           #$('#add_widget_dialog').dialog();
     )
@@ -87,8 +110,81 @@ require [
     $(".delete_widget").remove()
     $(".edit_widget").remove()
 
-  $ ->
+  initSaveButton = ->
+    $('form.edit_jxb_page').show()
+    $("form.edit_jxb_page").show()
+    $(".sortable").sortable("enable")
+    unless $('.homepage-editable').size() == 0
+      $("#content-wrapper").addClass("theme_edit")
+      makeWidgetsDeletable()
+      makePositionClickable()
+    return
 
+  ajaxItem = (name, $context, $container, $this)->
+    $.ajax(
+      url: $("#widget_url").val()
+      data: { name:name }
+    ).success (data)->
+      $data = $(data).addClass("new_widget_ajax")
+
+      if $container.length == 0
+        $container = $this.find('[data-widget]:first')
+        if $container.length == 0
+          $this.append($data)
+        else
+          $container.before($data)
+      else
+        $container.after($data)
+
+      $('[data-position]').find('.editor-component').remove()
+
+      makeWidgetsDeletable()
+
+      # $('body').animate
+      #   scrollTop: $data.offset().top, 
+      #   500, 
+      #   -> 
+      #     $data.effect('highlight', {}, 500)   
+
+  connectTo = ($draggable, $sortable)->
+    $draggable.draggable "option", "connectToSortable", $sortable
+    # highlight droppable area
+    $draggable.on( "dragstart", ( event, ui ) ->
+      widget = $(this).attr("cptype")
+      if widget is "custom_index"
+        isCustom = true
+      else
+        isCustom = false
+      highlight($sortable)
+    )
+
+
+  initConnectWith = ->
+    dataWidget = $(this).closest(".deletable").attr("data-widget")
+    # fix bug that when drag,  fake self had no pro "data-widget"
+    if !dataWidget
+      return false
+    widget = dataWidget.split(',')[0]
+    if widget is "custom"
+      isCustom = true
+      $customArea.sortable "option", "connectWith", $customArea
+      $customArea.on( "sortstart", highlight )
+    else
+      isCustom = false
+      $selfArea = $(this).closest(".sortable")
+      $selfArea.sortable "option", "connectWith", $selfArea   # only sortable to self
+      $selfArea.on( "sortstart", highlight )
+
+  deleConnectWith = ->
+    $allArea.off( "sortstart" )
+
+  highlight = ($draggable)->
+    $sortable = if $(this)[0] is window then $draggable else $(this)
+    $area = if isCustom then $customArea else $sortable
+    $area.addClass "position_selected"
+
+  # dom ready  
+  $ ->
     $('#jxb_page_theme').prop('defaultSelected', $('#jxb_page_theme').val())
 
     $("#content").css("overflow", "scroll")
@@ -181,36 +277,24 @@ require [
 
     $(".edit_theme_link").click ->
       $('form.edit_jxb_page').submit()
-      #$('#fixed_right_sider').draggable()
-      #$(this).hide()
-      #$("#content-wrapper").addClass("theme_edit")
-      #$("form.edit_jxb_page").show()
-      #$(".sortable").sortable("enable")
-      #$("#add_widget").draggable(
-        #connectToSortable: ".sortable"
-        #helper: "clone"
-        #revert: "invalid"
-      #)
-      #makeWidgetsDeletable()
-      #makePositionClickable()
 
 
-    $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
+    # $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
     $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
-    $tipA.add($tipB).appendTo("body").hide()
+    $tipB.appendTo("body").hide()
 
-    $(".theme_edit [data-position]").live(
-      mouseenter: ->
-        position = $(this).offset()
-        w = $tipA.width()
-        $tipA.show().css({
-          left: position.left - w
-          top: position.top
-          })
+    # $(".theme_edit [data-position]").live(
+    #   mouseenter: ->
+    #     position = $(this).offset()
+    #     w = $tipA.width()
+    #     $tipA.show().css({
+    #       left: position.left - w
+    #       top: position.top
+    #       })
 
-      mouseleave: ->
-        $tipA.hide()
-    )
+    #   mouseleave: ->
+    #     $tipA.hide()
+    # )
 
     $(".theme_edit .box_head").live(
       mouseenter: ->
@@ -250,28 +334,26 @@ require [
       return false
 
     #themes selector onchange  
-    $('#jxb_page_theme').bind({
-      change: ->
-        $('<div></div>').easyDialog({
-          confirmButton: '确定'
-          confirmButtonClass: 'btn-primary'
-          content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
-          confirmCancelCallback: ->
-            $('#jxb_page_theme').val($('#jxb_page_theme').prop('defaultSelected'))
-          confirmCallback: ->
-            $.ajaxJSON(
-              $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
-              'post',
-              {},
-              (data) ->
-                if data.flag
-                  window.location.reload()
-                else
-                  alert '更换主题失败，请重试!'
+    $('#jxb_page_theme').change ->
+      $('<div></div>').easyDialog({
+        confirmButton: '确定'
+        confirmButtonClass: 'btn-primary'
+        content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
+        confirmCancelCallback: ->
+          $('#jxb_page_theme').val($('#jxb_page_theme').prop('defaultSelected'))
+        confirmCallback: ->
+          $.ajaxJSON(
+            $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
+            'post',
+            {},
+            (data) ->
+              if data.flag
+                window.location.reload()
+              else
+                alert '更换主题失败，请重试!'
 
-            )
-        }, 'confirm')
-    })
+          )
+      }, 'confirm')
 
     $("#add_widget").click ->
       name = $("#widget_name").val()
@@ -325,108 +407,71 @@ require [
         complete: ->
           afterUploadedImageSuccess()
       )
-
       #tooltip
       $('.account_announcement, #add_widget').tooltip({
         position: { my: "left bottom+30", at: "left bottom" }
         })
 
-    initSaveButton = ->
-      $('form.edit_jxb_page').show()
-      #$('#fixed_right_sider').draggable()
-      #$(this).hide()
-      $("form.edit_jxb_page").show()
-      $(".sortable").sortable("enable")
-      #$("#add_widget").draggable(
-        #connectToSortable: ".sortable"
-        #helper: "clone"
-        #revert: "invalid"
-      #)
+    # init left draggable
+    toggleGhost.apply {}, widget for widget in matchWidget
+
+    $("#homepage-editor-left-side").on "mousedown", ->
+      return false
+    
+    initSaveButton()
+
+    $customArea = $( ".sortable[data-position=center], .sortable[data-position=right], .sortable[data-position=nav]" )
+    $center = $( ".sortable[data-position=center]" )
+    $right = $( ".sortable[data-position=right]" )
+    $nav = $( ".sortable[data-position=nav]" )
+    $caption = $( ".sortable[data-position=caption]" )
+    $logo = $( ".sortable[data-position=logo]" )
+    $phone = $( ".sortable[data-position=phone]" )
+
+    $allArea = $customArea.add($logo).add($caption).add($phone)
+
+    # init draggable
+    $('.editor-component').draggable
+      helper: "clone"
+      revert: "invalid"
+      stop: (event, ui) ->
+        #reset highlight
+        $allArea.removeClass "position_selected"
+
+    # set droppable area
+    connectTo $('.editor-component[cptype=logo_index]'), $logo
+    centerWidget = '.editor-component[cptype=activity_index],' +
+      '.editor-component[cptype=announcement_index],' +
+      '.editor-component[cptype=assignment_index],' +
+      '.editor-component[cptype=discussion_index],' +
+      '.editor-component[cptype=course_index]'
+    connectTo $(centerWidget), $center
+    connectTo $('.editor-component[cptype=custom_index]'), $customArea 
+    connectTo $('.editor-component[cptype=announcement_account]'), $right
+
+    # init sortable
+    $(".sortable").sortable
+      revert: true
+      forceHelperSize: false
+      # handle: ".box_head"
+      stop: (event, ui) ->
+        if ui.item.hasClass 'editor-component'
+          name = ui.item.attr('cpType')
+          $context = ui.item
+          $container = ui.item.prev()
+          ajaxItem name, $context, $container, $(this)
+
+          # only custom widget could exit more than one
+          if ui.item.attr("cptype") isnt "custom_index"
+            widget = ui.item.attr("cptype")
+            $("#homepage-editor-left-side li[cptype=" + widget + "]").addClass "ghost"
+
+        #reset highlight
+        $allArea.removeClass "position_selected"
+
+    # set droppable area
+    $(".sortable").on "mouseenter", ".deletable", initConnectWith
+    $(".sortable").on "mouseleave", ".deletable", deleConnectWith
       
-      unless $('.homepage-editable').size() == 0
-        $("#content-wrapper").addClass("theme_edit")
-        makeWidgetsDeletable()
-        makePositionClickable()
-
-      #############################
-      return
-      ############################
-
-    $(document).ready(
-      ->
-
-        initSaveButton()
-
-        $('.editor-component').draggable(
-          helper: "clone"
-          revert: "invalid"
-        )
-
-        # drag to logo
-        $('.editor-component[cptype=logo_index]').draggable( "option", "connectToSortable", ".sortable[data-position=caption]" );
-
-        # drag to left
-        $('.editor-component[cptype=activity_index],' +
-          '.editor-component[cptype=announcement_index],' +
-          '.editor-component[cptype=assignment_index],' +
-          '.editor-component[cptype=discussion_index],' +
-          '.editor-component[cptype=course_index]').draggable( "option", "connectToSortable", ".sortable[data-position=center]" );
-
-        # drag to left & right
-        $('.editor-component[cptype=custom_index]').draggable( "option", "connectToSortable", $(".sortable[data-position=right], .sortable[data-position=center]") );
-
-        # drag to right
-        $('.editor-component[cptype=announcement_account]').draggable( "option", "connectToSortable", ".sortable[data-position=right]" );
-
-        $(".sortable").sortable(
-          revert: true
-          forceHelperSize: true
-          cancel: "a,button,li"
-          stop: (event, ui) ->
-            if !ui.item.is("[data-widget^=custom]") and !ui.item.is("[cptype]") 
-              if $(event.target).attr("data-position") is "right" and ui.item.closest(".sortable").is("[data-position=center]") or $(event.target).attr("data-position") is "center" and ui.item.closest(".sortable").is("[data-position=right]")
-                return false
-            else if ui.item.hasClass 'editor-component'
-              name = ui.item.attr('cpType')
-
-              $context = ui.item
-              $container = ui.item.prev()
-              _this = $(this)
-              $.ajax(
-                url: $("#widget_url").val()
-                data: { name:name }
-                beforeSend: () ->
-              ).success (data)->
-                $data = $(data).addClass("new_widget_ajax")
-
-                if $container.length == 0
-                  $container = _this.find('[data-widget]:first')
-                  if $container.length == 0
-                    _this.append($data)
-                  else
-                    $container.before($data)
-                else
-                  $container.after($data)
-                $('[data-position]').find('.editor-component').remove()
-                $(".sortable").sortable()
-                makeWidgetsDeletable()
-                $('body').animate({
-                  scrollTop: $data.offset().top
-                }, 500, -> $data.effect('highlight', {}, 500) )
-            
-        )
-        
-        # left to right or right to left
-        $( ".sortable[data-position=right]" ).sortable( "option", "connectWith", ".sortable[data-position=center]" )
-        $( ".sortable[data-position=center]" ).sortable( "option", "connectWith", ".sortable[data-position=right]" )
-
-        # others stay in their own area
-        $( ".sortable[data-position=logo]" ).sortable( "option", "connectWith", ".sortable[data-position=logo]" )
-        $( ".sortable[data-position=nav]" ).sortable( "option", "connectWith", ".sortable[data-position=nav]" )
-        $( ".sortable[data-position=caption]" ).sortable( "option", "connectWith", ".sortable[data-position=caption]" )
-        $( ".sortable[data-position=phone]" ).sortable( "option", "connectWith", ".sortable[data-position=phone]" )
 
 
-
-        ##################################
-    )
