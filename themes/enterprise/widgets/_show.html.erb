@@ -18,6 +18,12 @@
   <div id="dashboard" class="show_widget">
     <h1><%= @widget.title %></h1>
     <div class="info"><span class="context_widget"><%= t('#cells.author', 'author') %> : <%= @page.context.name %></span><span class="created_at_widget"><%= t('#cells.created_at', 'created_at') %> : <%= l @widget.created_at, :format => :long %></span></div>
-    <%=raw @widget.body %>
+    
+    <% if @widget.iframe_url.present? %>
+      <iframe src=<%=raw @widget.iframe_url %>></iframe>
+    <% else %>
+      <%=raw @widget.body %>
+    <% end %>
+    
   </div>
 </div>

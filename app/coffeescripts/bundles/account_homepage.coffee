@@ -28,13 +28,17 @@ require [
 
   $customArea = {}
 
-  synToDialog = ($obj) ->
-    $("#widget_title").val $.trim( $obj.find(".data-widget-title").text() )
-    $("#widget_body")._setContentCode $obj.find(".data-widget-body").html()
+  synToDialog = ($widget) ->
+    $("#widget_title").val $.trim( $widget.find(".data-widget-title").text() )
+    $("#widget_body")._setContentCode $widget.find(".data-widget-body").html()
+    url = $widget.find(".data-widget-url").html()
+    $(".type-url input").val url
 
-  synToWidget = ($obj)->
-    $obj.find(".data-widget-title").text $("#widget_title").val()
-    $obj.find(".data-widget-body").html $("#widget_body")._getContentCode()
+  synToWidget = ($widget)->
+    $widget.find(".data-widget-title").text $("#widget_title").val()
+    url = $(".type-url input").val()
+    $widget.find(".data-widget-url").html url
+    $widget.find(".data-widget-body").html $("#widget_body")._getContentCode()
 
   resetPosition = ->
     $(".jxb_page_position").remove()
@@ -45,19 +49,21 @@ require [
         $.each widgets, (index, widget) ->
           $(".edit_jxb_page").append widgetAttributes( "#{position}_#{index}", $(widget) )
 
-  widgetAttributes = (position, widget) ->
-    data  = widget.attr("data-widget")
-    if widget.hasClass("deleted")
+  widgetAttributes = (position, $widget) ->
+    data  = $widget.attr("data-widget")
+    if $widget.hasClass("deleted")
       """
       <input class="jxb_page_position" name="jxb_page[positions][#{position}][widget]" type="hidden" value="#{data}" />
       <input class="jxb_page_position" name="jxb_page[positions][#{position}][delete]" type="hidden" value="1" />
       """
     else
-      title = widget.find(".data-widget-title").text()
-      body  = widget.find(".data-widget-body").html()
+      title = $widget.find(".data-widget-title").text()
+      body  = $widget.find(".data-widget-body").html()
+      url = $widget.find(".data-widget-url").html()
       """
       <input class="jxb_page_position" name="jxb_page[positions][#{position}][widget]" type="hidden" value="#{data}" />
       <input class="jxb_page_position" name="jxb_page[positions][#{position}][title]" type="hidden" value="#{title}" />
+      <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][iframe_url]" style="display:none;">#{url}</textarea>
       <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][body]" style="display:none;">#{body}</textarea>
       """
   toggleGhost = ( sortable, draggable )->
@@ -90,35 +96,18 @@ require [
           $widget.addClass('editable')
         $(this).append $editImg
 
-
-  makePositionClickable = ($tipA) ->
-    
-    $(".theme_edit [data-position]").bind(
-      click: ->
-        # $(".theme_edit .position_selected").removeClass "position_selected"
-        # $(this).addClass "position_selected"
-        # $(this).effect('highlight', {}, 3000)
-        #dblclick: ->
-          #$('#add_widget_dialog').dialog();
-    )
-
   makePositionUnclickable = ->
-    $("[data-position]").unbind 'click'
+    $("[data-position]").off 'click'
     
   revertWidgets = ->
     $("[data-widget]").removeClass("deletable").removeClass("deleted").show()
     $(".delete_widget").remove()
     $(".edit_widget").remove()
 
-  initSaveButton = ->
-    $('form.edit_jxb_page').show()
-    $("form.edit_jxb_page").show()
+  initEditButton = ->
     $(".sortable").sortable("enable")
-    unless $('.homepage-editable').size() == 0
-      $("#content-wrapper").addClass("theme_edit")
-      makeWidgetsDeletable()
-      makePositionClickable()
-    return
+    $("#content-wrapper").addClass("theme_edit")
+    makeWidgetsDeletable()
 
   ajaxItem = (name, $context, $container, $this)->
     $.ajax(
@@ -137,14 +126,7 @@ require [
         $container.after($data)
 
       $('[data-position]').find('.editor-component').remove()
-
-      makeWidgetsDeletable()
-
-      # $('body').animate
-      #   scrollTop: $data.offset().top, 
-      #   500, 
-      #   -> 
-      #     $data.effect('highlight', {}, 500)   
+      makeWidgetsDeletable() 
 
   connectTo = ($draggable, $sortable)->
     $draggable.draggable "option", "connectToSortable", $sortable
@@ -185,18 +167,76 @@ require [
 
   # dom ready  
   $ ->
-    $('#jxb_page_theme').prop('defaultSelected', $('#jxb_page_theme').val())
 
-    $("#content").css("overflow", "scroll")
+    $editPage = $(".edit_theme_link")
+    $saveSet = $(".save-set")
+    $leftNav= $("#left-side > nav")
+    $widgets= $("#left-side > .widgets")
 
-    $(".sortable").sortable(
-      connectWith: ".sortable"
+    $editPage.click (e)->
+      e.preventDefault()
+      initEditButton()
+      $widgets.show()
+      $leftNav.hide()
+      $saveSet.show()
+      $(this).hide()
+
+    $(".save_theme_link").click (e)->
+      e.preventDefault()
+      $('form.edit_jxb_page').submit()
+
+    $(".cancel-edited").click (e)->
+      e.preventDefault()
+      location.reload()
+      # fn = ->
+      #   $(".sortable").sortable("cancel")
+      #   $('[data-position]').find('.add_widget_icon').remove()
+      #   $(".sortable").sortable("disable")
+      #   revertWidgets()
+      #   $("#content-wrapper").removeClass("theme_edit")
+      #   $(".jxb_page_position").remove()
+      #   $(".new_widget_ajax").remove()
+      #   $(".edit_theme_link").show()
+      #   makePositionUnclickable()
+
+      # if $(".new_widget_ajax").size() != 0
+      #   $('<div></div>').easyDialog({
+      #     confirmButton: '请帮我取消'
+      #     confirmButtonClass: 'btn-primary'
+      #     content: '您有新添加的组件未保存<br/ ><br />确定要取消之前所有的编辑操作吗？'
+      #     confirmCallback: fn
+      #   }, 'confirm')
+      # else
+      #   fn()
+
+    $(".insert-url").click ->
+      $("#edit_widget_dialog .content, #edit_widget_dialog .type-url").toggle()
+
+
+    # init sortable
+    $(".sortable").sortable
+      revert: true
+      disabled: true
+      # handle: ".box_head"
       cursor: "move"
       start: (event, ui) ->
         ui.placeholder.width  ui.item.width()
         ui.placeholder.height ui.item.height()
-    )
-    
+      stop: (event, ui) ->
+        if ui.item.hasClass 'editor-component'
+          name = ui.item.attr('cpType')
+          $context = ui.item
+          $container = ui.item.prev()
+          ajaxItem name, $context, $container, $(this)
+
+          # only custom widget could exit more than one
+          if ui.item.attr("cptype") isnt "custom_index"
+            widget = ui.item.attr("cptype")
+            $("#homepage-editor-left-side li[cptype=" + widget + "]").addClass "ghost"
+
+        #reset highlight
+        $allArea.removeClass "position_selected"
+
     $("#widget_body").editorBox tinyOptions:
       width: '100%'
       mode: "textareas"
@@ -272,29 +312,8 @@ require [
       }, 'confirm')
       return false
 
-    # make disable default
-    $(".sortable").sortable("disable")
-
-    $(".edit_theme_link").click ->
-      $('form.edit_jxb_page').submit()
-
-
-    # $tipA = $("<div class='tipA' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.choose', 'click to choose a insertable area -->') + "</div>")
     $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
     $tipB.appendTo("body").hide()
-
-    # $(".theme_edit [data-position]").live(
-    #   mouseenter: ->
-    #     position = $(this).offset()
-    #     w = $tipA.width()
-    #     $tipA.show().css({
-    #       left: position.left - w
-    #       top: position.top
-    #       })
-
-    #   mouseleave: ->
-    #     $tipA.hide()
-    # )
 
     $(".theme_edit .box_head").live(
       mouseenter: ->
@@ -309,29 +328,8 @@ require [
         $tipB.hide()
     )
 
-    $("form.edit_jxb_page button.cancel").click ->
-      fn = ->
-        $(".sortable").sortable("cancel")
-        $('[data-position]').find('.add_widget_icon').remove()
-        $(".sortable").sortable("disable")
-        revertWidgets()
-        $("#content-wrapper").removeClass("theme_edit")
-        $("form.edit_jxb_page").hide()
-        $(".jxb_page_position").remove()
-        $(".new_widget_ajax").remove()
-        $(".edit_theme_link").show()
-        makePositionUnclickable()
 
-      if $(".new_widget_ajax").size() != 0
-        $('<div></div>').easyDialog({
-          confirmButton: '请帮我取消'
-          confirmButtonClass: 'btn-primary'
-          content: '您有新添加的组件未保存<br/ ><br />确定要取消之前所有的编辑操作吗？'
-          confirmCallback: fn
-        }, 'confirm')
-      else
-        fn()
-      return false
+      
 
     #themes selector onchange  
     $('#jxb_page_theme').change ->
@@ -354,25 +352,6 @@ require [
 
           )
       }, 'confirm')
-
-    $("#add_widget").click ->
-      name = $("#widget_name").val()
-      $container = if $(".position_selected").length > 0 then $(".position_selected") else $("[data-position]:last")
-      $.ajax(
-        url: $("#widget_url").val()
-        data: { name:name }
-        beforeSend: () ->
-          $("#add_widget").hide()
-          $(".add_widget_loading_icon").show()
-      ).success (data)->
-        $data = $(data).addClass("new_widget_ajax")
-        $container.append($data)
-        makeWidgetsDeletable()
-        $('body').animate({
-          scrollTop: $data.offset().top
-        }, 500, -> $data.effect('highlight', {}, 500) )
-        $(".add_widget_loading_icon").hide()
-        $("#add_widget").show()
 
     $("form.edit_jxb_page").submit ->
       resetPosition()
@@ -417,8 +396,6 @@ require [
 
     $("#homepage-editor-left-side").on "mousedown", ->
       return false
-    
-    initSaveButton()
 
     $customArea = $( ".sortable[data-position=center], .sortable[data-position=right], .sortable[data-position=nav]" )
     $center = $( ".sortable[data-position=center]" )
@@ -448,26 +425,6 @@ require [
     connectTo $(centerWidget), $center
     connectTo $('.editor-component[cptype=custom_index]'), $customArea 
     connectTo $('.editor-component[cptype=announcement_account]'), $right
-
-    # init sortable
-    $(".sortable").sortable
-      revert: true
-      forceHelperSize: false
-      # handle: ".box_head"
-      stop: (event, ui) ->
-        if ui.item.hasClass 'editor-component'
-          name = ui.item.attr('cpType')
-          $context = ui.item
-          $container = ui.item.prev()
-          ajaxItem name, $context, $container, $(this)
-
-          # only custom widget could exit more than one
-          if ui.item.attr("cptype") isnt "custom_index"
-            widget = ui.item.attr("cptype")
-            $("#homepage-editor-left-side li[cptype=" + widget + "]").addClass "ghost"
-
-        #reset highlight
-        $allArea.removeClass "position_selected"
 
     # set droppable area
     $(".sortable").on "mouseenter", ".deletable", initConnectWith

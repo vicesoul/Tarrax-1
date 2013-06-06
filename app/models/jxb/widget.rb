@@ -18,7 +18,7 @@ class Jxb::Widget < ActiveRecord::Base
 
   belongs_to :page, :class_name => 'Jxb::Page'
 
-  attr_accessible :cell_name, :cell_action, :title, :body, :position, :seq, :courses
+  attr_accessible :cell_name, :cell_action, :title, :body, :position, :seq, :courses, :iframe_url
 
   serialize :courses
 

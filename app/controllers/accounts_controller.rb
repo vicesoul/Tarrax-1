@@ -588,7 +588,7 @@ class AccountsController < ApplicationController
   def homepage
     @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
     @page = @account.find_or_create_homepage
-    @show_left_side = false
+    @show_left_side = true
 
     if @can_manage_homepage
       @show_homepage_left_editor_side = true

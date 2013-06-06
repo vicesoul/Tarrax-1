@@ -65,7 +65,7 @@
   clear: both;
 }
 #enterprise #dashboard{
-  width: 960px;
+  width: 1000px;
   margin: 0 auto;
 }
 #enterprise .box{
@@ -498,6 +498,14 @@
   border-bottom: 1px solid #ddd;
   padding-bottom: 20px;
 }
+.show_widget iframe{
+  width: 100%;
+  height: 900px;
+}
 .show_widget .info .context_widget{
   margin-right:30px;
+}
+
+#content{
+  overflow: scroll!important;
 }

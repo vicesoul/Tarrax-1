@@ -21,67 +21,77 @@
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
 <% if @can_manage_homepage %>
-<div id="fixed_right_sider">
-  <div>
-    <a href="javascript:void(0)" class="edit_theme_link btn button-sidebar-wide"><i class="icon-edit"></i> <%= t(:save, "Save") %></a>
-    <%= hidden_field_tag 'hidden_update_theme_url', account_page_update_theme_path(@account, @page, '') %>
-    <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
-  </div>
-</div>
-<div id="edit_widget_dialog">
-  <div class="edit_widget_section">
-    <div id="edit-widget-dialog-title">
-      <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" /><br />
+  <div id="fixed_right_sider">
+    <div>
+      <a href="#" class="edit_theme_link btn"><i class="icon-edit"></i> <%= t(:edit_this_page, "Edit") %></a>
+      <div class="save-set" style="display:none;">
+        <a href="#" class="save_theme_link btn"><i class="icon-check"></i> <%= t(:save, "Save") %></a>
+        <a href="#" class="cancel-edited btn" style="display: none;"><i class="icon-x"></i> <%= t(:cancel, "cancel") %></a>
+      </div>
+      <%= hidden_field_tag 'hidden_update_theme_url', account_page_update_theme_path(@account, @page, '') %>
+      <%= hidden_field_tag :widget_url, new_account_page_widget_path(@account, @page) %>
     </div>
-    <%= t :body, 'Body' %>: <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea><br />
-    <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
-        <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> 
-        <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" />
+  </div>
+  <div id="edit_widget_dialog">
+    <div class="edit_widget_section">
+      <div id="edit-widget-dialog-title">
+        <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" />
+      </div>
+      <%= t :body, 'Body' %>: <br>
+      <button class="insert-url">切换</button>
+      <div class="content">
+        <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea>
+        <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
+            <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> 
+            <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" />
+        </form>
+      </div>
+      <div class="type-url" style="display: none;">
+        <input type="text">
+      </div>
+      <button type="submit" class="save_widget_button btn btn-primary"><%= t :save, 'Save' %></button>
+      <button class="btn" onclick="$('#edit_widget_dialog').dialog('close');return false;"><%= t :cancel, 'Cancel' %></button>
+    </div>
+  </div>
+  <div id="choose_courses_dialog" title="<%= t(:assign_courses, "Assign courses") %>">
+    <% courses_with_account = @account.all_courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.root_account.name] << course; h } %>
+    <% cached_courses = @page.courses || [] %>
+    <ul>
+    <% courses_with_account.each do |account_name, courses| %>
+      <li>
+        <%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %>
+        <ul class="all_sub_checkboxs">
+        <% if cached_courses.blank? %>
+          <% courses.each do |course| %>
+            <li><%= check_box_tag "jxb_page[courses][]", course.id, true, :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
+          <% end %>
+        <% else %>
+          <% courses.each do |course| %>
+            <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.map(&:to_s).include?(course.id.to_s), :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
+          <% end %>
+        <% end %>
+        </ul>
+      </li>
+    <% end %>
+    </ul>
+    <a href="javascript:void(0)" class="save_choose_courses_link btn btn-primary"><%= t(:save, "Save") %></a>
+  </div>
+  <div id="change_background_dialog" title="<%= t(:change_background, 'Change background') %>">
+    <%= t :background_color, 'Background color' %>: <input type="text" name="page_background_color" id="page_background_color" value="<%= @backgroud_data[:color] %>" /><br /><br />
+    <form id="background_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
+      <span id="background_image_holder"><%=raw @backgroud_data[:image] %></span><%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "background_bg_image" %>
+      <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" /> 
     </form>
     <br />
-    <button type="submit" class="save_widget_button btn btn-primary"><%= t :save, 'Save' %></button>
-    <button class="btn" onclick="$('#edit_widget_dialog').dialog('close');return false;"><%= t :cancel, 'Cancel' %></button>
+    <a href="javascript:void(0);" id="delete_background_image"><%= t :delete_background_image, 'Delete background image' %></a><br />
+    <%= t :repeat, 'Repeat' %> <%= check_box_tag 'repeat', '1', @backgroud_data[:repeat] %><br /><br />
+    <button type="submit" class="save_background_button btn btn-primary"><%= t :save, 'Save' %></button>
+    <button class="btn" onclick="$('#change_background_dialog').dialog('close');return false;"><%= t :cancel, 'Cancel' %></button>
   </div>
-</div>
-<div id="choose_courses_dialog" title="<%= t(:assign_courses, "Assign courses") %>">
-  <% courses_with_account = @account.all_courses.inject(Hash.new{|h,k| h[k] = []}){|h,course| h[course.root_account.name] << course; h } %>
-  <% cached_courses = @page.courses || [] %>
-  <ul>
-  <% courses_with_account.each do |account_name, courses| %>
-    <li>
-      <%= check_box_tag 'course_name', account_name, false, :class => 'account_name_checkbox' %> <%= account_name %>
-      <ul class="all_sub_checkboxs">
-      <% if cached_courses.blank? %>
-        <% courses.each do |course| %>
-          <li><%= check_box_tag "jxb_page[courses][]", course.id, true, :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
-        <% end %>
-      <% else %>
-        <% courses.each do |course| %>
-          <li><%= check_box_tag "jxb_page[courses][]", course.id, cached_courses.map(&:to_s).include?(course.id.to_s), :id => "jxb_page_courses_#{course.id}" %> <%= course.name %></li>
-        <% end %>
-      <% end %>
-      </ul>
-    </li>
-  <% end %>
-  </ul>
-  <a href="javascript:void(0)" class="save_choose_courses_link btn btn-primary button-sidebar-wide"><%= t(:save, "Save") %></a>
-</div>
-<div id="change_background_dialog" title="<%= t(:change_background, 'Change background') %>">
-  <%= t :background_color, 'Background color' %>: <input type="text" name="page_background_color" id="page_background_color" value="<%= @backgroud_data[:color] %>" /><br /><br />
-  <form id="background_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
-    <span id="background_image_holder"><%=raw @backgroud_data[:image] %></span><%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "background_bg_image" %>
-    <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" /> 
-  </form>
-  <br />
-  <a href="javascript:void(0);" id="delete_background_image"><%= t :delete_background_image, 'Delete background image' %></a><br />
-  <%= t :repeat, 'Repeat' %> <%= check_box_tag 'repeat', '1', @backgroud_data[:repeat] %><br /><br />
-  <button type="submit" class="save_background_button btn btn-primary"><%= t :save, 'Save' %></button>
-  <button class="btn" onclick="$('#change_background_dialog').dialog('close');return false;"><%= t :cancel, 'Cancel' %></button>
-</div>
 
-<div id="add_widget_dialog" style="display:none">
-  <%= before_label(:add_new_widget, 'New widget') %>
-  <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
-</div>
+  <div id="add_widget_dialog" style="display:none">
+    <%= before_label(:add_new_widget, 'New widget') %>
+    <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
+  </div>
 
 <% end %>
