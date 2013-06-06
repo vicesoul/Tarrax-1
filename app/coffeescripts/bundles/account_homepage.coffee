@@ -66,9 +66,10 @@ require [
       <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][iframe_url]" style="display:none;">#{url}</textarea>
       <textarea class="jxb_page_position" name="jxb_page[positions][#{position}][body]" style="display:none;">#{body}</textarea>
       """
-  toggleGhost = ( sortable, draggable )->
-    flag = $("div[data-widget^='" + sortable + "']").filter(":visible").size() isnt 0
-    $("#homepage-editor-left-side li[cptype^='" + draggable + "']")[ if flag then "addClass" else "removeClass" ] "ghost"
+  toggleGhost = ( sort, drag )->
+    hasWidget = $("div[data-widget^='" + sort + "']").filter(":visible").size() isnt 0
+    $("#homepage-editor-left-side li[cptype^='" + drag + "']").draggable if hasWidget then "disable" else "enable"
+    # $("#homepage-editor-left-side li[cptype^='" + draggable + "']")[ if flag then "addClass" else "removeClass" ] "ghost"
 
   makeWidgetsDeletable = ->
     $widgets = $("[data-widget]").not(".deletable")
@@ -391,8 +392,7 @@ require [
         position: { my: "left bottom+30", at: "left bottom" }
         })
 
-    # init left draggable
-    toggleGhost.apply {}, widget for widget in matchWidget
+    
 
     $("#homepage-editor-left-side").on "mousedown", ->
       return false
@@ -414,6 +414,9 @@ require [
       stop: (event, ui) ->
         #reset highlight
         $allArea.removeClass "position_selected"
+
+    # init left draggable
+    toggleGhost.apply {}, widget for widget in matchWidget
 
     # set droppable area
     connectTo $('.editor-component[cptype=logo_index]'), $logo
