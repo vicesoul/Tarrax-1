@@ -870,4 +870,33 @@ module ApplicationHelper
       "You agree to the *terms of use*.",
       :wrapper => link_to('\1', "/terms-of-use", :target => "_new"))
   end
+
+  def sortable(column, title = nil)
+    title ||= column.titleize
+    css_class = column == sort_column ? "current #{sort_direction}" : nil
+    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
+    link_to title, {:sort => column, :direction => direction}, {:class => css_class}
+  end
+
+  def sortable_for_searchlogic(column, title, custom_scope = nil)
+    direction = sort_direction == "asc" ? "desc" : "asc"
+    if params[:search]
+      if custom_scope.nil?
+        order_param = {"search[order]" => "#{column} #{direction}"}
+        params[:search].delete_if {|k,v| k.to_s =~ /^\w*sort_by\w+$/}
+      else
+        order_param = {"search[#{custom_scope}]" => "#{column} #{direction}"}
+        params[:search].delete_if{|k,v| k.to_s =~ /^order$/}
+      end
+      link_to title, params[:search].inject({}){|r, (k,v)| r.merge!("search[#{k}]" => v)}.merge!(order_param).merge!("direction" => direction)
+    else
+      if custom_scope.nil?
+        order_param = {"search[order]" => "#{column} #{direction}"}
+      else
+        order_param = {"search[#{custom_scope}]" => "#{column} #{direction}"}
+      end
+      link_to title, order_param.merge!("direction" => direction)
+    end
+  end
+
 end

@@ -39,7 +39,55 @@ class UserAccountAssociation < ActiveRecord::Base
 
   acts_as_taggable_on :tags
 
-  named_scope :filter_by_account_id, lambda { |account_id| {:conditions => ['account_id = ?', account_id]} }
+  #named_scope for taggable
+  scope_procedure :taggable_with_tags, lambda { |tag|
+    tagged_with(tag, :on => :tags, :any => true)
+  }
+
+  named_scope :filter_by_account_id, lambda { |account_id| {:conditions => ['account_id in (?)', account_id]} }
+
+  named_scope :sort_by_job_position, lambda { |column, direction|
+    {
+      :joins => "left join job_positions on user_account_associations.job_position_id = job_positions.id",
+      :order => "job_positions.#{column} #{direction}"
+    }
+  }
+
+  named_scope :sort_by_custom, lambda {|column, direction|
+    {
+      :order => "user_account_associations.#{column} #{direction}"
+    }
+  }
+
+  named_scope :sort_by_tags, lambda { |column, direction|
+    {
+      :joins => "left join taggings on user_account_associations.id = taggings.taggable_id left join tags on tags.id = taggings.tag_id",
+      :order => "tags.#{column} #{direction}"
+    }
+  }
+
+  def self.active_or_freeze_user_by_account op_account_id, user_id, state
+    flag = true
+    account = Account.find(op_account_id)
+    begin
+      if account.root_account?
+        sub_account_ids = account.sub_accounts.map{|s| s.id}
+        UserAccountAssociation.find_all_by_account_id_and_user_id((sub_account_ids | [account.id]), user_id).each do |s|
+          UserAccountAssociation.transaction do
+            s.state = state
+            s.save!
+          end
+        end
+      else
+        user_account_association = UserAccountAssociation.find_by_account_id_and_user_id(account.id, user_id)
+        user_account_association.state = state
+        user_account_association.save!
+      end
+    rescue => err
+      flag = false
+    end
+    flag
+  end
 
   private
 

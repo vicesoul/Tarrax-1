@@ -87,6 +87,9 @@ class UsersController < ApplicationController
   include LinkedIn
   include DeliciousDiigo
   include SearchHelper
+
+  helper_method :sort_column, :sort_direction
+
   before_filter :require_user, :only => [:grades, :merge, :kaltura_session, :ignore_item, :ignore_stream_item, :close_notification, :mark_avatar_image, :user_dashboard, :toggle_dashboard, :masquerade, :external_tool]
   before_filter :require_registered_user, :only => [:delete_user_service, :create_user_service]
   before_filter :reject_student_view_student, :only => [:delete_user_service, :create_user_service, :merge, :user_dashboard, :masquerade]
@@ -103,25 +106,7 @@ class UsersController < ApplicationController
 
   def active_or_forzen_user_by_account
     if authorized_action(Account.find(params[:account_id]), @current_user, :manage)
-      flag = true
-      account = Account.find(params[:op_account_id])
-      begin
-        if account.root_account?
-          sub_account_ids = account.sub_accounts.map{|s| s.id}
-          UserAccountAssociation.find_all_by_account_id_and_user_id((sub_account_ids | [account.id]), params[:user_id]).each do |s|
-            UserAccountAssociation.transaction do
-              s.state = params[:state]
-              s.save!
-            end
-          end
-        else
-          user_account_association = UserAccountAssociation.find_by_account_id_and_user_id(account.id, params[:user_id])
-          user_account_association.state = params[:state]
-          user_account_association.save!
-        end
-      rescue => err
-        flag = false
-      end
+      flag = UserAccountAssociation.active_or_freeze_user_by_account(params[:op_account_id], params[:user_id], params[:state])
       render :json => {:flag => flag}.to_json
     end
   end
@@ -243,11 +228,24 @@ class UsersController < ApplicationController
           flash[:notice] = t('twitter_added', "Twitter access authorized!")
         rescue => e
           ErrorReport.log_exception(:oauth, e)
-          flash[:error] = t('twitter_fail_whale', "Twitter authorization failed. Please try again")
         end
       end
       return_to(oauth_request.return_url, user_profile_url(@current_user))
     end
+  end
+
+  def advanced_index
+    search_params =
+      if params[:search].nil?
+        {:user_account_associations_account_id_equals => params[:account_id]}
+      else
+        params[:search][:user_account_associations_account_id_in] = [params[:account_id]] if params[:search][:user_account_associations_account_id_in] && params[:search][:user_account_associations_account_id_in].delete_if{|a| a == ''}.empty?
+        params[:search]
+      end
+    @search = User.search(search_params)
+    uniq_result = @search.uniq
+    @users = uniq_result.paginate(:page => params[:page], :per_page => 10, :total_entries => uniq_result.size)
+    render :layout => false
   end
 
   # @API List users
@@ -261,15 +259,16 @@ class UsersController < ApplicationController
       @query = (params[:user] && params[:user][:name]) || params[:term]
       ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
         if @context && @context.is_a?(Account) && @query
-          @users = @context.users_name_like(@query, params[:user][:account_id])
+          @users = @context.users_name_like(@query, params[:user][:account_id]).order(sort_column + " " + sort_direction)
         elsif params[:enrollment_term_id].present? && @root_account == @context
           @users = @context.fast_all_users.scoped({
             :joins => :courses,
             :conditions => ["courses.enrollment_term_id = ?", params[:enrollment_term_id]],
-            :group => @context.connection.group_by('users.id', 'users.name', 'users.sortable_name')
+            :group => @context.connection.group_by('users.id', 'users.name', 'users.sortable_name'),
+            :order => sort_column + " " + sort_direction
           })
         elsif !api_request?
-          @users = @context.fast_all_users
+          @users = @context.fast_all_users.order(sort_column + " " + sort_direction)
         end
 
         if api_request?
@@ -1454,4 +1453,15 @@ class UsersController < ApplicationController
 
     data.values.sort_by { |e| e[:enrollment].user.sortable_name.downcase }
   end
+
+  private
+
+  def sort_column
+    params[:sort].present? ? params[:sort] : "updated_at"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
 end

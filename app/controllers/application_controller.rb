@@ -257,7 +257,7 @@ class ApplicationController < ActionController::Base
     actions = Array(opts.shift)
     can_do = false
     begin
-      return false if is_forzen_by_account?
+      return false if (!is_account_admin?) && (is_forzen_by_account?)
       if object == @context && user == @current_user
         @context_all_permissions ||= @context.grants_rights?(user, session, nil)
         can_do = actions.any?{|a| @context_all_permissions[a] }
@@ -269,6 +269,11 @@ class ApplicationController < ActionController::Base
     end
     can_do
   end
+
+  def is_account_admin?
+    params[:context_type] == 'Course' && (Course.find(params[:context_id]).root_account.account_users_for(@current_user).any? {|i| i.membership_type == 'AccountAdmin'})
+  end
+  private :is_account_admin?
 
   def is_forzen_by_account?
     params[:context_type] == 'Course' && (Course.find(params[:context_id]).account.user_account_associations.where(:user_id => @current_user.id).first.state != 0)

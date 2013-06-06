@@ -30,15 +30,22 @@ module UsersHelper
   end
 
   def get_user_associated_accounts user, account_id
-    user.user_account_associations.select do |a|
-      #if Account.find(account_id).root_account?
-        a.account.parent_account_id.to_s == account_id || (a.account.id.to_s == account_id)
-      #else
-        #a.account.id.to_s == account_id
-      #end
-    end.map do |b|
+    associated_account_ids = Account.find(account_id).sub_accounts_recursive(500, 0).map{|sa| sa.id}.unshift(account_id)
+    user.user_account_associations.filter_by_account_id(associated_account_ids).order('account_id').map do |b|
       "#{link_to(b.account.name, account_users_url(b.account.id))}&nbsp;&nbsp;(#{link_to(format_state(b.state), '#', :class => 'user-state-op', :state => b.state, :link => account_active_or_forzen_user_by_account_path(:user_id => b.user_id, :op_account_id => b.account.id, :state => (b.state == 0 ? '1' : '0')) )})"
     end.join('<br />').html_safe
   end
 
+  def account_tree_walk tree
+    unless tree.account_children.empty?
+      generate_account_search_field(tree)
+      tree.account_children.each{|c| account_tree_walk c}
+    else
+      generate_account_search_field(tree)
+    end
+  end
+
+  def generate_account_search_field tree
+    "<input type='checkbox' name='' /> #{tree.name}"
+  end
 end

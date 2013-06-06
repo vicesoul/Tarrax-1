@@ -201,6 +201,9 @@ module SIS
             end
 
             if account_id
+              if ex_account_id
+                UserAccountAssociation.active_or_freeze_user_by_account(ex_account_id, user.id, 1);
+              end
               begin
                 associate_account = user.associated_accounts.find(account_id)
                 staff_attributes = {

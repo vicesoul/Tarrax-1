@@ -24,9 +24,11 @@ class Account < ActiveRecord::Base
     :turnitin_shared_secret, :turnitin_comments, :turnitin_pledge,
     :default_time_zone, :parent_account, :settings, :default_storage_quota,
     :default_storage_quota_mb, :storage_quota, :ip_filters, :default_locale,
-    :default_user_storage_quota_mb
+    :default_user_storage_quota_mb, :account_children, :tree_depth
 
   include Workflow
+
+  attr_accessor :account_children, :tree_depth
 
   belongs_to :parent_account, :class_name => 'Account'
   belongs_to :root_account, :class_name => 'Account'
@@ -537,6 +539,17 @@ class Account < ActiveRecord::Base
       end
       account_descendents.call(id).flatten[offset, limit]
     end
+  end
+
+  def self.get_account_tree root
+    procedure = lambda do |account, depth|
+       children = Account.active.where(:parent_account_id => account.id)
+       account.account_children = children
+       account.tree_depth = depth
+       children.each {|c| procedure.call(c, depth+1)}
+       return root
+    end
+    procedure.call(root, 1)
   end
 
   def associated_accounts
