@@ -58,7 +58,7 @@
           <tr>
             <td width="100px">
               <%= t 'table_headings.id', 'ID' %><br />
-              <input type="checkbox" value="" />Check All
+              <input type="checkbox" class="master_checkbox" /><span>Check All<span>
             </td>
             <td width="200px"><%= sortable_for_searchlogic('name', (t 'table_headings.name', 'Name')) %></td>
             <td><%= t 'table_headings.account', 'Account' %></td>
@@ -82,7 +82,7 @@
             <tr>
               <% if i== 0 %>
                 <td rowspan="<%= user_account_associations.size %>">
-                  <input type="checkbox" value="<%= user.id %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
+                  <input type="checkbox" class="sub_checkbox" value="<%= user.id %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
                 </td>
                 <td rowspan="<%= user_account_associations.size%>"><%= user.name %></td>
               <% end %>
@@ -100,3 +100,21 @@
     <%= pagination %>
   <% end %>
 </div>
+<% js_block do %>
+  <script type="text/javascript">
+    require(['jquery'], function($){
+      $(document).ready(function(){
+        $('table input:checkbox.master_checkbox').change(function(){
+          if($(this).prop('checked')){
+            $('table input:checkbox.sub_checkbox').attr('checked','checked');
+            //$(this).next('span:first').text('Check All');
+          }else{
+            $('table input:checkbox.sub_checkbox').removeAttr('checked');
+            //$(this).next('span:first').text('UnCheck All');
+          }
+          });
+      }); 
+    });
+  </script>
+
+<% end %>
