@@ -5,17 +5,23 @@
     <div>
       <div>
       Account:
-      <% account_tree = Account.get_account_tree(Account.find(params[:account_id])) %>
+      <%
+        account_tree = Account.get_account_tree(Account.find(params[:account_id]))
+      %>
       <% p = lambda do |tree| %>
+        <%
+          tree_branch = "<br />#{("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth)}├─".html_safe
+          tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil) + tree.name
+        %>
         <% unless tree.account_children.empty? %>
-        <br /><%= ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth).html_safe + "├─" %>
-        <%= f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id,nil %><%= tree.name %>
+        <%= tree_branch %>
+        <%= tree_checkbox %>
       <%
         tree.account_children.each{|t| p.call(t)}
         else
       %>
-        <br /><%= ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth).html_safe + "├─" %>
-        <%= f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id,nil %><%= tree.name %>
+        <%= tree_branch %>
+        <%= tree_checkbox %>
       <%
           end
         end
