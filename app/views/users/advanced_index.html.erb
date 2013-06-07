@@ -3,10 +3,47 @@
   <% form_for @search, :url => account_advanced_users_path do |f| %>
 
     <div>
-    Name: <%= f.text_field :name_like %>
-    <%= f.submit "Search" %>
-  <% end %>
-
+      <div>
+      Account:
+      <% account_tree = Account.get_account_tree(Account.find(params[:account_id])) %>
+      <% p = lambda do |tree| %>
+        <% unless tree.account_children.empty? %>
+        <br /><%= ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth).html_safe + "├─" %>
+        <%= f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id,nil %><%= tree.name %>
+      <%
+        tree.account_children.each{|t| p.call(t)}
+        else
+      %>
+        <br /><%= ("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth).html_safe + "├─" %>
+        <%= f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id,nil %><%= tree.name %>
+      <%
+          end
+        end
+        p.call(account_tree)
+      %>
+      </div>
+      Name: <%= f.text_field :name_like %>
+      Job Number: <%= f.text_field :user_account_associations_job_number_equals %>
+      <div>
+        Job Position:
+        <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
+          <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
+        <% end %>
+      </div>
+      <div>
+        is External:
+        <%= f.radio_button :user_account_associations_external_equals, 'false' %> no
+        <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes
+      </div>
+      <div>
+        Tags:
+         <% UserAccountAssociation.filter_by_account_id(params[:account_id]).inject([]){|result, a| result | a.tag_list}.each do |t| %>
+           <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
+         <% end %>
+      </div>
+      <%= f.submit "Search" %>
+    </div>
+    <% end %>
   <% if @users && @users.present? %>
     <!-- Don't modify if you expect the correct pagination when using sort -->
     <%= pagination = will_paginate(@users, :style=>"margin-top: 1em;") %>
@@ -39,7 +76,7 @@
             <tr>
               <% if i== 0 %>
                 <td rowspan="<%= user_account_associations.size %>">
-                  <input type="checkbox" value="<%= user.id %>" />
+                  <input type="checkbox" value="<%= user.id %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
                 </td>
                 <td rowspan="<%= user_account_associations.size%>"><%= user.name %></td>
               <% end %>

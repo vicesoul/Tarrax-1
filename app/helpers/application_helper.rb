@@ -880,23 +880,21 @@ module ApplicationHelper
 
   def sortable_for_searchlogic(column, title, custom_scope = nil)
     direction = sort_direction == "asc" ? "desc" : "asc"
-    if params[:search]
-      if custom_scope.nil?
-        order_param = {"search[order]" => "#{column} #{direction}"}
-        params[:search].delete_if {|k,v| k.to_s =~ /^\w*sort_by\w+$/}
-      else
-        order_param = {"search[#{custom_scope}]" => "#{column} #{direction}"}
-        params[:search].delete_if{|k,v| k.to_s =~ /^order$/}
-      end
-      link_to title, params[:search].inject({}){|r, (k,v)| r.merge!("search[#{k}]" => v)}.merge!(order_param).merge!("direction" => direction)
+
+    if custom_scope.nil?
+      order_param = {"search[order]" => "#{column} #{direction}"}
+      params[:search].delete_if {|k,v| k.to_s =~ /^\w*sort_by\w+$/} if params[:search]
     else
-      if custom_scope.nil?
-        order_param = {"search[order]" => "#{column} #{direction}"}
-      else
-        order_param = {"search[#{custom_scope}]" => "#{column} #{direction}"}
-      end
-      link_to title, order_param.merge!("direction" => direction)
+      order_param = {"search[#{custom_scope}]" => "#{column} #{direction}"}
+      params[:search].delete_if{|k,v| k.to_s =~ /^order$/} if params[:search]
     end
+
+    order_param.merge!("direction" => direction)
+    order_param.merge!("is_iframe" => true) if params[:is_iframe]
+
+    link_params = params[:search].nil? ? order_param : params[:search].inject({}){|r, (k,v)| r.merge!("search[#{k}]" => v)}.merge!(order_param)
+
+    link_to title, link_params
   end
 
 end

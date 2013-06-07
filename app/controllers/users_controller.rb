@@ -245,7 +245,7 @@ class UsersController < ApplicationController
     @search = User.search(search_params)
     uniq_result = @search.uniq
     @users = uniq_result.paginate(:page => params[:page], :per_page => 10, :total_entries => uniq_result.size)
-    render :layout => false
+    render :layout => 'bare' if params[:is_iframe]
   end
 
   # @API List users
