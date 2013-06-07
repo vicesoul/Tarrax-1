@@ -233,7 +233,7 @@ require [
           # only custom widget could exit more than one
           if ui.item.attr("cptype") isnt "custom_index"
             widget = ui.item.attr("cptype")
-            $("#homepage-editor-left-side li[cptype=" + widget + "]").addClass "ghost"
+            $("#homepage-editor-left-side li[cptype=" + widget + "]").draggable "disable"
 
         #reset highlight
         $allArea.removeClass "position_selected"
