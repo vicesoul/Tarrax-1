@@ -1,35 +1,39 @@
-
+<%
+   # jammit_css :user_advanced
+%>
 <div>
   <% form_for @search, :url => account_advanced_users_path do |f| %>
 
-    <div>
+    <div class="list">
       <div>
-      Account:
-      <%
-        account_tree = Account.get_account_tree(Account.find(params[:account_id]))
-      %>
-      <% p = lambda do |tree| %>
+        Account:
         <%
-          tree_branch = "<br />#{("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth)}├─".html_safe
-          tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil) + tree.name
+          account_tree = Account.get_account_tree(Account.find(params[:account_id]))
         %>
-        <% unless tree.account_children.empty? %>
-        <%= tree_branch %>
-        <%= tree_checkbox %>
-      <%
-        tree.account_children.each{|t| p.call(t)}
-        else
-      %>
-        <%= tree_branch %>
-        <%= tree_checkbox %>
-      <%
+        <% p = lambda do |tree| %>
+          <%
+            tree_branch = "<br /><span>#{("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth)}├─</span>".html_safe
+            tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil) + tree.name
+          %>
+          <% unless tree.account_children.empty? %>
+          <%= tree_branch %>
+          <%= tree_checkbox %>
+        <%
+          tree.account_children.each{|t| p.call(t)}
+          else
+        %>
+          <%= tree_branch %>
+          <%= tree_checkbox %>
+        <%
+            end
           end
-        end
-        p.call(account_tree)
-      %>
+          p.call(account_tree)
+        %>
       </div>
-      Name: <%= f.text_field :name_like %>
-      Job Number: <%= f.text_field :user_account_associations_job_number_equals %>
+      <div>
+        Name: <%= f.text_field :name_like %>
+        Job Number: <%= f.text_field :user_account_associations_job_number_equals %>
+      </div>
       <div>
         Job Position:
         <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
@@ -47,12 +51,12 @@
            <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
          <% end %>
       </div>
-      <%= f.submit "Search" %>
+      <%= f.submit "Search", {:class => "btn btn-primary"} %>
     </div>
     <% end %>
   <% if @users && @users.present? %>
     <!-- Don't modify if you expect the correct pagination when using sort -->
-    <%= pagination = will_paginate(@users, :style=>"margin-top: 1em;") %>
+    <%= pagination = will_paginate(@users, :class=>"apple_pagination") %>
       <table border="1" class="table table-striped ">
         <thead>
           <tr>
