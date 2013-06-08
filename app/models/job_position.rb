@@ -1,5 +1,7 @@
 class JobPosition < ActiveRecord::Base
 
+  attr_accessible :account_id, :job_position_category_id, :code, :name, :rank
+
   belongs_to :job_position_category
   belongs_to :account
   has_many :user_account_associations
