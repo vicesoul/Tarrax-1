@@ -88,11 +88,14 @@ require [
           synToDialog( $widget )
           $("#edit_widget_dialog").dialog(
             open: (event, ui) ->
-              $('#edit-widget-dialog-title').hide() if $widget.attr('data-widget').split(',')[0] == 'logo'
-              $('#widget_body_toolbargroup').parent().hide() if $widget.attr('data-widget').split(',')[0] == 'activity'
+              dataPosition = $widget.closest(".sortable").attr("data-position") 
+              widget = $widget.attr("data-widget").split(",")[0]
+              if dataPosition isnt "nav" and widget is "custom" or dataPosition is 'logo'
+                $(this).addClass "has-title"
+              else if widget is "activity"
+                $(this).addClass "no-title"
             beforeClose: (event, ui) ->
-              $('#edit-widget-dialog-title').show()
-              $('#widget_body_toolbargroup').parent().show()
+              $(this).removeClass "has-title no-title"
           ).dialog('open')
           $widget.addClass('editable')
         $(this).append $editImg
@@ -209,9 +212,6 @@ require [
       #   }, 'confirm')
       # else
       #   fn()
-
-    $(".insert-url").click ->
-      $("#edit_widget_dialog .content, #edit_widget_dialog .type-url").toggle()
 
 
     # init sortable

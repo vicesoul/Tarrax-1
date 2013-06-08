@@ -37,17 +37,22 @@
       <div id="edit-widget-dialog-title">
         <%= t :title, 'Title' %>: <input type="text" name="widget_title" id="widget_title" value="" />
       </div>
-      <%= t :body, 'Body' %>: <br>
-      <button class="insert-url">切换</button>
+      <form class="form-horizontal bootstrap-form type-url">
+        <div class="control-group warning">
+          <label class="control-label" for="inputWarning">插入网址：</label>
+          <div class="controls">
+            <input type="text" id="inputWarning">
+            <span class="help-inline">（如“http://www.google.com”）</span>
+          </div>
+        </div>
+      </form>
+      <p class="alert">注意： 如果您选择插入网址，则不显示编辑器内容！</p>
       <div class="content">
         <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea>
         <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
             <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> 
             <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" />
         </form>
-      </div>
-      <div class="type-url" style="display: none;">
-        <input type="text">
       </div>
       <button type="submit" class="save_widget_button btn btn-primary"><%= t :save, 'Save' %></button>
       <button class="btn" onclick="$('#edit_widget_dialog').dialog('close');return false;"><%= t :cancel, 'Cancel' %></button>

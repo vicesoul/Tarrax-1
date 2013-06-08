@@ -1,5 +1,5 @@
 @import compass
-
+@import environment
 @import 'jqueryui/variables'
 
 .ui-sortable-placeholder
@@ -94,6 +94,24 @@
   img
     height: 32px
     width: 32px
+.alert
+  color: #ff6600
+  font-weight: bold
+.edit_widget_section
+  .form-horizontal 
+    .control-label
+      width: auto
+    .controls
+      margin-left: auto
+.ui-dialog
+  form.type-url, p.alert, tr[role="toolbar"]
+    display: block
+.has-title
+  form.type-url, p.alert
+    display: none
+.no-title
+  form.type-url, p.alert, tr[role="toolbar"]
+    display: none
 
 body.homepage #left-side
   background-color: #054f98
