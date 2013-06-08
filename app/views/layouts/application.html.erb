@@ -204,33 +204,25 @@
             <h3>添加组件</h3>
             <div>
               <ul id="homepage-editor-left-side">
-                <li class="editor-component" cpType="custom_index" title="单击以拖动">自定义组件</li>
-                <li class="editor-component" cpType="activity_index" title="单击以拖动">活动照片</li>
-                <li class="editor-component" cpType="announcement_index" title="单击以拖动">课程公告</li>
-                <li class="editor-component" cpType="discussion_index" title="单击以拖动">讨论列表</li>
-                <li class="editor-component" cpType="assignment_index" title="单击以拖动">作业列表</li>
-                <li class="editor-component" cpType="announcement_account" title="单击以拖动">网校公告</li>
-                <li class="editor-component" cpType="logo_index" title="单击以拖动">Logo</li>
-                <li class="editor-component" cpType="course_index" title="单击以拖动">课程列表</li>
+                <li class="editor-component" cpType="custom_index" title="可拖动">自定义组件</li>
+                <li class="editor-component" cpType="activity_index" title="可拖动">活动照片</li>
+                <li class="editor-component" cpType="announcement_index" title="可拖动">课程公告</li>
+                <li class="editor-component" cpType="discussion_index" title="可拖动">讨论列表</li>
+                <li class="editor-component" cpType="assignment_index" title="可拖动">作业列表</li>
+                <li class="editor-component" cpType="announcement_account" title="可拖动">网校公告</li>
+                <li class="editor-component" cpType="logo_index" title="可拖动">Logo</li>
+                <li class="editor-component" cpType="course_index" title="可拖动">课程列表</li>
               </ul>
             </div>
-            <h3>更换主题</h3>
-            <div>
+            <h4 class="chagne_theme">更换主题</h4>
               <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
                 <%= f.hidden_field :background_image %>
                 <%= before_label(:name, 'Theme name') %>
                 <%= f.select :theme, Jxb::Theme.themes %>
               <% end %>
-            </div>
-            <h3>更换背景</h3>
-            <div>
-              <%= link_to t(:change_background, 'Change background'), 'javascript:void(0)', :id => 'link_to_change_background_dialog' %><br />
-            </div>
-            <h3>其他选项</h3>
-            <div>
-              <%= link_to t(:assign_courses, 'Assign courses'), 'javascript:void(0)', :id => 'link_to_choose_courses_dialog' %><br />
-              <%= link_to t(:reset_homepage, 'Reset homepage'), account_reset_homepage_path(@account), :id => 'reset_homepage' %>
-            </div>
+            <h4 class="chagne_bg">更换背景</h4>
+            <h4 class="connect_course">关联课程</h4>
+            <h4 class="reset_theme">重置主题</h4>
           </div>
         <% end %>
 

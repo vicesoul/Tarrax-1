@@ -261,6 +261,12 @@ require [
       height: 300
     )
 
+    $changeTheme = $(".edit_jxb_page").dialog(
+      autoOpen: false
+      width: 400
+      height: 300
+    )
+
     $(".account_name_checkbox").click ->
       $allBox = $(this).next(".all_sub_checkboxs").find("input[type='checkbox']")
       if $(this).is ":checked"
@@ -274,15 +280,18 @@ require [
       $("form.edit_jxb_page #theme_options").append $allBox.clone()
       $chooseCoursesDialog.dialog "close"
 
-    $("#link_to_choose_courses_dialog").click ->
+    $(".connect_course").click ->
       $("#choose_courses_dialog").dialog "open"
 
-    $("#link_to_change_background_dialog").click ->
+    $(".chagne_bg").click ->
       $changeBackgroundDialog.dialog "open"
 
     $(".save_widget_button").click ->
       synToWidget( $('.editable') )
       $("#edit_widget_dialog").dialog "close"
+
+    $(".chagne_theme").click ->
+      $changeTheme.dialog "open"
 
     $(".save_background_button").click ->
       $target = $('[data-bg-varied="true"]')
@@ -303,7 +312,7 @@ require [
     $("#delete_background_image").click ->
       $("#background_image_holder").html ''
 
-    $('#reset_homepage').click ->
+    $('.reset_theme').click ->
       _this = $(this)
       $('<div></div>').easyDialog({
         content: '您确定要重置主页吗？该操作是不可逆的!'

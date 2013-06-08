@@ -94,3 +94,71 @@
   img
     height: 32px
     width: 32px
+
+body.homepage #left-side
+  background-color: #054f98
+  overflow: visible
+  >.inner
+    padding: 8px
+    ul#homepage-editor-left-side
+      padding: 0
+      margin: 8px 0
+      list-style: none
+      +pie-clearfix
+
+      li
+        float: left
+        z-index: 11
+        font-size: 12px
+        width: 76px!important
+        height: 76px!important
+        line-height: 120px
+        background: #0669cd url("/images/jxb/left-draggable.png") no-repeat
+        margin: 0 0 8px
+        color: #8acaf5
+        text-align: center
+        cursor: pointer
+        &:nth-child(odd)
+          float: right
+        &[cptype=custom_index]
+          background-position: 20px -320px
+        &[cptype=activity_index]
+          background-position: 20px -70px
+        &[cptype=discussion_index]
+          background-position: 20px -235px
+        &[cptype=custom_index]
+          background-position: 20px -320px
+        &[cptype=assignment_index]
+          background-position: 20px -155px
+        &[cptype=announcement_index]
+          background-position: -67px -155px
+        &[cptype=announcement_account]
+          background-position: -67px -70px
+        &[cptype=logo_index]
+          background-position: 20px 10px
+        &[cptype=course_index]
+          background-position: -67px -235px
+        &.ghost
+          opacity: 0.2
+    h3, h4
+      background: #0669cd
+      margin-bottom: 8px
+      color: #8acaf5
+      font-size: 14px
+      text-indent: 1em
+      padding: 6px 0
+    h4
+      height: 40px
+      line-height: 40px
+      padding-left: 60px
+      background: #0669cd url("/images/jxb/left-draggable.png") no-repeat
+      font-size: 12px
+      cursor: pointer
+      &.chagne_theme
+        background-position: 25px -395px
+      &.chagne_bg
+        background-position: 25px -470px
+      &.connect_course
+        background-position: 25px -542px
+      &.reset_theme
+        background-position: 25px -395px

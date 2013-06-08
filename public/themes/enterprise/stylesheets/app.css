@@ -2,14 +2,14 @@
   min-height: 600px;
 }
 #enterprise #head{
-  height: 129px;
-  margin-bottom: 12px;
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 #enterprise [data-bg-varied=true]{
   background: url(../img/head_bg.jpg) repeat-x top left;
 }
 #enterprise #head #theme_main{
-  width: 960px;
+  width: 1000px;
   margin: 0 auto;
   color: #ffffff;
 }
@@ -23,16 +23,16 @@
   margin-right:7px;
 }
 #enterprise #head #theme_main #nav{
-  height:30px;
-  line-height:30px;
-  margin-top:25px;
+  height:50px;
+  line-height:50px;
+  margin-top:15px;
   width:684px;
 }
 #enterprise #head #theme_main #nav a{
   color:#ffffff;
   margin-right: 20px;
 }
-#enterprise #head #theme_main #nav [data-widget]{
+#enterprise #head #theme_main #nav > div{
   float:left;
 }
 #enterprise #head #theme_main #phone{
