@@ -1,63 +1,77 @@
 <%
-   # jammit_css :user_advanced
+   jammit_css :advanced_users
+   js_bundle :advanced_users
 %>
-<div>
-  <% form_for @search, :url => account_advanced_users_path do |f| %>
-
-    <div class="list">
-      <div>
-        Account:
+ <% form_for @search, :url => account_advanced_users_path do |f| %>
+  <div class="left">
+    <div class="tree">
+      Account:
+      <%
+        account_tree = Account.get_account_tree(Account.find(params[:account_id]))
+      %>
+      <% p = lambda do |tree| %>
         <%
-          account_tree = Account.get_account_tree(Account.find(params[:account_id]))
+          tree_branch = "<div><span class='indent'>#{("<span class='blank_box'></span>" * tree.tree_depth)}├</span>".html_safe
+          tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:parent_id => (tree.parent_account_id ? tree.parent_account_id : nil), :name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil)
+          tree_name = "<span>#{(tree.name)}</span></div>".html_safe
         %>
-        <% p = lambda do |tree| %>
-          <%
-            tree_branch = "<br /><span>#{("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" * tree.tree_depth)}├─</span>".html_safe
-            tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil) + tree.name
-          %>
-          <% unless tree.account_children.empty? %>
-          <%= tree_branch %>
-          <%= tree_checkbox %>
-        <%
-          tree.account_children.each{|t| p.call(t)}
-          else
-        %>
-          <%= tree_branch %>
-          <%= tree_checkbox %>
-        <%
-            end
+        <% unless tree.account_children.empty? %>
+        <%= tree_branch %>
+        <%= tree_checkbox %>
+        <%= tree_name %>
+        <div>
+      <%
+        tree.account_children.each{|t| p.call(t)}
+      %>
+        </div>
+      <%
+        else
+      %>
+       
+        <%= tree_branch %>
+        <%= tree_checkbox %>
+        <%= tree_name %>
+      <%
           end
-          p.call(account_tree)
-        %>
-      </div>
-      <div>
-        Name: <%= f.text_field :name_like %>
-        Job Number: <%= f.text_field :user_account_associations_job_number_equals %>
-      </div>
-      <div>
-        Job Position:
-        <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
-          <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
-        <% end %>
-      </div>
-      <div>
-        is External:
-        <%= f.radio_button :user_account_associations_external_equals, 'false' %> no
-        <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes
-      </div>
-      <div>
-        Tags:
-         <% UserAccountAssociation.filter_by_account_id(params[:account_id]).inject([]){|result, a| result | a.tag_list}.each do |t| %>
-           <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
-         <% end %>
-      </div>
-      <%= f.submit "Search", {:class => "btn btn-primary"} %>
+        end
+        p.call(account_tree)
+      %>
+    </div>
+  </div>
+  <div class="right">
+    <div class="filter">
+        <ul>
+          <li>
+            Name: <%= f.text_field :name_like %>
+            Job Number: <%= f.text_field :user_account_associations_job_number_equals %>
+          </li>
+          <li>
+            Job Position:
+            <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
+              <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
+          </li>
+          <li>
+            is External:
+            <%= f.radio_button :user_account_associations_external_equals, 'false' %> no
+            <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes        <% end %>
+
+          </li>
+          <li>
+            Tags:
+             <% UserAccountAssociation.filter_by_account_id(params[:account_id]).inject([]){|result, a| result | a.tag_list}.each do |t| %>
+               <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
+             <% end %>
+          </li>
+          <li>
+            <%= f.submit "Search", {:class => "btn btn-primary"} %>
+          </li>
+      </ul>
     </div>
     <% end %>
   <% if @users && @users.present? %>
     <!-- Don't modify if you expect the correct pagination when using sort -->
     <%= pagination = will_paginate(@users, :class=>"apple_pagination") %>
-      <table border="1" class="table table-striped ">
+      <table border="1" class="main-list table table-striped">
         <thead>
           <tr>
             <td width="100px">
@@ -104,21 +118,3 @@
     <%= pagination %>
   <% end %>
 </div>
-<% js_block do %>
-  <script type="text/javascript">
-    require(['jquery'], function($){
-      $(document).ready(function(){
-        $('table input:checkbox.master_checkbox').change(function(){
-          if($(this).prop('checked')){
-            $('table input:checkbox.sub_checkbox').attr('checked','checked');
-            //$(this).next('span:first').text('Check All');
-          }else{
-            $('table input:checkbox.sub_checkbox').removeAttr('checked');
-            //$(this).next('span:first').text('UnCheck All');
-          }
-          });
-      }); 
-    });
-  </script>
-
-<% end %>

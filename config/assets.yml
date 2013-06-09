@@ -43,8 +43,6 @@ stylesheets:
     - public/stylesheets/compiled/g_mini_calendar.css
     - public/stylesheets/compiled/helpDialog.css
     - public/stylesheets/compiled/print.css
-    - public/stylesheets/compiled/welcome.css
-    - public/stylesheets/compiled/user_advanced.css
   context_modules: 
     - public/stylesheets/compiled/context_modules.css
   collection_item_save:
@@ -182,7 +180,7 @@ stylesheets:
     - public/stylesheets/compiled/account_homepage.css
   ui_accordion:
     - public/stylesheets/compiled/ui_accordion.css
-  # advanced_index:
-    
+  advanced_users:
+    - public/stylesheets/compiled/advanced_users.css
   <%= plugin_assets.anchors_yml %>
 
