@@ -235,17 +235,22 @@ class UsersController < ApplicationController
   end
 
   def advanced_index
-    search_params =
-      if params[:search].nil?
-        {:user_account_associations_account_id_equals => params[:account_id]}
-      else
-        params[:search][:user_account_associations_account_id_in] = [params[:account_id]] if params[:search][:user_account_associations_account_id_in] && params[:search][:user_account_associations_account_id_in].delete_if{|a| a == ''}.empty?
-        params[:search]
-      end
-    @search = User.search(search_params)
-    uniq_result = @search.uniq
-    @users = uniq_result.paginate(:page => params[:page], :per_page => 10, :total_entries => uniq_result.size)
-    render :layout => 'bare' if params[:is_iframe]
+    get_context
+    if authorized_action(@context, @current_user, :read_roster)
+
+      search_params =
+        if params[:search].nil?
+          {:user_account_associations_account_id_equals => params[:account_id]}
+        else
+          params[:search][:user_account_associations_account_id_in] = [params[:account_id]] if params[:search][:user_account_associations_account_id_in] && params[:search][:user_account_associations_account_id_in].delete_if{|a| a == ''}.empty?
+          params[:search]
+        end
+      @search = User.search(search_params)
+      uniq_result = @search.uniq
+      @users = uniq_result.paginate(:page => params[:page], :per_page => 10, :total_entries => uniq_result.size)
+      render :layout => 'bare' if params[:is_iframe]
+
+    end
   end
 
   # @API List users
@@ -669,8 +674,8 @@ class UsersController < ApplicationController
     get_context
     @context_account = @context.is_a?(Account) ? @context : @domain_root_account
     origin_user = params[:id] && params[:id] != 'self' ? User.find(params[:id]) : @current_user
-    @user = wrap_staff_attributes_for_exsited_user_from_db(origin_user, @context_account.id)
     if authorized_action(origin_user, @current_user, :view_statistics)
+      @user = wrap_staff_attributes_for_exsited_user_from_db(origin_user, @context_account.id)
       add_crumb(t('crumbs.profile', "%{user}'s profile", :user => origin_user.short_name), origin_user == @current_user ? user_profile_path(@current_user) : user_path(origin_user) )
 
       # course_section and enrollment term will only be used if the enrollment dates haven't been cached yet;
@@ -939,7 +944,7 @@ class UsersController < ApplicationController
       else
         user.__send__(attr+"=", user_account_association.__send__(attr))
       end
-    end
+    end if user_account_association
     user
   end
   private :wrap_staff_attributes_for_exsited_user_from_db

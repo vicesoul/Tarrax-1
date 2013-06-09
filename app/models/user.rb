@@ -596,7 +596,7 @@ class User < ActiveRecord::Base
       
       to_delete += current_associations.map { |k, v| v[0] }
       
-      UserAccountAssociation.delete_all(:id => to_delete) unless incremental || to_delete.empty?
+      (UserAccountAssociation.delete_all(:id => to_delete) unless incremental || to_delete.empty?) if RAILS_ENV == 'test'
     end
   end
 

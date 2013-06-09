@@ -33,7 +33,7 @@ class UserAccountAssociation < ActiveRecord::Base
 
   validates_presence_of :user_id, :account_id
 
-  attr_accessible :account_id, :depth, :enrollment_type, :fake, :job_number, :source, :external
+  attr_accessible :user, :user_id, :account, :account_id, :depth, :enrollment_type, :fake, :job_position, :job_position_id, :job_number, :source, :external, :state, :tag_list
 
   before_save :make_sure_only_one_fake_association_each_account
 
