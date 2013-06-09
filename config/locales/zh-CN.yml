@@ -11295,6 +11295,24 @@ zh-CN:
       skype: "Skype 是一个免费的在线语音和视频呼叫工具。"
       twitter: "Twitter 是一个优秀的课外通信资源。"
   users: 
+    advanced_index:
+      empty_users: 没有查询到人员
+      selector:
+        account: 组织架构
+        name: 姓名
+        job_number: 工号
+        job_position: 岗位
+        is_external: 外部人员
+        tags: 标签
+      table_headings:
+        id: 编号
+        name: 姓名
+        account: 组织架构
+        job_number: 工号
+        job_position: 岗位
+        is_external: 外部人员
+        tags: 标签
+        source: 来源
     a_discussion_post: 提交讨论
     a_file_upload: 文件上传
     a_media_recording: 语音视频录制
