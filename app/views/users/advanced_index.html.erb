@@ -49,11 +49,12 @@
             Job Position:
             <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
               <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
+            <% end %>
           </li>
           <li>
             is External:
             <%= f.radio_button :user_account_associations_external_equals, 'false' %> no
-            <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes        <% end %>
+            <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes
 
           </li>
           <li>
