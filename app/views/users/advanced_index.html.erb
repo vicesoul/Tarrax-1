@@ -5,7 +5,7 @@
  <% form_for @search, :url => account_advanced_users_path do |f| %>
   <div class="left">
     <div class="tree">
-      Account:
+      <%= t 'selector.account', 'Account' %>:
       <%
         account_tree = Account.get_account_tree(Account.find(params[:account_id]))
       %>
@@ -42,29 +42,29 @@
     <div class="filter">
         <ul>
           <li>
-            Name: <%= f.text_field :name_like %>
-            Job Number: <%= f.text_field :user_account_associations_job_number_equals %>
+            <%= t 'selector.name', 'Name' %>: <%= f.text_field :name_like %>
+            <%= t 'selector.job_number', 'Job Number' %>: <%= f.text_field :user_account_associations_job_number_equals %>
           </li>
           <li>
-            Job Position:
+            <%= t 'selector.job_position', 'Job Position' %>:
             <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
               <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
             <% end %>
           </li>
           <li>
-            is External:
+            <%= t 'selector.is_external', 'Is External'%>:
             <%= f.radio_button :user_account_associations_external_equals, 'false' %> no
             <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes
 
           </li>
           <li>
-            Tags:
+             <%= t 'selector.tags', 'Tags'%>:
              <% UserAccountAssociation.filter_by_account_id(params[:account_id]).inject([]){|result, a| result | a.tag_list}.each do |t| %>
                <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
              <% end %>
           </li>
           <li>
-            <%= f.submit "Search", {:class => "btn btn-primary"} %>
+            <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
           </li>
       </ul>
     </div>
@@ -117,5 +117,7 @@
         </tbody>
       </table>
     <%= pagination %>
+  <% else %>
+    <%= t 'empty_users', 'Empty users' %>
   <% end %>
 </div>

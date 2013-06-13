@@ -205,7 +205,7 @@ module SIS
                 UserAccountAssociation.active_or_freeze_user_by_account(ex_account_id, user.id, 1);
               end
               begin
-                associate_account = user.associated_accounts.find(account_id)
+                associate_account = user.associated_accounts.empty? ? nil : user.associated_accounts.find(account_id)
                 staff_attributes = {
                   :job_number => job_number,
                   :external => external,
