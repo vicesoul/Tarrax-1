@@ -111,7 +111,7 @@
                 <td><%= u.job_position.try(:name) %></td>
                 <td><%= u.external == true ? 'yes' : 'no' %></td>
                 <td><%= u.tag_list %></td>
-                <td><%= u.source %></td>
+                <td><%= t("#rails_helper.user_source.#{u.source}", u.source.titleize) if u.source.present? %></td>
             </tr>
               <% end %>
           <% end %>

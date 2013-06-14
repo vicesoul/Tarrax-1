@@ -36,16 +36,5 @@ module UsersHelper
     end.join('<br />').html_safe
   end
 
-  def account_tree_walk tree
-    unless tree.account_children.empty?
-      generate_account_search_field(tree)
-      tree.account_children.each{|c| account_tree_walk c}
-    else
-      generate_account_search_field(tree)
-    end
-  end
 
-  def generate_account_search_field tree
-    "<input type='checkbox' name='' /> #{tree.name}"
-  end
 end

@@ -6,6 +6,11 @@ zh-CN:
       actived: 激活的
       be_frozen: 被冻结的
       frozen: 自己冻结的
+    user_source:
+      created: 手动创建
+      invited: 课程邀请
+      imported: 系统导入
+      applied: 自助报名
   job_positions:
     index:
       new_job_position: 创建新岗位
