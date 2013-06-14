@@ -73,7 +73,7 @@
     <% end %>
   <% if @users && @users.present? %>
     <!-- Don't modify if you expect the correct pagination when using sort -->
-    <%= pagination = will_paginate(@users, :class=>"apple_pagination") %>
+    <%= pagination = will_paginate(@users) %>
       <table border="1" class="main-list table table-striped">
         <thead>
           <tr>

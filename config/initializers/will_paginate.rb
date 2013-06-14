@@ -31,3 +31,5 @@ WillPaginate::Finder::ClassMethods.module_eval do
     end
   end
 end
+
+WillPaginate::ViewHelpers.pagination_options[:class] = 'apple_pagination'
