@@ -103,6 +103,12 @@ class Pseudonym < ActiveRecord::Base
     @send_confirmation = false
   end
 
+  named_scope :sort_by_custom, lambda {|column, direction|
+    {
+      :order => "pseudonyms.#{column} #{direction}"
+    }
+  }
+
   named_scope :by_unique_id, lambda { |unique_id|
     if connection_pool.spec.config[:adapter] == 'mysql'
       { :conditions => {:unique_id => unique_id } }

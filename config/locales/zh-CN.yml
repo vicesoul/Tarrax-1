@@ -19,6 +19,7 @@ zh-CN:
         id: 编号
         code: 代码
         name: 名称
+        email: 电子邮件
         job_position_category: 岗位分类
         rank: 等级
         op: 操作
