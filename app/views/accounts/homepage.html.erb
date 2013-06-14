@@ -1,26 +1,16 @@
-<% content_for :head do %>
-<style type="text/css" media="all">
-#wrapper #main {
-  max-width: none;
-  margin-bottom: 0;
-}
-#wrapper #main #content{
-  padding: 0;
-}
-#wrapper-container{
-  margin-top: 0 !important;
-}
-</style>
-<% end unless @can_manage_homepage %>
 
 <% content_for :page_title do %><%= "#{t(:home_page, "Homepage")} | #{@account.name}"%><% end %>
-
 <% jammit_css :tinymce, :account_homepage %>
 <% js_bundle  :account_homepage %>
 
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
 <% if @can_manage_homepage %>
+  <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
+    <%= f.hidden_field :background_image %>
+    <%= before_label(:name, 'Theme name') %>
+    <%= f.select :theme, Jxb::Theme.themes %>
+  <% end %>
   <div id="fixed_right_sider">
     <div>
       <a href="#" class="edit_theme_link btn"><i class="icon-edit"></i> <%= t(:edit_this_page, "Edit") %></a>
@@ -92,11 +82,6 @@
     <%= t :repeat, 'Repeat' %> <%= check_box_tag 'repeat', '1', @backgroud_data[:repeat] %><br /><br />
     <button type="submit" class="save_background_button btn btn-primary"><%= t :save, 'Save' %></button>
     <button class="btn" onclick="$('#change_background_dialog').dialog('close');return false;"><%= t :cancel, 'Cancel' %></button>
-  </div>
-
-  <div id="add_widget_dialog" style="display:none">
-    <%= before_label(:add_new_widget, 'New widget') %>
-    <%= select "widget", "name", Jxb::Widget.types %> <%= link_to image_tag('/images/add.png'), 'javascript:void(0)', :id => 'add_widget', :class => 'add_widget_icon' %> <%= image_tag '/images/blue_small_loading.gif', :class => 'add_widget_loading_icon', :style => 'display:none;' %>
   </div>
 
 <% end %>

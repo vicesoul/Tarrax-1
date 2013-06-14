@@ -7,16 +7,42 @@ body.dashboard #main{min-width: 1000px;}
   background: url(../img/bg.jpg) no-repeat 0 -80px;
 }
 #jiaoxuebang #head{
-  height: 129px;
-  /*background: url(../img/bg.jpg) repeat-x top left;*/
+  margin-bottom: 20px;
+  overflow: hidden;
 }
 #jiaoxuebang #head #theme_main{
-  width: 960px;
+  width: 1000px;
   margin: 0 auto;
-  /*color: #ffffff;*/
+  color: #ffffff;
 }
 #jiaoxuebang #head #theme_main .left_part{
   float:left;
+}
+#jiaoxuebang #head #theme_main #logo{
+  width:122px;
+  height:44px;
+  margin-top:22px;
+  margin-right:7px;
+}
+#jiaoxuebang #head #theme_main #nav{
+  height:50px;
+  line-height:50px;
+  margin-top:15px;
+  width:684px;
+}
+#jiaoxuebang #head #theme_main #nav a{
+  color: green;
+  margin-right: 20px;
+}
+#jiaoxuebang #head #theme_main #nav > div{
+  float:left;
+}
+#jiaoxuebang #head #theme_main #phone{
+  text-align: center;
+  height: 45px;
+  line-height: 45px;
+  font-size: 30px;
+  margin-right: 10px;
 }
 #jiaoxuebang #head #theme_main .right_part{
   float:right;
@@ -41,7 +67,7 @@ body.dashboard #main{min-width: 1000px;}
   clear: both;
 }
 #jiaoxuebang #dashboard{
-  width: 960px;
+  width: 1000px;
   margin: 0 auto;
 }
 #jiaoxuebang .box{
@@ -250,7 +276,7 @@ body.dashboard #main{min-width: 1000px;}
   color: #0974d5;
   font-size: 18px;
   font-weight: bold;
-  width:400px;
+  width:100px;
   margin-top: 20px;
   padding: 10px   0;
 }
@@ -458,4 +484,28 @@ body.dashboard #main{min-width: 1000px;}
 #jiaoxuebang .box .box_head .courses-selector a.config_courses{
   background: url(/images/cog-with-droparrow-active.png) no-repeat;
   display: block;text-indent: -99999px;height: 16px;width: 16px;margin-top: 9px;
+}
+/*show widget*/
+.show_widget h1{
+  text-align: center;
+  color:#666;
+}
+.show_widget .info{
+  text-align: center;
+  color:#999;
+  font-size:12px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+.show_widget iframe{
+  width: 100%;
+  height: 900px;
+}
+.show_widget .info .context_widget{
+  margin-right:30px;
+}
+
+#content{
+  overflow: scroll!important;
 }
