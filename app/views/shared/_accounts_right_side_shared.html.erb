@@ -4,7 +4,7 @@
     <% form_for :user, :url => account_users_path(@account), :html => {:id => "new_user", :method => :get} do |f| -%>
       <fieldset class="textfield-inline-with-button">
         <input id="user_name" name="user[name]" value="<%= params[:user][:name] if params[:user] %>" type="text" />
-        <%= f.select :account_id, @account.sub_accounts_recursive(500, 0).map{|a| [a.name, a.id ]}.unshift([@account.name, @account.id]), {:prompt => t('account_query_tip', 'Select an account to query')} %>
+        <%= f.select :account_id, @account.sub_accounts_as_options, {:prompt => t('account_query_tip', 'Select an account to query')} %>
         <button class='button'><%= t 'buttons.go', "Go" %></button>
       </fieldset>
     <% end -%>

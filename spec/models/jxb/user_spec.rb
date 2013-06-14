@@ -5,7 +5,7 @@ describe User do
   before :each do 
     @user = user_model
     @user_account_association = tie_user_to_user_account_association(@user) 
-    @job_position = job_position_model
+    @job_position = @user_account_association.job_position
   end
 
   context "validations" do

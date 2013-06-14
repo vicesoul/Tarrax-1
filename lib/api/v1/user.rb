@@ -76,11 +76,9 @@ module Api::V1::User
       json[:birthday] = user.birthday if user.birthday
       json[:mobile_phone] = user.mobile_phone if user.mobile_phone
 
-      if context.grants_right?(current_user, session, :read_as_admin)
-      # include a permissions check here to only allow teachers and admins
+           # include a permissions check here to only allow teachers and admins
       # to see user email addresses.
-        json[:email] = user.email if includes.include?('email')
-      end
+      json[:email] = user.email if includes.include?('email') && context.grants_right?(current_user, session, :read_as_admin)
 
       json[:locale] = user.locale if includes.include?('locale')
 

@@ -94,7 +94,8 @@
             | 
             <a class="merge_user_link" href="<%= user_admin_merge_url(@user.id) %>"><%= t('merge_with_another_user', 'Merge with Another User')%></a>
           <% end %>
-          <% if false && ((@context.is_a?(User) || @context.is_a?(Account)) && root_account) && @user.grants_right?(@current_user, session, :manage_logins) %>
+          <!-- disable this link before user-deleted logic is modified -->
+          <% if (RAILS_ENV == 'test' ? true : false ) && ((@context.is_a?(User) || @context.is_a?(Account)) && root_account) && @user.grants_right?(@current_user, session, :manage_logins) %>
             |
             <a href="<%= account_confirm_delete_user_url(root_account.id, @user.id) %>"><%= t('delete_from_account', 'Delete from %{account}', :account => root_account.name) %></a>
           <% end %>

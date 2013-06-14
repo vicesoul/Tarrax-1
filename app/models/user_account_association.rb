@@ -44,6 +44,8 @@ class UserAccountAssociation < ActiveRecord::Base
     tagged_with(tag, :on => :tags, :any => true)
   }
 
+  named_scope :active, :conditions => ['state = 0']
+
   named_scope :filter_by_account_id, lambda { |account_id| {:conditions => ['account_id in (?)', account_id]} }
 
   named_scope :sort_by_job_position, lambda { |column, direction|
@@ -70,18 +72,16 @@ class UserAccountAssociation < ActiveRecord::Base
     flag = true
     account = Account.find(op_account_id)
     begin
-      if account.root_account?
-        sub_account_ids = account.sub_accounts.map{|s| s.id}
-        UserAccountAssociation.find_all_by_account_id_and_user_id((sub_account_ids | [account.id]), user_id).each do |s|
-          UserAccountAssociation.transaction do
-            s.state = state
-            s.save!
-          end
+      account_and_sub_account_ids = account.sub_accounts_recursive(10000, 0).select{|a| a.workflow_state == 'active'}.map{|s| s.id} | [account.id]
+      UserAccountAssociation.find_all_by_account_id_and_user_id(account_and_sub_account_ids, user_id).each do |s|
+        UserAccountAssociation.transaction do
+          s.state = state
+          s.save!
+
+          course_ids = CourseAccountAssociation.find_all_by_account_id(account_and_sub_account_ids, :select => 'distinct course_id').map{|c| c.course_id}
+          Enrollment.__send__(state.to_s == '0' ? 'deleted' : 'active').find_all_by_course_id_and_user_id(course_ids, user_id).each{|e| e.__send__(state.to_s == '0' ? 'restore' : 'destroy') }
+
         end
-      else
-        user_account_association = UserAccountAssociation.find_by_account_id_and_user_id(account.id, user_id)
-        user_account_association.state = state
-        user_account_association.save!
       end
     rescue => err
       flag = false

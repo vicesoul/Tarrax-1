@@ -96,7 +96,7 @@ require([
           confirmCallback: function(){
             $.getJSON(_this.attr('link'), function(data){
               if(data.flag) {
-                alert("<%= t 'js.update_successfully', 'Update successfully' %>" + "TODO: 刷新表格且不刷新页面");
+                alert("<%= t 'js.update_successfully', 'Update successfully' %>");
                 window.location.reload();
               }else{
                 alert("<%= t 'js.update_failure', 'Update failure' %>");

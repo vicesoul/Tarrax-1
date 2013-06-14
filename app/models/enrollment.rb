@@ -139,6 +139,9 @@ class Enrollment < ActiveRecord::Base
   named_scope :active,
               :conditions => ['enrollments.workflow_state != ?', 'deleted']
 
+  named_scope :deleted,
+              :conditions => ['enrollments.workflow_state = ?', 'deleted']
+
   named_scope :admin,
               :select => 'course_id',
               :joins => :course,

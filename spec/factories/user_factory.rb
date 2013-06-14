@@ -25,7 +25,7 @@ def tie_user_to_account(user, opts={})
 end
 
 def tie_user_to_user_account_association(user, opts={})
-  UserAccountAssociation.create(
+  UserAccountAssociation.create!(
     :user => user,
     :account => opts[:account] || Account.default,
     :enrollment_type => 'student',
@@ -39,7 +39,11 @@ def tie_user_to_user_account_association(user, opts={})
 end
 
 def job_position_model
-  JobPosition.create(:name => 'value for name')
+  JobPosition.create!(
+    :name => 'value for name',
+    :account_id => Account.default.id,
+    :source => 'source'
+  )
 end
 
 def valid_user_attributes
