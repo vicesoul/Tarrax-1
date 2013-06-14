@@ -880,6 +880,7 @@ module ApplicationHelper
 
   def sortable_for_searchlogic(column, title, custom_scope = nil)
     direction = sort_direction == "asc" ? "desc" : "asc"
+    css_class = column == sort_column ? "current_#{sort_direction}" : nil
 
     if custom_scope.nil?
       order_param = {"search[order]" => "#{column} #{direction}"}
@@ -889,12 +890,12 @@ module ApplicationHelper
       params[:search].delete_if{|k,v| k.to_s =~ /^order$/} if params[:search]
     end
 
-    order_param.merge!("direction" => direction)
+    order_param.merge!("direction" => direction, "sort" => column)
     order_param.merge!("is_iframe" => true) if params[:is_iframe]
 
     link_params = params[:search].nil? ? order_param : params[:search].inject({}){|r, (k,v)| r.merge!("search[#{k}]" => v)}.merge!(order_param)
 
-    link_to title, link_params
+    link_to title, link_params, {:class => css_class}
   end
 
 end
