@@ -36,7 +36,8 @@
           </div>
         </div>
       </form>
-      <p class="alert">注意： 如果您选择插入网址，则不显示编辑器内容！</p>
+      <p class="alert url_tip">注意： 如果您选择插入网址，则不显示编辑器内容！</p>
+      <p class="alert size_tip">上传的图片请控制在200像素以内</p>
       <div class="content">
         <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea>
         <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">

@@ -21,6 +21,18 @@
     top: 8px
     right: 60px
     cursor: pointer
+#caption, #logo, #nav
+  img
+    max-width: 200px
+    max-height: 120px
+#caption.sortable
+  .box
+    border: none
+    .box_head
+      display: none
+    .box_body
+      background: none
+      padding: 0
 
 .theme_edit
   [data-position]
@@ -29,6 +41,7 @@
     padding: 0
     min-width: 100px
     min-height: 30px
+
   .position_selected
     border: 1px solid #ff6600
     box-shadow: 0 0 0 1px #ff6600
@@ -103,14 +116,17 @@
       width: auto
     .controls
       margin-left: auto
-.ui-dialog
-  form.type-url, p.alert, tr[role="toolbar"]
-    display: block
-.has-title
-  form.type-url, p.alert
+.default-dialog
+  form.type-url, p.url_tip, p.size_tip
     display: none
-.no-title
-  form.type-url, p.alert, tr[role="toolbar"]
+.nav-dialog
+  p.size_tip
+    display: none
+.activity-dialog
+  form.type-url, p.url_tip, tr[role="toolbar"], #edit-widget-dialog-title, p.size_tip
+    display: none
+.upload-small-pic-dialog
+  form.type-url, p.url_tip, tr[role="toolbar"], #edit-widget-dialog-title
     display: none
 
 body.homepage #left-side

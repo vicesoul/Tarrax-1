@@ -1,6 +1,7 @@
 require [
   'jquery'
   'i18n!account_homepage'
+  'jqueryui/tooltip'
   'jqueryui/sortable'
   'jqueryui/draggable'
   'jqueryui/dialog'
@@ -86,17 +87,20 @@ require [
           $('.editable').removeClass('editable')
           $widget = $(this).parent("[data-widget]")
           synToDialog( $widget )
-          $("#edit_widget_dialog").dialog(
-            open: (event, ui) ->
-              dataPosition = $widget.closest(".sortable").attr("data-position") 
-              widget = $widget.attr("data-widget").split(",")[0]
-              if dataPosition isnt "nav" and widget is "custom" or dataPosition is 'logo'
-                $(this).addClass "has-title"
-              else if widget is "activity"
-                $(this).addClass "no-title"
-            beforeClose: (event, ui) ->
-              $(this).removeClass "has-title no-title"
-          ).dialog('open')
+
+          dataPosition = $widget.closest(".sortable").attr("data-position") 
+          widget = $widget.attr("data-widget").split(",")[0]
+          if ( dataPosition is "center" or dataPosition is "right" ) and widget is "custom"
+            dialogName = "default-dialog"
+          else if widget is "activity" 
+            dialogName = "activity-dialog"
+          else if dataPosition is "logo" or dataPosition is "caption"
+            dialogName = "upload-small-pic-dialog"
+          else if dataPosition is "nav"
+            dialogName = "nav-dialog"
+          $("#edit_widget_dialog").dialog("option", "dialogClass", dialogName)
+          $("#edit_widget_dialog").dialog('open')
+
           $widget.addClass('editable')
         $(this).append $editImg
 
@@ -338,9 +342,6 @@ require [
         $tipB.hide()
     )
 
-
-      
-
     #themes selector onchange  
     $('#jxb_page_theme').change ->
       $('<div></div>').easyDialog({
@@ -378,7 +379,7 @@ require [
         dataType: 'json'
         beforeSubmit: ->
           imageValidated = validateUploadedImage( $form.find("input[type=file]").val() )
-          if imageValidated 
+          if imageValidated
             $confirm.hide().after($textUploading)
           return imageValidated;
         success: (data)->
@@ -397,16 +398,16 @@ require [
           afterUploadedImageSuccess()
       )
       #tooltip
-      $('.account_announcement, #add_widget').tooltip({
+      $('.account_announcement, #add_widget').tooltip(
         position: { my: "left bottom+30", at: "left bottom" }
-        })
+      )
 
     
 
     $("#homepage-editor-left-side").on "mousedown", ->
       return false
 
-    $customArea = $( ".sortable[data-position=center], .sortable[data-position=right], .sortable[data-position=nav]" )
+    $customArea = $( ".sortable[data-position=center], .sortable[data-position=right], .sortable[data-position=nav], .sortable[data-position=caption]" )
     $center = $( ".sortable[data-position=center]" )
     $right = $( ".sortable[data-position=right]" )
     $nav = $( ".sortable[data-position=nav]" )

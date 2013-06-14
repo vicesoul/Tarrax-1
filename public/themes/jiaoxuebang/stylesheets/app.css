@@ -75,7 +75,6 @@ body.dashboard #main{min-width: 1000px;}
   /*width: 684px;*/
   min-height: 100px;
   margin-bottom: 12px;
-  background-color:#fff;
 }
 #jiaoxuebang .mini_box{
   width: 684px;
@@ -273,12 +272,8 @@ body.dashboard #main{min-width: 1000px;}
 /*caption*/
 
 #jiaoxuebang #caption{
-  color: #0974d5;
-  font-size: 18px;
-  font-weight: bold;
-  width:100px;
-  margin-top: 20px;
-  padding: 10px   0;
+  margin-top:5px;
+  margin-right:10px;
 }
 #config_courses_holder {
   position: absolute;
