@@ -1,0 +1,29 @@
+<% jammit_css :account_homepage %>
+<div id="<%= @page.theme %>">
+  <div id="head" data-bg-varied="true">
+     <div id="theme_main">
+       <div class="left_part">
+        <div data-position="logo" class="sortable" id="logo"><%= widgets_at_position("logo") %></div>
+        <div data-position="nav" class="sortable data-link" id="nav" data-link="true">
+          <%= widgets_at_position_as_link("nav") %>
+        </div>
+       </div>
+       <div class="right_part">
+        <div data-position="caption" class="sortable" id="caption"><%= widgets_at_position("caption") %></div>
+        <div data-position="phone" class="sortable" id="phone"><%= widgets_at_position("phone") %></div>
+       </div>
+     </div>
+  </div>
+  <div id="dashboard" class="show_widget">
+    <h1><%= @widget.title %></h1>
+    <div class="info"><span class="context_widget"><%= t('#cells.author', 'author') %> : <%= @page.context.name %></span><span class="created_at_widget"><%= t('#cells.created_at', 'created_at') %> : <%= l @widget.created_at, :format => :long %></span></div>
+    
+    <% if @widget.iframe_url.present? %>
+
+      <iframe src=<%=raw @widget.iframe_url %>></iframe>
+    <% else %>
+      <%=raw @widget.body %>
+    <% end %>
+    
+  </div>
+</div>
