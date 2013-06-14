@@ -19,7 +19,6 @@ zh-CN:
         id: 编号
         code: 代码
         name: 名称
-        email: 电子邮件
         job_position_category: 岗位分类
         rank: 等级
         op: 操作
@@ -11315,6 +11314,7 @@ zh-CN:
         select_deselect_all: 全选/反选
         id: 编号
         name: 姓名
+        email: 电子邮件
         account: 组织架构
         job_number: 工号
         job_position: 岗位
