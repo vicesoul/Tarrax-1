@@ -15,11 +15,6 @@ require [
       flag = $(this).prop "checked"
       $closureCheckbox.find("input:checkbox").prop "checked", flag if $closureCheckbox.find("div").size() isnt 0
 
-    $("div.tree i").each ->
-    	$closureCheckbox = $(this).closest("div").next("div")
-    	if $closureCheckbox.find("div").size() is 0
-    		$(this).removeClass("ui-icon ui-icon-circle-triangle-e")
-
     $("div.tree i.ui-icon").click ->
     	$closureCheckbox = $(this).closest("div").next("div")
     	if $closureCheckbox.find("div").size() isnt 0

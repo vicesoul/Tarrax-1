@@ -43,23 +43,27 @@
     <div class="filter">
         <ul>
           <li>
-            <%= t 'selector.name', 'Name' %>: <%= f.text_field :name_like %>
-            <%= t 'selector.job_number', 'Job Number' %>: <%= f.text_field :user_account_associations_job_number_equals %>
+            <label><%= t 'selector.name', 'Name' %>:</label>
+            <%= f.text_field :name_like %>
           </li>
           <li>
-            <%= t 'selector.job_position', 'Job Position' %>:
+            <label><%= t 'selector.job_number', 'Job Number' %>:</label>
+            <%= f.text_field :user_account_associations_job_number_equals %>
+          </li>
+          <li>
+            <label><%= t 'selector.job_position', 'Job Position' %>:</label>
             <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
               <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
             <% end %>
           </li>
           <li>
-            <%= t 'selector.is_external', 'Is External'%>:
+            <label><%= t 'selector.is_external', 'Is External'%>:</label>
             <%= f.check_box :user_account_associations_external_in, {:name => "search[user_account_associations_external_in][]"}, 'false', nil %> no
             <%= f.check_box :user_account_associations_external_in, {:name => "search[user_account_associations_external_in][]"}, 'true', nil %> yes
 
           </li>
           <li>
-             <%= t 'selector.tags', 'Tags'%>:
+             <label><%= t 'selector.tags', 'Tags'%>:</label>
              <% UserAccountAssociation.filter_by_account_id(params[:account_id]).inject([]){|result, a| result | a.tag_list}.each do |t| %>
                <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
              <% end %>
@@ -67,6 +71,7 @@
              <%= hidden_field_tag 'is_iframe', :value => 'true' if params[:is_iframe] %>
           </li>
           <li>
+            <label> </label>
             <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
           </li>
       </ul>

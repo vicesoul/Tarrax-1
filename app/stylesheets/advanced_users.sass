@@ -4,10 +4,11 @@
 .apple_pagination
 	margin: 10px auto
 #main
-	max-width: 100%
+	max-width: 100%!important
 
 ul, ol
 	list-style: none
+	padding: 0
 .hide
 	display: none
 
@@ -39,8 +40,29 @@ form
 	.right
 		float: none
 		margin-left: 250px
+		.filter
+			border: 1px solid #ccc
+			li
+				margin: 5px 10px
+				label
+					display: inline-block
+					width: 120px
+					text-align: right
+					padding-right: 20px
 		table
 			min-width: 1200px
+			border: 1px solid #ccc
+			thead
+				td
+					a
+						padding-right: 20px
+						background: url(/images/jxb/arrow.png) no-repeat right 4px
+					a.current_asc
+						background-position: right -56px
+						color: #ff6600
+					a.current_desc
+						background-position: right -86px
+						color: #ff6600
 			tr
 				td
 					vertical-align: middle
