@@ -5,7 +5,7 @@ class JobPositionsController < ApplicationController
 
   @show_left_side = true
   
-  add_crumb(proc{t('#accounts.settings.job_position_management_fieldset', 'Job position management')}, :account_job_positions_path)
+  add_crumb(proc{t('#accounts.settings.job_position_management_fieldset', 'Job Position Management')}, :account_job_positions_path)
 
   def auth
     authorized_action(@context, @current_user, :manage_account_settings)

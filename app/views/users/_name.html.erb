@@ -39,7 +39,7 @@
         <td class="job_position_name"><%=h user_account_association.call_or_mock('job_position', 'name') %></td>
       </tr>
       <tr>
-        <th><%= before_label('external', 'Is External') %></th>
+        <th><%= before_label('external', 'External') %></th>
         <td class="external"><%=h user_account_association.external ? 'yes' : 'no' %></td>
       </tr>
       <tr>
@@ -137,7 +137,7 @@
         <td><%= f.select :job_position_id, account.root_account.job_positions.map{|j| [j.name, j.id ]}, { :include_blank => true } %></td>
       </tr>
       <tr>
-        <td><%= f.blabel :external, :en => "Is external" %></td>
+        <td><%= f.blabel :external, :en => "External" %></td>
         <td>
           <%= f.radio_button :external, 'false' %><%= t 'internal', 'Internal' %>
           <%= f.radio_button :external, 'true' %><%= t 'external', 'External' %>

@@ -105,7 +105,7 @@
                 <td rowspan="<%= user_account_associations.size %>">
                   <input type="checkbox" class="sub_checkbox" value="<%= user.id %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
                 </td>
-                <td rowspan="<%= user_account_associations.size%>"><%= user.name %></td>
+                <td rowspan="<%= user_account_associations.size%>"><%= link_to user.name, account_user_path(@account, user), {:onclick=> "if(window.parent!==window){window.open(this.href);return false;}"} %></td>
                 <td rowspan="<%= user_account_associations.size%>"><%= user.email %></td>
               <% end %>
                 <td><%= u.account.name %></td>
@@ -113,7 +113,7 @@
                 <td><%= u.job_position.try(:name) %></td>
                 <td><%= u.external == true ? 'yes' : 'no' %></td>
                 <td><%= u.tag_list %></td>
-                <td><%= t("#rails_helper.user_source.#{u.source}", u.source.titleize) if u.source.present? %></td>
+                <td><%= UserAccountAssociation.display_source[u.source] %></td>
             </tr>
               <% end %>
           <% end %>

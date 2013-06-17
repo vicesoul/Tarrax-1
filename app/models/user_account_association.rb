@@ -89,6 +89,15 @@ class UserAccountAssociation < ActiveRecord::Base
     flag
   end
 
+  def self.display_source
+    {
+      'created' => t('#rails_helper.user_source.created', 'Created'),
+      'invited' => t('#rails_helper.user_source.invited', 'Invited'),
+      'imported' => t('#rails_helper.user_source.imported', 'Imported'),
+      'applied' => t('#rails_helper.user_source.applied', 'Applied')
+    }
+  end
+
   private
 
   def make_sure_only_one_fake_association_each_account
