@@ -53,8 +53,8 @@
           </li>
           <li>
             <%= t 'selector.is_external', 'Is External'%>:
-            <%= f.radio_button :user_account_associations_external_equals, 'false' %> no
-            <%= f.radio_button :user_account_associations_external_equals, 'true' %> yes
+            <%= f.check_box :user_account_associations_external_in, {:name => "search[user_account_associations_external_in][]"}, 'false', nil %> no
+            <%= f.check_box :user_account_associations_external_in, {:name => "search[user_account_associations_external_in][]"}, 'true', nil %> yes
 
           </li>
           <li>
