@@ -1,5 +1,5 @@
 <%
-   jammit_css :advanced_users
+   jammit_css :advanced_users, :common
    js_bundle :advanced_users
 %>
  <% form_for @search, :url => account_advanced_users_path do |f| %>
@@ -11,7 +11,7 @@
       %>
       <% p = lambda do |tree| %>
         <%
-          tree_branch = "<div><span class='indent'>#{("<span class='blank_box'></span>" * tree.tree_depth)}├</span>".html_safe
+          tree_branch = "<div><span class='indent'>#{("<span class='blank_box'></span>" * tree.tree_depth)}<i class='ui-icon ui-icon-circle-triangle-e'>├</i></span>".html_safe
           tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:parent_id => (tree.parent_account_id ? tree.parent_account_id : nil), :name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil)
           tree_name = "<span>#{(tree.name)}</span></div>".html_safe
         %>
