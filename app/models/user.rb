@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
   include UserFollow::FollowedItem
   include Jxb::Base::User
 
-  attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type
-  attr_accessor :original_id, :menu_data
+  attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type, :birthday, :mobile_phone, :job_number, :job_position_id, :external, :source, :tags
+  attr_accessor :original_id, :menu_data, :job_number, :job_position_id, :external, :source, :tags
 
   before_save :infer_defaults
   serialize :preferences
@@ -272,6 +272,9 @@ class User < ActiveRecord::Base
   validates_length_of :short_name, :maximum => maximum_string_length, :allow_nil => true
   validates_length_of :sortable_name, :maximum => maximum_string_length, :allow_nil => true
   validates_presence_of :name, :if => :require_presence_of_name
+  #validates_presence_of :external
+  validates_format_of :birthday, :with => /^($|\d{4}-\d{2}-\d{2}$)/
+  validates_format_of :mobile_phone, :with => /^($|\d{11}$)/
   validates_locale :locale, :browser_locale, :allow_nil => true
   validates_acceptance_of :terms_of_use, :if => :require_acceptance_of_terms, :allow_nil => false
   validates_each :self_enrollment_code do |record, attr, value|
@@ -420,6 +423,8 @@ class User < ActiveRecord::Base
 
     opts.reverse_merge! :account_chain_cache => {}
     account_chain_cache = opts[:account_chain_cache]
+    staff_attributes = opts[:staff_attributes] || {}
+    user_basic_attributes = opts[:user_basic_attributes] || {}
 
     # Split it up into manageable chunks
     if users_or_user_ids.length > 500
@@ -528,12 +533,30 @@ class User < ActiveRecord::Base
             aa = UserAccountAssociation.new
             aa.user_id = user_id
             aa.account_id = account_id
+            staff_attributes.each do |key, value|
+              if key.to_s == 'tags'
+                aa.tag_list = value unless value.blank?
+              else
+                aa.__send__("#{key}=", value) unless value.blank?
+              end
+            end
+            #aa.job_number = staff_attributes[:job_number] if staff_attributes.has_key?(:job_number)
+            #aa.job_position_id = staff_attributes[:job_position_id] if staff_attributes.has_key?(:job_position_id)
+            #aa.external = staff_attributes[:external] if staff_attributes.has_key?(:external)
+            #aa.source = staff_attributes[:source] if staff_attributes.has_key?(:source)
+            #aa.tag_list = staff_attributes[:tags] if staff_attributes.has_key?(:tags)
             aa.depth = depth
             aa.fake = true if opts[:fake]
             aa.shard = Shard.shard_for(account_id)
             aa.shard.activate do
               begin
                 UserAccountAssociation.transaction(:requires_new => true) do
+                  unless user_basic_attributes.blank?
+                    user_basic_attributes.each do |k, v|
+                      user.__send__(k.to_s+"=", v)
+                    end
+                    user.save!
+                  end
                   aa.save!
                 end
               rescue ActiveRecord::Base::UniqueConstraintViolation
@@ -555,13 +578,26 @@ class User < ActiveRecord::Base
             end
             # remove from list of existing for non-incremental
             current_associations.delete(key) unless incremental
+
+            unless staff_attributes.blank?
+              association_obj = UserAccountAssociation.find(association[0])
+              staff_attributes.each do |key, value|
+                if key.to_s == 'tags'
+                  association_obj.tag_list = value unless value.blank?
+                else
+                  association_obj.__send__("#{key}=", value) unless value.blank?
+                end
+              end
+              association_obj.save
+            end
+
           end
         end
       end
       
       to_delete += current_associations.map { |k, v| v[0] }
       
-      UserAccountAssociation.delete_all(:id => to_delete) unless incremental || to_delete.empty?
+      (UserAccountAssociation.delete_all(:id => to_delete) unless incremental || to_delete.empty?) if RAILS_ENV == 'test'
     end
   end
 

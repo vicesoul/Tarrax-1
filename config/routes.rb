@@ -433,6 +433,9 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.advanced_users 'advanced_users', :controller => 'users', :action => 'advanced_index'
+
+    account.active_or_forzen_user_by_account 'active_or_forzen_user_by_account/:user_id/:op_account_id/:state', :controller => 'users', :action => 'active_or_forzen_user_by_account'
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
     account.files 'files', :controller => 'accounts', :action => 'create_file'
     account.redirect 'redirect', :controller => 'accounts', :action => 'redirect'
@@ -441,6 +444,9 @@ ActionController::Routing::Routes.draw do |map|
     account.remove_account_user 'account_users/:id', :controller => 'accounts', :action => 'remove_account_user', :conditions => {:method => :delete}
 
     account.resources :grading_standards, :only => %w(index create update destroy)
+
+    account.resources :job_position_categories, :except => ['show', 'destroy'], :controller => 'job_position_category'
+    account.resources :job_positions, :except => ['show', 'destroy'], :controller => 'job_positions'
 
     account.statistics 'statistics', :controller => 'accounts', :action => 'statistics'
     account.statistics_graph 'statistics/over_time/:attribute', :controller => 'accounts', :action => 'statistics_graph'

@@ -26,7 +26,16 @@ class Object
   rescue
     nil
   end
+ 
+  def call_or_mock object, attr
+    if self.__send__(object).nil?
+      ''
+    else
+      self.__send__(object).__send__(attr)
+    end
+  end
 end
+
 class NilClass
   def try_rescue(*args)
     self

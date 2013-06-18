@@ -28,7 +28,6 @@ describe 'ruby_version_compat' do
       testfile = ActionController::TestUploadedFile.new(File.join(File.dirname(__FILE__), "/../fixtures/scribd_docs/txt.txt"), "text/plain", true)
       testfile.instance_variable_set(:@original_filename, nil)
       controller = ApplicationController.new
-      debugger
       controller.stubs(:params).returns({ :upload => { :file1 => testfile } })
       controller.stubs(:request).returns(mock(:path => "/upload"))
       expect { controller.force_utf8_params() }.to_not raise_error

@@ -1,0 +1,27 @@
+
+<tr>
+  <td><%= f.blabel :code, :code, :en => "Code" %></td>
+  <td><%= f.text_field :code, :value => @job_position.code %></td>
+</tr>
+<tr>
+  <td><%= f.blabel :name, :name, :en => "Name" %></td>
+  <td><%= f.text_field :name, :value => @job_position.name %></td>
+</tr>
+<tr>
+  <td><%= f.blabel :job_position_category_id, :job_position_category_id, :en => "Job position category" %></td>
+  <td>
+    <%= f.select :job_position_category_id, JobPositionCategory.find_all_by_account_id((@account and @account.id) || params[:account_id]).map{|c| [c.name, c.id]}, { :include_blank => t('select_category_tip', 'Select category') } %>
+  </td>
+</tr>
+<tr>
+  <td><%= f.blabel :rank, :rank, :en => "Rank" %></td>
+  <td><%= f.text_field :rank, :value => @job_position.rank %></td>
+</tr>
+<tr>
+  <td colspan="2">
+    <div class="button-container">
+      <button type="button" class="btn cancel_button" onclick="history.go(-1);"><%= t("#buttons.go_back", "Back") %></button>
+      <button type="submit" class="btn btn-primary submit_button"><%= t('#buttons.save', "Save") %></button>
+    </div>
+  </td>
+</tr>

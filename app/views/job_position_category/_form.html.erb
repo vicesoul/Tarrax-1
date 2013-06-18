@@ -1,0 +1,14 @@
+
+<tr>
+  <td><%= f.blabel :name, :name, :en => "Name" %></td>
+  <td><%= f.text_field :name, :value => @category.name %></td>
+</tr>
+
+<tr>
+  <td colspan="2">
+    <div class="button-container">
+      <button type="button" class="btn cancel_button" onclick="history.go(-1);"><%= t("#buttons.go_back", "Back") %></button>
+      <button type="submit" class="btn btn-primary submit_button"><%= t('#buttons.save', "Save") %></button>
+    </div>
+  </td>
+</tr>

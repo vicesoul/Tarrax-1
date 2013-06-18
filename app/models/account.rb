@@ -24,9 +24,11 @@ class Account < ActiveRecord::Base
     :turnitin_shared_secret, :turnitin_comments, :turnitin_pledge,
     :default_time_zone, :parent_account, :settings, :default_storage_quota,
     :default_storage_quota_mb, :storage_quota, :ip_filters, :default_locale,
-    :default_user_storage_quota_mb
+    :default_user_storage_quota_mb, :account_children, :tree_depth
 
   include Workflow
+
+  attr_accessor :account_children, :tree_depth
 
   belongs_to :parent_account, :class_name => 'Account'
   belongs_to :root_account, :class_name => 'Account'
@@ -91,6 +93,8 @@ class Account < ActiveRecord::Base
   has_many :user_account_associations
   has_many :report_snapshots
   has_one  :subdomain
+  has_many :job_position_categories
+  has_many :job_positions
 
   before_validation :verify_unique_sis_source_id
   before_save :ensure_defaults
@@ -339,9 +343,9 @@ class Account < ActiveRecord::Base
     res
   end
   
-  def users_name_like(query="")
+  def users_name_like(query="", account_id=nil)
     @cached_users_name_like ||= {}
-    @cached_users_name_like[query] ||= self.fast_all_users.name_like(query)
+    @cached_users_name_like[query] ||= self.fast_all_users(nil, account_id).name_like(query)
   end
 
   def fast_course_base(opts)
@@ -358,14 +362,16 @@ class Account < ActiveRecord::Base
     @cached_fast_all_courses[opts] ||= self.fast_course_base(opts)
   end
 
-  def all_users(limit=250)
+  def all_users(limit=250, account_id=nil)
+    account = account_id.blank? ? self : Account.find(account_id)
     @cached_all_users ||= {}
-    @cached_all_users[limit] ||= User.of_account(self).scoped(:limit=>limit)
+    @cached_all_users[limit] ||= User.of_account(account).scoped(:limit=>limit)
   end
   
-  def fast_all_users(limit=nil)
+  def fast_all_users(limit=nil, account_id=nil)
     @cached_fast_all_users ||= {}
-    @cached_fast_all_users[limit] ||= self.all_users(limit).active.order_by_sortable_name.scoped(:select => "users.id, users.name, users.sortable_name")
+    limit = limit.blank? ? 250 : limit
+    @cached_fast_all_users[limit] ||= self.all_users(limit, account_id).active.order_by_sortable_name.scoped(:select => "users.id, users.name, users.sortable_name")
   end
 
   def users_not_in_groups_sql(groups, opts={})
@@ -533,6 +539,17 @@ class Account < ActiveRecord::Base
       end
       account_descendents.call(id).flatten[offset, limit]
     end
+  end
+
+  def self.get_account_tree root
+    procedure = lambda do |account, depth|
+       children = Account.active.where(:parent_account_id => account.id)
+       account.account_children = children
+       account.tree_depth = depth
+       children.each {|c| procedure.call(c, depth+1)}
+       return root
+    end
+    procedure.call(root, 1)
   end
 
   def associated_accounts

@@ -180,5 +180,7 @@ stylesheets:
     - public/stylesheets/compiled/account_homepage.css
   ui_accordion:
     - public/stylesheets/compiled/ui_accordion.css
+  advanced_users:
+    - public/stylesheets/compiled/advanced_users.css
   <%= plugin_assets.anchors_yml %>
 

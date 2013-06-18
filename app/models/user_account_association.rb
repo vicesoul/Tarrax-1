@@ -28,12 +28,75 @@
 class UserAccountAssociation < ActiveRecord::Base
   belongs_to :user
   belongs_to :account
+  belongs_to :job_position
+  has_many :user_account_association_change_logs
 
   validates_presence_of :user_id, :account_id
 
-  attr_accessible :account_id, :depth, :enrollment_type, :fake
+  attr_accessible :user, :user_id, :account, :account_id, :depth, :enrollment_type, :fake, :job_position, :job_position_id, :job_number, :source, :external, :state, :tag_list
 
   before_save :make_sure_only_one_fake_association_each_account
+
+  acts_as_taggable_on :tags
+
+  #named_scope for taggable
+  scope_procedure :taggable_with_tags, lambda { |tag|
+    tagged_with(tag, :on => :tags, :any => true)
+  }
+
+  named_scope :active, :conditions => ['state = 0']
+
+  named_scope :filter_by_account_id, lambda { |account_id| {:conditions => ['account_id in (?)', account_id]} }
+
+  named_scope :sort_by_job_position, lambda { |column, direction|
+    {
+      :joins => "left join job_positions on user_account_associations.job_position_id = job_positions.id",
+      :order => "job_positions.#{column} #{direction}"
+    }
+  }
+
+  named_scope :sort_by_custom, lambda {|column, direction|
+    {
+      :order => "user_account_associations.#{column} #{direction}"
+    }
+  }
+
+  named_scope :sort_by_tags, lambda { |column, direction|
+    {
+      :joins => "left join taggings on user_account_associations.id = taggings.taggable_id left join tags on tags.id = taggings.tag_id",
+      :order => "tags.#{column} #{direction}"
+    }
+  }
+
+  def self.active_or_freeze_user_by_account op_account_id, user_id, state
+    flag = true
+    account = Account.find(op_account_id)
+    begin
+      account_and_sub_account_ids = account.sub_accounts_recursive(10000, 0).select{|a| a.workflow_state == 'active'}.map{|s| s.id} | [account.id]
+      UserAccountAssociation.find_all_by_account_id_and_user_id(account_and_sub_account_ids, user_id).each do |s|
+        UserAccountAssociation.transaction do
+          s.state = state
+          s.save!
+
+          course_ids = CourseAccountAssociation.find_all_by_account_id(account_and_sub_account_ids, :select => 'distinct course_id').map{|c| c.course_id}
+          Enrollment.__send__(state.to_s == '0' ? 'deleted' : 'active').find_all_by_course_id_and_user_id(course_ids, user_id).each{|e| e.__send__(state.to_s == '0' ? 'restore' : 'destroy') }
+
+        end
+      end
+    rescue => err
+      flag = false
+    end
+    flag
+  end
+
+  def self.display_source
+    {
+      'created' => t('#rails_helper.user_source.created', 'Created'),
+      'invited' => t('#rails_helper.user_source.invited', 'Invited'),
+      'imported' => t('#rails_helper.user_source.imported', 'Imported'),
+      'applied' => t('#rails_helper.user_source.applied', 'Applied')
+    }
+  end
 
   private
 

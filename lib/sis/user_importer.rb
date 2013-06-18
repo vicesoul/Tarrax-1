@@ -60,14 +60,33 @@ module SIS
         @users_to_update_account_associations = []
       end
 
-      def add_user(user_id, login_id, status, first_name, last_name, email=nil, password=nil, ssha_password=nil, account=nil, enrollment_type=nil)
-        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password,account,enrollment_type].inspect}")
+      def add_user(
+        user_id,
+        login_id,
+        status,
+        first_name='',
+        last_name='',
+        email=nil,
+        password=nil,
+        ssha_password=nil,
+        account_id=nil,
+        enrollment_type=nil,
+        birthday=nil,
+        mobile_phone=nil,
+        job_number=nil,
+        job_position=nil,
+        external=nil,
+        tags='',
+        state='0',
+        ex_account_id=nil
+      )
+        @logger.debug("Processing User #{[user_id, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id].inspect}")
 
         raise ImportError, "No user_id given for a user" if user_id.blank?
         raise ImportError, "No login_id given for user #{user_id}" if login_id.blank?
         raise ImportError, "Improper status for user #{user_id}" unless status =~ /\A(active|deleted)/i
 
-        @batched_users << [user_id.to_s, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type]
+        @batched_users << [user_id.to_s, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id]
         process_batch if @batched_users.size >= @updates_every
       end
 
@@ -84,7 +103,7 @@ module SIS
           while !@batched_users.empty? && tx_end_time > Time.now
             user_row = @batched_users.shift
             @logger.debug("Processing User #{user_row.inspect}")
-            user_id, login_id, status, first_name, last_name, email, password, ssha_password, account, enrollment_type = user_row
+            user_id, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id = user_row
 
             # TODO pseudonym-account
             pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id.to_s)
@@ -103,14 +122,17 @@ module SIS
               end
 
               user = pseudo.user
-              user.name = "#{first_name} #{last_name}" unless user.stuck_sis_fields.include?(:name)
+              user.name = "#{first_name} #{last_name}" if (!user.stuck_sis_fields.include?(:name) && first_name.present? && last_name.present?)
+              user.birthday = birthday unless birthday.blank?
+              user.mobile_phone = mobile_phone unless mobile_phone.blank?
+
               unless user.stuck_sis_fields.include?(:sortable_name)
                 user.sortable_name = last_name.present? && first_name.present? ? "#{last_name}, #{first_name}" : "#{first_name}#{last_name}"
               end
             else
               user = User.new
-              user.name = "#{first_name} #{last_name}"
-              user.sortable_name = last_name.present? && first_name.present? ? "#{last_name}, #{first_name}" : "#{first_name}#{last_name}"
+              user.name = "#{first_name} #{last_name}" if (first_name.present? && last_name.present?)
+              user.sortable_name = (last_name.present? && first_name.present?) ? "#{last_name}, #{first_name}" : "#{first_name}#{last_name}"
             end
 
             # we just leave all users registered now
@@ -161,6 +183,8 @@ module SIS
               User.transaction(:requires_new => true) do
                 if user.changed?
                   user_touched = true
+                  #user.birthday = birthday unless birthday.blank?
+                  #user.mobile_phone = mobile_phone unless mobile_phone.blank?
                   raise ImportError, user.errors.first.join(" ") if !user.save_without_broadcasting && user.errors.size > 0
                 elsif @batch_id
                   @users_to_set_sis_batch_ids << user.id
@@ -176,13 +200,29 @@ module SIS
               next
             end
 
-            if account
+            if account_id
+              if ex_account_id
+                UserAccountAssociation.active_or_freeze_user_by_account(ex_account_id, user.id, 1);
+              end
               begin
-                associate_account = user.associated_accounts.find_by_name(account)
+                associate_account = user.associated_accounts.empty? ? nil : user.associated_accounts.find(account_id)
+                staff_attributes = {
+                  :job_number => job_number,
+                  :external => external,
+                  :tags => tags.nil? ? '' : tags.split(';'),
+                  :source => 'created',
+                  :state => state 
+                }
                 unless associate_account
-                  associate_account = Account.find_by_name(account)
+                  associate_account = Account.find(account_id)
+                  job_position_obj = excute_and_get_job_position(associate_account.id, job_position)
+                  staff_attributes.merge!(:job_position_id => job_position_obj.id)
                   associations = User.calculate_account_associations_from_accounts([associate_account.id])
-                  user.update_account_associations(:incremental => true, :precalculated_associations => associations, :fake => true)
+                  user.update_account_associations(:incremental => true, :precalculated_associations => associations, :fake => false, :staff_attributes => staff_attributes)
+                else
+                  job_position_obj = excute_and_get_job_position(associate_account.id, job_position)
+                  staff_attributes.merge!(:job_position_id => job_position_obj.id)
+                  user.update_account_associations(:staff_attributes => staff_attributes)
                 end
 
                 UserAccountAssociation.find(:first, :conditions => {
@@ -193,7 +233,8 @@ module SIS
                 }) if enrollment_type
 
               rescue => e
-                @messages << "Failed associating account #{account}, skipping."
+                @messages << "Failed associating account ID is: #{account_id} and user name is #{user.blank? ? 'unknown' : user.name}, skipping."
+                @messages << "Exception is #{e}" if RAILS_ENV == 'development'
               end
             end
 
@@ -272,6 +313,20 @@ module SIS
           end
         end
       end
+      
+      def excute_and_get_job_position account_id, job_position_name
+        job_position_obj = JobPosition.find_by_account_id_and_name(account_id, job_position_name)
+        if job_position_obj.blank?
+          job_position_obj = JobPosition.new
+          job_position_obj.account_id = account_id
+          job_position_obj.name = job_position_name
+          #order to skipping some validations
+          job_position_obj.source = 'sis_import'
+          job_position_obj.save
+        end
+        job_position_obj
+      end
+
     end
   end
 end
