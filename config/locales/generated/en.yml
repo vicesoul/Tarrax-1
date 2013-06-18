@@ -228,7 +228,6 @@ en:
       saml_required: "A SAML configuration is required to test SAML"
   account_homepage: 
     tip: 
-      choose: "click to choose a insertable area -->"
       drag: "drag & move to a new area"
   account_notifications: 
     announcement_created_notice: "Announcement successfully created"
@@ -388,7 +387,6 @@ en:
     homepage: 
       assign_courses: "Assign courses"
       background_color: "Background color"
-      body: Body
       cancel: Cancel
       change_background: "Change background"
       choose_image: "Choose image"
@@ -399,16 +397,12 @@ en:
           incorrect_image_type: "Please confirm your image type is correct"
         tip: 
           uploaded_success: "Image has bean uploaded"
-      edit_this_page: "Edit this page"
+      edit_this_page: Edit
       home_page: Homepage
       labels: 
-        add_new_widget: "New widget"
         name: "Theme name"
       repeat: Repeat
-      reset_homepage: "Reset homepage"
       save: Save
-      tip: 
-        drag_add_widget: "Dragging me to the area you want to edit"
       title: Title
       upload: Upload
     homepages: Homepage
@@ -3409,10 +3403,6 @@ en:
       job_position: "Job Position"
       rest_courses: "Rest Courses"
       title: "Course Systems In This Account"
-    rank: 
-      mandatory: Mandatory
-      optional: Optional
-      recommended: Recommended
     update_successfully: "Course systems updated successfully."
   courses: 
     add_users: 
@@ -6121,8 +6111,6 @@ en:
         reset_explanation: "Resetting the test student will clear all history for this student, %{line_break}allowing you to view the course as a brand new student."
         warning_title: "You are currently logged into Student View"
     head: 
-      default_page_description: "Jiaoxuebang LMS"
-      default_page_kewords: "Jiaoxuebang LMS"
       default_page_title: "Jiaoxuebang LMS"
     menu: 
       view_all_accounts: "View all accounts"
@@ -9948,6 +9936,7 @@ en:
       manage_assignments: "Manage (add / edit / delete) assignments and quizzes"
       manage_calendar: "Add, edit and delete events on the course calendar"
       manage_content: "Manage all other course content"
+      manage_course_systems: "Manage Course Systems"
       manage_courses: "Manage ( add / edit / delete ) courses"
       manage_developer_keys: "Manage developer keys"
       manage_files: "Manage (add / edit / delete) course files"
@@ -10477,6 +10466,7 @@ en:
         courses_and_groups: "Courses & Groups"
     identity: 
       links: 
+        help: Help
         inbox: Inbox
         log_in: "Log In"
         logout: Logout
