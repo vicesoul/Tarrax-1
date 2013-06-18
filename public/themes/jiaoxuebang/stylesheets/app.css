@@ -500,7 +500,3 @@ body.dashboard #main{min-width: 1000px;}
 .show_widget .info .context_widget{
   margin-right:30px;
 }
-
-#content{
-  overflow: scroll!important;
-}
