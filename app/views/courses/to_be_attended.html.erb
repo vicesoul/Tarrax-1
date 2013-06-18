@@ -1,0 +1,24 @@
+<% content_for :page_title, t('title', 'Courses to be attended') %>
+
+<h2><%= t('headings.courses_to_be_attended', %{Courses to be attended}) %></h2>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th> <%= t('course.name', 'Course Name') %></th>
+      <th> <%= t('account.name', 'Account Name') %></th>
+      <th> <%= t('course.teachers', 'Course Teachers') %></th>
+      <th> <%= t('course.rank', 'Course Rank') %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @course_systems.map{|cs| [cs, cs.course] }.each do |cs, c| %>
+      <tr>
+        <td> <%= link_to c.name, course_url(c, :subdomain => c.account.subdomain) %></td>
+        <td> <%= link_to c.account.name, account_url(c.account, :subdomain => c.account.subdomain) %></td>
+        <td> <%= c.teachers.map(&:name).join(', ') %></td>
+        <td> <%= CourseSystem.ranks[cs.rank] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

@@ -19,6 +19,7 @@
 class Enrollment < ActiveRecord::Base
 
   include Workflow
+  include Jxb::Base::Enrollment
 
   belongs_to :course, :touch => true
   belongs_to :course_section

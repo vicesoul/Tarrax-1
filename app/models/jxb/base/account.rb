@@ -7,6 +7,7 @@ module Jxb
           include Jxb::Homepage::Account
           include Jxb::AccountNotification::Account
           include Jxb::PickupAndSelect::Account
+          include Jxb::CourseSystem::Account
         end
       end
 

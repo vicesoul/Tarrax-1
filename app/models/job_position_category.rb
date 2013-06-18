@@ -1,6 +1,6 @@
 class JobPositionCategory < ActiveRecord::Base
 
-  attr_accessible :account_id, :name
+  attr_accessible :account, :account_id, :name
 
   has_many :job_positions
   belongs_to :account

@@ -579,7 +579,7 @@ class AccountsController < ApplicationController
     respond_to do |format|
       format.json {
         render :json => Account.all_users_with_ids( params[:ids].split('-').map{|id| id.to_i} ).map { |user| 
-          { :name => user.name, :email => user.email }
+          { :id => user.id, :name => user.name, :email => user.email }
         }
       }
     end

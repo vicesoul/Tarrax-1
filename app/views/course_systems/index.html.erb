@@ -1,0 +1,69 @@
+<% content_for :page_title do %><%= t('course_systems', 'Course System') %><% end %>
+
+<%
+  @active_tab = "course_systems"
+  add_crumb t(:course_systems_crumb, "Course systems")
+  js_bundle :course_systems
+  jammit_css :course_systems
+
+  search_params = prepare_search_params params, :search
+%>
+
+<h2><%= t(:title, "Course Systems In This Account") %></h2>
+
+<div class="well">
+  <% form_tag account_course_systems_path, :method => :get, :class => "search-form" do %>
+    <label> <%= t('account', 'Account') %>
+      <%= select :search, :account_id, options_for_select(@account.sub_accounts_as_options, :selected => search_params[:account_id]) %>
+    </label>
+    <label > <%= t('job_position', 'Job Position') %>
+      <%= collection_select :search, :job_position_id, @account.job_positions, "id", "name", :include_blank => true, :selected => search_params[:job_position_id] %>
+    </label>
+    <label > <%= t('course_category', 'Course Category') %>
+    <%= collection_select :search, :course_category_ids, CourseCategory.all, "id", "name", {:include_blank => true, :selected => search_params[:course_category_ids]}, :multiple => true %>
+    </label>
+    <button type="submit" class="btn btn-primary" > <%= t('#buttons.search', 'Search') %> </button>
+  <% end %>
+</div>
+
+<div class="well">
+  <table>
+    <td class="rest-courses">
+      <div class="title"> <%= t('rest_courses', 'Rest Courses') %> </div>
+      <%= select_tag :courses, options_from_collection_for_select(@rest_courses, "id", "name"), :class => "list", :multiple => true %>
+    </td>
+    <td class="list-controls">
+      <button class="add" type="button"> &gt; </button>
+      <button class="add-all" type="button"> &gt;&gt; </button>
+      <button class="delete" type="button"> &lt; </button>
+      <button class="delete-all" type="button"> &lt;&lt; </button>
+    </td>
+    <td class="selection">
+      <div class="rank inline">
+        <label>
+          <%= radio_button_tag 'rank', 'mandatory' %> <%= t('#course_system.ranks.mandatory', 'Mandatory') %>
+        </label>
+        <label>
+          <%= radio_button_tag 'rank', 'optional' %> <%= t('#course_system.ranks.optional', 'Optional') %>
+        </label>
+        <label>
+          <%= radio_button_tag 'rank', 'recommended' %> <%= t('#course_system.ranks.recommended', 'Recommended') %>
+        </label>
+      </div>
+      <%= select_tag :rank, nil, :class => "list", :multiple => true %>
+    </td>
+  </table>
+</div>
+
+<% form_for :course_system_attributes, :url => bunch_update_account_course_systems_path, :html => {:method => :put, :class => "rank-form"} do |f| %>
+  <div class="hidden">
+    <%= f.text_field :account_id %>
+    <%= f.text_field :job_position_id %>
+    <%= f.text_field :course_category_ids %>
+
+    <% CourseSystem::RANKS.each do |rank| %>
+      <%= render :partial => 'courses_for_select', :locals => {:f => f, :name => rank, :collection => @grouped_courses[rank]} %>
+    <% end %>
+  </div>
+  <button type="submit" class="btn btn-primary" > <%= t('#buttons.submit', 'Submit') %> </button>
+<% end %>

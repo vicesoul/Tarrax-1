@@ -11,6 +11,8 @@ class CreateJobPosition < ActiveRecord::Migration
       t.timestamps
     end
     
+    add_index :job_positions, :account_id
+    add_index :job_positions, :job_position_category_id
   end
 
   def self.down

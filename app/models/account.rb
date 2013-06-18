@@ -34,6 +34,7 @@ class Account < ActiveRecord::Base
   belongs_to :root_account, :class_name => 'Account'
   authenticates_many :pseudonym_sessions
   has_many :courses
+  has_many :job_positions
   has_many :all_courses, :class_name => 'Course', :foreign_key => 'root_account_id'
   has_many :group_categories, :as => :context, :conditions => ['deleted_at IS NULL']
   has_many :all_group_categories, :class_name => 'GroupCategory', :as => :context
@@ -1011,6 +1012,9 @@ class Account < ActiveRecord::Base
   TAB_PLUGINS = 14
   TAB_JOBS = 15
   TAB_DEVELOPER_KEYS = 16
+  # jxb tabs
+  TAB_COURSE_SYSTEMS = 100
+  TAB_LEARNING_PLANS = 101
 
   def external_tool_tabs(opts)
     tools = ContextExternalTool.active.find_all_for(self, :account_navigation)
@@ -1055,6 +1059,8 @@ class Account < ActiveRecord::Base
       tabs << { :id => TAB_TERMS, :label => t('#account.tab_terms', "Terms"), :css_class => 'terms', :href => :account_terms_path } if self.root_account? && manage_settings
       #tabs << { :id => TAB_AUTHENTICATION, :label => t('#account.tab_authentication', "Authentication"), :css_class => 'authentication', :href => :account_account_authorization_configs_path } if self.root_account? && manage_settings
       tabs << { :id => TAB_SIS_IMPORT, :label => t('#account.tab_sis_import', "SIS Import"), :css_class => 'sis_import', :href => :account_sis_import_path } if self.root_account? && self.allow_sis_import && user && self.grants_right?(user, nil, :manage_sis)
+      tabs << { :id => TAB_COURSE_SYSTEMS, :label => t('#account.tab_course_systems', "Course Systems"), :css_class => 'course_systems', :href => :account_course_systems_path } #if user && self.grants_right?(user, nil, :manage_course_system)
+      tabs << { :id => TAB_LEARNING_PLANS, :label => t('#account.tab_learning_plans', "Learning Plans"), :css_class => 'learning_plans', :href => :account_learning_plans_path } #if user && self.grants_right?(user, nil, :manage_learning_plans)
     end
     tabs += external_tool_tabs(opts)
     tabs << { :id => TAB_SETTINGS, :label => t('#account.tab_settings', "Settings"), :css_class => 'settings', :href => :account_settings_path }

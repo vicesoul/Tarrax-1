@@ -38,14 +38,6 @@ def tie_user_to_user_account_association(user, opts={})
   )
 end
 
-def job_position_model
-  JobPosition.create!(
-    :name => 'value for name',
-    :account_id => Account.default.id,
-    :source => 'source'
-  )
-end
-
 def valid_user_attributes
   {
     :name => 'value for name',

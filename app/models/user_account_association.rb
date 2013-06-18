@@ -26,6 +26,8 @@
 #    t.boolean  "fake"
 #  end
 class UserAccountAssociation < ActiveRecord::Base
+  include Jxb::Base::UserAccountAssociation
+
   belongs_to :user
   belongs_to :account
   belongs_to :job_position

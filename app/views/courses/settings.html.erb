@@ -487,25 +487,5 @@
   <a href="<%= context_url(@context, :context_grading_standard_url, "{{ id }}") %>" style="display: none;" id="update_grading_standard_url">&nbsp;</a>
   <a href="<%= context_url(@context, :context_url) %>" style="display: none;" id="update_course_url">&nbsp;</a>
 </div>
-<div id="accounts_pickup" title="<%= t('pickup.title', 'Pick up') %>" style="display:none;">
-  <%= hidden_field_tag :accounts_pickup_url, account_pick_up_users_path(@domain_root_account) %>
-  <div style="float:left;width:256px;">
-  <div id="tree" style="margin-bottom:20px;"></div>
-  <div class="button-container" style="display:none;">
-    <button type="submit" class="button submit_button inseart_users"><%= t('pickup.insert', 'Insert') %></button>
-    <button type="button" class="button button-secondary cancel_button" onclick="$('#accounts_pickup').dialog('close');"><%= t('pickup.cancel', 'Cancel') %></button>
-  </div>
-  </div>
-  <div style="overflow: auto;height: 690px;width:729px;">
-    <table id="users_container" class="table">
-      <thead>
-        <tr>
-          <th><input type="checkbox" id="checkboxAll"></th>
-          <th><%= t('pickup.name', 'Name') %></th>
-          <th><%= t('pickup.email', 'Email') %></th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-</div>
+
+<%= render :partial => 'shared/pickup_users', :locals => {:account => @context.account} %>

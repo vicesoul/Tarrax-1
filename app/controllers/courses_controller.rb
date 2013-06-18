@@ -83,7 +83,7 @@ require 'set'
 class CoursesController < ApplicationController
   include SearchHelper
 
-  before_filter :require_user, :only => [:index]
+  before_filter :require_user, :only => [:index, :to_be_attended]
   before_filter :require_context, :only => [:roster, :locks, :switch_role, :create_file]
 
   include Api::V1::Course
@@ -1487,6 +1487,10 @@ class CoursesController < ApplicationController
     else
       :nothing
     end
+  end
+
+  def to_be_attended
+    @course_systems = @current_user.course_systems
   end
 
 end

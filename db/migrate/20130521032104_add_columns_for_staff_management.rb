@@ -10,14 +10,6 @@ class AddColumnsForStaffManagement < ActiveRecord::Migration
     # state => [:actived => 0, :be_frozen => 1, :frozen => 2]
     add_column :user_account_associations, :state, :integer, :default => 0, :limit => 1
 
-    create_table :user_account_association_change_logs do |t|
-      t.integer :user_account_association_id, :limit => 8
-      t.string :state_from
-      t.string :state_to
-      t.integer :operation_user_id, :limit => 8
-      t.timestamps
-    end
-
     UserAccountAssociation.update_all(:state => 0)
 
   end
@@ -29,8 +21,6 @@ class AddColumnsForStaffManagement < ActiveRecord::Migration
     remove_column :user_account_associations, :job_number
     remove_column :user_account_associations, :job_position_id
     remove_column :user_account_associations, :state
-
-    drop_table :user_account_association_change_logs
   end
 
 end

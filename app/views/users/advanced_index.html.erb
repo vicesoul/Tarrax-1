@@ -83,17 +83,17 @@
       <table border="1" class="main-list table table-striped">
         <thead>
           <tr>
-            <td width="100px">
-              <input type="checkbox" class="master_checkbox" /><span><%= t 'table_headings.select_deselect_all', 'Select/Deselect All' %></span><br />
-            </td>
-            <td width="200px"><%= sortable_for_searchlogic('name', (t 'table_headings.name', 'Name')) %></td>
-            <td><%= sortable_for_searchlogic('unique_id', (t 'table_headings.email', 'Email'), 'pseudonyms_sort_by_custom') %></td>
-            <td><%= t 'table_headings.account', 'Account' %></td>
-            <td><%= sortable_for_searchlogic('job_number', (t 'table_headings.job_number', 'Job Number'), 'user_account_associations_sort_by_custom') %></td>
-            <td><%= sortable_for_searchlogic('id', (t 'table_headings.job_position', 'Job Position'), 'user_account_associations_sort_by_job_position') %></td>
-            <td><%= sortable_for_searchlogic('external', (t 'table_headings.is_external', 'Is External'), 'user_account_associations_sort_by_custom') %></td>
-            <td><%= sortable_for_searchlogic('id', (t 'table_headings.tags', 'Tags'), 'user_account_associations_sort_by_tags') %></td>
-            <td><%= sortable_for_searchlogic('source', (t 'table_headings.source', 'Source'), 'user_account_associations_sort_by_custom') %></td>
+            <th>
+              <input type="checkbox" class="master_checkbox" title="<%= t 'table_headings.select_deselect_all', 'Select/Deselect All' %>" />
+            </th>
+            <th><%= sortable_for_searchlogic('name', (t 'table_headings.name', 'Name')) %></th>
+            <th><%= sortable_for_searchlogic('unique_id', (t 'table_headings.email', 'Email'), 'pseudonyms_sort_by_custom') %></th>
+            <th><%= t 'table_headings.account', 'Account' %></th>
+            <th><%= sortable_for_searchlogic('job_number', (t 'table_headings.job_number', 'Job Number'), 'user_account_associations_sort_by_custom') %></th>
+            <th><%= sortable_for_searchlogic('id', (t 'table_headings.job_position', 'Job Position'), 'user_account_associations_sort_by_job_position') %></th>
+            <th><%= sortable_for_searchlogic('external', (t 'table_headings.is_external', 'Is External'), 'user_account_associations_sort_by_custom') %></th>
+            <th><%= sortable_for_searchlogic('id', (t 'table_headings.tags', 'Tags'), 'user_account_associations_sort_by_tags') %></th>
+            <th><%= sortable_for_searchlogic('source', (t 'table_headings.source', 'Source'), 'user_account_associations_sort_by_custom') %></th>
           </tr>
         </thead>
         <tbody>
@@ -109,7 +109,7 @@
             <tr>
               <% if i== 0 %>
                 <td rowspan="<%= user_account_associations.size %>">
-                  <input type="checkbox" class="sub_checkbox" value="<%= user.id %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
+                  <input type="checkbox" class="sub_checkbox" value="<%= user.id %>" data-user_name="<%= user.name %>" data-user_email="<%= user.email %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
                 </td>
                 <td rowspan="<%= user_account_associations.size%>"><%= link_to user.name, account_user_path(@account, user), {:onclick=> "if(window.parent!==window){window.open(this.href);return false;}"} %></td>
                 <td rowspan="<%= user_account_associations.size%>"><%= user.email %></td>

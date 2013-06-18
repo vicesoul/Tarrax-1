@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :sales
+  map.courses_to_be_attended 'courses_to_be_attended', :controller => :courses, :action => 'to_be_attended'
 
   map.accounts_discussion_topics 'accounts/:account_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
   map.users_discussion_topics    'users/:user_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
@@ -470,6 +471,8 @@ ActionController::Routing::Routes.draw do |map|
     end
     #account.update_theme 'update_theme/:theme', :controller => 'jxb/pages', :action => 'update_theme'
     account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
+    account.resources :course_systems, :collection => {:bunch_update => :put}
+    account.resources :learning_plans, :collection => {:search_courses => :get}, :member => {:publish => :put, :revert => :put}
     account.reset_homepage  'reset_homepage', :controller => 'accounts', :action => 'reset_homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)

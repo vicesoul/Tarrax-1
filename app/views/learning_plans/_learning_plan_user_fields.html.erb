@@ -1,0 +1,15 @@
+<tr class="fields">
+  <% if f.object.user %>
+    <td> <%= f.object.user.name %> </td>
+    <td> <%= user_accounts(f.object.user, @account).map(&:name).join ', ' %> </td>
+    <td> <%= job_positions_from_user_accounts(f.object.user, @account).map(&:name).join ', ' %> </td>
+  <% end %>
+  <td> <%= f.select :role_name, roles_for_account(@account) %></td>
+  <td>
+    <%= f.hidden_field :user_id, :class => 'user_id' %>
+    <%= f.hidden_field :_destroy %>
+    <% link_to '#', :class => 'remove_user_link' do %>
+      <i class="icon-trash"></i>
+    <% end %>
+  </td>
+</tr>

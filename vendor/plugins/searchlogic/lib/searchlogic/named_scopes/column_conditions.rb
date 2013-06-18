@@ -60,7 +60,9 @@ module Searchlogic
       # We want to return true for any conditions that can be called, and while we're at it. We might as well
       # create the condition so we don't have to do it again.
       def respond_to_missing?(*args)
-        super || (self != ::ActiveRecord::Base && !self.abstract_class? && !create_condition(args.first).blank?)
+        super || (self != ::ActiveRecord::Base && !self.abstract_class? &&
+                  ( ::ActiveRecord::Base.connection.table_exists?(self.table_name) rescue false ) && # JXB
+                  !create_condition(args.first).blank?)
       end
 
       private

@@ -1,0 +1,89 @@
+<% form_for [@account, @learning_plan], :method => 'post' do |f| %>
+  <div class="well subject">
+    <div>
+      <%= f.blabel :subject, :en => 'Subject' %>
+    </div>
+    <%= f.text_field :subject, :required => true %>
+  </div>
+  <ul class="well plan_date">
+    <li>
+      <%= f.blabel :start_on, :en => 'Starts' %>
+      <%= f.text_field :start_on, :class => 'date_field', :required => true %>
+    </li>
+    <li>
+    <%= f.blabel :end_on, :en => 'Ends' %>
+    <%= f.text_field :end_on , :class => 'date_field', :required => true %>
+    </li>
+  </ul>
+
+  <div class="well">
+    <div class="pickup">
+      <%= link_to t('links.pickup_courses', 'Pickup courses'), '#', :id => "pickup_courses_link" %>
+    </div>
+
+    <div>
+      <%= f.blabel :course_list, :en => 'Course List' %>
+    </div>
+
+    <div class="course_wrap">
+      <table class='table table-striped table-hover course_list'>
+        <thead>
+          <tr>
+            <th> <%= t('course.name', 'Course Name') %> </th>
+            <th> <%= t('course.teachers', 'Teachers') %> </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% f.fields_for :learning_plan_courses do |ff| %>
+            <%= render 'learning_plan_course_fields', :f => ff %>
+          <% end %>
+
+          <div class="hidden">
+            <%= link_to_add_fields 'add_course', f, :learning_plan_courses %>
+          </div>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="well">
+    <div class="pickup">
+      <%= link_to t('links.pickup_users', 'Pickup users'), '#', :id => "pickup_users_link" %>
+    </div>
+
+    <div>
+      <%= f.blabel :user_list, :en => 'User List' %>
+    </div>
+
+    <div class="user_wrap">
+      <table class='table table-striped table-hover user_list'>
+        <thead>
+          <tr>
+            <th> <%= t('user.name', 'User Name') %> </th>
+            <th> <%= t('user.accounts', 'Accounts') %> </th>
+            <th> <%= t('user.job_positions', 'Job Positions') %> </th>
+            <th> <%= t('user.role', 'User Role') %> </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% f.fields_for :learning_plan_users do |ff| %>
+            <%= render 'learning_plan_user_fields', :f => ff %>
+          <% end %>
+          <div class="hidden">
+            <%= link_to_add_fields 'add_user', f, :learning_plan_users %>
+          </div>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <button type="submit" class="btn btn-primary" > <%= t('#buttons.submit', 'Submit') %> </button>
+  <%= link_to t('links.return', 'Return list'), account_learning_plans_path, :class => 'btn' %>
+<% end %>
+
+<%= render 'pickup_courses' %>
+<%= render :partial => 'shared/pickup_users', :locals => {:account => @account} %>
+
