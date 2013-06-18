@@ -243,6 +243,7 @@ class UsersController < ApplicationController
           {:user_account_associations_account_id_equals => params[:account_id]}
         else
           params[:search][:user_account_associations_account_id_in] = [params[:account_id]] if params[:search][:user_account_associations_account_id_in] && params[:search][:user_account_associations_account_id_in].delete_if{|a| a == ''}.empty?
+          params[:search].merge!(:user_account_associations_account_id_equals => params[:account_id]) unless params[:search][:user_account_associations_account_id_in]
           params[:search]
         end
       @search = User.search(search_params)
