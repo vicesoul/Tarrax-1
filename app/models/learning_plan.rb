@@ -1,8 +1,8 @@
 class LearningPlan < ActiveRecord::Base
   include Workflow
 
-  attr_accessible :subject, :start_on, :end_on, :notify_on, :workflow_state, :learning_plan_users_attributes, :learning_plan_courses_attributes
-  validates_presence_of :subject
+  attr_accessible :subject, :start_on, :end_on, :workflow_state, :learning_plan_users_attributes, :learning_plan_courses_attributes
+  validates_presence_of :subject, :start_on, :end_on
 
   belongs_to :account
   has_many :learning_plan_users, :dependent => :destroy
