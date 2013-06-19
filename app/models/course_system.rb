@@ -50,6 +50,11 @@ class CourseSystem < ActiveRecord::Base
     can :read and can :update
   end
 
+  # return courses grouped by rank
+  #
+  # course_systems - course_system array
+  #
+  # return a hash with key for rank, value for courses array
   def self.group_courses_by_rank course_systems
     grouped_course_systems = course_systems.group_by &:rank
     RANKS.inject({}) do |hash, rank|
@@ -58,6 +63,7 @@ class CourseSystem < ActiveRecord::Base
     end
   end
 
+  # i18n for ranks
   def self.ranks
     {
       MANDATORY   => t('ranks.mandatory', "Mandatory"),
@@ -66,6 +72,22 @@ class CourseSystem < ActiveRecord::Base
     }
   end
 
+  # only use course_system with courses of highest priority rank
+  #
+  # Examples:
+  #
+  #     course = Course.new
+  #     array = [
+  #       cs1 = CourseSystem.new(course: course, rank: 'mandatory'),
+  #       cs2 = CourseSystem.new(course: course, rank: 'optional')
+  #     ]
+  #
+  #     CourseSystem.uniq array
+  #     # => [cs1]
+  #
+  # cs_array - course_systems array
+  #
+  # return a new array by removing course with lower priority rank
   def self.uniq cs_array
     CourseSystemArray.new(cs_array).uniq
   end
@@ -80,7 +102,7 @@ class CourseSystemArray < DelegateClass(Array)
   def uniq
     self.inject({}) do |hash, e|
       if old = hash[e.course_id] # if exists
-        hash[e.course_id] = e if old.rank > e.rank     # replace with lower rank
+        hash[e.course_id] = e if old.rank > e.rank     # replace with higher rank
       else
         hash[e.course_id] = e unless hash[e.course_id] # otherwise add it
       end
