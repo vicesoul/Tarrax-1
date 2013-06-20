@@ -1,4 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+
+  map.resources :case_solutions
+
+  map.resources :case_issues
+
   map.resources :sales
 
   map.accounts_discussion_topics 'accounts/:account_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
@@ -433,6 +438,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.resources :case_tpls, :controller => 'case_tpls'
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
     account.files 'files', :controller => 'accounts', :action => 'create_file'
     account.redirect 'redirect', :controller => 'accounts', :action => 'redirect'

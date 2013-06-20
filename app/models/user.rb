@@ -69,6 +69,10 @@ class User < ActiveRecord::Base
     end
   end
 
+  has_many :case_issues
+  has_many :case_tpls
+  has_many :case_solutions
+
   has_many :communication_channels, :order => 'communication_channels.position ASC', :dependent => :destroy
   has_one :communication_channel, :order => 'position'
   has_many :enrollments, :dependent => :destroy
