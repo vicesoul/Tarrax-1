@@ -65,17 +65,16 @@
         <li id="calendar_menu_item" class="menu-item">
           <a href="/dashboard" class="menu-item-no-drop"><%= t('menu.my_homepage', 'My Homepage') %></a>
         </li>
-        <% if @current_user.associated_accounts.size > 0 %>
+        <%- if show_home_menu? -%>
           <li id="switch_root_accounts" class="menu-item">
             <%= render :partial => 'shared/menu_switch_accounts' %>
           </li>
-        <% end %>
-        <li id="courses_menu_item" class="menu-item">
-          <%- if show_home_menu? -%>
+          <li id="courses_menu_item" class="menu-item">
             <%= render(:partial => 'shared/home_menu') %>
-          <%- else  -%>
+        <%- else  -%>
+          <li id="courses_menu_item" class="menu-item">
             <a href="<%= dashboard_path %>" class="menu-item-no-drop"><%= t 'links.home', 'Homepage' %></a>
-          <%- end -%>
+        <%- end -%>
         </li>
         <%- end -%>
         <li id="assignments_menu_item" class="menu-item">
@@ -215,11 +214,6 @@
               </ul>
             </div>
             <h4 class="chagne_theme">更换主题</h4>
-              <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
-                <%= f.hidden_field :background_image %>
-                <%= before_label(:name, 'Theme name') %>
-                <%= f.select :theme, Jxb::Theme.themes %>
-              <% end %>
             <h4 class="chagne_bg">更换背景</h4>
             <h4 class="connect_course">关联课程</h4>
             <h4 class="reset_theme">重置主题</h4>

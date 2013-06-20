@@ -590,6 +590,18 @@ class RoleOverride < ActiveRecord::Base
         :true_for => %w(AccountAdmin),
         :available_to => %w(AccountAdmin AccountMembership)
       },
+      :manage_course_systems => {
+        :label => lambda { t('permissions.manage_course_systems', "Manage Course Systems") },
+        :account_only => true,
+        :true_for => %w(AccountAdmin),
+        :available_to => %w(AccountAdmin AccountMembership)
+      },
+      :manage_learning_plans => {
+        :label => lambda { t('permissions.manage_learning_plans', "Manage learning plans") },
+        :account_only => true,
+        :true_for => %w(AccountAdmin),
+        :available_to => %w(AccountAdmin AccountMembership)
+      },
       :view_statistics => {
         :label => lambda { t('permissions.view_statistics', "View statistics") },
         :account_only => true,

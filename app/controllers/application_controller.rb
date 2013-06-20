@@ -257,6 +257,7 @@ class ApplicationController < ActionController::Base
     actions = Array(opts.shift)
     can_do = false
     begin
+      #return false if (!is_account_admin?) && (is_forzen_by_account?)
       if object == @context && user == @current_user
         @context_all_permissions ||= @context.grants_rights?(user, session, nil)
         can_do = actions.any?{|a| @context_all_permissions[a] }
@@ -268,6 +269,16 @@ class ApplicationController < ActionController::Base
     end
     can_do
   end
+
+  #def is_account_admiVVn?
+    #params[:context_type] == 'Course' && (Course.find(params[:context_id]).root_account.account_users_for(@current_user).any? {|i| i.membership_type == 'AccountAdmin'})
+  #end
+  #private :is_account_admin?
+
+  #def is_forzen_by_account?
+    #params[:context_type] == 'Course' && (Course.find(params[:context_id]).account.user_account_associations.where(:user_id => @current_user.id).first.try(:state) != 0)
+  #end
+  #private :is_forzen_by_account?
 
   def render_unauthorized_action(object=nil)
     object ||= User.new
@@ -437,6 +448,16 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def context_is_root_account_filter
+    raise 'Context is not an account' unless @context.is_a?(Account)
+    if @context.root_account?
+      true
+    else
+      render :text => t('#rails_helper.action_must_be_called_on_root_account', 'Action must be called on a root account.')
+      false
+    end
+  end
+
   # This is used by a number of actions to retrieve a list of all contexts
   # associated with the given context.  If the context is a user then it will
   # include all the user's current contexts.

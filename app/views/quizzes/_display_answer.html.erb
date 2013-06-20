@@ -26,7 +26,7 @@
   has_answer_comment = hash_get(answer, :comments_html).present? || comment_get(answer, :comments).present?
   skip_if_correct ||= nil
   should_skip = (skip_if_correct && selected_answer && correct_answer) ||
-    (hash_get(question, :question_type) == 'fill_in_multiple_blanks_question' || answer.respond_to?(:[]) && answer['text'].blank? && answer['html'].blank? && hash_get(question, :question_type) != 'connecting_lead_question') ||
+    (answer.respond_to?(:[]) && answer['text'].blank? && answer['html'].blank? && hash_get(question, :question_type) != 'connecting_lead_question') ||
     (hash_get(question, :question_type) == 'multiple_dropdowns_question' && !correct_answer && !selected_answer) ||
     (hash_get(question, :question_type) == 'drag_and_drop_question' && !correct_answer && !selected_answer)
 %>

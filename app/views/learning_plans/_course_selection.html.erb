@@ -1,0 +1,39 @@
+<% 
+@rest_courses ||= begin
+  @course_systems = CourseSystem.of_account(@account).of_job_position(nil)
+  @account.courses - @course_systems.map(&:course)
+end
+
+cs_array = CourseSystemArray.new(@course_systems).uniq
+grouped_courses = CourseSystem.group_courses_by_rank cs_array
+
+all_courses = @rest_courses + cs_array.map(&:course)
+%>
+
+<div class="courses_data hidden" data-teachers='<%= Hash[all_courses.map{ |c| [ c.id, c.teachers.map(&:name) ] }].to_json %>' >
+</div>
+
+<table>
+  <td class="rest-courses">
+    <div class="title"> <%= t('rest_courses', 'Rest Courses') %> </div>
+    <% 
+      options_for_select = [
+        [t('#course_system.ranks.mandatory', "Mandatory"), grouped_courses['mandatory'].map {|c| [c.name, c.id]} ],
+        [t('#course_system.ranks.optional', "Optional"), grouped_courses['optional'].map {|c| [c.name, c.id]} ],
+        [t('#course_system.ranks.recommended', "Recommended"), grouped_courses['recommended'].map {|c| [c.name, c.id]} ],
+        [t('rank.others', "Others"), @rest_courses.map {|c| [c.name, c.id]} ],
+      ]
+    %>
+    <%= select_tag :courses, grouped_options_for_select(options_for_select).html_safe, :class => "list", :multiple => true %>
+  </td>
+  <td class="list-controls">
+    <button class="add" type="button"> &gt; </button>
+    <button class="add-all" type="button"> &gt;&gt; </button>
+    <button class="delete" type="button"> &lt; </button>
+    <button class="delete-all" type="button"> &lt;&lt; </button>
+  </td>
+  <td class="selection">
+    <div class="title"> <%= t('selected_courses', 'Selected Courses') %> </div>
+    <%= select_tag :selected_courses, nil, :class => "list", :multiple => true %>
+  </td>
+</table>

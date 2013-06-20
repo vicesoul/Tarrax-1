@@ -24,6 +24,20 @@ def tie_user_to_account(user, opts={})
   user.account_users.create(:account => opts[:account] || Account.default, :membership_type => opts[:membership_type] || 'AccountAdmin')
 end
 
+def tie_user_to_user_account_association(user, opts={})
+  UserAccountAssociation.create!(
+    :user => user,
+    :account => opts[:account] || Account.default,
+    :enrollment_type => 'student',
+    :source => 'created',
+    :external => false,
+    :job_number => 'code-001-001',
+    :job_position => job_position_model,
+    :tag_list => 'tag1,tag2,tag3',
+    :state => 0
+  )
+end
+
 def valid_user_attributes
   {
     :name => 'value for name',

@@ -1,0 +1,32 @@
+<% content_for :page_title do %><%= t('learning_plans', 'Learning Plans') %><% end %>
+<%
+  @active_tab = "learning_plans"
+  add_crumb t(:learning_plans_crumb, "Learning Plans")
+  js_bundle :learning_plans
+  jammit_css :learning_plans
+%>
+
+<h2><%= t(:title, "Learning Plans In This Account") %></h2>
+
+<table class="table table-striped table-over">
+  <thead>
+    <tr>
+      <th> <%= t('subject', 'Subject') %></th>
+      <th> <%= t('course_count', 'Course Count') %></th>
+      <th> <%= t('user_count', 'User Count') %></th>
+      <th> <%= t('start_on', 'Start On') %></th>
+      <th> <%= t('end_on', 'End On') %></th>
+      <th> <%= t('status', 'Status') %></th>
+      <th colspan=3></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render :partial => 'learning_plan', :collection => @learning_plans %>
+  </tbody>
+</table>
+
+<div class="hidden" id="account_learning_plans_path" data-path="<%= account_learning_plans_path %>"></div>
+
+<%= will_paginate @learning_plans %>
+
+<%= link_to t('new_plan', 'New Plan'), new_account_learning_plan_path, :class => 'btn btn-primary' %>

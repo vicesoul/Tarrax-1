@@ -4,6 +4,7 @@
   can_manage_admin_users = managed_accounts
   account ||= managed_accounts.first
   root_account = account.root_account if account
+  user_account_association = @user.user_account_associations.filter_by_account_id(account.id).first if account
 %>
 <% js_bundle :user_name %>
   <fieldset id="name_and_email">
@@ -20,6 +21,40 @@
       <tr>
         <th><%= before_label('sortable_name', 'Sortable Name') %></th>
         <td class="sortable_name"><%=h @user.sortable_name %></td>
+      </tr>
+      <tr>
+        <th><%= before_label('birthday', 'Birthday') %></th>
+        <td class="birthday"><%=h @user.birthday %></td>
+      </tr>
+      <tr>
+        <th><%= before_label('mobile_phone', 'Mobile Phone') %></th>
+        <td class="mobile_phone"><%=h @user.mobile_phone %></td>
+      </tr>
+      <tr>
+        <th><%= before_label('job_number', 'Job Number') %></th>
+        <td class="job_number"><%=h user_account_association.job_number %></td>
+      </tr>
+      <tr>
+        <th><%= before_label('job_position_id', 'Job Position') %></th>
+        <td class="job_position_name"><%=h user_account_association.call_or_mock('job_position', 'name') %></td>
+      </tr>
+      <tr>
+        <th><%= before_label('external', 'External') %></th>
+        <td class="external"><%=h user_account_association.external ? 'yes' : 'no' %></td>
+      </tr>
+      <tr>
+        <th><%= before_label('tags', 'Tags') %></th>
+        <td class="tags">
+          <%=h user_account_association.tag_list %>
+        </td>
+      </tr>
+      <tr>
+        <th><%= before_label('state', 'State') %></th>
+        <td class="state"><%=h format_state(user_account_association.state)%></td>
+      </tr>
+      <tr>
+        <th><%= before_label('source', 'Source') %></th>
+        <td class="source"><%=h user_account_association.source %></td>
       </tr>
       <% if service_enabled?(:avatars) %>
         <tr>
@@ -59,7 +94,8 @@
             | 
             <a class="merge_user_link" href="<%= user_admin_merge_url(@user.id) %>"><%= t('merge_with_another_user', 'Merge with Another User')%></a>
           <% end %>
-          <% if ((@context.is_a?(User) || @context.is_a?(Account)) && root_account) && @user.grants_right?(@current_user, session, :manage_logins) %>
+          <!-- disable this link before user-deleted logic is modified -->
+          <% if (RAILS_ENV == 'test' ? true : false ) && ((@context.is_a?(User) || @context.is_a?(Account)) && root_account) && @user.grants_right?(@current_user, session, :manage_logins) %>
             |
             <a href="<%= account_confirm_delete_user_url(root_account.id, @user.id) %>"><%= t('delete_from_account', 'Delete from %{account}', :account => root_account.name) %></a>
           <% end %>
@@ -70,16 +106,49 @@
 <div title="<%= t 'titles.edit_user_details', 'Edit User Details' %>" id="edit_student_dialog" style="display: none;">
   <p><%= t('update_instructions', "You can update some of this user's information, but they can change it back if they choose.") %></p>
   <% form_for @user, :url => user_url(@user), :html => {:id => "edit_student_form"} do |f| %>
+    <input type="hidden" name="account_id" value="<%= params[:account_id] %>" />
     <table class="formtable">
       <tr>
         <td><%= f.blabel :name, :en => "Full Name" %></td>
         <td><%= f.text_field :name %></td>
-      </tr><tr>
+      </tr>
+      <tr>
         <td><%= f.blabel :short_name, :en => "Display Name" %></td>
         <td><%= f.text_field :short_name %></td>
-      </tr><tr>
+      </tr>
+      <tr>
         <td><%= f.blabel :sortable_name, :en => "Sortable Name" %></td>
         <td><%= f.text_field :sortable_name %></td>
+      </tr>
+      <tr>
+        <td><%= f.blabel :birthday, :en => "Birthday" %></td>
+        <td><%= f.text_field :birthday %></td>
+      </tr>
+      <tr>
+        <td><%= f.blabel :mobile_phone, :en => "Mobile Phone" %></td>
+        <td><%= f.text_field :mobile_phone %></td>
+      </tr>
+      <tr>
+        <td><%= f.blabel :job_number, :en => "Job Number" %></td>
+        <td><%= f.text_field :job_number %></td>
+      </tr>
+      <tr>
+        <td><%= f.blabel :job_position_id, :en => "Job Position" %></td>
+        <td><%= f.select :job_position_id, account.root_account.job_positions.map{|j| [j.name, j.id ]}, { :include_blank => true } %></td>
+      </tr>
+      <tr>
+        <td><%= f.blabel :external, :en => "External" %></td>
+        <td>
+          <%= f.radio_button :external, 'false' %><%= t 'internal', 'Internal' %>
+          <%= f.radio_button :external, 'true' %><%= t 'external', 'External' %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.blabel :tags, :en => "Tags" %></td>
+        <td>
+          <%= f.text_field :tags %>
+          <%= render :partial => 'shared/tag_selector' %>
+        </td>
       </tr>
       <% if can_manage_admin_users %>
         <tr>
@@ -97,3 +166,4 @@
     </table>
   <% end %>
 </div>
+

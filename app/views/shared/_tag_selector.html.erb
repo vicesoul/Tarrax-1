@@ -1,0 +1,31 @@
+
+<% if @account %>
+  <select id="existing-tags">
+    <option value=""><%= t('tags_tip', 'Using existing tags') %></option>
+    <% UserAccountAssociation.filter_by_account_id(@account.id).inject([]){|result, a| result | a.tag_list}.each do |t| %>
+      <option value="<%= t %>"><%= t %></option>
+  <% end %>
+  </select>
+  <div><%= t 'split_tip', 'Splited by half-width comma' %></div>
+
+  <% js_block do %>
+  <script>
+  require([
+    'jquery'
+  ], function($){
+    $(document).ready(function(){
+      $('#existing-tags').bind('change', function(){
+        tagText = $(this).siblings(':first');
+        if($(this).val()){
+          if(tagText.val()){
+            tagText.val(tagText.val() + "," + $(this).val());
+          }else{
+            tagText.val($(this).val());
+          }
+        }
+      });
+    });
+  });
+  </script>
+  <% end %>
+<% end %>

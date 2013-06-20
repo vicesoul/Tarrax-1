@@ -35,11 +35,13 @@ en:
       other: Other
     sis_id_in_use: "SIS ID \"%{sis_id}\" is already in use"
     tab_authentication: Authentication
+    tab_course_systems: "Course Systems"
     tab_courses: Courses
     tab_developer_keys: "Developer Keys"
     tab_faculty_journal: "Faculty Journal"
     tab_homepage: Homepage
     tab_jobs: Jobs
+    tab_learning_plans: "Learning Plans"
     tab_permissions: Permissions
     tab_plugins: Plugins
     tab_question_banks: "Question Banks"
@@ -226,7 +228,6 @@ en:
       saml_required: "A SAML configuration is required to test SAML"
   account_homepage: 
     tip: 
-      choose: "click to choose a insertable area -->"
       drag: "drag & move to a new area"
   account_notifications: 
     announcement_created_notice: "Announcement successfully created"
@@ -278,20 +279,30 @@ en:
       add_course_link: "Add a New Course"
       add_user_button: "Add User"
       add_user_link: "Add a New User"
+      birthday_help: "Birthday, such as '1980-01-01'."
       course_category_tip: "Please select a course category"
       display_name_help: "People will see this name in discussions, messages and comments."
+      external: External
       full_name_description: "This name will be used by teachers for grading."
+      internal: Internal
       labels: 
         account_id: Department
+        birthday: Birthday
         course_category_id: "Course Category"
         enrollment_term_id: "Enrollment Term"
+        external: "Is external"
         full_name: "Full Name"
+        job_number: "Job Number"
+        job_position_id: "Job Position"
+        mobile_phone: "Mobile Phone"
         name: "Course Name"
         path: Email
         send_confirmation: "Email the user about this account creation"
         short_name: "Display Name"
         sis_user_id: "SIS ID"
         sortable_name: "Sortable Name"
+        tags: Tags
+      mobile_phone_help: "Mobile phone, must be 13 bytes"
       sortable_name_help: "This name appears in sorted lists."
     add_user_button: "Add User"
     add_user_dialog_title: "Add a New User"
@@ -376,7 +387,6 @@ en:
     homepage: 
       assign_courses: "Assign courses"
       background_color: "Background color"
-      body: Body
       cancel: Cancel
       change_background: "Change background"
       choose_image: "Choose image"
@@ -387,16 +397,12 @@ en:
           incorrect_image_type: "Please confirm your image type is correct"
         tip: 
           uploaded_success: "Image has bean uploaded"
-      edit_this_page: "Edit this page"
+      edit_this_page: Edit
       home_page: Homepage
       labels: 
-        add_new_widget: "New widget"
         name: "Theme name"
       repeat: Repeat
-      reset_homepage: "Reset homepage"
       save: Save
-      tip: 
-        drag_add_widget: "Dragging me to the area you want to edit"
       title: Title
       upload: Upload
     homepages: Homepage
@@ -478,6 +484,7 @@ en:
       if_you_would_like_to_link_to_your_own_campus_support_website_in_the_help_dialog_you_can_do_that_here: "If you would like to link to your own campus support website in the help dialog you can do that here"
       ip_filter_filter_label: Filter
       ip_filter_name_label: Name
+      job_position_management_fieldset: "Job Position Management"
       labels: 
         account_notification_icon: Icon
         admins_can_change_passwords: "Password setting by admins"
@@ -1489,8 +1496,10 @@ en:
     delete: Delete
     done: Done
     filter: Filter
+    go_back: Back
     hide_all_artifacts: "Hide All Artifacts"
     import: Import
+    insert: Insert
     ok: OK
     refresh: refresh
     save: Save
@@ -3380,6 +3389,21 @@ en:
     updating: Updating...
   course_statistics: 
     unknown: unknown
+  course_system: 
+    ranks: 
+      mandatory: Mandatory
+      optional: Optional
+      recommended: Recommended
+  course_systems: 
+    index: 
+      account: Account
+      course_category: "Course Category"
+      course_systems: "Course System"
+      course_systems_crumb: "Course systems"
+      job_position: "Job Position"
+      rest_courses: "Rest Courses"
+      title: "Course Systems In This Account"
+    update_successfully: "Course systems updated successfully."
   courses: 
     add_users: 
       buttons: 
@@ -3681,12 +3705,6 @@ en:
       none: None
       not_date_restricted: "These dates will not affect course availability"
       page_title: "Course Details"
-      pickup: 
-        cancel: Cancel
-        email: Email
-        insert: Insert
-        name: Name
-        title: "Pick up"
       private_course: Private
       public_course: Public
       section_sis_id: "SIS ID: %{section_sis}"
@@ -3847,6 +3865,16 @@ en:
         show_specific_dates: "Show section, group, and person specific dates"
     titles: 
       rss_feed: "%{course} Feed"
+    to_be_attended: 
+      account: 
+        name: "Account Name"
+      course: 
+        name: "Course Name"
+        rank: "Course Rank"
+        teachers: "Course Teachers"
+      headings: 
+        courses_to_be_attended: "Courses to be attended"
+      title: "Courses to be attended"
     unauthorized: 
       invalid_link: "The enrollment link you used appears to no longer be valid.  Please contact the course instructor and make sure you're still correctly enrolled."
     user_tab: 
@@ -5931,6 +5959,40 @@ en:
     tooltips: 
       enter_search_terms: "enter search terms"
   invalid_xml_syntax: "invalid xml syntax"
+  job_position_category: 
+    form: 
+      labels: 
+        name: Name
+    index: 
+      buttons: 
+        edit: Edit
+      empty_category: "Empty job position category"
+      new_category: "Add a New Category"
+      table_headings: 
+        id: ID
+        name: Name
+        op: Operation
+  job_positions: 
+    form: 
+      labels: 
+        code: Code
+        job_position_category_id: "Job position category"
+        name: Name
+        rank: Rank
+      select_category_tip: "Select category"
+    index: 
+      buttons: 
+        edit: Edit
+      empty_job_position: "Empty job positions"
+      job_position_category_management: "Job position category management"
+      new_job_position: "New job_position"
+      table_headings: 
+        code: Code
+        id: ID
+        job_position_category: "Job position category"
+        name: Name
+        op: Op
+        rank: Rank
   jobs: 
     columns: 
       attempt: attempt
@@ -6054,6 +6116,7 @@ en:
       view_all_accounts: "View all accounts"
       view_all_enrollments: "View all courses"
       view_all_groups: "View all groups"
+      view_courses_to_be_attended: "View courses to be attended"
   learning_outcome: 
     no_comment: "No Comment"
     no_context_found: "The external Learning Outcome couldn't be found for \"%{title}\", creating a copy."
@@ -6061,6 +6124,74 @@ en:
     no_global_permission: "You're not allowed to manage global outcomes, can't add \"%{title}\""
   learning_outcome_group: 
     no_global_permission: "You're not allowed to manage global outcomes, can't add \"%{title}\""
+  learning_plan: 
+    errors: 
+      role_not_found: "No role named '%{role}' exists."
+    states: 
+      deleted: Deleted
+      initial: Initial
+      published: Published
+      reverted: Reverted
+  learning_plans: 
+    are_you_sure: "Are you sure?"
+    course_selection: 
+      rank: 
+        others: Others
+      rest_courses: "Rest Courses"
+      selected_courses: "Selected Courses"
+    created_successfully: "Learning plan created successfully."
+    edit: 
+      learning_plans_crumb: "Learning Plans"
+      page_title: "Edit Learning Plan"
+      title: "Edit Learning Plan"
+    errors: 
+      update_failed: "Update failed"
+    index: 
+      course_count: "Course Count"
+      end_on: "End On"
+      learning_plans: "Learning Plans"
+      learning_plans_crumb: "Learning Plans"
+      new_plan: "New Plan"
+      start_on: "Start On"
+      status: Status
+      subject: Subject
+      title: "Learning Plans In This Account"
+      user_count: "User Count"
+    learning_plan: 
+      links: 
+        are_you_sure: "Are you sure?"
+        publish: Publish
+        revert: Revert
+    new: 
+      learning_plans_crumb: "Learning Plans"
+      page_title: "Learning Plans"
+      title: "New Learning Plan"
+    notices: 
+      update_success: "Update successfully"
+    pickup_courses: 
+      account: Account
+      course_category: "Course Category"
+      job_position: "Job Position"
+      title: "Pickup Courses"
+    plan_form: 
+      course: 
+        name: "Course Name"
+        teachers: Teachers
+      labels: 
+        course_list: "Course List"
+        end_on: Ends
+        start_on: Starts
+        subject: Subject
+        user_list: "User List"
+      links: 
+        pickup_courses: "Pickup courses"
+        pickup_users: "Pickup users"
+        return: "Return list"
+      user: 
+        accounts: Accounts
+        job_positions: "Job Positions"
+        name: "User Name"
+        role: "User Role"
   lib: 
     api: 
       attachments: 
@@ -6192,6 +6323,7 @@ en:
     uploading: Uploading...
   menu: 
     associated_accounts: "Associated Accounts"
+    courses_to_be_attended: "Courses to be attended"
     current_groups: "Current Groups"
     customize: Customize
     managed_accounts: "Managed Accounts"
@@ -9710,6 +9842,17 @@ en:
     warnings: 
       unpublished_changes: "*You have made unpublished changes to this quiz.* These changes will not appear for students until you publish or republish the quiz."
       unpublished_quiz: "*This quiz is unpublished* Only teachers can see the quiz until it is published."
+  rails_helper: 
+    action_must_be_called_on_root_account: "Action must be called on a root account."
+    user_source: 
+      applied: Applied
+      created: Created
+      imported: Imported
+      invited: Invited
+    user_state: 
+      actived: Actived
+      be_frozen: "Be frozen"
+      frozen: Frozen
   re_upload_submissions_form: 
     buttons: 
       upload: "Upload Files"
@@ -9793,6 +9936,7 @@ en:
       manage_assignments: "Manage (add / edit / delete) assignments and quizzes"
       manage_calendar: "Add, edit and delete events on the course calendar"
       manage_content: "Manage all other course content"
+      manage_course_systems: "Manage Course Systems"
       manage_courses: "Manage ( add / edit / delete ) courses"
       manage_developer_keys: "Manage developer keys"
       manage_files: "Manage (add / edit / delete) course files"
@@ -9802,6 +9946,7 @@ en:
       manage_groups: "Manage (create / edit / delete) groups"
       manage_homepage: "Manage the homepage"
       manage_interaction_alerts: "Manage alerts"
+      manage_learning_plans: "Manage learning plans"
       manage_outcomes: "Manage learning outcomes"
       manage_role_overrides: "Manage permissions"
       manage_sections: "Manage (create / edit / delete) course sections"
@@ -10111,6 +10256,7 @@ en:
     account_notification: 
       close: close
     accounts_right_side_shared: 
+      account_query_tip: "Select an account to query"
       buttons: 
         go: Go
       titles: 
@@ -10320,6 +10466,7 @@ en:
         courses_and_groups: "Courses & Groups"
     identity: 
       links: 
+        help: Help
         inbox: Inbox
         log_in: "Log In"
         logout: Logout
@@ -10427,6 +10574,9 @@ en:
       ta_title: "Invited as a TA, click to see the Course"
       teacher: "%{course} as a teacher."
       teacher_title: "Invited as a teacher, click to see the Course"
+    pickup_users: 
+      pickup: 
+        title: "Pick up"
     profile: 
       add_link_field: "Add another link"
       bio: Bio
@@ -10609,6 +10759,9 @@ en:
       assignment: Assignment
       grading_alt: grading
       submission_comment: "Submission Comment"
+    tag_selector: 
+      split_tip: "Splited by half-width comma"
+      tags_tip: "Using existing tags"
     unauthorized: 
       headings: 
         needs_cookies: "Cookies Required"
@@ -10788,7 +10941,6 @@ en:
       loading: loading...
     titles: 
       value_over_time: "%{value} Over Time"
-  site_title: Jiaoxuebang
   slideshow: 
     titles: 
       back: Back
@@ -11247,6 +11399,26 @@ en:
         find_user: "Find a User"
         merge_users: "Merge User Accounts"
         really_merge: "Really Merge User Accounts?"
+    advanced_index: 
+      empty_users: "Empty users"
+      selector: 
+        account: Account
+        is_external: "Is External"
+        job_number: "Job Number"
+        job_position: "Job Position"
+        name: Name
+        query: Query
+        tags: Tags
+      table_headings: 
+        account: Account
+        email: Email
+        is_external: "Is External"
+        job_number: "Job Number"
+        job_position: "Job Position"
+        name: Name
+        select_deselect_all: "Select/Deselect All"
+        source: Source
+        tags: Tags
     cant_self_merge: "You can't merge an account with itself."
     cc_prefs: 
       buttons: 
@@ -11344,10 +11516,25 @@ en:
         user_groups: "View User Groups"
       crumbs: 
         users: Users
+      empty_users: "Empty users"
+      js: 
+        edit_confirm_to_active: "Are you sure to active this user?"
+        edit_confirm_to_freeze: "Are you sure to freeze this user?"
+        update_failure: "Update failure"
+        update_successfully: "Update successfully"
+        user_state_modify_tip: "Edit user state"
       labels: 
         show_users_for_term: "Show users with enrollments in the term"
       no_results_found: "No Results Found"
       search_for_user: "User Search results for %{user_name}"
+      table_headings: 
+        account: Account
+        is_external: "Is External"
+        job_number: "Job Number"
+        job_position: "Job Position"
+        name: Name
+        source: Source
+        tags: Tags
       titles: 
         all_users: "All Users"
         choose_term: "Choose Term"
@@ -11409,14 +11596,24 @@ en:
         update_details: "Update Details"
       delete_from_account: "Delete from %{account}"
       edit: Edit
+      external: External
+      internal: Internal
       labels: 
+        birthday: Birthday
         default_email: "Default Email"
         display_name: "Display Name"
+        external: External
         full_name: "Full Name"
+        job_number: "Job Number"
+        job_position_id: "Job Position"
+        mobile_phone: "Mobile Phone"
         name: "Full Name"
         profile_picture: "Profile Picture"
         short_name: "Display Name"
         sortable_name: "Sortable Name"
+        source: Source
+        state: State
+        tags: Tags
         time_zone: "Time Zone"
       merge_with_another_user: "Merge with Another User"
       none: None
@@ -11497,7 +11694,6 @@ en:
         zero: "submitted less than 1 day ago"
       title: "Teacher Activity Report"
     twitter_added: "Twitter access authorized!"
-    twitter_fail_whale: "Twitter authorization failed. Please try again"
     user_dashboard: 
       user_atom_feed: "User Atom Feed (All Courses)"
       user_dashboard: "User Dashboard"

@@ -1,0 +1,13 @@
+<tr class="fields">
+  <% if f.object.course %>
+    <td> <%= f.object.course.name %> </td>
+    <td> <%= f.object.course.teachers.map{|t| t.name}.join ', ' %> </td>
+  <% end %>
+  <td>
+    <%= f.hidden_field :course_id, :class => 'course_id' %>
+    <%= f.hidden_field :_destroy, :class => 'hidden' %>
+    <% link_to '#', :class => 'remove_course_link' do %>
+      <i class="icon-trash"></i>
+    <% end %>
+  </td>
+</tr>

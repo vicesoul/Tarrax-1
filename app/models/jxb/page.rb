@@ -32,7 +32,7 @@ class Jxb::Page < ActiveRecord::Base
         if self.context.settings[:allow_homepage_previews]
           true
         else
-          user && self.context.user_account_associations.find_by_user_id(user.id)
+          user && self.context.user_account_associations.active.find_by_user_id(user.id).try(:state) == 0
         end
       elsif self.context.is_a?(User)
         user == self.context

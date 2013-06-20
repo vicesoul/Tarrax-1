@@ -5,6 +5,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :case_issues
 
   map.resources :sales
+  map.courses_to_be_attended 'courses_to_be_attended', :controller => :courses, :action => 'to_be_attended'
 
   map.accounts_discussion_topics 'accounts/:account_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
   map.users_discussion_topics    'users/:user_id/more_discussion_topics', :controller => 'discussion_topics', :action => 'more'
@@ -439,6 +440,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
     account.resources :case_tpls, :controller => 'case_tpls'
+    account.advanced_users 'advanced_users', :controller => 'users', :action => 'advanced_index'
+
+    account.active_or_forzen_user_by_account 'active_or_forzen_user_by_account/:user_id/:op_account_id/:state', :controller => 'users', :action => 'active_or_forzen_user_by_account'
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'
     account.files 'files', :controller => 'accounts', :action => 'create_file'
     account.redirect 'redirect', :controller => 'accounts', :action => 'redirect'
@@ -447,6 +451,9 @@ ActionController::Routing::Routes.draw do |map|
     account.remove_account_user 'account_users/:id', :controller => 'accounts', :action => 'remove_account_user', :conditions => {:method => :delete}
 
     account.resources :grading_standards, :only => %w(index create update destroy)
+
+    account.resources :job_position_categories, :except => ['show', 'destroy'], :controller => 'job_position_category'
+    account.resources :job_positions, :except => ['show', 'destroy'], :controller => 'job_positions'
 
     account.statistics 'statistics', :controller => 'accounts', :action => 'statistics'
     account.statistics_graph 'statistics/over_time/:attribute', :controller => 'accounts', :action => 'statistics_graph'
@@ -470,6 +477,8 @@ ActionController::Routing::Routes.draw do |map|
     end
     #account.update_theme 'update_theme/:theme', :controller => 'jxb/pages', :action => 'update_theme'
     account.homepage  'homepage', :controller => 'accounts', :action => 'homepage'
+    account.resources :course_systems, :collection => {:bunch_update => :put}
+    account.resources :learning_plans, :collection => {:search_courses => :get}, :member => {:publish => :put, :revert => :put}
     account.reset_homepage  'reset_homepage', :controller => 'accounts', :action => 'reset_homepage'
     account.resources :account_notifications, :only => [:create, :destroy]
     add_announcements(account)

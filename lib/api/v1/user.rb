@@ -26,6 +26,8 @@ module Api::V1::User
     :methods => %w(sortable_name short_name)
   }
 
+  USER_ADDITIONAL_ATTRIBUTES = %w{job_number job_position_id external source tags}
+
   def user_json_preloads(users, preload_email=false)
     # pseudonyms for User#sis_pseudoym_for and User#find_pseudonym_for_account
     # pseudonyms account for Pseudonym#works_for_account?
@@ -58,11 +60,26 @@ module Api::V1::User
       if enrollments
         json[:enrollments] = enrollments.map { |e| enrollment_json(e, current_user, session, includes) }
       end
-      # include a permissions check here to only allow teachers and admins
-      # to see user email addresses.
-      if includes.include?('email') && context.grants_right?(current_user, session, :read_as_admin)
-        json[:email] = user.email
+
+      #staff attributes
+      if includes.include?('staff_attributes')
+        USER_ADDITIONAL_ATTRIBUTES.each do |a|
+          if a == 'external'
+            json[a.to_sym] = user.__send__(a.to_s) == 'true' ? 'yes' : 'no'
+          else
+            json[a.to_sym] = user.__send__(a.to_s) if user.__send__(a.to_s)
+          end
+        end
       end
+
+      json[:job_position_name] = JobPosition.find(user.job_position_id).name unless user.job_position_id.blank?
+      json[:birthday] = user.birthday if user.birthday
+      json[:mobile_phone] = user.mobile_phone if user.mobile_phone
+
+           # include a permissions check here to only allow teachers and admins
+      # to see user email addresses.
+      json[:email] = user.email if includes.include?('email') && context.grants_right?(current_user, session, :read_as_admin)
+
       json[:locale] = user.locale if includes.include?('locale')
 
       if includes.include?('last_login')

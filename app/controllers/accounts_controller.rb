@@ -579,7 +579,7 @@ class AccountsController < ApplicationController
     respond_to do |format|
       format.json {
         render :json => Account.all_users_with_ids( params[:ids].split('-').map{|id| id.to_i} ).map { |user| 
-          { :name => user.name, :email => user.email }
+          { :id => user.id, :name => user.name, :email => user.email }
         }
       }
     end
@@ -588,9 +588,10 @@ class AccountsController < ApplicationController
   def homepage
     @can_manage_homepage = @account.grants_right?(@current_user, nil, :manage_homepage)
     @page = @account.find_or_create_homepage
-    @show_left_side = true
+    @show_left_side = false
 
     if @can_manage_homepage
+      @show_left_side = true
       @show_homepage_left_editor_side = true
       @active_tab = "homepage"
       add_crumb t(:homepages, "Homepage"), account_homepage_path(@account)

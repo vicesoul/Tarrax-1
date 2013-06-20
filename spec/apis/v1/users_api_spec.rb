@@ -440,7 +440,8 @@ describe "Users API", :type => :integration do
           'short_name' => 'Tobias',
           'login_id' => 'student@example.com',
           'sis_login_id' => 'student@example.com',
-          'locale' => 'en'
+          'locale' => 'en',
+          'external' => 'no'
         }
         user.time_zone.should eql 'Tijuana'
       end

@@ -505,7 +505,3 @@
 .show_widget .info .context_widget{
   margin-right:30px;
 }
-
-#content{
-  overflow: scroll!important;
-}

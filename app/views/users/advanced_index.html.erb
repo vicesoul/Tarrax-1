@@ -1,0 +1,132 @@
+<%
+   jammit_css :advanced_users, :common
+   js_bundle :advanced_users
+%>
+ <% form_for @search, :url => account_advanced_users_path do |f| %>
+  <div class="left">
+    <div class="tree">
+      <%= t 'selector.account', 'Account' %>:
+      <%
+        account_tree = Account.get_account_tree(Account.find(params[:account_id]))
+      %>
+      <% p = lambda do |tree| %>
+        <%
+          tree_class = tree.account_children.empty? ? '' : "class='ui-icon ui-icon-circle-triangle-e'"
+          tree_branch = "<div><span class='indent'>#{("<span class='blank_box'></span>" * tree.tree_depth)}<i #{tree_class}>├</i></span>".html_safe
+          tree_checkbox = (f.check_box :user_account_associations_account_id_in, {:parent_id => (tree.parent_account_id ? tree.parent_account_id : nil), :name=>'search[user_account_associations_account_id_in][]'}, tree.id, nil)
+          tree_name = "<span>#{(tree.name)}</span></div>".html_safe
+        %>
+        <% unless tree.account_children.empty? %>
+        <%= tree_branch %>
+        <%= tree_checkbox %>
+        <%= tree_name %>
+        <div>
+      <%
+        tree.account_children.each{|t| p.call(t)}
+      %>
+        </div>
+      <%
+        else
+      %>
+       
+        <%= tree_branch %>
+        <%= tree_checkbox %>
+        <%= tree_name %>
+      <%
+          end
+        end
+        p.call(account_tree)
+      %>
+    </div>
+  </div>
+  <div class="right">
+    <div class="filter">
+        <ul>
+          <li>
+            <label><%= t 'selector.name', 'Name' %>:</label>
+            <%= f.text_field :name_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.job_number', 'Job Number' %>:</label>
+            <%= f.text_field :user_account_associations_job_number_equals %>
+          </li>
+          <li>
+            <label><%= t 'selector.job_position', 'Job Position' %>:</label>
+            <% JobPosition.find_all_by_account_id(params[:account_id]).each do |jp| %>
+              <%= f.check_box :user_account_associations_job_position_id_in, {:name => "search[user_account_associations_job_position_id_in][]"}, jp.id, nil %><%= jp.name %>
+            <% end %>
+          </li>
+          <li>
+            <label><%= t 'selector.is_external', 'Is External'%>:</label>
+            <%= f.check_box :user_account_associations_external_in, {:name => "search[user_account_associations_external_in][]"}, 'false', nil %> no
+            <%= f.check_box :user_account_associations_external_in, {:name => "search[user_account_associations_external_in][]"}, 'true', nil %> yes
+
+          </li>
+          <li>
+             <label><%= t 'selector.tags', 'Tags'%>:</label>
+             <% UserAccountAssociation.filter_by_account_id(params[:account_id]).inject([]){|result, a| result | a.tag_list}.each do |t| %>
+               <%= f.check_box :user_account_associations_taggable_with_tags, {:name => "[search][user_account_associations_taggable_with_tags][]"}, t, nil %><%= t %>
+             <% end %>
+
+             <%= hidden_field_tag 'is_iframe', :value => 'true' if params[:is_iframe] %>
+          </li>
+          <li>
+            <label> </label>
+            <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
+          </li>
+      </ul>
+    </div>
+    <% end %>
+  <% if @users && @users.present? %>
+    <!-- Don't modify if you expect the correct pagination when using sort -->
+    <%= pagination = will_paginate(@users) %>
+      <table border="1" class="main-list table table-striped">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox" class="master_checkbox" title="<%= t 'table_headings.select_deselect_all', 'Select/Deselect All' %>" />
+            </th>
+            <th><%= sortable_for_searchlogic('name', (t 'table_headings.name', 'Name')) %></th>
+            <th><%= sortable_for_searchlogic('unique_id', (t 'table_headings.email', 'Email'), 'pseudonyms_sort_by_custom') %></th>
+            <th><%= t 'table_headings.account', 'Account' %></th>
+            <th><%= sortable_for_searchlogic('job_number', (t 'table_headings.job_number', 'Job Number'), 'user_account_associations_sort_by_custom') %></th>
+            <th><%= sortable_for_searchlogic('id', (t 'table_headings.job_position', 'Job Position'), 'user_account_associations_sort_by_job_position') %></th>
+            <th><%= sortable_for_searchlogic('external', (t 'table_headings.is_external', 'Is External'), 'user_account_associations_sort_by_custom') %></th>
+            <th><%= sortable_for_searchlogic('id', (t 'table_headings.tags', 'Tags'), 'user_account_associations_sort_by_tags') %></th>
+            <th><%= sortable_for_searchlogic('source', (t 'table_headings.source', 'Source'), 'user_account_associations_sort_by_custom') %></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% 
+            associated_ids = (params[:search] && params[:search][:user_account_associations_account_id_in]) ? params[:search][:user_account_associations_account_id_in] : [params[:account_id]]
+          %>
+          <% @users.each do |user| %>
+            <%
+               user_account_associations = user.user_account_associations.filter_by_account_id(associated_ids) 
+               user_account_associations.delete_if{|u| u.account.root_account?} if user_account_associations.size >= 2
+            %>
+              <% user_account_associations.each_with_index do |u, i| %>
+            <tr>
+              <% if i== 0 %>
+                <td rowspan="<%= user_account_associations.size %>">
+                  <input type="checkbox" class="sub_checkbox" value="<%= user.id %>" data-user_name="<%= user.name %>" data-user_email="<%= user.email %>" data-accounts='<%= user_account_associations.map{|u| u.account.name }.to_json %>' data-positions='<%= user_account_associations.map{|u| u.job_position.try(:name) }.compact.to_json %>' />
+                </td>
+                <td rowspan="<%= user_account_associations.size%>"><%= link_to user.name, account_user_path(@account, user), {:onclick=> "if(window.parent!==window){window.open(this.href);return false;}"} %></td>
+                <td rowspan="<%= user_account_associations.size%>"><%= user.email %></td>
+              <% end %>
+                <td><%= u.account.name %></td>
+                <td><%= u.job_number %></td>
+                <td><%= u.job_position.try(:name) %></td>
+                <td><%= u.external == true ? 'yes' : 'no' %></td>
+                <td><%= u.tag_list %></td>
+                <td><%= UserAccountAssociation.display_source[u.source] %></td>
+            </tr>
+              <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    <%= pagination %>
+  <% else %>
+    <%= t 'empty_users', 'Empty users' %>
+  <% end %>
+</div>

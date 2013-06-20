@@ -1,0 +1,26 @@
+<div class="pickup_course hidden" data-title="<%= t('title', 'Pickup Courses') %>">
+  <div class="well search-wrap">
+    <% form_tag search_courses_account_learning_plans_path, :method => 'get', :class => "search-form" do %>
+      <label> <%= t('account', 'Account') %>
+      <%= select :search, :account_ids, options_for_select(@account.sub_accounts_as_options, :selected => search_params[:account_ids]), {}, :multiple => true %>
+      </label>
+      <label > <%= t('job_position', 'Job Position') %>
+      <%= select :search, :job_position_ids, options_from_collection_for_select(@account.job_positions, "id", "name", :selectd => search_params[:job_position_ids]), {:include_blank => true}, :multiple => true %>
+      </label>
+      <label > <%= t('course_category', 'Course Category') %>
+      <%= select :search, :course_category_ids, options_from_collection_for_select(CourseCategory.all, "id", "name", :selected => search_params[:course_category_ids]), {:include_blank => true}, :multiple => true %>
+      </label>
+      <button type="submit" class="btn btn-primary" > <%= t('#buttons.search', 'Search') %> </button>
+    <% end %>
+  </div>
+
+  <div class="well course_selection">
+    <%= render 'course_selection' %>
+  </div>
+
+  <div class="well">
+    <button type="button" class="btn btn-primary insert-course"> <%= t('#buttons.ok', 'OK') %></button>
+    <button type="button" class="btn btn-secondary btn-cancel"> <%= t('#buttons.cancel', 'Cancel') %></button>
+  </div>
+</div>
+

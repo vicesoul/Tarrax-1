@@ -1,4 +1,4 @@
-source 'https://rubygems.org/'
+source 'http://rubygems.org/'
 
 ONE_NINE = RUBY_VERSION >= "1.9."
 
@@ -76,6 +76,7 @@ gem 'yui-compressor', '0.9.4'
 gem 'foreigner',      '0.9.2'
 gem 'crocodoc-ruby',  '0.0.1', :require => 'crocodoc'
 gem 'rmagick'
+gem 'acts-as-taggable-on', '~>2.1.0'
 
 group :assets do
   gem 'compass-rails', '1.0.3'

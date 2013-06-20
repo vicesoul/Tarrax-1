@@ -1,0 +1,40 @@
+
+<div>
+
+  <div>
+    <%= link_to t('new_job_position', 'New job_position'), new_account_job_position_path %>
+  </div>
+
+  <div> 
+    <%= link_to t('job_position_category_management', 'Job position category management'), account_job_position_categories_path %>
+  </div>
+  <% unless @job_positions.blank? %>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <td width="50px"><%= t('table_headings.id', 'ID') %></td>
+        <td width="100px"><%= t('table_headings.code', 'Code') %></td>
+        <td width="200px"><%= t('table_headings.name', 'Name') %></td>
+        <td width="200px"><%= t('table_headings.job_position_category', 'Job position category') %></td>
+        <td width="100px"><%= t('table_headings.rank', 'Rank') %></td>
+        <td width="100px"><%= t('table_headings.op', 'Op') %></td>
+      </tr>
+    </thead>
+
+  <% @job_positions.each do |jp| %>
+    <tr>
+      <td><%= jp.id %></td>
+      <td><%= jp.code %></td>
+      <td><%= jp.name %></td>
+      <td><%= jp.job_position_category.try(:name) %></td>
+      <td><%= jp.rank %></td>
+      <td><%= link_to t('buttons.edit', 'Edit'), edit_account_job_position_path(params[:account_id], jp.id) %></td>
+    </tr>
+  <% end %>
+  </table>
+
+  <% else %>
+    <%= t 'empty_job_position', 'Empty job positions' %>
+  <% end %>
+
+</div>

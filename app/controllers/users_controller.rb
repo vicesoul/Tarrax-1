@@ -79,12 +79,17 @@
 #     }
 class UsersController < ApplicationController
 
+  #USER_ADDITIONAL_ATTRIBUTES = %w{job_number job_position_id external source tags}
+  USER_ADDITIONAL_ATTRIBUTES = Api::V1::User::USER_ADDITIONAL_ATTRIBUTES
 
   include GoogleDocs
   include Twitter
   include LinkedIn
   include DeliciousDiigo
   include SearchHelper
+
+  helper_method :sort_column, :sort_direction
+
   before_filter :require_user, :only => [:grades, :merge, :kaltura_session, :ignore_item, :ignore_stream_item, :close_notification, :mark_avatar_image, :user_dashboard, :toggle_dashboard, :masquerade, :external_tool]
   before_filter :require_registered_user, :only => [:delete_user_service, :create_user_service]
   before_filter :reject_student_view_student, :only => [:delete_user_service, :create_user_service, :merge, :user_dashboard, :masquerade]
@@ -97,6 +102,13 @@ class UsersController < ApplicationController
 
     @body_classes = ["welcome"]
     #render :layout => false
+  end
+
+  def active_or_forzen_user_by_account
+    if authorized_action(Account.find(params[:account_id]), @current_user, :manage)
+      flag = UserAccountAssociation.active_or_freeze_user_by_account(params[:op_account_id], params[:user_id], params[:state])
+      render :json => {:flag => flag}.to_json
+    end
   end
 
   def grades
@@ -216,10 +228,29 @@ class UsersController < ApplicationController
           flash[:notice] = t('twitter_added', "Twitter access authorized!")
         rescue => e
           ErrorReport.log_exception(:oauth, e)
-          flash[:error] = t('twitter_fail_whale', "Twitter authorization failed. Please try again")
         end
       end
       return_to(oauth_request.return_url, user_profile_url(@current_user))
+    end
+  end
+
+  def advanced_index
+    get_context
+    if authorized_action(@context, @current_user, :read_roster)
+
+      search_params =
+        if params[:search].nil?
+          {:user_account_associations_account_id_equals => params[:account_id]}
+        else
+          params[:search][:user_account_associations_account_id_in] = [params[:account_id]] if params[:search][:user_account_associations_account_id_in] && params[:search][:user_account_associations_account_id_in].delete_if{|a| a == ''}.empty?
+          params[:search].merge!(:user_account_associations_account_id_equals => params[:account_id]) unless params[:search][:user_account_associations_account_id_in]
+          params[:search]
+        end
+      @search = User.search(search_params)
+      uniq_result = @search.uniq
+      @users = uniq_result.paginate(:page => params[:page], :per_page => 10, :total_entries => uniq_result.size)
+      render :layout => 'bare' if params[:is_iframe]
+
     end
   end
 
@@ -234,15 +265,16 @@ class UsersController < ApplicationController
       @query = (params[:user] && params[:user][:name]) || params[:term]
       ActiveRecord::Base::ConnectionSpecification.with_environment(:slave) do
         if @context && @context.is_a?(Account) && @query
-          @users = @context.users_name_like(@query)
+          @users = @context.users_name_like(@query, params[:user][:account_id]).order(sort_column + " " + sort_direction)
         elsif params[:enrollment_term_id].present? && @root_account == @context
           @users = @context.fast_all_users.scoped({
             :joins => :courses,
             :conditions => ["courses.enrollment_term_id = ?", params[:enrollment_term_id]],
-            :group => @context.connection.group_by('users.id', 'users.name', 'users.sortable_name')
+            :group => @context.connection.group_by('users.id', 'users.name', 'users.sortable_name'),
+            :order => sort_column + " " + sort_direction
           })
         elsif !api_request?
-          @users = @context.fast_all_users
+          @users = @context.fast_all_users.order(sort_column + " " + sort_direction)
         end
 
         if api_request?
@@ -642,18 +674,19 @@ class UsersController < ApplicationController
   def show
     get_context
     @context_account = @context.is_a?(Account) ? @context : @domain_root_account
-    @user = params[:id] && params[:id] != 'self' ? User.find(params[:id]) : @current_user
-    if authorized_action(@user, @current_user, :view_statistics)
-      add_crumb(t('crumbs.profile', "%{user}'s profile", :user => @user.short_name), @user == @current_user ? user_profile_path(@current_user) : user_path(@user) )
+    origin_user = params[:id] && params[:id] != 'self' ? User.find(params[:id]) : @current_user
+    if authorized_action(origin_user, @current_user, :view_statistics)
+      @user = wrap_staff_attributes_for_exsited_user_from_db(origin_user, @context_account.id)
+      add_crumb(t('crumbs.profile', "%{user}'s profile", :user => origin_user.short_name), origin_user == @current_user ? user_profile_path(@current_user) : user_path(origin_user) )
 
       # course_section and enrollment term will only be used if the enrollment dates haven't been cached yet;
       # maybe should just look at the first enrollment and check if it's cached to decide if we should include
       # them here
-      @enrollments = @user.enrollments.with_each_shard { |scope| scope.scoped(:conditions => "enrollments.workflow_state<>'deleted' AND courses.workflow_state<>'deleted'", :include => [{:course => { :enrollment_term => :enrollment_dates_overrides }}, :associated_user, :course_section]) }
+      @enrollments = origin_user.enrollments.with_each_shard { |scope| scope.scoped(:conditions => "enrollments.workflow_state<>'deleted' AND courses.workflow_state<>'deleted'", :include => [{:course => { :enrollment_term => :enrollment_dates_overrides }}, :associated_user, :course_section]) }
       @enrollments = @enrollments.sort_by {|e| [e.state_sortable, e.rank_sortable, e.course.name] }
       # pre-populate the reverse association
-      @enrollments.each { |e| e.user = @user }
-      @group_memberships = @user.current_group_memberships.scoped(:include => :group)
+      @enrollments.each { |e| e.user = origin_user }
+      @group_memberships = origin_user.current_group_memberships.scoped(:include => :group)
 
       respond_to do |format|
         format.html
@@ -733,13 +766,29 @@ class UsersController < ApplicationController
     sis_user_id = nil unless @context.grants_right?(@current_user, session, :manage_sis)
 
     if @pseudonym.present?
-      @user = @pseudonym.user
+      @user = wrap_staff_attributes_for_exsited_user_from_request(@pseudonym.user, params[:user])
       if @special_associations
         # when user do not associate with account. we associate them and then return success. Otherwise, return already associate error.
         if @user.user_account_associations.map{|aa| aa.account_id}.include?(@associate_account_id.to_i)
           render :json => { :errors => { :pseudonym => { :unique_id => [{:attribute => "unique_id", :type => "already_associated", :message => "already_associated"}]}, :observee => {}}}, :status => :bad_request and return
         else
-          @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations)
+          begin
+            @user.update_account_associations(
+              :incremental => true,
+              :precalculated_associations => @special_associations,
+              :staff_attributes => get_staff_attributes(@user),
+              :user_basic_attributes => {:birthday => params[:user][:birthday], :mobile_phone => params[:user][:mobile_phone]}
+            )
+          rescue => err
+            errors = {
+              :errors => {
+                :user => @user.errors.as_json[:errors],
+                :pseudonym => @pseudonym ? @pseudonym.errors.as_json[:errors] : {},
+                :observee => @observee ? @observee.errors.as_json[:errors] : {}
+              }
+            }
+            render :json => errors, :status => :bad_request and return
+          end
           data = { :user => @user, :pseudonym => @pseudonym, :message_sent => false }
           render :json => data and return
         end
@@ -827,7 +876,8 @@ class UsersController < ApplicationController
         @user.save!
         # if new user, should be associated to default account
         @special_associations ||= User.calculate_account_associations_from_accounts([Account.default.id])
-        @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations) if @special_associations
+
+        @user.update_account_associations(:incremental => true, :precalculated_associations => @special_associations, :staff_attributes => get_staff_attributes(@user)) if @special_associations
       end
 
       message_sent = false
@@ -875,6 +925,37 @@ class UsersController < ApplicationController
     end
   end
 
+  #staff attributes like job_number, job_position_id
+  def get_staff_attributes user
+    USER_ADDITIONAL_ATTRIBUTES.inject({}){|result, attr| result.merge!(attr.to_sym => user.__send__(attr)) if user.__send__(attr) }
+  end
+  private :get_staff_attributes
+
+  def wrap_staff_attributes_for_exsited_user_from_request user, user_params
+    USER_ADDITIONAL_ATTRIBUTES.each{ |attr| user.__send__(attr+"=", user_params[attr]) }
+    user
+  end
+  private :wrap_staff_attributes_for_exsited_user_from_request
+
+  def wrap_staff_attributes_for_exsited_user_from_db user, account_id
+    user_account_association = user.user_account_associations.filter_by_account_id(account_id).first
+    USER_ADDITIONAL_ATTRIBUTES.each do |attr|
+      if attr == 'tags'
+        user.__send__('tags=', user_account_association.tag_list)
+      else
+        user.__send__(attr+"=", user_account_association.__send__(attr))
+      end
+    end if user_account_association
+    user
+  end
+  private :wrap_staff_attributes_for_exsited_user_from_db
+
+  def update_user_other_attributes user
+    user.birthday = params[:user][:birthday]
+    user.mobile_phone = params[:user][:mobile_phone]
+    user.save!
+  end
+  private :update_user_other_attributes
   # @API Edit a user
   # Modify an existing user. To modify a user's login, see the documentation for logins.
   #
@@ -909,7 +990,7 @@ class UsersController < ApplicationController
     end
 
     managed_attributes = []
-    managed_attributes.concat [:name, :short_name, :sortable_name] if @user.grants_right?(@current_user, nil, :rename)
+    managed_attributes.concat [:name, :short_name, :sortable_name, :birthday, :mobile_phone, :job_number, :job_position_id, :external, :tags] if @user.grants_right?(@current_user, nil, :rename)
     if @user.grants_right?(@current_user, nil, :manage_user_details)
       managed_attributes.concat([:time_zone, :locale])
     end
@@ -951,10 +1032,11 @@ class UsersController < ApplicationController
             @user.avatar_state = (old_avatar_state == :locked ? old_avatar_state : 'approved')
             @user.save
           end
+          update_user_account_association(@user)
           flash[:notice] = t('user_updated', 'User was successfully updated.')
           format.html { redirect_to user_url(@user) }
           format.json {
-            render :json => user_json(@user, @current_user, session, %w{locale avatar_url},
+            render :json => user_json(wrap_staff_attributes_for_exsited_user_from_request(@user, params[:user]), @current_user, session, %w{locale avatar_url staff_attributes},
               @current_user.pseudonym.account) }
         else
           format.html { render :action => "edit" }
@@ -965,6 +1047,18 @@ class UsersController < ApplicationController
       render_unauthorized_action(@user)
     end
   end
+
+  def update_user_account_association user
+    if params[:account_id]
+      user_account_association = user.user_account_associations.filter_by_account_id(params[:account_id]).first
+      user_account_association.external = params[:user][:external]
+      user_account_association.job_number = params[:user][:job_number] unless params[:user][:job_number].blank?
+      user_account_association.job_position_id = params[:user][:job_position_id] unless params[:user][:job_position_id].blank?
+      user_account_association.tag_list = params[:user][:tags]
+      user_account_association.save
+    end
+  end
+  private :update_user_account_association
 
   def media_download
     asset = Kaltura::ClientV3.new.media_sources(params[:entryId]).find{|a| a[:fileExt] == params[:type] }
@@ -1365,4 +1459,15 @@ class UsersController < ApplicationController
 
     data.values.sort_by { |e| e[:enrollment].user.sortable_name.downcase }
   end
+
+  private
+
+  def sort_column
+    params[:sort].present? ? params[:sort] : "updated_at"
+  end
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+
 end

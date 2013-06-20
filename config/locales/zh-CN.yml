@@ -35,11 +35,13 @@ zh-CN:
       other: 其他
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
     tab_authentication: 身份验证
+    tab_course_systems: 课程体系
     tab_courses: 课程
     tab_developer_keys: 开发成员密钥
     tab_faculty_journal: 教师日志
     tab_homepage: 主页
     tab_jobs: 工作队列
+    tab_learning_plans: 学习计划
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
@@ -223,6 +225,10 @@ zh-CN:
       logout_request_to_idp: "已向 IdP 发送 LogoutRequest"
       logout_response_from_idp: "来自 IdP 的 LogoutResponse"
       saml_required: "如果要测试 SAML，需要先配置 SAML。"
+  account_homepage: 
+    tip: 
+      choose: 点击选择插入区域-->
+      drag: 拖动以移动组件
   account_notifications: 
     announcement_created_notice: 公告已创建
     announcement_creation_failed_notice: 公告创建失败
@@ -273,20 +279,30 @@ zh-CN:
       add_course_link: 添加新课程
       add_user_button: 添加新用户
       add_user_link: 添加新用户
+      birthday_help: "生日格式为: '1980-01-01'"
       course_category_tip: 请选择课程类型
       display_name_help: 在讨论、消息和评论中可见。
+      external: 外部
       full_name_description: 教师评分时显示名称。
+      internal: 内部
       labels: 
         account_id: 网校
+        birthday: 生日
         course_category_id: 课程分类
         enrollment_term_id: 学期
+        external: 是否为外部人员
         full_name: 姓名
+        job_number: 工号
+        job_position_id: 岗位
+        mobile_phone: 手机
         name: 课程名称
         path: 电子邮件
         send_confirmation: 发送创建账户的消息到到用户电子邮件
         short_name: 显示名称
         sis_user_id: "SIS ID"
         sortable_name: 检索名称
+        tags: 标签
+      mobile_phone_help: 手机必须为13位
       sortable_name_help: 此名称在检索列表中显示。
     add_user_button: 添加新用户
     add_user_dialog_title: 添加新用户
@@ -375,7 +391,6 @@ zh-CN:
       body: 内容
       cancel: 取消
       change_background: 改变背景
-      reset_homepage: 重置主页
       choose_image: 选择图片
       delete_background_image: 删除上传的背景图片
       dialog: 
@@ -392,11 +407,12 @@ zh-CN:
         courses: 指定课程
         name: 主题
       repeat: 重复图片
+      reset_homepage: 重置主页
       save: 保存
+      tip: 
+        drag_add_widget: 试试看拖动我到你想要编辑的区域
       title: 标题
       upload: 上传
-      tip:
-        drag_add_widget: 试试看拖动我到你想要编辑的区域
     homepages: 主页
     include_deleted_parameter: 
       account_reports: 
@@ -476,6 +492,7 @@ zh-CN:
       if_you_would_like_to_link_to_your_own_campus_support_website_in_the_help_dialog_you_can_do_that_here: 如果您想要将自己学院的支持网站加入到帮助对话中，可以在此处操作
       ip_filter_filter_label: IP限制
       ip_filter_name_label: 名称
+      job_position_management_fieldset: 岗位管理
       labels: 
         account_notification_icon: 图标
         admins_can_change_passwords: 管理员密码设置
@@ -1484,8 +1501,10 @@ zh-CN:
     delete: 删除
     done: 完成
     filter: 筛选
+    go_back: 返回
     hide_all_artifacts: 隐藏所有产物
     import: 导入
+    insert: 插入
     ok: 确定
     refresh: 刷新
     save: 保存
@@ -3366,6 +3385,21 @@ zh-CN:
     updating: 正在更新...
   course_statistics: 
     unknown: 未知
+  course_system: 
+    ranks: 
+      mandatory: 必修
+      optional: 选修
+      recommended: 推荐
+  course_systems: 
+    index: 
+      account: 组织架构
+      course_category: 课程分类
+      course_systems: 课程体系
+      course_systems_crumb: 课程体系
+      job_position: 岗位
+      rest_courses: 待选课程
+      title: 课程体系
+    update_successfully: 课程体系更新成功。
   courses: 
     add_users: 
       buttons: 
@@ -3667,12 +3701,6 @@ zh-CN:
       none: 无
       not_date_restricted: 这些日期不会影响课程可用性
       page_title: 课程详细信息
-      pickup: 
-        cancel: 取消
-        email: 邮箱
-        insert: 插入
-        name: 名称
-        title: 挑选
       private_course: 私密
       public_course: 公共
       section_sis_id: "SIS ID: %{section_sis}"
@@ -3833,6 +3861,16 @@ zh-CN:
         show_specific_dates: "显示班,  组, 和个人日期"
     titles: 
       rss_feed: "%{course} Feed"
+    to_be_attended: 
+      account: 
+        name: 组织架构
+      course: 
+        name: 课程名称
+        rank: 等级
+        teachers: 教师
+      headings: 
+        courses_to_be_attended: 应该加入的课程
+      title: 应该加入的课程
     unauthorized: 
       invalid_link: 注册链接不再有效。请联系课程教师以确保您能正确注册。
     user_tab: 
@@ -4284,7 +4322,7 @@ zh-CN:
     button: 
       insert_equation: 插入公式
     cancel: 取消
-    choose_a_picture: 上传本地图片：
+    choose_a_picture: 选择图片：
     click_to_embed: 链接图片
     done: 
       title: 单击以完成编辑富文本区域
@@ -4306,7 +4344,6 @@ zh-CN:
     search_flickr: 搜索外部网站图片
     switch_views: 切换视图
     url: "链接地址:"
-    choose_a_picture: 选择图片：
   editor_accessibility: 
     accessibles: 
       background_color: "背景色, 按下选择"
@@ -5910,6 +5947,41 @@ zh-CN:
     tooltips: 
       enter_search_terms: 搜索搜索条件
   invalid_xml_syntax: "无效的 xml 语法"
+  job_position_category: 
+    form: 
+      labels: 
+        name: 名称
+    index: 
+      buttons: 
+        edit: 修改
+      empty_category: 没有岗位分类信息
+      new_category: 创建新的岗位分类
+      table_headings: 
+        id: 编号
+        name: 名称
+        op: 操作
+  job_positions: 
+    form: 
+      labels: 
+        code: 代码
+        id: 编号
+        job_position_category_id: 岗位分类
+        name: 名称
+        rank: 等级
+      select_category_tip: 请选择岗位分类
+    index: 
+      buttons: 
+        edit: 修改
+      empty_job_position: 没有岗位信息
+      job_position_category_management: 岗位分类管理
+      new_job_position: 创建新岗位
+      table_headings: 
+        code: 代码
+        id: 编号
+        job_position_category: 岗位分类
+        name: 名称
+        op: 操作
+        rank: 等级
   jobs: 
     columns: 
       attempt: 答题
@@ -6029,13 +6101,14 @@ zh-CN:
         reset_explanation: "重置该测试学生将清除所有历史记录，%{line_break} 重置后将作为新学生访问课程。"
         warning_title: 您当前已登录到学生视图
     head: 
+      default_page_description: "教学邦jiaoxuebang.com-国内首家基于领先创新技术，独家真正教育云平台构架和新颖的教学模式，为企事业单位培训，教学机构,教师达人开设独立网校和公开课提供云平台服务。支持模式： 同时支持独立网校，公开课。适合对象：中小学，大中专，企事业，教育达人。"
+      default_page_kewords: "零成本建网校,半分钟开课程,一用户多角色,十八大种类课程,任意时空访问,无限容量扩,教学邦"
       default_page_title: 教学邦-网校平台(jiaoxuebang.com)-国内真正首家纯教育云平台、国内首创开放网校平台服务、全球首创终身网络教育模式、独家全方位实现听说读写画
-      default_page_description: 教学邦jiaoxuebang.com-国内首家基于领先创新技术，独家真正教育云平台构架和新颖的教学模式，为企事业单位培训，教学机构,教师达人开设独立网校和公开课提供云平台服务。支持模式： 同时支持独立网校，公开课。适合对象：中小学，大中专，企事业，教育达人。
-      default_page_kewords: 零成本建网校,半分钟开课程,一用户多角色,十八大种类课程,任意时空访问,无限容量扩,教学邦
     menu: 
       view_all_accounts: 查看所有网校
       view_all_enrollments: 查看所有课程
       view_all_groups: 查看所有组
+      view_courses_to_be_attended: 应该加入的课程
   learning_outcome: 
     no_comment: 无评注
     no_context_found: "无法找到“%{title}”的外部学习结果，创建一个副本。"
@@ -6043,6 +6116,80 @@ zh-CN:
     no_global_permission: "您不可以管理全局结果，无法添加“%{title}”"
   learning_outcome_group: 
     no_global_permission: "您不可以管理全局结果，无法添加“%{title}”"
+  learning_plan: 
+    errors: 
+      role_not_found: "角色名 %{role}' 不存在"
+    states: 
+      deleted: 已删除
+      initial: 初始
+      published: 已发布
+      reverted: 已撤销
+  learning_plans: 
+    are_you_sure: 您确认吗？
+    course_selection: 
+      rank: 
+        others: 其他
+      rest_courses: 待选课程
+      selected_courses: 已选课程
+    created_successfully: 学习计划生成成功。
+    edit: 
+      learning_plans_crumb: 学习计划
+      page_title: 编辑学习计划
+      title: 编辑学习计划
+    errors: 
+      update_failed: 更新学习计划失败，请重试
+    form: 
+      labels: 
+        course_name: 课程名
+        end_on: 结束日期
+        start_on: 开始日期
+        user_name: 用户名
+    index: 
+      course_count: 课程数
+      end_on: 结束日期
+      learning_plans: 学习计划
+      learning_plans_crumb: 学习计划
+      new_plan: 新增学习计划
+      start_on: 开始日期
+      status: 状态
+      subject: 标题
+      title: 学习计划列表
+      user_count: 参加人数
+    learning_plan: 
+      links: 
+        are_you_sure: 您确定吗?
+        publish: 发布
+        revert: 撤销
+    new: 
+      learning_plans_crumb: 学习计划
+      page_title: 新增学习计划
+      title: 新增学习计划
+    notices: 
+      update_success: 学习计划更新成功。
+    pickup_courses: 
+      account: 组织架构
+      course_category: 课程分类
+      job_position: 岗位
+      title: 挑选课程
+    plan_form: 
+      course: 
+        name: 课程名称
+        teachers: 教师
+      labels: 
+        course_list: 课程列表
+        end_on: 结束日期
+        start_on: 开始日期
+        subject: 标题
+        user_list: 用户列表
+      links: 
+        pickup_courses: 选择课程
+        pickup_users: 选择用户
+        return: 返回一览
+      user: 
+        accounts: 组织架构
+        job_positions: 岗位
+        name: 用户名
+        role: 角色
   lib: 
     api: 
       attachments: 
@@ -6169,6 +6316,7 @@ zh-CN:
     uploading: 正在上传...
   menu: 
     associated_accounts: 我的网校
+    courses_to_be_attended: 应该加入的课程
     current_groups: 当前组
     customize: 自定义
     managed_accounts: 管理的网校
@@ -6182,10 +6330,6 @@ zh-CN:
       sending_message: 正在发送邮件...
     message_student: "向学生发送有关 %{course_name} 的邮件"
     send_message: 发送邮件
-  account_homepage:
-    tip:
-      choose: 点击选择插入区域-->
-      drag: 拖动以移动组件
   messages: 
     account_user_notification: 
       email: 
@@ -9735,6 +9879,17 @@ zh-CN:
     warnings: 
       unpublished_changes: "*你已经对此测试更改成未发布.* 在对测试重新发布前学生不能看到变化."
       unpublished_quiz: "*测试未发布* 在发布前只有教师能看到."
+  rails_helper: 
+    action_must_be_called_on_root_account: 只有顶级组织架构才能执行改操作
+    user_source: 
+      applied: 自助报名
+      created: 手动创建
+      imported: 系统导入
+      invited: 课程邀请
+    user_state: 
+      actived: 激活的
+      be_frozen: 被冻结的
+      frozen: 自己冻结的
   re_upload_submissions_form: 
     buttons: 
       upload: 上传文件
@@ -9818,6 +9973,7 @@ zh-CN:
       manage_assignments: 管理（添加/编辑/删除）作业和测试
       manage_calendar: 添加、编辑和删除课程表上的活动
       manage_content: 管理所有其他课程内容
+      manage_course_systems: 管理课程体系
       manage_courses: 管理（添加/编辑/删除）课程
       manage_developer_keys: 管理开发成员密钥
       manage_files: 管理（添加/编辑/删除）课程文件
@@ -9827,6 +9983,7 @@ zh-CN:
       manage_groups: 管理（创建/编辑/删除）组
       manage_homepage: 管理主页
       manage_interaction_alerts: 管理警报
+      manage_learning_plans: 管理学习计划
       manage_outcomes: 管理学习结果
       manage_role_overrides: 管理权限
       manage_sections: 管理（创建/编辑/删除）课程班
@@ -10136,6 +10293,7 @@ zh-CN:
     account_notification: 
       close: 关闭
     accounts_right_side_shared: 
+      account_query_tip: 请选择组织架构进行查询
       buttons: 
         go: 执行
       titles: 
@@ -10345,9 +10503,9 @@ zh-CN:
         courses_and_groups: 课程和组
     identity: 
       links: 
+        help: 手册
         inbox: 收件箱
         log_in: 登录
-        help: 手册
         logout: 注销
         settings: 设置
         signup_for_free: 免费注册
@@ -10453,6 +10611,9 @@ zh-CN:
       ta_title: 邀请作为助教，单击以查看"课程"
       teacher: "%{course}（作为教师）。"
       teacher_title: 邀请作为教师，单击以查看"课程"
+    pickup_users: 
+      pickup: 
+        title: 选择人员
     profile: 
       add_link_field: 添加其他链接
       bio: 个人简介
@@ -10635,6 +10796,9 @@ zh-CN:
       assignment: 作业
       grading_alt: 评分
       submission_comment: 提交评注
+    tag_selector: 
+      split_tip: 用半角逗号分开
+      tags_tip: 选择已有标签
     unauthorized: 
       headings: 
         needs_cookies: "需要 Cookie"
@@ -11275,6 +11439,27 @@ zh-CN:
         find_user: 查找用户
         merge_users: 合并用户账号
         really_merge: 是否确实要合并用户账号?
+    advanced_index: 
+      empty_users: 没有查询到人员
+      selector: 
+        account: 组织架构
+        is_external: 外部人员
+        job_number: 工号
+        job_position: 岗位
+        name: 姓名
+        query: 查询
+        tags: 标签
+      table_headings: 
+        account: 组织架构
+        email: 电子邮件
+        id: 编号
+        is_external: 外部人员
+        job_number: 工号
+        job_position: 岗位
+        name: 姓名
+        select_deselect_all: 全选/反选
+        source: 来源
+        tags: 标签
     cant_self_merge: 您不能将账户与其自身合并。
     cc_prefs: 
       buttons: 
@@ -11372,10 +11557,25 @@ zh-CN:
         user_groups: 查看用户组
       crumbs: 
         users: 用户
+      empty_users: 没有人员信息
+      js: 
+        edit_confirm_to_active: 您确定要激活该用户吗?
+        edit_confirm_to_freeze: 您确定要冻结该用户吗?
+        update_failure: 更新失败
+        update_successfully: 更新成功
+        user_state_modify_tip: 用户状态更改提醒
       labels: 
         show_users_for_term: 显示在学期内注册的用户
       no_results_found: 未找到结果
       search_for_user: "%{user_name} 的用户搜索结果"
+      table_headings: 
+        account: 组织架构
+        is_external: 是否为外部人员
+        job_number: 工号
+        job_position: 岗位
+        name: 人员名
+        source: 来源
+        tags: 标签
       titles: 
         all_users: 所有用户
         choose_term: 选择学期
@@ -11437,14 +11637,24 @@ zh-CN:
         update_details: 更新详细信息
       delete_from_account: "从 %{account} 删除"
       edit: 编辑
+      external: 外部
+      internal: 内部
       labels: 
+        birthday: 生日
         default_email: 默认电子邮件
         display_name: 显示名称
+        external: 是否为外部人员
         full_name: 姓名
+        job_number: 工号
+        job_position_id: 岗位
+        mobile_phone: 手机
         name: 姓名
         profile_picture: 头像
         short_name: 显示名称
         sortable_name: 检索名称
+        source: 来源
+        state: 状态
+        tags: 标签
         time_zone: 时区
       merge_with_another_user: 与其他用户合并
       none: 无

@@ -5,6 +5,7 @@ module Jxb
         base.class_eval do
           include Jxb::Register::User
           include Jxb::Homepage::User
+          include Jxb::CourseSystem::User
         end
       end
 

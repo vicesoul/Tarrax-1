@@ -21,6 +21,7 @@ class Course < ActiveRecord::Base
   include Context
   include Workflow
   include TextHelper
+  include Jxb::Base::Course
 
   attr_accessible :name,
                   :section,
@@ -1534,6 +1535,7 @@ class Course < ActiveRecord::Base
         :user => user,
         :course => self,
         :course_section => section,
+        :learning_plan => opts[:learning_plan], # JXB added for learning_plan
         :workflow_state => enrollment_state,
         :limit_privileges_to_course_section => limit_privileges_to_course_section)
     end

@@ -24,6 +24,7 @@ require 'spec/rails'
 require 'webrat'
 require 'mocha_standalone'
 require File.dirname(__FILE__) + '/mocha_extensions'
+require File.dirname(__FILE__) + '/jxb_helper'
 
 Dir.glob("#{File.dirname(__FILE__).gsub(/\\/, "/")}/factories/**/*.rb").each { |file| require file }
 
@@ -113,6 +114,7 @@ Spec::Runner.configure do |config|
   config.mock_with :mocha
 
   config.include Webrat::Matchers, :type => :views
+  config.include JxbHelper
 
   config.before :all do
     # so before(:all)'s don't get confused

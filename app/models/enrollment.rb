@@ -19,6 +19,7 @@
 class Enrollment < ActiveRecord::Base
 
   include Workflow
+  include Jxb::Base::Enrollment
 
   belongs_to :course, :touch => true
   belongs_to :course_section
@@ -138,6 +139,9 @@ class Enrollment < ActiveRecord::Base
 
   named_scope :active,
               :conditions => ['enrollments.workflow_state != ?', 'deleted']
+
+  named_scope :deleted,
+              :conditions => ['enrollments.workflow_state = ?', 'deleted']
 
   named_scope :admin,
               :select => 'course_id',

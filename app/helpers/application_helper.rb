@@ -660,6 +660,25 @@ module ApplicationHelper
     mapped
   end
 
+  def map_course_systems_for_menu(course_systems)
+    mapped = course_systems.map do |course_system|
+      course = course_system.course
+      subdomain = course.account.subdomain.blank? ? '' : course.account.subdomain.name
+      host = 'http://' + (subdomain.blank? ? HostUrl.default_host : subdomain + '.' + HostUrl.default_host)
+      {
+        :root_account => course.root_account.name,
+        :longName => "#{course.name} - #{course.short_name}",
+        :shortName => course.name,
+        :href => host + course_path(course, :invitation => course.read_attribute(:invitation)),
+        :term => nil,
+        :subtitle => CourseSystem.ranks[course_system.rank],
+        :id => course.id
+      }
+    end
+
+    mapped
+  end
+
   def menu_courses_locals
     courses = @current_user.menu_courses
     all_courses_count = @current_user.courses_with_primary_enrollment.size
@@ -670,6 +689,17 @@ module ApplicationHelper
       :title                  => t('#menu.my_courses', "My Courses"),
       :link_text              => raw(t('#layouts.menu.view_all_enrollments', 'View all courses')),
       :edit                   => t("#menu.customize", "Customize")
+    }
+  end
+
+  def menu_course_systems_locals
+    course_systems = @current_user.course_systems.first(8)
+    {
+      :collection             => map_course_systems_for_menu(course_systems),
+      :collection_size        => course_systems.size,
+      :more_link_for_over_max => courses_to_be_attended_path,
+      :title                  => t('#menu.courses_to_be_attended', "Courses to be attended"),
+      :link_text              => raw(t('#layouts.menu.view_courses_to_be_attended', 'View courses to be attended')),
     }
   end
 
@@ -869,5 +899,56 @@ module ApplicationHelper
     t("#user.registration.agree_to_terms",
       "You agree to the *terms of use*.",
       :wrapper => link_to('\1', "/terms-of-use", :target => "_new"))
+  end
+
+  def prepare_search_params hash, key
+    if search = hash.dup[key]
+      search.each do |k, v|
+        case v
+        when String
+          search[k] = v.to_i if k.end_with?('_id')
+        when Array
+          search[k] = v.map &:to_i if k.end_with?('_ids')
+        end
+      end
+    else
+      {}
+    end
+  end
+
+  def link_to_add_fields(name, f, association)
+    new_object = f.object.class.reflect_on_association(association).klass.new
+    id = new_object.object_id
+    fields = f.fields_for(association, new_object, :child_index => id) do |builder|
+      render(association.to_s.singularize + "_fields", :f => builder)
+    end
+    link_to(name, '#', :class => "add_fields", "data-id" => id, "data-fields" => fields.gsub("\n", ""))
+  end
+
+  def sortable(column, title = nil)
+    title ||= column.titleize
+    css_class = column == sort_column ? "current #{sort_direction}" : nil
+    direction = column == sort_column && sort_direction == "asc" ? "desc" : "asc"
+    link_to title, {:sort => column, :direction => direction}, {:class => css_class}
+  end
+
+  def sortable_for_searchlogic(column, title, custom_scope = nil)
+    direction = sort_direction == "asc" ? "desc" : "asc"
+    css_class = column == sort_column ? "current_#{sort_direction}" : nil
+
+    if custom_scope.nil?
+      order_param = {"search[order]" => "#{column} #{direction}"}
+      params[:search].delete_if {|k,v| k.to_s =~ /^\w*sort_by\w+$/} if params[:search]
+    else
+      order_param = {"search[#{custom_scope}]" => "#{column} #{direction}"}
+      params[:search].delete_if{|k,v| k.to_s =~ /^order$/} if params[:search]
+    end
+
+    order_param.merge!("direction" => direction, "sort" => column)
+    order_param.merge!("is_iframe" => true) if params[:is_iframe]
+
+    link_params = params[:search].nil? ? order_param : params[:search].inject({}){|r, (k,v)| r.merge!("search[#{k}]" => v)}.merge!(order_param)
+
+    link_to title, link_params, {:class => css_class}
   end
 end
