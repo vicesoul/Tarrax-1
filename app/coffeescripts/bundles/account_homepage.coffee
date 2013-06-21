@@ -329,19 +329,15 @@ require [
     $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
     $tipB.appendTo("body").hide()
 
-    $(".theme_edit .box_head").live(
+    $(".theme_edit .box_head").live
       mouseenter: ->
         position = $(this).offset()
-
-        $tipB.show().css({
+        $tipB.show().css
           left: position.left
           top: position.top - 15
-          })
-
       mouseleave: ->
         $tipB.hide()
-    )
-
+    
     #themes selector onchange  
     $('#jxb_page_theme').change ->
       $('<div></div>').easyDialog({
@@ -364,6 +360,7 @@ require [
           )
       }, 'confirm')
 
+    console.log "5"
     $("form.edit_jxb_page").submit ->
       resetPosition()
       return true
@@ -397,13 +394,13 @@ require [
         complete: ->
           afterUploadedImageSuccess()
       )
-      #tooltip
-      $('.account_announcement, #add_widget').tooltip(
-        position: { my: "left bottom+30", at: "left bottom" }
-      )
 
+    #tooltip
+    $('.account_announcement, #add_widget').tooltip
+      position:
+        my: "left bottom-20"
+        at: "left bottom"
     
-
     $("#homepage-editor-left-side").on "mousedown", ->
       return false
 

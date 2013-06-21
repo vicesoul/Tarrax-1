@@ -34,7 +34,10 @@ define([
 $(document).ready(function() {
   var external_services = null;
   var $dialog = $("#select_context_content_dialog");
+
+  // dialog     /shared/add_assignment.html.erb
   attachAddAssignment($("#assignments_select .module_item_select"));
+
   INST = INST || {};
   INST.selectContentDialog = function(options) {
     var for_modules = options.for_modules;
@@ -42,6 +45,7 @@ $(document).ready(function() {
     var holder_name = options.holder_name || "module";
     var dialog_title = options.dialog_title || I18n.t('titles.add_item_to_module', "Add Item to Module");
     var allow_external_urls = for_modules;
+    var select_type = options.type || "";
     $dialog.data('submitted_function', options.submit);
     $dialog.find(".context_module_content").showIf(for_modules);
     $dialog.find(".holder_name").text(holder_name);
@@ -73,13 +77,21 @@ $(document).ready(function() {
     }
     $("#select_context_content_dialog #external_urls_select :text").val("");
     $("#select_context_content_dialog #context_module_sub_headers_select :text").val("");
-    $('#add_module_item_select').change();
-    $("#select_context_content_dialog .module_item_select").change();
     $("#select_context_content_dialog").dialog({
       title: dialog_title,
       width: 400
     }).fixDialogButtons();
-    $("#select_context_content_dialog").dialog('option', 'title', dialog_title);
+    $("#select_context_content_dialog .module_item_option").hide();
+    $("#" + select_type + "s_select").show().find(".module_item_select").val("new").change();
+
+    $("#select_context_content_dialog .module_item_select").change(function() {
+      if($(this).val() == "new") {
+        $(this).parents(".module_item_option").find(".new").show().focus().select();
+      } else {
+        $(this).parents(".module_item_option").find(".new").hide();
+      }
+    })
+
   }
   $("#select_context_content_dialog .cancel_button").click(function() {
     $dialog.find('.alert').remove();
@@ -260,43 +272,5 @@ $(document).ready(function() {
     }
   });
   var $tool_template = $("#context_external_tools_select .tools .tool:first").detach();
-  $("#add_module_item_select").change(function() {
-    $("#select_context_content_dialog .module_item_option").hide();
-    $("#" + $(this).val() + "s_select").show().find(".module_item_select").change();
-    if($(this).val() == 'context_external_tool') {
-      var $select = $("#context_external_tools_select");
-      if(!$select.hasClass('loaded')) {
-        $select.find(".message").text("Loading...");
-        var url = $("#select_context_content_dialog .external_tools_url").attr('href');
-        $.ajaxJSON(url, 'GET', {}, function(data) {
-          $select.find(".message").remove();
-          $select.addClass('loaded');
-          $select.find(".tools").empty();
-          for(var idx in data) {
-            var tool = data[idx];
-            if(tool.url || tool.domain || tool.resource_selection_settings) {
-              var $tool = $tool_template.clone(true);
-              $tool.toggleClass('resource_selection', !!tool.resource_selection_settings);
-              $tool.fillTemplateData({
-                data: tool,
-                dataValues: ['id', 'url', 'domain', 'name']
-              });
-              $tool.data('tool', tool);
-              $select.find(".tools").append($tool.show());
-            }
-          }
-        }, function(data) {
-          $select.find(".message").text(I18n.t('errors.loading_failed', "Loading Failed"));
-        });
-      }
-    }
-  })
-  $("#select_context_content_dialog .module_item_select").change(function() {
-    if($(this).val() == "new") {
-      $(this).parents(".module_item_option").find(".new").show().focus().select();
-    } else {
-      $(this).parents(".module_item_option").find(".new").hide();
-    }
-  })
 });
 });
