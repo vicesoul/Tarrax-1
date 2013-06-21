@@ -1023,6 +1023,7 @@ class CoursesController < ApplicationController
       # clear notices that would have been displayed as a result of processing
       # an enrollment invitation, since we're giving an error
       flash[:notice] = nil
+      #return redirect_to enroll_url(@context.self_enrollment_code) if @context.self_enrollment
       render_unauthorized_action(@context)
     end
   end

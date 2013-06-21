@@ -627,6 +627,7 @@
   <%# if @account.root_account? %>
     <div id="tab-announcements">
       <h2><%= t(:global_announcements_title, "Global Announcements") %></h2>
+      <p><a href="<%= account_account_notification_categories_url(@context) %>"><%= t'notification_category_management', 'Notification Category Management' %></a></p>
       <p>
         <%= mt(:global_announcements_description,
         "Global announcements are a way for you to post sticky messages on the dashboard " +
@@ -642,7 +643,11 @@
               <a href="#" rel="<%= context_url(@account, :context_account_notification_url, announcement) %>" class="delete_notification_link close" title="<%= t(:delete_announcement_tooltip, "Delete this Announcement") %>">×</a>
             <% end %>
             <div class="subject">
-              <%= image_tag("#{announcement.icon}.png") %><%= announcement.subject %>
+              <%= image_tag("#{announcement.icon}.png") %>
+              <% unless announcement.account_notification_category.blank? %>
+                <span style="color:red">[<%= announcement.account_notification_category.name %>]</span>
+              <% end %>
+              <%= announcement.subject %>
             </div>
             <div>
               <span>
@@ -671,7 +676,14 @@
             </tr><tr>
               <td><%= f.blabel :end_at, :en => "Ends" %></td>
               <td><%= f.text_field :end_at, :class => 'datetime_field' %></td>
-            </tr><tr>
+            </tr>
+            <tr>
+              <td><%= f.blabel :account_notification_category_id, :en => "Notification Category" %></td>
+              <td>
+                <%= f.select :account_notification_category_id, AccountNotificationCategory.find_all_by_account_id([@account.root_account.id] | [@account.id]).map{|c| [c.name, c.id]}, {:prompt => t('tip.select_account_notification_category', 'Select Category')}, {:id => 'notification_category_selection'} %>
+              </td>
+            </tr>
+            <tr>
               <td><%= f.blabel :account_notification_icon, :en => "Icon" %></td>
               <td>
                 <select id="account_notification_icon" name="account_notification[icon]">
@@ -682,7 +694,8 @@
                   <option value="calendar" class="calendar"><%= t(:alert_icon_calendar_option, "calendar") %></option>
                 </select>
               </td>
-            </tr><tr>
+            </tr>
+            <tr>
               <td><%= f.blabel :message, :en => "Message" %></td>
             </tr>
           </table>
@@ -773,6 +786,7 @@
       </table>
     </div>
   <% end %>
+
   <% if can_do(@context, @current_user, :manage_account_settings) and @current_user.site_admin? # hidden %>
       <div id="tab-tools">
         <h2><%= t(:external_tools_title, "External Tools") %></h2>
