@@ -45,6 +45,7 @@ stylesheets:
     - public/stylesheets/compiled/print.css
   context_modules: 
     - public/stylesheets/compiled/context_modules.css
+    - public/stylesheets/compiled/ui.selectmenu.css
   collection_item_save:
     - public/stylesheets/compiled/collection_item_save.css
   collections_app:

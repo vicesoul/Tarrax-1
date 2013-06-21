@@ -1,0 +1,19 @@
+
+<%
+  add_crumb t('#accounts.settings.notification_category_management', 'Notification Category')
+%>
+<% content_for :right_side do %>
+<% end %>
+<a href="#" id= "add_notification_category_button" class="icon-add add_term_link category_fn add_category">
+  <%= t 'add_new_category', 'Add a new category' %>
+</a>
+
+<ul id="category-list" class='courses' style="list-style-type: none;">
+  <% @categories.each do |c| %>
+    <li>
+      <span><%= c.name %></span><a href="" class="icon-edit category_fn" category_id="<%= c.id %>"></a>
+    </li>    
+  <% end %>
+</ul>
+
+<%= render :partial => 'add_notification_category' %>

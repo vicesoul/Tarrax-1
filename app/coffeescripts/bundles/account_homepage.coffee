@@ -329,40 +329,33 @@ require [
     $tipB = $("<div class='tipB' style='position: absolute; font-size: 12px; color: red; z-index: 11;'>" + I18n.t('tip.drag', 'drag & move to a new area') + "</div>")
     $tipB.appendTo("body").hide()
 
-    $(".theme_edit .box_head").live(
+    $(".theme_edit .box_head").live
       mouseenter: ->
         position = $(this).offset()
-
-        $tipB.show().css({
+        $tipB.show().css
           left: position.left
           top: position.top - 15
-          })
-
       mouseleave: ->
         $tipB.hide()
-    )
-
+    
     #themes selector onchange  
     $('#jxb_page_theme').change ->
-      $('<div></div>').easyDialog({
+      $('<div></div>').easyDialog
         confirmButton: '确定'
         confirmButtonClass: 'btn-primary'
         content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
         confirmCancelCallback: ->
-          $('#jxb_page_theme').val($('#jxb_page_theme').prop('defaultSelected'))
+          $('#jxb_page_theme').val $('#jxb_page_theme').prop('defaultSelected')
         confirmCallback: ->
-          $.ajaxJSON(
-            $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
-            'post',
-            {},
+          $.ajaxJSON $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(), 
+            'post', 
+            {}, 
             (data) ->
               if data.flag
                 window.location.reload()
               else
                 alert '更换主题失败，请重试!'
-
-          )
-      }, 'confirm')
+        , 'confirm'
 
     $("form.edit_jxb_page").submit ->
       resetPosition()
@@ -374,7 +367,7 @@ require [
       $textUploading = $("<span>上传中...</span>")
       $confirm = $form.find(".confirm")
 
-      $form.ajaxSubmit(
+      $form.ajaxSubmit
         clearForm: true
         dataType: 'json'
         beforeSubmit: ->
@@ -396,14 +389,13 @@ require [
           $textUploading.remove()
         complete: ->
           afterUploadedImageSuccess()
-      )
-      #tooltip
-      $('.account_announcement, #add_widget').tooltip(
-        position: { my: "left bottom+30", at: "left bottom" }
-      )
-
+      
+    #tooltip
+    $('.account_announcement, #add_widget').tooltip
+      position:
+        my: "left bottom-20"
+        at: "left bottom"
     
-
     $("#homepage-editor-left-side").on "mousedown", ->
       return false
 

@@ -33,6 +33,7 @@ define([
   'jquery.templateData' /* fillTemplateData, getTemplateData */,
   'vendor/date' /* Date.parse */,
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
+  'vendor/ui.selectmenu',
   'jqueryui/sortable' /* /\.sortable/ */
 ], function(INST, I18n, $, ContextModulesView) {
 
@@ -753,9 +754,7 @@ define([
       modules.editModule($module);
     });
 
-    $(".add_module_item_link").live('click', function(event) {
-      event.preventDefault();
-      var $module = $(this).closest(".context_module");
+    function conveyrToDialog($module){
       if($module.hasClass('collapsed_module')) {
         $module.find(".expand_module_link").triggerHandler('click', function() {
           $module.find(".add_module_item_link").click();
@@ -763,11 +762,13 @@ define([
         return;
       }
       if(INST && INST.selectContentDialog) {
-        var module = $(this).parents(".context_module").find(".header").getTemplateData({textValues: ['name', 'id']});
+        var module = $module.find(".header").getTemplateData({textValues: ['name', 'id']});
         var options = {for_modules: true};
+        options.type = $module.find("select.add_module_item_select").val();
         options.select_button_text = I18n.t('buttons.add_item', "Add Item");
         options.holder_name = module.name;
         options.dialog_title = I18n.t('titles.add_item', "Add Item to %{module}", {'module': module.name});
+        
         options.submit = function(item_data) {
           var $module = $("#context_module_" + module.id);
           var $item = modules.addItemToModule($module, item_data);
@@ -785,7 +786,84 @@ define([
         };
         INST.selectContentDialog(options);
       }
+    }
+
+    $(".add_module_item_link").live( "click", function(event) {
+      event.preventDefault();
+      var $module = $(this).parents(".context_module")
+      conveyrToDialog($module);
     });
+
+    $(".add_module_item_select").live( "change", function() {
+      var $module = $(this).parents(".context_module")
+      
+      if($(this).val() == 'context_external_tool') {
+        var $select = $("#context_external_tools_select");
+        if(!$select.hasClass('loaded')) {
+          $select.find(".message").text("Loading...");
+          var url = $("#select_context_content_dialog .external_tools_url").attr('href');
+          $.ajaxJSON(url, 'GET', {}, function(data) {
+            $select.find(".message").remove();
+            $select.addClass('loaded');
+            $select.find(".tools").empty();
+            for(var idx in data) {
+              var tool = data[idx];
+              if(tool.url || tool.domain || tool.resource_selection_settings) {
+                var $tool = $tool_template.clone(true);
+                $tool.toggleClass('resource_selection', !!tool.resource_selection_settings);
+                $tool.fillTemplateData({
+                  data: tool,
+                  dataValues: ['id', 'url', 'domain', 'name']
+                });
+                $tool.data('tool', tool);
+                $select.find(".tools").append($tool.show());
+              }
+            }
+          }, function(data) {
+            $select.find(".message").text(I18n.t('errors.loading_failed', "Loading Failed"));
+          });
+        }
+      }
+
+      conveyrToDialog($module)
+
+    });
+
+    $(".add_item_link").live("click", function(e) {
+      e.preventDefault()
+      var $select = $(this).next(".add_module_item_select")
+      
+      if($('.ui-selectmenu-open').size() == 1){
+        $select.selectmenu("close")
+        return false
+      }
+
+      $select.selectmenu("open")
+      var $openMenu = $('.ui-selectmenu-open')
+      $openMenu.css({
+        left: e.pageX - $openMenu.width()/2,
+        top: e.pageY + 20
+      })
+    })
+
+    // mousedown on document will trigger selectmenu close
+    $(".add_item_link").live("mousedown", function(e) {
+      e.stopPropagation()
+    })
+
+    // this will init the template "#context_module_blank" which contain 'select'
+    $('.context-module-toolbar-item select').each(function(){
+      $(this)
+      .selectmenu({
+        menuWidth: 140,
+        maxHeight: 300,
+        close: function(e, object){
+          $(this).selectmenu("index", 0)
+        }
+      })
+      .next('span').hide()
+    })
+
     $("#add_module_prerequisite_dialog .cancel_button").click(function() {
       $("#add_module_prerequisite_dialog").dialog('close');
     });
@@ -898,7 +976,7 @@ define([
       modules.refreshModuleList();
       modules.refreshed = true;
     }, 1000);
-  }
+  },
 
   $(document).ready(function() {
     $(".datetime_field").datetime_field();
@@ -1251,7 +1329,12 @@ define([
         $module.find(".expand_module_link:first").triggerHandler('click', true);
       }
     });
+
+
+
   });
+  
+
 
   return modules;
 });

@@ -1,0 +1,30 @@
+<% js_bundle  :user_account_notifications %>
+
+<% 
+    add_crumb t('#layouts.application.menu.my_homepage', 'My dashboad'), dashboard_url
+    add_crumb t('#cells.announcement_account.title', 'Account Notifications')
+  %>
+
+<table class="jxbTable" cellpadding="0" cellspacing="0" border="1">
+
+  <thead>
+    <tr>
+      <td width="300px"><%= t 'subject', 'Subject' %></td>
+      <td width="100px"><%= t 'category', 'Category' %></td>
+      <td width="600px"><%= t 'message', 'Message' %></td>
+      <td width="100px"><%= t 'start_at', 'Start at' %></td>
+      <td width="100px"><%= t 'end_at', 'End at' %></td>
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  </tbody>
+</table>
+
