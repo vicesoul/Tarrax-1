@@ -1,0 +1,18 @@
+<h1>Listing case_solutions</h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @case_solutions.each do |case_solution| %>
+  <tr>
+    <td><%= link_to 'Show', case_solution %></td>
+    <td><%= link_to 'Edit', edit_case_solution_path(case_solution) %></td>
+    <td><%= link_to 'Destroy', case_solution, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New case_solution', new_case_solution_path %>

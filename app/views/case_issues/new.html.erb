@@ -1,0 +1,17 @@
+<h1>New case_issue</h1>
+
+<% form_for(@case_issue, :url => course_case_issues_url(@context), :html => {:method => 'POST'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+  
+<% end %>
+
+<%= render :partial => 'case_tpls/hidden_element' %>
+
+<%= link_to 'Back', course_case_issues_path %>

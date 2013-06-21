@@ -1,0 +1,35 @@
+<h1>Listing case_issues</h1>
+
+<%= link_to 'New case_issue', new_course_case_issue_path %>
+
+<% unless @case_issues.empty? %>
+  <table class="table table-striped table-bordered">
+    <tr>
+      <th><%= t '', 'Subject' %></th>
+      <th><%= t '', 'State' %></th>
+      <th><%= t '', 'Group Discuss' %></th>
+      <th><%= t '', 'Author' %></th>
+      <th><%= t '', 'Update At' %></th>
+      <th colspan="4"><%= t '', 'Operation' %></th>
+    </tr>
+
+  <% @case_issues.each do |case_issue| %>
+    <tr>
+      <td><%= case_issue.subject %></td>
+      <td><%= case_issue.workflow_state %></td>
+      <td><%= case_issue.group_discuss ? 'yes' : 'no' %></td>
+      <td><%= case_issue.user.name %></td>
+      <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
+      <td><%= link_to 'Show', course_case_issue_path(@context, case_issue) %></td>
+      <td><%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %></td>
+      <td><%= link_to 'Destroy', course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <div>
+    <%= t '', 'Empty case issues' %>
+  </div>
+<% end %>
+<br />
+

@@ -1,0 +1,22 @@
+<h1>Editing case_solution</h1>
+
+<% form_for(@case_solution) do |f| %>
+  <%= f.error_messages %>
+
+  <div><button id="new-module"><%= t '', 'New Module' %></button></div>
+
+  <% 
+    case_tpl = @case_solution.case_tpl ? @case_solution.case_tpl : @case_solution.case_issue.case_tpl
+  %>
+
+  <%= render :partial => 'case_tpls/shared_case_tpl_form', :locals => {:case_tpl => case_tpl} %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= render :partial => 'case_tpls/hidden_element' %>
+
+<%= link_to 'Show', @case_solution %> |
+<%= link_to 'Back', case_solutions_path %>

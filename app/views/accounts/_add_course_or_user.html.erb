@@ -1,17 +1,21 @@
 <%
-  hide_add_course ||= false; hide_add_user ||= false
+  hide_add_course ||= false; hide_add_user ||= false; hide_add_case_repostory ||= false;
   show_course = !hide_add_course && can_do(@account, @current_user, :manage_courses)
   # show_user = !hide_add_user && can_do(@account.root_account, @current_user, :manage_user_logins)
   show_user = !hide_add_user && can_do(@account, @current_user, :manage_user_logins)
+  show_case_repostory = !hide_add_case_repostory && can_do(@account, @current_user, :create_case_repostory)
 %>
 
-<% if show_course || show_user %>
+<% if show_course || show_user || show_case_repostory %>
 <div class="rs-margin-all">
   <% if show_course %>
     <a href="#" class="add_course_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t(:add_course_link, "Add a New Course") %></a>
   <% end %>
   <% if show_user %>
     <a href="#" class="add_user_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:add_user_link, "Add a New User") %></a>
+  <% end %>
+  <% if show_case_repostory %>
+    <a href="#" class="add_case_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t(:add_case_link, "Add a Case Collection Repostory") %></a>
   <% end %>
 </div>
 

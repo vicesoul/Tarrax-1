@@ -524,6 +524,12 @@ class RoleOverride < ActiveRecord::Base
           'AccountAdmin'
         ]
       },
+      :create_case_repostory => {
+        :label => lambda { t('permissions.create_case_repostory', "Create a case repostory") },
+        :account_only => true,
+        :true_for => %w(AccountAdmin),
+        :available_to => %w(AccountAdmin AccountMembership)
+      },
       :manage_user_logins => {
         :label => lambda { t('permissions.manage_user_logins', "Modify login details for users") },
         :available_to => [

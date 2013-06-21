@@ -1,0 +1,12 @@
+
+<div><button id="new-module"><%= t '', 'New Module' %></button></div>
+
+<div>
+  <%= t '', 'Template Name' %>: <%= f.text_field :name %>
+  <%= f.hidden_field :context_id, :value => params[:context_id] %>
+  <%= f.hidden_field :context_type, :value => params[:context_type] %>
+  <%= f.hidden_field :user_id, :value => @current_user.id %>
+</div>
+
+<%= render :partial => 'shared_case_tpl_form', :locals => {:case_tpl => @case_tpl} %>
+

@@ -1,0 +1,15 @@
+
+<div><%= t '', 'Template Name' %>: <%= @case_tpl.name %></div>
+<div><%= t '', 'Author' %>: <%= @case_tpl.user.name %></div>
+<div><%= t '', 'Updated At' %><%= @case_tpl.updated_at.to_formatted_s(:db) %></div>
+
+<div>
+  <% @case_tpl.case_tpl_widgets.each do |w| %>
+    <div>
+      <div><%= w.title %></div>
+      <div><%= w.body %></div>
+    </div>
+  <% end %>
+</div>
+<%= link_to (t '', 'Edit'), edit_account_case_tpl_path(@account, @case_tpl) %> |
+<%= link_to (t '', 'Back'), account_case_tpls_path %>

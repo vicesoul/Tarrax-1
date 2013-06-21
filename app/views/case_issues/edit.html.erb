@@ -1,0 +1,18 @@
+<h1>Editing case_issue</h1>
+
+<% form_for(@case_issue, :url => course_case_issue_url(@context, @case_issue), :html => {:method => 'PUT'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+  
+<% end %>
+  
+<%= render :partial => 'case_tpls/hidden_element' %>
+
+<%= link_to 'Show', course_case_issue_path(@context, @case_issue) %> |
+<%= link_to 'Back', course_case_issues_path %>

@@ -1,0 +1,26 @@
+
+<div id="hidden-tpl" style="display:none;width:200px;border-bottom:thick dotted #ff0000;">
+  <button class="remove-me">Remove Me</button>
+  <div><input name="case_tpl_widget[][title]" size="30" type="text" value="Custom Title"></div>
+  <div><input name="case_tpl_widget[][body]" size="30" type="text" value="Custom Body"></div>
+  <input name="case_tpl_widget[][seq]" type="hidden">
+</div>
+
+<% js_block do %>
+  <script>
+    require([
+      'jquery' /* $ */,
+    ], function($){
+      $('#new-module').bind('click', function(){
+        var lastSeqVal = $('#case-tpl-widget').find('input[name="case_tpl_widget[][seq]"]:last').val() || -1;
+        $('#case-tpl-widget').append($('#hidden-tpl').clone().show());
+        $('#case-tpl-widget').find('input[name="case_tpl_widget[][seq]"]:last').val(-(-lastSeqVal)+1);
+        return false;
+      }); 
+      $('.remove-me').live('click', function(){
+        $(this).parent('div:first').remove();
+        return false;
+      });
+    });
+  </script>
+<% end %>

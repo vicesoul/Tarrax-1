@@ -1,0 +1,16 @@
+<h1>New case_tpl</h1>
+
+<% form_for(@case_tpl, :url => account_case_tpls_url(@account), :html => {:method => 'POST'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+
+<%= render :partial => 'hidden_element' %>
+
+<%= link_to 'Back', account_case_tpls_path %>

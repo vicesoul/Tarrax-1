@@ -1,0 +1,15 @@
+
+<% if case_tpl %>
+  <div id="case-tpl-widget"> 
+    <% case_tpl.case_tpl_widgets.each do |w| %>
+      <% fields_for "case_tpl_widget[]", w do |widget| %>
+      <div style="width:200px;border-bottom:thick dotted #ff0000;">
+        <button class="remove-me">Remove Me</button>
+        <div><%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %></div>
+        <div><%= widget.text_field :body, {:name => "case_tpl_widget[][body]", :value => w.body } %></div>
+        <%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %>
+      </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

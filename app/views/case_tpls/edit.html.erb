@@ -1,0 +1,16 @@
+<h1>Editing case_tpl</h1>
+
+<% form_for(@case_tpl, :url => account_case_tpl_url(@account, @case_tpl.id), :html => {:method => 'PUT'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= render :partial => 'hidden_element' %>
+
+<%= link_to 'Back', account_case_tpls_path %>
