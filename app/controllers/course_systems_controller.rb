@@ -48,10 +48,6 @@ class CourseSystemsController < ApplicationController
     end
   end
 
-  def courses
-    course_systems = @current_user.course_systems
-  end
-
   private
     def course_system_params
       @course_system_params ||= prepare_params :course_system_attributes

@@ -22,11 +22,6 @@ require [
           tr.replaceWith data
           tr.find('td').effect 'highlight', {}, 'slow'
 
-  # new learning plan submition
-  $(document).on 'submit', '.new_learning_plan', (e)->
-    form = $(this)
-    form.validate()
-
   # show course selection dialog
   .on 'click', '#pickup_courses_link', preventDefault ->
     $('.pickup_course').dialog
