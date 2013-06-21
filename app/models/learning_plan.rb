@@ -1,8 +1,8 @@
 class LearningPlan < ActiveRecord::Base
   include Workflow
 
-  attr_accessible :subject, :start_on, :end_on, :notify_on, :workflow_state, :learning_plan_users_attributes, :learning_plan_courses_attributes
-  validates_presence_of :subject
+  attr_accessible :subject, :start_on, :end_on, :workflow_state, :learning_plan_users_attributes, :learning_plan_courses_attributes
+  validates_presence_of :subject, :start_on, :end_on
 
   belongs_to :account
   has_many :learning_plan_users, :dependent => :destroy
@@ -58,6 +58,8 @@ class LearningPlan < ActiveRecord::Base
     }
   end
 
+  # Make destroy logical
+  # user destroy! to delete plan phisically
   alias_method :destroy!, :destroy
   def destroy
     self.workflow_state = 'deleted'
@@ -65,6 +67,10 @@ class LearningPlan < ActiveRecord::Base
   end
 
   # return enrollment_type by role name
+  #
+  # role_name - role_base_name or custom role name of an account
+  #
+  # returns {:type => role_type, :name => role_name}
   def enrollment_type_for_name role_name
     @enrollment_type_mappings ||= Hash.new do |hash, key|
       hash[key] = if Role.is_base_role?(key)
@@ -81,6 +87,8 @@ class LearningPlan < ActiveRecord::Base
     @enrollment_type_mappings[role_name]
   end
 
+  # Enroll users for all plan courses.
+  # Skip user who had been enrolled already
   def enroll_users
     learning_plan_users.each do |lpu|
       next unless lpu.enrollable?
@@ -100,6 +108,7 @@ class LearningPlan < ActiveRecord::Base
     end
   end
 
+  # Revert all enrollments by learning plans
   def revert_enrollments
     enrollments.active.each &:destroy
     learning_plan_users.each do |lpu|

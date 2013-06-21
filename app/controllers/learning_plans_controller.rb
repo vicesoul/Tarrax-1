@@ -29,8 +29,10 @@ class LearningPlansController < ApplicationController
   def create
     return unless authorized_action(@account, @current_user, :manage_learning_plans)
 
+    @learning_plan = @account.learning_plans.build(params[:learning_plan])
+
     respond_to do |format|
-      if @learning_plan = @account.learning_plans.create(params[:learning_plan])
+      if @learning_plan.save
         flash[:notice] = t('created_successfully', "Learning plan created successfully.")
         format.html { redirect_to account_learning_plans_path }
       else
