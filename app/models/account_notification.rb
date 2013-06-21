@@ -1,10 +1,11 @@
 class AccountNotification < ActiveRecord::Base
   attr_accessible :subject, :icon, :message,
-    :account, :user, :start_at, :end_at
+    :account, :user, :start_at, :end_at, :account_notification_category_id
 
   validates_presence_of :start_at, :end_at, :account_id
   before_validation :infer_defaults
   belongs_to :account, :touch => true
+  belongs_to :account_notification_category
   belongs_to :user
   validates_length_of :message, :maximum => maximum_text_length, :allow_nil => false, :allow_blank => false
   sanitize_field :message, Instructure::SanitizeField::SANITIZE

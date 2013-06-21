@@ -3,6 +3,7 @@
   workflow_state = context_module && context_module.workflow_state
   @modules ||= []
 %>
+<% only ||= nil # only is an optimization, so that tabs that aren't going to be used won't have their data loaded %>
 <% cache_if_module(context_module, editable) do %>
 
   <div class="context_module bordered <%= 'unpublished_module' if workflow_state == "unpublished" %> <%= 'editable_context_module' if editable %>" data-workflow-state="<%= context_module ? context_module.workflow_state : "{{ workflow_state }}"%>" data-module-url="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>" data-module-id="<%= context_module ? context_module.id : "{{ id }}" %>" id="context_module_<%= context_module ? context_module.id : "blank" %>" style="<%= hidden unless context_module %>">
@@ -20,6 +21,33 @@
       <!--<span class="draft-text <%= 'hide' if workflow_state == "active" %>"><%= t("context_module.draft", "(Draft)") %></span>-->
     </div><!-- context-module-left-toolbar -->
 
+    <select class="add_module_item_select">
+      <% if !only || only.include?(:assignments) %>
+      <option value="assignment"><%= t '#shared.select_content_dialog.assignment_item', "Assignment" %></option>
+      <% end %>
+      <% if !only || only.include?(:quizzes) %>
+      <option value="quiz"><%= t '#shared.select_content_dialog.quiz_item', "Quiz" %></option>
+      <% end %>
+      <% if !only || only.include?(:attachments) %>
+      <option value="attachment"><%= t '#shared.select_content_dialog.file_item', "File" %></option>
+      <% end %>
+      <% if !only || only.include?(:wiki_pages) %>
+      <option value="wiki_page"><%= t '#shared.select_content_dialog.content_page_item', "Content Page" %></option>
+      <% end %>
+      <% if !only || only.include?(:discussion_topics) %>
+      <option value="discussion_topic"><%= t '#shared.select_content_dialog.discussion_item', "Discussion" %></option>
+      <% end %>
+      <% if !only || only.include?(:sub_headers) %>
+      <option value="context_module_sub_header" class="context_module_content"><%= t '#shared.select_content_dialog.text_header_item', "Text Header" %></option>
+      <% end %>
+      <% if !only || only.include?(:external_urls) %>
+      <option value="external_url" class="context_module_content"><%= t '#shared.select_content_dialog.external_url_item', "External URL" %></option>
+      <% end %>
+      <% if !only || only.include?(:external_tools) %>
+      <option value="context_external_tool" class="context_module_content"><%= t '#shared.select_content_dialog.external_tool_item', "External Tool" %></option>
+      <% end %>
+    </select>
+
     <ul class="context-module-toolbar">
       <% if editable %>
         <li class="context-module-toolbar-item">
@@ -34,10 +62,11 @@
                   <span class="workflow-state-action"><%= workflow_state == "unpublished" ? t('links.publish', %{Publish}) : t('links.unpublish', %{Unpublish}) %>
                 </a>
               <li>
-              -->
+              
               <li>
                 <a href="#" rel="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>/items" class="add_module_item_link icon-plus"><%= t('links.add_item', %{Add Content}) %></a>
               </li>
+              -->
               <li>
                 <a href="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>" class="icon-edit edit_module_link" title="<%= t('links.title.edit_module', %{Edit}) %>"><%= t('links.text.edit_module', %{Edit}) %></a>
               </li>
