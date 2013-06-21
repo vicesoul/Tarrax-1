@@ -82,17 +82,24 @@ $(document).ready(function() {
       width: 400
     }).fixDialogButtons();
     $("#select_context_content_dialog .module_item_option").hide();
-    $("#" + select_type + "s_select").show().find(".module_item_select").val("new").change();
+    $("#" + select_type + "s_select").show()
+    .find(".module_item_select").val("new").change()
 
-    $("#select_context_content_dialog .module_item_select").change(function() {
-      if($(this).val() == "new") {
-        $(this).parents(".module_item_option").find(".new").show().focus().select();
-      } else {
-        $(this).parents(".module_item_option").find(".new").hide();
-      }
-    })
+    $("#" + select_type + "s_select").find("input[type=text]:first").focus()
 
   }
+
+  $("#select_context_content_dialog .module_item_select").change(function() {
+    if($(this).val() == "new") {
+      $(this).parents(".module_item_option").find(".new").show()
+    } else {
+      $(this).parents(".module_item_option").find(".new").hide()
+    }
+    if( !$(this).parents(".module_item_option").is("#assignments_select") ){
+      $(this).parents(".module_item_option").find("input[type=text]:first").focus()
+    }
+  })
+
   $("#select_context_content_dialog .cancel_button").click(function() {
     $dialog.find('.alert').remove();
     $dialog.dialog('close');

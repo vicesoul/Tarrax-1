@@ -33,6 +33,7 @@ define([
   'jquery.templateData' /* fillTemplateData, getTemplateData */,
   'vendor/date' /* Date.parse */,
   'vendor/jquery.scrollTo' /* /\.scrollTo/ */,
+  'vendor/ui.selectmenu',
   'jqueryui/sortable' /* /\.sortable/ */
 ], function(INST, I18n, $, ContextModulesView) {
 
@@ -795,7 +796,7 @@ define([
 
     $(".add_module_item_select").live( "change", function() {
       var $module = $(this).parents(".context_module")
-      conveyrToDialog($module);
+      
       if($(this).val() == 'context_external_tool') {
         var $select = $("#context_external_tools_select");
         if(!$select.hasClass('loaded')) {
@@ -823,8 +824,45 @@ define([
           });
         }
       }
+
+      conveyrToDialog($module)
+
     });
 
+    $(".add_item_link").live("click", function(e) {
+      e.preventDefault()
+      var $select = $(this).next(".add_module_item_select")
+      
+      if($('.ui-selectmenu-open').size() == 1){
+        $select.selectmenu("close")
+        return false
+      }
+
+      $select.selectmenu("open")
+      var $openMenu = $('.ui-selectmenu-open')
+      $openMenu.css({
+        left: e.pageX - $openMenu.width()/2,
+        top: e.pageY + 20
+      })
+    })
+
+    // mousedown on document will trigger selectmenu close
+    $(".add_item_link").live("mousedown", function(e) {
+      e.stopPropagation()
+    })
+
+    // this will init the template "#context_module_blank" which contain 'select'
+    $('.context-module-toolbar-item select').each(function(){
+      $(this)
+      .selectmenu({
+        menuWidth: 140,
+        maxHeight: 300,
+        close: function(e, object){
+          $(this).selectmenu("index", 0)
+        }
+      })
+      .next('span').hide()
+    })
 
     $("#add_module_prerequisite_dialog .cancel_button").click(function() {
       $("#add_module_prerequisite_dialog").dialog('close');
@@ -1292,7 +1330,7 @@ define([
       }
     });
 
-    
+
 
   });
   

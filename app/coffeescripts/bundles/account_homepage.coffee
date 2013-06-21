@@ -340,27 +340,23 @@ require [
     
     #themes selector onchange  
     $('#jxb_page_theme').change ->
-      $('<div></div>').easyDialog({
+      $('<div></div>').easyDialog
         confirmButton: '确定'
         confirmButtonClass: 'btn-primary'
         content: "您确定要更换主页的主题为<span style='font-weight:bold;color:red;font-size:14px;'>#{$('#jxb_page_theme').val()}</span>吗？"
         confirmCancelCallback: ->
-          $('#jxb_page_theme').val($('#jxb_page_theme').prop('defaultSelected'))
+          $('#jxb_page_theme').val $('#jxb_page_theme').prop('defaultSelected')
         confirmCallback: ->
-          $.ajaxJSON(
-            $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(),
-            'post',
-            {},
+          $.ajaxJSON $('#hidden_update_theme_url').val() + $('#jxb_page_theme').val(), 
+            'post', 
+            {}, 
             (data) ->
               if data.flag
                 window.location.reload()
               else
                 alert '更换主题失败，请重试!'
+        , 'confirm'
 
-          )
-      }, 'confirm')
-
-    console.log "5"
     $("form.edit_jxb_page").submit ->
       resetPosition()
       return true
@@ -371,7 +367,7 @@ require [
       $textUploading = $("<span>上传中...</span>")
       $confirm = $form.find(".confirm")
 
-      $form.ajaxSubmit(
+      $form.ajaxSubmit
         clearForm: true
         dataType: 'json'
         beforeSubmit: ->
@@ -393,8 +389,7 @@ require [
           $textUploading.remove()
         complete: ->
           afterUploadedImageSuccess()
-      )
-
+      
     #tooltip
     $('.account_announcement, #add_widget').tooltip
       position:
