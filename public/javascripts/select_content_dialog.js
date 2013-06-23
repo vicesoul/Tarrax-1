@@ -87,6 +87,8 @@ $(document).ready(function() {
 
     $("#" + select_type + "s_select").find("input[type=text]:first").focus()
 
+
+
   }
 
   $("#select_context_content_dialog .module_item_select").change(function() {
@@ -116,10 +118,10 @@ $(document).ready(function() {
         submitted(item_data);
       }
     };
-    var item_type = $("#add_module_item_select").val();
+    var item_type = $(".module_item_option:visible").attr("id").replace("s_select", "");
     if(item_type == 'external_url') {
       var item_data = {
-        'item[type]': $("#add_module_item_select").val(),
+        'item[type]': item_type,
         'item[id]': $("#select_context_content_dialog .module_item_option:visible:first .module_item_select").val(),
         'item[indent]': $("#content_tag_indent").val()
       }
@@ -128,7 +130,7 @@ $(document).ready(function() {
       submit(item_data);   
     } else if(item_type == 'context_external_tool') {
       var item_data = {
-        'item[type]': $("#add_module_item_select").val(),
+        'item[type]': item_type,
         'item[id]': $("#context_external_tools_select .tools .tool.selected").data('id'),
         'item[new_tab]': $("#external_tool_create_new_tab").attr('checked') ? '1' : '0',
         'item[indent]': $("#content_tag_indent").val()
@@ -145,7 +147,7 @@ $(document).ready(function() {
       }
     } else if(item_type == 'context_module_sub_header') {
       var item_data = {
-        'item[type]': $("#add_module_item_select").val(),
+        'item[type]': item_type,
         'item[id]': $("#select_context_content_dialog .module_item_option:visible:first .module_item_select").val(),
         'item[indent]': $("#content_tag_indent").val()
       }
