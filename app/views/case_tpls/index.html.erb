@@ -11,9 +11,8 @@
 
   <% @case_tpls.each do |case_tpl| %>
     <tr>
-      <td><%= case_tpl.name %></td>
+      <td><%= link_to case_tpl.name, account_case_tpl_path(@account, case_tpl) %></td>
       <td><%= case_tpl.user.name %></td>
-      <td><%= link_to (t '', 'Show'), account_case_tpl_path(@account, case_tpl) %></td>
       <td><%= link_to (t '', 'Edit'), edit_account_case_tpl_path(@account, case_tpl) %></td>
       <td><%= link_to (t '', 'Destroy'), account_case_tpl_path(@account, case_tpl), :confirm => (t '', 'Are you sure?'), :method => :delete %></td>
     </tr>

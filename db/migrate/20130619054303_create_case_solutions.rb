@@ -5,7 +5,10 @@ class CreateCaseSolutions < ActiveRecord::Migration
     create_table :case_solutions do |t|
       t.integer :case_issue_id, :limit => 8
       t.string :workflow_state
+      t.boolean :group_discuss, :limit => false
       t.integer :user_id, :limit => 8
+      t.string :title
+      t.text :content
       t.timestamps
     end
   end

@@ -2,7 +2,12 @@ class CaseTplsController < ApplicationController
 
   before_filter :get_context
   before_filter :auth
-  before_filter :context_is_root_account_filter
+  before_filter :context_is_root_account_filter, :except => [:get_account_case_tpl]
+
+  def get_account_case_tpl
+   @case_tpl = CaseTpl.find(params[:id])
+   render :layout => false
+  end
 
   # GET /case_tpls
   # GET /case_tpls.xml

@@ -7,22 +7,37 @@
     <tr>
       <th><%= t '', 'Subject' %></th>
       <th><%= t '', 'State' %></th>
-      <th><%= t '', 'Group Discuss' %></th>
       <th><%= t '', 'Author' %></th>
+      <th><%= t '', 'Solutions' %></th>
       <th><%= t '', 'Update At' %></th>
-      <th colspan="4"><%= t '', 'Operation' %></th>
+      <th><%= t '', 'Operation' %></th>
     </tr>
 
   <% @case_issues.each do |case_issue| %>
     <tr>
-      <td><%= case_issue.subject %></td>
+      <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
       <td><%= case_issue.workflow_state %></td>
-      <td><%= case_issue.group_discuss ? 'yes' : 'no' %></td>
       <td><%= case_issue.user.name %></td>
+      <td><%= link_to case_issue.case_solutions.size, course_case_issue_case_solutions_path(@context, case_issue) %></td>
       <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
-      <td><%= link_to 'Show', course_case_issue_path(@context, case_issue) %></td>
-      <td><%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %></td>
-      <td><%= link_to 'Destroy', course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %></td>
+      <td>
+        <% if case_issue.new? %>
+          <%= link_to 'Submit', case_issue_submit_path(case_issue) %> |
+        <% end %>
+        <% if case_issue.awaiting_review? %>
+          <!-- params: review_result => ['accept', 'reject']-->
+          <%= link_to 'Review' , case_issue_review_path(case_issue, {:review_result => :accept}) %> |
+        <% end %>
+        <% if case_issue.accepted? %>
+          <%= link_to 'Apply' , case_issue_apply_path(case_issue.id) %> |
+        <% end %>
+        <% if case_issue.user.id == @current_user.id %>
+          <%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %> |
+          <% unless case_issue.accepted? %>
+            <%= link_to 'Destroy', course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %>
+          <% end %>
+        <% end %>
+      </td>
     </tr>
   <% end %>
   </table>

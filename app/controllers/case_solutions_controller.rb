@@ -1,9 +1,11 @@
 class CaseSolutionsController < ApplicationController
+
+  before_filter :get_context
+
   # GET /case_solutions
   # GET /case_solutions.xml
   def index
-    @case_solutions = CaseSolution.all
-
+    @case_solutions = CaseSolution.find_all_by_case_issue_id(params[:case_issue_id])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @case_solutions }
@@ -46,11 +48,21 @@ class CaseSolutionsController < ApplicationController
   end
 
   def submit_case_solution
-
+    case_solution = CaseSolution.find(params[:case_solution_id])
+    if case_solution.user.id == @current_user.id
+      render :json => case_solution.submit.to_json
+    else
+      render :json => false
+    end
   end
 
   def review_case_solution
-
+    case_solution = CaseSolution.find(params[:case_solution_id])
+    if case_solution.being_reviewed? && %w[review recommend].include?(params[:review_result])
+      render :json => case_solution.__send__(params[:review_result]).to_json
+    else
+      render :json => false
+    end
   end
 
   # POST /case_solutions
@@ -72,20 +84,19 @@ class CaseSolutionsController < ApplicationController
   # PUT /case_solutions/1
   # PUT /case_solutions/1.xml
   def update
-    result = false
     @case_solution = CaseSolution.find(params[:id])
-    CaseSolution.transaction do
-      @case_solution.case_tpl.case_tpl_widgets.destroy_all if @case_solution.case_tpl && @case_solution.case_tpl.case_tpl_widgets.present?
-      case_tpl = @case_solution.case_tpl ? @case_solution.case_tpl : @case_solution.build_case_tpl(:name => 'Default case issue template', :user_id => @current_user.id)
+    #CaseSolution.transaction do
+      #@case_solution.case_tpl.case_tpl_widgets.destroy_all if @case_solution.case_tpl && @case_solution.case_tpl.case_tpl_widgets.present?
+      #case_tpl = @case_solution.case_tpl ? @case_solution.case_tpl : @case_solution.build_case_tpl(:name => 'Default case issue template', :user_id => @current_user.id)
 
-      params[:case_tpl_widget].each do |w|
-        case_tpl.case_tpl_widgets.build(w)
-      end unless params[:case_tpl_widget].nil?
-      result = @case_solution.update_attributes(params[:case_solution]) && case_tpl.save
+      #params[:case_tpl_widget].each do |w|
+        #case_tpl.case_tpl_widgets.build(w)
+      #end unless params[:case_tpl_widget].nil?
+      #result = @case_solution.update_attributes(params[:case_solution]) && case_tpl.save
 
-    end
+    #end
     respond_to do |format|
-      if result
+      if @case_solution.update_attributes(params[:case_solution])
         format.html { redirect_to(@case_solution, :notice => 'CaseSolution was successfully updated.') }
         format.xml  { head :ok }
       else

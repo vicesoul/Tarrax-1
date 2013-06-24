@@ -1,7 +1,6 @@
 
 <p>Subject: <%= @case_issue.subject %></p>
 <p>State: <%= @case_issue.workflow_state %></p>
-<p>Group Discuss: <%= @case_issue.group_discuss %></p>
 <p>Author <%= @case_issue.user.name %></p>
 <p>Updated At <%= @case_issue.updated_at.to_formatted_s(:db) %></p>
 <p>

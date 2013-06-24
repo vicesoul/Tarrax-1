@@ -1,10 +1,15 @@
 
-<% @case_solution.case_tpl.case_tpl_widgets.each do |w| %>
-  <div style="width:200px;border-bottom:thick dotted #ff0000;">
-    <div><%= w.title %></div>
-    <div><%= w.body %></div>
-  </div>
-<% end %>
+<div>
+  <p><%= t '', 'Case Issue' %>: <%= @case_solution.case_issue.subject %></p>
+  <p><%= t '', 'State' %>: <%= @case_solution.workflow_state %></p>
+  <p><%= t '', 'Group Discuss' %>: <%= @case_solution.group_discuss ? 'yes' : 'no' %></p>
+  <p><%= t '', 'Author' %>: <%= @case_solution.user.name %></p>
+  <p><%= t '', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></p>
+  <p><%= t '', 'Title' %>: <%= @case_solution.title %></p>
+</div>
+<div>
+  <p><%= t '', 'Content' %>: <%= @case_solution.content %></p>
+</div>
 
-<%= link_to 'Edit', edit_case_solution_path(@case_solution) %> |
-<%= link_to 'Back', case_solutions_path %>
+<%= link_to 'Edit', edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], @case_solution) %> |
+<%= link_to 'Back', course_case_issue_case_solutions_path(@context, params[:case_issue_id]) %>

@@ -2,6 +2,7 @@ class CaseIssue < ActiveRecord::Base
 
   belongs_to :case_repostory
   belongs_to :user
+  has_many :case_solutions
   has_one :case_tpl, :as => :context
 
   include Workflow

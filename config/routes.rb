@@ -1,7 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :case_solutions
-
   map.resources :sales
   map.courses_to_be_attended 'courses_to_be_attended', :controller => :courses, :action => 'to_be_attended'
 
@@ -160,11 +158,10 @@ ActionController::Routing::Routes.draw do |map|
   # and the application_helper method :context_url to make retrieving
   # these contexts, and also generating context-specific urls, easier.
   map.resources :courses do |course|
-    course.resources :case_issues, :controller => 'case_issues'
-    course.submit_case_issue 'submit_case_issue/:id', :controller => 'case_issues', :action => 'submit_case_issue'
-    course.review_case_issue 'review_case_issue/:id', :controller => 'case_issues', :action => 'review_case_issue'
-    course.apply_case_issue 'apply_case_issue/:id', :controller => 'case_issues', :action => 'apply_case_issue'
-
+    course.resources :case_issues, :controller => 'case_issues' do |issue|
+      issue.resources :case_solutions, :controller => 'case_solutions'
+    end
+    course.get_account_case_tpl 'get_account_case_tpl/:id', :controller => 'case_tpls', :action => 'get_account_case_tpl'
     # DEPRECATED
     course.self_enrollment 'self_enrollment/:self_enrollment', :controller => 'courses', :action => 'self_enrollment', :conditions => {:method => :get}
     course.self_unenrollment 'self_unenrollment/:self_unenrollment', :controller => 'courses', :action => 'self_unenrollment', :conditions => {:method => :post}
@@ -344,6 +341,18 @@ ActionController::Routing::Routes.draw do |map|
     course.student_view 'student_view', :controller => 'courses', :action => 'student_view', :conditions => {:method => :post}
     course.student_view 'student_view', :controller => 'courses', :action => 'leave_student_view', :conditions => {:method => :delete}
     course.test_student 'test_student', :controller => 'courses', :action => 'reset_test_student', :conditions => {:method => :delete}
+  end
+
+  map.resources :case_issues do |issue|
+    issue.submit 'submit/', :controller => 'case_issues', :action => 'submit_case_issue'
+    issue.review 'review/', :controller => 'case_issues', :action => 'review_case_issue'
+    issue.apply 'apply', :controller => 'case_issues', :action => 'apply_case_issue'
+
+  end
+
+  map.resources :case_solutions do |solution|
+    solution.submit 'submit', :controller => 'case_solutions', :action => 'submit_case_solution'
+    solution.review 'review', :controller => 'case_solutions', :action => 'review_case_solution'
   end
 
   map.connect '/submissions/:submission_id/attachments/:attachment_id/crocodoc_sessions',

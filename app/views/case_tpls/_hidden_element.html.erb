@@ -21,6 +21,15 @@
         $(this).parent('div:first').remove();
         return false;
       });
+      $('#tpl-selector').bind('change', function(){
+        var selectorVal = $(this).val();
+        if (-(-selectorVal) > 0){
+          $.get('/courses/' + <%= params[:context_id]%> + '/get_account_case_tpl/' + selectorVal, function(data){
+            $('#case-tpl-widget').remove();
+            $('#tpl-area').append(data);
+          });
+        }
+      });
     });
   </script>
 <% end %>

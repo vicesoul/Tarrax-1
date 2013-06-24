@@ -6,7 +6,7 @@ class CaseIssuesController < ApplicationController
   # GET /case_issues.xml
   def index
     conditions = ['1=1']
-    @case_issues = CaseIssue.find_all_by_case_repostory_id(Course.find(params[:context_id]).case_repostory.id, :conditions => conditions)
+    @case_issues = CaseIssue.find_all_by_case_repostory_id(Course.find(params[:context_id]).case_repostory.id, :conditions => conditions, :order => 'updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -60,14 +60,14 @@ class CaseIssuesController < ApplicationController
   end
 
   def submit_case_issue
-    issue = CaseIssue.find(params[:id])
+    issue = CaseIssue.find(params[:case_issue_id])
     render :json => issue.submit.to_json
   end
 
   def review_case_issue
-    issue = CaseIssue.find(params[:id])
+    issue = CaseIssue.find(params[:case_issue_id])
     issue.state == :awaiting_review and issue.review
-    if (issue.state == :being_reviewed) && %w[accept reject].include?(params[:review_result])
+    if issue.being_reviewed? && %w[accept reject].include?(params[:review_result])
       render :json => issue.__send__(params[:review_result]).to_json
     else
       render :json => false
@@ -75,16 +75,16 @@ class CaseIssuesController < ApplicationController
   end
 
   def apply_case_issue
-    issue = CaseIssue.find(params[:id])
+    issue = CaseIssue.find(params[:case_issue_id])
     if issue.state == :accepted  
       solution = CaseSolution.new(
         :case_issue => issue,
-        :user => @current_user
+        :user => @current_user,
+        :group_discuss => params[:group_discuss] == nil ? false : params[:group_discuss]
       )
       result = solution.save
-      if result
-        issue.group_discuss == 'yes' ? solution.group_discuss : solution.execute
-      end
+      #TODO create group if group discuess necessary 
+      solution.execute if result
       render :json => result.to_json
     else
       render :json => false.to_json

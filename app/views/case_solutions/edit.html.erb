@@ -3,20 +3,19 @@
 <% form_for(@case_solution) do |f| %>
   <%= f.error_messages %>
 
-  <div><button id="new-module"><%= t '', 'New Module' %></button></div>
-
-  <% 
-    case_tpl = @case_solution.case_tpl ? @case_solution.case_tpl : @case_solution.case_issue.case_tpl
-  %>
-
-  <%= render :partial => 'case_tpls/shared_case_tpl_form', :locals => {:case_tpl => case_tpl} %>
-
+  <div><%= t '', 'Case Issue' %><%= @case_solution.case_issue.subject %></div>
+  <div><%= t '', 'Group Discuss' %><%= @case_solution.group_discuss ? 'yes' : 'no' %></div>
+  <div><%= t '', 'Author' %><%= @case_solution.user.name %></div>
+  <div><%= t '', 'Updated At' %><%= @case_solution.updated_at.to_formatted_s(:db) %></div>
+  <div>
+    <%= t '', 'Title' %>: <%= f.text_field :title %>
+  </div>
+  <div>
+    <%= t '', 'Content' %>: <%= f.text_area :content %>
+  </div>
   <p>
     <%= f.submit 'Update' %>
   </p>
 <% end %>
 
-<%= render :partial => 'case_tpls/hidden_element' %>
-
-<%= link_to 'Show', @case_solution %> |
-<%= link_to 'Back', case_solutions_path %>
+<%= link_to 'Back', course_case_issue_case_solutions_path(@context, params[:case_issue_id], params[:case_solution_id]) %>

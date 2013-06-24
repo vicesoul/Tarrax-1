@@ -2,14 +2,17 @@ class CaseSolution < ActiveRecord::Base
   
   belongs_to :case_issue
   belongs_to :user
-  has_one :case_tpl, :as => :context
+
+  validates_presence_of :title, :on => :update 
+  validates_presence_of :content, :on => :update 
+  validates_uniqueness_of :user_id, :scope => :case_issue_id, :message => 'You already applied this case issue.'
 
   include Workflow
 
   workflow do 
     state :new do
       event :execute, :transitions_to => :executing
-      event :group_discuss, :transitions_to => :pending
+      event :group_discuss_necessary, :transitions_to => :pending
     end
 
     state :pending do 

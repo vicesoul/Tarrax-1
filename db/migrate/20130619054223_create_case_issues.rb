@@ -6,7 +6,6 @@ class CreateCaseIssues < ActiveRecord::Migration
       t.integer :case_repostory_id, :limit => 8
       t.string :subject
       t.string :workflow_state
-      t.string :group_discuss
       t.integer :user_id, :limit => 8
       t.timestamps
     end
