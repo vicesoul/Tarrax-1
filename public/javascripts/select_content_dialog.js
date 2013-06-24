@@ -77,19 +77,19 @@ $(document).ready(function() {
       }
       $("#select_context_content_dialog #external_urls_select :text").val("");
       $("#select_context_content_dialog #context_module_sub_headers_select :text").val("");
-      $('#add_module_item_select').change();
-      $("#select_context_content_dialog .module_item_select").change();
       $("#select_context_content_dialog").dialog({
         title: dialog_title,
         width: 400
       }).fixDialogButtons();
-    $("#select_context_content_dialog .module_item_option").hide();
-    $("#" + select_type + "s_select").show()
-    .find(".module_item_select").val("new").change()
+      $("#select_context_content_dialog .module_item_option").hide();
+      $("#" + select_type + "s_select").show()
+      .find(".module_item_select").val("new").change()
 
-    $("#" + select_type + "s_select").find("input[type=text]:first").focus()
+      $("#" + select_type + "s_select").find("input[type=text]:first").focus()
 
-    }
+
+  }
+
 
   $("#select_context_content_dialog .module_item_select").change(function() {
     if($(this).val() == "new") {

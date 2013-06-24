@@ -777,9 +777,10 @@ define([
           // the url check
           var url = $module.find(".header").attr('data-url');
           $item.loadingImage({image_size: 'small'});
-          $.ajaxJSON(url, 'POST', item_data, function(data) {
+          $.ajaxJSON(url, 'PUT', item_data, function(data) {
             $item.loadingImage('remove');
             $item.remove();
+            data.content_tag = {}
             data.content_tag.type = item_data['item[type]'];
             modules.addItemToModule($module, data.content_tag);
             $module.find(".context_module_items.ui-sortable").sortable('refresh');
