@@ -744,6 +744,14 @@ define([
     $(".add_module_link").live('click', function(event) {
       event.preventDefault();
       var $module = $("#context_module_blank").clone(true).attr('id', 'context_module_new');
+      $module.find(".context-module-toolbar-item select").selectmenu({
+        menuWidth: 140,
+        maxHeight: 300,
+        close: function(e, object){
+          $(this).selectmenu("index", 0)
+        }
+      })
+      .next('span').hide()
       $("#context_modules").append($module);
         $module.find(".context_module_items").sortable(modules.sortable_module_options);
         $("#context_modules.ui-sortable").sortable('refresh');
@@ -775,7 +783,7 @@ define([
           $module.find(".context_module_items.ui-sortable").sortable('refresh');
 
           // the url check
-          var url = $module.find(".header").attr('data-url');
+          var url = $module.find(".add_module_item_link").attr('rel');
           $item.loadingImage({image_size: 'small'});
           $.ajaxJSON(url, 'POST', item_data, function(data) {
             $item.loadingImage('remove');
@@ -790,14 +798,8 @@ define([
       }
     }
 
-    $(".add_module_item_link").live( "click", function(event) {
-      event.preventDefault();
-      var $module = $(this).parents(".context_module")
-      conveyrToDialog($module);
-    });
-
     $(".add_module_item_select").live( "change", function() {
-      var $module = $(this).parents(".context_module")
+      var $module = $(this).parents(".context_module");
 
       if($(this).val() == 'context_external_tool') {
         var $select = $("#context_external_tools_select");
@@ -854,7 +856,7 @@ define([
     })
 
     // this will init the template "#context_module_blank" which contain 'select'
-    $('.context-module-toolbar-item select').each(function(){
+    $('#context_modules .context-module-toolbar-item select').each(function(){
       $(this)
       .selectmenu({
         menuWidth: 140,
