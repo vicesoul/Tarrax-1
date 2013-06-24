@@ -8,8 +8,7 @@
 
   <div class="context_module bordered <%= 'unpublished_module' if workflow_state == "unpublished" %> <%= 'editable_context_module' if editable %>" data-workflow-state="<%= context_module ? context_module.workflow_state : "{{ workflow_state }}"%>" data-module-url="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>" data-module-id="<%= context_module ? context_module.id : "{{ id }}" %>" id="context_module_<%= context_module ? context_module.id : "blank" %>" style="<%= hidden unless context_module %>">
   <a name="module_<%= context_module.id if context_module %>"></a>
-  <div class="header context-module-header">
-
+  <div class="header context-module-header" data-url="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>/items" >
     <div class="context-module-left-toolbar">
       <span class="reorder_module_link" title="<%= t('reorder_modules', %{Drag to reorder modules}) %>" style="cursor: move; <%= hidden unless @modules.length > 1 && editable %>"><%= image_tag "move.png", :alt => t('reorder_modules', 'Drag to reorder modules') %></span>
       <span class="completion_status" style="<%= "visibility: hidden;" if !context_module || (context_module.completion_requirements || []).empty? %>">
@@ -22,7 +21,6 @@
     </div><!-- context-module-left-toolbar -->
 
     <ul class="context-module-toolbar">
-
       <% if editable %>
         <li class="context-module-toolbar-item">
           <div class="admin-links">
@@ -37,7 +35,7 @@
                 </a>
               <li>
               
-              <li>
+              <li style="display:none;">
                 <a href="#" rel="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>/items" class="add_module_item_link icon-plus"><%= t('links.add_item', %{Add Content}) %></a>
               </li>
               -->
