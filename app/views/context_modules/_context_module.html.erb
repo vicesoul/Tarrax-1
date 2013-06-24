@@ -34,11 +34,11 @@
                   <span class="workflow-state-action"><%= workflow_state == "unpublished" ? t('links.publish', %{Publish}) : t('links.unpublish', %{Unpublish}) %>
                 </a>
               <li>
-              
+              -->
               <li style="display:none;">
                 <a href="#" rel="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>/items" class="add_module_item_link icon-plus"><%= t('links.add_item', %{Add Content}) %></a>
               </li>
-              -->
+              
               <li>
                 <a href="<%= context_url(@context, :context_url) %>/modules/<%= context_module ? context_module.id : "{{ id }}" %>" class="icon-edit edit_module_link" title="<%= t('links.title.edit_module', %{Edit}) %>"><%= t('links.text.edit_module', %{Edit}) %></a>
               </li>
