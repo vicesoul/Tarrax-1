@@ -1,0 +1,7 @@
+<% content_for :page_title do %><%= t('teacher_rank', 'Teacher Rank') %><% end %>
+<%
+  add_crumb t(:teacher_rank_crumb, "Teacher Rank")
+%>
+<h1> <%= t('title', 'New Teacher Ranks') %></h1>
+
+<%= render 'form' %>

@@ -3,12 +3,13 @@ require [
   'compiled/views/course_settings/UserCollectionView'
   'compiled/collections/UserCollection'
   'compiled/pickup_users'
+  'compiled/pickup_teachers'
   'compiled/views/course_settings/tabs/tabUsers'
   'vendor/jquery.cookie'
   'course_settings'
   'external_tools'
   'grading_standards'
-], (NavigationView, UserCollectionView, UserCollection, PickupUsers) ->
+], (NavigationView, UserCollectionView, UserCollection, PickupUsers, PickupTeachers) ->
 
   nav_view = new NavigationView
     el: $('#tab-navigation')
@@ -52,5 +53,17 @@ require [
         $area = $("#user_list_textarea_container .user_list")
         $area.val( $area.val() + emails )
 
+    PickupTeachers.init
+      insertClick: ->
+        emails = @checked().map (index, el)->
+          $(el).data('email') + "\n"
+        .get().join ''
+
+        $area = $("#user_list_textarea_container .user_list")
+        $area.val( $area.val() + emails )
+
     $(document).on 'click', "#pick_up_from_accounts", ->
       PickupUsers.open()
+    .on 'click', '#pick_up_from_teachers_bank', ->
+      PickupTeachers.open()
+

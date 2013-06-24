@@ -279,6 +279,7 @@ en:
       add_course_link: "Add a New Course"
       add_user_button: "Add User"
       add_user_link: "Add a New User"
+      attach_users_link: "Attach Users"
       birthday_help: "Birthday, such as '1980-01-01'."
       course_category_tip: "Please select a course category"
       display_name_help: "People will see this name in discussions, messages and comments."
@@ -590,6 +591,7 @@ en:
       tab_notifications: Notifications
       tab_reports: Reports
       tab_settings: Settings
+      teachers_fieldset: "Teachers Management"
       turnitin_comments_help: "these comments will be shown to students when submitting a Turnitin-enabled assignment"
       turnitin_pledge_help: "students must check a box acknowledging that they agree with this pledge"
       turnitin_settings_title: "Turnitin Settings"
@@ -738,6 +740,7 @@ en:
     user_added_message: "%{user} successfully added!"
     user_added_message_sent_message: "%{user} successfully added! They should receive an email confirmation shortly."
     user_deleted_message: "%{username} successfully deleted"
+    users_attached_message: "users successfully attached!"
   activerecord: 
     errors: 
       full_messages: 
@@ -3420,6 +3423,7 @@ en:
       links: 
         add_users: "Add Users"
       pick_up_from_accounts: "Pick up from accounts"
+      pick_up_from_teachers_bank: "Pick up from teachers bank"
       teacherless_invite_details: "If you invite a teacher and they accept, you will give up administrative privileges for this course."
       titles: 
         course_section: "Course Section"
@@ -6174,6 +6178,7 @@ en:
       job_position: "Job Position"
       title: "Pickup Courses"
     plan_form: 
+      account_lists: "Account List"
       course: 
         name: "Course Name"
         teachers: Teachers
@@ -10574,6 +10579,9 @@ en:
       ta_title: "Invited as a TA, click to see the Course"
       teacher: "%{course} as a teacher."
       teacher_title: "Invited as a teacher, click to see the Course"
+    pickup_teachers: 
+      pickup: 
+        title: "Pick up teachers"
     pickup_users: 
       pickup: 
         title: "Pick up"
@@ -11123,6 +11131,139 @@ en:
     quizzes: Quizzes
     settings: Settings
     syllabus: Syllabus
+  teacher_categories: 
+    created_successfully: "TeacherCategory was successfully created."
+    edit: 
+      teacher_category: "Teacher Category"
+      teacher_category_crumb: "Teacher Category"
+      title: "Edit Teacher Categories"
+    form: 
+      labels: 
+        name: Name
+    index: 
+      are_you_sure: "Are you sure?"
+      links: 
+        destroy: Destroy
+        edit: Edit
+        new_teacher_category: "New teacher_category"
+        show: Show
+      name: Name
+      teacher_category: "Teacher Category"
+      teacher_category_crumb: "Teacher Category"
+      title: "Listing Teacher Categories"
+    new: 
+      teacher_category: "Teacher Category"
+      teacher_category_crumb: "Teacher Category"
+      title: "New Teacher Category"
+    show: 
+      links: 
+        back: Back
+        edit: Edit
+      name: Name
+      teacher_category: "Teacher Category"
+      teacher_category_crumb: "Teacher Category"
+      title: "Teacher Category"
+    teacher_categories_management: "Teacher Categories"
+    updated_successfully: "TeacherCategory was successfully updated."
+  teacher_ranks: 
+    created_successfully: "TeacherRank was successfully created."
+    edit: 
+      teacher_rank: "Teacher Rank"
+      teacher_rank_crumb: "Teacher Rank"
+      title: "Edit Teacher Ranks"
+    form: 
+      labels: 
+        name: Name
+    index: 
+      are_you_sure: "Are you sure?"
+      links: 
+        destroy: Destroy
+        edit: Edit
+        show: Show
+      name: Name
+      new_teacher_rank: "New teacher_rank"
+      teacher_rank: "Teacher Rank"
+      teacher_rank_crumb: "Teacher Rank"
+      title: "Listing Teacher Ranks"
+    new: 
+      teacher_rank: "Teacher Rank"
+      teacher_rank_crumb: "Teacher Rank"
+      title: "New Teacher Ranks"
+    show: 
+      links: 
+        back: Back
+        edit: Edit
+      name: Name
+      teacher_rank: "Teacher Rank"
+      teacher_rank_crumb: "Teacher Rank"
+      title: "Teacher Ranks"
+    teacher_ranks_management: "Teacher Ranks"
+    updated_successfully: "TeacherRank was successfully updated."
+  teachers: 
+    created_successfully: "Teacher was successfully created."
+    edit: 
+      teacher: Teacher
+      teacher_crumb: Teacher
+      title: "Edit Teacher"
+    form: 
+      labels: 
+        birthday: Birthday
+        email: Email
+        internal: Internal
+        known_case: "Known Case"
+        mobile: Mobile
+        name: Name
+        pay_amount: "Pay Amount"
+        sex: Sex
+        sex_female: Female
+        sex_male: Male
+        specialty_intro: "Specialty Intro"
+        teacher_category_id: "Teacher Category"
+        teacher_rank_id: "Teacher Rank"
+      links: 
+        new_category: "New Category"
+        new_rank: "New Rank"
+    index: 
+      are_you_sure: "Are you sure?"
+      email: Email
+      internal: Internal
+      links: 
+        destroy: Destroy
+        edit: Edit
+        refresh: "Refresh page"
+        show: Show
+      name: Name
+      new_teacher: "New teacher"
+      sex: Sex
+      teacher: Teacher
+      teacher_category: "Teacher category"
+      teacher_crumb: Teacher
+      teacher_rank: "Teacher rank"
+      title: "Listing Teacher"
+    new: 
+      teacher: Teacher
+      teacher_crumb: Teacher
+      title: "New Teacher"
+    show: 
+      birthday: Birthday
+      email: Email
+      internal: Internal
+      known_case: "Known case"
+      links: 
+        back: Back
+        edit: Edit
+      mobile: Mobile
+      name: Name
+      pay_amount: "Pay amount"
+      sex: Sex
+      specialty_intro: "Specialty intro"
+      teacher: Teacher
+      teacher_cateogry: "Teacher category"
+      teacher_crumb: Teacher
+      teacher_rank: "Teacher rank"
+      title: Teacher
+    teachers_management: Teachers
+    updated_successfully: "Teacher was successfully updated."
   terms: 
     index: 
       date: 

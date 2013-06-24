@@ -1,0 +1,15 @@
+<% content_for :page_title do %><%= t('teacher_category', 'Teacher Category') %><% end %>
+<%
+  add_crumb t(:teacher_category_crumb, "Teacher Category")
+%>
+
+<h1> <%= t('title', 'Teacher Category') %></h1>
+
+<p>
+  <b><%= t('name', 'Name') %>:</b>
+  <%=h @teacher_category.name %>
+</p>
+
+
+<%= link_to t('links.edit', 'Edit'), edit_account_teacher_category_path(@context, @teacher_category) %> |
+<%= link_to t('links.back', 'Back'), account_teacher_categories_path %>

@@ -1,0 +1,21 @@
+<% content_for :head do %>
+  <style type="text/css" media="all">
+    #pickup_teachers iframe {
+      min-height: 400px;
+      max-height: 600px;
+    } #pickup_teachers .button-container {
+      padding: 10px;
+      padding-left: 250px;
+      background: #eee;
+    }
+  </style>
+<% end %>
+
+<div id="pickup_teachers" title="<%= t('pickup.title', 'Pick up teachers') %>" style="display:none;">
+  <iframe src="<%= account_teachers_path(account, :is_iframe => true) %>" class="search_teachers" frameborder="0" style="width: 100%;""></iframe>
+  <div class="button-container">
+    <button type="submit" class="btn btn-primary insert_teachers"><%= t('#buttons.insert', 'Insert') %></button>
+    <button type="button" class="btn btn-secondary cancel_button" onclick="$('#pickup_teachers').dialog('close');"><%= t('#buttons.cancel', 'Cancel') %></button>
+  </div>
+</div>
+

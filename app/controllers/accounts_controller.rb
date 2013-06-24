@@ -621,4 +621,12 @@ class AccountsController < ApplicationController
     redirect_to :action => 'homepage'
   end
 
+  def attach_users
+    user_ids = params[:user_ids].split(',')
+
+    @account.attach_users user_ids
+    respond_to do |format|
+      format.json { head :ok }
+    end
+  end
 end

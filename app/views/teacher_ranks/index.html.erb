@@ -1,0 +1,25 @@
+<% content_for :page_title do %><%= t('teacher_rank', 'Teacher Rank') %><% end %>
+<%
+  add_crumb t(:teacher_rank_crumb, "Teacher Rank")
+%>
+<h1> <%= t('title', 'Listing Teacher Ranks') %></h1>
+
+<table class="table table-striped table-hover">
+  <tr>
+    <th> <%= t('name', 'Name') %></th>
+    <th colspan=3></th>
+  </tr>
+
+<% @teacher_ranks.each do |teacher_rank| %>
+  <tr>
+    <td><%=h teacher_rank.name %></td>
+    <td><%= link_to t('links.show', 'Show'), [@context, teacher_rank] %></td>
+    <td><%= link_to t('links.edit', 'Edit'), edit_account_teacher_rank_path(@account, teacher_rank) %></td>
+    <td><%= link_to t('links.destroy', 'Destroy'), [@context, teacher_rank], :confirm => t('are_you_sure', 'Are you sure?'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t('new_teacher_rank', 'New teacher_rank'), new_account_teacher_rank_path %>

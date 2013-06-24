@@ -6,7 +6,7 @@ class JobPositionCategoryController < ApplicationController
   add_crumb(proc{t('#job_positions.index.job_position_category_management', 'Job position category management')}, :account_job_position_categories_path)
 
   @show_left_side = true
-  
+
   def auth
     authorized_action(@context, @current_user, :manage_account_settings)
   end

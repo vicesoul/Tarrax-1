@@ -1,0 +1,75 @@
+<% js_block do %>
+  <script type="text/javascript" charset="utf-8">
+    require([
+      'jquery',
+      'jqueryui/datepicker'
+    ], function($) {
+      $('.date_field').datepicker({
+        dateFormat: 'yy-mm-dd',
+        yearRange: 'c-100:c+0',
+        changeMonth: true,
+        changeYear: true
+      });
+    })
+  </script>
+<% end %>
+
+<% form_for([@context, @teacher ]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.blabel :name, :en => 'Name' %><br />
+    <%= f.text_field :name, :required => true %>
+  </p>
+  <p>
+    <%= f.blabel :email, :en => "Email" %><br />
+    <%= f.text_field :email, :type => "email", :required => true %>
+  </p>
+  <p>
+    <%= f.blabel :sex, :en => "Sex" %><br />
+
+    <%= f.radio_button :sex, 'Male' %>
+    <%= f.label :sex, t('labels.sex_male', "Male"), :value => "male" %>
+
+    <%= f.radio_button :sex, 'Female' %>
+    <%= f.label :sex, t('labels.sex_female', "Female"), :value => "female" %>
+  </p>
+  <p>
+    <%= f.blabel :teacher_category_id, :en => "Teacher Category" %><br />
+    <%= f.collection_select :teacher_category_id, @context.teacher_categories.all, :id, :name, :include_blank => true, :required => true %> <%= link_to t('links.new_category', 'New Category'), new_account_teacher_category_path, :target => '_blank' %>
+  </p>
+  <p>
+    <%= f.blabel :teacher_rank_id, :en => 'Teacher Rank' %><br />
+    <%= f.collection_select :teacher_rank_id, @context.teacher_ranks.all, :id, :name, :include_blank => true, :required => true %> <%= link_to t('links.new_rank', 'New Rank'), new_account_teacher_rank_path, :target => '_blank' %>
+  </p>
+  <p>
+    <%= f.blabel :internal, :en => "Internal" %>
+    <%= f.check_box :internal %>
+  </p>
+  <p>
+    <%= f.blabel :known_case, :en => "Known Case" %><br />
+    <%= f.text_area :known_case, :html => {:class => 'richeditor'} %>
+  </p>
+  <p>
+    <%= f.blabel :specialty_intro, :en => 'Specialty Intro' %><br />
+    <%= f.text_area :specialty_intro, :html => {:class => 'richeditor'} %>
+  </p>
+  <p>
+    <%= f.blabel :birthday, :en => "Birthday" %><br />
+    <%= f.text_field :birthday, :class => "date_field" %>
+  </p>
+  <p>
+    <%= f.blabel :mobile, :en => "Mobile" %><br />
+    <%= f.text_field :mobile %>
+  </p>
+  <p>
+    <%= f.blabel :pay_amount, :en => "Pay Amount" %><br />
+    <%= f.text_field :pay_amount %>
+  </p>
+  <p>
+    <div class="button-container">
+      <%= link_to t('#buttons.go_back', 'Back'), account_teachers_path, :class => "btn cancel_button" %>
+      <button type="submit" class="btn btn-primary submit_button"><%= t('#buttons.save', "Save") %></button>
+    </div>
+  </p>
+<% end %>

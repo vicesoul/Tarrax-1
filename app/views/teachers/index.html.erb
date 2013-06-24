@@ -1,0 +1,73 @@
+<% content_for :page_title do %><%= t('teacher', 'Teacher') %><% end %>
+<%
+  add_crumb t(:teacher_crumb, "Teacher")
+%>
+
+<% js_bundle :teachers %>
+<% content_for :head do %>
+  <style type="text/css" media="all">
+    body.iframe {
+      padding: 10px;
+    }
+    .refresh {display: hidden;}
+    .iframe .refresh {
+      display: block;
+      float: right;
+      padding: 10px;
+    }
+      
+  </style>
+<% end %>
+
+<% if iframe_request? %>
+  <% @body_classes = ['iframe'] %>
+  <% content_for :head do %>
+    <%= include_stylesheets :common, :media => "all" %>
+  <% end %>
+
+  <div class="refresh">
+    <%= link_to t('links.refresh', 'Refresh page'), request.url, :class => 'btn btn-secondary' %>
+  </div>
+<% end %>
+
+<h1> <%= t('title', 'Listing Teacher') %></h1>
+
+<table class="table table-striped table-hover"">
+  <tr>
+    <% if iframe_request? %>
+      <th> <%= check_box_tag "check_all" %></th>
+    <% end %>
+    <th><%= t('name', 'Name') %></th>
+    <th><%= t('email', 'Email') %></th>
+    <th><%= t('teacher_category', 'Teacher category') %></th>
+    <th><%= t('teacher_rank', 'Teacher rank') %></th>
+    <th><%= t('internal', 'Internal') %></th>
+    <th><%= t('sex', 'Sex') %></th>
+    <th colspan=3></th>
+  </tr>
+
+<% @teachers.each do |teacher| %>
+  <tr>
+    <% if iframe_request? %>
+      <td> <%= check_box_tag :teacher, teacher.id, false, "data-email" => teacher.email %></td>
+    <% end %>
+    <td><%=h teacher.name %></td>
+    <td><%=h teacher.email %></td>
+    <td><%=h teacher.teacher_category.name %></td>
+    <td><%=h teacher.teacher_rank.name %></td>
+    <td><%=h teacher.internal %></td>
+    <td><%=h teacher.sex %></td>
+    <td><%= link_to t('links.show', 'Show'), [@context, teacher ] %></td>
+    <td><%= link_to t('links.edit', 'Edit'), edit_account_teacher_path(@context, teacher) %></td>
+    <td><%= link_to t('links.destroy', 'Destroy'), [@context, teacher ], :confirm => t('are_you_sure', 'Are you sure?'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<% if iframe_request? %>
+  <%= link_to t('new_teacher', 'New teacher'), new_account_teacher_path, :class => 'btn', :target => '_blank' %>
+<% else %>
+  <%= link_to t('new_teacher', 'New teacher'), new_account_teacher_path, :class => 'btn btn-primary' %>
+<% end %>

@@ -3,9 +3,9 @@ define [
   'underscore'
   'jqueryui/dialog'
 ], ($, _) ->
-  PickupUsers =
-    dialog       : $('#pickup_users')
-    insertButton : $("#pickup_users .insert_users")
+  PickupTeachers =
+    dialog       : $('#pickup_teachers')
+    insertButton : $("#pickup_teachers .insert_teachers")
 
     init: (h)->
       _.extend @, h
@@ -13,9 +13,8 @@ define [
       @bindUIActions()
       @dialog.dialog(
         autoOpen: false
-        width: '90%'
+        width: '80%'
       )
-      @autoClose = true
 
     open: ->
       @dialog.dialog "open"
@@ -24,7 +23,7 @@ define [
       @dialog.dialog "close"
 
     checked: ->
-      @dialog.find('.search_users').contents().find('table.main-list tbody').find(':checked')
+      @dialog.find('iframe').contents().find('table td').find(':checked')
 
     insertClick: ->
       # do nothing by default, should be overrided
@@ -32,4 +31,4 @@ define [
     bindUIActions: ->
       @insertButton.click =>
         @insertClick()
-        @close() if @autoClose
+        @close()

@@ -1,0 +1,14 @@
+<% form_for([@context, @teacher_rank]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.blabel :name, :en => "Name" %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <div class="button-container">
+      <button type="button" class="btn cancel_button" onclick="history.go(-1);"><%= t("#buttons.go_back", "Back") %></button>
+      <button type="submit" class="btn btn-primary submit_button"><%= t('#buttons.save', "Save") %></button>
+    </div>
+  </p>
+<% end %>

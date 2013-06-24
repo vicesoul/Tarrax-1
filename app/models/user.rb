@@ -348,23 +348,24 @@ class User < ActiveRecord::Base
 
   # return account with index
   # args:
+  #   +starting_account_ids+: starting account ids array
   #   +account_chain_cache+: use chain if given. otherwise build chain
   #
   # ==== Examples
   #   # Given accounts tree: 5 -> 3 -> 1 (root account)
   #
   #   chain = {}
-  #   User.add_to_account_chain_cache 5, chain
+  #   User.calculate_account_associations_from_accounts 5, chain
   #   => { 5 => 0, 3 => 1, 1 => 2 }
   #
   #   # if chain given, using chain
   #   chain = { 3 => 2 }
-  #   User.add_to_account_chain_cache 5, chain
+  #   User.calculate_account_associations_from_accounts 5, chain
   #   => { 5 => 0, 3 => 1, 2 => 2 }
   #
   #   # using lower index if avaliable
   #   chain = { 3 => 2 }
-  #   User.add_to_account_chain_cache [5, 3], chain
+  #   User.calculate_account_associations_from_accounts [5, 3], chain
   #   => { 5 => 0, 3 => 0, 2 => 1 }
   def self.calculate_account_associations_from_accounts(starting_account_ids, account_chain_cache = {})
     results = {}
