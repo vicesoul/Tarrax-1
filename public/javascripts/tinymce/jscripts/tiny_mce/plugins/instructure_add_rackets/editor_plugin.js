@@ -47,6 +47,7 @@ var addRackets = false;
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
               }else if( $question.is(".fill_in_multiple_blanks_question") 
                 || $question.is(".multiple_dropdowns_question")
+                || $question.is(".fill_in_blanks_subjective_question")
                 ){
                   //*** var this term before insert_code,coz after insert_code this element will be remove
                   var hasOption = !!$question.find(".multi_answer_sets .blank_id_select .shown_when_no_other_options_available").size();
