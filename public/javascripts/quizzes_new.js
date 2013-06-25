@@ -668,6 +668,25 @@ Global.quizzes = {
             .after($receive.clone());
         });
 
+        var answers = [];
+        $(this).find(".answers .answer_group").each(function(i){
+          if($(this).find(".selected_answer.correct_answer").size() !== 0){
+            answers[i] = true
+          }
+        });
+
+        $(this).find(".text div.receive").each(function(i){
+          var style;
+          if(answers[i] == true){
+            style = "3px solid green";
+          } else{
+            style = "3px solid red";
+          }
+          $(this).css({
+            "border": style
+          });
+        });
+
       });
 
     }());
@@ -716,31 +735,7 @@ Global.quizzes = {
         })
 
       })
-    }())
-
-    (function DragAndDop() {
-      $(".question_holder .drag_and_drop_question").each(function(){
-        var answers = []
-        $(this).find(".answers .answer_group").each(function(i){
-          if($(this).find(".selected_answer.correct_answer").size() !== 0){
-            answers[i] = true
-          }
-        })
-
-        $(this).find(".text div.receive").each(function(i){
-          var style;
-          if(answers[i] == true){
-            style = "3px solid green"
-          } else{
-            style = "3px solid red"
-          }
-          $(this).css({
-            "border": style
-          })
-        })
-
-      })
-    }())
+    }());
 
   }
 
