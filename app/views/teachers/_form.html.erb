@@ -1,16 +1,22 @@
+<% jammit_css :tinymce %>
 <% js_block do %>
   <script type="text/javascript" charset="utf-8">
     require([
       'jquery',
-      'jqueryui/datepicker'
+      'jqueryui/datepicker',
+      'compiled/jquery/richeditor'
     ], function($) {
-      $('.date_field').datepicker({
-        dateFormat: 'yy-mm-dd',
-        yearRange: 'c-100:c+0',
-        changeMonth: true,
-        changeYear: true
+      $(document).ready(function(){
+        $('.date_field').datepicker({
+          dateFormat: 'yy-mm-dd',
+          yearRange: 'c-100:c+0',
+          changeMonth: true,
+          changeYear: true
+        });
+
+        $('.richeditor').richEditor();
       });
-    })
+    });
   </script>
 <% end %>
 
@@ -48,11 +54,11 @@
   </p>
   <p>
     <%= f.blabel :known_case, :en => "Known Case" %><br />
-    <%= f.text_area :known_case, :html => {:class => 'richeditor'} %>
+    <%= f.text_area :known_case, :class => 'richeditor' %>
   </p>
   <p>
     <%= f.blabel :specialty_intro, :en => 'Specialty Intro' %><br />
-    <%= f.text_area :specialty_intro, :html => {:class => 'richeditor'} %>
+    <%= f.text_area :specialty_intro, :class => 'richeditor' %>
   </p>
   <p>
     <%= f.blabel :birthday, :en => "Birthday" %><br />

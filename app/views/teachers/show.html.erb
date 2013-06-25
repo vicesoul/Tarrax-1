@@ -6,57 +6,61 @@
 
 <p>
   <b><%= t('teacher_cateogry', 'Teacher category') %>:</b>
-  <%=h @teacher.teacher_category.try :name %>
+  <%= @teacher.teacher_category.try :name %>
 </p>
 
 <p>
   <b><%= t('teacher_rank', 'Teacher rank') %>:</b>
-  <%=h @teacher.teacher_rank.try :name %>
+  <%= @teacher.teacher_rank.try :name %>
 </p>
 
 <p>
   <b><%= t('internal', 'Internal') %>:</b>
-  <%=h @teacher.internal %>
+  <%= @teacher.internal %>
 </p>
 
 <p>
   <b><%= t('name', 'Name') %>:</b>
-  <%=h @teacher.name %>
+  <%= @teacher.name %>
 </p>
 
 <p>
   <b><%= t('sex', 'Sex') %>:</b>
-  <%=h @teacher.sex %>
+  <%= @teacher.sex %>
 </p>
 
 <p>
   <b><%= t('known_case', 'Known case') %>:</b>
-  <%=h @teacher.known_case %>
+  <div class="well">
+    <%= @teacher.known_case.html_safe %>
+  </div>
 </p>
 
 <p>
   <b><%= t('specialty_intro', 'Specialty intro') %>:</b>
-  <%=h @teacher.specialty_intro %>
+  <div class="well">
+    <%= @teacher.specialty_intro.html_safe %>
+  </div>
 </p>
 
 <p>
   <b><%= t('birthday', 'Birthday') %>:</b>
-  <%=h @teacher.birthday %>
+  <%= @teacher.birthday %>
 </p>
 
 <p>
   <b><%= t('email', 'Email') %>:</b>
-  <%=h @teacher.email %>
+  <%= @teacher.email %>
 </p>
 
 <p>
   <b><%= t('mobile', 'Mobile') %>:</b>
-  <%=h @teacher.mobile %>
+  <%= @teacher.mobile %>
 </p>
 
 <p>
   <b><%= t('pay_amount', 'Pay amount') %>:</b>
-  <%=h @teacher.pay_amount %>
+  <%= @teacher.pay_amount %>
 </p>
 
 <%= link_to t('links.edit', 'Edit'), edit_account_teacher_path(@context, @teacher) %> |
