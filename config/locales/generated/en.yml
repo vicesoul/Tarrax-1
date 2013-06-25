@@ -11625,8 +11625,8 @@ en:
       update_instructions: "You can update some of this user's information, but they can change it back if they choose."
     new: 
       create_a_canvas_account: "Create a Jiaoxuebang Account"
-      dont_have_course_code: "I have course code"
-      have_course_code: "I don't have course code"
+      dont_have_course_code: "I don't have course code"
+      have_course_code: "I have course code"
     no_deleting_sis_user: "You cannot delete a system-generated user"
     no_self_registration: "Self registration has not been enabled for this account"
     oauth_fail: "OAuth Request failed. Couldn't find valid request"
