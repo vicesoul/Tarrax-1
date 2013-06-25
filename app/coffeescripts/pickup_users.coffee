@@ -17,6 +17,10 @@ define [
       )
       @autoClose = true
 
+      # set src for iframe after dialog initialized to avoid double request issue
+      iframe = @dialog.find('iframe')
+      iframe.attr 'src', iframe.data 'src'
+
     open: ->
       @dialog.dialog "open"
 

@@ -3,7 +3,7 @@
 %>
 
 <div id="pickup_users" title="<%= t('pickup.title', 'Pick up') %>" style="display:none;">
-  <iframe src="<%= account_advanced_users_path(account, :is_iframe => true) %>" class="search_users" frameborder="0"></iframe>
+  <iframe data-src="<%= account_advanced_users_path(account, :is_iframe => true) %>" class="search_users" frameborder="0"></iframe>
   <div class="button-container">
     <button type="submit" class="btn btn-primary insert_users"><%= t('#buttons.insert', 'Insert') %></button>
     <button type="button" class="btn btn-secondary cancel_button" onclick="$('#pickup_users').dialog('close');"><%= t('#buttons.cancel', 'Cancel') %></button>
