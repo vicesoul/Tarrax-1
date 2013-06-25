@@ -692,6 +692,32 @@ Global.quizzes = {
       });
 
     }());
+
+    (function multipleSelect() {
+      $(".question_holder .multiple_dropdowns_question").each(function(){
+        $(this).find(".text .question_text select").selectmenu('disable');
+        var answers = []
+        $(this).find(".answers .answer_group").each(function(i){
+          if($(this).find(".selected_answer.correct_answer").size() !== 0){
+            answers[i] = true
+          }
+        })
+
+        $(this).find(".text a.ui-selectmenu").each(function(i){
+          var style;
+          if(answers[i] == true){
+            style = "3px solid green"
+          } else{
+            style = "3px solid red"
+          }
+          $(this).css({
+            "border": style
+          })
+        })
+
+      })
+    }())
+
   }
 
   
