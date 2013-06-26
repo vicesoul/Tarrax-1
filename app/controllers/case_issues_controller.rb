@@ -1,6 +1,17 @@
 class CaseIssuesController < ApplicationController
 
-  before_filter :get_context
+  before_filter :get_context, :set_active_tab
+  before_filter :get_bread_crumb, :only => [:index, :show, :new, :edit]
+  before_filter :auth_case_as_student, :except => [:review_case_issue]
+  before_filter :auth_case_as_teacher, :only => [:review_case_issue]
+  before_filter(:only => [:edit, :update, :destroy]) do |c|
+    c.__send__(:auth_case_as_self) do 
+      @case_issue = CaseIssue.find(c.params[:id])
+      c.instance_variable_set(:@case_issue, @case_issue)
+      c.__send__(:redirect_to, c.__send__(:course_case_issues_path)) unless @case_issue.user.id == c.instance_variable_get(:@current_user).id
+    end
+    
+  end
 
   # GET /case_issues
   # GET /case_issues.xml
@@ -38,7 +49,6 @@ class CaseIssuesController < ApplicationController
 
   # GET /case_issues/1/edit
   def edit
-    @case_issue = CaseIssue.find(params[:id])
   end
 
   # POST /case_issues
@@ -61,7 +71,11 @@ class CaseIssuesController < ApplicationController
 
   def submit_case_issue
     issue = CaseIssue.find(params[:case_issue_id])
-    render :json => issue.submit.to_json
+    if issue.user.id == @current_user.id
+      render :json => issue.submit.to_json
+    else
+      render :json => false
+    end
   end
 
   def review_case_issue
@@ -87,7 +101,7 @@ class CaseIssuesController < ApplicationController
       solution.execute if result
       render :json => result.to_json
     else
-      render :json => false.to_json
+      render :json => false
     end  
   end
 
@@ -115,13 +129,23 @@ class CaseIssuesController < ApplicationController
 
   # DELETE /case_issues/1
   # DELETE /case_issues/1.xml
-  #def destroy
-    #@case_issue = CaseIssue.find(params[:id])
-    #@case_issue.destroy
+  def destroy
+    @case_issue.destroy if @case_issue.new?
 
-    #respond_to do |format|
-      #format.html { redirect_to(case_issues_url) }
-      #format.xml  { head :ok }
-    #end
-  #end
+    respond_to do |format|
+      format.html { redirect_to(course_case_issues_url) }
+      format.xml  { head :ok }
+    end
+  end
+  #
+  private
+
+  def set_active_tab
+    @active_tab = "case_repostory"
+  end
+
+  def get_bread_crumb
+    add_crumb(t('', 'Case Issues'), course_case_issues_path(@context))
+  end
+
 end

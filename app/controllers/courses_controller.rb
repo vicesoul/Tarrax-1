@@ -252,6 +252,29 @@ class CoursesController < ApplicationController
     end
   end
 
+  #mock a case repostory
+  def create_case_course
+    params[:course][:account] = Account.find(params[:course][:account_id])
+    params[:course].delete(:account_id)
+    course = Course.new(params[:course])
+    respond_to do |format|
+      Course.transaction do 
+        course.save
+        course.offer
+        CaseRepostory.create(
+          :context_id => course.id,
+          :context_type => 'Course',
+          :name => 'Default Case Repostory'
+        )
+      end
+      if course.id
+        format.json { render :json => true}
+      else
+        format.json { render :json => false}
+      end
+    end
+  end
+
   # @API Upload a file
   #
   # Upload a file to the course.

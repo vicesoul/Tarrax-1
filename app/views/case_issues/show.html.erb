@@ -12,5 +12,7 @@
     </div>
   <% end %>
 </p>
-<%= link_to 'Edit', edit_course_case_issue_path(@context, @case_issue) %> |
+<% if @case_issue.new? && can_do(@context, @current_user, :operate_case_as_student) %>
+  <%= link_to 'Edit', edit_course_case_issue_path(@context, @case_issue) %> |
+<% end %>
 <%= link_to 'Back', course_case_issues_path(@context) %>

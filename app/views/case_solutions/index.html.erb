@@ -22,12 +22,13 @@
     <td><%= case_solution.user.name %></td>
     <td><%= case_solution.updated_at.to_formatted_s(:db) %></td>
     <td>
-      <% if case_solution.executing? %>
-        <%= link_to (t '', 'Submit'), case_solution_submit_path(case_solution) %> |
-        <%= link_to 'Edit', edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %>
+      <% if case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && case_solution.user.id == @current_user.id %>
+        <%= link_to (t '', 'Submit'), course_case_issue_case_solution_submit_path(@context, params[:case_issue_id], case_solution) %> |
+        <%= link_to 'Edit', edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %> |
+        <%= link_to 'Delete', course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution), :confirm => 'Are you sure?', :method => :delete %>
       <% end %>
-      <% if case_solution.being_reviewed? %>
-        <%= link_to (t '', 'Review'), case_solution_review_path(case_solution, :review_result => 'review') %>
+      <% if case_solution.being_reviewed? && can_do(@context, @current_user, :operate_case_as_teacher) %>
+        <%= link_to (t '', 'Review'), course_case_issue_case_solution_review_path(@context, params[:case_issue_id], case_solution, :review_result => 'review') %>
       <% end %>
     </td>
   </tr>

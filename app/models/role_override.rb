@@ -707,6 +707,16 @@ class RoleOverride < ActiveRecord::Base
         :label => lambda { t('permissions.manage_frozen_assignment', "Manage (edit / delete) frozen assignments") },
         :true_for => %w(AccountAdmin),
         :available_to => %w(AccountAdmin AccountMembership),
+      },
+      :operate_case_as_student => {
+        :label => lambda { t('permissions.operate_case_as_student', 'Operate Cases as student') },
+        :true_for => %w(AccountAdmin TeacherEnrollment StudentEnrollment),
+        :available_to => %w(AccountAdmin TeacherEnrollment StudentEnrollment)
+      },
+      :operate_case_as_teacher => {
+        :label => lambda { t('permissions.operate_case_as_teacher', 'Operate Cases as teacher') },
+        :true_for => %w(AccountAdmin TeacherEnrollment),
+        :available_to => %w(AccountAdmin TeacherEnrollment)
       }
     })
 

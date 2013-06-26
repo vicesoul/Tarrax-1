@@ -153,6 +153,24 @@
     </table>
     <% end %>
   </div>
+
+  <div id="add_case_repostory_dialog">
+    <% form_for :course, :url => create_case_course_url, :html => {:id => 'add_case_repostory_form'} do |f| %>
+      <%= f.hidden_field :account_id, :value => @account.id %>
+      <%= f.hidden_field :is_case , :value => true %>
+      <%= f.hidden_field :name , :value => 'Case Collection' %>
+      <%= f.hidden_field :is_public, :value => false %>
+
+     <td colspan="2">
+        <div class="button-container">
+          <button type="button" class="btn dialog_closer"><%= t("#buttons.cancel", "Cancel") %></button>
+          <button type="submit" class="btn btn-primary"><%= t(:add_case_button, "Add Case Collection Repostory") %></button>
+        </div>
+      </td>
+
+    <% end %>
+  </div>
+
 </div>
 
 
@@ -263,6 +281,26 @@ require([
     });
     $("#add_course_dialog .cancel_button").click(function() {
       $("#add_course_dialog").dialog('close');
+    });
+
+    //create case event
+    $('.add_case_link').bind('click', function(){
+      $('#add_case_repostory_dialog').dialog({
+        title: 'Add a New Case Collection Repostory',
+        width: 500
+      });
+    });
+    $('#add_case_repostory_form').formSubmit({
+      success: function(data){
+        if(data){
+          window.location.reload();
+        }else{
+          alert('Create Case Collection Repostory failure.');
+        }
+      },
+      error: function(){
+        alert('Create Case Collection Repostory failure.');
+      }
     });
   });
 });

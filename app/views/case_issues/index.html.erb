@@ -21,21 +21,19 @@
       <td><%= link_to case_issue.case_solutions.size, course_case_issue_case_solutions_path(@context, case_issue) %></td>
       <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
       <td>
-        <% if case_issue.new? %>
-          <%= link_to 'Submit', case_issue_submit_path(case_issue) %> |
+        <% if case_issue.new? && case_issue.user.id == @current_user.id %>
+          <%= link_to 'Submit', course_case_issue_submit_path(@context, case_issue) %> |
         <% end %>
-        <% if case_issue.awaiting_review? %>
+        <% if case_issue.awaiting_review? && can_do(@context, @current_user, :operate_case_as_teacher) %>
           <!-- params: review_result => ['accept', 'reject']-->
-          <%= link_to 'Review' , case_issue_review_path(case_issue, {:review_result => :accept}) %> |
+          <%= link_to 'Review' , course_case_issue_review_path(@context, case_issue, {:review_result => :accept}) %> |
         <% end %>
         <% if case_issue.accepted? %>
-          <%= link_to 'Apply' , case_issue_apply_path(case_issue.id) %> |
+          <%= link_to 'Apply' , course_case_issue_apply_path(@context, case_issue.id) %> |
         <% end %>
-        <% if case_issue.user.id == @current_user.id %>
+        <% if case_issue.new? && case_issue.user.id == @current_user.id %>
           <%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %> |
-          <% unless case_issue.accepted? %>
-            <%= link_to 'Destroy', course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %>
-          <% end %>
+          <%= link_to 'Delete', course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %>
         <% end %>
       </td>
     </tr>

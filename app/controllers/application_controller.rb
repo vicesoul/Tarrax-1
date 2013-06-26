@@ -270,6 +270,18 @@ class ApplicationController < ActionController::Base
     can_do
   end
 
+  def auth_case_as_student
+    authorized_action(@context, @current_user, :operate_case_as_student)
+  end
+
+  def auth_case_as_teacher
+    authorized_action(@context, @current_user, :operate_case_as_teacher)
+  end
+
+  def auth_case_as_self
+    yield
+  end
+
   #def is_account_admiVVn?
     #params[:context_type] == 'Course' && (Course.find(params[:context_id]).root_account.account_users_for(@current_user).any? {|i| i.membership_type == 'AccountAdmin'})
   #end

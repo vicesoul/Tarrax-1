@@ -159,7 +159,13 @@ ActionController::Routing::Routes.draw do |map|
   # these contexts, and also generating context-specific urls, easier.
   map.resources :courses do |course|
     course.resources :case_issues, :controller => 'case_issues' do |issue|
-      issue.resources :case_solutions, :controller => 'case_solutions'
+      issue.submit 'submit/', :controller => 'case_issues', :action => 'submit_case_issue'
+      issue.review 'review/', :controller => 'case_issues', :action => 'review_case_issue'
+      issue.apply 'apply', :controller => 'case_issues', :action => 'apply_case_issue'
+      issue.resources :case_solutions, :controller => 'case_solutions' do |solution|
+        solution.submit 'submit', :controller => 'case_solutions', :action => 'submit_case_solution'
+        solution.review 'review', :controller => 'case_solutions', :action => 'review_case_solution'
+      end
     end
     course.get_account_case_tpl 'get_account_case_tpl/:id', :controller => 'case_tpls', :action => 'get_account_case_tpl'
     # DEPRECATED
@@ -343,17 +349,6 @@ ActionController::Routing::Routes.draw do |map|
     course.test_student 'test_student', :controller => 'courses', :action => 'reset_test_student', :conditions => {:method => :delete}
   end
 
-  map.resources :case_issues do |issue|
-    issue.submit 'submit/', :controller => 'case_issues', :action => 'submit_case_issue'
-    issue.review 'review/', :controller => 'case_issues', :action => 'review_case_issue'
-    issue.apply 'apply', :controller => 'case_issues', :action => 'apply_case_issue'
-
-  end
-
-  map.resources :case_solutions do |solution|
-    solution.submit 'submit', :controller => 'case_solutions', :action => 'submit_case_solution'
-    solution.review 'review', :controller => 'case_solutions', :action => 'review_case_solution'
-  end
 
   map.connect '/submissions/:submission_id/attachments/:attachment_id/crocodoc_sessions',
     :controller => :crocodoc_sessions, :action => :create,
@@ -1201,4 +1196,5 @@ ActionController::Routing::Routes.draw do |map|
   # See how all your routes lay out with "rake routes"
   map.simple_captcha 'simple_captcha/simple_captcha', :controller => 'captcha', :action => :simple_captcha
   map.render_captcha 'simple_captcha/render_captcha', :controller => 'captcha', :action => :render_captcha
+  map.create_case_course 'create_case_course', :controller => 'courses', :action => 'create_case_course'
 end

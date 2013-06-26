@@ -1,6 +1,6 @@
 <h1>Editing case_solution</h1>
 
-<% form_for(@case_solution) do |f| %>
+<% form_for(@case_solution, :url => course_case_issue_case_solution_url(@context, params[:case_issue_id]), :html => {:method => 'PUT'} ) do |f| %>
   <%= f.error_messages %>
 
   <div><%= t '', 'Case Issue' %><%= @case_solution.case_issue.subject %></div>

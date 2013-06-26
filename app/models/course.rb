@@ -62,7 +62,8 @@ class Course < ActiveRecord::Base
                   :hide_final_grades,
                   :hide_distribution_graphs,
                   :lock_all_announcements,
-                  :course_category_id
+                  :course_category_id,
+                  :is_case
 
   serialize :tab_configuration
   serialize :settings, Hash
@@ -2656,6 +2657,7 @@ class Course < ActiveRecord::Base
   TAB_ANNOUNCEMENTS = 14
   TAB_OUTCOMES = 15
   TAB_COLLABORATIONS = 16
+  TAB_CASE_COLLECTION_REPOSTORIES = 17
 
   def self.default_tabs
     [
@@ -2675,6 +2677,15 @@ class Course < ActiveRecord::Base
       { :id => TAB_CONFERENCES, :label => t('#tabs.conferences', "Conferences"), :css_class => 'conferences', :href => :course_conferences_path },
       { :id => TAB_COLLABORATIONS, :label => t('#tabs.collaborations', "Collaborations"), :css_class => 'collaborations', :href => :course_collaborations_path },
       { :id => TAB_SETTINGS, :label => t('#tabs.settings', "Settings"), :css_class => 'settings', :href => :course_settings_path },
+    ]
+  end
+
+  def self.default_case_tabs
+    [
+      { :id => TAB_HOME, :label => t('#tabs.home', "Home"), :css_class => 'home', :href => :course_path },
+      { :id => TAB_CASE_COLLECTION_REPOSTORIES, :label => t('#tabs.case_repostory', "Case Collection Repostory"), :css_class => 'case_repostory', :href => :course_case_issues_path },
+      { :id => TAB_PEOPLE, :label => t('#tabs.people', "People"), :css_class => 'people', :href => :course_users_path },
+      { :id => TAB_SETTINGS, :label => t('#tabs.settings', "Settings"), :css_class => 'settings', :href => :course_settings_path }
     ]
   end
 
@@ -2703,6 +2714,7 @@ class Course < ActiveRecord::Base
 
   def tabs_available(user=nil, opts={})
     # make sure t() is called before we switch to the slave, in case we update the user's selected locale in the process
+    return Course.default_case_tabs if self.is_case
     default_tabs = Course.default_tabs
     opts.reverse_merge!(:include_external => true)
 

@@ -1,7 +1,8 @@
 class CaseTplsController < ApplicationController
 
   before_filter :get_context
-  before_filter :auth
+  before_filter :auth, :except => [:get_account_case_tpl]
+  before_filter :auth_case_as_student, :only => [:get_account_case_tpl]
   before_filter :context_is_root_account_filter, :except => [:get_account_case_tpl]
 
   def get_account_case_tpl
