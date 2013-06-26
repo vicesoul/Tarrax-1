@@ -79,7 +79,7 @@ define([
         "<td>" +
         "</td>" +
         "<td>" +
-        "<input type='button' value=" + I18n.t('#accounts.homepage.upload', 'Upload') + " class='btn comfirm'>" +
+        "<input type='submit' value=" + I18n.t('#accounts.homepage.upload', 'Upload') + " class='btn confirm'>" +
         "</td>" +
         "</tr>" +
         "</table>" +
