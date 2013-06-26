@@ -8,8 +8,8 @@ class CourseSystemsController < ApplicationController
     if search_params
       @course_account = Account.find search_params[:account_id]
       scoped = CourseSystem.of_account(@course_account)
-      scoped = scoped.of_job_position(search_params[:job_position_id]) unless search_params[:job_position_id].blank?
-      scoped = scoped.of_course_category(search_params[:course_category_id]) unless search_params[:course_category_id].blank?
+      scoped = scoped.of_job_position(search_params[:job_position_id]) # job_position always be a condition even if it's nil
+      scoped = scoped.of_course_category(search_params[:course_category_ids]) unless search_params[:course_category_ids].blank?
       @rest_courses = @course_account.courses
       @rest_courses = @rest_courses.of_course_category(search_params[:course_category_ids]) unless search_params[:course_category_ids].blank?
       @rest_courses = @rest_courses - scoped.map(&:course)

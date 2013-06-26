@@ -34,12 +34,12 @@ require [
   # select first radio by default
   $ ->
     $('.rank input:radio:first').click()
+    $('.rank-form').find('#course_system_attributes_course_category_ids').append $('#search_course_category_ids option:selected').clone()
 
   # set course_system info before submit
   $('.rank-form').submit ->
     form = $('.rank-form')
     form.find('#course_system_attributes_account_id').val $('#search_account_id ').val()
     form.find('#course_system_attributes_job_position_id').val $('#search_job_position_id').val()
-    form.find('#course_system_attributes_course_category_ids').append $('#search_course_category_ids option:selected').clone()
     form.find('option').attr('selected', 'selected')
     true
