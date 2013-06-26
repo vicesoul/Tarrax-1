@@ -4,7 +4,7 @@
 #
 # and you will get a tinymce editor with witch view link floating before that
 
-require [
+define [
   'jquery'
   'i18n!richeditor'
   'compiled/tinymce'
