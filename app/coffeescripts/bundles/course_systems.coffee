@@ -40,6 +40,6 @@ require [
     form = $('.rank-form')
     form.find('#course_system_attributes_account_id').val $('#search_account_id ').val()
     form.find('#course_system_attributes_job_position_id').val $('#search_job_position_id').val()
-    form.find('#course_system_attributes_course_category_ids').val $('#search_course_category_ids ').val()
+    form.find('#course_system_attributes_course_category_ids').append $('#search_course_category_ids option:selected').clone()
     form.find('option').attr('selected', 'selected')
     true

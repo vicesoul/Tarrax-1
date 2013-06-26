@@ -59,7 +59,7 @@
   <div class="hidden">
     <%= f.text_field :account_id %>
     <%= f.text_field :job_position_id %>
-    <%= f.text_field :course_category_ids %>
+    <%= f.select :course_category_ids, [], {}, {:multiple => true} %>
 
     <% CourseSystem::RANKS.each do |rank| %>
       <%= render :partial => 'courses_for_select', :locals => {:f => f, :name => rank, :collection => @grouped_courses[rank]} %>
