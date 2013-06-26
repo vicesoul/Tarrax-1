@@ -1,37 +1,46 @@
-<h1>Listing case_solutions</h1>
 
-<table class="table table-striped table-bordered">
-  <thead>
-    <tr>
-      <th><%= t '', 'Case Issue' %></th>
-      <th><%= t '', 'Title' %></th>
-      <th><%= t '', 'State' %></th>
-      <th><%= t '', 'Group Discuss' %></th>
-      <th><%= t '', 'Author' %></th>
-      <th><%= t '', 'Updated At' %></th>
-      <th><%= t '', 'Operation' %></th>
-    </tr>
-  </thead>
+<% js_bundle :case_solution_index %>
+<% unless @case_solutions.empty? %>
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th><%= t '', 'Case Issue' %></th>
+        <th><%= t '', 'Title' %></th>
+        <th><%= t '', 'State' %></th>
+        <th><%= t '', 'Group Discuss' %></th>
+        <th><%= t '', 'Author' %></th>
+        <th><%= t '', 'Updated At' %></th>
+        <th><%= t '', 'Operation' %></th>
+      </tr>
+    </thead>
 
-<% @case_solutions.each do |case_solution| %>
-  <tr>
-    <td><%= link_to case_solution.case_issue.subject, course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
-    <td><%= case_solution.title %></td>
-    <td><%= case_solution.workflow_state %></td>
-    <td><%= case_solution.group_discuss ? 'yes' : 'no' %></td>
-    <td><%= case_solution.user.name %></td>
-    <td><%= case_solution.updated_at.to_formatted_s(:db) %></td>
-    <td>
-      <% if case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && case_solution.user.id == @current_user.id %>
-        <%= link_to (t '', 'Submit'), course_case_issue_case_solution_submit_path(@context, params[:case_issue_id], case_solution) %> |
+    <% @case_solutions.each do |case_solution| %>
+      <tr>
+      <td><%= link_to case_solution.case_issue.subject, course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
+      <td><%= case_solution.title %></td>
+      <td><%= case_solution.workflow_state %></td>
+      <td><%= case_solution.group_discuss ? 'yes' : 'no' %></td>
+      <td><%= case_solution.user.name %></td>
+      <td><%= case_solution.updated_at.to_formatted_s(:db) %></td>
+      <td>
+        <% if case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && case_solution.user.id == @current_user.id %>
+          <%= link_to (t '', 'Submit'), course_case_issue_case_solution_submit_path(@context, params[:case_issue_id], case_solution), {:class => 'solution-submit'} %> |
         <%= link_to 'Edit', edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %> |
         <%= link_to 'Delete', course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution), :confirm => 'Are you sure?', :method => :delete %>
       <% end %>
-      <% if case_solution.being_reviewed? && can_do(@context, @current_user, :operate_case_as_teacher) %>
-        <%= link_to (t '', 'Review'), course_case_issue_case_solution_review_path(@context, params[:case_issue_id], case_solution, :review_result => 'review') %>
+        <% if case_solution.being_reviewed? && can_do(@context, @current_user, :operate_case_as_teacher) %>
+          <%= link_to (t '', 'Review'), course_case_issue_case_solution_review_path(@context, params[:case_issue_id], case_solution), {:class => 'solution-review'} %>
       <% end %>
-    </td>
-  </tr>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <%= t '', 'Empty case solutions' %>
 <% end %>
-</table>
 
+<div id="case-review-dialog" style="display:none">
+  <%= t '', 'Your option is' %>
+  <input type="radio" name="review_result" value="review" checked="true"><%= t '', 'Review' %>
+  <input type="radio" name="review_result" value="recommend"><%= t '', 'Recommend' %>
+</div>

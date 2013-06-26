@@ -1,5 +1,5 @@
-<h1>Listing case_issues</h1>
 
+<% js_bundle :case_issue_index %>
 <%= link_to 'New case_issue', new_course_case_issue_path %>
 
 <% unless @case_issues.empty? %>
@@ -18,18 +18,25 @@
       <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
       <td><%= case_issue.workflow_state %></td>
       <td><%= case_issue.user.name %></td>
-      <td><%= link_to case_issue.case_solutions.size, course_case_issue_case_solutions_path(@context, case_issue) %></td>
+      <td>
+        <% solutions_size = case_issue.case_solutions.size %>
+        <% if solutions_size > 0 %>
+          <%= link_to solutions_size, course_case_issue_case_solutions_path(@context, case_issue) %>
+        <% else %>
+          <%= solutions_size %>
+        <% end %>
+      </td>
       <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
       <td>
         <% if case_issue.new? && case_issue.user.id == @current_user.id %>
-          <%= link_to 'Submit', course_case_issue_submit_path(@context, case_issue) %> |
+          <%= link_to 'Submit', course_case_issue_submit_path(@context, case_issue),{:class => 'issue-submit'} %> |
         <% end %>
         <% if case_issue.awaiting_review? && can_do(@context, @current_user, :operate_case_as_teacher) %>
           <!-- params: review_result => ['accept', 'reject']-->
-          <%= link_to 'Review' , course_case_issue_review_path(@context, case_issue, {:review_result => :accept}) %> |
+          <%= link_to 'Review' , course_case_issue_review_path(@context, case_issue),{:class => 'issue-review'} %> |
         <% end %>
         <% if case_issue.accepted? %>
-          <%= link_to 'Apply' , course_case_issue_apply_path(@context, case_issue.id) %> |
+          <%= link_to 'Apply' , course_case_issue_apply_path(@context, case_issue.id), {:class => 'issue-apply'} %> |
         <% end %>
         <% if case_issue.new? && case_issue.user.id == @current_user.id %>
           <%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %> |
@@ -46,3 +53,14 @@
 <% end %>
 <br />
 
+<div id="case-review-dialog" style="display:none">
+  <%= t '', 'Your option is' %>
+  <input type="radio" name="review_result" value="accept" checked="true"><%= t '', 'Accept' %>
+  <input type="radio" name="review_result" value="reject"><%= t '', 'Reject' %>
+</div>
+
+<div id="case-apply-dialog" style="display:none">
+  <%= t '', 'Group Discuss' %>
+  <input type="radio" name="group_discuss" value="true" checked="true"><%= t '', 'Yes' %>
+  <input type="radio" name="group_discuss" value="false"><%= t '', 'No' %>
+</div>

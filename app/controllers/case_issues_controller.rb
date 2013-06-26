@@ -80,8 +80,8 @@ class CaseIssuesController < ApplicationController
 
   def review_case_issue
     issue = CaseIssue.find(params[:case_issue_id])
-    issue.state == :awaiting_review and issue.review
-    if issue.being_reviewed? && %w[accept reject].include?(params[:review_result])
+    if issue.awaiting_review? && %w[accept reject].include?(params[:review_result])
+      issue.review
       render :json => issue.__send__(params[:review_result]).to_json
     else
       render :json => false

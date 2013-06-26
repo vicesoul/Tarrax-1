@@ -68,6 +68,7 @@ define(['jquery', 'jqueryui/dialog'], function($) {
 				open: function() {
 					setTimeout(function() {
 						dialog.dialog('close')
+            opts.closeCallback.call(this);
 					},
 					1500);
 				},
@@ -87,6 +88,7 @@ define(['jquery', 'jqueryui/dialog'], function($) {
 		cancelButton: '取消',
 		confirmCallback: function() {},
 		confirmCancelCallback: function() {},
+    closeCallback: function() {},
 		modal: true,
 		width: 'auto',
 		height: 'auto',
