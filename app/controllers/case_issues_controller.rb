@@ -158,7 +158,7 @@ class CaseIssuesController < ApplicationController
   end
 
   def get_bread_crumb
-    add_crumb(t('', 'Case Issues'), course_case_issues_path(@context))
+    add_crumb(t('#case_issues.bread_crumb.case_issue', 'Case Issues'), course_case_issues_path(@context))
   end
 
 end

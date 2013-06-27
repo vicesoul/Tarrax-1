@@ -1,5 +1,6 @@
 class CaseIssue < ActiveRecord::Base
 
+  attr_accessible :case_repostory_id, :subject, :user_id, :user
   belongs_to :case_repostory
   belongs_to :user
   has_many :case_solutions
@@ -8,16 +9,16 @@ class CaseIssue < ActiveRecord::Base
   include Workflow
 
   def self.find_or_init_case_tpl
-    issue = self.new(:subject => 'Case Issue')
-    tpl = issue.build_case_tpl(:name => 'Default case issue template')
+    issue = self.new(:subject => t('#case_issues.model_init.issue', 'Case Issue'))
+    tpl = issue.build_case_tpl(:name => t('#case_tpls.model_init.default_tpl', 'Default case issue template'))
     tpl.case_tpl_widgets.build(
-      :title => t('', 'Subject'),
-      :body => t('', 'Subject body'),
+      :title => t('#case_tpls.model_init.subject', 'Subject'),
+      :body => t('#case_tpls.model_init.body', 'Subject body'),
       :seq => 0
     )
     tpl.case_tpl_widgets.build(
-      :title => t('', 'Content'),
-      :body => t('', 'Content body'),
+      :title => t('#case_tpls.model_init.content', 'Content'),
+      :body => t('#case_tpls.model_init.body', 'Content body'),
       :seq => 1
     )
     issue
@@ -38,4 +39,15 @@ class CaseIssue < ActiveRecord::Base
     state :rejected
   end 
   
+  class << self
+    def display_state
+      {
+        'new' => t('#case_issues.state_array.new', 'New'),
+        'awaiting_review' => t('#case_issues.state_array.awaiting_review', 'Awaiting Review'),
+        'accepted' => t('#case_issues.state_array.accepted', 'Accepted'),
+        'rejected' => t('#case_issues.state_array.rejected', 'Rejected')
+      }
+    end
+  end
+
 end

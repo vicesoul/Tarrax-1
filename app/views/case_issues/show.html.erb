@@ -1,10 +1,10 @@
 
-<p>Subject: <%= @case_issue.subject %></p>
-<p>State: <%= @case_issue.workflow_state %></p>
-<p>Author <%= @case_issue.user.name %></p>
-<p>Updated At <%= @case_issue.updated_at.to_formatted_s(:db) %></p>
+<p><%= t('subject', 'Subject') %>: <%= @case_issue.subject %></p>
+<p><%= t('state', 'State') %>: <%= CaseIssue.display_state[@case_issue.workflow_state] %></p>
+<p><%= t('author', 'Author') %>: <%= @case_issue.user.name %></p>
+<p><%= t('updated_at', 'Updated At') %>: <%= @case_issue.updated_at.to_formatted_s(:db) %></p>
 <p>
-  <span>Template:</span>
+  <span><%= t('template', 'Template') %>:</span>
   <% @case_issue.case_tpl.case_tpl_widgets.each do |w| %>
     <div style="width:200px;border-bottom:thick dotted #ff0000;">
       <div><%= w.title %></div>
@@ -13,6 +13,6 @@
   <% end %>
 </p>
 <% if @case_issue.new? && can_do(@context, @current_user, :operate_case_as_student) %>
-  <%= link_to 'Edit', edit_course_case_issue_path(@context, @case_issue) %> |
+  <%= link_to t('#buttons.edit', 'Edit'), edit_course_case_issue_path(@context, @case_issue) %> |
 <% end %>
-<%= link_to 'Back', course_case_issues_path(@context) %>
+<%= link_to t('#buttons.back', 'Back'), course_case_issues_path(@context) %>

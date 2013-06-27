@@ -1,7 +1,7 @@
 
-<div><%= t '', 'Template Name' %>: <%= @case_tpl.name %></div>
-<div><%= t '', 'Author' %>: <%= @case_tpl.user.name %></div>
-<div><%= t '', 'Updated At' %><%= @case_tpl.updated_at.to_formatted_s(:db) %></div>
+<div><%= t 'tpl_name', 'Template Name' %>: <%= @case_tpl.name %></div>
+<div><%= t 'author', 'Author' %>: <%= @case_tpl.user.name %></div>
+<div><%= t 'updated_at', 'Updated At' %>: <%= @case_tpl.updated_at.to_formatted_s(:db) %></div>
 
 <div>
   <% @case_tpl.case_tpl_widgets.each do |w| %>
@@ -11,5 +11,5 @@
     </div>
   <% end %>
 </div>
-<%= link_to (t '', 'Edit'), edit_account_case_tpl_path(@account, @case_tpl) %> |
-<%= link_to (t '', 'Back'), account_case_tpls_path %>
+<%= link_to (t '#buttons.edit', 'Edit'), edit_account_case_tpl_path(@account, @case_tpl) %> |
+<%= link_to (t '#buttons.back', 'Back'), account_case_tpls_path %>

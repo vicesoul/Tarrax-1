@@ -1,21 +1,20 @@
-<h1>Editing case_solution</h1>
 
 <% form_for(@case_solution, :url => course_case_issue_case_solution_url(@context, params[:case_issue_id]), :html => {:method => 'PUT'} ) do |f| %>
   <%= f.error_messages %>
 
-  <div><%= t '', 'Case Issue' %><%= @case_solution.case_issue.subject %></div>
-  <div><%= t '', 'Group Discuss' %><%= @case_solution.group_discuss ? 'yes' : 'no' %></div>
-  <div><%= t '', 'Author' %><%= @case_solution.user.name %></div>
-  <div><%= t '', 'Updated At' %><%= @case_solution.updated_at.to_formatted_s(:db) %></div>
+  <div><%= t 'issue', 'Case Issue' %>: <%= @case_solution.case_issue.subject %></div>
+  <div><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></div>
+  <div><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></div>
+  <div><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></div>
   <div>
-    <%= t '', 'Title' %>: <%= f.text_field :title %>
+    <%= t 'title', 'Title' %>: <%= f.text_field :title %>
   </div>
   <div>
-    <%= t '', 'Content' %>: <%= f.text_area :content %>
+    <%= t 'content', 'Content' %>: <%= f.text_area :content %>
   </div>
   <p>
-    <%= f.submit 'Update' %>
+    <%= f.submit t('#buttons.update', 'Update') %>
   </p>
 <% end %>
 
-<%= link_to 'Back', course_case_issue_case_solutions_path(@context, params[:case_issue_id], params[:case_solution_id]) %>
+<%= link_to t('#buttons.back', 'Back'), course_case_issue_case_solutions_path(@context, params[:case_issue_id], params[:case_solution_id]) %>

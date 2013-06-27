@@ -1,17 +1,18 @@
 
 <div>
-  <p><%= t '', 'Case Issue' %>: <%= @case_solution.case_issue.subject %></p>
-  <p><%= t '', 'State' %>: <%= @case_solution.workflow_state %></p>
-  <p><%= t '', 'Group Discuss' %>: <%= @case_solution.group_discuss ? 'yes' : 'no' %></p>
-  <p><%= t '', 'Author' %>: <%= @case_solution.user.name %></p>
-  <p><%= t '', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></p>
-  <p><%= t '', 'Title' %>: <%= @case_solution.title %></p>
+  <p><%= t 'issue', 'Case Issue' %>: <%= @case_solution.case_issue.subject %></p>
+  <p><%= t 'state', 'State' %>: <%= CaseSolution.display_state[@case_solution.workflow_state] %></p>
+  <p><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></p>
+  <p><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></p>
+  <p><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></p>
+  <p><%= t 'title', 'Title' %>: <%= @case_solution.title %></p>
 </div>
 <div>
-  <p><%= t '', 'Content' %>: <%= @case_solution.content %></p>
+  <p><%= t 'content', 'Content' %>: <%= @case_solution.content %></p>
 </div>
 
 <% if @case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && @case_solution.user.id == @current_user.id %>
-  <%= link_to 'Edit', edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], @case_solution) %> |
+  <%= link_to t('#buttons.edit', 'Edit'), edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], @case_solution) %> |
+
 <% end %>
-<%= link_to 'Back', course_case_issue_case_solutions_path(@context, params[:case_issue_id]) %>
+<%= link_to t('#buttons.back', 'Back'), course_case_issue_case_solutions_path(@context, params[:case_issue_id]) %>

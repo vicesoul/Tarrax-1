@@ -1,8 +1,8 @@
 
 <div id="hidden-tpl" style="display:none;width:200px;border-bottom:thick dotted #ff0000;">
-  <button class="remove-me">Remove Me</button>
-  <div><input name="case_tpl_widget[][title]" size="30" type="text" value="Custom Title"></div>
-  <div><input name="case_tpl_widget[][body]" size="30" type="text" value="Custom Body"></div>
+  <button class="remove-me"><%= t 'remove_me', 'Remove Me' %></button>
+  <div><input name="case_tpl_widget[][title]" size="30" type="text" value="<%= t 'custom_title', 'Custom Title' %>"></div>
+  <div><input name="case_tpl_widget[][body]" size="30" type="text" value="<%= t 'custom_content', 'Custom Content' %>"></div>
   <input name="case_tpl_widget[][seq]" type="hidden">
 </div>
 

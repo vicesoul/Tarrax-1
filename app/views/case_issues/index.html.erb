@@ -1,51 +1,51 @@
 
 <% js_bundle :case_issue_index %>
-<%= link_to 'New case_issue', new_course_case_issue_path %>
+<%= link_to t('new_issue', 'New case_issue'), new_course_case_issue_path %>
 
+<div>
+  <% form_for @search, :url => course_case_issues_path do |f| %>
+    <div>
+        <ul>
+          <li>
+            <label><%= t 'selector.subject', 'Subject' %>:</label>
+            <%= f.text_field :subject_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.author', 'Author' %>:</label>
+            <%= f.text_field :user_name_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.state', 'State' %>:</label>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'new', nil %> <%= t '#case_issues.state_array.new', 'New' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'awaiting_review', nil %> <%= t '#case_issues.state_array.awaiting_review', 'Awaiting Review' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'accepted', nil %> <%= t '#case_issues.state_array.accepted', 'Accepted' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '#case_issues.state_array.rejected', 'Rejected' %>
+          </li>
+          <li>
+            <label> </label>
+            <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
+          </li>
+         </ul>
+    </div>
+  <% end %>
+</div>
 <% unless @case_issues.empty? %>
-  <div>
-    <% form_for @search, :url => course_case_issues_path do |f| %>
-      <div>
-          <ul>
-            <li>
-              <label><%= t 'selector.subject', 'Subject' %>:</label>
-              <%= f.text_field :subject_like %>
-            </li>
-            <li>
-              <label><%= t 'selector.author', 'Author' %>:</label>
-              <%= f.text_field :user_name_like %>
-            </li>
-            <li>
-              <label><%= t 'selector.state', 'State' %>:</label>
-              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'new', nil %> <%= t '', 'New' %>
-              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'awaiting_review', nil %> <%= t '', 'Awaiting Review' %>
-              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'accepted', nil %> <%= t '', 'Accepted' %>
-              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '', 'Rejected' %>
-            </li>
-            <li>
-              <label> </label>
-              <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
-            </li>
-           </ul>
-      </div>
-    <% end %>
-  </div>
   <!-- Don't modify if you expect the correct pagination when using sort -->
   <%= pagination = will_paginate(@case_issues) %>
   <table class="table table-striped table-bordered">
     <tr>
-      <th><%= sortable_for_searchlogic('subject', (t '', 'Subject')) %></th>
-      <th><%= sortable_for_searchlogic('workflow_state', (t '', 'State')) %></th>
-      <th><%= sortable_for_searchlogic('name', (t '', 'Author'), 'user_sort_by_custom') %></th>
-      <th><%= t '', 'Solutions' %></th>
-      <th><%= sortable_for_searchlogic('updated_at', (t '', 'Update At')) %></th>
-      <th><%= t '', 'Operation' %></th>
+      <th><%= sortable_for_searchlogic('subject', (t 'headings.subject', 'Subject')) %></th>
+      <th><%= sortable_for_searchlogic('workflow_state', (t 'headings.state', 'State')) %></th>
+      <th><%= sortable_for_searchlogic('name', (t 'headings.author', 'Author'), 'user_sort_by_custom') %></th>
+      <th><%= t 'headings.solutions', 'Solutions' %></th>
+      <th><%= sortable_for_searchlogic('updated_at', (t 'headings.updated_at', 'Update At')) %></th>
+      <th><%= t 'headings.op', 'Operation' %></th>
     </tr>
 
   <% @case_issues.each do |case_issue| %>
     <tr>
       <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
-      <td><%= case_issue.workflow_state %></td>
+      <td><%= CaseIssue.display_state[case_issue.workflow_state] %></td>
       <td><%= case_issue.user.name %></td>
       <td>
         <% solutions_size = case_issue.case_solutions.size %>
@@ -58,41 +58,42 @@
       <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
       <td>
         <% if case_issue.new? && case_issue.user.id == @current_user.id %>
-          <%= link_to 'Submit', course_case_issue_submit_path(@context, case_issue),{:class => 'issue-submit'} %> |
+          <%= link_to (t 'links.submit', 'Submit'), course_case_issue_submit_path(@context, case_issue),{:class => 'issue-submit'} %> |
         <% end %>
         <% if case_issue.awaiting_review? && can_do(@context, @current_user, :operate_case_as_teacher) %>
           <!-- params: review_result => ['accept', 'reject']-->
-          <%= link_to 'Review' , course_case_issue_review_path(@context, case_issue),{:class => 'issue-review'} %> |
+          <%= link_to (t 'links.review', 'Review'), course_case_issue_review_path(@context, case_issue),{:class => 'issue-review'} %> |
         <% end %>
         <% if case_issue.accepted? %>
-          <%= link_to 'Apply' , course_case_issue_apply_path(@context, case_issue.id), {:issue_subject => case_issue.subject, :class => 'issue-apply'} %> |
+          <%= link_to (t 'links.apply', 'Apply'), course_case_issue_apply_path(@context, case_issue.id), {:issue_subject => case_issue.subject, :class => 'issue-apply'} %> |
         <% end %>
         <% if case_issue.new? && case_issue.user.id == @current_user.id %>
-          <%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %> |
-          <%= link_to 'Delete', course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %>
+          <%= link_to (t 'links.edit', 'Edit'), edit_course_case_issue_path(@context, case_issue) %> |
+          <%= link_to (t 'links.delete', 'Delete'), course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %>
         <% end %>
       </td>
     </tr>
   <% end %>
   </table>
+  <%= t '#case_issues.index.dialogs.yes', 'xxxx'%>
   <%= pagination %>
 <% else %>
   <div>
-    <%= t '', 'Empty case issues' %>
+    <%= t 'empty_issue', 'Empty case issues' %>
   </div>
 <% end %>
 <br />
 
 <div id="case-review-dialog" style="display:none">
-  <%= t '', 'Your option is' %>
-  <input type="radio" name="review_result" value="accept" checked="true"><%= t '', 'Accept' %>
-  <input type="radio" name="review_result" value="reject"><%= t '', 'Reject' %>
+  <%= t 'dialogs.your_option', 'Your option is' %>
+  <input type="radio" name="review_result" value="accept" checked="true"><%= t 'dialogs.accept', 'Accept' %>
+  <input type="radio" name="review_result" value="reject"><%= t 'dialogs.reject', 'Reject' %>
 </div>
 
 <div id="case-apply-dialog" style="display:none">
-  <%= t '', 'Group Discuss' %>
-  <input type="radio" name="group_discuss" value="true" checked="true"><%= t '', 'Yes' %>
-  <input type="radio" name="group_discuss" value="false"><%= t '', 'No' %>
+  <%= t 'dialogs.group_discuss', 'Group Discuss' %>
+  <input type="radio" name="group_discuss" value="true" checked="true"><%= t 'dialogs.ya', 'Yes' %>
+  <input type="radio" name="group_discuss" value="false"><%= t 'dialogs.not', 'No' %>
   <div id="case-apply-group-name" style="display:none">
     <input type="text" name="group_name" />
   </div>

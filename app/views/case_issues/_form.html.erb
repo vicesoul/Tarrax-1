@@ -1,19 +1,19 @@
 
-  <p>Subject: <%= f.text_field :subject %></p>
+  <p><%= t 'subject', 'Subject'  %>: <%= f.text_field :subject %></p>
   
     <%= f.hidden_field :user_id, :value => @current_user.id %>
     <%= f.hidden_field :case_repostory_id, :value => Course.find(params[:context_id]).case_repostory.id %>
-  Template:
+  <%= t 'template', 'Template' %>:
   <div id="tpl-area">
     <% if  @case_issue.case_tpl %>
-      <h3>Warning: Your account don't has a case templates, so using default case template to create an issue.</h3>
+      <h3><%= t 'warn_tpl', "Warning: Your account don't has a case templates, so using default case template to create an issue." %></h3>
 
       <%= render :partial => 'case_tpls/shared_case_tpl_form', :locals => {:case_tpl => @case_issue.case_tpl} %>
 
     <% else %>
       <div>
-        <span>Please elect a case template:</span>
-        <%= select_tag 'tpl', options_for_select(Course.find(params[:context_id]).root_account.case_tpls.map{|t| [t.name, t.id ]}.insert(0, 'Please select')), {:id => 'tpl-selector'} %>
+        <span><%= t 'select_tpl_first', 'Please select a case template' %>:</span>
+        <%= select_tag 'tpl', options_for_select(Course.find(params[:context_id]).root_account.case_tpls.map{|t| [t.name, t.id ]}.insert(0, t('please_select', 'Please select'))), {:id => 'tpl-selector'} %>
       </div>
     <% end %>
   </div>

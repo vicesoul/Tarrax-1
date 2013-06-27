@@ -1,4 +1,4 @@
-<h1>Editing case_issue</h1>
+<h1><%= t 'edit_issue', 'Editing case issue' %></h1>
 
 <% form_for(@case_issue, :url => course_case_issue_url(@context, @case_issue), :html => {:method => 'PUT'}) do |f| %>
 
@@ -7,12 +7,12 @@
   <%= render :partial => 'form', :locals => {:f => f } %>
 
   <p>
-    <%= f.submit 'Update' %>
+    <%= f.submit t('#buttons.update', 'Update') %>
   </p>
   
 <% end %>
   
 <%= render :partial => 'case_tpls/hidden_element' %>
 
-<%= link_to 'Show', course_case_issue_path(@context, @case_issue) %> |
-<%= link_to 'Back', course_case_issues_path %>
+<%= link_to t('#buttons.show', 'Show'), course_case_issue_path(@context, @case_issue) %> |
+<%= link_to t('#buttons.back', 'Back'), course_case_issues_path %>

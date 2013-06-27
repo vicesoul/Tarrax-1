@@ -140,8 +140,8 @@ class CaseSolutionsController < ApplicationController
   end
 
   def get_bread_crumb
-    add_crumb(t('', 'Case Issues'), course_case_issues_path(@context))
-    add_crumb(t('', 'Case Solutions'), course_case_issue_case_solutions_path(@context, params[:case_issue_id])) if params[:case_issue_id]
+    add_crumb(t('#case_issues.bread_crumb.case_issue', 'Case Issues'), course_case_issues_path(@context))
+    add_crumb(t('#case_solutions.bread_crumb.solutions', 'Case Solutions'), course_case_issue_case_solutions_path(@context, params[:case_issue_id])) if params[:case_issue_id]
   end
 
 end

@@ -1,4 +1,4 @@
-<h1>New case_tpl</h1>
+<h1><%= t('new_tpl', 'New case_tpl') %></h1>
 
 <% form_for(@case_tpl, :url => account_case_tpls_url(@account), :html => {:method => 'POST'}) do |f| %>
 
@@ -7,10 +7,10 @@
   <%= render :partial => 'form', :locals => {:f => f } %>
 
   <p>
-    <%= f.submit 'Create' %>
+    <%= f.submit t('#buttons.create', 'Create') %>
   </p>
 <% end %>
 
 <%= render :partial => 'hidden_element' %>
 
-<%= link_to 'Back', account_case_tpls_path %>
+<%= link_to t('#buttons.back', 'Back'), account_case_tpls_path %>
