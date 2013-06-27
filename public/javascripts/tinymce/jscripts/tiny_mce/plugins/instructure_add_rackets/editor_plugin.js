@@ -1,7 +1,8 @@
 define([
   'compiled/editor/stocktiny',
   'i18n!editor',
-  'jquery'
+  'jquery',
+  'jqueryui/position'
 ], function(tinymce, I18n, $) {
 var addRackets = false;
   tinymce.create('tinymce.plugins.InstructureAddRackets',  {
@@ -9,31 +10,62 @@ var addRackets = false;
       ed.addCommand('instructureAddRackets', function() {
 
       var $editorIframe = $("#" + ed.id + "_ifr").contents(),
+          $editorIframeSelf = $("#" + ed.id + "_ifr"),
           $editorBody = $editorIframe.find("body#tinymce"),
           $editor = $("#" + ed.id),
-          $question = $editor.closest(".question_holder ").find(".question");
+          $icon = $("#" + ed.id + "_instructure_add_rackets");
 
-
-      var $icon = $("#" + ed.id + "_instructure_add_rackets");
 
           addRackets = !addRackets;
+          if($("#bracketTip").size() == 0){
+            var $cube = $("<div id='bracketTip' style='width: 30px;height: 30px; background: green;z-index: 1001;display: none;position: absolute;'></div>").appendTo("body")
+          }
+
+          var bracketTip = function (event){
+            var marginLeft = 0;
+            var marginTop = 0;
+            if($(this).find("body").is("#tinymce")){
+              var position = $editorIframeSelf.parent(".mceIframeContainer").offset();
+              marginLeft = position.left;
+              marginTop= position.top;
+            }
+            $("#bracketTip").css({
+              left: event.pageX + marginLeft + 10,
+              top: event.pageY + marginTop
+            });
+          };
+
+          $editorBody.on("mouseenter.bracketBody", function(){
+            $("#bracketTip").show()
+          })
+          $editorBody.on("mouseleave.bracketBody", function(){
+            $("#bracketTip").hide()
+          })
           if(addRackets){
               addRackets = true;
               $icon.css({
                   "opacity":1
               });
 
-          $editorBody.bind("mouseup",addRacket);
+              $editorBody.on("mouseup",addRacket);
 
+              $("#bracketTip").show();
+              $editorIframe.on("mousemove.bracket", bracketTip);
           }else{
               addRackets = false;
 
               $icon.css({
                   "opacity":0.5
               });
-              $editorBody.unbind("mouseup");
-              
+              $editorBody.off("mouseup");
+
+              $("#bracketTip").hide();
+              $editorIframe.off(".bracketBody");
+              $editorBody.off(".bracketBody");
+
           }
+
+          
 
           function checkChinese(str){  
               var reg=/[\u4E00-\u9FA5]/g;
@@ -41,7 +73,8 @@ var addRackets = false;
             }
 
           function addRacket() {
-              var  selectedText = ed.selection.getContent();
+              var selectedText = ed.selection.getContent();
+              var $question = $editor.closest(".question_holder ").find(".question:not(.display_question)");
               if($question.is(".calculated_question")){
                   if(!selectedText || checkChinese(selectedText)){return;}
                   $editor.editorBox('insert_code', "[" + selectedText + "]");
@@ -94,8 +127,6 @@ var addRackets = false;
                   //*** end
 
                   }
-
-
 
               }
           }
