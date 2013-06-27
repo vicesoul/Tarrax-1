@@ -140,6 +140,7 @@ group :development, :test do
     gem 'ruby-debug',   '0.10.4'
   end
   gem 'capistrano'
+  gem 'awesome_print'
 end
 
 group :i18n_tools do

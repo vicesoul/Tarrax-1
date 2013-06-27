@@ -15,6 +15,11 @@ define [
         autoOpen: false
         width: '90%'
       )
+      @autoClose = true
+
+      # set src for iframe after dialog initialized to avoid double request issue
+      iframe = @dialog.find('iframe')
+      iframe.attr 'src', iframe.data 'src'
 
     open: ->
       @dialog.dialog "open"
@@ -31,6 +36,4 @@ define [
     bindUIActions: ->
       @insertButton.click =>
         @insertClick()
-        @close()
-
-  @PickupUsers = PickupUsers
+        @close() if @autoClose

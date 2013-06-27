@@ -293,6 +293,7 @@ zh-CN:
       add_course_link: 添加新课程
       add_user_button: 添加新用户
       add_user_link: 添加新用户
+      attach_users_link: 从组织架构中关联用户
       birthday_help: "生日格式为: '1980-01-01'"
       course_category_tip: 请选择课程类型
       display_name_help: 在讨论、消息和评论中可见。
@@ -616,6 +617,7 @@ zh-CN:
       tab_notifications: 通知
       tab_reports: 报表
       tab_settings: 管理设置
+      teachers_fieldset: 讲师管理
       turnitin_comments_help: "这些评论在提交 Turnitin 启用的任务时显示给学生"
       turnitin_pledge_help: 学生必须勾选相关框以确认他们同意此保证
       turnitin_settings_title: "Turnitin 设置"
@@ -764,6 +766,7 @@ zh-CN:
     user_added_message: "%{user} 已添加！"
     user_added_message_sent_message: "%{user} 已添加！他们应该很快会收到确认电子邮件。"
     user_deleted_message: "%{username} 已删除"
+    users_attached_message: 用户关联成功！
   activerecord: 
     errors: 
       full_messages: 
@@ -3434,6 +3437,7 @@ zh-CN:
       links: 
         add_users: 添加用户
       pick_up_from_accounts: 从组织架构中挑选
+      pick_up_from_teachers_bank: 从讲师库选择讲师
       teacherless_invite_details: "在老师接受课程邀请后, 你将放弃课程管理权限."
       titles: 
         course_section: 课程班
@@ -6190,6 +6194,7 @@ zh-CN:
       job_position: 岗位
       title: 挑选课程
     plan_form: 
+      account_lists: 组织架构列表
       course: 
         name: 课程名称
         teachers: 教师
@@ -10629,6 +10634,9 @@ zh-CN:
       ta_title: 邀请作为助教，单击以查看"课程"
       teacher: "%{course}（作为教师）。"
       teacher_title: 邀请作为教师，单击以查看"课程"
+    pickup_teachers: 
+      pickup: 
+        title: 选择讲师
     pickup_users: 
       pickup: 
         title: 选择人员
@@ -11181,6 +11189,139 @@ zh-CN:
     quizzes: 测试
     settings: 课程管理
     syllabus: 纲要
+  teacher_categories: 
+    created_successfully: 成功添加讲师分类
+    edit: 
+      teacher_category: 讲师类别
+      teacher_category_crumb: 讲师类别
+      title: 编辑讲师类别
+    form: 
+      labels: 
+        name: 名称
+    index: 
+      are_you_sure: 您确定吗?
+      links: 
+        destroy: 删除
+        edit: 编辑
+        new_teacher_category: 新增讲师类别
+        show: 详情
+      name: 名称
+      teacher_category: 讲师类别
+      teacher_category_crumb: 讲师类别
+      title: 讲师类别列表
+    new: 
+      teacher_category: 讲师类别
+      teacher_category_crumb: 讲师类别
+      title: 新增讲师类别
+    show: 
+      links: 
+        back: 返回
+        edit: 编辑
+      name: Name
+      teacher_category: 讲师类别
+      teacher_category_crumb: 讲师类别
+      title: 讲师类别
+    teacher_categories_management: 讲师类别
+    updated_successfully: 成功更新讲师分类
+  teacher_ranks: 
+    created_successfully: 成功添加讲师等级
+    edit: 
+      teacher_rank: 讲师等级
+      teacher_rank_crumb: 讲师等级
+      title: 讲师等级
+    form: 
+      labels: 
+        name: 名称
+    index: 
+      are_you_sure: 您确定吗？
+      links: 
+        destroy: 删除
+        edit: 编辑
+        show: 显示
+      name: 名称
+      new_teacher_rank: 新增讲师等级
+      teacher_rank: 讲师等级
+      teacher_rank_crumb: 讲师等级
+      title: 讲师等级列表
+    new: 
+      teacher_rank: 讲师等级
+      teacher_rank_crumb: 讲师等级
+      title: 讲师等级
+    show: 
+      links: 
+        back: 返回
+        edit: 编辑
+      name: 姓名
+      teacher_rank: 讲师等级
+      teacher_rank_crumb: 讲师等级
+      title: 讲师等级
+    teacher_ranks_management: 讲师等级
+    updated_successfully: 成功更新讲师等级
+  teachers: 
+    created_successfully: 成功添加讲师
+    edit: 
+      teacher: 讲师
+      teacher_crumb: 讲师
+      title: 编辑讲师
+    form: 
+      labels: 
+        birthday: 生日
+        email: 电子邮件
+        internal: 内部
+        known_case: 著名案例
+        mobile: 手机
+        name: 名称
+        pay_amount: 课酬
+        sex: 性别
+        sex_female: 女
+        sex_male: 男
+        specialty_intro: 能力介绍
+        teacher_category_id: 讲师分类
+        teacher_rank_id: 讲师等级
+      links: 
+        new_category: 新增讲师分类
+        new_rank: 新增讲师级别
+    index: 
+      are_you_sure: 您确认吗?
+      email: 电子邮件
+      internal: 内部讲师
+      links: 
+        destroy: 删除
+        edit: 编辑
+        refresh: 刷新页面
+        show: 显示
+      name: 名称
+      new_teacher: 新增讲师
+      sex: 性别
+      teacher: 讲师
+      teacher_category: 讲师分类
+      teacher_crumb: 讲师
+      teacher_rank: 讲师等级
+      title: 讲师列表
+    new: 
+      teacher: 讲师
+      teacher_crumb: 讲师
+      title: 新增讲师
+    show: 
+      birthday: 生日
+      email: 电子邮件
+      internal: 内部讲师
+      known_case: 著名案例
+      links: 
+        back: 返回
+        edit: 编辑
+      mobile: 手机
+      name: 名称
+      pay_amount: 课酬
+      sex: 性别
+      specialty_intro: 能力介绍
+      teacher: 讲师
+      teacher_cateogry: 讲师分类
+      teacher_crumb: 讲师
+      teacher_rank: 讲师等级
+      title: 讲师
+    teachers_management: 讲师
+    updated_successfully: 成功更新讲师
   terms: 
     index: 
       date: 

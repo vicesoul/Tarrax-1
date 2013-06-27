@@ -12,6 +12,7 @@
   <% end %>
   <% if show_user %>
     <a href="#" class="add_user_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:add_user_link, "Add a New User") %></a>
+    <a href="#" class="attach_users_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:attach_users_link, "Attach Users") %></a>
   <% end %>
 </div>
 
@@ -151,6 +152,12 @@
   </div>
 </div>
 
+<div>
+  <% form_tag account_attach_users_path(@account), :class => 'attach_users_form' do %>
+    <%= hidden_field_tag :user_ids %>
+  <% end %>
+</div>
+<%= render :partial => 'shared/pickup_users', :locals => {:account => @account.root_account} %>
 
 <% js_bundle :user_sortable_name %>
 <% js_block do %>
@@ -160,12 +167,14 @@ require([
   'jquery' /* $ */,
   'str/htmlEscape' /* htmlEscape, /\$\.h/ */,
   'compiled/registration/registrationErrors',
+  'compiled/pickup_users',
   'jquery.instructure_forms' /* formSubmit */,
   'jqueryui/dialog',
+  'vendor/jquery.spin',
   'compiled/jquery/fixDialogButtons' /* fix dialog formatting */,
   'compiled/jquery.rails_flash_notifications',
   'jquery.templateData' /* fillTemplateData */
-], function(I18n, $, htmlEscape, registrationErrors) {
+], function(I18n, $, htmlEscape, registrationErrors, PickupUsers) {
 
   $(document).ready(function() {
     $(".add_user_link").click(function(event) {
@@ -259,6 +268,44 @@ require([
     });
     $("#add_course_dialog .cancel_button").click(function() {
       $("#add_course_dialog").dialog('close');
+    });
+
+    $('.attach_users_form').formSubmit({
+      beforeSubmit: function(data) {
+        PickupUsers.dialog.spin();
+        PickupUsers.insertButton.attr('disabled', true)
+      },
+      success: function(data) {
+        var message = <%= jt('#accounts.users_attached_message', 'users successfully attached!') %>;
+        $.flashMessage(message);
+        PickupUsers.insertButton.attr('disabled', false)
+        PickupUsers.dialog.spin(false);
+
+        // TODO update dom here
+        window.location.reload();
+      },
+      formErrors: false,
+      error: function(data) {
+        PickupUsers.insertButton.text(<%= jt('#accounts.user_add_failed_message', "Adding User Failed, please try again") %>);
+        PickupUsers.insertButton.attr('disabled', false)
+        PickupUsers.dialog.spin(false);
+      }
+    });
+    PickupUsers.init({
+      insertClick: function() {
+        this.autoClose = false;
+        var emails;
+        emails = this.checked().map(function(index, el) {
+          return $(el).val();
+        }).get().join(',');
+
+        $('.attach_users_form').find('#user_ids').val(emails);
+        $('.attach_users_form').submit();
+      }
+    });
+    $(document).on('click', '.attach_users_link', function(e){
+      e.preventDefault();
+      PickupUsers.open();
     });
   });
 });

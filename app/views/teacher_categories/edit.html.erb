@@ -1,0 +1,7 @@
+<% content_for :page_title do %><%= t('teacher_category', 'Teacher Category') %><% end %>
+<%
+  add_crumb t(:teacher_category_crumb, "Teacher Category")
+%>
+<h1> <%= t('title', 'Edit Teacher Categories') %></h1>
+
+<%= render 'form' %>

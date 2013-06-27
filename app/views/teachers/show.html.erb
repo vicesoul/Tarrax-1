@@ -1,0 +1,67 @@
+<% content_for :page_title do %><%= t('teacher', 'Teacher') %><% end %>
+<%
+  add_crumb t(:teacher_crumb, "Teacher")
+%>
+<h1> <%= t('title', 'Teacher') %></h1>
+
+<p>
+  <b><%= t('teacher_cateogry', 'Teacher category') %>:</b>
+  <%= @teacher.teacher_category.try :name %>
+</p>
+
+<p>
+  <b><%= t('teacher_rank', 'Teacher rank') %>:</b>
+  <%= @teacher.teacher_rank.try :name %>
+</p>
+
+<p>
+  <b><%= t('internal', 'Internal') %>:</b>
+  <%= @teacher.internal %>
+</p>
+
+<p>
+  <b><%= t('name', 'Name') %>:</b>
+  <%= @teacher.name %>
+</p>
+
+<p>
+  <b><%= t('sex', 'Sex') %>:</b>
+  <%= @teacher.sex %>
+</p>
+
+<p>
+  <b><%= t('known_case', 'Known case') %>:</b>
+  <div class="well">
+    <%= @teacher.known_case.html_safe %>
+  </div>
+</p>
+
+<p>
+  <b><%= t('specialty_intro', 'Specialty intro') %>:</b>
+  <div class="well">
+    <%= @teacher.specialty_intro.html_safe %>
+  </div>
+</p>
+
+<p>
+  <b><%= t('birthday', 'Birthday') %>:</b>
+  <%= @teacher.birthday %>
+</p>
+
+<p>
+  <b><%= t('email', 'Email') %>:</b>
+  <%= @teacher.email %>
+</p>
+
+<p>
+  <b><%= t('mobile', 'Mobile') %>:</b>
+  <%= @teacher.mobile %>
+</p>
+
+<p>
+  <b><%= t('pay_amount', 'Pay amount') %>:</b>
+  <%= @teacher.pay_amount %>
+</p>
+
+<%= link_to t('links.edit', 'Edit'), edit_account_teacher_path(@context, @teacher) %> |
+<%= link_to t('links.back', 'Back'), account_teachers_path %>

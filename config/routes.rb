@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+
   map.resources :sales
   map.courses_to_be_attended 'courses_to_be_attended', :controller => :courses, :action => 'to_be_attended'
 
@@ -435,6 +436,10 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :accounts, :member => { :statistics => :get } do |account|
+    account.resources :teachers
+    account.resources :teacher_ranks
+    account.resources :teacher_categories
+    account.attach_users 'attach_users', :controller => 'accounts', :action => 'attach_users'
     account.advanced_users 'advanced_users', :controller => 'users', :action => 'advanced_index'
 
     account.active_or_forzen_user_by_account 'active_or_forzen_user_by_account/:user_id/:op_account_id/:state', :controller => 'users', :action => 'active_or_forzen_user_by_account'

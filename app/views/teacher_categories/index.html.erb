@@ -1,0 +1,24 @@
+<% content_for :page_title do %><%= t('teacher_category', 'Teacher Category') %><% end %>
+<%
+  add_crumb t(:teacher_category_crumb, "Teacher Category")
+%>
+<h1> <%= t('title', 'Listing Teacher Categories') %></h1>
+
+<table class="table table-striped table-hover">
+  <tr>
+    <th><%= t('name', 'Name') %></th>
+  </tr>
+
+<% @teacher_categories.each do |teacher_category| %>
+  <tr>
+    <td><%=h teacher_category.name %></td>
+    <td><%= link_to t('links.show', 'Show'), [@context, teacher_category ] %></td>
+    <td><%= link_to t('links.edit', 'Edit'), edit_account_teacher_category_path(@context, teacher_category) %></td>
+    <td><%= link_to t('links.destroy', 'Destroy'), [@context, teacher_category ], :confirm => t('are_you_sure', 'Are you sure?'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to t('links.new_teacher_category', 'New teacher_category'), new_account_teacher_category_path %>

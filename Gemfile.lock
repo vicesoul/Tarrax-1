@@ -21,6 +21,7 @@ GEM
       rake (>= 0.9.2)
     authlogic (2.1.3)
       activesupport
+    awesome_print (1.1.0)
     aws-s3-instructure (0.6.2.1352914936)
       builder
       mime-types
@@ -261,6 +262,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on (~> 2.1.0)
   authlogic (= 2.1.3)
+  awesome_print
   aws-s3-instructure (= 0.6.2.1352914936)
   barby (= 0.5.0)
   bcrypt-ruby (= 3.0.1)
