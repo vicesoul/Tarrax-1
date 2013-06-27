@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   include UserFollow::FollowedItem
   include Jxb::Base::User
 
+  custom_sort_by
+
   attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type, :birthday, :mobile_phone, :job_number, :job_position_id, :external, :source, :tags
   attr_accessor :original_id, :menu_data, :job_number, :job_position_id, :external, :source, :tags
 

@@ -16,8 +16,15 @@ class CaseIssuesController < ApplicationController
   # GET /case_issues
   # GET /case_issues.xml
   def index
-    conditions = ['1=1']
-    @case_issues = CaseIssue.find_all_by_case_repostory_id(Course.find(params[:context_id]).case_repostory.id, :conditions => conditions, :order => 'updated_at DESC')
+    case_repostory_id = Course.find(params[:context_id]).case_repostory.id
+    search_params =
+      if params[:search].nil?
+        {:case_repostory_id_equals => case_repostory_id}
+      else
+        params[:search].merge!(:case_repostory_id_equals => case_repostory_id)
+      end
+    @search = CaseIssue.search(search_params)
+    @case_issues = @search.paginate(:page => params[:page], :per_page => 25, :total_entries => @search.size)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -89,16 +96,22 @@ class CaseIssuesController < ApplicationController
   end
 
   def apply_case_issue
+    result = false
     issue = CaseIssue.find(params[:case_issue_id])
     if issue.state == :accepted  
-      solution = CaseSolution.new(
-        :case_issue => issue,
-        :user => @current_user,
-        :group_discuss => params[:group_discuss] == nil ? false : params[:group_discuss]
-      )
-      result = solution.save
-      #TODO create group if group discuess necessary 
-      solution.execute if result
+      CaseSolution.transaction do
+        solution = CaseSolution.new(
+          :case_issue => issue,
+          :user => @current_user,
+          :group_discuss => params[:group_discuss] == nil ? false : params[:group_discuss]
+        )
+        result = solution.save
+        if result && solution.group_discuss
+          group = @context.groups.create(:name => params[:group_name])
+          group.group_memberships.create(:user => @current_user, :moderator => false)
+        end
+        solution.execute if result
+      end
       render :json => result.to_json
     else
       render :json => false

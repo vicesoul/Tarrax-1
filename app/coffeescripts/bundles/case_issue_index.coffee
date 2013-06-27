@@ -53,10 +53,14 @@ require [
 
     $('.issue-apply').bind('click' , ->
         _this = this
+        if $('#case-apply-dialog input:checked').val() is 'true'
+          $('#case-apply-group-name input').val($(_this).attr('issue_subject')+"讨论组").parent().show()
+        else
+          $('#case-apply-group-name').hide()
         $('#case-apply-dialog').easyDialog({
           confirmButtonClass: 'btn-primary'
           confirmCallback: ->
-            $.get(_this.href + '?group_discuss=' + $('#case-apply-dialog input:checked').val(), (data)->
+            $.get(_this.href + '?group_discuss=' + $('#case-apply-dialog input:checked').val()+'&group_name='+$('#case-apply-group-name input').val(), (data)->
               if data
                 $('<div></div>').easyDialog({
                   content: '申领案例成功！'
@@ -71,5 +75,13 @@ require [
             )
         }, 'confirm')
         return false
-      )
+    )
+
+    $('#case-apply-dialog input[type=radio]').bind('click', ->
+      if $(this).val() is 'true'
+        $('#case-apply-group-name').show()
+      else
+        $('#case-apply-group-name').hide()
+    )
+
   )

@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
   around_filter :set_locale
 
   helper :all
+  helper_method :sort_column, :sort_direction
+
   include UrlHelper
 
   include AuthenticationMethods
@@ -1484,4 +1486,15 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def sort_column
+    params[:sort].present? ? params[:sort] : "updated_at"
+  end
+  protected :sort_column
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+  protected :sort_direction
+
 end

@@ -3,13 +3,42 @@
 <%= link_to 'New case_issue', new_course_case_issue_path %>
 
 <% unless @case_issues.empty? %>
+  <div>
+    <% form_for @search, :url => course_case_issues_path do |f| %>
+      <div>
+          <ul>
+            <li>
+              <label><%= t 'selector.subject', 'Subject' %>:</label>
+              <%= f.text_field :subject_like %>
+            </li>
+            <li>
+              <label><%= t 'selector.author', 'Author' %>:</label>
+              <%= f.text_field :user_name_like %>
+            </li>
+            <li>
+              <label><%= t 'selector.state', 'State' %>:</label>
+              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'new', nil %> <%= t '', 'New' %>
+              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'awaiting_review', nil %> <%= t '', 'Awaiting Review' %>
+              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'accepted', nil %> <%= t '', 'Accepted' %>
+              <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '', 'Rejected' %>
+            </li>
+            <li>
+              <label> </label>
+              <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
+            </li>
+           </ul>
+      </div>
+    <% end %>
+  </div>
+  <!-- Don't modify if you expect the correct pagination when using sort -->
+  <%= pagination = will_paginate(@case_issues) %>
   <table class="table table-striped table-bordered">
     <tr>
-      <th><%= t '', 'Subject' %></th>
-      <th><%= t '', 'State' %></th>
-      <th><%= t '', 'Author' %></th>
+      <th><%= sortable_for_searchlogic('subject', (t '', 'Subject')) %></th>
+      <th><%= sortable_for_searchlogic('workflow_state', (t '', 'State')) %></th>
+      <th><%= sortable_for_searchlogic('name', (t '', 'Author'), 'user_sort_by_custom') %></th>
       <th><%= t '', 'Solutions' %></th>
-      <th><%= t '', 'Update At' %></th>
+      <th><%= sortable_for_searchlogic('updated_at', (t '', 'Update At')) %></th>
       <th><%= t '', 'Operation' %></th>
     </tr>
 
@@ -36,7 +65,7 @@
           <%= link_to 'Review' , course_case_issue_review_path(@context, case_issue),{:class => 'issue-review'} %> |
         <% end %>
         <% if case_issue.accepted? %>
-          <%= link_to 'Apply' , course_case_issue_apply_path(@context, case_issue.id), {:class => 'issue-apply'} %> |
+          <%= link_to 'Apply' , course_case_issue_apply_path(@context, case_issue.id), {:issue_subject => case_issue.subject, :class => 'issue-apply'} %> |
         <% end %>
         <% if case_issue.new? && case_issue.user.id == @current_user.id %>
           <%= link_to 'Edit', edit_course_case_issue_path(@context, case_issue) %> |
@@ -46,6 +75,7 @@
     </tr>
   <% end %>
   </table>
+  <%= pagination %>
 <% else %>
   <div>
     <%= t '', 'Empty case issues' %>
@@ -63,4 +93,7 @@
   <%= t '', 'Group Discuss' %>
   <input type="radio" name="group_discuss" value="true" checked="true"><%= t '', 'Yes' %>
   <input type="radio" name="group_discuss" value="false"><%= t '', 'No' %>
+  <div id="case-apply-group-name" style="display:none">
+    <input type="text" name="group_name" />
+  </div>
 </div>

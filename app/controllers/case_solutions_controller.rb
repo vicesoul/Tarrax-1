@@ -15,7 +15,15 @@ class CaseSolutionsController < ApplicationController
   # GET /case_solutions
   # GET /case_solutions.xml
   def index
-    @case_solutions = CaseSolution.find_all_by_case_issue_id(params[:case_issue_id])
+    search_params =
+      if params[:search].nil?
+        {:case_issue_id_equals => params[:case_issue_id]}
+      else
+        params[:search].merge!(:case_issue_id_equals => params[:case_issue_id])
+      end
+    @search = CaseSolution.search(search_params)
+    @case_solutions = @search.paginate(:page => params[:page], :per_page => 25, :total_entries => @search.size)
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @case_solutions }

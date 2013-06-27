@@ -88,7 +88,6 @@ class UsersController < ApplicationController
   include DeliciousDiigo
   include SearchHelper
 
-  helper_method :sort_column, :sort_direction
 
   before_filter :require_user, :only => [:grades, :merge, :kaltura_session, :ignore_item, :ignore_stream_item, :close_notification, :mark_avatar_image, :user_dashboard, :toggle_dashboard, :masquerade, :external_tool]
   before_filter :require_registered_user, :only => [:delete_user_service, :create_user_service]
@@ -1499,16 +1498,6 @@ class UsersController < ApplicationController
     end
 
     data.values.sort_by { |e| e[:enrollment].user.sortable_name.downcase }
-  end
-
-  private
-
-  def sort_column
-    params[:sort].present? ? params[:sort] : "updated_at"
-  end
-
-  def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
   end
 
 end
