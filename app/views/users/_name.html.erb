@@ -32,7 +32,7 @@
       </tr>
       <tr>
         <th><%= before_label('job_number', 'Job Number') %></th>
-        <td class="job_number"><%=h user_account_association.job_number %></td>
+        <td class="job_number"><%=h user_account_association.try(:job_number) %></td>
       </tr>
       <tr>
         <th><%= before_label('job_position_id', 'Job Position') %></th>
@@ -40,21 +40,21 @@
       </tr>
       <tr>
         <th><%= before_label('external', 'External') %></th>
-        <td class="external"><%=h user_account_association.external ? 'yes' : 'no' %></td>
+        <td class="external"><%=h user_account_association.try(:external) ? 'yes' : 'no' %></td>
       </tr>
       <tr>
         <th><%= before_label('tags', 'Tags') %></th>
         <td class="tags">
-          <%=h user_account_association.tag_list %>
+          <%=h user_account_association.try(:tag_list) %>
         </td>
       </tr>
       <tr>
         <th><%= before_label('state', 'State') %></th>
-        <td class="state"><%=h format_state(user_account_association.state)%></td>
+        <td class="state"><%=h format_state(user_account_association.try(:state))%></td>
       </tr>
       <tr>
         <th><%= before_label('source', 'Source') %></th>
-        <td class="source"><%=h user_account_association.source %></td>
+        <td class="source"><%=h user_account_association.try(:source) %></td>
       </tr>
       <% if service_enabled?(:avatars) %>
         <tr>

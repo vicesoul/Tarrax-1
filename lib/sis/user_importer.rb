@@ -106,10 +106,10 @@ module SIS
             user_id, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id = user_row
 
             # TODO pseudonym-account
-            pseudo = @root_account.pseudonyms.find_by_sis_user_id(user_id.to_s)
-            pseudo_by_login = @root_account.pseudonyms.active.by_unique_id(login_id).first
+            pseudo = Account.default.pseudonyms.find_by_sis_user_id(user_id.to_s)
+            pseudo_by_login = Account.default.pseudonyms.active.by_unique_id(login_id).first
             pseudo ||= pseudo_by_login
-            pseudo ||= @root_account.pseudonyms.active.by_unique_id(email).first if email.present?
+            pseudo ||= Account.default.pseudonyms.active.by_unique_id(email).first if email.present?
 
             if pseudo
               if pseudo.sis_user_id.present? && pseudo.sis_user_id != user_id
@@ -156,7 +156,7 @@ module SIS
             pseudo ||= Pseudonym.new
             pseudo.unique_id = login_id unless pseudo.stuck_sis_fields.include?(:unique_id)
             pseudo.sis_user_id = user_id
-            pseudo.account = @root_account
+            pseudo.account = Account.default
             pseudo.workflow_state = status_is_active ? 'active' : 'deleted'
             if pseudo.new_record? && status_is_active
               should_add_account_associations = true
@@ -210,7 +210,7 @@ module SIS
                   :job_number => job_number,
                   :external => external,
                   :tags => tags.nil? ? '' : tags.split(';'),
-                  :source => 'created',
+                  :source => 'imported',
                   :state => state 
                 }
                 unless associate_account
