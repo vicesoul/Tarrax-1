@@ -12,7 +12,10 @@
   <% end %>
   <% if show_user %>
     <a href="#" class="add_user_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:add_user_link, "Add a New User") %></a>
-    <a href="#" class="attach_users_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:attach_users_link, "Attach Users") %></a>
+
+    <% if @current_user.admin_of_account? @account.root_account %>
+      <a href="#" class="attach_users_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:attach_users_link, "Attach Users") %></a>
+    <% end %>
   <% end %>
 </div>
 
@@ -157,7 +160,10 @@
     <%= hidden_field_tag :user_ids %>
   <% end %>
 </div>
-<%= render :partial => 'shared/pickup_users', :locals => {:account => @account.root_account} %>
+
+<% if @current_user.admin_of_account? @account.root_account %>
+  <%= render :partial => 'shared/pickup_users', :locals => {:account => @account.root_account} %>
+<% end %>
 
 <% js_bundle :user_sortable_name %>
 <% js_block do %>

@@ -16,6 +16,10 @@ module Jxb
       def jxb_admin?
         ::Account.default.account_users_for(self).any? {|i| i.membership_type == 'AccountAdmin'}
       end
+
+      def admin_of_account? account
+        account.account_users_for(self).any? {|i| i.membership_type == 'AccountAdmin'}
+      end
     end
   end
 end

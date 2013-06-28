@@ -741,7 +741,7 @@ module ApplicationHelper
   end
 
   def show_home_menu?
-    @current_user.set_menu_data(session[:enrollment_uuid])
+    #@current_user.set_menu_data(session[:enrollment_uuid])
     [
       @current_user.menu_courses(session[:enrollment_uuid]),
       @current_user.accounts,

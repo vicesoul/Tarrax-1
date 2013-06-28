@@ -24,6 +24,7 @@
     @body_classes << @active_tab
   end
 
+  @current_user && @current_user.set_menu_data(session[:enrollment_uuid])
 -%>
 <% content_for :head do %>
   <%= include_stylesheets :common, :media => "all" %>
@@ -65,10 +66,10 @@
         <li id="calendar_menu_item" class="menu-item">
           <a href="/dashboard" class="menu-item-no-drop"><%= t('menu.my_homepage', 'My Homepage') %></a>
         </li>
+        <li id="switch_root_accounts" class="menu-item">
+          <%= render :partial => 'shared/menu_switch_accounts' %>
+        </li>
         <%- if show_home_menu? -%>
-          <li id="switch_root_accounts" class="menu-item">
-            <%= render :partial => 'shared/menu_switch_accounts' %>
-          </li>
           <li id="courses_menu_item" class="menu-item">
             <%= render(:partial => 'shared/home_menu') %>
         <%- else  -%>
