@@ -76,6 +76,7 @@
 <% else %>
   <%= t 'empty_users', 'Empty users' %> 
 <% end %>
+<div id="jxb-message-dialog"></div>
 <% js_block do %>
 <script type="text/javascript">
 require([
@@ -93,6 +94,7 @@ require([
         $('#jxb-message-dialog').easyDialog({
           title: "<%= t 'js.user_state_modify_tip', 'Edit user state' %>",
           content: text,
+          confirmButtonClass: 'btn-primary',
           confirmCallback: function(){
             $.getJSON(_this.attr('link'), function(data){
               if(data.flag) {
