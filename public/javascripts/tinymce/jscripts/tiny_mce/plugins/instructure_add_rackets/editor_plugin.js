@@ -1,8 +1,7 @@
 define([
   'compiled/editor/stocktiny',
   'i18n!editor',
-  'jquery',
-  'jqueryui/position'
+  'jquery'
 ], function(tinymce, I18n, $) {
 var addRackets = false;
   tinymce.create('tinymce.plugins.InstructureAddRackets',  {
@@ -10,58 +9,31 @@ var addRackets = false;
       ed.addCommand('instructureAddRackets', function() {
 
       var $editorIframe = $("#" + ed.id + "_ifr").contents(),
-          $editorIframeSelf = $("#" + ed.id + "_ifr"),
           $editorBody = $editorIframe.find("body#tinymce"),
           $editor = $("#" + ed.id),
           $icon = $("#" + ed.id + "_instructure_add_rackets");
 
-
           addRackets = !addRackets;
-          if($("#bracketTip").size() == 0){
-            var $cube = $("<div id='bracketTip' style='width: 30px;height: 30px; background: green;z-index: 1001;display: none;position: absolute;'></div>").appendTo("body")
-          }
 
-          var bracketTip = function (event){
-            var marginLeft = 0;
-            var marginTop = 0;
-            if($(this).find("body").is("#tinymce")){
-              var position = $editorIframeSelf.parent(".mceIframeContainer").offset();
-              marginLeft = position.left;
-              marginTop= position.top;
-            }
-            $("#bracketTip").css({
-              left: event.pageX + marginLeft + 10,
-              top: event.pageY + marginTop
-            });
-          };
-
-          $editorBody.on("mouseenter.bracketBody", function(){
-            $("#bracketTip").show()
-          })
-          $editorBody.on("mouseleave.bracketBody", function(){
-            $("#bracketTip").hide()
-          })
           if(addRackets){
               addRackets = true;
               $icon.css({
                   "opacity":1
               });
-
               $editorBody.on("mouseup",addRacket);
+              $editorBody.css({
+                cursor: "url(/javascripts/tinymce/jscripts/tiny_mce/plugins/instructure_add_rackets/img/icon.png)"
+              })
 
-              $("#bracketTip").show();
-              $editorIframe.on("mousemove.bracket", bracketTip);
           }else{
               addRackets = false;
-
               $icon.css({
                   "opacity":0.5
               });
               $editorBody.off("mouseup");
-
-              $("#bracketTip").hide();
-              $editorIframe.off(".bracketBody");
-              $editorBody.off(".bracketBody");
+              $editorBody.css({
+                cursor: "auto"
+              })
 
           }
 
@@ -70,7 +42,7 @@ var addRackets = false;
           function checkChinese(str){  
               var reg=/[\u4E00-\u9FA5]/g;
               return(reg.test(str));
-            }
+          }
 
           function addRacket() {
               var selectedText = ed.selection.getContent();
