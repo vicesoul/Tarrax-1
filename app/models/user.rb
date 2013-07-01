@@ -1903,7 +1903,7 @@ class User < ActiveRecord::Base
     appointment_groups = AppointmentGroup.manageable_by(self, context_codes).intersecting(now, opts[:end_at]).scoped(:limit => opts[:limit])
     appointment_groups.each { |ag| ag.context = ag.contexts_for_user(self).first }
     events += appointment_groups
-    events.sort_by{|e| [e.start_at, e.title] }.uniq.first(opts[:limit])
+    events.sort_by{|e| [e.start_at || 100.years.from_now, e.title] }.uniq.first(opts[:limit])
   end
 
   def select_upcoming_assignments(assignments,opts)
