@@ -66,11 +66,11 @@ require([
       required: ['account_notification_category[name]'],
       beforeSubmit: function(data) {
         $(this).find("button").attr('disabled', true)
-          .filter(".submit_button").text(<%= jt('save_category', "Saving Notification Category") %>);
+          .filter(".submit_button").text(<%= jt('save_category', "Save Category") %>);
       },
       success: function(data) {
         $(this).find("button").attr('disabled', false)
-          .filter(".submit_button").text(<%= jt('title.add_new_category', "Save a Notification Category") %>);
+          .filter(".submit_button").text(<%= jt('title.add_new_category', "Add a New Notification Category") %>);
         var message = data.flag ? <%= jt('tip.add_category_successfully', 'Add category successfully') %> : <%= jt('tip.add_category_failure', 'Add category failure') %>;
         if($('#hidden-category-id').val()){
           message = data.flag ? <%= jt('tip.edit_catgory_successfully', 'Edit category successfully') %> : <%= jt('tip.edit_catgory_failure', 'Edit category failure') %>;
