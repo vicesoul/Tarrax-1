@@ -18,6 +18,12 @@ module Jxb
       #   ture - succeed
       #   false - failed
       def attach_users user_ids, opts = {}
+        # filter already associated user ids
+        user_ids = user_ids.select {|uid| user_account_associations.find_by_user_id(uid).nil? }
+
+        # do nothing if empty
+        return [] if user_ids.empty?
+
         special_associations = ::User.calculate_account_associations_from_accounts([self])
         ::User.update_account_associations(
           user_ids,
@@ -25,6 +31,8 @@ module Jxb
           :incremental => true,
           :precalculated_associations => special_associations
         )
+
+        return user_ids
       end
     end
   end
