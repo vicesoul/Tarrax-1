@@ -624,9 +624,9 @@ class AccountsController < ApplicationController
   def attach_users
     user_ids = params[:user_ids].split(',')
 
-    @account.attach_users user_ids
+    user_ids = @account.attach_users user_ids
     respond_to do |format|
-      format.json { head :ok }
+      format.json { render :json => user_ids }
     end
   end
 end
