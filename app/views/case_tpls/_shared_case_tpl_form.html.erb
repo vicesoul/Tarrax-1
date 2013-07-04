@@ -4,8 +4,21 @@
     <% case_tpl.case_tpl_widgets.each do |w| %>
       <% fields_for "case_tpl_widget[]", w do |widget| %>
       <div class='case-tpl'>
-        <div class='control-group'><%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %></div>
-        <div class='control-group'><%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => w.body, :class => "main_textY" } %></div>
+        <div class='control-group'>
+          <% if @is_ajax %>
+            <%= w.title %>
+          <% else%>
+            <%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %>
+          <% end %>
+        </div>
+      <div class='control-group'>
+        <% if @is_ajax %>
+          <div><%= raw w.body %></div>
+          <%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => '', :class => "main_textY" } %>
+        <% else %>
+          <%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => w.body, :class => "main_textY" } %>
+        <% end %>
+      </div>
         <div class='control-group'><%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %></div>
         <% if params[:context_type] == 'Account' %>
           <div class='control-group'><button class="remove-me btn btn-inverse"><i class="icon-trash"></i><%= t 'remove_me', 'Remove Me'%></button></div>

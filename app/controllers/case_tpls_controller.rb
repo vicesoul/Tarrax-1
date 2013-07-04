@@ -8,6 +8,7 @@ class CaseTplsController < ApplicationController
 
   def get_account_case_tpl
    @case_tpl = CaseTpl.find(params[:id])
+   @is_ajax = true
    render :layout => false
   end
 

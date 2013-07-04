@@ -2682,7 +2682,7 @@ class Course < ActiveRecord::Base
 
   def self.default_case_tabs
     [
-      { :id => TAB_CASE_ISSUES, :label => t('#tabs.case_issue', "Case Collection Repostory"), :css_class => 'case_repostory', :href => :course_case_issues_path },
+      { :id => TAB_CASE_ISSUES, :label => t('#tabs.case_issue', "Case Collection Repostory"), :css_class => 'case_issue', :href => :course_case_issues_path },
       { :id => TAB_PEOPLE, :label => t('#tabs.people', "People"), :css_class => 'people', :href => :course_users_path },
       { :id => TAB_SETTINGS, :label => t('#tabs.case_settings', "Settings"), :css_class => 'settings', :href => :course_settings_path }
     ]
