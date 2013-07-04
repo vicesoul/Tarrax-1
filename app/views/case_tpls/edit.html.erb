@@ -9,10 +9,14 @@
 
   <%= render :partial => 'form', :locals => {:f => f } %>
   <p>
-    <%= f.submit t('#buttons.update', 'Update'), :class => 'btn btn-primary' %>
+		<button class="btn btn-primary"><i class='icon-refresh'></i> <%=  t('#buttons.update', 'Update') %> </button>
   </p>
 <% end %>
 
 <%= render :partial => 'hidden_element' %>
 
-<%= link_to t('#buttons.back', 'Back'), account_case_tpls_path, :class => 'btn' %>
+
+<% link_to account_case_tpls_path(), {:class => 'btn'} do %>
+  <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+<% end %>
+

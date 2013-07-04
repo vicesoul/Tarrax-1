@@ -4,7 +4,7 @@ require [
   'tinymce.editor_box'
 ], ($) ->
   $ ->
-    $(".main_textY").editorBox tinyOptions:
+    $("#case-tpl-widget textarea").editorBox tinyOptions:
       width: '100%'
 
     $('#new-module').on 'click',  (e)->
@@ -19,7 +19,7 @@ require [
       $('#case-tpl-widget').find('input[name="case_tpl_widget[][seq]"]:last').val(-(-lastSeqVal)+1)
 
     $('.remove-me').live 'click', ->
-      $(this).parent('div:first').remove()
+      $(this).parents('.case-tpl').remove()
       return false
 
     $('#tpl-selector').on 'change', ->

@@ -1,8 +1,10 @@
 
-<div id="hidden-tpl" style="display:none;">
-  <button class="remove-me"><%= t 'remove_me', 'Remove Me' %></button>
-  <div><input name="case_tpl_widget[][title]" size="30" type="text" value="<%= t 'custom_title', 'Custom Title' %>"></div>
-  <div><textarea  name="case_tpl_widget[][body]" class="main_text"></textarea></div>
+<div id="hidden-tpl" class="case-tpl" style="display:none;">
+  <div class='control-group'>
+    <input name="case_tpl_widget[][title]" type="text" value="<%= t 'custom_title', 'Custom Title' %>">
+    <button class="remove-me btn btn-inverse right"><i class="icon-trash"></i> <%= t 'remove_me', 'Remove Me'%></button>
+  </div>
+  <div class='control-group'><textarea name="case_tpl_widget[][body]" class="main_text"></textarea></div>
   <input name="case_tpl_widget[][seq]" type="hidden">
 </div>
 <%
