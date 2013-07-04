@@ -6166,18 +6166,13 @@ zh-CN:
       title: 编辑学习计划
     errors: 
       update_failed: 更新学习计划失败，请重试
-    form: 
-      labels: 
-        course_name: 课程名
-        end_on: 结束日期
-        start_on: 开始日期
-        user_name: 用户名
     index: 
       course_count: 课程数
       end_on: 结束日期
       learning_plans: 学习计划
       learning_plans_crumb: 学习计划
       new_plan: 新增学习计划
+      pickup_section_description: 用户会自动被添加到所属的相应的班级。
       start_on: 开始日期
       status: 状态
       subject: 标题
@@ -6199,6 +6194,7 @@ zh-CN:
       course_category: 课程分类
       job_position: 岗位
       title: 挑选课程
+    pickup_section_names: 选取班级名称
     plan_form: 
       course: 
         name: 课程名称
