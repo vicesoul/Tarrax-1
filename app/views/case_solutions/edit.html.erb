@@ -3,9 +3,20 @@
 <% form_for(@case_solution, :url => course_case_issue_case_solution_url(@context, params[:case_issue_id]), :html => {:method => 'PUT'} ) do |f| %>
   <%= f.error_messages %>
 
-  <div><%= t 'issue', 'Case Issue' %>: <%= @case_solution.case_issue.subject %></div>
-  <div><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></div>
-  <div><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></div>
+  <!-- 案例问题 start --> 
+  <div>
+    <% case_issue = @case_solution.case_issue %>
+    <div>
+      <%= case_issue.subject %>
+    </div>
+    <div>
+      <% case_issue.case_tpl.case_tpl_widgets.each do |w|%> 
+        <div><%= raw w.title %></div>
+        <div><%= raw w.body %></div>
+      <% end %>
+    </div>
+  </div>
+  <!-- 案例问题 end --> 
   <div><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></div>
   <div>
     <%= t 'title', 'Title' %>: <%= f.text_field :title %>

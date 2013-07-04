@@ -154,7 +154,7 @@ class CaseIssuesController < ApplicationController
   private
 
   def set_active_tab
-    @active_tab = "case_repostory"
+    @active_tab = "case_issue"
   end
 
   def get_bread_crumb

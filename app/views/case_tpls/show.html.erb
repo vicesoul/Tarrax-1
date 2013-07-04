@@ -6,8 +6,8 @@
 <div>
   <% @case_tpl.case_tpl_widgets.each do |w| %>
     <div>
-      <div><%= w.title %></div>
-      <div><%= w.body %></div>
+      <div><%= raw w.title %></div>
+      <div><%= raw w.body %></div>
     </div>
   <% end %>
 </div>

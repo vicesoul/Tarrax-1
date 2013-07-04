@@ -1,19 +1,22 @@
 --- 
 zh-CN: 
   case_tpls:
+    bread_crumb:
+      case_tpl: 案例模板
     save_successfully: 案例模板保存成功
     model_init:
       default_tpl: 默认案例模板
       tpl: 案例模板
-      subject: 主题
-      body: 内容
-      content: 正文
+      subject: 板块主题
+      body: 正文
+      content: 板块说明
     index:
       new_tpl: 新建案例模板
       headings:
         name: 模板名
         author: 作者
         op: 操作
+        updated_at: 更新时间
       empty_tpls: 没有案例模板
     new:
       new_tpl: 新建案例模板
@@ -26,12 +29,13 @@ zh-CN:
       edit_tpl: 编辑案例模板
     hidden_element:
       remove_me: 移除
-      custom_title: 自定义标题
-      custom_content: 自定义内容
+      custom_title: 自定义主题
+      custom_content: 自定义正文
     show:
       tpl_name: 模板名
       author: 作者
       updated_at: 更新时间
+      current_solutions: 当前的解决方案
 
   case_issues:
     model_init:
@@ -87,6 +91,9 @@ zh-CN:
       author: 作者
       updated_at: 更新时间
       template: 模板
+      solution_author: 作者
+      solution_updated_at: 更新时间
+      solution_state: 状态
   case_solutions:
     ya: 是
     not: 否
@@ -647,6 +654,7 @@ zh-CN:
       ip_filter_filter_label: IP限制
       ip_filter_name_label: 名称
       job_position_management_fieldset: 岗位管理
+      case_tpl_management_fieldset: 案例模板管理
       tip:
         select_account_notification_category: 请选择公告分类
       labels: 
@@ -11325,8 +11333,10 @@ zh-CN:
     profile: 个人资料
     quizzes: 测试
     settings: 课程管理
+    case_settings: 案例管理
     syllabus: 纲要
     case_repostory: 案例征集库
+    case_issue: 案例问题
   terms: 
     index: 
       date: 

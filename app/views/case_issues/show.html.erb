@@ -7,11 +7,30 @@
   <span><%= t('template', 'Template') %>:</span>
   <% @case_issue.case_tpl.case_tpl_widgets.each do |w| %>
     <div style="width:200px;border-bottom:thick dotted #ff0000;">
-      <div><%= w.title %></div>
-      <div><%= w.body %></div>
+      <div><%= raw w.title %></div>
+      <div><%= raw w.body %></div>
     </div>
   <% end %>
 </p>
+
+<% unless @case_issue.case_solutions.empty? %>
+  <div><h3><%= t 'current_solutions', 'Current Solutions' %>:</h3></div>
+  <div>
+    <% @case_issue.case_solutions.each_with_index do |s, i| %> 
+      No<%= i + 1 %>:
+      <% if s.title.present? && s.content.present? %>
+        <div><%= t 'solution_author', 'Author' %>: <%= s.user.name %></div>
+        <div><%= t 'solution_updated_at', 'Updated At' %>: <%= s.updated_at.to_s(:db) %></div>
+        <div><%= t 'solution_state', 'State' %>: <%= CaseSolution.display_state[s.workflow_state] %></div>
+        <div>
+          <div><%= raw s.title %></div>
+          <div><%= raw s.content %></div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
 <% if @case_issue.new? && can_do(@context, @current_user, :operate_case_as_student) %>
   <%= link_to t('#buttons.edit', 'Edit'), edit_course_case_issue_path(@context, @case_issue) %> |
 <% end %>

@@ -47,7 +47,7 @@
 
     <% @case_solutions.each do |case_solution| %>
       <tr>
-      <td><%= link_to case_solution.title, course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
+      <td><%= link_to (case_solution.title || '-'), course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
       <td><%= CaseSolution.display_state[case_solution.workflow_state] %></td>
       <td><%= case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></td>
       <td><%= case_solution.user.name %></td>

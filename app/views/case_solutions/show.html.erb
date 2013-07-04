@@ -1,14 +1,25 @@
 
 <div>
-  <p><%= t 'issue', 'Case Issue' %>: <%= @case_solution.case_issue.subject %></p>
   <p><%= t 'state', 'State' %>: <%= CaseSolution.display_state[@case_solution.workflow_state] %></p>
   <p><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></p>
   <p><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></p>
   <p><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></p>
-  <p><%= t 'title', 'Title' %>: <%= @case_solution.title %></p>
 </div>
+<!-- 案例问题 start -->
 <div>
-  <p><%= t 'content', 'Content' %>: <%= @case_solution.content %></p>
+  <% case_issue = @case_solution.case_issue %>
+  <div><%= case_issue.subject %></div>
+  <div>
+    <% case_issue.case_tpl.case_tpl_widgets.each do |w| %>
+      <div><%= raw w.title %></div>      
+      <div><%= raw w.body %></div>      
+    <% end %>
+  </div>
+</div>
+<!-- 案例问题 end -->
+<div>
+  <p><%= t 'title', 'Title' %>: <%= raw @case_solution.title %></p>
+  <p><%= t 'content', 'Content' %>: <%= raw @case_solution.content %></p>
 </div>
 
 <% if @case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && @case_solution.user.id == @current_user.id %>

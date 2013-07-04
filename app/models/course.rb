@@ -2657,7 +2657,7 @@ class Course < ActiveRecord::Base
   TAB_ANNOUNCEMENTS = 14
   TAB_OUTCOMES = 15
   TAB_COLLABORATIONS = 16
-  TAB_CASE_COLLECTION_REPOSTORIES = 17
+  TAB_CASE_ISSUES = 17
 
   def self.default_tabs
     [
@@ -2682,10 +2682,9 @@ class Course < ActiveRecord::Base
 
   def self.default_case_tabs
     [
-      { :id => TAB_HOME, :label => t('#tabs.home', "Home"), :css_class => 'home', :href => :course_path },
-      { :id => TAB_CASE_COLLECTION_REPOSTORIES, :label => t('#tabs.case_repostory', "Case Collection Repostory"), :css_class => 'case_repostory', :href => :course_case_issues_path },
+      { :id => TAB_CASE_ISSUES, :label => t('#tabs.case_issue', "Case Collection Repostory"), :css_class => 'case_repostory', :href => :course_case_issues_path },
       { :id => TAB_PEOPLE, :label => t('#tabs.people', "People"), :css_class => 'people', :href => :course_users_path },
-      { :id => TAB_SETTINGS, :label => t('#tabs.settings', "Settings"), :css_class => 'settings', :href => :course_settings_path }
+      { :id => TAB_SETTINGS, :label => t('#tabs.case_settings', "Settings"), :css_class => 'settings', :href => :course_settings_path }
     ]
   end
 

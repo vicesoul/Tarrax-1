@@ -6,7 +6,9 @@
   <%= t 'template', 'Template' %>:
   <div id="tpl-area">
     <% if  @case_issue.case_tpl %>
-      <h3><%= t 'warn_tpl', "Warning: Your account don't has a case templates, so using default case template to create an issue." %></h3>
+      <% unless @case_issue.id %>
+        <h3><%= t 'warn_tpl', "Warning: Your account don't has a case templates, so using default case template to create an issue." %></h3>
+      <% end %>
 
       <%= render :partial => 'case_tpls/shared_case_tpl_form', :locals => {:case_tpl => @case_issue.case_tpl} %>
 
