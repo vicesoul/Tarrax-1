@@ -1,4 +1,4 @@
-<tr data-id="<%= learning_plan.id %>">
+<tr id='tr_plan_<%= learning_plan.id %>' data-id="<%= learning_plan.id %>" data-tree="<%= learning_plan.account_tree.to_json %>">
   <td class="subject"> <%= link_to learning_plan.subject, [@account, learning_plan] %></td>
   <td> <%= learning_plan.courses.count %></td>
   <td> <%= learning_plan.users.count %></td>

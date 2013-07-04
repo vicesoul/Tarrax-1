@@ -2,7 +2,11 @@ class LearningPlan < ActiveRecord::Base
   include Workflow
 
   attr_accessible :subject, :start_on, :end_on, :workflow_state, :learning_plan_users_attributes, :learning_plan_courses_attributes
+  attr_accessible :section_mappings
+
   validates_presence_of :subject, :start_on, :end_on
+
+  serialize :section_mappings
 
   belongs_to :account
   has_many :learning_plan_users, :dependent => :destroy
@@ -96,13 +100,24 @@ class LearningPlan < ActiveRecord::Base
       count = 0
       role = enrollment_type_for_name(lpu.role_name)
       self.courses.each do |c|
-        enrollment = c.enroll_user lpu.user, role[:type], {:role_name => role[:name], :learning_plan => self}
-        count += 1 if enrollment.learning_plan_id
+        # decide a section name for user
+        section_name = section_name_from_account_tree lpu.user, self.section_mappings
+
+        # find or create a section if section_name avaliable, otherwise use nil which mean use default section of a course
+        section = section_name && c.course_sections.active.find_or_create_by_name(section_name)
+
+        # enroll user
+        enrollment = c.enroll_user lpu.user, role[:type], {:section => section, :role_name => role[:name], :learning_plan => self}
+
+        # plus count if we build it
+        count += 1 if enrollment.learning_plan_id == self.id # already enrolled or maybe by other plans
       end
 
       if count == self.courses.size
+        # mark it enrolled
         lpu.enroll!
       elsif count > 0
+        # mark it part enrolled
         lpu.part_enroll!
       end
     end
@@ -115,4 +130,53 @@ class LearningPlan < ActiveRecord::Base
       lpu.revert! if lpu.revertable?
     end
   end
+
+  def editable?
+    workflow_state.in? %(initial reverted)
+  end
+
+  def deleteable?
+    workflow_state.in? %(initial reverted)
+  end
+
+  # return accounts including plan users
+  def account_tree
+    @account_tree ||= begin
+      accounts = account.sub_accounts_recursive(1000, 0).map do |a|
+        a unless UserAccountAssociation.find(:all, :conditions => ['account_id = ? AND user_id IN (?)', a.id, users.map(&:id)]).empty?
+      end
+
+      accounts << account
+      accounts.compact!
+
+      tree = build_tree account, accounts
+    end
+  end
+
+  private
+    # recursive method helper to build an account tree
+    # 
+    # account - account as parent node of a tree
+    # white_list - accounts only in white list will be used to build tree
+    # 
+    # hash of tree 
+    def build_tree account, white_list
+      children = []
+      account.sub_accounts.each do |a|
+        children << build_tree(a, white_list) if white_list.include? a
+      end
+
+      {:id => account.id, :name => account.name, :children => children}
+    end
+
+    # decide section name for a user with account ids
+    #
+    # user - User who will attend to a course
+    # account_ids - account ids wich be used to decide a section name user will attend to
+    #
+    # return section name
+    def section_name_from_account_tree user, account_ids
+      uaa = user.user_account_associations.find_all_by_account_id account_ids
+      Account.find(uaa.map(&:account_id).max).name rescue nil # for simple, use max account_id as the deepest account
+    end
 end

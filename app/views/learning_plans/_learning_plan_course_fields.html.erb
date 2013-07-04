@@ -1,6 +1,6 @@
 <tr class="fields">
   <% if f.object.course %>
-    <td> <%= f.object.course.name %> </td>
+    <td> <%= link_to f.object.course.name, f.object.course %> </td>
     <td> <%= f.object.course.teachers.map{|t| t.name}.join ', ' %> </td>
   <% end %>
   <td>

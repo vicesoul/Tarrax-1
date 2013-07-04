@@ -15,7 +15,8 @@ module LearningPlansHelper
   end
 
   def user_accounts(user, account)
-    user.user_account_associations.of_root_account(account).map &:account
+    account_ids = account.sub_accounts_recursive(1000, 0).map &:id
+    user.user_account_associations.filter_by_account_id(account_ids).map &:account
   end
 
   def job_positions_from_user_accounts(user, account)

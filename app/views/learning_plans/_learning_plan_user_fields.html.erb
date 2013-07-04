@@ -1,8 +1,15 @@
+<% 
+  if f.object.user
+    accounts = user_accounts(f.object.user, @account)
+    accounts = accounts.delete_if { |u| u.root_account? } if accounts.size > 1
+  end
+%>
 <tr class="fields">
   <% if f.object.user %>
     <td> <%= f.object.user.name %> </td>
-    <td> <%= user_accounts(f.object.user, @account).map(&:name).join ', ' %> </td>
+    <td> <%= accounts.map(&:name).join ', ' %> </td>
     <td> <%= job_positions_from_user_accounts(f.object.user, @account).map(&:name).join ', ' %> </td>
+    <td> <%= f.object.display_workflow_state %> </td>
   <% end %>
   <td> <%= f.select :role_name, roles_for_account(@account) %></td>
   <td>

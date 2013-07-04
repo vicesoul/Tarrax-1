@@ -51,12 +51,12 @@
     <% if iframe_request? %>
       <td> <%= check_box_tag :teacher, teacher.id, false, "data-email" => teacher.email %></td>
     <% end %>
-    <td><%=h teacher.name %></td>
-    <td><%=h teacher.email %></td>
-    <td><%=h teacher.teacher_category.name %></td>
-    <td><%=h teacher.teacher_rank.name %></td>
-    <td><%=h teacher.internal %></td>
-    <td><%=h teacher.sex %></td>
+    <td><%= teacher.name %></td>
+    <td><%= teacher.email %></td>
+    <td><%= teacher.teacher_category.name %></td>
+    <td><%= teacher.teacher_rank.name %></td>
+    <td><%= teacher.display_internal %></td>
+    <td><%= teacher.display_sex %></td>
     <td><%= link_to t('links.show', 'Show'), [@context, teacher ] %></td>
     <td><%= link_to t('links.edit', 'Edit'), edit_account_teacher_path(@context, teacher) %></td>
     <td><%= link_to t('links.destroy', 'Destroy'), [@context, teacher ], :confirm => t('are_you_sure', 'Are you sure?'), :method => :delete %></td>

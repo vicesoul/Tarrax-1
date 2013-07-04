@@ -4,6 +4,7 @@ describe LearningPlansController do
   before :each do
     account_model
     course_with_student :active_all => true, :account => @account
+    learning_plan_model :account => @account
   end
 
   def user_as_manager_role
@@ -42,13 +43,13 @@ describe LearningPlansController do
   context "POST 'create'" do
     it "should require authorization" do
       user_session @user
-      post 'create', :account_id => @account.id, :learning_plan => {:user_ids => '', :course_ids => ''}
+      post 'create', :account_id => @account.id, :learning_plan => valid_learning_plan_attributes.except(:account)
       assert_unauthorized
     end
 
     it "should pass authorization with account admin" do
       manager_logged_in
-      post 'create', :account_id => @account.id, :learning_plan_users_attributes => {}, :learning_plan_courses_attributes => {}
+      post 'create', :account_id => @account.id, :learning_plan => valid_learning_plan_attributes.except(:account)
       response.should be_redirect
       response.location.should match ('/accounts/[0-9]*/learning_plans') # redirect to index
     end
@@ -57,14 +58,12 @@ describe LearningPlansController do
   context "PUT 'update'" do
     it "should require authorization" do
       user_session @user
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       put 'update', :account_id => @account.id, :id => @learning_plan.id
       assert_unauthorized
     end
 
     it "should pass authorization with account admin" do
       manager_logged_in
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       put 'update', :account_id => @account.id, :id => @learning_plan.id
       response.should be_redirect
       response.location.should match ('/accounts/[0-9]*/learning_plans') # redirect to index
@@ -74,14 +73,12 @@ describe LearningPlansController do
   context "DELETE 'destroy'" do
     it "should require authorization" do
       user_session @user
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       delete 'destroy', :account_id => @account.id, :id => @learning_plan.id
       assert_unauthorized
     end
 
     it "should pass authorization with account admin" do
       manager_logged_in
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       delete 'destroy', :account_id => @account.id, :id => @learning_plan.id
       response.should be_success
     end
@@ -90,14 +87,12 @@ describe LearningPlansController do
   context "PUT 'publish'" do
     it "should require authorization" do
       user_session @user
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       put 'publish', :account_id => @account.id, :id => @learning_plan.id
       assert_unauthorized
     end
 
     it "should pass authorization with account admin" do
       manager_logged_in
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       put 'publish', :account_id => @account.id, :id => @learning_plan.id
       response.should be_success
     end
@@ -106,7 +101,6 @@ describe LearningPlansController do
   context "PUT 'revert'" do
     it "should require authorization" do
       user_session @user
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       @learning_plan.publish!
       put 'revert', :account_id => @account.id, :id => @learning_plan.id
       assert_unauthorized
@@ -114,7 +108,6 @@ describe LearningPlansController do
 
     it "should pass authorization with account admin" do
       manager_logged_in
-      @learning_plan = @account.learning_plans.create! :subject => 'some...'
       @learning_plan.publish!
       put 'revert', :account_id => @account.id, :id => @learning_plan.id
       response.should be_success

@@ -30,3 +30,14 @@
 <%= will_paginate @learning_plans %>
 
 <%= link_to t('new_plan', 'New Plan'), new_account_learning_plan_path, :class => 'btn btn-primary' %>
+
+<div class="account_tree_dialog" style='display: none;'>
+  <div class="tree_wrap"></div>
+
+  <p> <%= t('pickup_section_description', 'User will be attended to a section which he/she is associated with automatically.') %></p>
+  <form action="" class="tree-form well">
+    <%= hidden_field_tag '_method', 'PUT' %>
+    <button type="submit" class="btn btn-primary btn-select-section"> <%= t('#buttons.ok', 'OK') %></button>
+    <button type="button" class="btn btn-secondary btn-cancel"> <%= t('#buttons.cancel', 'Cancel') %></button>
+  </form>
+</div>

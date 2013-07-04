@@ -1,6 +1,7 @@
 class LearningPlansController < ApplicationController
   before_filter :require_user
   before_filter :get_context
+  before_filter :prepare_section_params, :only => [:create, :update]
 
   def index
     return unless authorized_action(@account, @current_user, :read)
@@ -68,6 +69,7 @@ class LearningPlansController < ApplicationController
 
   def publish
     @learning_plan = LearningPlan.find params[:id]
+    @learning_plan.section_mappings = params[:section_mappings]
     if authorized_action(@learning_plan, @current_user, :publish)
       @learning_plan.publish!
       respond_to do |format|
@@ -112,4 +114,10 @@ class LearningPlansController < ApplicationController
       end
       parse_params
     end
+
+    def prepare_section_params
+      params[:learning_plan] ||= {}
+      params[:learning_plan][:section_names] ||= []
+    end
+
 end

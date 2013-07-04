@@ -229,6 +229,20 @@ zh-CN:
     tip: 
       choose: 点击选择插入区域-->
       drag: 拖动以移动组件
+  account_notification_category: 
+    add_notification_category: 
+      category_name: 分类名称
+      save_category: 保存分类
+      tip: 
+        add_category_failure: 添加公告分类失败
+        add_category_successfully: 添加公告分类成功
+        edit_category_failure: 修改公告分类失败
+        edit_catgory_successfully: 修改公告分类成功
+      title: 
+        add_new_category: 添加新分类
+        edit_category: 修改分类
+    index: 
+      add_new_category: 添加新分类
   account_notifications: 
     announcement_created_notice: 公告已创建
     announcement_creation_failed_notice: 公告创建失败
@@ -269,20 +283,6 @@ zh-CN:
       training_management: 教学管理
     types: 
       account_admin: 网校管理员
-  account_notification_category:
-    index:
-      add_new_category: 添加新分类
-    add_notification_category:
-      category_name: 分类名称
-      save_category: 保存分类
-      title:
-        add_new_category: 添加新分类
-        edit_category: 修改分类
-      tip:
-        add_category_successfully: 添加公告分类成功
-        add_category_failure: 添加公告分类失败
-        edit_catgory_successfully: 修改公告分类成功
-        edit_category_failure: 修改公告分类失败
   accounts: 
     account_user: 
       remove_admin_tooltip: 删除此管理员
@@ -293,7 +293,7 @@ zh-CN:
       add_course_link: 添加新课程
       add_user_button: 添加新用户
       add_user_link: 添加新用户
-      attach_users_link: 从组织架构中关联用户
+      attach_users_link: 关联用户
       birthday_help: "生日格式为: '1980-01-01'"
       course_category_tip: 请选择课程类型
       display_name_help: 在讨论、消息和评论中可见。
@@ -508,11 +508,9 @@ zh-CN:
       ip_filter_filter_label: IP限制
       ip_filter_name_label: 名称
       job_position_management_fieldset: 岗位管理
-      tip:
-        select_account_notification_category: 请选择公告分类
       labels: 
-        account_notification_icon: 图标
         account_notification_category_id: 公告分类
+        account_notification_icon: 图标
         admins_can_change_passwords: 管理员密码设置
         allow_homepage_previews: 允许公开浏览首页
         allow_invitation_previews: 邀请预览
@@ -569,6 +567,7 @@ zh-CN:
       megabytes_tooltip: MB
       never_allow_self_enrollment_option: 没有
       no_language_preference: "未设置（默认使用 %{language}）"
+      notification_category_management: 网校公告分类管理
       notifications: 
         custom_name_description: 输入发件人信息替换教学邦
         email_date: 日期
@@ -582,7 +581,6 @@ zh-CN:
         from: 发件人
         sample_subject: 评分已更改：请查看问卷调查，测试课程
         subject: 主题
-      notification_category_management: 网校公告分类管理
       open_registration_delegated_warning_message: "启用外部身份提供程序，通过开放注册创建的用户可能无法登录，除非外部身份提供程序的登录窗体包含返回到 %{url} 的链接。"
       open_registration_delegated_warning_tooltip: 已启用外部身份提供程序
       page_title: 网校设置
@@ -618,6 +616,8 @@ zh-CN:
       tab_reports: 报表
       tab_settings: 管理设置
       teachers_fieldset: 讲师管理
+      tip: 
+        select_account_notification_category: 请选择公告分类
       turnitin_comments_help: "这些评论在提交 Turnitin 启用的任务时显示给学生"
       turnitin_pledge_help: 学生必须勾选相关框以确认他们同意此保证
       turnitin_settings_title: "Turnitin 设置"
@@ -6146,6 +6146,12 @@ zh-CN:
       initial: 初始
       published: 已发布
       reverted: 已撤销
+  learning_plan_user: 
+    states: 
+      enrolled: 已参加
+      initial: 初始
+      partial: 部分参加
+      reverted: 已撤销
   learning_plans: 
     are_you_sure: 您确认吗？
     course_selection: 
@@ -6194,7 +6200,6 @@ zh-CN:
       job_position: 岗位
       title: 挑选课程
     plan_form: 
-      account_lists: 组织架构列表
       course: 
         name: 课程名称
         teachers: 教师
@@ -6213,6 +6218,7 @@ zh-CN:
         job_positions: 岗位
         name: 用户名
         role: 角色
+        state: 状态
   lib: 
     api: 
       attachments: 
@@ -11189,6 +11195,13 @@ zh-CN:
     quizzes: 测试
     settings: 课程管理
     syllabus: 纲要
+  teacher: 
+    female: 女
+    male: 男
+    ? "no"
+    : 否
+    ? "yes"
+    : 是
   teacher_categories: 
     created_successfully: 成功添加讲师分类
     edit: 
@@ -11576,12 +11589,12 @@ zh-CN:
     a_quiz: 测试
     a_text_entry_box: 文本输入
     a_website_url: 网站URL
-    account_notifications:
-      subject: 标题
+    account_notifications: 
       category: 分类
+      end_at: 结束时间
       message: 内容
       start_at: 开始时间
-      end_at: 结束时间
+      subject: 标题
     admin_merge: 
       buttons: 
         go: 执行

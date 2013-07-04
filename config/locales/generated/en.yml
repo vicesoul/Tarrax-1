@@ -229,6 +229,20 @@ en:
   account_homepage: 
     tip: 
       drag: "drag & move to a new area"
+  account_notification_category: 
+    add_notification_category: 
+      category_name: "Category name"
+      save_category: "Save Category"
+      tip: 
+        add_category_failure: "Add category failure"
+        add_category_successfully: "Add category successfully"
+        edit_catgory_failure: "Edit category failure"
+        edit_catgory_successfully: "Edit category successfully"
+      title: 
+        add_new_category: "Add a New Notification Category"
+        edit_category: "Edit Notification Category"
+    index: 
+      add_new_category: "Add a new category"
   account_notifications: 
     announcement_created_notice: "Announcement successfully created"
     announcement_creation_failed_notice: "Announcement creation failed"
@@ -487,6 +501,7 @@ en:
       ip_filter_name_label: Name
       job_position_management_fieldset: "Job Position Management"
       labels: 
+        account_notification_category_id: "Notification Category"
         account_notification_icon: Icon
         admins_can_change_passwords: "Password setting by admins"
         allow_homepage_previews: "Allow all the users to preview homepage"
@@ -544,6 +559,7 @@ en:
       megabytes_tooltip: megabytes
       never_allow_self_enrollment_option: Never
       no_language_preference: "Not set (defaults to %{language})"
+      notification_category_management: "Notification Category Management"
       notifications: 
         custom_name_description: "If selected, this will replace all other branding sent in Jiaoxuebang notifications."
         email_date: Date
@@ -592,6 +608,8 @@ en:
       tab_reports: Reports
       tab_settings: Settings
       teachers_fieldset: "Teachers Management"
+      tip: 
+        select_account_notification_category: "Select Category"
       turnitin_comments_help: "these comments will be shown to students when submitting a Turnitin-enabled assignment"
       turnitin_pledge_help: "students must check a box acknowledging that they agree with this pledge"
       turnitin_settings_title: "Turnitin Settings"
@@ -2980,6 +2998,7 @@ en:
     context_modules: 
       publish: Publish
     errors: 
+      loading_failed: "Loading Failed"
       reorder: "Reorder failed, please try again."
     index: 
       titles: 
@@ -6115,6 +6134,8 @@ en:
         reset_explanation: "Resetting the test student will clear all history for this student, %{line_break}allowing you to view the course as a brand new student."
         warning_title: "You are currently logged into Student View"
     head: 
+      default_page_description: "Jiaoxuebang LMS"
+      default_page_kewords: "Jiaoxuebang LMS"
       default_page_title: "Jiaoxuebang LMS"
     menu: 
       view_all_accounts: "View all accounts"
@@ -6136,6 +6157,12 @@ en:
       initial: Initial
       published: Published
       reverted: Reverted
+  learning_plan_user: 
+    states: 
+      enrolled: Enrolled
+      initial: Initial
+      partial: Partial
+      reverted: reverted
   learning_plans: 
     are_you_sure: "Are you sure?"
     course_selection: 
@@ -6156,6 +6183,7 @@ en:
       learning_plans: "Learning Plans"
       learning_plans_crumb: "Learning Plans"
       new_plan: "New Plan"
+      pickup_section_description: "User will be attended to a section which he/she is associated with automatically."
       start_on: "Start On"
       status: Status
       subject: Subject
@@ -6177,8 +6205,8 @@ en:
       course_category: "Course Category"
       job_position: "Job Position"
       title: "Pickup Courses"
+    pickup_section_names: "Pick up Section Names"
     plan_form: 
-      account_lists: "Account List"
       course: 
         name: "Course Name"
         teachers: Teachers
@@ -6196,7 +6224,8 @@ en:
         accounts: Accounts
         job_positions: "Job Positions"
         name: "User Name"
-        role: "User Role"
+        role: Role
+        state: State
   lib: 
     api: 
       attachments: 
@@ -9935,6 +9964,7 @@ en:
       create_collaborations: "Create student collaborations"
       create_conferences: "Create web conferences"
       manage_account_memberships: "Add/remove other admins for the account"
+      manage_account_notification_category: "Manage account notification category"
       manage_account_settings: "Manage account-level settings"
       manage_admin_users: "Add/remove other teachers, course designers or TAs to the course"
       manage_alerts: "Manage global alerts"
@@ -10198,7 +10228,6 @@ en:
     errors: 
       external_tool_url: "An external tool can't be saved without a URL."
       failed_to_create_item: "Failed to Create new Item"
-      loading_failed: "Loading Failed"
     invalid_lti_resource_selection: "There was a problem retrieving a valid link from the external tool"
     link_from_external_tool: "Link Resource from External Tool"
     titles: 
@@ -10717,7 +10746,6 @@ en:
         full_comments: "Click to see full comments"
         linked_to_learning_outcome: "This criterion is linked to a Learning Outcome"
     select_content_dialog: 
-      add_to_module: "Add %{item} to *module*"
       assignment_item: Assignment
       assignment_notice: "Select the assignment you want to associate with this *module*, or add an assignment by selecting \"New Assignment\"."
       content_page_item: "Content Page"
@@ -11131,6 +11159,13 @@ en:
     quizzes: Quizzes
     settings: Settings
     syllabus: Syllabus
+  teacher: 
+    female: Female
+    male: Male
+    ? "no"
+    : "No"
+    ? "yes"
+    : "Yes"
   teacher_categories: 
     created_successfully: "TeacherCategory was successfully created."
     edit: 
@@ -11518,6 +11553,12 @@ en:
     a_quiz: "a quiz"
     a_text_entry_box: "a text entry box"
     a_website_url: "a website url"
+    account_notifications: 
+      category: Category
+      end_at: "End at"
+      message: Message
+      start_at: "Start at"
+      subject: Subject
     admin_merge: 
       buttons: 
         go: Go

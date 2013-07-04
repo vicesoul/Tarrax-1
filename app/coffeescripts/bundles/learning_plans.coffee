@@ -7,10 +7,11 @@ require [
   'jquery.instructure_date_and_time'
   'compiled/jquery/validate'
   'vendor/jqueryui/effects/highlight'
+  'vendor/jquery.tree'
 ], ($, _, preventDefault, PickupUsers, I18n) ->
 
   # learning plans index page
-  $(document).on 'click', '.publish, .revert', preventDefault ->
+  $(document).on 'click', '.revert', preventDefault ->
     if confirm I18n.t('are_you_sure', 'Are you sure?')
       $(this).spin()
       $.ajax
@@ -33,6 +34,7 @@ require [
     if confirm I18n.t('are_you_sure', "Are you sure?")
       $(this).prev().val('1')
       $(this).closest('tr').hide 'highlight', {}, 'slow'
+      $(this).closest('tr').addClass('hide')
 
   # pick course and close dialog
   # search form submit action
@@ -82,6 +84,61 @@ require [
   .on 'click', '#pickup_users_link', preventDefault ->
     PickupUsers.open()
 
+  .on 'click', '.account_tree_dialog .btn-cancel', ->
+    $('.account_tree_dialog').dialog('close')
+
+  # show account tree dialog when publish clicked
+  .on 'click', '.publish', preventDefault ->
+    # open account tree dialog for course section decision
+    $('.tree-form').attr 'action', $(this).attr('href') # save current url
+    $('.tree-form').data 'id', $(this).closest('tr').data('id') # save current id
+
+    tree_json = $(this).closest('tr').data('tree')
+    #tree_data = buildTree if tree_json.children.length > 0 then tree_json.children else [ tree_json ]
+    tree_data = buildTree [ tree_json ]
+    tree = $('<div class="tree_wrap"></div>').append tree_data
+    tree.tree
+        ui:
+          theme_name: 'checkbox'
+        plugins:
+          checkbox: {}
+
+    dialog = $('.account_tree_dialog')
+    dialog.find('.tree_wrap').remove() # reset html
+    dialog
+      .prepend(tree)
+      .dialog
+        title: I18n.t('pickup_section_names', "Pick up Section Names")
+        width: '500px'
+
+
+  # recursive way to build account tree
+  buildTree = (collection)->
+    ul = $('<ul></ul>')
+    for obj in collection
+      li = $("<li class='open'><a href='#' data-id='#{obj.id}'><ins>&nbsp;</ins>#{obj.name}</a></li>")
+      li.append buildTree(obj.children) if obj.children.length > 0
+      ul.append li
+    ul
+
+  # use selected account name as section's to publish plan
+  $(document).on 'submit', '.tree-form', preventDefault ->
+    # account selected as section names to publish
+    account_ids = $('.account_tree_dialog').find('.checked, .undetermined').map (i, el)->
+      $(el).data('id')
+
+    $(this).spin()
+    $.ajax
+      url: $(this).attr 'action'
+      type: 'post'
+      data: {_method: 'put', section_mappings: account_ids.get()}
+      success: (data)=>
+        $(this).spin(false)
+        $('.account_tree_dialog').dialog('close')
+        tr = $("#tr_plan_#{$(this).data('id')}")
+        tr.replaceWith data
+        tr.find('td').effect 'highlight', {}, 'slow'
+
   $ ->
     $('#courses option').each ->
       $(this).data 'optgroup', $(this).parent().attr('label')
@@ -96,7 +153,7 @@ require [
         link = $('.user_wrap .add_fields')
         time = new Date().getTime()
         regexp = new RegExp link.data('id'), 'g'
-        ids = $('.user_list .user_id').map (index, id)->
+        ids = $('.user_list tr:not(.hide) .user_id').map (index, id)->
           $(id).val()
 
         for checkbox in @checked()
