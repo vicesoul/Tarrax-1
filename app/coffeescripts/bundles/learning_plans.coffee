@@ -45,6 +45,8 @@ require [
       data: $(this).serialize()
       success: (data)->
         $('.course_selection').html(data)
+        $('#courses option').each ->
+          $(this).data 'optgroup', $(this).parent().attr('label')
   # controls for course selection
   $(document).on 'click', '.add', ->
     $('#courses option:selected').appendTo $('#selected_courses')
