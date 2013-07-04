@@ -1,35 +1,11 @@
 
-<div id="hidden-tpl" style="display:none;width:200px;border-bottom:thick dotted #ff0000;">
+<div id="hidden-tpl" style="display:none;">
   <button class="remove-me"><%= t 'remove_me', 'Remove Me' %></button>
   <div><input name="case_tpl_widget[][title]" size="30" type="text" value="<%= t 'custom_title', 'Custom Title' %>"></div>
-  <div><input name="case_tpl_widget[][body]" size="30" type="text" value="<%= t 'custom_content', 'Custom Content' %>"></div>
+  <div><textarea  name="case_tpl_widget[][body]" class="main_text"></textarea></div>
   <input name="case_tpl_widget[][seq]" type="hidden">
 </div>
+<%
+  js_env :context_id => params[:context_id]
+%>
 
-<% js_block do %>
-  <script>
-    require([
-      'jquery' /* $ */,
-    ], function($){
-      $('#new-module').bind('click', function(){
-        var lastSeqVal = $('#case-tpl-widget').find('input[name="case_tpl_widget[][seq]"]:last').val() || -1;
-        $('#case-tpl-widget').append($('#hidden-tpl').clone().show());
-        $('#case-tpl-widget').find('input[name="case_tpl_widget[][seq]"]:last').val(-(-lastSeqVal)+1);
-        return false;
-      }); 
-      $('.remove-me').live('click', function(){
-        $(this).parent('div:first').remove();
-        return false;
-      });
-      $('#tpl-selector').bind('change', function(){
-        var selectorVal = $(this).val();
-        if (-(-selectorVal) > 0){
-          $.get('/courses/' + <%= params[:context_id]%> + '/get_account_case_tpl/' + selectorVal, function(data){
-            $('#case-tpl-widget').remove();
-            $('#tpl-area').append(data);
-          });
-        }
-      });
-    });
-  </script>
-<% end %>

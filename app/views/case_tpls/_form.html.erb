@@ -1,8 +1,10 @@
 
-<div><button id="new-module"><%= t 'new_module', 'New Module' %></button></div>
+<div><button id="new-module" class="btn btn-success"><i class="icon-zipped"></i><%= t 'new_module', 'New Module' %></button></div>
 
-<div>
+<div class='control-group'>
   <%= t 'tpl_name', 'Template Name' %>: <%= f.text_field :name %>
+</div>
+<div>
   <%= f.hidden_field :context_id, :value => params[:context_id] %>
   <%= f.hidden_field :context_type, :value => params[:context_type] %>
   <%= f.hidden_field :user_id, :value => @current_user.id %>

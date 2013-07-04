@@ -6,15 +6,32 @@
     <tr>
       <th><%= t 'headings.name', 'Name' %></th>
       <th><%= t 'headings.author', 'Author' %></th>
-      <th colspan="3"><%= t 'headings.op', 'Operation' %></th>
+      <th><%= t 'headings.op', 'Operation' %></th>
     </tr>
 
   <% @case_tpls.each do |case_tpl| %>
     <tr>
       <td><%= link_to case_tpl.name, account_case_tpl_path(@account, case_tpl) %></td>
       <td><%= case_tpl.user.name %></td>
-      <td><%= link_to (t '#buttons.edit', 'Edit'), edit_account_case_tpl_path(@account, case_tpl) %></td>
-      <td><%= link_to (t '#buttons.delete', 'Delete'), account_case_tpl_path(@account, case_tpl), :confirm => (t '#buttons.confirm', 'Are you sure?'), :method => :delete %></td>
+      <td>
+        <div class="admin-link-hover-area">
+          <div class="admin-links">
+            <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage (will be accessibly hidden)</span></button>
+            <ul class="al-options">
+              <li>
+                <% link_to edit_account_case_tpl_path(@account, case_tpl) do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t '#buttons.edit', 'Edit') %>
+                <% end %>
+              </li>
+              <li>
+                <% link_to account_case_tpl_path(@account, case_tpl), {:confirm => (t '#buttons.confirm', 'Are you sure?'), :method => :delete} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t '#buttons.delete', 'Delete') %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </td>
     </tr>
   <% end %>
   </table>

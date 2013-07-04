@@ -1,16 +1,18 @@
+<% js_bundle :case_tpls %>
+<% jammit_css :case, :tinymce %>
+
 <h1><%= t 'edit_tpl', 'Editing case_tpl'%></h1>
 
-<% form_for(@case_tpl, :url => account_case_tpl_url(@account, @case_tpl.id), :html => {:method => 'PUT'}) do |f| %>
+<% form_for(@case_tpl, :url => account_case_tpl_url(@account, @case_tpl.id), :html => {:method => 'PUT', :class => 'form-horizontal bootstrap-form'}) do |f| %>
 
   <%= f.error_messages %>
 
   <%= render :partial => 'form', :locals => {:f => f } %>
-
   <p>
-    <%= f.submit t('#buttons.update', 'Update') %>
+    <%= f.submit t('#buttons.update', 'Update'), :class => 'btn btn-primary' %>
   </p>
 <% end %>
 
 <%= render :partial => 'hidden_element' %>
 
-<%= link_to t('#buttons.back', 'Back'), account_case_tpls_path %>
+<%= link_to t('#buttons.back', 'Back'), account_case_tpls_path, :class => 'btn' %>

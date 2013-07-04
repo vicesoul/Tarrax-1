@@ -1,3 +1,5 @@
+<% js_bundle :case_issue_edit %>
+<% jammit_css :tinymce %>
 <h1><%= t 'edit_issue', 'Editing case issue' %></h1>
 
 <% form_for(@case_issue, :url => course_case_issue_url(@context, @case_issue), :html => {:method => 'PUT'}) do |f| %>

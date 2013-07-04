@@ -57,20 +57,47 @@
       </td>
       <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
       <td>
-        <% if case_issue.new? && case_issue.user.id == @current_user.id %>
-          <%= link_to (t 'links.submit', 'Submit'), course_case_issue_submit_path(@context, case_issue),{:class => 'issue-submit'} %> |
-        <% end %>
-        <% if case_issue.awaiting_review? && can_do(@context, @current_user, :operate_case_as_teacher) %>
-          <!-- params: review_result => ['accept', 'reject']-->
-          <%= link_to (t 'links.review', 'Review'), course_case_issue_review_path(@context, case_issue),{:class => 'issue-review'} %> |
-        <% end %>
-        <% if case_issue.accepted? %>
-          <%= link_to (t 'links.apply', 'Apply'), course_case_issue_apply_path(@context, case_issue.id), {:issue_subject => case_issue.subject, :class => 'issue-apply'} %> |
-        <% end %>
-        <% if case_issue.new? && case_issue.user.id == @current_user.id %>
-          <%= link_to (t 'links.edit', 'Edit'), edit_course_case_issue_path(@context, case_issue) %> |
-          <%= link_to (t 'links.delete', 'Delete'), course_case_issue_path(@context, case_issue), :confirm => 'Are you sure?', :method => :delete %>
-        <% end %>
+      <div class="admin-link-hover-area">
+        <div class="admin-links">
+          <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage (will be accessibly hidden)</span></button>
+          <ul class="al-options">
+            <% if case_issue.new? && case_issue.user.id == @current_user.id %>
+              <li>
+                <% link_to course_case_issue_submit_path(@context, case_issue),{:class => 'issue-submit'} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.submit', 'Submit') %>
+                <% end %> 
+              </li>
+            <% end %>
+            <% if case_issue.awaiting_review? && can_do(@context, @current_user, :operate_case_as_teacher) %>
+            <!-- params: review_result => ['accept', 'reject']-->
+              <li>
+                <% link_to course_case_issue_review_path(@context, case_issue),{:issue_subject => case_issue.subject, :class => 'issue-review'} do %>
+                  <span class='ui-icon ui-icon-trash'></span> <%=  (t 'links.review', 'Review') %>
+                <% end %> 
+              </li>
+            <% end %>
+            <% if case_issue.accepted? %>
+              <li>
+                <% link_to course_case_issue_apply_path(@context, case_issue),{:issue_subject => case_issue.subject, :class => 'issue-apply'} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.apply', 'Apply') %>
+                <% end %> 
+              </li>
+            <% end %>
+            <% if case_issue.new? && case_issue.user.id == @current_user.id %>
+              <li>
+                <% link_to edit_course_case_issue_path(@context, case_issue) do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.edit', 'Edit') %>
+                <% end %> 
+              </li>
+              <li>
+                <% link_to course_case_issue_path(@context, case_issue), {:confirm => 'Are you sure?', :method => :delete} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.delete', 'Delete') %>
+                <% end %> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
       </td>
     </tr>
   <% end %>
