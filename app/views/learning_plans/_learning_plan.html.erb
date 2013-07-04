@@ -5,23 +5,25 @@
   <td class="start_on"> <%= learning_plan.start_on %></td>
   <td class="end_on"> <%= learning_plan.end_on %></td>
   <td class="state"> <%= format_learning_plan_state learning_plan.workflow_state %></td>
-  <% if learning_plan.workflow_state == 'published' %>
+  <% if learning_plan.publishable? %>
     <td>
       <%= link_to t("links.revert", "Revert"), revert_account_learning_plan_path(@account, learning_plan), :class => "btn revert" %>
     </td>
-  <% else %>
+  <% elsif learning_plan.revertable? %>
     <td>
       <%= link_to t("links.publish", "Publish"), publish_account_learning_plan_path(@account, learning_plan), :class => "btn publish" %>
     </td>
   <% end %>
   <td>
-    <% link_to edit_account_learning_plan_path(@account, learning_plan), :class => 'edit-plan-link' do %>
-      <i class='icon-edit'></i>
+    <% if learning_plan.editable? %>
+      <% link_to edit_account_learning_plan_path(@account, learning_plan), :class => 'edit-plan-link' do %>
+        <i class='icon-edit'></i>
+      <% end %>
     <% end %>
-  </td>
-  <td>
-    <% link_to [@account, learning_plan], :remote => true, :method => :delete, :confirm => t('links.are_you_sure', 'Are you sure?'), :class => 'delete-plan-link' do %>
-      <i class='icon-trash'></i>
-    <% end %>
-  </td>
+    <% if learning_plan.deleteable? %>
+      <% link_to [@account, learning_plan], :remote => true, :method => :delete, :confirm => t('links.are_you_sure', 'Are you sure?'), :class => 'delete-plan-link' do %>
+        <i class='icon-trash'></i>
+      <% end %>
+    </td>
+  <% end %>
 </tr>

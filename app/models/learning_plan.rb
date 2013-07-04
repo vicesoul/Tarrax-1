@@ -131,12 +131,20 @@ class LearningPlan < ActiveRecord::Base
     end
   end
 
+  def publishable?
+    %w(initial reverted).include? workflow_state
+  end
+
+  def revertable?
+    %w(published).include? workflow_state
+  end
+
   def editable?
-    workflow_state.in? %(initial reverted)
+    %w(initial reverted).include? workflow_state
   end
 
   def deleteable?
-    workflow_state.in? %(initial reverted)
+    %w(initial reverted).include? workflow_state
   end
 
   # return accounts including plan users

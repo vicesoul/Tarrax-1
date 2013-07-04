@@ -117,7 +117,7 @@ class LearningPlansController < ApplicationController
 
     def prepare_section_params
       params[:learning_plan] ||= {}
-      params[:learning_plan][:section_names] ||= []
+      params[:learning_plan][:section_mappings] ||= []
     end
 
 end
