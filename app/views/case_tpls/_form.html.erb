@@ -1,14 +1,29 @@
 
-<div><button id="new-module" class="btn btn-success"><i class="icon-add"></i> <%= t 'new_module', 'New Module' %></button></div>
+<div class='control-group'>
+	<label class="control-label"> </label> 
+	<div class="controls">
+		<button id="new-module" class="btn btn-success"><i class="icon-add"></i> <%= t 'new_module', 'New Module' %></button>
+	</div>
+</div>
 
 <div class='control-group'>
-  <%= t 'tpl_name', 'Template Name' %>: <%= f.text_field :name %>
+  <label class="control-label"><%= t 'tpl_name', 'Template Name' %>:</label> 
+  <div class="controls">
+  	<%= f.text_field :name %>
+  </div>
 </div>
+
 <div>
   <%= f.hidden_field :context_id, :value => params[:context_id] %>
   <%= f.hidden_field :context_type, :value => params[:context_type] %>
   <%= f.hidden_field :user_id, :value => @current_user.id %>
 </div>
 
-<%= render :partial => 'shared_case_tpl_form', :locals => {:case_tpl => @case_tpl} %>
+<div class='control-group'>
+  <label class="control-label"><%= t 'template', 'Template' %>:</label> 
+  <div class="controls">
+  	<%= render :partial => 'shared_case_tpl_form', :locals => {:case_tpl => @case_tpl} %>
+  </div>
+</div>
+
 

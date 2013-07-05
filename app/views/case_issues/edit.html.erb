@@ -1,20 +1,26 @@
 <% js_bundle :case_issue_edit %>
-<% jammit_css :tinymce %>
+<% jammit_css :case, :tinymce %>
 <h1><%= t 'edit_issue', 'Editing case issue' %></h1>
 
-<% form_for(@case_issue, :url => course_case_issue_url(@context, @case_issue), :html => {:method => 'PUT'}) do |f| %>
+<% form_for(@case_issue, :url => course_case_issue_url(@context, @case_issue), :html => {:method => 'PUT', :class => 'form-horizontal bootstrap-form'}) do |f| %>
 
   <%= f.error_messages %>
 
   <%= render :partial => 'form', :locals => {:f => f } %>
 
   <p>
-    <%= f.submit t('#buttons.update', 'Update') %>
+  	<button class="btn btn-primary right" type="submit"><i class='icon-refresh'></i> <%=  t('#buttons.update', 'Update') %> </button>
   </p>
   
 <% end %>
   
 <%= render :partial => 'case_tpls/hidden_element' %>
 
-<%= link_to t('#buttons.show', 'Show'), course_case_issue_path(@context, @case_issue) %> |
-<%= link_to t('#buttons.back', 'Back'), course_case_issues_path %>
+<% link_to course_case_issue_path(@context, @case_issue), {:class => 'btn'} do %>
+  <i class='icon-document'></i>
+  <%=  t('#buttons.show', 'Show') %>
+<% end %>
+<% link_to course_case_issues_path, {:class => 'btn'} do %>
+  <i class='icon-reset'></i>
+  <%=  t('#buttons.back', 'Back') %>
+<% end %>

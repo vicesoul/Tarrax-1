@@ -1,15 +1,49 @@
+<% jammit_css :case %>
+<div class='form-horizontal bootstrap-form'>
 
-<div><%= t 'tpl_name', 'Template Name' %>: <%= @case_tpl.name %></div>
-<div><%= t 'author', 'Author' %>: <%= @case_tpl.user.name %></div>
-<div><%= t 'updated_at', 'Updated At' %>: <%= @case_tpl.updated_at.to_formatted_s(:db) %></div>
+	<div class='control-group'>
+	  <label class="control-label"><%= t 'tpl_name', 'Template Name' %>:</label> 
+	  <div class="controls">
+	  	<%= @case_tpl.name %>
+	  </div>
+	</div>
 
-<div>
-  <% @case_tpl.case_tpl_widgets.each do |w| %>
-    <div>
-      <div><%= raw w.title %></div>
-      <div><%= raw w.body %></div>
+
+	<div class='control-group'>
+	  <label class="control-label"><%= t 'author', 'Author' %>:</label> 
+	  <div class="controls">
+	  	<%= @case_tpl.user.name %>
+	  </div>
+	</div>
+
+	<div class='control-group'>
+	  <label class="control-label"><%= t 'updated_at', 'Updated At' %>:</label> 
+	  <div class="controls">
+	  	<%= @case_tpl.updated_at.to_formatted_s(:db) %>
+	  </div>
+	</div>
+
+
+	<div class='control-group'>
+    <label class='control-label'>模板：</label>
+    <div class='controls'>
+      <div class='template-overview'>
+        <dl>
+          <% @case_tpl.case_tpl_widgets.each do |w| %>
+            <dt><%= raw w.title %></dt>      
+            <dd><%= raw w.body %></dd>      
+          <% end %>
+        </dl>
+      </div>
     </div>
+  </div>
+
+	<% link_to edit_account_case_tpl_path(@account, @case_tpl), {:class => 'btn'} do %>
+      <i class='icon-edit'></i> <%=  t('#buttons.edit', 'Edit') %>
+    <% end %>
+
+  <% link_to account_case_tpls_path, {:class => 'btn'} do %>
+    <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
   <% end %>
+
 </div>
-<%= link_to (t '#buttons.edit', 'Edit'), edit_account_case_tpl_path(@account, @case_tpl) %> |
-<%= link_to (t '#buttons.back', 'Back'), account_case_tpls_path %>

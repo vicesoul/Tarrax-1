@@ -1,6 +1,9 @@
-
-<%= link_to t('new_tpl', 'New Case Template'), new_account_case_tpl_path %><br />
-
+<p>
+  <% link_to new_account_case_tpl_path, {:class => 'btn btn-success'} do %>
+    <i class='icon-add'></i>
+    <%=  t('new_tpl', 'New Case Template') %>
+  <% end %>
+</p>
 <% unless @case_tpls.empty? %>
   <table class="table table-striped table-bordered">
     <tr>

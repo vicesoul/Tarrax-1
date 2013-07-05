@@ -1,29 +1,56 @@
-
-<div>
-  <p><%= t 'state', 'State' %>: <%= CaseSolution.display_state[@case_solution.workflow_state] %></p>
-  <p><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></p>
-  <p><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></p>
-  <p><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></p>
-</div>
-<!-- 案例问题 start -->
-<div>
-  <% case_issue = @case_solution.case_issue %>
-  <div><%= case_issue.subject %></div>
-  <div>
-    <% case_issue.case_tpl.case_tpl_widgets.each do |w| %>
-      <div><%= raw w.title %></div>      
-      <div><%= raw w.body %></div>      
-    <% end %>
+<% jammit_css :case %>
+<% case_issue = @case_solution.case_issue %>
+<small class='right sub-text'>
+  <span><%= t 'state', 'State' %>: <%= CaseSolution.display_state[@case_solution.workflow_state] %></span>
+  <span><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></span>
+  <span><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></span>
+  <span><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></span>
+</small>
+<div class='form-horizontal bootstrap-form'>
+  <div class='control-group'>
+    <label class='control-label'><%= t 'issue', 'Issue' %>：</label>
+    <div class='controls'>
+      <%= case_issue.subject %>
+    </div>
   </div>
-</div>
-<!-- 案例问题 end -->
-<div>
-  <p><%= t 'title', 'Title' %>: <%= raw @case_solution.title %></p>
-  <p><%= t 'content', 'Content' %>: <%= raw @case_solution.content %></p>
-</div>
 
-<% if @case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && @case_solution.user.id == @current_user.id %>
-  <%= link_to t('#buttons.edit', 'Edit'), edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], @case_solution) %> |
+  <!-- 案例问题 start -->
+  <div class='control-group'>
+    <label class='control-label'><%= t 'template', 'Template' %>：</label>
+    <div class='controls'>
+      <div class='template-overview'>
+        <dl>
+          <% case_issue.case_tpl.case_tpl_widgets.each do |w| %>
+            <dt><%= raw w.title %></dt>      
+            <dd><%= raw w.body %></dd>      
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 案例问题 end -->
+  <div>
+    <div class='control-group'>
+      <label class='control-label'><%= t 'title', 'Title' %>: </label>
+      <div class='controls'>
+        <%= raw @case_solution.title %>
+      </div>
+    </div>
+    <div class='control-group'>
+      <label class='control-label'><%= t 'content', 'Content' %>:</label>
+      <div class='controls'>
+        <%= raw @case_solution.content %>
+      </div>
+    </div>
+  </div>
 
-<% end %>
-<%= link_to t('#buttons.back', 'Back'), course_case_issue_case_solutions_path(@context, params[:case_issue_id]) %>
+  <% if @case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && @case_solution.user.id == @current_user.id %>
+    <% link_to edit_course_case_issue_case_solution_path(@context, params[:case_issue_id], @case_solution), {:class => 'btn'} do %>
+      <i class='icon-edit'></i> <%=  t('#buttons.edit', 'Edit') %>
+    <% end %>
+  <% end %>
+  <% link_to course_case_issue_case_solutions_path(@context, params[:case_issue_id]), {:class => 'btn'} do %>
+    <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+  <% end %>
+</div>

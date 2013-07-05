@@ -87,10 +87,13 @@ zh-CN:
       warn_tpl: 你所在的网校还没有案例模板，所以将使用系统内置的案例模板
     show:
       subject: 主题
+      title: 标题
+      content: 正文
       state: 状态
       author: 作者
       updated_at: 更新时间
       template: 模板
+      current_solutions: 当前的解决方案
       solution_author: 作者
       solution_updated_at: 更新时间
       solution_state: 状态
@@ -126,6 +129,7 @@ zh-CN:
       recommend: 推荐
     edit:
       issue: 案例问题主题
+      template: 模板
       state: 状态
       group_discuss: 小组讨论
       author: 作者
@@ -140,6 +144,7 @@ zh-CN:
       updated_at: 更新时间
       title: 标题
       content: 正文
+      template: 模板
 
   EditAppointmentGroupDetails: 
     affect_reservations: 这对预约有何影响?
