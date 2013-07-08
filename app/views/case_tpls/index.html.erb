@@ -25,12 +25,12 @@
             <ul class="al-options">
               <li>
                 <% link_to edit_account_case_tpl_path(@account, case_tpl) do %>
-                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t '#buttons.edit', 'Edit') %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%= t '#buttons.edit', 'Edit' %>
                 <% end %>
               </li>
               <li>
-                <% link_to account_case_tpl_path(@account, case_tpl), {:confirm => (t '#buttons.confirm', 'Are you sure?'), :method => :delete} do %>
-                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t '#buttons.delete', 'Delete') %>
+                <% link_to account_case_tpl_path(@account, case_tpl), {:confirm => t('#buttons.confirm', 'Are you sure?'), :method => :delete} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%= t '#buttons.delete', 'Delete' %>
                 <% end %>
               </li>
             </ul>

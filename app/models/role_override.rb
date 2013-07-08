@@ -395,6 +395,7 @@ class RoleOverride < ActiveRecord::Base
           'TaEnrollment',
           'DesignerEnrollment',
           'TeacherEnrollment',
+          'StudentEnrollment',
           'AccountAdmin',
           'AccountMembership'
         ],

@@ -1647,6 +1647,7 @@ class User < ActiveRecord::Base
         send(association).with_each_shard do |scope|
           courses = scope.distinct_on(["courses.id"],
             :select => "courses.*, enrollments.id AS primary_enrollment_id, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
+            :conditions => ['courses.is_case = ? ', false],
             :order => "courses.id, #{Enrollment.type_rank_sql}, #{Enrollment.state_rank_sql}")
 
           unless options[:include_completed_courses]

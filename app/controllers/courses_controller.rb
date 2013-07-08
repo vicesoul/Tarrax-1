@@ -254,20 +254,34 @@ class CoursesController < ApplicationController
 
   #mock a case repostory
   def create_case_course
-    params[:course][:account] = Account.find(params[:course][:account_id])
+    result = true
+    account = Account.find(params[:course][:account_id])
+    params[:course][:account] = account
     params[:course].delete(:account_id)
+    params[:course][:name] = t('#tabs.case_repostory', 'Case Collection Repository') if params[:course][:name].blank?
     course = Course.new(params[:course])
+    repostory = CaseRepostory.new
     respond_to do |format|
-      Course.transaction do 
-        course.save
-        course.offer
-        CaseRepostory.create(
-          :context_id => course.id,
-          :context_type => 'Course',
-          :name => 'Default Case Repostory'
-        )
+      begin 
+        Course.transaction do 
+          if account.roles.case_roles.empty?
+            role = account.roles.build(:name => t('#role.roles.case_group', 'Case Group'))
+            role.base_role_type = 'StudentEnrollment'
+            role.save!
+            RoleOverride.manage_role_override(account, role.name, 'manage_groups', :override => true)
+          end
+          course.save!
+          course.offer
+
+          repostory.context_id = course.id
+          repostory.context_type = 'Course'
+          repostory.name = 'Default Case Repostory'
+          repostory.save!
+        end
+      rescue => e
+        result = false
       end
-      if course.id
+      if result
         format.json { render :json => true}
       else
         format.json { render :json => false}
@@ -975,6 +989,7 @@ class CoursesController < ApplicationController
     end
 
     @context = Course.active.find(params[:id])
+    return redirect_to course_case_issues_path(@context) if @context.is_case
     if request.xhr?
       if authorized_action(@context, @current_user, [:read, :read_as_admin])
         render :json => @context.to_json

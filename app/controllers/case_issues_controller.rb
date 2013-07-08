@@ -62,16 +62,20 @@ class CaseIssuesController < ApplicationController
   # POST /case_issues.xml
   def create
     @case_issue = CaseIssue.new(params[:case_issue])
-
-    tpl = @case_issue.build_case_tpl(:name => 'Default case issue template', :user_id => @current_user.id)
-    params[:case_tpl_widget].each { |widget| tpl.case_tpl_widgets.build(widget) }
-    respond_to do |format|
-      if @case_issue.save
-        format.html { redirect_to(course_case_issues_url, :notice => 'CaseIssue was successfully created.') }
-        format.xml  { render :xml => @case_issue, :status => :created, :location => course_case_issues_url }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @case_issue.errors, :status => :unprocessable_entity }
+    if params[:case_tpl_widget].blank?
+      flash[:error] = 'Please select a case template'
+      render :action => :new
+    else
+      tpl = @case_issue.build_case_tpl(:name => 'Default case issue template', :user_id => @current_user.id)
+      params[:case_tpl_widget].each { |widget| tpl.case_tpl_widgets.build(widget) }
+      respond_to do |format|
+        if @case_issue.save
+          format.html { redirect_to(course_case_issues_url, :notice => 'CaseIssue was successfully created.') }
+          format.xml  { render :xml => @case_issue, :status => :created, :location => course_case_issues_url }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @case_issue.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
@@ -107,8 +111,15 @@ class CaseIssuesController < ApplicationController
         )
         result = solution.save
         if result && solution.group_discuss
-          group = @context.groups.create(:name => params[:group_name])
-          group.group_memberships.create(:user => @current_user, :moderator => false)
+          Group.transaction do
+            enrollment = Enrollment.find_by_course_id_and_user_id(@context.id, @current_user.id) 
+            if enrollment.type == 'StudentEnrollment'
+              enrollment.role_name = t('#role.roles.case_group', 'Case Group')
+              enrollment.save!
+            end
+            group = @context.groups.create!(:name => params[:group_name], :case_solution => solution)
+            group.group_memberships.create!(:user => @current_user, :moderator => false)
+          end
         end
         solution.execute if result
       end

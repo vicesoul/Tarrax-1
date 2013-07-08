@@ -15,7 +15,7 @@ class LearningPlansController < ApplicationController
     @course_systems = @course_systems.of_job_position(search_params[:job_position_ids]) unless search_params[:job_position_ids].blank?
     @course_systems = @course_systems.of_course_category(search_params[:course_category_ids]) unless search_params[:course_category_ids].blank?
 
-    @rest_courses = Course.of_account search_params[:account_ids]
+    @rest_courses = Course.is_not_case.of_account search_params[:account_ids]
     @rest_courses = @rest_courses.of_course_category(search_params[:course_category_ids]) unless search_params[:course_category_ids].blank?
     @rest_courses = @rest_courses - @course_systems.map(&:course)
 

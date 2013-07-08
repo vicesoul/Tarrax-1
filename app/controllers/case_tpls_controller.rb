@@ -60,7 +60,7 @@ class CaseTplsController < ApplicationController
 
     respond_to do |format|
       if @case_tpl.save
-        format.html { redirect_to(account_case_tpls_url, :notice => t('#case_tpls.save_successfully', 'CaseTpl was successfully created.')) }
+        format.html { redirect_to(account_case_tpls_url, :notice => t('#case_tpls.save_successfully', 'CaseTpl was successfully saved.')) }
         format.xml  { render :xml => account_case_tpls_url, :status => :created, :location => account_case_tpls_url }
       else
         format.html { render :action => "new" }
@@ -81,7 +81,7 @@ class CaseTplsController < ApplicationController
     end
     respond_to do |format|
       if result        
-        format.html { redirect_to(account_case_tpls_url, :notice => t('save_successfully', 'CaseTpl was successfully updated.')) }
+        format.html { redirect_to(account_case_tpls_url, :notice => t('save_successfully', 'CaseTpl was successfully saved.')) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

@@ -1,4 +1,4 @@
-#
+
 # Copyright (C) 2012 Instructure, Inc.
 #
 # This file is part of Canvas.
@@ -77,6 +77,7 @@ class Role < ActiveRecord::Base
   named_scope :inactive, :conditions => ['roles.workflow_state = ?', 'inactive']
   named_scope :for_courses, :conditions => ['roles.base_role_type != ?', AccountUser::BASE_ROLE_NAME]
   named_scope :for_accounts, :conditions => ['roles.base_role_type = ?', AccountUser::BASE_ROLE_NAME]
+  named_scope :case_roles, :conditions => ['roles.base_role_type = ? and roles.name = ?', 'StudentEnrollment', 'Case Group']
 
   def self.is_base_role?(role_name)
     RoleOverride.base_role_types.include?(role_name)

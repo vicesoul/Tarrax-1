@@ -450,6 +450,9 @@ class Course < ActiveRecord::Base
   named_scope :active_first, lambda {
     {:order => "CASE WHEN courses.workflow_state='available' THEN 0 ELSE 1 END, name"}
   }
+  named_scope :is_not_case, lambda {
+    {:conditions => ['is_case = ?', false]}
+  }
   named_scope :limit, lambda {|limit|
     {:limit => limit }
   }

@@ -188,6 +188,7 @@ zh-CN:
     tab_homepage: 主页
     tab_jobs: 工作队列
     tab_learning_plans: 学习计划
+    tab_case_collection_repositories: 案例征集
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
@@ -10133,6 +10134,7 @@ zh-CN:
   role: 
     roles: 
       account_admin: 网校管理员
+      case_group: 案例组
   role_override: 
     permission: 
       read_sis: "读取 SIS 数据"
@@ -10142,6 +10144,8 @@ zh-CN:
       comment_on_others_submissions: 查看所有学生的提交并对其进行评注
       create_collaborations: 创建学生协作
       create_conferences: "创建 Web 在线视频课"
+      create_case_repostory: 创建案例征集库
+      manage_account_notification_category: 管理网校公告分类
       manage_account_memberships: 添加/删除网校的其他管理员
       manage_account_settings: 管理网校级设置
       manage_admin_users: 添加/删除课程的其他教师、课程课程设计或助教
@@ -10171,6 +10175,8 @@ zh-CN:
       manage_wiki: 管理维基（添加/编辑/删除页面）
       managed_jobs: 管理后台工作
       moderate_form: 调整讨论（删除/编辑其他人的发布内容、锁定主题）
+      operate_case_as_student: 以普通人员的身份操作案例
+      operate_case_as_teacher: 以管理员身份操作案例
       post_to_forum: 发布到讨论
       read_course_content: 查看课程内容
       read_course_list: 查看课程列表
