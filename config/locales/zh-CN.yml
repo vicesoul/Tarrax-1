@@ -23,6 +23,7 @@ zh-CN:
     form:
       new_module: 添加新模块
       tpl_name: 模板名
+      template: 模板
     shared_case_tpl_form:
       remove_me: 移除
     edit:
