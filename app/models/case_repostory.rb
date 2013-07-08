@@ -4,6 +4,6 @@ class CaseRepostory < ActiveRecord::Base
   has_many :case_issues
 
   attr_accessible :context_id, :context_type, :name
-  validates_uniqueness_of :name, :scope => [:context_id, :context_type]
+  validates_presence_of :name
 
 end

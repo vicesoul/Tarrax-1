@@ -449,6 +449,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :accounts, :member => { :statistics => :get } do |account|
     account.resources :case_tpls, :controller => 'case_tpls'
     account.advanced_users 'advanced_users', :controller => 'users', :action => 'advanced_index'
+    account.case_repositories 'case_repositories', :controller => 'accounts', :action => 'case_repositories'
 
     account.active_or_forzen_user_by_account 'active_or_forzen_user_by_account/:user_id/:op_account_id/:state', :controller => 'users', :action => 'active_or_forzen_user_by_account'
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'

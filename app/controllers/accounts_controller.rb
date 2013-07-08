@@ -575,6 +575,10 @@ class AccountsController < ApplicationController
     end
   end
 
+  def case_repositories
+    @courses = @account.cases
+  end
+
   def select_users
     respond_to do |format|
       format.json {
