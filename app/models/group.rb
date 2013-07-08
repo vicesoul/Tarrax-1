@@ -22,7 +22,7 @@ class Group < ActiveRecord::Base
   include CustomValidations
   include UserFollow::FollowedItem
 
-  attr_accessible :name, :context, :max_membership, :group_category, :join_level, :default_view, :description, :is_public, :avatar_attachment
+  attr_accessible :name, :context, :max_membership, :group_category, :join_level, :default_view, :description, :is_public, :avatar_attachment, :case_solution
   validates_allowed_transitions :is_public, false => true
 
   has_many :group_memberships, :dependent => :destroy, :conditions => ['group_memberships.workflow_state != ?', 'deleted']
@@ -32,6 +32,7 @@ class Group < ActiveRecord::Base
   belongs_to :context, :polymorphic => true
   belongs_to :group_category
   belongs_to :account
+  belongs_to :case_solution
   belongs_to :root_account, :class_name => "Account"
   has_many :calendar_events, :as => :context, :dependent => :destroy
   has_many :discussion_topics, :as => :context, :conditions => ['discussion_topics.workflow_state != ?', 'deleted'], :include => :user, :dependent => :destroy, :order => 'discussion_topics.position DESC, discussion_topics.created_at DESC'

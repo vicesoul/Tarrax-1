@@ -356,7 +356,7 @@ class Account < ActiveRecord::Base
     associated_courses = associated_courses.with_enrollments if opts[:hide_enrollmentless_courses]
     associated_courses = associated_courses.for_term(opts[:term]) if opts[:term].present?
     associated_courses = yield associated_courses if block_given?
-    associated_courses.limit(opts[:limit]).active_first.find(:all, :select => columns, :group => columns)
+    associated_courses.limit(opts[:limit]).is_not_case.active_first.find(:all, :select => columns, :group => columns)
   end
 
   def fast_all_courses(opts={})

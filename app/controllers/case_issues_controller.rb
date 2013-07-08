@@ -111,8 +111,15 @@ class CaseIssuesController < ApplicationController
         )
         result = solution.save
         if result && solution.group_discuss
-          group = @context.groups.create(:name => params[:group_name])
-          group.group_memberships.create(:user => @current_user, :moderator => false)
+          Group.transaction do
+            enrollment = Enrollment.find_by_course_id_and_user_id(@context.id, @current_user.id) 
+            if enrollment.type == 'StudentEnrollment'
+              enrollment.role_name = t('#role.roles.case_group', 'Case Group')
+              enrollment.save!
+            end
+            group = @context.groups.create!(:name => params[:group_name], :case_solution => solution)
+            group.group_memberships.create!(:user => @current_user, :moderator => false)
+          end
         end
         solution.execute if result
       end

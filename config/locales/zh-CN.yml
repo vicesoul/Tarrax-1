@@ -10134,6 +10134,7 @@ zh-CN:
   role: 
     roles: 
       account_admin: 网校管理员
+      case_group: 案例组
   role_override: 
     permission: 
       read_sis: "读取 SIS 数据"

@@ -29,8 +29,8 @@
               <span><%= t 'solution_updated_at', 'Updated At' %>: <%= s.updated_at.to_s(:db) %></span>
               <span><%= t 'solution_state', 'State' %>: <%= CaseSolution.display_state[s.workflow_state] %></span>
             </small>
-            <div><%= t('title', 'Title')标题：<%= raw s.title %></div>
-            <div><%= t('content', 'Content')：
+            <div><%= t('title', 'Title') %>标题：<%= raw s.title %></div>
+            <div><%= t('content', 'Content')%>：
               <div><%= raw s.content %></div>
             </div>
           </div>

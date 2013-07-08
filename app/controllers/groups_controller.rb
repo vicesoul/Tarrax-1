@@ -119,7 +119,7 @@ class GroupsController < ApplicationController
     end
     users = @context.paginate_users_not_in_groups(groups, page)
 
-    if authorized_action(@context, @current_user, :manage)
+    if authorized_action(@context, @current_user, :manage_groups)
       respond_to do |format|
         format.json { render :json => {
           :pages => users.total_pages,

@@ -265,7 +265,7 @@ class CoursesController < ApplicationController
       begin 
         Course.transaction do 
           if account.roles.case_roles.empty?
-            role = account.roles.build(:name => 'Case Group')
+            role = account.roles.build(:name => t('#role.roles.case_group', 'Case Group'))
             role.base_role_type = 'StudentEnrollment'
             role.save!
             RoleOverride.manage_role_override(account, role.name, 'manage_groups', :override => true)
@@ -273,8 +273,8 @@ class CoursesController < ApplicationController
           course.save!
           course.offer
 
-          repostory.context_id = course.account_id
-          repostory.context_type = 'Account'
+          repostory.context_id = course.id
+          repostory.context_type = 'Course'
           repostory.name = 'Default Case Repostory'
           repostory.save!
         end
