@@ -36,7 +36,7 @@ class Account < ActiveRecord::Base
   has_many :courses, :conditions => ['is_case = false']
   has_many :cases, :class_name => 'Course', :conditions => ['is_case = true']
   has_many :job_positions
-  has_many :all_courses, :class_name => 'Course', :foreign_key => 'root_account_id'
+  has_many :all_courses, :class_name => 'Course', :foreign_key => 'root_account_id', :conditions => ['is_case = false']
   has_many :group_categories, :as => :context, :conditions => ['deleted_at IS NULL']
   has_many :all_group_categories, :class_name => 'GroupCategory', :as => :context
   has_many :groups, :as => :context
@@ -57,7 +57,7 @@ class Account < ActiveRecord::Base
   has_many :rubric_associations, :as => :context, :include => :rubric, :dependent => :destroy
   has_many :course_account_associations
   has_many :associated_courses, :through => :course_account_associations, :source => :course, :select => 'DISTINCT courses.*'
-  has_many :child_courses, :through => :course_account_associations, :source => :course, :conditions => ['course_account_associations.depth = 0']
+  has_many :child_courses, :through => :course_account_associations, :source => :course, :conditions => ['course_account_associations.depth = 0 and courses.is_case = false']
   has_many :attachments, :as => :context, :dependent => :destroy
   has_many :active_assignments, :as => :context, :class_name => 'Assignment', :conditions => ['assignments.workflow_state != ?', 'deleted']
   has_many :folders, :as => :context, :dependent => :destroy, :order => 'folders.name'
