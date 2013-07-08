@@ -1,32 +1,56 @@
 <% js_bundle :case_solution_edit %>
-<% jammit_css :tinymce %>
-<% form_for(@case_solution, :url => course_case_issue_case_solution_url(@context, params[:case_issue_id]), :html => {:method => 'PUT'} ) do |f| %>
+<% jammit_css :case, :tinymce %>
+<% form_for(@case_solution, :url => course_case_issue_case_solution_url(@context, params[:case_issue_id]), :html => {:method => 'PUT', :class => 'form-horizontal bootstrap-form'} ) do |f| %>
   <%= f.error_messages %>
 
   <!-- 案例问题 start --> 
-  <div>
-    <% case_issue = @case_solution.case_issue %>
-    <div>
+  <% case_issue = @case_solution.case_issue %>
+
+  <small class='right sub-text'>
+    <span><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></span>
+  </small>
+
+  <div class='control-group'>
+    <label class='control-label'><%= t 'issue', 'Issue' %>：</label>
+    <div class='controls'>
       <%= case_issue.subject %>
     </div>
-    <div>
-      <% case_issue.case_tpl.case_tpl_widgets.each do |w|%> 
-        <div><%= raw w.title %></div>
-        <div><%= raw w.body %></div>
-      <% end %>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label'><%= t 'template', 'Template' %>：</label>
+    <div class='controls'>
+    
+      <div class='template-overview'>
+        <dl>
+          <% case_issue.case_tpl.case_tpl_widgets.each do |w|%> 
+            <dt><%= raw w.title %></dt>
+            <dd><%= raw w.body %></dd>
+          <% end %>
+        </dl>
+      </div>
+
     </div>
   </div>
-  <!-- 案例问题 end --> 
-  <div><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></div>
-  <div>
-    <%= t 'title', 'Title' %>: <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= t 'content', 'Content' %>: <%= f.text_area :content %>
-  </div>
-  <p>
-    <%= f.submit t('#buttons.update', 'Update') %>
-  </p>
-<% end %>
 
-<%= link_to t('#buttons.back', 'Back'), course_case_issue_case_solutions_path(@context, params[:case_issue_id], params[:case_solution_id]) %>
+  
+  <!-- 案例问题 end --> 
+  <div class='control-group'>
+    <label class='control-label'><%= t 'title', 'Title' %>:</label>
+    <div class='controls'>
+      <%= f.text_field :title %>
+    </div>
+  </div>
+  <div class='control-group'>
+    <label class='control-label'><%= t 'content', 'Content' %>:</label>
+    <div class='controls'>
+      <%= f.text_area :content %>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-primary right" type="submit"><i class='icon-refresh'></i> <%=  t('#buttons.update', 'Update') %> </button>
+  </div>
+<% end %>
+<% link_to course_case_issue_case_solutions_path(@context, params[:case_issue_id], params[:case_solution_id]), {:class => 'btn'} do %>
+  <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+<% end %>

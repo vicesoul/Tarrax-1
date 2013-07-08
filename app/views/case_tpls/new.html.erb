@@ -1,16 +1,20 @@
-<h1><%= t('new_tpl', 'New case_tpl') %></h1>
+<% js_bundle :case %>
+<% jammit_css :case, :tinymce %>
 
-<% form_for(@case_tpl, :url => account_case_tpls_url(@account), :html => {:method => 'POST'}) do |f| %>
+<h1 id='case_tpl_new'><%= t('new_tpl', 'New case_tpl') %></h1>
+
+<% form_for(@case_tpl, :url => account_case_tpls_url(@account), :html => {:method => 'POST', :class => 'form-horizontal bootstrap-form'}) do |f| %>
 
   <%= f.error_messages %>
 
   <%= render :partial => 'form', :locals => {:f => f } %>
-
   <p>
-    <%= f.submit t('#buttons.create', 'Create') %>
+		<button class="btn btn-primary right" type="submit"><i class='icon-discussion-new'></i> <%=  t('#buttons.create', 'Create') %> </button>
   </p>
 <% end %>
 
 <%= render :partial => 'hidden_element' %>
 
-<%= link_to t('#buttons.back', 'Back'), account_case_tpls_path %>
+<% link_to account_case_tpls_path, {:class => 'btn'} do %>
+  <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+<% end %>

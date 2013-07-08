@@ -4,4 +4,5 @@ require [
   'tinymce.editor_box'
 ], ($) ->
 	$ ->
-		$("#content form textarea").editorBox()
+		$("#content form textarea").editorBox tinyOptions:
+      width: '100%'
