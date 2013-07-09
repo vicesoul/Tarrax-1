@@ -83,7 +83,7 @@
                 <% end %> 
               </li>
             <% end %>
-            <% if case_issue.new? && case_issue.user.id == @current_user.id %>
+            <% if (case_issue.new? && case_issue.user.id == @current_user.id) || (can_do(@context, @current_user, :operate_case_as_teacher)) %>
               <li>
                 <% link_to edit_course_case_issue_path(@context, case_issue) do %>
                   <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.edit', 'Edit') %>

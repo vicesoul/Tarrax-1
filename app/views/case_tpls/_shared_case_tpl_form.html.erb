@@ -5,7 +5,7 @@
       <% fields_for "case_tpl_widget[]", w do |widget| %>
         <div class='case-tpl'>
           <div class='control-group'>
-            <% if @is_ajax %>
+            <% if @is_ajax && w.title.present?%>
               <div class='control-group'>
                 <label class="control-label"><%= t 'title', 'Title' %>：</label>
                 <div class="controls">
@@ -13,14 +13,16 @@
                 </div>
               </div>
             <% else%>
-              <%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %>
+              <% if params[:context_type] == 'Account' %>
+                <%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %>
+              <% end %>
             <% end %>
             <% if params[:context_type] == 'Account' %>
               <button class="remove-me btn btn-inverse right"><i class="icon-trash"></i> <%= t 'remove_me', 'Remove Me'%></button>
             <% end %>
           </div>
           <div class='control-group'>
-            <% if @is_ajax %>
+            <% if @is_ajax && w.body.present? %>
               <div class='control-group'>
                 <label class="control-label"><%= t 'describe', 'Describe' %>：</label>
                 <div class="controls">

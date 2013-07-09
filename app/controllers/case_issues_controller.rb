@@ -154,7 +154,7 @@ class CaseIssuesController < ApplicationController
   # DELETE /case_issues/1
   # DELETE /case_issues/1.xml
   def destroy
-    @case_issue.destroy if @case_issue.new?
+    @case_issue.destroy if @case_issue.new? || authorized_action(@context, @current_user, :operate_case_as_teacher)
 
     respond_to do |format|
       format.html { redirect_to(course_case_issues_url) }

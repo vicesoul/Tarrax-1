@@ -16,12 +16,12 @@ class CaseTpl < ActiveRecord::Base
     tpl = self.new(:name => t('#case_tpls.model_init.tpl', 'Case Tpl'))
     tpl.case_tpl_widgets.build(
       :title => t('#case_tpls.model_init.subject', 'Subject'),
-      :body => t('#case_tpls.model_init.body', 'Content'),
+      :body => t('#case_tpls.model_init.content', 'Content'),
       :seq => 0
     )
     tpl.case_tpl_widgets.build(
-      :title => t('#case_tpls.model_init.content', 'Content'),
-      :body => t('#case_tpls.model_init.body', 'Content'),
+      :title => t('#case_tpls.model_init.subject', 'Subject'),
+      :body => t('#case_tpls.model_init.content', 'Content'),
       :seq => 1
     )
     tpl

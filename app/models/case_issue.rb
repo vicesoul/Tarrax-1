@@ -3,7 +3,7 @@ class CaseIssue < ActiveRecord::Base
   attr_accessible :case_repostory_id, :subject, :user_id, :user
   belongs_to :case_repostory
   belongs_to :user
-  has_many :case_solutions
+  has_many :case_solutions, :dependent => :destroy
   has_one :case_tpl, :as => :context
 
   include Workflow
@@ -13,12 +13,12 @@ class CaseIssue < ActiveRecord::Base
     tpl = issue.build_case_tpl(:name => t('#case_tpls.model_init.default_tpl', 'Default case issue template'))
     tpl.case_tpl_widgets.build(
       :title => t('#case_tpls.model_init.subject', 'Subject'),
-      :body => t('#case_tpls.model_init.body', 'Content'),
+      :body => t('#case_tpls.model_init.content', 'Content'),
       :seq => 0
     )
     tpl.case_tpl_widgets.build(
-      :title => t('#case_tpls.model_init.content', 'Content'),
-      :body => t('#case_tpls.model_init.body', 'Content'),
+      :title => t('#case_tpls.model_init.subject', 'Subject'),
+      :body => t('#case_tpls.model_init.content', 'Content'),
       :seq => 1
     )
     issue
