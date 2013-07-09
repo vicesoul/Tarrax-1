@@ -264,8 +264,9 @@ class CoursesController < ApplicationController
     respond_to do |format|
       begin 
         Course.transaction do 
-          if account.roles.case_roles.empty?
-            role = account.roles.build(:name => t('#role.roles.case_group', 'Case Group'))
+          role_name = t('#role.roles.case_group', 'Case Group')
+          if account.roles.case_roles(role_name).empty?
+            role = account.roles.build(:name => role_name)
             role.base_role_type = 'StudentEnrollment'
             role.save!
             RoleOverride.manage_role_override(account, role.name, 'manage_groups', :override => true)
@@ -281,11 +282,7 @@ class CoursesController < ApplicationController
       rescue => e
         result = false
       end
-      if result
-        format.json { render :json => true}
-      else
-        format.json { render :json => false}
-      end
+      format.json { render :json => result.to_json}
     end
   end
 

@@ -22,7 +22,8 @@
       <% else %>
         <div>
           <span><%= t 'select_tpl_first', 'Please select a case template' %>:</span>
-          <%= select_tag 'tpl', options_for_select(Course.find(params[:context_id]).root_account.case_tpls.map{|t| [t.name, t.id ]}.insert(0, t('please_select', 'Please select'))), {:id => 'tpl-selector'} %>
+          <% course = Course.find(params[:context_id]) %>
+          <%= select_tag 'tpl', options_for_select((course.root_account.case_tpls | course.account.case_tpls).map{|t| [t.name, t.id ]}.insert(0, t('please_select', 'Please select'))), {:id => 'tpl-selector'} %>
         </div>
       <% end %>
     </div>

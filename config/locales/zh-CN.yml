@@ -432,6 +432,8 @@ zh-CN:
         edit_catgory_successfully: 修改公告分类成功
         edit_category_failure: 修改公告分类失败
   accounts: 
+    case_repositories:
+      case_repository: 此网校中的案例库 
     account_user: 
       remove_admin_tooltip: 删除此管理员
     add_course_button: 添加新课程

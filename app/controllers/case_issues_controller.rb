@@ -113,7 +113,7 @@ class CaseIssuesController < ApplicationController
         if result && solution.group_discuss
           Group.transaction do
             enrollment = Enrollment.find_by_course_id_and_user_id(@context.id, @current_user.id) 
-            if enrollment.type == 'StudentEnrollment'
+            if enrollment && enrollment.type == 'StudentEnrollment'
               enrollment.role_name = t('#role.roles.case_group', 'Case Group')
               enrollment.save!
             end
