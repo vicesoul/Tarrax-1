@@ -119,6 +119,12 @@ class CaseIssuesController < ApplicationController
             end
             group = @context.groups.create!(:name => params[:group_name], :case_solution => solution)
             group.group_memberships.create!(:user => @current_user, :moderator => false)
+            DiscussionTopic.create!(
+              :context => group,
+              :discussion_type => DiscussionTopic::DiscussionTypes::THREADED,
+              :user => @current_user,
+              :title => t("#case_issues.discuss_for", "Discuss for %{issue.subject}", :issue_subject => issue.subject),
+              :message => issue.case_tpl.case_tpl_widgets.inject(""){|r, o| r << o.body})
           end
         end
         solution.execute if result

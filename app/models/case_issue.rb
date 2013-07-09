@@ -1,10 +1,11 @@
 class CaseIssue < ActiveRecord::Base
 
-  attr_accessible :case_repostory_id, :subject, :user_id, :user
+  attr_accessible :case_repostory_id, :subject, :user_id, :user, :used_case_tpl_id
   belongs_to :case_repostory
   belongs_to :user
   has_many :case_solutions, :dependent => :destroy
   has_one :case_tpl, :as => :context
+  belongs_to :used_case_tpl, :class_name => 'CaseTpl', :foreign_key => 'used_case_tpl_id'
 
   include Workflow
 

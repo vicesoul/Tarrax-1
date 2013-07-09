@@ -8,7 +8,6 @@
     <span><%= t('updated_at', 'Updated At') %>: <%= @case_issue.updated_at.to_formatted_s(:db) %></span>
   </small>
   <div class='template-overview'>
-    <h2><%= t('template', 'Template') %>:</h2>
     <dl>
       <% @case_issue.case_tpl.case_tpl_widgets.each do |w| %>
         <dt><%= raw w.title %></dt>
@@ -29,10 +28,8 @@
               <span><%= t 'solution_updated_at', 'Updated At' %>: <%= s.updated_at.to_s(:db) %></span>
               <span><%= t 'solution_state', 'State' %>: <%= CaseSolution.display_state[s.workflow_state] %></span>
             </small>
-            <div><%= t('title', 'Title') %>标题：<%= raw s.title %></div>
-            <div><%= t('content', 'Content')%>：
-              <div><%= raw s.content %></div>
-            </div>
+            <div><%= t('title', 'Title') %>：<%= raw s.title %></div>
+            <div><%= raw s.content %></div>
           </div>
         <% end %>
       <% end %>

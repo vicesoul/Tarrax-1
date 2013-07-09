@@ -25,6 +25,8 @@ zh-CN:
       tpl_name: 模板名
       template: 模板
     shared_case_tpl_form:
+      title: 板块主题
+      desc: 板块说明
       remove_me: 移除
     edit:
       edit_tpl: 编辑案例模板
@@ -39,6 +41,7 @@ zh-CN:
       current_solutions: 当前的解决方案
 
   case_issues:
+    discuss_for: "对%{issue_subject}进行讨论"
     model_init:
       issue: 案例问题
     state_array:
@@ -99,8 +102,8 @@ zh-CN:
       solution_updated_at: 更新时间
       solution_state: 状态
   case_solutions:
-    ya: 是
-    not: 否
+    ya: 有小组讨论的
+    not: 无小组讨论的
     bread_crumb:
       solutions: 案例解决方案
     state_array:

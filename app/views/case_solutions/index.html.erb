@@ -49,7 +49,13 @@
       <tr>
       <td><%= link_to (case_solution.title || '-'), course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
       <td><%= CaseSolution.display_state[case_solution.workflow_state] %></td>
-      <td><%= link_to (case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No')), course_group_path(@context, case_solution.group.id) %></td>
+      <td>
+        <% if case_solution.group_discuss %>
+          <%= link_to t('#case_solutions.ya', 'Yes'), course_group_path(@context, case_solution.group.id) %>
+        <% else %>
+          <%= t('#case_solutions.not', 'No') %>
+        <% end %>
+      </td>
       <td><%= case_solution.user.name %></td>
       <td><%= case_solution.updated_at.to_formatted_s(:db) %></td>
       <td>

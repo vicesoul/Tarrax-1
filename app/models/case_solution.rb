@@ -4,7 +4,7 @@ class CaseSolution < ActiveRecord::Base
 
   belongs_to :case_issue
   belongs_to :user
-  has_one :group
+  has_one :group, :dependent => :destroy
 
   validates_presence_of :title, :on => :update 
   validates_presence_of :content, :on => :update 
