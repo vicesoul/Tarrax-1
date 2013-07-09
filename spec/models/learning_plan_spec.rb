@@ -274,6 +274,11 @@ describe LearningPlan do
 
       c2 = @course
 
+      # stub user account associations
+      a1 = account_model :name => 'jxb'
+      User.any_instance.stubs(:user_account_associations).returns( stub(:find_all_by_account_id => [stub(:account_id => a1.id)]) )
+      @learning_plan.section_mappings = [a1.id]
+
       @learning_plan.publish!
 
       @learning_plan.enrollments.size.should == 2
