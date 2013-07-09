@@ -76,7 +76,7 @@ class SubAccountsController < ApplicationController
       :group => 'course_account_associations.account_id',
       :joins => :course_account_associations,
       :conditions => "course_account_associations.account_id IN (#{@accounts[:all_account_ids].join(', ')}) AND " +
-                    "course_account_associations.depth=0 AND courses.workflow_state<>'deleted'")
+                    "course_account_associations.depth=0 AND courses.workflow_state<>'deleted' and courses.is_case = false")
     counts.each do |account_id, count|
       @accounts[account_id][:course_count] = count
     end

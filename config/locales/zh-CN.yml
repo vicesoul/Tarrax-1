@@ -1,5 +1,155 @@
 --- 
 zh-CN: 
+  case_tpls:
+    bread_crumb:
+      case_tpl: 案例模板
+    save_successfully: 案例模板保存成功
+    model_init:
+      default_tpl: 默认案例模板
+      tpl: 案例模板
+      subject: 板块主题
+      body: 正文
+      content: 板块说明
+    index:
+      new_tpl: 新建案例模板
+      headings:
+        name: 模板名
+        author: 作者
+        op: 操作
+        updated_at: 更新时间
+      empty_tpls: 没有案例模板
+    new:
+      new_tpl: 新建案例模板
+    form:
+      new_module: 添加新模块
+      tpl_name: 模板名
+      template: 模板
+    shared_case_tpl_form:
+      title: 板块主题
+      desc: 板块说明
+      remove_me: 移除
+    edit:
+      edit_tpl: 编辑案例模板
+    hidden_element:
+      remove_me: 移除
+      custom_title: 自定义主题
+      custom_content: 自定义正文
+    show:
+      tpl_name: 模板名
+      author: 作者
+      updated_at: 更新时间
+      current_solutions: 当前的解决方案
+
+  case_issues:
+    discuss_for: "对%{issue_subject}进行讨论"
+    model_init:
+      issue: 案例问题
+    state_array:
+      new: 新建的
+      awaiting_review: 等待审核的
+      accepted: 审核通过的
+      rejected: 被拒绝的
+    bread_crumb:
+      case_issue: 案例问题
+    index:
+      new_issue: 新建案例问题
+      selector:
+        subject: 主题
+        author: 作者
+        state: 状态
+        query: 查询
+      empty_issue: 没有案例问题
+      headings:
+        subject: 主题
+        state: 状态
+        author: 作者
+        solutions: 解决方案
+        updated_at: 更新时间
+        op: 操作
+      links:
+        submit: 提交
+        review: 审核
+        apply: 申领
+        edit: 修改
+        delete: 删除
+      dialogs:
+        your_option: 您的意见是
+        accept: 接受
+        reject: 拒绝
+        group_discuss: 是否小组讨论
+        ya: 是
+        not: 否
+    new:
+      new_issue: 新建案例问题
+    edit:
+      edit_issue: 修改案例问题
+    form:
+      subject: 主题
+      template: 模板
+      select_tpl_first: 请选择一个案例模板
+      please_select: 请选择
+      warn_tpl: 你所在的网校还没有案例模板，所以将使用系统内置的案例模板
+    show:
+      subject: 主题
+      title: 标题
+      content: 正文
+      state: 状态
+      author: 作者
+      updated_at: 更新时间
+      template: 模板
+      current_solutions: 当前的解决方案
+      solution_author: 作者
+      solution_updated_at: 更新时间
+      solution_state: 状态
+  case_solutions:
+    ya: 有小组讨论的
+    not: 无小组讨论的
+    bread_crumb:
+      solutions: 案例解决方案
+    state_array:
+      executing: 执行中
+      being_reviewed: 被审核中
+      reviewed: 已被审核
+      recommended: 被推荐的
+    index:
+      selector:
+        title: 标题
+        author: 作者
+        state: 状态
+        query: 查询
+      empty_solutions: 没有案例解决方案
+      headings:
+        title: 标题
+        state: 状态
+        group_discuss: 小组讨论
+        author: 作者
+        updated_at: 更新时间
+        op: 操作
+      links:
+        submit: 提交
+        review: 审核
+      your_option: 您的意见是？
+      review: 已审核
+      recommend: 推荐
+    edit:
+      issue: 案例问题主题
+      template: 模板
+      state: 状态
+      group_discuss: 小组讨论
+      author: 作者
+      updated_at: 更新时间
+      title: 标题
+      content: 正文
+    show:
+      issue: 案例问题主题
+      state: 状态
+      group_discuss: 小组讨论
+      author: 作者
+      updated_at: 更新时间
+      title: 标题
+      content: 正文
+      template: 模板
+
   EditAppointmentGroupDetails: 
     affect_reservations: 这对预约有何影响?
     and_n_contexts: "和其他 %{n} 个人"
@@ -42,6 +192,7 @@ zh-CN:
     tab_homepage: 主页
     tab_jobs: 工作队列
     tab_learning_plans: 学习计划
+    tab_case_collection_repositories: 案例征集
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
@@ -284,6 +435,8 @@ zh-CN:
     types: 
       account_admin: 网校管理员
   accounts: 
+    case_repositories:
+      case_repository: 此网校中的案例库 
     account_user: 
       remove_admin_tooltip: 删除此管理员
     add_course_button: 添加新课程
@@ -291,6 +444,7 @@ zh-CN:
     add_course_or_user: 
       add_course_button: 添加新课程
       add_course_link: 添加新课程
+      add_case_link: 添加新案例征集库
       add_user_button: 添加新用户
       add_user_link: 添加新用户
       attach_users_link: 关联用户
@@ -321,6 +475,11 @@ zh-CN:
       sortable_name_help: 此名称在检索列表中显示。
     add_user_button: 添加新用户
     add_user_dialog_title: 添加新用户
+    add_case_dialog_content: 向您的网校添加案例征集库
+    add_case_dialog_title: 添加新案例征集库
+    add_case_button: 添加新案例征集库
+    add_case_failure: 添加案例征集库失败
+    add_case_successfully: 添加案例征集库成功
     adding_course_message: 正在添加课程...
     adding_user_message: 正在添加用户...
     associated: 
@@ -508,6 +667,9 @@ zh-CN:
       ip_filter_filter_label: IP限制
       ip_filter_name_label: 名称
       job_position_management_fieldset: 岗位管理
+      case_tpl_management_fieldset: 案例模板管理
+      tip:
+        select_account_notification_category: 请选择公告分类
       labels: 
         account_notification_category_id: 公告分类
         account_notification_icon: 图标
@@ -1517,10 +1679,14 @@ zh-CN:
     add_item: 添加项目
     apply: 应用
     authorize_google_docs: "授权 Google Docs 访问"
+    back: 返回
     back_to_outcomes: 返回结果
+    create: 新建
     cancel: 取消
+    confirm: 您确定吗？
     delete: 删除
     done: 完成
+    edit: 修改
     filter: 筛选
     go_back: 返回
     hide_all_artifacts: 隐藏所有产物
@@ -1531,6 +1697,7 @@ zh-CN:
     save: 保存
     save_tool_settings: 保存工具设置
     search: 搜索
+    show: 明细
     show_all_artifacts: 显示所有产物
     submit: 提交
     update: 更新
@@ -9982,6 +10149,7 @@ zh-CN:
   role: 
     roles: 
       account_admin: 网校管理员
+      case_group: 案例组
   role_override: 
     permission: 
       read_sis: "读取 SIS 数据"
@@ -9991,6 +10159,8 @@ zh-CN:
       comment_on_others_submissions: 查看所有学生的提交并对其进行评注
       create_collaborations: 创建学生协作
       create_conferences: "创建 Web 在线视频课"
+      create_case_repostory: 创建案例征集库
+      manage_account_notification_category: 管理网校公告分类
       manage_account_memberships: 添加/删除网校的其他管理员
       manage_account_settings: 管理网校级设置
       manage_admin_users: 添加/删除课程的其他教师、课程课程设计或助教
@@ -10020,6 +10190,8 @@ zh-CN:
       manage_wiki: 管理维基（添加/编辑/删除页面）
       managed_jobs: 管理后台工作
       moderate_form: 调整讨论（删除/编辑其他人的发布内容、锁定主题）
+      operate_case_as_student: 以普通人员的身份操作案例
+      operate_case_as_teacher: 以管理员身份操作案例
       post_to_forum: 发布到讨论
       read_course_content: 查看课程内容
       read_course_list: 查看课程列表
@@ -11190,6 +11362,7 @@ zh-CN:
     profile: 个人资料
     quizzes: 测试
     settings: 课程管理
+    case_settings: 案例管理
     syllabus: 纲要
   teacher: 
     female: 女
@@ -11331,6 +11504,8 @@ zh-CN:
       title: 讲师
     teachers_management: 讲师
     updated_successfully: 成功更新讲师
+    case_repostory: 案例征集库
+    case_issue: 案例问题
   terms: 
     index: 
       date: 

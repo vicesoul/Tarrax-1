@@ -252,6 +252,40 @@ class CoursesController < ApplicationController
     end
   end
 
+  #mock a case repostory
+  def create_case_course
+    result = true
+    account = Account.find(params[:course][:account_id])
+    params[:course][:account] = account
+    params[:course].delete(:account_id)
+    params[:course][:name] = t('#tabs.case_repostory', 'Case Collection Repository') if params[:course][:name].blank?
+    course = Course.new(params[:course])
+    repostory = CaseRepostory.new
+    respond_to do |format|
+      begin 
+        Course.transaction do 
+          role_name = t('#role.roles.case_group', 'Case Group')
+          if account.roles.case_roles(role_name).empty?
+            role = account.roles.build(:name => role_name)
+            role.base_role_type = 'StudentEnrollment'
+            role.save!
+            RoleOverride.manage_role_override(account, role.name, 'manage_groups', :override => true)
+          end
+          course.save!
+          course.offer
+
+          repostory.context_id = course.id
+          repostory.context_type = 'Course'
+          repostory.name = 'Default Case Repostory'
+          repostory.save!
+        end
+      rescue => e
+        result = false
+      end
+      format.json { render :json => result.to_json}
+    end
+  end
+
   # @API Upload a file
   #
   # Upload a file to the course.
@@ -952,6 +986,7 @@ class CoursesController < ApplicationController
     end
 
     @context = Course.active.find(params[:id])
+    return redirect_to course_case_issues_path(@context) if @context.is_case
     if request.xhr?
       if authorized_action(@context, @current_user, [:read, :read_as_admin])
         render :json => @context.to_json

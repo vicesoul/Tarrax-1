@@ -1,0 +1,24 @@
+<% js_bundle :case %>
+<% jammit_css :case, :tinymce %>
+<div class='case_issues_new'>
+	<h1><%= t 'new_issue', 'New case issue' %></h1>
+
+	<% form_for(@case_issue, :url => course_case_issues_url(@context), :html => {:method => 'POST', :class => 'form-horizontal bootstrap-form'}) do |f| %>
+
+	  <%= f.error_messages %>
+
+	  <%= render :partial => 'form', :locals => {:f => f } %>
+
+	  <p>
+	    <button class="btn btn-primary right" type="submit"><i class='icon-refresh'></i> <%=  t('#buttons.create', 'Create') %> </button>
+	  </p>
+	  
+	<% end %>
+
+	<%= render :partial => 'case_tpls/hidden_element' %>
+
+	<% link_to course_case_issues_path, {:class => 'btn'} do %>
+	  <i class='icon-reset'></i>
+	  <%=  t('#buttons.back', 'Back') %>
+	<% end %>
+</div>

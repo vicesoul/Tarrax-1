@@ -33,9 +33,10 @@ class Account < ActiveRecord::Base
   belongs_to :parent_account, :class_name => 'Account'
   belongs_to :root_account, :class_name => 'Account'
   authenticates_many :pseudonym_sessions
-  has_many :courses
+  has_many :courses, :conditions => ['is_case = false']
+  has_many :cases, :class_name => 'Course', :conditions => ['is_case = true']
   has_many :job_positions
-  has_many :all_courses, :class_name => 'Course', :foreign_key => 'root_account_id'
+  has_many :all_courses, :class_name => 'Course', :foreign_key => 'root_account_id', :conditions => ['is_case = false']
   has_many :group_categories, :as => :context, :conditions => ['deleted_at IS NULL']
   has_many :all_group_categories, :class_name => 'GroupCategory', :as => :context
   has_many :groups, :as => :context
@@ -56,7 +57,7 @@ class Account < ActiveRecord::Base
   has_many :rubric_associations, :as => :context, :include => :rubric, :dependent => :destroy
   has_many :course_account_associations
   has_many :associated_courses, :through => :course_account_associations, :source => :course, :select => 'DISTINCT courses.*'
-  has_many :child_courses, :through => :course_account_associations, :source => :course, :conditions => ['course_account_associations.depth = 0']
+  has_many :child_courses, :through => :course_account_associations, :source => :course, :conditions => ['course_account_associations.depth = 0 and courses.is_case = false']
   has_many :attachments, :as => :context, :dependent => :destroy
   has_many :active_assignments, :as => :context, :class_name => 'Assignment', :conditions => ['assignments.workflow_state != ?', 'deleted']
   has_many :folders, :as => :context, :dependent => :destroy, :order => 'folders.name'
@@ -355,7 +356,7 @@ class Account < ActiveRecord::Base
     associated_courses = associated_courses.with_enrollments if opts[:hide_enrollmentless_courses]
     associated_courses = associated_courses.for_term(opts[:term]) if opts[:term].present?
     associated_courses = yield associated_courses if block_given?
-    associated_courses.limit(opts[:limit]).active_first.find(:all, :select => columns, :group => columns)
+    associated_courses.limit(opts[:limit]).is_not_case.active_first.find(:all, :select => columns, :group => columns)
   end
 
   def fast_all_courses(opts={})
@@ -1015,6 +1016,7 @@ class Account < ActiveRecord::Base
   # jxb tabs
   TAB_COURSE_SYSTEMS = 100
   TAB_LEARNING_PLANS = 101
+  TAB_CASE_COLLECTION_REPOSITORIES = 102
 
   def external_tool_tabs(opts)
     tools = ContextExternalTool.active.find_all_for(self, :account_navigation)
@@ -1061,6 +1063,11 @@ class Account < ActiveRecord::Base
       tabs << { :id => TAB_SIS_IMPORT, :label => t('#account.tab_sis_import', "SIS Import"), :css_class => 'sis_import', :href => :account_sis_import_path } if self.root_account? && self.allow_sis_import && user && self.grants_right?(user, nil, :manage_sis)
       tabs << { :id => TAB_COURSE_SYSTEMS, :label => t('#account.tab_course_systems', "Course Systems"), :css_class => 'course_systems', :href => :account_course_systems_path } #if user && self.grants_right?(user, nil, :manage_course_system)
       tabs << { :id => TAB_LEARNING_PLANS, :label => t('#account.tab_learning_plans', "Learning Plans"), :css_class => 'learning_plans', :href => :account_learning_plans_path } #if user && self.grants_right?(user, nil, :manage_learning_plans)
+
+      courses = self.cases
+      #self.class.send(:include, ActionController::UrlWriter)
+      tabs << { :id => TAB_CASE_COLLECTION_REPOSITORIES, :label => t('#account.tab_case_collection_repositories', "Case Collection Repostries"), :css_class => 'case_collection_repositories', :href => :account_case_repositories_path} if courses.any?{|c| c.is_case } && self.grants_right?(user, nil, :manage_account_settings)
+
     end
     tabs += external_tool_tabs(opts)
     tabs << { :id => TAB_SETTINGS, :label => t('#account.tab_settings', "Settings"), :css_class => 'settings', :href => :account_settings_path }

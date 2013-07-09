@@ -1,0 +1,12 @@
+
+<h2><%= t 'case_repository', 'Cases In This Account' %></h2>
+
+<ul class="courses" style="list-style-type: none;">
+  <% @courses.each do |c| %>
+    <li class="course">
+    <div class="course">
+      <%= link_to c.name, course_case_issues_path(c) %>
+    </div>
+    </li>
+  <% end %>
+</ul>

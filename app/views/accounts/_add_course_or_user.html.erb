@@ -1,11 +1,12 @@
 <%
-  hide_add_course ||= false; hide_add_user ||= false
+  hide_add_course ||= false; hide_add_user ||= false; hide_add_case_repostory ||= false;
   show_course = !hide_add_course && can_do(@account, @current_user, :manage_courses)
   # show_user = !hide_add_user && can_do(@account.root_account, @current_user, :manage_user_logins)
   show_user = !hide_add_user && can_do(@account, @current_user, :manage_user_logins)
+  show_case_repostory = !hide_add_case_repostory && can_do(@account, @current_user, :create_case_repostory)
 %>
 
-<% if show_course || show_user %>
+<% if show_course || show_user || show_case_repostory %>
 <div class="rs-margin-all">
   <% if show_course %>
     <a href="#" class="add_course_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t(:add_course_link, "Add a New Course") %></a>
@@ -16,6 +17,9 @@
     <% if @current_user.admin_of_account? @account.root_account %>
       <a href="#" class="attach_users_link btn button-sidebar-wide"><i class="icon-user-add"></i> <%= t(:attach_users_link, "Attach Users") %></a>
     <% end %>
+  <% end %>
+  <% if show_case_repostory %>
+    <a href="#" class="add_case_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t(:add_case_link, "Add a Case Collection Repostory") %></a>
   <% end %>
 </div>
 
@@ -153,6 +157,29 @@
     </table>
     <% end %>
   </div>
+
+  <div id="add_case_repostory_dialog">
+    <% form_for :course, :url => create_case_course_url, :html => {:id => 'add_case_repostory_form'} do |f| %>
+      <div>
+        <%= t '#accounts.add_case_dialog_content', 'Add a new case collection repostory for your account' %>
+      </div>
+      <div>
+        <%= f.text_field :name %>
+        <%= f.hidden_field :account_id, :value => @account.id %>
+        <%= f.hidden_field :is_case , :value => true %>
+        <%= f.hidden_field :is_public, :value => false %>
+      </div>
+
+     <td colspan="2">
+        <div class="button-container">
+          <button type="button" class="btn dialog_closer"><%= t("#buttons.cancel", "Cancel") %></button>
+          <button type="submit" class="btn btn-primary"><%= t("#accounts.add_case_button", "Add Case Collection Repostory") %></button>
+        </div>
+      </td>
+
+    <% end %>
+  </div>
+
 </div>
 
 <div>
@@ -312,6 +339,32 @@ require([
     $(document).on('click', '.attach_users_link', function(e){
       e.preventDefault();
       PickupUsers.open();
+    });
+    //create case event
+    $('.add_case_link').bind('click', function(){
+      $('#add_case_repostory_dialog').dialog({
+        title: <%= jt('#accounts.add_case_dialog_title', 'Add a New Case Collection Repostory') %>,
+        width: 500
+      });
+      return false;
+    });
+
+    $('#add_case_repostory_dialog .dialog_closer').bind('click', function(){
+      $('#add_case_repostory_dialog').dialog('close');
+    });
+
+    $('#add_case_repostory_form').formSubmit({
+      success: function(data){
+        if(data){
+          $.flashMessage(<%= jt('#accounts.add_case_successfully', 'Added case collection repostory successfully.')%>);
+          window.location.reload();
+        }else{
+          alert(<%= jt('#accounts.add_case_failure', 'Create Case Collection Repostory failure.') %>);
+        }
+      },
+      error: function(){
+        alert(<%= jt('#accounts.add_case_failure', 'Create Case Collection Repostory failure.') %>);
+      }
     });
   });
 });

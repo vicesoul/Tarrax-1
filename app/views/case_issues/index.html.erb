@@ -1,0 +1,126 @@
+
+<% js_bundle :case_issue_index %>
+<%= link_to t('new_issue', 'New case_issue'), new_course_case_issue_path %>
+
+<div>
+  <% form_for @search, :url => course_case_issues_path do |f| %>
+    <div>
+        <ul>
+          <li>
+            <label><%= t 'selector.subject', 'Subject' %>:</label>
+            <%= f.text_field :subject_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.author', 'Author' %>:</label>
+            <%= f.text_field :user_name_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.state', 'State' %>:</label>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'new', nil %> <%= t '#case_issues.state_array.new', 'New' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'awaiting_review', nil %> <%= t '#case_issues.state_array.awaiting_review', 'Awaiting Review' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'accepted', nil %> <%= t '#case_issues.state_array.accepted', 'Accepted' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '#case_issues.state_array.rejected', 'Rejected' %>
+          </li>
+          <li>
+            <label> </label>
+            <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
+          </li>
+         </ul>
+    </div>
+  <% end %>
+</div>
+<% unless @case_issues.empty? %>
+  <!-- Don't modify if you expect the correct pagination when using sort -->
+  <%= pagination = will_paginate(@case_issues) %>
+  <table class="table table-striped table-bordered range">
+    <tr>
+      <th><%= sortable_for_searchlogic('subject', (t 'headings.subject', 'Subject')) %></th>
+      <th><%= sortable_for_searchlogic('workflow_state', (t 'headings.state', 'State')) %></th>
+      <th><%= sortable_for_searchlogic('name', (t 'headings.author', 'Author'), 'user_sort_by_custom') %></th>
+      <th><%= t 'headings.solutions', 'Solutions' %></th>
+      <th><%= sortable_for_searchlogic('updated_at', (t 'headings.updated_at', 'Update At')) %></th>
+      <th><%= t 'headings.op', 'Operation' %></th>
+    </tr>
+
+  <% @case_issues.each do |case_issue| %>
+    <tr>
+      <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
+      <td><%= CaseIssue.display_state[case_issue.workflow_state] %></td>
+      <td><%= case_issue.user.name %></td>
+      <td>
+        <% solutions_size = case_issue.case_solutions.size %>
+        <% if solutions_size > 0 %>
+          <%= link_to solutions_size, course_case_issue_case_solutions_path(@context, case_issue) %>
+        <% else %>
+          <%= solutions_size %>
+        <% end %>
+      </td>
+      <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
+      <td>
+      <div class="admin-link-hover-area">
+        <div class="admin-links">
+          <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage (will be accessibly hidden)</span></button>
+          <ul class="al-options">
+            <% if case_issue.new? && case_issue.user.id == @current_user.id %>
+              <li>
+                <% link_to course_case_issue_submit_path(@context, case_issue),{:class => 'issue-submit'} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.submit', 'Submit') %>
+                <% end %> 
+              </li>
+            <% end %>
+            <% if case_issue.awaiting_review? && can_do(@context, @current_user, :operate_case_as_teacher) %>
+            <!-- params: review_result => ['accept', 'reject']-->
+              <li>
+                <% link_to course_case_issue_review_path(@context, case_issue),{:issue_subject => case_issue.subject, :class => 'issue-review'} do %>
+                  <span class='ui-icon ui-icon-trash'></span> <%=  (t 'links.review', 'Review') %>
+                <% end %> 
+              </li>
+            <% end %>
+            <% if case_issue.accepted? %>
+              <li>
+                <% link_to course_case_issue_apply_path(@context, case_issue),{:issue_subject => case_issue.subject, :class => 'issue-apply'} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.apply', 'Apply') %>
+                <% end %> 
+              </li>
+            <% end %>
+            <% if (case_issue.new? && case_issue.user.id == @current_user.id) || (can_do(@context, @current_user, :operate_case_as_teacher)) %>
+              <li>
+                <% link_to edit_course_case_issue_path(@context, case_issue) do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.edit', 'Edit') %>
+                <% end %> 
+              </li>
+              <li>
+                <% link_to course_case_issue_path(@context, case_issue), {:confirm => 'Are you sure?', :method => :delete} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.delete', 'Delete') %>
+                <% end %> 
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  <%= pagination %>
+<% else %>
+  <div>
+    <%= t 'empty_issue', 'Empty case issues' %>
+  </div>
+<% end %>
+<br />
+
+<div id="case-review-dialog" style="display:none">
+  <%= t 'dialogs.your_option', 'Your option is' %>
+  <input type="radio" name="review_result" value="accept" checked="true"><%= t 'dialogs.accept', 'Accept' %>
+  <input type="radio" name="review_result" value="reject"><%= t 'dialogs.reject', 'Reject' %>
+</div>
+
+<div id="case-apply-dialog" style="display:none">
+  <%= t 'dialogs.group_discuss', 'Group Discuss' %>
+  <input type="radio" name="group_discuss" value="true" checked="true"><%= t 'dialogs.ya', 'Yes' %>
+  <input type="radio" name="group_discuss" value="false"><%= t 'dialogs.not', 'No' %>
+  <div id="case-apply-group-name" style="display:none">
+    <input type="text" name="group_name" />
+  </div>
+</div>

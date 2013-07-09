@@ -19,6 +19,8 @@
 class Pseudonym < ActiveRecord::Base
   include Workflow
 
+  custom_sort_by
+
   attr_accessible :user, :account, :password, :password_confirmation, :path, :path_type, :password_auto_generated, :unique_id
 
   has_many :session_persistence_tokens
@@ -102,12 +104,6 @@ class Pseudonym < ActiveRecord::Base
     self.save!
     @send_confirmation = false
   end
-
-  named_scope :sort_by_custom, lambda {|column, direction|
-    {
-      :order => "pseudonyms.#{column} #{direction}"
-    }
-  }
 
   named_scope :by_unique_id, lambda { |unique_id|
     if connection_pool.spec.config[:adapter] == 'mysql'

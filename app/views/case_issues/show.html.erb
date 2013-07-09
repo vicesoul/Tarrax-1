@@ -1,0 +1,47 @@
+<% js_bundle :case %>
+<% jammit_css :case, :tinymce %>
+<div class='case_issues_show'>
+  <h1><%= @case_issue.subject %></h1>
+  <small class='sub-text right'>
+    <span><%= t('state', 'State') %>: <%= CaseIssue.display_state[@case_issue.workflow_state] %></span>
+    <span><%= t('author', 'Author') %>: <%= @case_issue.user.name %></span>
+    <span><%= t('updated_at', 'Updated At') %>: <%= @case_issue.updated_at.to_formatted_s(:db) %></span>
+  </small>
+  <div class='template-overview'>
+    <dl>
+      <% @case_issue.case_tpl.case_tpl_widgets.each do |w| %>
+        <dt><%= raw w.title %></dt>
+        <dd><%= raw w.body %></dd>
+      <% end %>
+    </dl>
+  </div>
+
+  <% unless @case_issue.case_solutions.empty? %>
+    <div><h3><%= t 'current_solutions', 'Current Solutions' %>:</h3></div>
+    <div class='case-solution'>
+      <% @case_issue.case_solutions.each_with_index do |s, i| %> 
+        <h4><%= i + 1 %></h4>
+        <% if s.title.present? && s.content.present? %>
+          <div class='case-solution-content'>
+            <small class='sub-text right'>
+              <span><%= t 'solution_author', 'Author' %>: <%= s.user.name %></span>
+              <span><%= t 'solution_updated_at', 'Updated At' %>: <%= s.updated_at.to_s(:db) %></span>
+              <span><%= t 'solution_state', 'State' %>: <%= CaseSolution.display_state[s.workflow_state] %></span>
+            </small>
+            <div><%= t('title', 'Title') %>：<%= raw s.title %></div>
+            <div><%= raw s.content %></div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @case_issue.new? && can_do(@context, @current_user, :operate_case_as_student) %>
+    <% link_to edit_course_case_issue_path(@context, @case_issue), {:class => 'btn'} do %>
+      <i class='icon-edit'></i> <%=  t('#buttons.edit', 'Edit') %>
+    <% end %>
+  <% end %>
+  <% link_to course_case_issues_path(@context), {:class => 'btn'} do %>
+    <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+  <% end %>
+</div>
