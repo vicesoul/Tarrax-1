@@ -330,6 +330,8 @@ class AssessmentItemConverter
           opts[:interaction_type] = 'fill_in_multiple_blanks_question'
         elsif type == 'multiple_dropdowns_question'
           opts[:interaction_type] = 'multiple_dropdowns_question'
+        elsif type == 'drag_and_drop_question'
+          opts[:interaction_type] = 'drag_and_drop_question'
         else
           opts[:custom_type] = type
         end
@@ -362,7 +364,7 @@ class AssessmentItemConverter
         end
       when /orderinteraction|ordering_question/i
         q = OrderInteraction.new(opts)
-      when /fill_in_multiple_blanks_question|multiple_dropdowns_question/i
+      when /fill_in_multiple_blanks_question|multiple_dropdowns_question|drag_and_drop_question/i
         q = FillInTheBlank.new(opts)
       when nil
         q = AssessmentItemConverter.new(opts)
