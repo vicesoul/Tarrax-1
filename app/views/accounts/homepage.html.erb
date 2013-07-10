@@ -7,9 +7,11 @@
 
 <% if @can_manage_homepage %>
   <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
-    <%= f.hidden_field :background_image %>
-    <%= before_label(:name, 'Theme name') %>
-    <%= f.select :theme, Jxb::Theme.themes %>
+    <div id="theme_options">
+      <%= f.hidden_field :background_image %>
+      <%= before_label(:name, 'Theme name') %>
+      <%= f.select :theme, Jxb::Theme.themes %>
+    </div>
   <% end %>
   <div id="fixed_right_sider">
     <div>
