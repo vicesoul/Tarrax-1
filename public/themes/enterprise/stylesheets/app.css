@@ -1,12 +1,14 @@
+body.dashboard #main{min-width: 1000px;}
+
 #enterprise{
   min-height: 600px;
+}
+#enterprise [data-bg-varied=true]{
+  background: url(../img/head_bg.jpg) repeat-x top left;
 }
 #enterprise #head{
   margin-bottom: 20px;
   overflow: hidden;
-}
-#enterprise [data-bg-varied=true]{
-  background: url(../img/head_bg.jpg) repeat-x top left;
 }
 #enterprise #head #theme_main{
   width: 1000px;
@@ -15,18 +17,23 @@
 }
 #enterprise #head #theme_main .left_part{
   float:left;
+  width:684px;
 }
 #enterprise #head #theme_main #logo{
   width:122px;
   height:44px;
-  margin-top:22px;
+  margin-top:50px;
   margin-right:7px;
 }
 #enterprise #head #theme_main #nav{
   height:50px;
   line-height:50px;
-  margin-top:15px;
-  width:684px;
+  margin-top:100px;
+  background: #0669cd;
+  padding: 0 10px;
+}
+#enterprise #head #theme_main #nav .data-widget-title{
+  font-size: 1em;
 }
 #enterprise #head #theme_main #nav a{
   color:#ffffff;
@@ -44,6 +51,9 @@
 }
 #enterprise #head #theme_main .right_part{
   float:right;
+}
+#enterprise #head #theme_main .chagne_bg{
+  margin-top: 30px;
 }
 #enterprise .link_more a{
   color:#0099ff;
@@ -277,7 +287,7 @@
 /*caption*/
 
 #enterprise #caption{
-  margin-top:5px;
+  margin-top:50px;
   margin-right:10px;
 }
 #config_courses_holder {

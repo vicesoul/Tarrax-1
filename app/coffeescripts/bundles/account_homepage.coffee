@@ -29,6 +29,8 @@ require [
 
   $customArea = {}
 
+  $logoArea = {}
+
   synToDialog = ($widget) ->
     $("#widget_title").val $.trim( $widget.find(".data-widget-title").text() )
     $("#widget_body")._setContentCode $widget.find(".data-widget-body").html()
@@ -159,6 +161,11 @@ require [
       isCustom = true
       $customArea.sortable "option", "connectWith", $customArea
       $customArea.on( "sortstart", highlight )
+    else if widget is "logo"
+      isCustom = false
+      $selfArea = $(this).closest(".sortable")
+      $logoArea.sortable "option", "connectWith", $logoArea
+      $logoArea.on( "sortstart", highlight )
     else
       isCustom = false
       $selfArea = $(this).closest(".sortable")
@@ -171,6 +178,7 @@ require [
   highlight = ($draggable)->
     $sortable = if $(this)[0] is window then $draggable else $(this)
     $area = if isCustom then $customArea else $sortable
+    $area = $logoArea if $(this).is("#logo") or $(this).is("#caption")
     $area.addClass "position_selected"
 
   # dom ready  
@@ -188,6 +196,7 @@ require [
       $leftNav.hide()
       $saveSet.show()
       $(this).hide()
+      $('#theme_main .chagne_bg').show()
 
     $(".save_theme_link").click (e)->
       e.preventDefault()
@@ -317,12 +326,12 @@ require [
       $("#background_image_holder").html ''
 
     $('.reset_theme').click ->
-      _this = $(this)
+      url = $(this).find('a').attr('href')
       $('<div></div>').easyDialog({
         content: '您确定要重置主页吗？该操作是不可逆的!'
         confirmButtonClass: 'btn-primary'
         confirmCallback: ->
-          window.location.href = _this.attr('href')
+          window.location.href = url
       }, 'confirm')
       return false
 
@@ -399,12 +408,13 @@ require [
     $("#homepage-editor-left-side").on "mousedown", ->
       return false
 
-    $customArea = $( ".sortable[data-position=center], .sortable[data-position=right], .sortable[data-position=nav], .sortable[data-position=caption]" )
+    $customArea = $( ".sortable[data-position=center], .sortable[data-position=right], .sortable[data-position=nav]" )
     $center = $( ".sortable[data-position=center]" )
     $right = $( ".sortable[data-position=right]" )
     $nav = $( ".sortable[data-position=nav]" )
     $caption = $( ".sortable[data-position=caption]" )
     $logo = $( ".sortable[data-position=logo]" )
+    $logoArea = $( ".sortable[data-position=logo], .sortable[data-position=caption]" )
     $phone = $( ".sortable[data-position=phone]" )
 
     $allArea = $customArea.add($logo).add($caption).add($phone)
@@ -421,7 +431,7 @@ require [
     toggleGhost.apply {}, widget for widget in matchWidget
 
     # set droppable area
-    connectTo $('.editor-component[cptype=logo_index]'), $logo
+    connectTo $('.editor-component[cptype=logo_index]'), $logoArea
     centerWidget = '.editor-component[cptype=activity_index],' +
       '.editor-component[cptype=announcement_index],' +
       '.editor-component[cptype=assignment_index],' +
