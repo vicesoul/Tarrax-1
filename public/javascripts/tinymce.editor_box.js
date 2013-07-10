@@ -130,6 +130,8 @@ define([
     }
     if(INST && INST.allowMediaComments) {
       instructure_buttons = instructure_buttons + ",instructure_record";
+      instructure_buttons = instructure_buttons + ",instructure_record_audio";
+      instructure_buttons = instructure_buttons + ",instructure_record_upload";
     }
     var equella_button = INST && INST.equellaEnabled ? ",instructure_equella" : "";
     instructure_buttons = instructure_buttons + equella_button;
@@ -156,8 +158,8 @@ define([
 
       // 2012-11-01 rupert
       plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links," +
-               "instructure_embed,instructure_equation,instructure_record,instructure_equella," +
-               "instructure_record,instructure_drawing,instructure_add_rackets,instructure_handWrite," +
+               "instructure_embed,instructure_equation,instructure_equella," +
+               "instructure_record,instructure_record_audio,instructure_record_upload,instructure_drawing,instructure_add_rackets,instructure_handWrite," +
                "media,paste,table,inlinepopups",
       //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links," +
       //         "instructure_embed,instructure_equation,instructure_record,instructure_equella," +

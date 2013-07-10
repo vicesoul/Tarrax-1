@@ -248,13 +248,26 @@ define([
       if(media_type == "video") {
         $("#video_record_option").click();
         $("#media_record_option_holder").hide();
-        $("#audio_upload_holder").hide();
-        $("#video_upload_holder").show();
+        // $("#audio_upload_holder").hide();
+        // $("#video_upload_holder").show();
+        $('#record_media_tab').show()
+        $('#upload_media_tab').hide()
+
+        $('#media_record_tabs > ul').hide()
       } else if(media_type == "audio") {
         $("#audio_record_option").click();
         $("#media_record_option_holder").hide();
-        $("#audio_upload_holder").show();
-        $("#video_upload_holder").hide();
+        // $("#audio_upload_holder").show();
+        // $("#video_upload_holder").hide();
+        $('#record_media_tab').show()
+        $('#upload_media_tab').hide()
+
+        $('#media_record_tabs > ul').hide()
+      } else if(media_type == "upload") {
+        $('#record_media_tab').hide()
+        $('#upload_media_tab').show()
+
+        $('#media_record_tabs > ul').hide()
       } else {
         $("#video_record_option").click();
         $("#audio_upload_holder").show();

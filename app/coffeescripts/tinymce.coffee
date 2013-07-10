@@ -24,12 +24,16 @@ if isCanvasSupported()
   instrPlugins.push(
     'tinymce/jscripts/tiny_mce/plugins/instructure_drawing/editor_plugin'
     'tinymce/jscripts/tiny_mce/plugins/instructure_handWrite/editor_plugin'
-    )
+  )
 
 device = !!navigator.userAgent.match(/(iPad|iPhone|iPod|Android)/g)
 
 if !device
-  instrPlugins.push 'tinymce/jscripts/tiny_mce/plugins/instructure_record/editor_plugin'
+  instrPlugins.push( 
+    'tinymce/jscripts/tiny_mce/plugins/instructure_record/editor_plugin'
+    'tinymce/jscripts/tiny_mce/plugins/instructure_record_audio/editor_plugin'
+    'tinymce/jscripts/tiny_mce/plugins/instructure_record_upload/editor_plugin'
+  )
 
 # hasFlash = swfobject.hasFlashPlayerVersion("9") and navigator.userAgent.match(/iPad/i) is null;
 # if hasFlash
