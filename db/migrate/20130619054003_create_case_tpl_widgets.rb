@@ -9,6 +9,8 @@ class CreateCaseTplWidgets < ActiveRecord::Migration
       t.integer :seq
       t.timestamps
     end
+
+    add_index :case_tpl_widgets, :case_tpl_id
   end
 
   def self.down

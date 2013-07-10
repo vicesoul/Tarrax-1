@@ -9,6 +9,9 @@ class CreateCaseIssues < ActiveRecord::Migration
       t.integer :user_id, :limit => 8
       t.timestamps
     end
+  
+    add_index :case_issues, :case_repostory_id
+    add_index :case_issues, :user_id
   end
 
   def self.down

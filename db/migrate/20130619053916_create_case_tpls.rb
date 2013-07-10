@@ -10,6 +10,9 @@ class CreateCaseTpls < ActiveRecord::Migration
       t.integer :user_id, :limit => 8
       t.timestamps
     end
+
+    add_index :case_tpls, :user_id
+    add_index :case_tpls, [:context_id, :context_type] 
   end
 
   def self.down

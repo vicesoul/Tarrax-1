@@ -18,12 +18,12 @@ module Jxb
           # activity wiget
           # logo widget
           page = self.build_homepage(:name => 'homepage', :theme => 'jiaoxuebang')
-          page.widgets.build(
-            :cell_name => 'logo', 
-            :cell_action => 'index', 
-            :body => "#{self.name}",
-            :position => 'caption'
-          )
+          #page.widgets.build(
+            #:cell_name => 'logo', 
+            #:cell_action => 'index', 
+            #:body => "#{self.name}",
+            #:position => 'caption'
+          #)
           page.widgets.build(
             :cell_name => 'activity',
             :cell_action => 'index',
