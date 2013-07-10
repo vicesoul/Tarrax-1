@@ -151,6 +151,8 @@ module CC
           multiple_dropdowns_response_lid(node, question)
         elsif question['question_type'] == 'drag_and_drop_question'
           multiple_dropdowns_response_lid(node, question)
+        elsif question['question_type'] == 'fill_in_blanks_subjective_question'
+          multiple_dropdowns_response_lid(node, question)
         elsif question['question_type'] == 'calculated_question'
           calculated_response_str(node, question)
         elsif question['question_type'] == 'numerical_question'
@@ -274,6 +276,8 @@ module CC
         elsif question['question_type'] == 'fill_in_multiple_blanks_question'
           multiple_dropdowns_resprocessing(node, question)
         elsif question['question_type'] == 'drag_and_drop_question'
+          multiple_dropdowns_resprocessing(node, question)
+        elsif question['question_type'] == 'fill_in_blanks_subjective_question'
           multiple_dropdowns_resprocessing(node, question)
         elsif question['question_type'] == 'calculated_question'
           calculated_resprocessing(node, question)

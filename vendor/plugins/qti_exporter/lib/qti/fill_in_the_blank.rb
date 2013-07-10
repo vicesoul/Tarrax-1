@@ -8,6 +8,8 @@ class FillInTheBlank < AssessmentItemConverter
       @question[:question_type] = 'multiple_dropdowns_question'
     elsif @type == 'drag_and_drop_question'
       @question[:question_type] = 'drag_and_drop_question'
+    elsif @type == 'fill_in_blanks_subjective_question'
+      @question[:question_type] = 'fill_in_blanks_subjective_question'
     else
       @question[:question_type] = 'fill_in_multiple_blanks_question'
     end
