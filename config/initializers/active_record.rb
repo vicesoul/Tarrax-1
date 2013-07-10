@@ -1337,3 +1337,26 @@ ActiveRecord::ConnectionAdapters::SchemaStatements.class_eval do
     end
   end
 end
+
+
+module CustomSortByGenerator
+
+  module ClassMethods
+
+    def custom_sort_by
+      named_scope :sort_by_custom, lambda {|column, direction|
+        {
+          :order => "#{self.table_name}.#{column} #{direction}"
+        }
+      }
+    end
+
+  end
+
+  def self.included(base)
+    base.extend ClassMethods
+  end
+
+end
+
+ActiveRecord::Base.send(:include, CustomSortByGenerator)

@@ -7,9 +7,7 @@ class JobPositionsController < ApplicationController
   
   add_crumb(proc{t('#accounts.settings.job_position_management_fieldset', 'Job Position Management')}, :account_job_positions_path)
 
-  def auth
-    authorized_action(@context, @current_user, :manage_account_settings)
-  end
+
   # GET /job_positions
   # GET /job_positions.xml
   def index
@@ -67,6 +65,12 @@ class JobPositionsController < ApplicationController
         format.xml  { render :xml => @job_position.errors, :status => :unprocessable_entity }
       end
     end
+  end
+
+  private
+
+  def auth
+    authorized_action(@context, @current_user, :manage_account_settings)
   end
 
 end

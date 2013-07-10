@@ -27,6 +27,8 @@ class User < ActiveRecord::Base
   include UserFollow::FollowedItem
   include Jxb::Base::User
 
+  custom_sort_by
+
   attr_accessible :name, :short_name, :sortable_name, :time_zone, :show_user_services, :gender, :visible_inbox_types, :avatar_image, :subscribe_to_emails, :locale, :bio, :birthdate, :terms_of_use, :self_enrollment_code, :initial_enrollment_type, :birthday, :mobile_phone, :job_number, :job_position_id, :external, :source, :tags
   attr_accessor :original_id, :menu_data, :job_number, :job_position_id, :external, :source, :tags
 
@@ -68,6 +70,10 @@ class User < ActiveRecord::Base
         enrollment_conditions(:invited, strict_course_state)
     end
   end
+
+  has_many :case_issues
+  has_many :case_tpls
+  has_many :case_solutions
 
   has_many :communication_channels, :order => 'communication_channels.position ASC', :dependent => :destroy
   has_one :communication_channel, :order => 'position'
@@ -1642,6 +1648,7 @@ class User < ActiveRecord::Base
         send(association).with_each_shard do |scope|
           courses = scope.distinct_on(["courses.id"],
             :select => "courses.*, enrollments.id AS primary_enrollment_id, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
+            :conditions => ['courses.is_case = ? ', false],
             :order => "courses.id, #{Enrollment.type_rank_sql}, #{Enrollment.state_rank_sql}")
 
           unless options[:include_completed_courses]

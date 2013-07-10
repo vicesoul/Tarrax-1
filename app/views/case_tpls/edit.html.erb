@@ -1,0 +1,21 @@
+<% js_bundle :case %>
+<% jammit_css :case, :tinymce %>
+
+<h1><%= t 'edit_tpl', 'Editing case_tpl'%></h1>
+
+<% form_for(@case_tpl, :url => account_case_tpl_url(@account, @case_tpl.id), :html => {:method => 'PUT', :class => 'form-horizontal bootstrap-form'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+  <p>
+		<button class="btn btn-primary right" type="submit"><i class='icon-refresh'></i> <%=  t('#buttons.update', 'Update') %> </button>
+  </p>
+<% end %>
+
+<%= render :partial => 'hidden_element' %>
+
+<% link_to account_case_tpls_path, {:class => 'btn'} do %>
+  <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+<% end %>
+

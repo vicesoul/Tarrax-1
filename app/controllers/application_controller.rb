@@ -29,6 +29,8 @@ class ApplicationController < ActionController::Base
   around_filter :set_locale
 
   helper :all
+  helper_method :sort_column, :sort_direction
+
   include UrlHelper
 
   include AuthenticationMethods
@@ -268,6 +270,18 @@ class ApplicationController < ActionController::Base
       logger.warn "#{object.inspect} raised an error while granting rights.  #{e.inspect}"
     end
     can_do
+  end
+
+  def auth_case_as_student
+    authorized_action(@context, @current_user, :operate_case_as_student)
+  end
+
+  def auth_case_as_teacher
+    authorized_action(@context, @current_user, :operate_case_as_teacher)
+  end
+
+  def auth_case_as_self
+    yield
   end
 
   #def is_account_admiVVn?
@@ -1472,4 +1486,15 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def sort_column
+    params[:sort].present? ? params[:sort] : "updated_at"
+  end
+  protected :sort_column
+
+  def sort_direction
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+  end
+  protected :sort_direction
+
 end

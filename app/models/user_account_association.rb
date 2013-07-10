@@ -39,6 +39,8 @@ class UserAccountAssociation < ActiveRecord::Base
 
   before_save :make_sure_only_one_fake_association_each_account
 
+  custom_sort_by
+
   acts_as_taggable_on :tags
 
   #named_scope for taggable
@@ -54,12 +56,6 @@ class UserAccountAssociation < ActiveRecord::Base
     {
       :joins => "left join job_positions on user_account_associations.job_position_id = job_positions.id",
       :order => "job_positions.#{column} #{direction}"
-    }
-  }
-
-  named_scope :sort_by_custom, lambda {|column, direction|
-    {
-      :order => "user_account_associations.#{column} #{direction}"
     }
   }
 
