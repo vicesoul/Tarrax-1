@@ -11,6 +11,9 @@ class CreateCaseSolutions < ActiveRecord::Migration
       t.text :content
       t.timestamps
     end
+
+    add_index :case_solutions, :case_issue_id
+    add_index :case_solutions, :user_id 
   end
 
   def self.down
