@@ -6,12 +6,10 @@
 <%= render :partial => 'jxb/pages/content', :locals => { :page => @page, :partial_name => 'accounts/homepage_content' } %>
 
 <% if @can_manage_homepage %>
-  <% form_for @page, :url => account_page_path(@account, @page) do |f| %>
-    <div id="theme_options">
-      <%= f.hidden_field :background_image %>
-      <%= before_label(:name, 'Theme name') %>
-      <%= f.select :theme, Jxb::Theme.themes %>
-    </div>
+  <% form_for @page, :url => account_page_path(@account, @page), :html => {:id => 'jxb_mimi'} do |f| %>
+    <%= f.hidden_field :background_image %>
+    <%= before_label(:name, 'Theme name') %>
+    <%= f.select :theme, Jxb::Theme.themes %>
   <% end %>
   <div id="fixed_right_sider">
     <div>

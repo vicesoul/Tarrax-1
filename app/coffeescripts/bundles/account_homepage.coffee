@@ -288,9 +288,9 @@ require [
         $allBox.removeAttr("checked")
 
     $(".save_choose_courses_link").click ->
-      $("form.edit_jxb_page #theme_options input.pending").remove()
+      $("form#jxb_mimi input.pending").remove()
       $allBox = $(".all_sub_checkboxs input[type='checkbox']:checked").addClass("pending")
-      $("form.edit_jxb_page #theme_options").append $allBox.clone()
+      $("form#jxb_mimi").append $allBox.clone()
       $chooseCoursesDialog.dialog "close"
 
     $(".connect_course").click ->
