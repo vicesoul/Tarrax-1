@@ -6503,6 +6503,9 @@ zh-CN:
       media_contribution: 视频语音参加
       play_comment: 播放视频语音评注
       record_upload_media_comment: 记录/上传视频语音评注
+      record_video: 视频录制
+      record_audio: 音频录制
+      upload_media: 上传媒体
     track_uploaded_successfully: "上传成功, 请刷新查看."
     upload: 上传
     uploading: 正在上传...

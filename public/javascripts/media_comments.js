@@ -247,13 +247,14 @@ define([
 
       if(media_type == "video") {
         $("#video_record_option").click();
-        $("#media_record_option_holder").hide();
+        // $("#media_record_option_holder").hide();
         // $("#audio_upload_holder").hide();
         // $("#video_upload_holder").show();
         $('#record_media_tab').show()
         $('#upload_media_tab').hide()
 
         $('#media_record_tabs > ul').hide()
+        $dialog.dialog( "option", "title", I18n.t('titles.record_video', "Record video") );
       } else if(media_type == "audio") {
         $("#audio_record_option").click();
         $("#media_record_option_holder").hide();
@@ -263,11 +264,13 @@ define([
         $('#upload_media_tab').hide()
 
         $('#media_record_tabs > ul').hide()
+        $dialog.dialog( "option", "title", I18n.t('titles.record_audio', "Record audio") );
       } else if(media_type == "upload") {
         $('#record_media_tab').hide()
         $('#upload_media_tab').show()
 
         $('#media_record_tabs > ul').hide()
+        $dialog.dialog( "option", "title", I18n.t('titles.upload_media', "Upload media") );
       } else {
         $("#video_record_option").click();
         $("#audio_upload_holder").show();

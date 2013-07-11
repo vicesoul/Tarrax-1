@@ -28,7 +28,7 @@ define([
       ed.addCommand('instructureRecordUpload', function() {
         var $editor = $("#" + ed.id);
         $.mediaComment('create', 'upload', function(id, mediaType) {
-          $editor.editorBox('insert_code', "<a href='/media_objects/" + id + "' class='instructure_inline_media_comment " + (mediaType || "video") + "_comment' id='media_comment_" + id + "'>this is a media comment</a><br>");
+          $editor.editorBox('insert_code', "<a href='/media_objects/" + id + "' class='instructure_inline_media_comment " + (mediaType || "video") + "_comment' id='media_comment_" + id + "'> 媒体文件</a><br>");
           ed.selection.select($(ed.getBody()).find("#media_comment_"+id+" + br")[0]);
           ed.selection.collapse(true);
         })
@@ -36,7 +36,7 @@ define([
       ed.addButton('instructure_record_upload', {
         title: 'Record/Upload Media',
         cmd: 'instructureRecordUpload',
-        image: url + '/img/record.gif'
+        image: url + '/img/collapse.png'
       });
     },
 
