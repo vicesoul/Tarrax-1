@@ -88,7 +88,7 @@ zh-CN:
       template: 模板
       select_tpl_first: 请选择一个案例模板
       please_select: 请选择
-      warn_tpl: 你所在的网校还没有案例模板，所以将使用系统内置的案例模板
+      warn_tpl: 你所在的网校还没有案例模板，所以不能建立案例问题
     show:
       subject: 主题
       title: 标题
@@ -11348,6 +11348,7 @@ zh-CN:
   tabs: 
     announcements: 公告
     assignments: 作业
+    case_issue: 案例问题
     chat: 聊天
     collaborations: 协作
     conferences: 在线视频课

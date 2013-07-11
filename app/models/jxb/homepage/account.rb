@@ -4,7 +4,7 @@ module Jxb
       def self.included(base)
         base.class_eval do
           has_one :homepage, :as => :context, :class_name => 'Jxb::Page', :dependent => :destroy
-          has_many :case_tpls, :as => :context
+          has_many :case_tpls, :as => :context, :conditions => ['workflow_state != ?', 'deleted']
         end
       end
 

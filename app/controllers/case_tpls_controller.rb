@@ -16,7 +16,7 @@ class CaseTplsController < ApplicationController
   # GET /case_tpls
   # GET /case_tpls.xml
   def index
-    @case_tpls = CaseTpl.find_all_by_context_id_and_context_type(params[:context_id], params[:context_type], :order => 'updated_at DESC')
+    @case_tpls = CaseTpl.not_deleted.find_all_by_context_id_and_context_type(params[:context_id], params[:context_type], :order => 'updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -95,7 +95,7 @@ class CaseTplsController < ApplicationController
   # DELETE /case_tpls/1.xml
   def destroy
     @case_tpl = CaseTpl.find(params[:id])
-    @case_tpl.destroy
+    @case_tpl.remove
 
     respond_to do |format|
       format.html { redirect_to(account_case_tpls_url) }
