@@ -383,7 +383,7 @@ define([
 
         if (tagName == "TEXTAREA") {
           val = $this.editorBox('get_code');
-        } else if ($this.attr('type') == "text" || "number") {        //*** 2012-12-07 rupert add "|| number"
+        } else if ($this.attr('type') == "text" || $this.attr('type') == "number") {        //*** 2012-12-07 rupert add "|| number"
           val = $this.val();
         } else if (tagName == "SELECT") {
           var $selects = $this.parents(".question").find("select.question_input");
