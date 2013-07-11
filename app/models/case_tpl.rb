@@ -12,6 +12,17 @@ class CaseTpl < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name, :scope => [:context_id, :context_type]
 
+  named_scope :not_deleted, :conditions => ['workflow_state != ?', 'deleted']
+
+  include Workflow
+
+  workflow do 
+    state :new do 
+      event :remove, :transitions_to => :deleted
+    end
+    state :deleted
+  end
+
   def self.init_case_tpl
     tpl = self.new(:name => t('#case_tpls.model_init.tpl', 'Case Tpl'))
     tpl.case_tpl_widgets.build(

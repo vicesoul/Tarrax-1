@@ -25,22 +25,23 @@
                     <div class='control-group'>
                       <label class="control-label"><%= t 'title', 'Title' %>：</label>
                       <div class="controls">
-                        <span><%= case_issue.used_case_tpl.case_tpl_widgets[i].title %></span>
+                        <span><%= case_issue.used_case_tpl.nil? ? CaseTpl.init_case_tpl.case_tpl_widgets[i].title : case_issue.used_case_tpl.case_tpl_widgets[i].title %></span>
                       </div>
                     </div>
                     <div class='control-group'>
                       <label class="control-label"><%= t 'desc', 'Description' %>：</label>
                       <div class="controls">
-                        <span><%= raw case_issue.used_case_tpl.case_tpl_widgets[i].body %></span>
+                        <span><%= raw(case_issue.used_case_tpl.nil? ? CaseTpl.init_case_tpl.case_tpl_widgets[i].body : case_issue.used_case_tpl.case_tpl_widgets[i].body) %></span>
                       </div>
                     </div>
                   <%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => w.body, :class => "main_textY", :id => "test#{i}" } %>
-                  <%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %>
                   <% end %>
+                  <%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %>
             <% else %>
               <% if params[:context_type] == 'Account' %>
                 <%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %>
                 <%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => w.body, :class => "main_textY", :id => "test#{i}" } %>
+                <%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %>
                 <button class="remove-me btn btn-inverse right"><i class="icon-trash"></i> <%= t 'remove_me', 'Remove Me'%></button>
               <% end %>
             <% end %>

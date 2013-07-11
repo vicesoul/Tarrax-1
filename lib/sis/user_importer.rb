@@ -53,7 +53,7 @@ module SIS
         @batched_users = []
         @messages = messages
         @success_count = 0
-
+        @default_associated_account = RAILS_ENV == 'test' ? root_account : Account.default
         @users_to_set_sis_batch_ids = []
         @pseudos_to_set_sis_batch_ids = []
         @users_to_add_account_associations = []
@@ -106,10 +106,10 @@ module SIS
             user_id, login_id, status, first_name, last_name, email, password, ssha_password, account_id, enrollment_type, birthday, mobile_phone, job_number, job_position, external, tags, state, ex_account_id = user_row
 
             # TODO pseudonym-account
-            pseudo = Account.default.pseudonyms.find_by_sis_user_id(user_id.to_s)
-            pseudo_by_login = Account.default.pseudonyms.active.by_unique_id(login_id).first
+            pseudo = @default_associated_account.pseudonyms.find_by_sis_user_id(user_id.to_s)
+            pseudo_by_login = @default_associated_account.pseudonyms.active.by_unique_id(login_id).first
             pseudo ||= pseudo_by_login
-            pseudo ||= Account.default.pseudonyms.active.by_unique_id(email).first if email.present?
+            pseudo ||= @default_associated_account.pseudonyms.active.by_unique_id(email).first if email.present?
 
             if pseudo
               if pseudo.sis_user_id.present? && pseudo.sis_user_id != user_id
@@ -156,7 +156,7 @@ module SIS
             pseudo ||= Pseudonym.new
             pseudo.unique_id = login_id unless pseudo.stuck_sis_fields.include?(:unique_id)
             pseudo.sis_user_id = user_id
-            pseudo.account = Account.default
+            pseudo.account = @default_associated_account
             pseudo.workflow_state = status_is_active ? 'active' : 'deleted'
             if pseudo.new_record? && status_is_active
               should_add_account_associations = true

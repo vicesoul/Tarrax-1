@@ -7,6 +7,19 @@ class CaseIssue < ActiveRecord::Base
   has_one :case_tpl, :as => :context
   belongs_to :used_case_tpl, :class_name => 'CaseTpl', :foreign_key => 'used_case_tpl_id'
 
+  after_save :broadcast_notifications
+
+  has_a_broadcast_policy
+
+  set_broadcast_policy do |p|
+    p.dispatch :case_issue_awaiting_review
+    p.to {
+      User.find(:all) 
+    }
+    p.whenever { |record|
+      record.awaiting_review? 
+    }
+  end
   include Workflow
 
   def self.find_or_init_case_tpl
