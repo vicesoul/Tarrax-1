@@ -4,10 +4,10 @@ require [
   'tinymce.editor_box'
 ], ($) ->
   $ ->
-    # tpl_new = $("#case_tpl_new").size() is 1
 
     $(".case-tpl:not('#hidden-tpl')").each (i)->
       $(this).attr 'id', 'case-' + i
+
     $("#case-tpl-widget textarea").editorBox tinyOptions:
       width: '100%'
 
@@ -35,3 +35,10 @@ require [
           $('#tpl-area').append(data)
           $(data).find("textarea").editorBox tinyOptions:
             width: '100%'
+
+    # set default value to empty title
+    $('.case_tpl_edit button[type=submit]').click (e)->
+      e.preventDefault()
+      $('form input[name="case_tpl_widget[][title]"]').each (i)->
+        $(this).val '模板' + (i + 1)  if $(this).val().trim() is ''
+      $('form').submit()
