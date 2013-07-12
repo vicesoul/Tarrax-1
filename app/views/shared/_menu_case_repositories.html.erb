@@ -1,0 +1,12 @@
+
+<% if collection && !collection.empty? %>
+  <td class="menu-item-drop-column" id="menu_enrollments">
+    <span class="h2">
+      <%= title %>
+    </span>
+    <ul class="menu-item-drop-column-list">
+      <%= render :partial => 'shared/menu_case_repository', :collection => collection %>
+      <li class="menu-item-view-all"><%= link_to "#{link_text} (#{collection_size})", more_link_for_over_max %></li>
+    </ul>
+  </td>
+<% end %>

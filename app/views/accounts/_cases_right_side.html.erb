@@ -1,0 +1,75 @@
+
+<% if can_do(@context, @current_user, :manage_account_settings) %>
+  <a href="#" class="add_case_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t("#accounts.add_course_or_user.add_case_link", "Add a Case Collection Repostory") %></a>
+
+  <div id="add_case_repostory_dialog" style="display:none">
+    <% form_for :course, :url => create_case_course_url, :html => {:id => 'add_case_repostory_form'} do |f| %>
+      <div>
+      <%= t '#accounts.add_case_dialog_content', 'Add a new case collection repostory for your account' %>
+    </div>
+    <div>
+      <%= f.text_field :name %>
+      <%= f.hidden_field :account_id, :value => @account.id %>
+      <%= f.hidden_field :is_case , :value => true %>
+      <%= f.hidden_field :is_public, :value => false %>
+    </div>
+
+    <td colspan="2">
+      <div class="button-container">
+        <button type="button" class="btn dialog_closer"><%= t("#buttons.cancel", "Cancel") %></button>
+        <button type="submit" class="btn btn-primary"><%= t("#accounts.add_case_button", "Add Case Collection Repostory") %></button>
+      </div>
+    </td>
+
+  <% end %>
+  </div>
+
+  <% js_block do %>
+  <script>
+  require([
+    'i18nObj' /* I18n.t */,
+    'jquery' /* $ */,
+    'str/htmlEscape' /* htmlEscape, /\$\.h/ */,
+    'compiled/registration/registrationErrors',
+    'compiled/pickup_users',
+    'jquery.instructure_forms' /* formSubmit */,
+    'jqueryui/dialog',
+    'vendor/jquery.spin',
+    'compiled/jquery/fixDialogButtons' /* fix dialog formatting */,
+    'compiled/jquery.rails_flash_notifications',
+    'jquery.templateData' /* fillTemplateData */
+  ], function(I18n, $, htmlEscape, registrationErrors, PickupUsers) {
+
+    $(document).ready(function() {
+  //create case event
+      $('.add_case_link').bind('click', function(){
+        $('#add_case_repostory_dialog').dialog({
+          title: <%= jt('#accounts.add_case_dialog_title', 'Add a New Case Collection Repostory') %>,
+          width: 500
+        });
+        return false;
+      });
+
+      $('#add_case_repostory_dialog .dialog_closer').bind('click', function(){
+        $('#add_case_repostory_dialog').dialog('close');
+      });
+
+      $('#add_case_repostory_form').formSubmit({
+        success: function(data){
+          if(data){
+            $.flashMessage(<%= jt('#accounts.add_case_successfully', 'Added case collection repostory successfully.')%>);
+            window.location.reload();
+          }else{
+            alert(<%= jt('#accounts.add_case_failure', 'Create Case Collection Repostory failure.') %>);
+          }
+        },
+        error: function(){
+          alert(<%= jt('#accounts.add_case_failure', 'Create Case Collection Repostory failure.') %>);
+        }
+      });
+    });
+  });
+  </script>
+  <% end %>
+
+<% end %>
