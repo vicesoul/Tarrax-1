@@ -2912,6 +2912,7 @@ zh-CN:
     roster_right_side: 
       links: 
         manage_users: 管理用户
+        view_people: 管理人员
         view_faculty_journals: 查看教师日志
         view_prior_enrollments: 查看之前的注册
         view_services: 查看注册的服务
@@ -6441,7 +6442,6 @@ zh-CN:
     titles: 
       link_to_student: 链接至学生
   links: 
-    view_perple: 管理人员
     dashboard: 我的面板
     deselect_all: 取消全选
     errors: 

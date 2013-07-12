@@ -37,6 +37,7 @@ class CaseIssuesController < ApplicationController
   def show
     @case_issue = CaseIssue.find(params[:id])
 
+    return render(:layout => 'bare') if params[:is_iframe]
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @case_issue }
@@ -117,14 +118,16 @@ class CaseIssuesController < ApplicationController
               enrollment.role_name = t('#role.roles.case_group', 'Case Group')
               enrollment.save!
             end
-            group = @context.groups.create!(:name => params[:group_name], :case_solution => solution)
+            group_category = @context.group_categories.create(:name => params[:group_name])
+            group = @context.groups.create!(:name => params[:group_name], :group_category => group_category, :case_solution => solution)
             group.group_memberships.create!(:user => @current_user, :moderator => false)
             DiscussionTopic.create!(
               :context => group,
               :discussion_type => DiscussionTopic::DiscussionTypes::THREADED,
               :user => @current_user,
               :title => t("#case_issues.discuss_for", "Discuss for %{issue.subject}", :issue_subject => issue.subject),
-              :message => issue.case_tpl.case_tpl_widgets.inject(""){|r, o| r << o.body}
+              #:message => issue.case_tpl.case_tpl_widgets.inject(""){|r, o| r << o.body}
+              :message => "<iframe src='#{course_case_issue_path(@context, issue, :is_iframe => true)}'></iframe>"
             )
           end
         end
