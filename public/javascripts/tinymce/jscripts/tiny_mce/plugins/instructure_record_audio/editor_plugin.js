@@ -34,7 +34,7 @@ define([
         })
       });
       ed.addButton('instructure_record_audio', {
-        title: 'Record Audio',
+        title: '音频录制',
         cmd: 'instructureRecordAudio',
         image: url + '/img/microphone.png'
       });

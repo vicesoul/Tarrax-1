@@ -247,7 +247,7 @@ define([
 
       if(media_type == "video") {
         $("#video_record_option").click();
-        // $("#media_record_option_holder").hide();
+        $("#media_record_option_holder").hide();
         // $("#audio_upload_holder").hide();
         // $("#video_upload_holder").show();
         $('#record_media_tab').show()

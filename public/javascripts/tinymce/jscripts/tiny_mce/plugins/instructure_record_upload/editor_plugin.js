@@ -34,7 +34,7 @@ define([
         })
       });
       ed.addButton('instructure_record_upload', {
-        title: 'Record/Upload Media',
+        title: '媒体文件上传',
         cmd: 'instructureRecordUpload',
         image: url + '/img/collapse.png'
       });

@@ -34,7 +34,7 @@ define([
         })
       });
       ed.addButton('instructure_record', {
-        title: 'Record/Upload Media',
+        title: '视频录制',
         cmd: 'instructureRecord',
         image: url + '/img/webcam.png'
       });
