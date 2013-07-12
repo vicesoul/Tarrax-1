@@ -986,6 +986,7 @@ class CoursesController < ApplicationController
     end
 
     @context = Course.active.find(params[:id])
+    add_crumb @context.account.short_name, account_homepage_path(@context.account)
     return redirect_to course_case_issues_path(@context) if @context.is_case
     if request.xhr?
       if authorized_action(@context, @current_user, [:read, :read_as_admin])

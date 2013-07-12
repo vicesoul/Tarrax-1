@@ -692,6 +692,19 @@ module ApplicationHelper
     }
   end
 
+  def menu_case_repositories_locals
+    case_repositories = @current_user.menu_case_repositories
+    all_case_repositories_count = @current_user.courses_with_primary_enrollment(:current_and_invited_courses, nil, {:is_case => true}).size
+    {
+      :collection             => map_courses_for_menu(case_repositories),
+      :collection_size        => all_case_repositories_count,
+      :more_link_for_over_max => courses_path,
+      :title                  => t('#menu.my_case_repositories', "My Case Repositories"),
+      :link_text              => raw(t('#layouts.menu.view_all_case_repositories', 'View all case repositories')),
+      :edit                   => t("#menu.customize", "Customize")
+    }
+  end
+
   def menu_course_systems_locals
     course_systems = @current_user.course_systems.first(8)
     {

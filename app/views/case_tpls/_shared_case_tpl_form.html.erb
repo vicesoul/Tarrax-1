@@ -34,9 +34,10 @@
                         <span><%= raw(case_issue.used_case_tpl.nil? ? CaseTpl.init_case_tpl.case_tpl_widgets[i].body : case_issue.used_case_tpl.case_tpl_widgets[i].body) %></span>
                       </div>
                     </div>
-                  <%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => w.body, :class => "main_textY", :id => "test#{i}" } %>
+                    <%= widget.hidden_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %>
+                    <%= widget.text_area :body, {:name => "case_tpl_widget[][body]", :value => w.body, :class => "main_textY", :id => "test#{i}" } %>
                   <% end %>
-                  <%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %>
+                    <%= widget.hidden_field :seq, {:name => "case_tpl_widget[][seq]", :value => w.seq } %>
             <% else %>
               <% if params[:context_type] == 'Account' %>
                 <%= widget.text_field :title, {:name => "case_tpl_widget[][title]", :value => w.title } %>

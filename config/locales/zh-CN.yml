@@ -6296,6 +6296,7 @@ zh-CN:
     menu: 
       view_all_accounts: 查看所有网校
       view_all_enrollments: 查看所有课程
+      view_all_case_repositories: 查看所有案例
       view_all_groups: 查看所有组
       view_courses_to_be_attended: 应该加入的课程
   learning_outcome: 
@@ -6440,6 +6441,7 @@ zh-CN:
     titles: 
       link_to_student: 链接至学生
   links: 
+    view_perple: 管理人员
     dashboard: 我的面板
     deselect_all: 取消全选
     errors: 
@@ -6513,6 +6515,7 @@ zh-CN:
     customize: 自定义
     managed_accounts: 管理的网校
     my_courses: 我的课程
+    my_case_repositories: 我的案例库
   message: 
     default_subject: 教学邦警报
   message_students: 

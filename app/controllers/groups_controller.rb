@@ -187,7 +187,7 @@ class GroupsController < ApplicationController
     @user_groups = @current_user.group_memberships_for(@context) if @current_user
 
     unless api_request?
-      add_crumb (@context.is_a?(Account) ? t('#crumbs.users', "Users") : t('#crumbs.people', "People")), named_context_url(@context, :context_users_url)
+      #add_crumb (@context.is_a?(Account) ? t('#crumbs.users', "Users") : t('#crumbs.people', "People")), named_context_url(@context, :context_users_url)
       add_crumb t('#crumbs.groups', "Groups"), named_context_url(@context, :context_groups_url)
       @active_tab = @context.is_a?(Account) ? "users" : "people"
 
@@ -236,7 +236,7 @@ class GroupsController < ApplicationController
     respond_to do |format|
       format.html do
         if @group && @group.context
-          add_crumb @group.context.short_name, named_context_url(@group.context, :context_url)
+          #add_crumb @group.context.short_name, named_context_url(@group.context, :context_url)
           add_crumb @group.short_name, named_context_url(@group, :context_url)
         elsif @group
           add_crumb @group.short_name, named_context_url(@group, :context_url)

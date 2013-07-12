@@ -124,7 +124,8 @@ class CaseIssuesController < ApplicationController
               :discussion_type => DiscussionTopic::DiscussionTypes::THREADED,
               :user => @current_user,
               :title => t("#case_issues.discuss_for", "Discuss for %{issue.subject}", :issue_subject => issue.subject),
-              :message => issue.case_tpl.case_tpl_widgets.inject(""){|r, o| r << o.body})
+              :message => issue.case_tpl.case_tpl_widgets.inject(""){|r, o| r << o.body}
+            )
           end
         end
         solution.execute if result

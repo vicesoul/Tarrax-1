@@ -455,6 +455,9 @@ class ApplicationController < ActionController::Base
             add_crumb(a.short_name, account_url(a.id), :id => "crumb_#{a.asset_string}")
           end
         end
+      elsif @context.is_a?(Course)
+        a = @context.account
+        add_crumb(a.short_name, account_homepage_path(a), :id => "crumb_#{a.asset_string}")
       end
       set_badge_counts_for(@context, @current_user, @current_enrollment)
       assign_localizer if @context.present?

@@ -2716,7 +2716,11 @@ class Course < ActiveRecord::Base
 
   def tabs_available(user=nil, opts={})
     # make sure t() is called before we switch to the slave, in case we update the user's selected locale in the process
-    return Course.default_case_tabs if self.is_case
+    #return Course.default_case_tabs if self.is_case
+    if self.is_case
+        case_tabs = Course.default_case_tabs
+        self.grants_right?(user, opts[:session], :operate_case_as_teacher) ? (return case_tabs) : (return case_tabs.delete_if {|t| t[:id] == TAB_SETTINGS})
+    end
     default_tabs = Course.default_tabs
     opts.reverse_merge!(:include_external => true)
 
