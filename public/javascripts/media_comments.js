@@ -348,7 +348,7 @@ define([
 
         // give the dialog time to initialize or the recorder will
         // render funky in ie
-      }, INST.browser.ie ? 500 : 10);
+      }, INST.browser.ie ? 500 : 1000);
 
       var flashVars = {
         host:location.protocol + "//" + INST.kalturaSettings.domain,

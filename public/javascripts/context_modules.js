@@ -837,10 +837,10 @@ define([
       e.preventDefault()
       var $select = $(this).next(".add_module_item_select")
 
-      if($('.ui-selectmenu-open').size() == 1){
-        $select.selectmenu("close")
-        return false
-      }
+      // if($('.ui-selectmenu-open').size() == 1){
+      //   $select.selectmenu("close")
+      //   return false
+      // }
 
       $select.selectmenu("open")
       var $openMenu = $('.ui-selectmenu-open')
@@ -848,6 +848,7 @@ define([
         left: e.pageX - $openMenu.width()/2,
         top: e.pageY + 20
       })
+      // $("body").scrollTop(e.pageY);
     })
 
     // mousedown on document will trigger selectmenu close
