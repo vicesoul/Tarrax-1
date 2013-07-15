@@ -182,6 +182,8 @@ class AssessmentItemConverter
         end
       elsif id =~ /solution/i
         @question[:example_solution] = clear_html(f.text.strip.gsub(/\s+/, " "))
+      elsif id =~ /connecting_lead_linesNum/i # use feedback to add extra properties
+        @question[:connecting_lead_linesNum] = clear_html(f.text.strip.gsub(/\s+/, " "))
       elsif id =~ /general|all/i
         extract_feedback!(@question, :neutral_comments, f)
       elsif id =~ /feedback_(\d*)_fb/i
@@ -334,6 +336,8 @@ class AssessmentItemConverter
           opts[:interaction_type] = 'drag_and_drop_question'
         elsif type == 'fill_in_blanks_subjective_question'
           opts[:interaction_type] = 'fill_in_blanks_subjective_question'
+        elsif type == 'connecting_lead_question'
+          opts[:interaction_type] = 'connecting_lead_question'
         else
           opts[:custom_type] = type
         end
@@ -368,6 +372,8 @@ class AssessmentItemConverter
         q = OrderInteraction.new(opts)
       when /fill_in_multiple_blanks_question|multiple_dropdowns_question|drag_and_drop_question|fill_in_blanks_subjective_question/i
         q = FillInTheBlank.new(opts)
+      when /connecting_lead_question/i
+        q = ConnectingLead.new(opts)
       when nil
         q = AssessmentItemConverter.new(opts)
       else
