@@ -81,7 +81,7 @@
   <div class="left_side">
   <% @groups.select{|g| g.group_category == category}.each do |group| %>
     <% unless can_do(@context, @current_user, :manage) %>
-      <% next if group.case_solution.user.id != @current_user.id %>
+      <% next if group.case_solution && (group.case_solution.user.id != @current_user.id) %>
     <% end %>
     <div class="group" id="group_<%= group.id %>">
       <div class="inner-wrapper">
