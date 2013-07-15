@@ -127,7 +127,7 @@ class CaseIssuesController < ApplicationController
               :user => @current_user,
               :title => t("#case_issues.discuss_for", "Discuss for %{issue.subject}", :issue_subject => issue.subject),
               #:message => issue.case_tpl.case_tpl_widgets.inject(""){|r, o| r << o.body}
-              :message => "<iframe width='100%' height='100' src='#{course_case_issue_path(@context, issue, :is_iframe => true)}'></iframe>"
+              :message => "<iframe src='#{course_case_issue_path(@context, issue, :is_iframe => true)}' style='width: 100%; height: 500px;'></iframe>"
             )
           end
         end
