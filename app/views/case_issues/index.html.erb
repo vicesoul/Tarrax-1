@@ -1,6 +1,10 @@
 
 <% js_bundle :case_issue_index %>
-<%= link_to t('new_issue', 'New case_issue'), new_course_case_issue_path %>
+
+<% content_for :right_side do %>
+  <%= render :partial => 'right_side' %>
+<% end %>
+
 
 <div>
   <% form_for @search, :url => course_case_issues_path do |f| %>

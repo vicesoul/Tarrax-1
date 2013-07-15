@@ -24,7 +24,7 @@
                       'link' %>
   <% end %>
 
-  <% if can_do(@context, @current_user, :manage_students) %>
+  <% if (!@context.is_a?(Course)) && can_do(@context, @current_user, :manage_students) %>
     <% sidebar_button context_url(@context.context, :context_groups_url),
                       t('links.view_people', 'View People'),
                       'link' %>
