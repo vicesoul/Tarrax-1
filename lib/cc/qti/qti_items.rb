@@ -130,6 +130,10 @@ module CC
             item_feedback(item_node, 'correct_fb', question, 'correct_comments')
             item_feedback(item_node, 'general_incorrect_fb', question, 'incorrect_comments')
             item_feedback(item_node, 'connecting_lead_linesNum', question, 'connecting_lead_linesNum')
+            item_feedback(item_node, 'connecting_on_pic_position', question, 'connecting_on_pic_position')
+            # html version will be translated ids automatically
+            question['connecting_on_pic_image_html'] = question['connecting_on_pic_image']
+            item_feedback(item_node, 'connecting_on_pic_image', question, 'connecting_on_pic_image')
             question['answers'].each do |answer|
               item_feedback(item_node, "#{answer['id']}_fb", answer, 'comments')
             end
@@ -159,6 +163,8 @@ module CC
         elsif question['question_type'] == 'numerical_question'
           calculated_response_str(node, question)
         elsif question['question_type'] == 'connecting_lead_question'
+          connecting_lead_response_lid(node, question)
+        elsif question['question_type'] == 'connecting_on_pic_question'
           connecting_lead_response_lid(node, question)
         end
       end
@@ -212,11 +218,10 @@ module CC
             end
 
             lid_node.render_choice do |rc_node|
-              next unless question['matches']
-              question['matches'].each do |direction, matches|
-                rc_node.response_label(:ident=>"#{direction}_#{matches[index]['match_id']}") do |r_node|
+              %w(left right).each do |direction|
+                rc_node.response_label(:ident=>"#{direction}_#{answer['match_' +direction+ '_id']}") do |r_node|
                   r_node.material do |mat_node|
-                    mat_node.mattext matches[index]['text']
+                    mat_node.mattext answer[direction]
                   end
                 end #r_node
               end
@@ -296,6 +301,8 @@ module CC
         elsif question['question_type'] == 'matching_question'
           matching_resprocessing(node, question)
         elsif question['question_type'] == 'connecting_lead_question'
+          connecting_lead_resprocessing(node, question)
+        elsif question['question_type'] == 'connecting_on_pic_question'
           connecting_lead_resprocessing(node, question)
         elsif question['question_type'] == 'multiple_dropdowns_question'
           multiple_dropdowns_resprocessing(node, question)

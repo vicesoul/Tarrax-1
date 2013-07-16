@@ -184,6 +184,10 @@ class AssessmentItemConverter
         @question[:example_solution] = clear_html(f.text.strip.gsub(/\s+/, " "))
       elsif id =~ /connecting_lead_linesNum/i # use feedback to add extra properties
         @question[:connecting_lead_linesNum] = clear_html(f.text.strip.gsub(/\s+/, " "))
+      elsif id =~ /connecting_on_pic_position/i # use feedback to add extra properties
+        @question[:connecting_on_pic_position] = clear_html(f.text.strip.gsub(/\s+/, " "))
+      elsif id =~ /connecting_on_pic_image/i # use feedback to add extra properties
+        @question[:connecting_on_pic_image] = clear_html(f.text.strip.gsub(/\s+/, " "))
       elsif id =~ /general|all/i
         extract_feedback!(@question, :neutral_comments, f)
       elsif id =~ /feedback_(\d*)_fb/i
@@ -338,6 +342,8 @@ class AssessmentItemConverter
           opts[:interaction_type] = 'fill_in_blanks_subjective_question'
         elsif type == 'connecting_lead_question'
           opts[:interaction_type] = 'connecting_lead_question'
+        elsif type == 'connecting_on_pic_question'
+          opts[:interaction_type] = 'connecting_on_pic_question'
         else
           opts[:custom_type] = type
         end
@@ -374,6 +380,8 @@ class AssessmentItemConverter
         q = FillInTheBlank.new(opts)
       when /connecting_lead_question/i
         q = ConnectingLead.new(opts)
+      when /connecting_on_pic_question/i
+        q = ConnectingOnPic.new(opts)
       when nil
         q = AssessmentItemConverter.new(opts)
       else
