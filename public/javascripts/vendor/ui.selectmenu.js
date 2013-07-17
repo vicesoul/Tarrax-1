@@ -584,6 +584,8 @@ $.widget("ui.selectmenu", {
 			self._refreshPosition();	
 			
 			var link = selected.find("a");
+
+			// on moudules page when add moudule this will cause the page scrolling to other place
 			if (link.length) link[0].focus();		
 			
 			self.isOpen = true;

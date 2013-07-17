@@ -744,21 +744,30 @@ define([
     $(".add_module_link").live('click', function(event) {
       event.preventDefault();
       var $module = $("#context_module_blank").clone(true).attr('id', 'context_module_new');
-      $module.find(".context-module-toolbar-item select").selectmenu({
+      $("#context_modules").append($module);
+      var $select = $module.find(".context-module-toolbar-item select")
+
+      // init appended moudule
+      $select.selectmenu({
         menuWidth: 140,
         maxHeight: 300,
+        positionOptions: {
+          of: $select.parents('.context-module-toolbar-item'),
+          at: 'center bottom',
+          my: 'center bottom-30'
+        },
         close: function(e, object){
           $(this).selectmenu("index", 0)
         }
       })
       .next('span').hide()
-      $("#context_modules").append($module);
-        $module.find(".context_module_items").sortable(modules.sortable_module_options);
-        $("#context_modules.ui-sortable").sortable('refresh');
-        $("#context_modules .context_module .context_module_items.ui-sortable").each(function() {
-          $(this).sortable('refresh');
-          $(this).sortable('option', 'connectWith', '.context_module_items');
-        });
+      
+      $module.find(".context_module_items").sortable(modules.sortable_module_options);
+      $("#context_modules.ui-sortable").sortable('refresh');
+      $("#context_modules .context_module .context_module_items.ui-sortable").each(function() {
+        $(this).sortable('refresh');
+        $(this).sortable('option', 'connectWith', '.context_module_items');
+      });
       modules.editModule($module);
     });
 
@@ -798,6 +807,24 @@ define([
       }
     }
 
+    // prevent initiallizing the template "#context_module_blank" which contain 'select'
+    $('#context_modules .context-module-toolbar-item select').each(function(){
+      $(this)
+      .selectmenu({
+        menuWidth: 140,
+        maxHeight: 300,
+        positionOptions: {
+          of: $(this).parents('.context-module-toolbar-item'),
+          at: 'center bottom',
+          my: 'center bottom-30'
+        },
+        close: function(e, object){
+          $(this).selectmenu("index", 0)
+        }
+      })
+      .next('span').hide()
+    })
+
     $(".add_module_item_select").live( "change", function() {
       var $module = $(this).parents(".context_module");
 
@@ -833,40 +860,25 @@ define([
 
     });
 
-    $(".add_item_link").live("click", function(e) {
+    $(".context-module-toolbar-item").on("click.fireSelectMenu", '.add_item_link', function(e) {
       e.preventDefault()
+      e.stopPropagation()
       var $select = $(this).next(".add_module_item_select")
 
-      if($('.ui-selectmenu-open').size() == 1){
-        $select.selectmenu("close")
-        return false
+      if( $('.ui-selectmenu-open').size() !== 0 ){
+        $('.ui-selectmenu-open').removeClass('ui-selectmenu-open')
       }
 
       $select.selectmenu("open")
-      var $openMenu = $('.ui-selectmenu-open')
-      $openMenu.css({
-        left: e.pageX - $openMenu.width()/2,
-        top: e.pageY + 20
-      })
+      
     })
 
     // mousedown on document will trigger selectmenu close
-    $(".add_item_link").live("mousedown", function(e) {
+    $(".context-module-toolbar-item").on("mousedown", '.add_item_link', function(e) {
       e.stopPropagation()
     })
 
-    // this will init the template "#context_module_blank" which contain 'select'
-    $('#context_modules .context-module-toolbar-item select').each(function(){
-      $(this)
-      .selectmenu({
-        menuWidth: 140,
-        maxHeight: 300,
-        close: function(e, object){
-          $(this).selectmenu("index", 0)
-        }
-      })
-      .next('span').hide()
-    })
+    
 
     $("#add_module_prerequisite_dialog .cancel_button").click(function() {
       $("#add_module_prerequisite_dialog").dialog('close');

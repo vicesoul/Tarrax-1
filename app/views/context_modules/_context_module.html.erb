@@ -58,7 +58,7 @@
       <li class="context-module-toolbar-item"><span class="id" style="display: none;"><%= context_module ? context_module.id : nbsp %></span></li>
       <li class="context-module-toolbar-item"><span class="unlock_at"><%= datetime_string(context_module.try_rescue(:unlock_at)) || nbsp %></span></li>
       <li class="context-module-toolbar-item">
-        <a href="#" class="icon-add add_item_link"></a>
+        <a href="#" class="icon-add add_item_link" style='display: inline-block;'></a>
 
         <select class="add_module_item_select" style="display:none;">
           <option value="default">请选择</option>
