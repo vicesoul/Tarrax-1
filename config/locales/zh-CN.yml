@@ -9390,6 +9390,10 @@ zh-CN:
         text_only: 此"试题"将不会评分，但在引入一组相关试题时非常有用。
         true_false: "输入您的试题文本，然后选择 True 或 False 作为正确答案。"
         variable_definitions: 一旦您输入上述变量后，应看到这些变量在此处列出。您可以指定下面每个变量可能的值范围。
+        connecting_lead: 连线题
+        connecting_on_pic: 图画连线题
+        drag_and_drop: 拖拽题
+        fill_in_blanks_subjective: 主观填空题
       general_answer_comments: 一般答案评注
       headers: 
         formula_definition: 公式定义
@@ -9435,6 +9439,10 @@ zh-CN:
         short_answer: 填空题
         text_only: 题目说明
         true_false: 是非题
+        connecting_lead: 连线题
+        connecting_on_pic: 图画连线题
+        drag_and_drop: 拖拽题
+        fill_in_blanks_subjective: 主观填空题
       show_possible_answers: "显示 %{question} 正确的答案"
       titles: 
         click_to_enter_correct_answer_comments: 输入正确答案的评注
