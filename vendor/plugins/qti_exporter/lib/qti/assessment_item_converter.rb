@@ -209,7 +209,10 @@ class AssessmentItemConverter
     html_node = node.at_css('div.html') || (node.name.downcase == 'div' && node['class'] =~ /\bhtml\b/)
     is_html = false
     # heuristic for detecting html: the sanitized html node is more than just a container for a single text node
-    sanitized = sanitize_html!(html_node ? Nokogiri::HTML::DocumentFragment.parse(node.text) : node, true) { |s| is_html = !(s.children.size == 1 && s.children.first.is_a?(Nokogiri::XML::Text)) }
+    sanitized = sanitize_html!(html_node ? Nokogiri::HTML::DocumentFragment.parse(node.text) : node, true) do |s|
+      first = s.children.first
+      is_html = !(s.children.size == 1 && first.name.downcase == 'div' && first['class'] =~ /\btext\b/) 
+    end
     if is_html && sanitized.present?
       html = sanitized
     end
