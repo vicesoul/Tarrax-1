@@ -191,7 +191,7 @@ zh-CN:
       template: 模板
       select_tpl_first: 请选择一个案例模板
       please_select: 请选择
-      warn_tpl: 你所在的网校还没有案例模板，所以不能建立案例问题
+      warn_tpl: 你所在的网校还没有案例模板，所以使用系统内置的案例模板
     show:
       subject: 主题
       title: 标题
