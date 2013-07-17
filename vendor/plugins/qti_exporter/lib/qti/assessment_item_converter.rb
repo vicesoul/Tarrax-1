@@ -180,6 +180,10 @@ class AssessmentItemConverter
         else
           extract_feedback!(@question, :correct_comments, f)
         end
+      elsif id =~ /solution_content/i
+        if text = f.at_css('div.html')
+          @question[:solution_content] = sanitize_html_string(text.text)
+        end
       elsif id =~ /solution/i
         @question[:example_solution] = clear_html(f.text.strip.gsub(/\s+/, " "))
       elsif id =~ /connecting_lead_linesNum/i # use feedback to add extra properties

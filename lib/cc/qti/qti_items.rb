@@ -134,6 +134,8 @@ module CC
             # html version will be translated ids automatically
             question['connecting_on_pic_image_html'] = question['connecting_on_pic_image']
             item_feedback(item_node, 'connecting_on_pic_image', question, 'connecting_on_pic_image')
+            question['solution_content_html'] = question['solution_content']
+            item_feedback(item_node, 'solution_content', question, 'solution_content')
             question['answers'].each do |answer|
               item_feedback(item_node, "#{answer['id']}_fb", answer, 'comments')
             end

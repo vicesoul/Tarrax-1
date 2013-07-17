@@ -628,7 +628,7 @@ class AssessmentQuestion < ActiveRecord::Base
   end
   
   def self.prep_for_import(hash, context)
-    [:question_text, :correct_comments_html, :incorrect_comments_html, :neutral_comments_html, :more_comments_html].each do |field|
+    [:question_text, :correct_comments_html, :incorrect_comments_html, :neutral_comments_html, :more_comments_html, :solution_content].each do |field|
       hash[field] = ImportedHtmlConverter.convert(hash[field], context, true) if hash[field].present?
     end
 
