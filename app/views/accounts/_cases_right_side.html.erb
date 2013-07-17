@@ -10,7 +10,7 @@
     <div>
       <%= f.text_field :name %>
       <%= f.hidden_field :account_id, :value => @account.id %>
-      <%= f.hidden_field :is_case , :value => true %>
+      <%= f.hidden_field :sub_type , :value => 'case_issue' %>
       <%= f.hidden_field :is_public, :value => false %>
     </div>
 

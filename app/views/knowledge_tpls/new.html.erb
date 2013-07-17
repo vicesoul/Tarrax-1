@@ -1,0 +1,22 @@
+
+<% js_bundle :case %>
+<% jammit_css :case, :tinymce %>
+
+<h1 id='case_tpl_new'><%= t('new_tpl', 'New Knowledge Template') %></h1>
+
+<% form_for(@knowledge_tpl, :url => account_knowledge_tpls_url(@account), :html => {:method => 'POST', :class => 'form-horizontal bootstrap-form'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+  <p>
+		<button class="btn btn-primary right" type="submit"><i class='icon-discussion-new'></i> <%= t('#buttons.create', 'Create') %> </button>
+  </p>
+<% end %>
+
+<%= render :partial => 'hidden_element' %>
+
+<% link_to account_knowledge_tpls_path, {:class => 'btn'} do %>
+  <i class='icon-reset'></i><%= t('#buttons.back', 'Back') %>
+<% end %>
+

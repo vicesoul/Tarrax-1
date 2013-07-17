@@ -1,0 +1,105 @@
+
+<% js_bundle :knowledge_index %>
+
+<% content_for :right_side do %>
+  <%= render :partial => 'right_side' %>
+<% end %>
+
+
+<div>
+  <% form_for @search, :url => course_knowledges_path do |f| %>
+    <div>
+        <ul>
+          <li>
+            <label><%= t 'selector.subject', 'Subject' %>:</label>
+            <%= f.text_field :subject_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.author', 'Author' %>:</label>
+            <%= f.text_field :user_name_like %>
+          </li>
+          <li>
+            <label><%= t 'selector.state', 'State' %>:</label>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'new', nil %> <%= t '#knowledges.state_array.new', 'New' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'awaiting_review', nil %> <%= t '#knowledges.state_array.awaiting_review', 'Awaiting Review' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'accepted', nil %> <%= t '#knowledges.state_array.accepted', 'Accepted' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '#knowledges.state_array.rejected', 'Rejected' %>
+          </li>
+          <li>
+            <label> </label>
+            <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
+          </li>
+         </ul>
+    </div>
+  <% end %>
+</div>
+<% unless @knowledges.empty? %>
+  <!-- Don't modify if you expect the correct pagination when using sort -->
+  <%= pagination = will_paginate(@knowledges) %>
+  <table class="table table-striped table-bordered range">
+    <tr>
+      <th><%= sortable_for_searchlogic('subject', (t 'headings.subject', 'Subject')) %></th>
+      <th><%= sortable_for_searchlogic('workflow_state', (t 'headings.state', 'State')) %></th>
+      <th><%= sortable_for_searchlogic('name', (t 'headings.author', 'Author'), 'user_sort_by_custom') %></th>
+      <th><%= sortable_for_searchlogic('updated_at', (t 'headings.updated_at', 'Update At')) %></th>
+      <th><%= t 'headings.op', 'Operation' %></th>
+    </tr>
+
+  <% @knowledges.each do |knowledge| %>
+    <tr>
+      <td><%= link_to knowledge.subject, course_knowledge_path(@context, knowledge) %></td>
+      <td><%= Knowledge.display_state[knowledge.workflow_state] %></td>
+      <td><%= knowledge.user.name %></td>
+      <td><%= knowledge.updated_at.to_formatted_s(:db) %></td>
+      <td>
+      <div class="admin-link-hover-area">
+        <div class="admin-links">
+          <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage (will be accessibly hidden)</span></button>
+          <ul class="al-options">
+            <% if knowledge.new? && knowledge.user.id == @current_user.id %>
+              <li>
+                <% link_to course_knowledge_submit_path(@context, knowledge),{:class => 'issue-submit'} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.submit', 'Submit') %>
+                <% end  %>
+              </li>
+            <% end %>
+            <% if knowledge.awaiting_review? && can_do(@context, @current_user, :operate_knowledge_as_teacher) %>
+              <li>
+                <% link_to course_knowledge_review_path(@context, knowledge),{:issue_subject => knowledge.subject, :class => 'issue-review'} do %>
+                  <span class='ui-icon ui-icon-trash'></span> <%=  (t 'links.review', 'Review') %>
+                <% end  %>
+              </li>
+            <% end %>
+            <% if (knowledge.new? && knowledge.user.id == @current_user.id) || (can_do(@context, @current_user, :operate_knowledge_as_teacher)) %>
+              <li>
+                <% link_to edit_course_knowledge_path(@context, knowledge) do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.edit', 'Edit') %>
+                <% end  %>
+              </li>
+              <li>
+                <% link_to course_knowledge_path(@context, knowledge), {:confirm => 'Are you sure?', :method => :delete} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.delete', 'Delete') %>
+                <% end  %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+  <%= pagination %>
+<% else %>
+  <div>
+    <%= t 'empty_knowledge', 'Empty knowledges' %>
+  </div>
+<% end %>
+<br />
+
+<div id="case-review-dialog" style="display:none">
+  <%= t 'dialogs.your_option', 'Your option is' %>
+  <input type="radio" name="review_result" value="accept" checked="true"><%= t 'dialogs.accept', 'Accept' %>
+  <input type="radio" name="review_result" value="reject"><%= t 'dialogs.reject', 'Reject' %>
+</div>
+

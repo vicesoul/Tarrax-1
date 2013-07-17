@@ -63,11 +63,12 @@ class Course < ActiveRecord::Base
                   :hide_distribution_graphs,
                   :lock_all_announcements,
                   :course_category_id,
-                  :is_case
+                  :sub_type
 
   serialize :tab_configuration
   serialize :settings, Hash
-  has_one :case_repostory, :as => :context
+  has_one :case_repostory, :as => :context, :conditions => ["case_repostories.sub_type = 'case_issue'"]
+  has_one :knowledge_repostory, :class_name => 'CaseRepostory', :as => :context, :conditions => ["case_repostories.sub_type='knowledge'"]
   belongs_to :root_account, :class_name => 'Account'
   belongs_to :abstract_course
   belongs_to :enrollment_term
@@ -214,6 +215,18 @@ class Course < ActiveRecord::Base
       calendar_events.active.all(:include => :child_events).reject(&:hidden?) +
       assignments.active
     end
+  end
+
+  def is_normal
+    self.sub_type.blank?
+  end
+
+  def is_case
+    self.sub_type == 'case_issue'
+  end
+
+  def is_knowledge
+    self.sub_type == 'knowledge'
   end
 
   def self.skip_updating_account_associations(&block)
@@ -450,8 +463,8 @@ class Course < ActiveRecord::Base
   named_scope :active_first, lambda {
     {:order => "CASE WHEN courses.workflow_state='available' THEN 0 ELSE 1 END, name"}
   }
-  named_scope :is_not_case, lambda {
-    {:conditions => ['is_case = ?', false]}
+  named_scope :is_normal_course, lambda {
+    {:conditions => {:sub_type => nil}}
   }
   named_scope :limit, lambda {|limit|
     {:limit => limit }
@@ -2661,6 +2674,7 @@ class Course < ActiveRecord::Base
   TAB_OUTCOMES = 15
   TAB_COLLABORATIONS = 16
   TAB_CASE_ISSUES = 17
+  TAB_KNOWLEDGES = 18
 
   def self.default_tabs
     [
@@ -2688,6 +2702,14 @@ class Course < ActiveRecord::Base
       { :id => TAB_CASE_ISSUES, :label => t('#tabs.case_issue', "Case Collection Repostory"), :css_class => 'case_issue', :href => :course_case_issues_path },
       { :id => TAB_PEOPLE, :label => t('#tabs.people', "People"), :css_class => 'people', :href => :course_users_path },
       { :id => TAB_SETTINGS, :label => t('#tabs.case_settings', "Settings"), :css_class => 'settings', :href => :course_settings_path }
+    ]
+  end
+
+  def self.default_knowledge_tabs
+    [
+      { :id => TAB_KNOWLEDGES, :label => t('#tabs.knowledge', "Knowledge Base"), :css_class => 'knowledge', :href => :course_knowledges_path },
+      { :id => TAB_PEOPLE, :label => t('#tabs.people', "People"), :css_class => 'people', :href => :course_users_path },
+      { :id => TAB_SETTINGS, :label => t('#tabs.knowledge_settings', "Settings"), :css_class => 'settings', :href => :course_settings_path }
     ]
   end
 
@@ -2720,6 +2742,9 @@ class Course < ActiveRecord::Base
     if self.is_case
         case_tabs = Course.default_case_tabs
         self.grants_right?(user, opts[:session], :operate_case_as_teacher) ? (return case_tabs) : (return case_tabs.delete_if {|t| t[:id] == TAB_SETTINGS})
+    elsif self.is_knowledge
+        knowledge_tabs = Course.default_knowledge_tabs
+        self.grants_right?(user, opts[:session], :operate_knowledge_as_teacher) ? (return knowledge_tabs) : (return knowledge_tabs.delete_if {|t| t[:id] == TAB_SETTINGS})
     end
     default_tabs = Course.default_tabs
     opts.reverse_merge!(:include_external => true)

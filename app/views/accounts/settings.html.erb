@@ -258,6 +258,14 @@
                 <%= settings.check_box :users_can_edit_name, :checked => @account.settings[:users_can_edit_name] != false %>
                 <%= settings.label :users_can_edit_name, :en => "Users can edit display name" %>
               </div>
+              <div>
+                <%= settings.check_box :student_can_commit_knowledge, :checked => @account.settings[:student_can_commit_knowledge] %>
+                <%= settings.label :student_can_commit_knowledge, :en => "Students can commit knowledge" %>
+              </div>
+              <div>
+                <%= settings.check_box :allow_pushed_from_cases, :checked => @account.settings[:allow_pushed_from_cases] != false %>
+                <%= settings.label :allow_pushed_from_cases, :en => "Allow pushed by case repositories" %>
+              </div>
             <% end %>
             <% unless true || @account.site_admin? # hidden %>
               <div>
@@ -473,6 +481,13 @@
             <legend><%= t('case_tpl_management_fieldset', 'Case template Management')%></legend>
             <div> 
               <%= link_to t('case_tpl_management_fieldset', 'Case template Management'), account_case_tpls_path(@account) %>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend><%= t('knowledge_tpl_management_fieldset', 'Knowledge template Management')%></legend>
+            <div> 
+              <%= link_to t('knowledge_tpl_management_fieldset', 'Knowledge template Management'), account_knowledge_tpls_path(@account) %>
             </div>
           </fieldset>
 

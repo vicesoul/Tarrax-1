@@ -1,0 +1,47 @@
+
+<p>
+  <% link_to new_account_knowledge_tpl_path, {:class => 'btn btn-success'} do %>
+    <i class='icon-add'></i>
+    <%=  t('new_tpl', 'New Knowledge Template') %>
+  <% end %>
+</p>
+<% unless @knowledge_tpls.empty? %>
+  <table class="table table-striped table-bordered range">
+    <tr>
+      <th><%= t 'headings.name', 'Name' %></th>
+      <th><%= t 'headings.author', 'Author' %></th>
+      <th><%= t 'headings.updated_at', 'Updated At' %></th>
+      <th><%= t 'headings.op', 'Operation' %></th>
+    </tr>
+
+  <% @knowledge_tpls.each do |knowledge_tpl| %>
+    <tr>
+      <td><%= link_to knowledge_tpl.name, account_knowledge_tpl_path(@account, knowledge_tpl) %></td>
+      <td><%= knowledge_tpl.user.name %></td>
+      <td><%= knowledge_tpl.updated_at.to_s(:db) %></td>
+      <td>
+        <div class="admin-link-hover-area">
+          <div class="admin-links">
+            <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage (will be accessibly hidden)</span></button>
+            <ul class="al-options">
+              <li>
+                <% link_to edit_account_knowledge_tpl_path(@account, knowledge_tpl) do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%= t '#buttons.edit', 'Edit' %>
+                <% end %>
+              </li>
+              <li>
+                <% link_to account_knowledge_tpl_path(@account, knowledge_tpl), {:confirm => t('#buttons.confirm', 'Are you sure?'), :method => :delete} do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%= t '#buttons.delete', 'Delete' %>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  <%= t 'empty_tpls', 'Empty Knowledge Templates' %>
+<% end %>
+

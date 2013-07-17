@@ -1,7 +1,7 @@
 <% js_bundle :case %>
 <% jammit_css :case, :tinymce %>
 
-<h1 id='case_tpl_new'><%= t('new_tpl', 'New case_tpl') %></h1>
+<h1 id='case_tpl_new'><%= t('new_tpl', 'New Case Template') %></h1>
 
 <% form_for(@case_tpl, :url => account_case_tpls_url(@account), :html => {:method => 'POST', :class => 'form-horizontal bootstrap-form'}) do |f| %>
 

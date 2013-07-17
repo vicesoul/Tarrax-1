@@ -1,0 +1,7 @@
+
+<% if @context.root_account.settings[:student_can_commit_knowledge] || can_do(@context, @current_user, :operate_knowledge_as_teacher) %>
+  <% link_to new_course_knowledge_path, {:class => 'add_case_link btn button-sidebar-wide'} do %>
+    <i class="icon-add"></i><%= t('#knowledges.index.new_knowledge', 'New knowledge') %>
+  <% end %>
+<% end %>
+

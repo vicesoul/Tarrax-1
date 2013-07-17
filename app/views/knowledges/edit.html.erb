@@ -1,0 +1,27 @@
+
+<% js_bundle :case_issue_edit %>
+<% jammit_css :case, :tinymce %>
+<h1><%= t 'edit_knowledge', 'Editing knowledge' %></h1>
+
+<% form_for(@knowledge, :url => course_knowledge_url(@context, @knowledge), :html => {:method => 'PUT', :class => 'form-horizontal bootstrap-form'}) do |f| %>
+
+  <%= f.error_messages %>
+
+  <%= render :partial => 'form', :locals => {:f => f } %>
+
+  <p>
+  	<button class="btn btn-primary right" type="submit"><i class='icon-refresh'></i> <%=  t('#buttons.update', 'Update') %> </button>
+  </p>
+  
+<% end %>
+  
+<%= render :partial => 'knowledge_tpls/hidden_element' %>
+
+<% link_to course_knowledge_path(@context, @knowledge), {:class => 'btn'} do %>
+  <i class='icon-document'></i>
+  <%=  t('#buttons.show', 'Show') %>
+<% end %>
+<% link_to course_knowledges_path, {:class => 'btn'} do %>
+  <i class='icon-reset'></i>
+  <%=  t('#buttons.back', 'Back') %>
+<% end %>

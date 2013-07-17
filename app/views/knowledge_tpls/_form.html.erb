@@ -16,14 +16,14 @@
 <div>
   <%= f.hidden_field :context_id, :value => params[:context_id] %>
   <%= f.hidden_field :context_type, :value => params[:context_type] %>
-  <%= f.hidden_field :sub_type, :value => 'case_issue' %>
+  <%= f.hidden_field :sub_type, :value => 'knowledge' %>
   <%= f.hidden_field :user_id, :value => @current_user.id %>
 </div>
 
 <div class='control-group'>
   <label class="control-label"><%= t 'template', 'Template' %>:</label> 
   <div class="controls">
-  	<%= render :partial => 'shared_case_tpl_form', :locals => {:case_tpl => @case_tpl} %>
+  	<%= render :partial => 'shared_knowledge_tpl_form', :locals => {:knowledge_tpl => @knowledge_tpl} %>
   </div>
 </div>
 

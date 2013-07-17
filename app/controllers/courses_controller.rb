@@ -258,14 +258,17 @@ class CoursesController < ApplicationController
     account = Account.find(params[:course][:account_id])
     params[:course][:account] = account
     params[:course].delete(:account_id)
-    params[:course][:name] = t('#tabs.case_repostory', 'Case Collection Repository') if params[:course][:name].blank?
+    if params[:course][:name].blank?
+      params[:course][:name] = params[:course][:sub_type] == 'knowledge' ? t('#tabs.knowledge_repository', 'Knowledge Repository') : t('#tabs.case_repostory', 'Case Collection Repository')
+    end
     course = Course.new(params[:course])
     repostory = CaseRepostory.new
+    params[:course][:sub_type] == 'knowledge' ? repostory.sub_type = 'knowledge' : repostory.sub_type = 'case_issue'
     respond_to do |format|
       begin 
         Course.transaction do 
           role_name = t('#role.roles.case_group', 'Case Group')
-          if account.roles.case_roles(role_name).empty?
+          if account.roles.case_roles(role_name).empty? && params[:course][:sub_type].blank?
             role = account.roles.build(:name => role_name)
             role.base_role_type = 'StudentEnrollment'
             role.save!
@@ -276,7 +279,7 @@ class CoursesController < ApplicationController
 
           repostory.context_id = course.id
           repostory.context_type = 'Course'
-          repostory.name = 'Default Case Repostory'
+          repostory.name = params[:course][:sub_type] == 'knowledge' ? 'Default Knowledge Repository' : 'Default Case Repository'
           repostory.save!
         end
       rescue => e
@@ -987,7 +990,11 @@ class CoursesController < ApplicationController
 
     @context = Course.active.find(params[:id])
     add_crumb @context.account.short_name, account_homepage_path(@context.account)
-    return redirect_to course_case_issues_path(@context) if @context.is_case
+    
+    unless @context.sub_type.blank?
+      return (@context.sub_type == 'case_issue' ? (redirect_to course_case_issues_path(@context)) : (redirect_to course_knowledges_path(@context)))
+    end
+
     if request.xhr?
       if authorized_action(@context, @current_user, [:read, :read_as_admin])
         render :json => @context.to_json

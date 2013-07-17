@@ -531,6 +531,12 @@ class RoleOverride < ActiveRecord::Base
         :true_for => %w(AccountAdmin),
         :available_to => %w(AccountAdmin AccountMembership)
       },
+      :create_knowledge_repostory => {
+        :label => lambda { t('permissions.create_knowledge_repostory', "Create a knowledge repostory") },
+        :account_only => true,
+        :true_for => %w(AccountAdmin),
+        :available_to => %w(AccountAdmin AccountMembership)
+      },
       :manage_user_logins => {
         :label => lambda { t('permissions.manage_user_logins', "Modify login details for users") },
         :available_to => [
@@ -716,6 +722,16 @@ class RoleOverride < ActiveRecord::Base
       },
       :operate_case_as_teacher => {
         :label => lambda { t('permissions.operate_case_as_teacher', 'Operate Cases as teacher') },
+        :true_for => %w(AccountAdmin TeacherEnrollment),
+        :available_to => %w(AccountAdmin TeacherEnrollment)
+      },
+      :operate_knowledge_as_student => {
+        :label => lambda { t('permissions.operate_knowledge_as_student', 'Operate Knowledges as student') },
+        :true_for => %w(AccountAdmin TeacherEnrollment StudentEnrollment),
+        :available_to => %w(AccountAdmin TeacherEnrollment StudentEnrollment)
+      },
+      :operate_knowledge_as_teacher => {
+        :label => lambda { t('permissions.operate_knowledge_as_teacher', 'Operate Knowledges as teacher') },
         :true_for => %w(AccountAdmin TeacherEnrollment),
         :available_to => %w(AccountAdmin TeacherEnrollment)
       }

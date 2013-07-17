@@ -1,5 +1,108 @@
 --- 
 zh-CN: 
+  knowledges:
+    knowledge_setting: 知识库设置
+    discuss_for: "对%{knowledge_subject}进行讨论"
+    model_init:
+      knowledge: 知识
+    state_array:
+      new: 新建的
+      awaiting_review: 等待审核的
+      accepted: 审核通过的
+      rejected: 被拒绝的
+    bread_crumb:
+      knowledge: 知识
+    index:
+      new_knowledge: 新建知识
+      selector:
+        subject: 主题
+        author: 作者
+        state: 状态
+        query: 查询
+      empty_knowledge: 没有知识
+      headings:
+        subject: 主题
+        state: 状态
+        author: 作者
+        solutions: 解决方案
+        updated_at: 更新时间
+        op: 操作
+      links:
+        submit: 提交
+        review: 审核
+        apply: 申领
+        edit: 修改
+        delete: 删除
+      dialogs:
+        your_option: 您的意见是
+        accept: 接受
+        reject: 拒绝
+        group_discuss: 是否小组讨论
+        ya: 是
+        not: 否
+    new:
+      new_knowledge: 新建知识
+    edit:
+      edit_knowledge: 修改知识
+    form:
+      subject: 主题
+      template: 模板
+      select_tpl_first: 请选择一个知识模板
+      please_select: 请选择
+      warn_tpl: 你所在的网校还没有案例模板，所以不能建立知识
+    show:
+      subject: 主题
+      title: 标题
+      content: 正文
+      state: 状态
+      author: 作者
+      updated_at: 更新时间
+      template: 模板
+      current_solutions: 当前的解决方案
+      solution_author: 作者
+      solution_updated_at: 更新时间
+      solution_state: 状态
+
+  knowledge_tpls:
+    bread_crumb:
+      knowledge_tpl: 知识库模板
+    save_successfully: 知识库模板保存成功
+    model_init:
+      default_tpl: 默认知识库模板
+      tpl: 知识库模板
+      subject: 板块主题
+      body: 正文
+      content: 板块说明
+    index:
+      new_tpl: 新建知识库模板
+      headings:
+        name: 模板名
+        author: 作者
+        op: 操作
+        updated_at: 更新时间
+      empty_tpls: 没有知识库模板
+    new:
+      new_tpl: 新建知识库模板
+    form:
+      new_module: 添加新模块
+      tpl_name: 模板名
+      template: 模板
+    shared_case_tpl_form:
+      title: 板块主题
+      desc: 板块说明
+      remove_me: 移除
+    edit:
+      edit_tpl: 编辑知识库模板
+    hidden_element:
+      remove_me: 移除
+      custom_title: 自定义主题
+      custom_content: 自定义正文
+    show:
+      tpl_name: 模板名
+      author: 作者
+      updated_at: 更新时间
+      current_solutions: 当前的解决方案
+
   case_tpls:
     bread_crumb:
       case_tpl: 案例模板
@@ -129,6 +232,7 @@ zh-CN:
         submit: 提交
         review: 审核
       your_option: 您的意见是？
+      dont_push_to_knowledge_base: 不要同步到知识库
       review: 已审核
       recommend: 推荐
     edit:
@@ -193,6 +297,7 @@ zh-CN:
     tab_jobs: 工作队列
     tab_learning_plans: 学习计划
     tab_case_collection_repositories: 案例征集
+    tab_knowledge_repositories: 知识库 
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
@@ -435,8 +540,12 @@ zh-CN:
     types: 
       account_admin: 网校管理员
   accounts: 
+    knowledges_right_side:
+      knowledge_setting: 知识库管理
     case_repositories:
       case_repository: 此网校中的案例库 
+    knowledge_repositories:
+      knowledge_repository: 此网校中的知识库 
     account_user: 
       remove_admin_tooltip: 删除此管理员
     add_course_button: 添加新课程
@@ -445,6 +554,7 @@ zh-CN:
       add_course_button: 添加新课程
       add_course_link: 添加新课程
       add_case_link: 添加新案例征集库
+      add_knowledge_link: 添加新知识库
       add_user_button: 添加新用户
       add_user_link: 添加新用户
       attach_users_link: 关联用户
@@ -480,6 +590,11 @@ zh-CN:
     add_case_button: 添加新案例征集库
     add_case_failure: 添加案例征集库失败
     add_case_successfully: 添加案例征集库成功
+    add_knowledge_dialog_content: 向您的网校添加知识库
+    add_knowledge_dialog_title: 添加新知识库
+    add_knowledge_button: 添加新知识库
+    add_knowledge_failure: 添加知识库失败
+    add_knowledge_successfully: 添加知识库成功
     adding_course_message: 正在添加课程...
     adding_user_message: 正在添加用户...
     associated: 
@@ -669,6 +784,7 @@ zh-CN:
       ip_filter_name_label: 名称
       job_position_management_fieldset: 岗位管理
       case_tpl_management_fieldset: 案例模板管理
+      knowledge_tpl_management_fieldset: 知识库模板管理
       tip:
         select_account_notification_category: 请选择公告分类
       labels: 
@@ -722,6 +838,8 @@ zh-CN:
         turnitin_pledge: "Turnitin 保证"
         turnitin_shared_secret: "Turnitin 共享密钥"
         users_can_edit_name: 用户可以编辑显示名称
+        student_can_commit_knowledge: 学员可以向知识库提交知识
+        allow_pushed_from_cases: 允许优秀案例推荐入知识库
       links: 
         add_admins: 添加管理员
         configure_report: 配置...
@@ -6299,6 +6417,7 @@ zh-CN:
       view_all_accounts: 查看所有网校
       view_all_enrollments: 查看所有课程
       view_all_case_repositories: 查看所有案例
+      view_all_knowledge_repositories: 查看所有知识
       view_all_groups: 查看所有组
       view_courses_to_be_attended: 应该加入的课程
   learning_outcome: 
@@ -6520,6 +6639,7 @@ zh-CN:
     managed_accounts: 管理的网校
     my_courses: 我的课程
     my_case_repositories: 我的案例库
+    my_knowledge_repositories: 我的知识库
   message: 
     default_subject: 教学邦警报
   message_students: 
@@ -10175,6 +10295,7 @@ zh-CN:
       create_collaborations: 创建学生协作
       create_conferences: "创建 Web 在线视频课"
       create_case_repostory: 创建案例征集库
+      create_knowledge_repostory: 创建知识库
       manage_account_notification_category: 管理网校公告分类
       manage_account_memberships: 添加/删除网校的其他管理员
       manage_account_settings: 管理网校级设置
@@ -10207,6 +10328,8 @@ zh-CN:
       moderate_form: 调整讨论（删除/编辑其他人的发布内容、锁定主题）
       operate_case_as_student: 以普通人员的身份操作案例
       operate_case_as_teacher: 以管理员身份操作案例
+      operate_knowledge_as_student: 以普通人员的身份操作知识
+      operate_knowledge_as_teacher: 以管理员身份操作知识
       post_to_forum: 发布到讨论
       read_course_content: 查看课程内容
       read_course_list: 查看课程列表
@@ -11372,6 +11495,7 @@ zh-CN:
     files: 文件
     grades: 成绩
     home: 主页
+    knowledge: 知识库
     modules: 单元
     pages: 页面
     people: 成员
@@ -11379,6 +11503,7 @@ zh-CN:
     quizzes: 测试
     settings: 课程管理
     case_settings: 案例管理
+    knowledge_settings: 知识库管理
     syllabus: 纲要
   teacher: 
     female: 女

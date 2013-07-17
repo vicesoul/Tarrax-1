@@ -72,7 +72,9 @@ class User < ActiveRecord::Base
   end
 
   has_many :case_issues
-  has_many :case_tpls
+  has_many :case_tpls, :conditions => ["case_tpls.workflow_state != 'deleted' and case_tpls.type = 'case_issue'"]
+  has_many :knowledges
+  has_many :knowledge_tpls, :class_name => 'CaseTpl', :conditions => ["case_tpls.workflow_state != 'deleted' and case_tpls.type = 'knowledge'"]
   has_many :case_solutions
 
   has_many :communication_channels, :order => 'communication_channels.position ASC', :dependent => :destroy
@@ -1643,13 +1645,12 @@ class User < ActiveRecord::Base
   end
 
   def courses_with_primary_enrollment(association = :current_and_invited_courses, enrollment_uuid = nil, options = {})
-    is_case = options[:is_case].nil? ? false : options[:is_case]
+    sub_type = options[:sub_type]
     res = self.shard.activate do
       Rails.cache.fetch([self, 'courses_with_primary_enrollment', association, options].cache_key, :expires_in => 15.minutes) do
-        send(association).with_each_shard do |scope|
+        send(association).where(:sub_type => sub_type).with_each_shard do |scope|
           courses = scope.distinct_on(["courses.id"],
             :select => "courses.*, enrollments.id AS primary_enrollment_id, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
-            :conditions => ['courses.is_case = ? ', is_case],
             :order => "courses.id, #{Enrollment.type_rank_sql}, #{Enrollment.state_rank_sql}")
 
           unless options[:include_completed_courses]
@@ -1664,13 +1665,13 @@ class User < ActiveRecord::Base
     end
 
     if association == :current_and_invited_courses
-      if enrollment_uuid && pending_course = Course.find(:first,
+      if enrollment_uuid && pending_course = Course.where(:sub_type => sub_type).find(:first,
         :select => "courses.*, enrollments.type AS primary_enrollment, #{Enrollment.type_rank_sql} AS primary_enrollment_rank, enrollments.workflow_state AS primary_enrollment_state",
-        :joins => :enrollments, :conditions => ["enrollments.uuid=? AND enrollments.workflow_state='invited' and courses.is_case =? ", enrollment_uuid, is_case])
+        :joins => :enrollments, :conditions => ["enrollments.uuid=? AND enrollments.workflow_state='invited' ", enrollment_uuid])
         res << pending_course
         res.uniq!
       end
-      pending_enrollments = temporary_invitations.select{|c| c.course.is_case == is_case}
+      pending_enrollments = temporary_invitations.select{|c| c.course.sub_type == sub_type}
       unless pending_enrollments.empty?
         Enrollment.send(:preload_associations, pending_enrollments, :course)
         res.concat(pending_enrollments.map { |e| c = e.course; c.write_attribute(:primary_enrollment, e.type); c.write_attribute(:primary_enrollment_rank, e.rank_sortable.to_s); c.write_attribute(:primary_enrollment_state, e.workflow_state); c.write_attribute(:invitation, e.uuid); c })
@@ -2549,15 +2550,21 @@ class User < ActiveRecord::Base
   end
 
   def menu_courses(enrollment_uuid = nil)
-    favorites = self.courses_with_primary_enrollment(:favorite_courses, enrollment_uuid, {:is_case => false})
+    favorites = self.courses_with_primary_enrollment(:favorite_courses, enrollment_uuid, {:sub_type => nil})
     return (@menu_courses = favorites) if favorites.length > 0
-    @menu_courses = self.courses_with_primary_enrollment(:current_and_invited_courses, enrollment_uuid, {:is_case => false}).first(12)
+    @menu_courses = self.courses_with_primary_enrollment(:current_and_invited_courses, enrollment_uuid, {:sub_type => nil}).first(12)
   end
 
   def menu_case_repositories(enrollment_uuid = nil)
-    favorites = self.courses_with_primary_enrollment(:favorite_courses, enrollment_uuid, {:is_case => true})
+    favorites = self.courses_with_primary_enrollment(:favorite_courses, enrollment_uuid, {:sub_type => 'case_issue'})
     return (@menu_courses = favorites) if favorites.length > 0
-    @menu_courses = self.courses_with_primary_enrollment(:current_and_invited_courses, enrollment_uuid, {:is_case => true}).first(12)
+    @menu_courses = self.courses_with_primary_enrollment(:current_and_invited_courses, enrollment_uuid, {:sub_type => 'case_issue'}).first(12)
+  end
+
+  def menu_knowledge_repositories(enrollment_uuid = nil)
+    favorites = self.courses_with_primary_enrollment(:favorite_courses, enrollment_uuid, {:sub_type => 'knowledge'})
+    return (@menu_courses = favorites) if favorites.length > 0
+    @menu_courses = self.courses_with_primary_enrollment(:current_and_invited_courses, enrollment_uuid, {:sub_type => 'knowledge'}).first(12)
   end
 
   def user_can_edit_name?
