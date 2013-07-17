@@ -41,6 +41,7 @@
       <div class="content">
         <textarea name="widget_body" id="widget_body" style="width:100%;"></textarea>
         <form id="widget_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
+            <p><%= t :choose_acceptable_image, "Caustion: the acceptable picture's ratio is 4:3 "%></p>
             <%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "widget_image" %> 
             <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" />
         </form>

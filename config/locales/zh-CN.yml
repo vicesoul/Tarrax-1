@@ -566,6 +566,7 @@ zh-CN:
       cancel: 取消
       change_background: 改变背景
       choose_image: 选择图片
+      choose_acceptable_image: 注意：请上传比例为4：3的图片
       delete_background_image: 删除上传的背景图片
       dialog: 
         error: 

@@ -335,7 +335,7 @@ body.dashboard #main{min-width: 1000px;}
 
 .jcarousel-skin-ie7 .jcarousel-container-horizontal {
     width: 592px;
-    padding: 20px 45px;
+    padding: 10px 45px;
 }
 
 .jcarousel-skin-ie7 .jcarousel-clip {
@@ -344,7 +344,7 @@ body.dashboard #main{min-width: 1000px;}
 
 .jcarousel-skin-ie7 .jcarousel-clip-horizontal {
     width:  592px;
-    height: 245px;
+    height: 220px;
 }
 
 .jcarousel-skin-ie7 .jcarousel-item {
@@ -481,12 +481,10 @@ body.dashboard #main{min-width: 1000px;}
 }
 #enterprise .im_account_announcements_widget{
   float:left;
-  min-width:262px;
-  margin-left: 20px;
-  display: inline;
+  width:28%;
 }
 #enterprise .im_account_announcements_widget .box .box_body{
-  height: 248px;
+  height: 203px;
 }
 #enterprise .max_box .box_head{
   background: url(../img/max_box_head_bg.jpg) no-repeat;
