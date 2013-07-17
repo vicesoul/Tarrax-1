@@ -284,6 +284,15 @@ class ApplicationController < ActionController::Base
     yield
   end
 
+  def auth_knowledge_as_student
+    authorized_action(@context, @current_user, :operate_knowledge_as_student)
+  end
+
+  def auth_knowledge_as_teacher
+    authorized_action(@context, @current_user, :operate_knowledge_as_teacher)
+  end
+
+
   #def is_account_admiVVn?
     #params[:context_type] == 'Course' && (Course.find(params[:context_id]).root_account.account_users_for(@current_user).any? {|i| i.membership_type == 'AccountAdmin'})
   #end

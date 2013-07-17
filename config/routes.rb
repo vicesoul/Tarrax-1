@@ -167,6 +167,12 @@ ActionController::Routing::Routes.draw do |map|
         solution.review 'review', :controller => 'case_solutions', :action => 'review_case_solution'
       end
     end
+
+    course.resources :knowledges, :controller => 'knowledges' do |knowledge|
+      knowledge.submit 'submit/', :controller => 'knowledges', :action => 'submit_knowledge'
+      knowledge.review 'review/', :controller => 'knowledges', :action => 'review_knowledge'
+    end
+
     course.get_account_case_tpl 'get_account_case_tpl/:id', :controller => 'case_tpls', :action => 'get_account_case_tpl'
     # DEPRECATED
     course.self_enrollment 'self_enrollment/:self_enrollment', :controller => 'courses', :action => 'self_enrollment', :conditions => {:method => :get}
@@ -452,8 +458,10 @@ ActionController::Routing::Routes.draw do |map|
     account.resources :teacher_categories
     account.attach_users 'attach_users', :controller => 'accounts', :action => 'attach_users'
     account.resources :case_tpls, :controller => 'case_tpls'
+    account.resources :knowledge_tpls, :controller => 'knowledge_tpls'
     account.advanced_users 'advanced_users', :controller => 'users', :action => 'advanced_index'
     account.case_repositories 'case_repositories', :controller => 'accounts', :action => 'case_repositories'
+    account.knowledge_repositories 'knowledge_repositories', :controller => 'accounts', :action => 'knowledge_repositories'
 
     account.active_or_forzen_user_by_account 'active_or_forzen_user_by_account/:user_id/:op_account_id/:state', :controller => 'users', :action => 'active_or_forzen_user_by_account'
     account.pick_up_users 'pickup/users', :controller => 'accounts', :action => 'pickup'

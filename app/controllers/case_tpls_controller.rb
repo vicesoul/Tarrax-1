@@ -16,11 +16,10 @@ class CaseTplsController < ApplicationController
   # GET /case_tpls
   # GET /case_tpls.xml
   def index
-    @case_tpls = CaseTpl.not_deleted.find_all_by_context_id_and_context_type(params[:context_id], params[:context_type], :order => 'updated_at DESC')
+    @case_tpls = CaseTpl.is_case.find_all_by_context_id_and_context_type(params[:context_id], params[:context_type], :order => 'updated_at DESC')
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @case_tpls }
     end
   end
 
@@ -62,10 +61,8 @@ class CaseTplsController < ApplicationController
     respond_to do |format|
       if @case_tpl.save
         format.html { redirect_to(account_case_tpls_url, :notice => t('#case_tpls.save_successfully', 'CaseTpl was successfully saved.')) }
-        format.xml  { render :xml => account_case_tpls_url, :status => :created, :location => account_case_tpls_url }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @case_tpl.errors, :status => :unprocessable_entity }
       end
     end
   end
@@ -82,11 +79,9 @@ class CaseTplsController < ApplicationController
     end
     respond_to do |format|
       if result        
-        format.html { redirect_to(account_case_tpls_url, :notice => t('save_successfully', 'CaseTpl was successfully saved.')) }
-        format.xml  { head :ok }
+        format.html { redirect_to(account_case_tpls_url, :notice => t('#case_tpls.save_successfully', 'CaseTpl was successfully saved.')) }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @case_tpl.errors, :status => :unprocessable_entity }
       end
     end
   end

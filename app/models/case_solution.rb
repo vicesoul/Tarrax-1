@@ -35,6 +35,18 @@ class CaseSolution < ActiveRecord::Base
     state :recommended
   end
 
+  def copy_solution_to_knowledge_base knowledge_base_id, user
+    knowledge_content = ''
+    issue_subject = "<div>#{self.case_issue.subject}</div>" 
+    issue_content = self.case_issue.case_tpl.case_tpl_widgets.inject(""){|r,o| r << o.body}
+    solution_title = "<div>#{self.title}</div>"
+    knowledge_content << issue_subject << issue_content << solution_title << self.content
+
+    knowledge = Knowledge.new(:subject => self.title, :case_repostory_id => knowledge_base_id, :user => user)
+    Knowledge.init_pushed_knowledge(knowledge, knowledge_content)
+    knowledge.save! and knowledge.direct_accept
+  end
+
   class << self
     def display_state
       {

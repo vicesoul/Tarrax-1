@@ -76,7 +76,9 @@ class CaseSolutionsController < ApplicationController
   def review_case_solution
     case_solution = CaseSolution.find(params[:case_solution_id])
     if case_solution.being_reviewed? && %w[review recommend].include?(params[:review_result])
-      render :json => case_solution.__send__(params[:review_result]).to_json
+      result = case_solution.__send__(params[:review_result])
+      case_solution.copy_solution_to_knowledge_base(params[:knowledge_base_id], @current_user) if result && (params[:knowledge_base_id].present?) && (params[:review_result] == 'recommend')
+      render :json => result.to_json
     else
       render :json => false
     end

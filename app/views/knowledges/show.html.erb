@@ -1,0 +1,28 @@
+
+<% js_bundle :case %>
+<% jammit_css :case, :tinymce %>
+<div class='case_issues_show'>
+  <h1><%= @knowledge.subject %></h1>
+  <small class='sub-text right'>
+    <span><%= t('state', 'State') %>: <%= Knowledge.display_state[@knowledge.workflow_state] %></span>
+    <span><%= t('author', 'Author') %>: <%= @knowledge.user.name %></span>
+    <span><%= t('updated_at', 'Updated At') %>: <%= @knowledge.updated_at.to_formatted_s(:db) %></span>
+  </small>
+  <div class='template-overview'>
+    <dl>
+      <% @knowledge.case_tpl.case_tpl_widgets.each do |w| %>
+        <dt><%= raw w.title %></dt>
+        <dd><%= raw w.body %></dd>
+      <% end %>
+    </dl>
+  </div>
+
+  <% if @knowledge.new? && can_do(@context, @current_user, :operate_case_as_student) %>
+    <% link_to edit_course_knowledge_path(@context, @knowledge), {:class => 'btn'} do %>
+      <i class='icon-edit'></i> <%=  t('#buttons.edit', 'Edit') %>
+    <% end %>
+  <% end %>
+  <% link_to course_knowledges_path(@context), {:class => 'btn'} do %>
+    <i class='icon-reset'></i> <%=  t('#buttons.back', 'Back') %>
+  <% end %>
+</div>

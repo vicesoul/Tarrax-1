@@ -1,0 +1,11 @@
+
+<li class="customListItem" data-id="<%= menu_knowledge_repository[:id] %>">
+  <a href="<%= menu_knowledge_repository[:href] %>">
+    <span class="name ellipsis" title="<%= menu_knowledge_repository[:longName] %>"><%= menu_knowledge_repository[:shortName] %></span>
+    <% if defined? menu_knowledge_repository[:term] %>
+      <span class="subtitle ellipsis enrollment_term menu-item-drop-float-right"><%= menu_knowledge_repository[:term] %></span>
+    <% end %>
+    <span class="subtitle ellipsis menu-item-drop-float-right"><%= menu_knowledge_repository[:root_account] %></span>
+    <span class="subtitle ellipsis"><%= menu_knowledge_repository[:subtitle] %></span>
+  </a>
+</li>

@@ -1,0 +1,2 @@
+module KnowledgeTplsHelper
+end

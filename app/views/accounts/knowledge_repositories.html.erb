@@ -1,0 +1,16 @@
+
+<h2><%= t 'knowledge_repository', 'Knowledges In This Account' %></h2>
+
+<% content_for :right_side do %>
+  <%= render :partial => 'knowledges_right_side' %>
+<% end %>
+
+<ul class="courses" style="list-style-type: none;">
+  <% @courses.each do |c| %>
+    <li class="course">
+    <div class="course">
+      <%= link_to c.name, course_knowledges_path(c) %>
+    </div>
+    </li>
+  <% end %>
+</ul>
