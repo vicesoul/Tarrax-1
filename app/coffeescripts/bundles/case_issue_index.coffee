@@ -51,6 +51,27 @@ require [
         return false
       )
 
+      $('.issue-push').bind('click' , ->
+        _this = this
+        $('#knowledge-base-dialog').easyDialog({
+          confirmButtonClass: 'btn-primary'
+          confirmCallback: ->
+            $.get(_this.href + '?knowledge_base_id=' + $('#knowledge_base_id').val(), (data)->
+              if data
+                $('<div></div>').easyDialog({
+                  content: '录入至知识库成功！'
+                  closeCallback: ->
+                    window.location.reload()
+                })
+              else
+                $('<div></div>').easyDialog({
+                  content: '录入至知识库失败！'
+                })
+            )
+        }, 'confirm')
+        return false
+      )
+
     $('.issue-apply').bind('click' , ->
         _this = this
         if $('#case-apply-dialog input:checked').val() is 'true'

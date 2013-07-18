@@ -21,24 +21,27 @@ class CaseIssue < ActiveRecord::Base
     #}
   #end
 
-  include Workflow
-
-  def self.find_or_init_case_tpl
-    issue = self.new(:subject => t('#case_issues.model_init.issue', 'Case Issue'))
-    tpl = issue.build_case_tpl(:name => t('#case_tpls.model_init.default_tpl', 'Default case issue template'))
-    tpl.case_tpl_widgets.build(
-      :title => t('#case_tpls.model_init.subject', 'Subject'),
-      :body => t('#case_tpls.model_init.content', 'Content'),
-      :seq => 0
-    )
-    tpl.case_tpl_widgets.build(
-      :title => t('#case_tpls.model_init.subject', 'Subject'),
-      :body => t('#case_tpls.model_init.content', 'Content'),
-      :seq => 1
-    )
-    issue
+  def has_accepted_solutions?
+    self.accepted? && self.case_solutions.any?{|s| s.accepted? }   
   end
 
+  def push_to_knowledge_base knowledge_base_id, user
+    knowledge_content = ''
+    issue_subject = "<div>#{self.subject}</div>" 
+    issue_content = self.case_tpl.case_tpl_widgets.inject(""){|r,o| r << o.body}
+
+    solutions = self.case_solutions.select{ |s| s.accepted? }.inject(""){|r,o| r << "<div></div>#{o.title}" << o.content}
+
+    knowledge_content << issue_subject << issue_content << solutions
+
+    knowledge = Knowledge.new(:subject => self.subject, :case_repostory_id => knowledge_base_id, :user => user)
+    Knowledge.init_pushed_knowledge(knowledge, knowledge_content)
+    knowledge.save! and knowledge.submit
+  end
+
+  include Workflow
+
+  
   workflow do
     state :new do
       event :submit, :transitions_to => :awaiting_review
@@ -55,6 +58,23 @@ class CaseIssue < ActiveRecord::Base
   end 
   
   class << self
+
+    def find_or_init_case_tpl
+      issue = self.new(:subject => t('#case_issues.model_init.issue', 'Case Issue'))
+      tpl = issue.build_case_tpl(:name => t('#case_tpls.model_init.default_tpl', 'Default case issue template'))
+      tpl.case_tpl_widgets.build(
+        :title => t('#case_tpls.model_init.subject', 'Subject'),
+        :body => t('#case_tpls.model_init.content', 'Content'),
+        :seq => 0
+      )
+      tpl.case_tpl_widgets.build(
+        :title => t('#case_tpls.model_init.subject', 'Subject'),
+        :body => t('#case_tpls.model_init.content', 'Content'),
+        :seq => 1
+      )
+      issue
+    end
+
     def display_state
       {
         'new' => t('#case_issues.state_array.new', 'New'),

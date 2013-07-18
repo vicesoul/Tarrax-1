@@ -49,7 +49,7 @@
   <% @case_issues.each do |case_issue| %>
     <tr>
       <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
-      <td><%= CaseIssue.display_state[case_issue.workflow_state] %><span style="color:red;"><%= "(#{t('has_solutions', 'Has solutions')})" if case_issue.case_solutions.any?{|s| s.accepted?} %></span></td>
+      <td><%= CaseIssue.display_state[case_issue.workflow_state] %><span style="color:red;"><%= "(#{t('has_solutions', 'Has solutions')})" if case_issue.has_accepted_solutions? %></span></td>
       <td><%= case_issue.user.name %></td>
       <td>
         <% solutions_size = case_issue.case_solutions.size %>
@@ -99,6 +99,13 @@
                 <% end %> 
               </li>
             <% end %>
+            <% if case_issue.has_accepted_solutions? %>
+              <li>
+              <% link_to course_case_issue_push_path(@context, case_issue), {:class => 'issue-push' } do %>
+                  <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'push_to_knowledge_base', 'Push to Knowledge Base') %>
+                <% end %> 
+              </li>
+            <% end %>
           </ul>
         </div>
       </div>
@@ -127,4 +134,8 @@
   <div id="case-apply-group-name" style="display:none">
     <input type="text" name="group_name" />
   </div>
+</div>
+
+<div id="knowledge-base-dialog" style="display:none">
+  <%= select 'knowledge_base', 'id', @context.root_account.knowledges.map{|k| [k.name, k.knowledge_repostory.id ]}, {:prompt => t("dont_push_to_knowledge_base", "Don't push to Knowledge Base")} %> 
 </div>
