@@ -400,9 +400,14 @@ require [
           afterUploadedImageSuccess()
       
     #tooltip
-    $('.account_announcement, #add_widget').tooltip
-      position:
-        my: "left bottom-20"
+    $('#add_widget').tooltip position:
+      my: "left bottom-20"
+      at: "left bottom"
+
+    $('.account_announcement .inner').each ->
+      $(this).tooltip position:
+        of: $(this)
+        my: "left top+5"
         at: "left bottom"
     
     $("#homepage-editor-left-side").on "mousedown", ->
