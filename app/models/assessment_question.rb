@@ -628,9 +628,12 @@ class AssessmentQuestion < ActiveRecord::Base
   end
   
   def self.prep_for_import(hash, context)
-    [:question_text, :correct_comments_html, :incorrect_comments_html, :neutral_comments_html, :more_comments_html].each do |field|
+    [:question_text, :correct_comments_html, :incorrect_comments_html, :neutral_comments_html, :more_comments_html, :solution_content].each do |field|
       hash[field] = ImportedHtmlConverter.convert(hash[field], context, true) if hash[field].present?
     end
+
+    replace_relative_file_url(hash, :connecting_on_pic_image, context)
+
     hash[:answers].each do |answer|
       [:html, :comments_html, :left_html].each do |field|
         answer[field] = ImportedHtmlConverter.convert(answer[field], context, true) if answer[field].present?
@@ -639,7 +642,16 @@ class AssessmentQuestion < ActiveRecord::Base
     hash[:prepped_for_import] = true
     hash
   end
-  
+
+  # replace relative file url
+  def self.replace_relative_file_url(node, attr, context)
+    if node[attr] =~ %r{\$IMS_CC_FILEBASE\$/(.*)}
+      rel_path = $1
+      course_path = "/#{context.class.to_s.underscore.pluralize}/#{context.id}"
+      node[attr] = ImportedHtmlConverter.replace_relative_file_url(rel_path, context, course_path)
+    end
+  end
+
   named_scope :active, lambda {
     {:conditions => ['assessment_questions.workflow_state != ?', 'deleted'] }
   }
