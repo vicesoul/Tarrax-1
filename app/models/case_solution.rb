@@ -26,13 +26,22 @@ class CaseSolution < ActiveRecord::Base
       event :submit, :transitions_to => :being_reviewed
     end
 
-    state :being_reviewed do
-      event :review, :transitions_to => :reviewed
-      event :recommend, :transitions_to => :recommended
+    state :remodified do
+      event :submit, :transitions_to => :being_reviewed
     end
-    
-    state :reviewed
-    state :recommended
+
+    state :being_reviewed do
+      event :accept, :transitions_to => :accepted
+      event :reject, :transitions_to => :rejected
+      event :remodify, :transitions_to => :remodified
+    end
+
+    state :accepted
+    state :rejected
+  end
+
+  def can_modify? user
+    (self.executing? || self.remodified?) && (user.id == self.user.id)
   end
 
   def copy_solution_to_knowledge_base knowledge_base_id, user
@@ -52,8 +61,9 @@ class CaseSolution < ActiveRecord::Base
       {
         'executing' => t('#case_solutions.state_array.executing', 'Executing'),
         'being_reviewed' => t('#case_solutions.state_array.being_reviewed', 'Being reviewed'),
-        'reviewed' => t('#case_solutions.state_array.reviewed', 'Reviewed'),
-        'recommended' => t('#case_solutions.state_array.recommended', 'Recommended')
+        'remodified' => t('#case_solutions.state_array.remodified', 'Remodified'),
+        'accepted' => t('#case_solutions.state_array.accepted', 'Accepted'),
+        'rejected' => t('#case_solutions.state_array.rejected', 'Rejected')
       }
     end
   end

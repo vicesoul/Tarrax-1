@@ -19,24 +19,25 @@
   <% unless @case_issue.case_solutions.empty? %>
     <div><h3><%= t 'current_solutions', 'Current Solutions' %>:</h3></div>
     <div class='case-solution'>
-      <% @case_issue.case_solutions.each_with_index do |s, i| %> 
-        <h4><%= i + 1 %></h4>
-        <% if s.title.present? && s.content.present? %>
-          <div class='case-solution-content'>
-            <small class='sub-text right'>
-              <span><%= t 'solution_author', 'Author' %>: <%= s.user.name %></span>
-              <span><%= t 'solution_updated_at', 'Updated At' %>: <%= s.updated_at.to_s(:db) %></span>
-              <span><%= t 'solution_state', 'State' %>: <%= CaseSolution.display_state[s.workflow_state] %></span>
-            </small>
-            <div><%= t('title', 'Title') %>：<%= raw s.title %></div>
-            <div><%= raw s.content %></div>
-          </div>
+      <% count ||= 0 %>
+      <% @case_issue.case_solutions.each do |s| %> 
+        <% if s.accepted? %>
+          <h4><%= count += 1 %></h4>
+            <div class='case-solution-content'>
+              <small class='sub-text right'>
+                <span><%= t 'solution_author', 'Author' %>: <%= s.user.name %></span>
+                <span><%= t 'solution_updated_at', 'Updated At' %>: <%= s.updated_at.to_s(:db) %></span>
+                <span><%= t 'solution_state', 'State' %>: <%= CaseSolution.display_state[s.workflow_state] %></span>
+              </small>
+              <div><%= t('title', 'Title') %>：<%= raw s.title %></div>
+              <div><%= raw s.content %></div>
+            </div>
         <% end %>
       <% end %>
     </div>
   <% end %>
 
-  <% if @case_issue.new? && can_do(@context, @current_user, :operate_case_as_student) %>
+  <% if (@case_issue.new? && @case_issue.user.id == @current_user.id)  || can_do(@context, @current_user, :operate_case_as_teacher) %>
     <% link_to edit_course_case_issue_path(@context, @case_issue), {:class => 'btn'} do %>
       <i class='icon-edit'></i> <%=  t('#buttons.edit', 'Edit') %>
     <% end %>

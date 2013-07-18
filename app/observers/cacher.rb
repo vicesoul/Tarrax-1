@@ -29,7 +29,7 @@ class Cacher < ActiveRecord::Observer
       if obj.account_id == Account.site_admin.id
         Shard.default.activate { Rails.cache.delete('all_site_admin_account_users') }
       end
-    end
+   end
   end
 
   def after_destroy(obj)

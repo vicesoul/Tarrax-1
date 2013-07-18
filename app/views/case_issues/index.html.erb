@@ -49,7 +49,7 @@
   <% @case_issues.each do |case_issue| %>
     <tr>
       <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
-      <td><%= CaseIssue.display_state[case_issue.workflow_state] %></td>
+      <td><%= CaseIssue.display_state[case_issue.workflow_state] %><span style="color:red;"><%= "(#{t('has_solutions', 'Has solutions')})" if case_issue.case_solutions.any?{|s| s.accepted?} %></span></td>
       <td><%= case_issue.user.name %></td>
       <td>
         <% solutions_size = case_issue.case_solutions.size %>

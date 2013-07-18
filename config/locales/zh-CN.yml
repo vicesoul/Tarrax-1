@@ -156,6 +156,7 @@ zh-CN:
       case_issue: 案例问题
     index:
       new_issue: 新建案例问题
+      has_solutions: 有解决方案的
       selector:
         subject: 主题
         author: 作者
@@ -205,15 +206,16 @@ zh-CN:
       solution_updated_at: 更新时间
       solution_state: 状态
   case_solutions:
-    ya: 有小组讨论的
-    not: 无小组讨论的
+    ya: 已建小组讨论
+    not: 未建小组讨论
     bread_crumb:
       solutions: 案例解决方案
     state_array:
-      executing: 执行中
+      executing: 编辑中
       being_reviewed: 被审核中
-      reviewed: 已被审核
-      recommended: 被推荐的
+      remodified: 重改的
+      accepted: 已接受
+      rejected: 已拒绝
     index:
       selector:
         title: 标题
@@ -233,8 +235,10 @@ zh-CN:
         review: 审核
       your_option: 您的意见是？
       dont_push_to_knowledge_base: 不要同步到知识库
-      review: 已审核
-      recommend: 推荐
+      accept: 接受
+      reject: 拒绝
+      remodify: 重改
+      unedited_solution: 未编辑的方案
     edit:
       issue: 案例问题主题
       template: 模板
@@ -1815,7 +1819,7 @@ zh-CN:
     save: 保存
     save_tool_settings: 保存工具设置
     search: 搜索
-    show: 明细
+    show: 预览
     show_all_artifacts: 显示所有产物
     submit: 提交
     update: 更新

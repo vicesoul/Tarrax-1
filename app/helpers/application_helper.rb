@@ -977,4 +977,13 @@ module ApplicationHelper
 
     link_to title, link_params, {:class => css_class}
   end
+
+  def can_operate_cases_as_student?
+    can_do(@context, @current_user, :operate_case_as_student) 
+  end
+
+  def can_operate_cases_as_teacher?
+    can_do(@context, @current_user, :operate_case_as_teacher) 
+  end
+
 end

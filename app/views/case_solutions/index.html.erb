@@ -15,8 +15,9 @@
             <label><%= t 'selector.state', 'State' %>:</label>
             <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'executing', nil %> <%= t '#case_solutions.state_array.executing', 'Executing' %>
             <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'being_reviewed', nil %> <%= t '#case_solutions.state_array.being_reviewed', 'Being reviewed' %>
-            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'reviewed', nil %> <%= t '#case_solutions.state_array.reviewed', 'Reviewed' %>
-            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'recommended', nil %> <%= t '#case_solutions.state_array.recommended', 'Recommended' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'remodified', nil %> <%= t '#case_solutions.state_array.remodified', 'Remodified' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'accepted', nil %> <%= t '#case_solutions.state_array.accepted', 'Accepted' %>
+            <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '#case_solutions.state_array.rejected', 'Rejected' %>
           </li>
           <li>
             <label> </label>
@@ -47,7 +48,7 @@
 
     <% @case_solutions.each do |case_solution| %>
       <tr>
-      <td><%= link_to (case_solution.title || '-'), course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
+      <td><%= link_to (case_solution.title || t('unedited_solution', 'Unedited Solution')), course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
       <td><%= CaseSolution.display_state[case_solution.workflow_state] %></td>
       <td>
         <% if case_solution.group_discuss %>
@@ -64,9 +65,9 @@
           <div class="admin-links">
             <button class="al-trigger ui-button"><span class="al-trigger-inner">Manage (will be accessibly hidden)</span></button>
             <ul class="al-options">
-              <% if case_solution.executing? && can_do(@context, @current_user, :operate_case_as_student) && case_solution.user.id == @current_user.id %>
+              <% if case_solution.can_modify?(@current_user) && can_operate_cases_as_student? %>
                 <li>
-                  <% link_to course_case_issue_case_solution_submit_path(@context, params[:case_issue_id], case_solution), {:class => 'solution-submit'} do %>
+                <% link_to course_case_issue_case_solution_submit_path(@context, params[:case_issue_id], case_solution), {:class => 'solution-submit', :solution_title => case_solution.title } do %>
                     <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.submit', 'Submit') %>
                   <% end %>
                 </li>
@@ -81,7 +82,7 @@
                   <% end %>
                 </li>
               <% end %>
-              <% if case_solution.being_reviewed? && can_do(@context, @current_user, :operate_case_as_teacher) %>
+              <% if case_solution.being_reviewed? && can_operate_cases_as_teacher? %>
                 <li>
                   <% link_to course_case_issue_case_solution_review_path(@context, params[:case_issue_id], case_solution), {:class => 'solution-review'} do %>
                     <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.review', 'Review') %>
@@ -103,12 +104,8 @@
 <div id="case-review-dialog" style="display:none">
   <div class="your_option">
     <%= t 'your_option', 'Your option is' %>
-    <input type="radio" name="review_result" value="review" checked="true"><%= t 'review', 'Review' %>
-    <input type="radio" name="review_result" value="recommend"><%= t 'recommend', 'Recommend' %>
+    <input type="radio" name="review_result" value="accept" checked="true"><%= t 'accept', 'Accept' %>
+    <input type="radio" name="review_result" value="reject"><%= t 'reject', 'Reject' %>
+    <input type="radio" name="review_result" value="remodify"><%= t 'remodify', 'Remodify' %>
   </div>
-  <% if @context.root_account.allow_pushed_from_cases? %>
-    <div id="knowledge-base-area" style="display:none">
-      <%= select 'knowledge_base', 'id', @context.root_account.knowledges.map{|k| [k.name, k.knowledge_repostory.id ]}, {:prompt => t("dont_push_to_knowledge_base", "Don't push to Knowledge Base")} %> 
-    </div>
-  <% end %>
 </div>
