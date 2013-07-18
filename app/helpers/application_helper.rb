@@ -986,4 +986,12 @@ module ApplicationHelper
     can_do(@context, @current_user, :operate_case_as_teacher) 
   end
 
+  def can_operate_knowledges_as_student?
+    can_do(@context, @current_user, :operate_knowledge_as_student)
+  end
+
+  def can_operate_knowledges_as_teacher?
+    can_do(@context, @current_user, :operate_knowledge_as_teacher)
+  end
+
 end
