@@ -20,8 +20,11 @@ define [
       user_list_id = enrollment.custom_role_asset_string
       viewName = user_list_id + 'sView'
     else
-      user_list_id = $.underscore(enrollment.type) + "s"
-      viewName = user_list_id.split('_')[0] + 'sView'
+      # user_list_id = $.underscore(enrollment.type) + "s"
+      # viewName = user_list_id.split('_')[0] + 'sView'
+
+      user_list_id = $('#enrollment_type option[value=' + enrollment.type + ']').text()
+      viewName = user_list_id + 'sView'
     $("#" + user_list_id).find(".none").remove()
     view = app.usersTab[viewName]
     users = view.collection
