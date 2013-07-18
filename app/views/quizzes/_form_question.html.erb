@@ -24,10 +24,10 @@
       <option value="essay_question" style="padding: 2px;"><%= t('question_type.essay', "Essay Question") %></option>
       <option value="text_only_question" style="padding: 2px;"><%= t('question_type.text_only', "Text (no question)") %></option>
       <!-- <option value="paint_question" style="padding: 2px;">原题作图</option> -->
-      <option value="connecting_lead_question" style="padding: 2px;">连线题</option>
-      <option value="connecting_on_pic_question" style="padding: 2px;">图画连线题</option>
-      <option value="drag_and_drop_question" style="padding: 2px;">拖拽题</option>
-      <option value="fill_in_blanks_subjective_question" style="padding: 2px;">主观填空题</option>
+      <option value="connecting_lead_question" style="padding: 2px;"><%= t('question_type.connecting_lead', "connecting lead") %></option>
+      <option value="connecting_on_pic_question" style="padding: 2px;"><%= t('question_type.connecting_on_pic', "Tconnecting on pic") %></option>
+      <option value="drag_and_drop_question" style="padding: 2px;"><%= t('question_type.drag_and_drop', "drag and drop") %></option>
+      <option value="fill_in_blanks_subjective_question" style="padding: 2px;"><%= t('question_type.fill_in_blanks_subjective', "fill in blanks subjective") %></option>
     </select>
     <span class="question_points_holder">
       <span style="padding-left: 20px;"><%= before_label :points, 'pts' %></span>
@@ -60,16 +60,20 @@
       <%= t('explanations.matching', "Build pairs of matching values.  Students will see values on the left and have to select the matching value on the right from a dropdown.  Multiple rows can have the same answer, and you can add additional distractors to the right side.") %>
     </div>
     <div class="connecting_lead_question_explanation explanation subheader">
-      富文本工具栏里做出题目说明,题目在富文本工具栏下方编辑. 可以设置两列或三列连线题,回答问题时,点击要连线的两题的圆形框框即可完成连线,如果要取消连线,点击要取消的连线部位即可按提示删除连线.
+      <%= t('explanations.connecting_lead', "connecting_lead") %>
+      
     </div>
     <div class="drag_and_drop_question_explanation explanation subheader">
-      答案可拖动，把答案拖进空格里
+      <%= t('explanations.drag_and_drop', "connecting_lead") %>
+      
     </div>
     <div class="connecting_on_pic_question_explanation explanation subheader">
-      富文本工具栏里做出题目说明,把右侧上传的图片拖拽到富文本工具栏下方编辑.,鼠标拖动小红球和小黄球放到图片当中要连线题目的两侧.点击要连线的两题的小红球和小黄球,做出正确的答案.回答问题时,点击要连线的小红球和小黄球即可完成连线, ,如果要取消连线,点击要取消的连线部位即可按提示删除连线.
+      <%= t('explanations.connecting_on_pic', "connecting_lead") %>
+      
     </div>
     <div class="paint_question_explanation explanation subheader">
-      上传一张图片,做出题目说明.
+      <%= t('explanations.paint', "connecting_lead") %>
+      
     </div>
     <div tabindex="0" class="numerical_question_explanation explanation subheader">
       <%= t('explanations.numerical', "Define the correct answer as any number within a range, or a number plus or minus some error margin.  Student will be given an empty text box to type their numerical answer.") %>
@@ -84,9 +88,8 @@
       <%= t('explanations.essay', "Students will be given a text field to compose their answer.") %>
     </div>
     <div class="fill_in_blanks_subjective_question_explanation explanation subheader">
-      可通过富文本工具栏中空格标志定义多个空格，然后对每个空格参数给出相应正确答案<br>
-      在下面的框中（您要显示答案框的每个位置），输入一个包含在括号内的参考词（无空格）<br>
-      (即"玫瑰为 [color1]，紫罗兰为 [color2]").
+      <%= t('explanations.fill_in_blanks_subjective', "connecting_lead") %>
+      
 
     </div>
     <div tabindex="0" class="text_only_question_explanation explanation subheader">
@@ -113,8 +116,8 @@
     </div>
     <b tabindex="0" role="heading" class="answers_header"><%= before_label(:answers, "Answers") %></b>
     <div class="btn-group changeLines" data-toggle="buttons-radio" style="display: none;">
-      <button type="button" class="btn two btn-primary">两列</button>
-      <button type="button" class="btn three btn-primary">三列</button>
+      <button type="button" class="btn two btn-primary"><%= t('labels.two_rows', "Two rows") %></button>
+      <button type="button" class="btn three btn-primary"><%= t('labels.three_rows', "Three rows") %></button>
       <input type="hidden" name="connecting_lead_linesNum" class="connecting_lead_linesNum">
     </div>
     <input type="hidden" name="connecting_on_pic_position" class="connecting_on_pic_position">
