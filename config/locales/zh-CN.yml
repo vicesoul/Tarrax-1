@@ -9513,7 +9513,7 @@ zh-CN:
         connecting_lead: 富文本工具栏里做出题目说明，题目在富文本工具栏下方编辑. 可以设置两列或三列连线题，回答问题时，点击要连线的两题的圆形框框即可完成连线，如果要取消连线，点击要取消的连线部位即可按提示删除连线.
         connecting_on_pic: 富文本工具栏里做出题目说明，把右侧上传的图片拖拽到富文本工具栏下方编辑，鼠标拖动小红球和小黄球放到图片当中要连线题目的两侧.点击要连线的两题的小红球和小黄球，做出正确的答案.回答问题时，点击要连线的小红球和小黄球即可完成连线，如果要取消连线，点击要取消的连线部位即可按提示删除连线.
         drag_and_drop: 答案可拖动，把答案拖进空格里
-        fill_in_blanks_subjective: "可通过富文本工具栏中空格标志定义多个空格，然后对每个空格参数给出相应正确答案<br>在下面的框中（您要显示答案框的每个位置），输入一个包含在括号内的参考词（无空格）<br>(即‘玫瑰为 [color1]，紫罗兰为 [color2]’)."
+        fill_in_blanks_subjective: "可通过富文本工具栏中空格标志定义多个空格，然后对每个空格参数给出相应正确答案。 在下面的框中（您要显示答案框的每个位置），输入一个包含在括号内的参考词（无空格。 (即‘玫瑰为 [color1]，紫罗兰为 [color2]’)."
         paint: 上传一张图片，做出题目说明.
       general_answer_comments: 一般答案评注
       headers: 
@@ -9537,6 +9537,8 @@ zh-CN:
         points: 分
         question: 试题
         solution: 解析
+        two_rows: 两列
+        three_rows: 三列
       links: 
         add_another_answer: 添加其他答案
         need_help: 需要帮助?
@@ -9561,7 +9563,7 @@ zh-CN:
         text_only: 题目说明
         true_false: 是非题
         connecting_lead: 连线题
-        connecting_on_pic: 图画连线题c
+        connecting_on_pic: 图画连线题
         drag_and_drop: 拖拽题
         fill_in_blanks_subjective: 主观填空题
       show_possible_answers: "显示 %{question} 正确的答案"

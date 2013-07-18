@@ -116,8 +116,8 @@
     </div>
     <b tabindex="0" role="heading" class="answers_header"><%= before_label(:answers, "Answers") %></b>
     <div class="btn-group changeLines" data-toggle="buttons-radio" style="display: none;">
-      <button type="button" class="btn two btn-primary">两列</button>
-      <button type="button" class="btn three btn-primary">三列</button>
+      <button type="button" class="btn two btn-primary"><%= t('labels.two_rows', "Two rows") %></button>
+      <button type="button" class="btn three btn-primary"><%= t('labels.three_rows', "Three rows") %></button>
       <input type="hidden" name="connecting_lead_linesNum" class="connecting_lead_linesNum">
     </div>
     <input type="hidden" name="connecting_on_pic_position" class="connecting_on_pic_position">

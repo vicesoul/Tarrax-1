@@ -35,12 +35,14 @@ en:
       other: Other
     sis_id_in_use: "SIS ID \"%{sis_id}\" is already in use"
     tab_authentication: Authentication
+    tab_case_collection_repositories: "Case Collection Repostries"
     tab_course_systems: "Course Systems"
     tab_courses: Courses
     tab_developer_keys: "Developer Keys"
     tab_faculty_journal: "Faculty Journal"
     tab_homepage: Homepage
     tab_jobs: Jobs
+    tab_knowledge_repositories: "Knowledge Repostries"
     tab_learning_plans: "Learning Plans"
     tab_permissions: Permissions
     tab_plugins: Plugins
@@ -286,11 +288,18 @@ en:
   accounts: 
     account_user: 
       remove_admin_tooltip: "Remove this admin"
+    add_case_button: "Add Case Collection Repostory"
+    add_case_dialog_content: "Add a new case collection repostory for your account"
+    add_case_dialog_title: "Add a New Case Collection Repostory"
+    add_case_failure: "Create Case Collection Repostory failure."
+    add_case_successfully: "Added case collection repostory successfully."
     add_course_button: "Add Course"
     add_course_dialog_title: "Add a New Course"
     add_course_or_user: 
+      add_case_link: "Add a Case Collection Repository"
       add_course_button: "Add Course"
       add_course_link: "Add a New Course"
+      add_knowledge_link: "Add a Knowledge Repository"
       add_user_button: "Add User"
       add_user_link: "Add a New User"
       attach_users_link: "Attach Users"
@@ -319,6 +328,11 @@ en:
         tags: Tags
       mobile_phone_help: "Mobile phone, must be 13 bytes"
       sortable_name_help: "This name appears in sorted lists."
+    add_knowledge_button: "Add Knowledge Repostory"
+    add_knowledge_dialog_content: "Add a new knowledge repostory for your account"
+    add_knowledge_dialog_title: "Add a New Knowledge Repository"
+    add_knowledge_failure: "Create Knowledge Repository failure."
+    add_knowledge_successfully: "Added Knowledge Repository successfully."
     add_user_button: "Add User"
     add_user_dialog_title: "Add a New User"
     adding_course_message: "Adding Course..."
@@ -355,6 +369,8 @@ en:
         zero: Submitted
       title: "Profile Pictures"
       unlock_link: unlock
+    case_repositories: 
+      case_repository: "Cases In This Account"
     confirm_delete_user: 
       confirm_delete: "Are you sure you want to delete this user from the account %{account}? This will remove the user's data (including grades) from all courses and groups. This process cannot be undone."
       delete_button: "Delete %{user}"
@@ -404,6 +420,7 @@ en:
       background_color: "Background color"
       cancel: Cancel
       change_background: "Change background"
+      choose_acceptable_image: "Caustion: the acceptable picture's ratio is 4:3"
       choose_image: "Choose image"
       delete_background_image: "Delete background image"
       dialog: 
@@ -431,6 +448,8 @@ en:
       no_accounts_message: "No Accounts"
       page_title: Accounts
       title: "Accounts I Manage"
+    knowledge_repositories: 
+      knowledge_repository: "Knowledges In This Account"
     new: 
       school: 
         category: "School Category"
@@ -471,6 +490,7 @@ en:
         add_users: "OK Looks Good, Add These Users"
         continue: Continue...
         modify_users: "Go back and edit the list of users"
+      case_tpl_management_fieldset: "Case template Management"
       confirm_turnitin_settings_link: "confirm Turnitin settings"
       create_courses_description: "(Account Administrators can always create courses)"
       create_courses_title: "Who Can Create New Courses"
@@ -500,12 +520,14 @@ en:
       ip_filter_filter_label: Filter
       ip_filter_name_label: Name
       job_position_management_fieldset: "Job Position Management"
+      knowledge_tpl_management_fieldset: "Knowledge template Management"
       labels: 
         account_notification_category_id: "Notification Category"
         account_notification_icon: Icon
         admins_can_change_passwords: "Password setting by admins"
         allow_homepage_previews: "Allow all the users to preview homepage"
         allow_invitation_previews: "Invitation Previews"
+        allow_pushed_from_cases: "Allow pushed by case repositories"
         allow_sending_scores_in_emails: "Students can opt-in to receiving scores in email notifications"
         allow_sis_import: "SIS imports"
         canvas_authentication: "Jiaoxuebang Authentication"
@@ -541,6 +563,7 @@ en:
         self_enrollment: "Allow Self-Enrollment"
         sis_source_id: "SIS ID"
         start_at: Starts
+        student_can_commit_knowledge: "Students can commit knowledge"
         students_can_create_courses: Students
         sub_account_includes: "Let sub-accounts define additional includes"
         subject: Subject
@@ -1512,10 +1535,14 @@ en:
     add_item: "Add Item"
     apply: Apply
     authorize_google_docs: "Authorize Google Docs Access"
+    back: Back
     back_to_outcomes: "Back to Outcomes"
     cancel: Cancel
+    confirm: "Are you sure?"
+    create: Create
     delete: Delete
     done: Done
+    edit: Edit
     filter: Filter
     go_back: Back
     hide_all_artifacts: "Hide All Artifacts"
@@ -1526,6 +1553,7 @@ en:
     save: Save
     save_tool_settings: "Save Tool Settings"
     search: Search
+    show: Show
     show_all_artifacts: "Show All Artifacts"
     submit: Submit
     update: Update
@@ -1994,6 +2022,146 @@ en:
         fields_required: "The field \"%{field}\" is required"
         login_expiration_minimum: "Session expiration must be 20 minutes or greater"
         need_integer: "Please enter an integer for the play list cache"
+  case_issues: 
+    bread_crumb: 
+      case_issue: "Case Issues"
+    discuss_for: "Discuss for %{issue_subject}"
+    edit: 
+      edit_issue: "Editing case issue"
+    form: 
+      please_select: "Please select"
+      select_tpl_first: "Please select a case template"
+      subject: Subject
+      template: Template
+      warn_tpl: "Warning: Your account don't has a case templates, so using default case template to create an issue."
+    index: 
+      dialogs: 
+        accept: Accept
+        group_discuss: "Group Discuss"
+        not: "No"
+        reject: Reject
+        ya: "Yes"
+        your_option: "Your option is"
+      empty_issue: "Empty case issues"
+      headings: 
+        author: Author
+        op: Operation
+        solutions: Solutions
+        state: State
+        subject: Subject
+        updated_at: "Update At"
+      links: 
+        apply: Apply
+        delete: Delete
+        edit: Edit
+        review: Review
+        submit: Submit
+      new_issue: "New case_issue"
+      selector: 
+        author: Author
+        query: Query
+        state: State
+        subject: Subject
+    model_init: 
+      issue: "Case Issue"
+    new: 
+      new_issue: "New case issue"
+    show: 
+      author: Author
+      current_solutions: "Current Solutions"
+      solution_author: Author
+      solution_state: State
+      solution_updated_at: "Updated At"
+      state: State
+      title: Title
+      updated_at: "Updated At"
+    state_array: 
+      accepted: Accepted
+      awaiting_review: "Awaiting Review"
+      new: New
+      rejected: Rejected
+  case_solutions: 
+    bread_crumb: 
+      solutions: "Case Solutions"
+    edit: 
+      content: Content
+      issue: Issue
+      template: Template
+      title: Title
+      updated_at: "Updated At"
+    index: 
+      dont_push_to_knowledge_base: "Don't push to Knowledge Base"
+      empty_solutions: "Empty case solutions"
+      headings: 
+        author: Author
+        group_discuss: "Group Discuss"
+        op: Operation
+        state: State
+        title: Title
+        updated_at: "Updated At"
+      links: 
+        review: Review
+        submit: Submit
+      recommend: Recommend
+      review: Review
+      selector: 
+        author: Author
+        query: Query
+        state: State
+        title: Title
+      your_option: "Your option is"
+    not: "No"
+    show: 
+      author: Author
+      content: Content
+      group_discuss: "Group Discuss"
+      issue: Issue
+      state: State
+      template: Template
+      title: Title
+      updated_at: "Updated At"
+    state_array: 
+      being_reviewed: "Being reviewed"
+      executing: Executing
+      recommended: Recommended
+      reviewed: Reviewed
+    ya: "Yes"
+  case_tpls: 
+    bread_crumb: 
+      case_tpl: "Case Templates"
+    edit: 
+      edit_tpl: "Editing case_tpl"
+    form: 
+      new_module: "New Module"
+      template: Template
+      tpl_name: "Template Name"
+    hidden_element: 
+      custom_title: "Custom Title"
+      remove_me: "Remove Me"
+    index: 
+      empty_tpls: "Empty Case Templates"
+      headings: 
+        author: Author
+        name: Name
+        op: Operation
+        updated_at: "Updated At"
+      new_tpl: "New Case Template"
+    model_init: 
+      content: Content
+      default_tpl: "Default case issue template"
+      subject: Subject
+      tpl: "Case Tpl"
+    new: 
+      new_tpl: "New Case Template"
+    save_successfully: "CaseTpl was successfully saved."
+    shared_case_tpl_form: 
+      desc: Description
+      remove_me: "Remove Me"
+      title: Title
+    show: 
+      author: Author
+      tpl_name: "Template Name"
+      updated_at: "Updated At"
   cc: 
     private: "Private (Copyrighted)"
     public_domain: "Public Domain"
@@ -2750,6 +2918,7 @@ en:
       links: 
         manage_users: "Manage Users"
         view_faculty_journals: "View Faculty Journals"
+        view_people: "View People"
         view_prior_enrollments: "View Prior Enrollments"
         view_services: "View Registered Services"
         view_user_groups: "View User Groups"
@@ -3941,7 +4110,6 @@ en:
     site_admin: "Site Admin"
     stats: Statistics
     syllabus: Syllabus
-    users: Users
     wiki_page_revisions: Revisions
     wiki_pages: Pages
   curve_grades_dialog: 
@@ -6080,6 +6248,89 @@ en:
     custom_index: custom_index
     discussion_index: discussion_index
     logo_index: logo_index
+  knowledge_tpls: 
+    bread_crumb: 
+      knowledge_tpl: "Knowledge Templates"
+    edit: 
+      edit_tpl: "Editing case_tpl"
+    form: 
+      new_module: "New Module"
+      template: Template
+      tpl_name: "Template Name"
+    hidden_element: 
+      custom_title: "Custom Title"
+      remove_me: "Remove Me"
+    index: 
+      empty_tpls: "Empty Knowledge Templates"
+      headings: 
+        author: Author
+        name: Name
+        op: Operation
+        updated_at: "Updated At"
+      new_tpl: "New Knowledge Template"
+    model_init: 
+      content: Content
+      subject: Subject
+      tpl: "Knowledge Tpl"
+    new: 
+      new_tpl: "New Knowledge Template"
+    save_successfully: "Knowledge Template was successfully saved."
+    shared_knowledge_tpl_form: 
+      desc: Description
+      remove_me: "Remove Me"
+      title: Title
+    show: 
+      author: Author
+      tpl_name: "Template Name"
+      updated_at: "Updated At"
+  knowledges: 
+    bread_crumb: 
+      knowledge: Knowledges
+    edit: 
+      edit_knowledge: "Editing knowledge"
+    form: 
+      please_select: "Please select"
+      select_tpl_first: "Please select a case template"
+      subject: Subject
+      template: Template
+      warn_tpl: "Warning: Your account don't has a case templates, so using default case template to create an issue."
+    index: 
+      dialogs: 
+        accept: Accept
+        reject: Reject
+        your_option: "Your option is"
+      empty_knowledge: "Empty knowledges"
+      headings: 
+        author: Author
+        op: Operation
+        state: State
+        subject: Subject
+        updated_at: "Update At"
+      links: 
+        delete: Delete
+        edit: Edit
+        review: Review
+        submit: Submit
+      new_knowledge: "New knowledge"
+      selector: 
+        author: Author
+        query: Query
+        state: State
+        subject: Subject
+    knowledge_setting: "Knowledge Setting"
+    model_init: 
+      default_tpl: "Default Knowledge Template"
+    new: 
+      new_knowledge: "New Knowledge"
+    show: 
+      author: Author
+      state: State
+      updated_at: "Updated At"
+    state_array: 
+      accepted: Accepted
+      awaiting_review: "Awaiting Review"
+      new: New
+      rejected: Rejected
   labels: 
     announcements: Announcements
     assignments: Assignments
@@ -6139,8 +6390,10 @@ en:
       default_page_title: "Jiaoxuebang LMS"
     menu: 
       view_all_accounts: "View all accounts"
+      view_all_case_repositories: "View all case repositories"
       view_all_enrollments: "View all courses"
       view_all_groups: "View all groups"
+      view_all_knowledge_repositories: "View all knowledge repositories"
       view_courses_to_be_attended: "View courses to be attended"
   learning_outcome: 
     no_comment: "No Comment"
@@ -6351,7 +6604,10 @@ en:
     titles: 
       media_contribution: "Media Contribution"
       play_comment: "Play Media Comment"
+      record_audio: "Record audio"
       record_upload_media_comment: "Record/Upload Media Comment"
+      record_video: "Record video"
+      upload_media: "Upload media"
     track_uploaded_successfully: "Track uploaded successfuly, refresh to see it."
     upload: Upload
     uploading: Uploading...
@@ -6361,7 +6617,9 @@ en:
     current_groups: "Current Groups"
     customize: Customize
     managed_accounts: "Managed Accounts"
+    my_case_repositories: "My Case Repositories"
     my_courses: "My Courses"
+    my_knowledge_repositories: "My Knowledge Repositories"
   message: 
     default_subject: "Jiaoxuebang Alert"
   message_students: 
@@ -9171,8 +9429,12 @@ en:
         generate_possible_solutions: "Finally, build as many variable-solution combinations as you need for your quiz."
       explanations: 
         calculated: "Enter your question, build a formula, and generate a set of possible answer combinations. Students will see the question with a randomly selected set of variables filled in and have to type the correct numerical answer."
+        connecting_lead: connecting_lead
+        connecting_on_pic: connecting_lead
+        drag_and_drop: connecting_lead
         equations: "You can define variables by typing variable names surrounded by brackets"
         essay: "Students will be given a text field to compose their answer."
+        fill_in_blanks_subjective: connecting_lead
         fill_in_multiple_blanks: "Enter your question, specifying where each blank should go. Then define the possible correct answer for each blank. Students must type correct answers into text boxes at each blank."
         formula_definition: "Next you'll need to write the formula or formula's used to compute the correct answer. Just use the same variable names listed above."
         matching: "Build pairs of matching values. Students will see values on the left and have to select the matching value on the right from a dropdown. Multiple rows can have the same answer, and you can add additional distractors to the right side."
@@ -9182,6 +9444,7 @@ en:
         multiple_choice: "Enter your question and multiple answers, then select the one correct answer."
         multiple_dropdowns: "Enter your question, specifying where each dropdown should go. Then define possible answers for each dropdown, with one correct answer per dropdown."
         numerical: "Define the correct answer as any number within a range, or a number plus or minus some error margin. Student will be given an empty text box to type their numerical answer."
+        paint: connecting_lead
         short_answer: |-
             Enter your question text, then define all possible correct answers for the blank.  
             Students will see the question followed by a small text box to type their answer.
@@ -9210,6 +9473,8 @@ en:
         points: pts
         question: Question
         solution: Solution
+        three_rows: "Three rows"
+        two_rows: "Two rows"
       links: 
         add_another_answer: "Add Another Answer"
         need_help: "Need help?"
@@ -9222,7 +9487,11 @@ en:
       question_blank: "Question blank"
       question_type: 
         calculated: "Formula Question"
+        connecting_lead: "connecting lead"
+        connecting_on_pic: "Tconnecting on pic"
+        drag_and_drop: "drag and drop"
         essay: "Essay Question"
+        fill_in_blanks_subjective: "fill in blanks subjective"
         fill_in_multiple_blanks: "Fill In Multiple Blanks"
         matching: Matching
         missing_word: "Missing Word"
@@ -9954,6 +10223,7 @@ en:
   role: 
     roles: 
       account_admin: "Account Admin"
+      case_group: "Case Group"
   role_override: 
     permission: 
       read_sis: "Read SIS data"
@@ -9961,8 +10231,10 @@ en:
       become_user: "Become other users"
       change_course_state: "Change course state"
       comment_on_others_submissions: "View all students' submissions and make comments on them"
+      create_case_repostory: "Create a case repostory"
       create_collaborations: "Create student collaborations"
       create_conferences: "Create web conferences"
+      create_knowledge_repostory: "Create a knowledge repostory"
       manage_account_memberships: "Add/remove other admins for the account"
       manage_account_notification_category: "Manage account notification category"
       manage_account_settings: "Manage account-level settings"
@@ -9993,6 +10265,10 @@ en:
       manage_wiki: "Manage wiki (add / edit / delete pages)"
       managed_jobs: "Manage background jobs"
       moderate_form: "Moderate discussions ( delete / edit other's posts, lock topics)"
+      operate_case_as_student: "Operate Cases as student"
+      operate_case_as_teacher: "Operate Cases as teacher"
+      operate_knowledge_as_student: "Operate Knowledges as student"
+      operate_knowledge_as_teacher: "Operate Knowledges as teacher"
       post_to_forum: "Post to discussions"
       read_course_content: "View course content"
       read_course_list: "View the list of courses"
@@ -11144,6 +11420,9 @@ en:
   tabs: 
     announcements: Announcements
     assignments: Assignments
+    case_issue: "Case Collection Repostory"
+    case_repostory: "Case Collection Repository"
+    case_settings: Settings
     chat: Chat
     collaborations: Collaborations
     conferences: Conferences
@@ -11152,6 +11431,9 @@ en:
     files: Files
     grades: Grades
     home: Home
+    knowledge: "Knowledge Base"
+    knowledge_repository: "Knowledge Repository"
+    knowledge_settings: Settings
     modules: Modules
     pages: Pages
     people: People
