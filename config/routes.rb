@@ -162,6 +162,7 @@ ActionController::Routing::Routes.draw do |map|
       issue.submit 'submit/', :controller => 'case_issues', :action => 'submit_case_issue'
       issue.review 'review/', :controller => 'case_issues', :action => 'review_case_issue'
       issue.apply 'apply', :controller => 'case_issues', :action => 'apply_case_issue'
+      issue.push 'push', :controller => 'case_issues', :action => 'push_to_knowledge_base'
       issue.resources :case_solutions, :controller => 'case_solutions' do |solution|
         solution.submit 'submit', :controller => 'case_solutions', :action => 'submit_case_solution'
         solution.review 'review', :controller => 'case_solutions', :action => 'review_case_solution'

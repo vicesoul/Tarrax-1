@@ -129,6 +129,13 @@ module CC
             item_feedback(item_node, 'general_fb', question, 'neutral_comments')
             item_feedback(item_node, 'correct_fb', question, 'correct_comments')
             item_feedback(item_node, 'general_incorrect_fb', question, 'incorrect_comments')
+            item_feedback(item_node, 'connecting_lead_linesNum', question, 'connecting_lead_linesNum')
+            item_feedback(item_node, 'connecting_on_pic_position', question, 'connecting_on_pic_position')
+            # html version will be translated ids automatically
+            question['connecting_on_pic_image_html'] = question['connecting_on_pic_image']
+            item_feedback(item_node, 'connecting_on_pic_image', question, 'connecting_on_pic_image')
+            question['solution_content_html'] = question['solution_content']
+            item_feedback(item_node, 'solution_content', question, 'solution_content')
             question['answers'].each do |answer|
               item_feedback(item_node, "#{answer['id']}_fb", answer, 'comments')
             end
@@ -149,10 +156,18 @@ module CC
           multiple_dropdowns_response_lid(node, question)
         elsif question['question_type'] == 'fill_in_multiple_blanks_question'
           multiple_dropdowns_response_lid(node, question)
+        elsif question['question_type'] == 'drag_and_drop_question'
+          multiple_dropdowns_response_lid(node, question)
+        elsif question['question_type'] == 'fill_in_blanks_subjective_question'
+          multiple_dropdowns_response_lid(node, question)
         elsif question['question_type'] == 'calculated_question'
           calculated_response_str(node, question)
         elsif question['question_type'] == 'numerical_question'
           calculated_response_str(node, question)
+        elsif question['question_type'] == 'connecting_lead_question'
+          connecting_lead_response_lid(node, question)
+        elsif question['question_type'] == 'connecting_on_pic_question'
+          connecting_lead_response_lid(node, question)
         end
       end
 
@@ -189,6 +204,26 @@ module CC
                 rc_node.response_label(:ident=>match['match_id']) do |r_node|
                   r_node.material do |mat_node|
                     mat_node.mattext match['text']
+                  end
+                end #r_node
+              end
+            end #rc_node
+          end #lid_node
+        end
+      end
+
+      def connecting_lead_response_lid(node, question)
+        question['answers'].each_with_index do |answer, index|
+          node.response_lid(:ident=>"response_#{answer['id']}") do |lid_node|
+            lid_node.material do |mat_node|
+              html_mat_text(mat_node, answer['html'], answer['text'])
+            end
+
+            lid_node.render_choice do |rc_node|
+              %w(left right).each do |direction|
+                rc_node.response_label(:ident=>"#{direction}_#{answer['match_' +direction+ '_id']}") do |r_node|
+                  r_node.material do |mat_node|
+                    mat_node.mattext answer[direction]
                   end
                 end #r_node
               end
@@ -267,9 +302,17 @@ module CC
           essay_resprocessing(node, question)
         elsif question['question_type'] == 'matching_question'
           matching_resprocessing(node, question)
+        elsif question['question_type'] == 'connecting_lead_question'
+          connecting_lead_resprocessing(node, question)
+        elsif question['question_type'] == 'connecting_on_pic_question'
+          connecting_lead_resprocessing(node, question)
         elsif question['question_type'] == 'multiple_dropdowns_question'
           multiple_dropdowns_resprocessing(node, question)
         elsif question['question_type'] == 'fill_in_multiple_blanks_question'
+          multiple_dropdowns_resprocessing(node, question)
+        elsif question['question_type'] == 'drag_and_drop_question'
+          multiple_dropdowns_resprocessing(node, question)
+        elsif question['question_type'] == 'fill_in_blanks_subjective_question'
           multiple_dropdowns_resprocessing(node, question)
         elsif question['question_type'] == 'calculated_question'
           calculated_resprocessing(node, question)
@@ -389,7 +432,26 @@ module CC
           end
         end
       end
-      
+
+      def connecting_lead_resprocessing(node, question)
+        return nil unless question['answers'] && question['answers'].count > 0
+
+        correct_points = 100.0 / question['answers'].count
+        correct_points /= 2 if question['connecting_lead_linesNum'] == '3'
+        correct_points = "%.2f" % correct_points
+
+        question['answers'].each do |answer|
+          %w(left right).each do |direction|
+            node.respcondition do |r_node|
+              r_node.conditionvar do |c_node|
+                c_node.varequal("#{direction}_#{answer['match_' + direction + '_id']}", :respident=>"response_#{answer['id']}")
+              end
+              r_node.setvar(correct_points, :varname => 'SCORE', :action => 'Add')
+            end
+          end
+        end
+      end
+
       def multiple_dropdowns_resprocessing(node, question)
         groups = question['answers'].group_by{|a|a[:blank_id]}
         correct_points = 100.0 / groups.length

@@ -1,5 +1,4 @@
 
-
 require [
   'jquery'
   'jqueryui/dialog'
@@ -7,26 +6,36 @@ require [
 ], ($) ->
 
   $(document).ready(->
+
+    $('.admin-link-hover-area').each(->
+      $(this).remove() if $(this).find('li').size() < 1
+    )
+
     $('.solution-submit').bind('click', ->
       _this = this
-      $('<div></div>').easyDialog({
-        content: '您确定要提交该案例解决方案吗？'
-        confirmButtonClass: 'btn-primary'
-        confirmCallback: ->
-          $.get(_this.href, (data)->
-            if data
-              $('<div></div>').easyDialog({
-                content: '提交案例解决方案成功！'
-                closeCallback: ->
-                  window.location.reload()
-              })
-            else
-              $('<div></div>').easyDialog({
-                content: '提交案例解决方案失败！'
-              })
-            
-          )
-      }, 'confirm')
+      if $.trim($(_this).attr('solution_title')) == ''
+        $('<div></div>').easyDialog({
+          content: '请您编辑完解决方案后再提交！'
+        })
+      else
+        $('<div></div>').easyDialog({
+          content: '您确定要提交该案例解决方案吗？'
+          confirmButtonClass: 'btn-primary'
+          confirmCallback: ->
+            $.get(_this.href, (data)->
+              if data
+                $('<div></div>').easyDialog({
+                  content: '提交案例解决方案成功！'
+                  closeCallback: ->
+                    window.location.reload()
+                })
+              else
+                $('<div></div>').easyDialog({
+                  content: '提交案例解决方案失败！'
+                })
+              
+            )
+        }, 'confirm')
       return false
     )
 
@@ -35,7 +44,7 @@ require [
         $('#case-review-dialog').easyDialog({
           confirmButtonClass: 'btn-primary'
           confirmCallback: ->
-            $.get(_this.href + '?review_result=' + $('#case-review-dialog input:checked').val() + "&knowledge_base_id=" + $('#knowledge_base_id').val(), (data)->
+            $.get(_this.href + '?review_result=' + $('#case-review-dialog input:checked').val(), (data)->
               if data
                 $('<div></div>').easyDialog({
                   content: '审批案例解决方案成功！'
@@ -52,11 +61,4 @@ require [
         return false
       )
 
-    $('.your_option input[type=radio]').bind('click', ->
-      if $(this).val() is 'review'
-        $('#knowledge-base-area').hide()
-      else if $(this).val() is 'recommend'
-        $('#knowledge-base-area').show()
-      else
-    )
   )

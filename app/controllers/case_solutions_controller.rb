@@ -75,30 +75,13 @@ class CaseSolutionsController < ApplicationController
 
   def review_case_solution
     case_solution = CaseSolution.find(params[:case_solution_id])
-    if case_solution.being_reviewed? && %w[review recommend].include?(params[:review_result])
+    if case_solution.being_reviewed? && %w[accept reject remodify].include?(params[:review_result])
       result = case_solution.__send__(params[:review_result])
-      case_solution.copy_solution_to_knowledge_base(params[:knowledge_base_id], @current_user) if result && (params[:knowledge_base_id].present?) && (params[:review_result] == 'recommend')
       render :json => result.to_json
     else
       render :json => false
     end
   end
-
-  # POST /case_solutions
-  # POST /case_solutions.xml
-  #def create
-    #@case_solution = CaseSolution.new(params[:case_solution])
-
-    #respond_to do |format|
-      #if @case_solution.save
-        #format.html { redirect_to(@case_solution, :notice => 'CaseSolution was successfully created.') }
-        #format.xml  { render :xml => @case_solution, :status => :created, :location => @case_solution }
-      #else
-        #format.html { render :action => "new" }
-        #format.xml  { render :xml => @case_solution.errors, :status => :unprocessable_entity }
-      #end
-    #end
-  #end
 
   # PUT /case_solutions/1
   # PUT /case_solutions/1.xml

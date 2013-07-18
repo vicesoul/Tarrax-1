@@ -180,8 +180,18 @@ class AssessmentItemConverter
         else
           extract_feedback!(@question, :correct_comments, f)
         end
+      elsif id =~ /solution_content/i
+        if text = f.at_css('div.html')
+          @question[:solution_content] = sanitize_html_string(text.text)
+        end
       elsif id =~ /solution/i
         @question[:example_solution] = clear_html(f.text.strip.gsub(/\s+/, " "))
+      elsif id =~ /connecting_lead_linesNum/i # use feedback to add extra properties
+        @question[:connecting_lead_linesNum] = clear_html(f.text.strip.gsub(/\s+/, " "))
+      elsif id =~ /connecting_on_pic_position/i # use feedback to add extra properties
+        @question[:connecting_on_pic_position] = clear_html(f.text.strip.gsub(/\s+/, " "))
+      elsif id =~ /connecting_on_pic_image/i # use feedback to add extra properties
+        @question[:connecting_on_pic_image] = clear_html(f.text.strip.gsub(/\s+/, " "))
       elsif id =~ /general|all/i
         extract_feedback!(@question, :neutral_comments, f)
       elsif id =~ /feedback_(\d*)_fb/i
@@ -199,7 +209,10 @@ class AssessmentItemConverter
     html_node = node.at_css('div.html') || (node.name.downcase == 'div' && node['class'] =~ /\bhtml\b/)
     is_html = false
     # heuristic for detecting html: the sanitized html node is more than just a container for a single text node
-    sanitized = sanitize_html!(html_node ? Nokogiri::HTML::DocumentFragment.parse(node.text) : node, true) { |s| is_html = !(s.children.size == 1 && s.children.first.is_a?(Nokogiri::XML::Text)) }
+    sanitized = sanitize_html!(html_node ? Nokogiri::HTML::DocumentFragment.parse(node.text) : node, true) do |s|
+      first = s.children.first
+      is_html = !(s.children.size == 1 && first.name.downcase == 'div' && first['class'] =~ /\btext\b/) 
+    end
     if is_html && sanitized.present?
       html = sanitized
     end
@@ -330,6 +343,14 @@ class AssessmentItemConverter
           opts[:interaction_type] = 'fill_in_multiple_blanks_question'
         elsif type == 'multiple_dropdowns_question'
           opts[:interaction_type] = 'multiple_dropdowns_question'
+        elsif type == 'drag_and_drop_question'
+          opts[:interaction_type] = 'drag_and_drop_question'
+        elsif type == 'fill_in_blanks_subjective_question'
+          opts[:interaction_type] = 'fill_in_blanks_subjective_question'
+        elsif type == 'connecting_lead_question'
+          opts[:interaction_type] = 'connecting_lead_question'
+        elsif type == 'connecting_on_pic_question'
+          opts[:interaction_type] = 'connecting_on_pic_question'
         else
           opts[:custom_type] = type
         end
@@ -362,8 +383,12 @@ class AssessmentItemConverter
         end
       when /orderinteraction|ordering_question/i
         q = OrderInteraction.new(opts)
-      when /fill_in_multiple_blanks_question|multiple_dropdowns_question/i
+      when /fill_in_multiple_blanks_question|multiple_dropdowns_question|drag_and_drop_question|fill_in_blanks_subjective_question/i
         q = FillInTheBlank.new(opts)
+      when /connecting_lead_question/i
+        q = ConnectingLead.new(opts)
+      when /connecting_on_pic_question/i
+        q = ConnectingOnPic.new(opts)
       when nil
         q = AssessmentItemConverter.new(opts)
       else
