@@ -137,5 +137,5 @@
 </div>
 
 <div id="knowledge-base-dialog" style="display:none">
-  <%= select 'knowledge_base', 'id', @context.root_account.knowledges.map{|k| [k.name, k.knowledge_repostory.id ]}, {:prompt => t("dont_push_to_knowledge_base", "Don't push to Knowledge Base")} %> 
+  <%= select 'knowledge_base', 'id', @context.root_account.knowledges.map{|k| [k.name, k.knowledge_repostory.id ]} %>
 </div>
