@@ -57,7 +57,7 @@ class KnowledgeTplsController < ApplicationController
 
     respond_to do |format|
       if @knowledge_tpl.save
-        format.html { redirect_to(account_knowledge_tpls_url, :notice => t('#knowledge_tpls.save_successfully', 'Knowledge Template was successfully created.')) }
+        format.html { redirect_to(account_knowledge_tpls_url, :notice => t('#knowledge_tpls.save_successfully', 'Knowledge Template was successfully saved.')) }
       else
         format.html { render :action => "new" }
       end
@@ -76,7 +76,7 @@ class KnowledgeTplsController < ApplicationController
     end
     respond_to do |format|
       if result        
-        format.html { redirect_to(account_knowledge_tpls_url, :notice => t('#knowledge_tpls.save_successfully', 'Knowledge Tepmlate was successfully saved.')) }
+        format.html { redirect_to(account_knowledge_tpls_url, :notice => t('#knowledge_tpls.save_successfully', 'Knowledge Template was successfully saved.')) }
       else
         format.html { render :action => "edit" }
       end

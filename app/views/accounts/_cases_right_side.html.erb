@@ -1,6 +1,6 @@
 
 <% if can_do(@context, @current_user, :manage_account_settings) %>
-  <a href="#" class="add_case_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t("#accounts.add_course_or_user.add_case_link", "Add a Case Collection Repostory") %></a>
+  <a href="#" class="add_case_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t("#accounts.add_course_or_user.add_case_link", "Add a Case Collection Repository") %></a>
 
   <div id="add_case_repostory_dialog" style="display:none">
     <% form_for :course, :url => create_case_course_url, :html => {:id => 'add_case_repostory_form'} do |f| %>
