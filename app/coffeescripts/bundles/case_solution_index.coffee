@@ -1,5 +1,4 @@
 
-
 require [
   'jquery'
   'jqueryui/dialog'
@@ -7,6 +6,11 @@ require [
 ], ($) ->
 
   $(document).ready(->
+
+    $('.admin-link-hover-area').each(->
+      $(this).remove() if $(this).find('li').size() < 1
+    )
+
     $('.solution-submit').bind('click', ->
       _this = this
       if $.trim($(_this).attr('solution_title')) == ''

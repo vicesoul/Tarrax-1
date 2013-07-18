@@ -80,7 +80,7 @@
                 <% end %> 
               </li>
             <% end %>
-            <% if case_issue.accepted? %>
+            <% if case_issue.accepted? && (!case_issue.case_solutions.any?{ |s| s.user.id == @current_user.id })%>
               <li>
                 <% link_to course_case_issue_apply_path(@context, case_issue),{:issue_subject => case_issue.subject, :class => 'issue-apply'} do %>
                   <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'links.apply', 'Apply') %>
@@ -99,7 +99,7 @@
                 <% end %> 
               </li>
             <% end %>
-            <% if case_issue.has_accepted_solutions? %>
+            <% if case_issue.has_accepted_solutions? && can_operate_knowledges_as_teacher? %>
               <li>
               <% link_to course_case_issue_push_path(@context, case_issue), {:class => 'issue-push' } do %>
                   <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'push_to_knowledge_base', 'Push to Knowledge Base') %>

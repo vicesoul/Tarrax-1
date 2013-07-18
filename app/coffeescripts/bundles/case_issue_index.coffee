@@ -6,6 +6,9 @@ require [
 ], ($) ->
 
   $(document).ready(->
+    $('.admin-link-hover-area').each(->
+      $(this).remove() if $(this).find('li').size() < 1
+    )
     $('.issue-submit').bind('click', ->
       _this = this
       $('<div></div>').easyDialog({
