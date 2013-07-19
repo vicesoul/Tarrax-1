@@ -1339,7 +1339,7 @@ ActiveRecord::ConnectionAdapters::SchemaStatements.class_eval do
 end
 
 
-module CustomSortByGenerator
+module CustomNamedScopeGenerator
 
   module ClassMethods
 
@@ -1347,6 +1347,14 @@ module CustomSortByGenerator
       named_scope :sort_by_custom, lambda {|column, direction|
         {
           :order => "#{self.table_name}.#{column} #{direction}"
+        }
+      }
+    end
+
+    def custom_filter_for_cases_or_knowledges
+      named_scope :filter_unuseful_data, lambda {|user|
+        {
+          :conditions => ["#{self.table_name}.workflow_state != 'new' or (#{self.table_name}.user_id = ? and #{self.table_name}.workflow_state = 'new')", user.id]
         }
       }
     end
@@ -1359,4 +1367,4 @@ module CustomSortByGenerator
 
 end
 
-ActiveRecord::Base.send(:include, CustomSortByGenerator)
+ActiveRecord::Base.send(:include, CustomNamedScopeGenerator)

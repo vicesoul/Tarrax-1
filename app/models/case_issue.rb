@@ -5,7 +5,10 @@ class CaseIssue < ActiveRecord::Base
   belongs_to :user
   has_many :case_solutions, :dependent => :destroy
   has_one :case_tpl, :as => :context
+  has_one :knowledge, :foreign_key => 'used_case_issue_id'
   belongs_to :used_case_tpl, :class_name => 'CaseTpl', :foreign_key => 'used_case_tpl_id'
+
+  custom_filter_for_cases_or_knowledges
 
   #after_save :broadcast_notifications
 
@@ -21,6 +24,10 @@ class CaseIssue < ActiveRecord::Base
     #}
   #end
 
+  def is_documented_by_knowledge_base?
+    self.knowledge && self.knowledge.accepted?
+  end
+
   def has_accepted_solutions?
     self.accepted? && self.case_solutions.any?{|s| s.accepted? }   
   end
@@ -34,7 +41,7 @@ class CaseIssue < ActiveRecord::Base
 
     knowledge_content << issue_subject << issue_content << solutions
 
-    knowledge = Knowledge.new(:subject => self.subject, :case_repostory_id => knowledge_base_id, :user => user)
+    knowledge = Knowledge.new(:subject => self.subject, :case_repostory_id => knowledge_base_id, :user => user, :source => Knowledge::Source::CASE_ISSUE, :used_case_issue_id => self.id)
     Knowledge.init_pushed_knowledge(knowledge, knowledge_content)
     knowledge.save! and knowledge.submit
   end

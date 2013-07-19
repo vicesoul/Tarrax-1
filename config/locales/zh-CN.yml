@@ -6,10 +6,15 @@ zh-CN:
     model_init:
       knowledge: 知识
     state_array:
-      new: 新建的
+      new: 未审核的
+      remodified: 重改的
       awaiting_review: 等待审核的
       accepted: 审核通过的
       rejected: 被拒绝的
+    source:
+      teacher: 教师
+      student: 学生
+      case_issue: 案例
     bread_crumb:
       knowledge: 知识
     index:
@@ -19,12 +24,14 @@ zh-CN:
         author: 作者
         state: 状态
         query: 查询
+        source: 来源
       empty_knowledge: 没有知识
       headings:
         subject: 主题
         state: 状态
         author: 作者
         solutions: 解决方案
+        source: 来源
         updated_at: 更新时间
         op: 操作
       links:
@@ -49,7 +56,7 @@ zh-CN:
       template: 模板
       select_tpl_first: 请选择一个知识模板
       please_select: 请选择
-      warn_tpl: 你所在的网校还没有案例模板，所以不能建立知识
+      warn_tpl: 你所在的网校还没有知识模板，所以将使用系统默认的知识模板
     show:
       subject: 主题
       title: 标题
@@ -109,6 +116,7 @@ zh-CN:
     save_successfully: 案例模板保存成功
     model_init:
       default_tpl: 默认案例模板
+      default_knowledge_tpl: 默认知识模板
       tpl: 案例模板
       subject: 板块主题
       body: 正文
@@ -148,7 +156,7 @@ zh-CN:
     model_init:
       issue: 案例问题
     state_array:
-      new: 新建的
+      new: 未审核的
       awaiting_review: 等待审核的
       accepted: 审核通过的
       rejected: 被拒绝的
@@ -156,9 +164,10 @@ zh-CN:
       case_issue: 案例问题
     index:
       dont_push_to_knowledge_base: 不要同步到知识库
-      push_to_knowledge_base: 录入至知识库
+      push_to_knowledge_base: 推荐入知识库
       new_issue: 新建案例问题
       has_solutions: 有解决方案的
+      documented_by_knowledge_base: 被知识库收录的
       selector:
         subject: 主题
         author: 作者
@@ -169,6 +178,7 @@ zh-CN:
         subject: 主题
         state: 状态
         author: 作者
+        documented_by_knowledge_base: 知识库收录
         solutions: 解决方案
         updated_at: 更新时间
         op: 操作

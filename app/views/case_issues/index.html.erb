@@ -42,6 +42,7 @@
       <th><%= sortable_for_searchlogic('workflow_state', (t 'headings.state', 'State')) %></th>
       <th><%= sortable_for_searchlogic('name', (t 'headings.author', 'Author'), 'user_sort_by_custom') %></th>
       <th><%= t 'headings.solutions', 'Solutions' %></th>
+      <th><%= t 'headings.documented_by_knowledge_base', 'Documented by Knowledge Base' %></th>
       <th><%= sortable_for_searchlogic('updated_at', (t 'headings.updated_at', 'Update At')) %></th>
       <th><%= t 'headings.op', 'Operation' %></th>
     </tr>
@@ -49,7 +50,14 @@
   <% @case_issues.each do |case_issue| %>
     <tr>
       <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
-      <td><%= CaseIssue.display_state[case_issue.workflow_state] %><span style="color:red;"><%= "(#{t('has_solutions', 'Has solutions')})" if case_issue.has_accepted_solutions? %></span></td>
+      <td>
+        <%= CaseIssue.display_state[case_issue.workflow_state] %>
+        <% if case_issue.has_accepted_solutions? %>
+          <span style="color:red;">
+            <%= "(#{t('has_solutions', 'Has solutions')})" %>
+          </span>
+        <% end %>
+    </td>
       <td><%= case_issue.user.name %></td>
       <td>
         <% solutions_size = case_issue.case_solutions.size %>
@@ -59,6 +67,7 @@
           <%= solutions_size %>
         <% end %>
       </td>
+      <td><%= get_issue_knowledge_state case_issue %></td>
       <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
       <td>
       <div class="admin-link-hover-area">
@@ -99,7 +108,7 @@
                 <% end %> 
               </li>
             <% end %>
-            <% if case_issue.has_accepted_solutions? && can_operate_knowledges_as_teacher? %>
+            <% if case_issue.has_accepted_solutions? && case_issue.knowledge.nil? && can_operate_knowledges_as_teacher? %>
               <li>
               <% link_to course_case_issue_push_path(@context, case_issue), {:class => 'issue-push' } do %>
                   <span class='ui-icon ui-icon-pencil'></span> <%=  (t 'push_to_knowledge_base', 'Push to Knowledge Base') %>
