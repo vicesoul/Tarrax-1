@@ -26,7 +26,6 @@ class ConnectingLead < AssessmentItemConverter
   def ensure_correct_format
     @question[:answers].each do |answer|
       answer[:center] = answer[:text] if answer[:text].present?
-      answer[:center_html] = answer[:html] if answer[:html].present?
       %w(left right).each do |direction|
         if answer[:"match_#{direction}_id"]
           if @question[:matches] && @question[:matches][direction.to_sym] && match = @question[:matches][direction.to_sym].find{|m|m[:match_id] == answer[:"match_#{direction}_id"]}
@@ -85,9 +84,6 @@ class ConnectingLead < AssessmentItemConverter
   def extract_answer!(answer, node)
     text, html = detect_html(node)
     answer[:text] = text
-    if html.present?
-      answer[:html] = html
-    end
   end
 
 end
