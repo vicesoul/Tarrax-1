@@ -23,7 +23,7 @@ class CaseIssuesController < ApplicationController
       else
         params[:search].merge!(:case_repostory_id_equals => case_repostory_id)
       end
-    @search = CaseIssue.search(search_params)
+    @search = CaseIssue.search(search_params.merge!(:filter_unuseful_data => @current_user))
     @case_issues = @search.paginate(:page => params[:page], :per_page => 25, :total_entries => @search.size)
 
     respond_to do |format|
@@ -95,6 +95,15 @@ class CaseIssuesController < ApplicationController
     if issue.awaiting_review? && %w[accept reject].include?(params[:review_result])
       issue.review
       render :json => issue.__send__(params[:review_result]).to_json
+    else
+      render :json => false
+    end
+  end
+
+  def push_to_knowledge_base
+    issue = CaseIssue.find(params[:case_issue_id])
+    if issue.has_accepted_solutions? && issue.knowledge.nil?
+      render :json => issue.push_to_knowledge_base(params[:knowledge_base_id], @current_user).to_json
     else
       render :json => false
     end

@@ -10,6 +10,8 @@ class CaseSolution < ActiveRecord::Base
   validates_presence_of :content, :on => :update 
   validates_uniqueness_of :user_id, :scope => :case_issue_id, :message => 'You already applied this case issue.'
 
+  custom_filter_for_cases_or_knowledges
+
   include Workflow
 
   workflow do 

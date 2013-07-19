@@ -21,7 +21,7 @@ class CaseSolutionsController < ApplicationController
       else
         params[:search].merge!(:case_issue_id_equals => params[:case_issue_id])
       end
-    @search = CaseSolution.search(search_params)
+    @search = CaseSolution.search(search_params.merge!(:filter_unuseful_data => @current_user))
     @case_solutions = @search.paginate(:page => params[:page], :per_page => 25, :total_entries => @search.size)
 
     respond_to do |format|

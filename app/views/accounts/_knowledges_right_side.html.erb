@@ -2,10 +2,6 @@
 <% if can_do(@context, @current_user, :manage_account_settings) %>
   <a href="#" class="add_knowledge_link btn button-sidebar-wide"><i class="icon-add"></i> <%= t("#accounts.add_course_or_user.add_knowledge_link", "Add a Knowledge Repository") %></a>
 
-  <% link_to account_settings_url(@context, :anchor => 'account_settings_student_can_commit_knowledge'), {:class => 'add_case_link btn button-sidebar-wide'} do %>
-    <i class="icon-settings"></i><%= t('#knowledges.knowledge_setting', 'Knowledge Setting') %>
-  <% end %>
-
   <div id="add_knowledge_repostory_dialog" style="display:none">
     <% form_for :course, :url => create_case_course_url, :html => {:id => 'add_knowledge_repostory_form'} do |f| %>
       <div>

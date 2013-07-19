@@ -6,6 +6,9 @@ require [
 ], ($) ->
 
   $(document).ready(->
+    $('.admin-link-hover-area').each(->
+      $(this).remove() if $(this).find('li').size() < 1
+    )
     $('.issue-submit').bind('click', ->
       _this = this
       $('<div></div>').easyDialog({
@@ -45,6 +48,27 @@ require [
               else
                 $('<div></div>').easyDialog({
                   content: '审批案例问题失败！'
+                })
+            )
+        }, 'confirm')
+        return false
+      )
+
+      $('.issue-push').bind('click' , ->
+        _this = this
+        $('#knowledge-base-dialog').easyDialog({
+          confirmButtonClass: 'btn-primary'
+          confirmCallback: ->
+            $.get(_this.href + '?knowledge_base_id=' + $('#knowledge_base_id').val(), (data)->
+              if data
+                $('<div></div>').easyDialog({
+                  content: '推荐入知识库成功！'
+                  closeCallback: ->
+                    window.location.reload()
+                })
+              else
+                $('<div></div>').easyDialog({
+                  content: '推荐入知识库失败！'
                 })
             )
         }, 'confirm')
