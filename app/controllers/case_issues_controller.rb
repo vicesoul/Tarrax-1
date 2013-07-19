@@ -102,7 +102,7 @@ class CaseIssuesController < ApplicationController
 
   def push_to_knowledge_base
     issue = CaseIssue.find(params[:case_issue_id])
-    if issue.has_accepted_solutions?
+    if issue.has_accepted_solutions? && issue.knowledge.nil?
       render :json => issue.push_to_knowledge_base(params[:knowledge_base_id], @current_user).to_json
     else
       render :json => false
