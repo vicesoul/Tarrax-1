@@ -658,9 +658,11 @@ Global.quizzes = {
         var $blueText = $(this).find(".blueText");
         var $select = $blueText.find(".ui-selectmenu");
         var $receive = $("<div class='receive'></div>");
+        var $dragging = $(this).find('ul.dragging')
         //fix bug
         var $firstLi = $(this).find(".dragging li:first");
         if($firstLi.text().trim() === "") $firstLi.remove();
+
         //
         $select.each(function(){
           $(this).hide()
@@ -668,16 +670,22 @@ Global.quizzes = {
             .after($receive.clone());
         });
 
+        // collect answer info
         var answers = [];
         $(this).find(".answers .answer_group").each(function(i){
-          if($(this).find(".selected_answer.correct_answer").size() !== 0){
-            answers[i] = true
-          }
+          var answerText = $(this).find('.answer.selected_answer .select_answer .answer_text').text().trim()
+          answers[i] = {}
+          answers[i]['text'] = answerText
+          if($(this).find(".selected_answer.correct_answer").size() !== 0) answers[i]['correct'] = true
         });
 
+        // loop every receive blank
         $(this).find(".text div.receive").each(function(i){
+          var $receive = $(this)
+
+          // painting color
           var style;
-          if(answers[i] == true){
+          if(answers[i]['correct'] == true){
             style = "3px solid green";
           } else{
             style = "3px solid red";
@@ -685,6 +693,19 @@ Global.quizzes = {
           $(this).css({
             "border": style
           });
+
+          // look for droped button, appendTo couterpart blank
+          if(answers[i]['text'] !== ''){
+            var $drop
+            $dragging.find('span').each(function(){
+              var liText = $(this).text().trim()
+              if(liText == answers[i]['text']){
+                $drop = $(this)
+              }
+            })
+            $drop.appendTo($receive)
+          }
+
         });
 
       });
