@@ -55,7 +55,7 @@
   <% @knowledges.each do |knowledge| %>
     <tr>
       <td><%= link_to knowledge.subject, course_knowledge_path(@context, knowledge) %></td>
-      <td><%= Knowledge.display_state[knowledge.workflow_state] %></td>
+      <td><%= display_state(Knowledge.display_state[knowledge.workflow_state], knowledge.workflow_state) %></td>
       <td><%= knowledge.user.name %></td>
       <td><%= Knowledge.display_source[knowledge.source] %></td>
       <td><%= knowledge.updated_at.to_formatted_s(:db) %></td>
