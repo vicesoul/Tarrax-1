@@ -1,6 +1,6 @@
 module KnowledgesHelper
 
-  def display_state text, state
+  def display_knowledge_state text, state
     begin
       case state.to_sym
       when :new

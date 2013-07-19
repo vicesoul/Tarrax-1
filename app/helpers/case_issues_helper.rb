@@ -8,7 +8,7 @@ module CaseIssuesHelper
     end
   end
 
-  def display_state text, state
+  def display_case_issue_state text, state
     begin
       case state.to_sym
       when :new

@@ -1,6 +1,6 @@
 module CaseSolutionsHelper
 
-  def display_state text, state
+  def display_case_solution_state text, state
     begin
       case state.to_sym
       when :executing

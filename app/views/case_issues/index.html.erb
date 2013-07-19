@@ -51,7 +51,7 @@
     <tr>
       <td><%= link_to case_issue.subject, course_case_issue_path(@context, case_issue) %></td>
       <td>
-        <%= display_state(CaseIssue.display_state[case_issue.workflow_state], case_issue.workflow_state) %>
+        <%= display_case_issue_state(CaseIssue.display_state[case_issue.workflow_state], case_issue.workflow_state) %>
         <% if case_issue.has_accepted_solutions? %>
           <span style="color:red;">
             <%= "(#{t('has_solutions', 'Has solutions')})" %>
