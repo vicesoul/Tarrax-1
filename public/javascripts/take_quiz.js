@@ -504,13 +504,23 @@ define([
     setTimeout(function() { quizSubmission.updateSubmission(true) }, 15000);
 
     // set the form action depending on the button clicked
-    $("#submit_quiz_form button[type=submit]").click(function(event) {
+    $submit = $("#submit_quiz_form button[type=submit]")
+    $submit.click(function(event) {
+
       quizSubmission.updateSubmission();
 
       var action = $(this).data('action');
       if(action != undefined) {
         $('#submit_quiz_form').attr('action', action);          
       }
+
+      // $submit.css({
+      //   position: 'relative',
+      //   left: '-9999em'
+      // })
+
+      $submit.addClass('disabled')
+
     });
 
     (function ipadInputType(){
