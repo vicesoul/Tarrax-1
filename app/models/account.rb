@@ -718,6 +718,10 @@ class Account < ActiveRecord::Base
     # any user with an association to this account can read the outcomes in the account
     given{ |user,session| user && self.user_account_associations.find_by_user_id(user.id) }
     can :read_outcomes
+
+    # teacher can read roster
+    given { |user| user.enrollments.active.find_by_type_and_course_id('TeacherEnrollment', self.course_ids) }
+    can :read_roster
   end
 
   alias_method :destroy!, :destroy
