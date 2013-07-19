@@ -5,20 +5,21 @@
         <div class="left_part">
           <a href="#" class="chagne_bg btn right" style='display:none;'>更换背景</a>
           <div data-position="logo" class="sortable" id="logo"><%= widgets_at_position("logo") %></div>
-          <div data-position="nav" class="sortable data-link" id="nav" data-link="true">
-            <%= widgets_at_position_as_link("nav", @can_manage_homepage) %>
-          </div>
+          
         </div>
         <div class="right_part">
 
           <div data-position="caption" class="sortable" id="caption"><%= widgets_at_position("caption") %></div>
         </div>
         <div class="clear"></div>
+        <div data-position="nav" class="sortable data-link" id="nav" data-link="true">
+          <%= widgets_at_position_as_link("nav", @can_manage_homepage) %>
+        </div>
       </div>
     </div>
     <div id="dashboard">
       <div data-position="center" class="sortable left_position_holder"><%= widgets_at_position('center') %></div>
       <div data-position="right" class="sortable right_position_holder"><%= widgets_at_position('right') %></div>
-      <div class="clear"></div>
+      
     </div>
 </div>
