@@ -14,8 +14,8 @@ class KnowledgesController < ApplicationController
       else
         params[:search].merge!(:case_repostory_id_equals => case_repostory_id)
       end
-    search_params.merge!(:search_as_student => @current_user.id) if validate_knowledge_as_student && (!validate_knowledge_as_teacher) 
-    @search = Knowledge.search(search_params)
+    search_params.merge!(:search_as_student => @current_user.id) if validate_knowledge_as_student? && (!validate_knowledge_as_teacher?) 
+    @search = Knowledge.search(search_params.merge!(:filter_unuseful_data => @current_user))
     @knowledges = @search.paginate(:page => params[:page], :per_page => 25, :total_entries => @search.size)
 
     respond_to do |format|
@@ -40,7 +40,7 @@ class KnowledgesController < ApplicationController
   # GET /knowledges/new.xml
   def new
     return (redirect_to course_knowledges_path) unless auth_as_account_settings
-    @knowledge = Knowledge.new
+    @knowledge = Course.find(params[:context_id]).root_account.knowledge_tpls.empty? ? Knowledge.find_or_init_knowledge_tpl : Knowledge.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -65,8 +65,9 @@ class KnowledgesController < ApplicationController
       tpl = @knowledge.build_case_tpl(:name => 'Default knowledge template', :user_id => @current_user.id)
       params[:case_tpl_widget].each { |widget| tpl.case_tpl_widgets.build(widget) }
       respond_to do |format|
+        @knowledge.source = validate_knowledge_as_teacher? ? Knowledge::Source::TEACHER : Knowledge::Source::STUDENT
         if @knowledge.save
-          @knowledge.direct_accept if validate_knowledge_as_teacher
+          @knowledge.direct_accept if validate_knowledge_as_teacher?
           format.html { redirect_to(course_knowledges_url, :notice => 'Knowledge was successfully created.') }
           format.xml  { render :xml => @knowledge, :status => :created, :location => @knowledge }
         else
@@ -141,14 +142,14 @@ class KnowledgesController < ApplicationController
   end
 
   def auth_as_account_settings
-    @context.root_account.settings[:student_can_commit_knowledge] || validate_knowledge_as_teacher
+    @context.root_account.settings[:student_can_commit_knowledge] || validate_knowledge_as_teacher?
   end
 
-  def validate_knowledge_as_student
+  def validate_knowledge_as_student?
     @context.grants_right?(@current_user, :operate_knowledge_as_student)
   end
 
-  def validate_knowledge_as_teacher
+  def validate_knowledge_as_teacher?
     @context.grants_right?(@current_user, :operate_knowledge_as_teacher)
   end
 

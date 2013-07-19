@@ -62,13 +62,13 @@ require [
             $.get(_this.href + '?knowledge_base_id=' + $('#knowledge_base_id').val(), (data)->
               if data
                 $('<div></div>').easyDialog({
-                  content: '录入至知识库成功！'
+                  content: '推荐入知识库成功！'
                   closeCallback: ->
                     window.location.reload()
                 })
               else
                 $('<div></div>').easyDialog({
-                  content: '录入至知识库失败！'
+                  content: '推荐入知识库失败！'
                 })
             )
         }, 'confirm')

@@ -26,6 +26,12 @@
             <%= f.check_box :workflow_state_in, {:name => "search[workflow_state_in][]"}, 'rejected', nil %> <%= t '#knowledges.state_array.rejected', 'Rejected' %>
           </li>
           <li>
+            <label><%= t 'selector.source', 'Source' %>:</label>
+            <%= f.check_box :source_in, {:name => "search[source_in][]"}, Knowledge::Source::TEACHER, nil %><%= t '#knowledges.source.teacher', 'Teacher'%>
+            <%= f.check_box :source_in, {:name => "search[source_in][]"}, Knowledge::Source::STUDENT, nil %><%= t '#knowledges.source.student', 'Student'%>
+            <%= f.check_box :source_in, {:name => "search[source_in][]"}, Knowledge::Source::CASE_ISSUE, nil %><%= t '#knowledges.source.case_issue', 'Case Issue'%>
+          </li>
+          <li>
             <label> </label>
             <%= f.submit t('selector.query', 'Query'), {:class => "btn btn-primary"} %>
           </li>
@@ -41,6 +47,7 @@
       <th><%= sortable_for_searchlogic('subject', (t 'headings.subject', 'Subject')) %></th>
       <th><%= sortable_for_searchlogic('workflow_state', (t 'headings.state', 'State')) %></th>
       <th><%= sortable_for_searchlogic('name', (t 'headings.author', 'Author'), 'user_sort_by_custom') %></th>
+      <th><%= sortable_for_searchlogic('source', (t 'headings.source', 'Source')) %></th>
       <th><%= sortable_for_searchlogic('updated_at', (t 'headings.updated_at', 'Update At')) %></th>
       <th><%= t 'headings.op', 'Operation' %></th>
     </tr>
@@ -48,8 +55,9 @@
   <% @knowledges.each do |knowledge| %>
     <tr>
       <td><%= link_to knowledge.subject, course_knowledge_path(@context, knowledge) %></td>
-      <td><%= Knowledge.display_state[knowledge.workflow_state] %></td>
+      <td><%= display_knowledge_state(Knowledge.display_state[knowledge.workflow_state], knowledge.workflow_state) %></td>
       <td><%= knowledge.user.name %></td>
+      <td><%= Knowledge.display_source[knowledge.source] %></td>
       <td><%= knowledge.updated_at.to_formatted_s(:db) %></td>
       <td>
       <div class="admin-link-hover-area">

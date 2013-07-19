@@ -49,7 +49,7 @@
     <% @case_solutions.each do |case_solution| %>
       <tr>
       <td><%= link_to (case_solution.title || t('unedited_solution', 'Unedited Solution')), course_case_issue_case_solution_path(@context, params[:case_issue_id], case_solution) %></td>
-      <td><%= CaseSolution.display_state[case_solution.workflow_state] %></td>
+      <td><%= display_case_solution_state(CaseSolution.display_state[case_solution.workflow_state], case_solution.workflow_state) %></td>
       <td>
         <% if case_solution.group_discuss %>
           <%= link_to t('#case_solutions.ya', 'Yes'), course_group_path(@context, case_solution.group.id) %>
