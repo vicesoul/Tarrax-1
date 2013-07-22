@@ -4,7 +4,7 @@
   <span><%= t 'state', 'State' %>: <%= CaseSolution.display_state[@case_solution.workflow_state] %></span>
   <span><%= t 'group_discuss', 'Group Discuss' %>: <%= @case_solution.group_discuss ? t('#case_solutions.ya', 'Yes') : t('#case_solutions.not', 'No') %></span>
   <span><%= t 'author', 'Author' %>: <%= @case_solution.user.name %></span>
-  <span><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.to_formatted_s(:db) %></span>
+  <span><%= t 'updated_at', 'Updated At' %>: <%= @case_solution.updated_at.localtime.to_formatted_s(:db) %></span>
 </small>
 <div class='form-horizontal bootstrap-form'>
   <div class='control-group'>

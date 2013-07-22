@@ -20,7 +20,7 @@
 	<div class='control-group'>
 	  <label class="control-label"><%= t 'updated_at', 'Updated At' %>:</label> 
 	  <div class="controls">
-	  	<%= @knowledge_tpl.updated_at.to_formatted_s(:db) %>
+	  	<%= @knowledge_tpl.updated_at.localtime.to_formatted_s(:db) %>
 	  </div>
 	</div>
 
