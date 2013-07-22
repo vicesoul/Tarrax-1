@@ -720,7 +720,7 @@ class Account < ActiveRecord::Base
     can :read_outcomes
 
     # teacher can read roster
-    given { |user| user.enrollments.active.find_by_type_and_course_id('TeacherEnrollment', self.course_ids) }
+    given { |user| user && user.enrollments.active.find_by_type_and_course_id('TeacherEnrollment', self.course_ids) }
     can :read_roster
   end
 
