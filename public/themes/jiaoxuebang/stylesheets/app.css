@@ -7,7 +7,7 @@ body.dashboard #main{min-width: 1000px;}
   background: url(../img/bg.jpg) no-repeat 0 -80px;
 }
 #jiaoxuebang #head{
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   overflow: hidden;
 }
 #jiaoxuebang #head #theme_main{
@@ -26,7 +26,7 @@ body.dashboard #main{min-width: 1000px;}
   margin-right:7px;
 }
 #jiaoxuebang #head #theme_main #nav{
-  height:50px;
+  height:40px;
   line-height:35px;
   margin-top:50px;
   background: url(../img/box_head_bg.jpg) repeat-x;
