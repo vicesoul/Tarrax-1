@@ -6,7 +6,7 @@
   <small class='sub-text right'>
     <span><%= t('state', 'State') %>: <%= Knowledge.display_state[@knowledge.workflow_state] %></span>
     <span><%= t('author', 'Author') %>: <%= @knowledge.user.name %></span>
-    <span><%= t('updated_at', 'Updated At') %>: <%= @knowledge.updated_at.to_formatted_s(:db) %></span>
+    <span><%= t('updated_at', 'Updated At') %>: <%= @knowledge.updated_at.localtime.to_formatted_s(:db) %></span>
   </small>
   <div class='template-overview'>
     <dl>

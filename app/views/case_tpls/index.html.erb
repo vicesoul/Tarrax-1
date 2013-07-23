@@ -17,7 +17,7 @@
     <tr>
       <td><%= link_to case_tpl.name, account_case_tpl_path(@account, case_tpl) %></td>
       <td><%= case_tpl.user.name %></td>
-      <td><%= case_tpl.updated_at.to_s(:db) %></td>
+      <td><%= case_tpl.updated_at.localtime.to_s(:db) %></td>
       <td>
         <div class="admin-link-hover-area">
           <div class="admin-links">

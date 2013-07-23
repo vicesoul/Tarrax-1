@@ -58,7 +58,7 @@
         <% end %>
       </td>
       <td><%= case_solution.user.name %></td>
-      <td><%= case_solution.updated_at.to_formatted_s(:db) %></td>
+      <td><%= case_solution.updated_at.localtime.to_formatted_s(:db) %></td>
       <td>
 
         <div class="admin-link-hover-area">

@@ -58,7 +58,7 @@
       <td><%= display_knowledge_state(Knowledge.display_state[knowledge.workflow_state], knowledge.workflow_state) %></td>
       <td><%= knowledge.user.name %></td>
       <td><%= Knowledge.display_source[knowledge.source] %></td>
-      <td><%= knowledge.updated_at.to_formatted_s(:db) %></td>
+      <td><%= knowledge.updated_at.localtime.to_formatted_s(:db) %></td>
       <td>
       <div class="admin-link-hover-area">
         <div class="admin-links">

@@ -5,7 +5,7 @@
   <small class='sub-text right'>
     <span><%= t('state', 'State') %>: <%= CaseIssue.display_state[@case_issue.workflow_state] %></span>
     <span><%= t('author', 'Author') %>: <%= @case_issue.user.name %></span>
-    <span><%= t('updated_at', 'Updated At') %>: <%= @case_issue.updated_at.to_formatted_s(:db) %></span>
+    <span><%= t('updated_at', 'Updated At') %>: <%= @case_issue.updated_at.localtime.to_formatted_s(:db) %></span>
   </small>
   <div class='template-overview'>
     <dl>

@@ -174,7 +174,7 @@ ActionController::Routing::Routes.draw do |map|
       knowledge.review 'review/', :controller => 'knowledges', :action => 'review_knowledge'
     end
 
-    course.student_files :student_files, :controller => 'course', :action => 'create_public_file_for_student'
+    course.student_files :student_files, :controller => 'courses', :action => 'create_public_file_for_student'
     course.get_account_case_tpl 'get_account_case_tpl/:id', :controller => 'case_tpls', :action => 'get_account_case_tpl'
     # DEPRECATED
     course.self_enrollment 'self_enrollment/:self_enrollment', :controller => 'courses', :action => 'self_enrollment', :conditions => {:method => :get}
