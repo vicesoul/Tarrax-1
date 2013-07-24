@@ -115,7 +115,7 @@ define([
     }
 
       // 2012-11-01 rupert
-    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets,instructure_handWrite";
+    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets,instructure_handWrite,instructure_upload_image";
       // end
 
     for(var idx in INST.editorButtons) {
@@ -158,7 +158,7 @@ define([
 
       // 2012-11-01 rupert
       plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links," +
-               "instructure_embed,instructure_equation,instructure_equella," +
+               "instructure_embed,instructure_equation,instructure_equella,instructure_upload_image," +
                "instructure_record,instructure_record_audio,instructure_record_upload,instructure_drawing,instructure_add_rackets,instructure_handWrite," +
                "media,paste,table,inlinepopups",
       //plugins: "autolink,instructure_external_tools,instructure_contextmenu,instructure_links," +
