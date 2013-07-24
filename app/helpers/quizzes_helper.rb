@@ -307,6 +307,13 @@ module QuizzesHelper
     answers  = hash_get(options, :answers)
     answer_list = hash_get(options, :answer_list)
     res      = user_content hash_get(question, :question_text)
+
+    user_answers = {}
+    res.scan(%r{(<option value='(\d+)'>.*?</option>)}) {|w| user_answers.merge!($2 => $1) }
+    user_answers.each do |k,v|
+      user_answers[k] = v.sub(%r{(<option.*?)>}, '\\1 selected>')
+    end
+
     index  = 0
     res.gsub %r{<select.*?name=['"](question_.*?)['"].*?>.*?</select>} do |match|
       if answer_list && !answer_list.empty?
@@ -315,7 +322,7 @@ module QuizzesHelper
       else
         a = hash_get(answers, $1)
       end
-      match.sub(%r{(<option.*?value=['"]#{ERB::Util.h(a)}['"])}, '\\1 selected')
+      match.sub(%r{(<select.*?>).*?(</select>)}, "\\1#{user_answers[a]}\\2")
     end
   end
 
