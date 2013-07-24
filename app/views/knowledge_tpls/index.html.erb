@@ -18,7 +18,7 @@
     <tr>
       <td><%= link_to knowledge_tpl.name, account_knowledge_tpl_path(@account, knowledge_tpl) %></td>
       <td><%= knowledge_tpl.user.name %></td>
-      <td><%= knowledge_tpl.updated_at.to_s(:db) %></td>
+      <td><%= knowledge_tpl.updated_at.localtime.to_s(:db) %></td>
       <td>
         <div class="admin-link-hover-area">
           <div class="admin-links">

@@ -84,7 +84,7 @@ class CoursesController < ApplicationController
   include SearchHelper
 
   before_filter :require_user, :only => [:index, :to_be_attended]
-  before_filter :require_context, :only => [:roster, :locks, :switch_role, :create_file]
+  before_filter :require_context, :only => [:roster, :locks, :switch_role, :create_file, :create_public_file_for_student]
 
   include Api::V1::Course
   include Api::V1::Progress
@@ -303,6 +303,21 @@ class CoursesController < ApplicationController
     @attachment = Attachment.new(:context => @context)
     if authorized_action(@attachment, @current_user, :create)
       api_attachment_preflight(@context, request, :check_quota => true)
+    end
+  end
+
+  def create_public_file_for_student
+    @attachment = Attachment.new(params[:attachment])
+    
+    student_folder = Folder.find_by_context_id_and_context_type_and_full_name(params[:context_id], params[:context_type], 'system/student')
+    student_folder = @context.folders.build(:name => t('#courses.folder.student_folder', 'Student Folder'), :full_name => 'system/student_folder') unless student_folder
+    @attachment.folder = student_folder
+    @attachment.context = @context
+    @attachment.file_state = 'public'
+    @attachment.save
+    
+    respond_to do |format|
+      format.json { render :json => { :url => course_file_preview_path(@context, @attachment) }.to_json , :content_type=>'text/html'}
     end
   end
 

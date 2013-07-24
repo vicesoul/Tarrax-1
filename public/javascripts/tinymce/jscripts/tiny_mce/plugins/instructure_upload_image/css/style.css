@@ -1,0 +1,11 @@
+.instructure_embed .ui-dialog-content { color: #01abf2; font-size: 15px; padding: 20px 30px; }
+.instructure_embed .instructure_embed_prompt_form { padding: 10px 0;}
+.instructure_embed .formtable td { color: #666; font-size: 12px; padding-bottom: 10px!important; }
+.instructure_embed .flickr_search_link { color: #01abf2; font-size: 15px; padding: 15px 0; margin: 30px 0; border-top: 1px dashed #333333; border-bottom: 1px dashed #333333; display: block; text-decoration: underline;}
+.instructure_embed tr { margin: 15px 0; }
+.instructure_embed tr td:first-child{ text-align: right; }
+
+.instructure_embed form:last-child td { padding-bottom: 10px!important; }
+.instructure_embed .alt_text[type=text] { width: 150px; }
+
+.instructure_embed form { margin: 15px 0;}

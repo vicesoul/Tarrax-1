@@ -68,7 +68,7 @@
         <% end %>
       </td>
       <td><%= get_issue_knowledge_state case_issue %></td>
-      <td><%= case_issue.updated_at.to_formatted_s(:db) %></td>
+      <td><%= case_issue.updated_at.localtime.to_formatted_s(:db) %></td>
       <td>
       <div class="admin-link-hover-area">
         <div class="admin-links">

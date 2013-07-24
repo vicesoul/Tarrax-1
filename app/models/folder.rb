@@ -127,18 +127,20 @@ class Folder < ActiveRecord::Base
   
   def infer_full_name
     # TODO i18n
-    t :default_folder_name, 'folder'
-    self.name ||= "folder"
-    self.name = self.name.gsub(/\//, "_")
-    folder = self
-    @update_sub_folders = false
-    self.parent_folder_id = nil if !self.parent_folder || self.parent_folder.context != self.context || self.parent_folder_id == self.id
-    self.context = self.parent_folder.context if self.parent_folder
-    self.full_name = self.full_name(true)
-    if self.parent_folder_id_changed? || !self.parent_folder_id || self.full_name_changed? || self.name_changed?
-      @update_sub_folders = true
+    if self.full_name.blank?
+      t :default_folder_name, 'folder'
+      self.name ||= "folder"
+      self.name = self.name.gsub(/\//, "_")
+      folder = self
+      @update_sub_folders = false
+      self.parent_folder_id = nil if !self.parent_folder || self.parent_folder.context != self.context || self.parent_folder_id == self.id
+      self.context = self.parent_folder.context if self.parent_folder
+      self.full_name = self.full_name(true)
+      if self.parent_folder_id_changed? || !self.parent_folder_id || self.full_name_changed? || self.name_changed?
+        @update_sub_folders = true
+      end
+      @folder_id = self.id
     end
-    @folder_id = self.id
   end
   protected :infer_full_name
   

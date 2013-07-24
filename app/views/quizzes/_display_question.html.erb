@@ -135,7 +135,7 @@
               <% end %>
             </ul>
             <div class="blueText">
-            <%= drag_and_drop_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
+              <%= drag_and_drop_question :question => question, :answers => @stored_params, :answer_list => answer_list %>
             </div>
 
             <!-- <%= hash_get(question, :original_question_text) %> -->
@@ -158,79 +158,79 @@
         %></div>
       <% end %>
       <% if editing %>
-      <div class="variable_definitions_holder calculated_question_answers" style="<%= hidden unless question && hash_get(question, :question_type) == 'calculated_question' %>">
-        <div class="calculated_question_answers_header"><%= t('headers.variables', "Variables") %></div>
-        <div class="calculated_question_answers_content">
-          <table class="variable_definitions">
-            <thead>
-              <tr>
-                <th><%= t('headers.variable_name', "Variable") %></th>
-                <th><%= t('headers.variable_minimum', "Min") %></th>
-                <th><%= t('headers.variable_maximum', "Max") %></th>
-                <th><%= t('headers.variable_precision', "Decimal Places") %></th>
-              </tr>
-            </thead>
-            <tbody>
-              <% hash_get(question, :variables, []).each do |variable| %>
-                <tr>
-                  <td class='name'><%= hash_get(variable, :name) %></td>
-                  <td class='min'><%= hash_get(variable, :min) %></td>
-                  <td class='max'><%= hash_get(variable, :max) %></td>
-                  <td class='scale'><%= hash_get(variable, :scale) %></td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="formulas_holder calculated_question_answers" style="<%= hidden unless question && hash_get(question, :question_type) == 'calculated_question' %>">
-        <div class="calculated_question_answers_header"><%= t('headers.formulas', "Formulas") %></div>
-        <div class="calculated_question_answers_content">
-          <div class="formulas_list">
-            <% hash_get(question, :formulas, []).each do |formula| %>
-              <div><%= h(hash_get(formula, :formula)) %></div>
-            <% end %>
-          </div>
-        </div>
-      </div>
-      <div class="equation_combinations_holder_holder calculated_question_answers" style="<%= hidden unless question && hash_get(question, :question_type) == 'calculated_question' %>">
-        <div style="display: none;" class="answer_tolerance"><%= hash_get(question, :answer_tolerance, 0) %></div>
-        <div style="display: none;" class="formula_decimal_places"><%= hash_get(question, :formula_decimal_places, 0) %></div>
-        <div class="calculated_question_answers_header"><%= t('headers.possible_solutions', "Possible Solutions") %></div>
-        <div class="calculated_question_answers_content equation_combinations_holder">
-          <table class="equation_combinations">
-            <% if question && hash_get(question, :question_type) == "calculated_question" && editing %>
+        <div class="variable_definitions_holder calculated_question_answers" style="<%= hidden unless question && hash_get(question, :question_type) == 'calculated_question' %>">
+          <div class="calculated_question_answers_header"><%= t('headers.variables', "Variables") %></div>
+          <div class="calculated_question_answers_content">
+            <table class="variable_definitions">
               <thead>
                 <tr>
-                  <% hash_get(question, :variables, []).each do |variable| %>
-                    <th><%= hash_get(variable, :name) %></th>
-                  <% end %>
-                  <th><%= t('headers.solution_answer', "Answer") %></th>
+                  <th><%= t('headers.variable_name', "Variable") %></th>
+                  <th><%= t('headers.variable_minimum', "Min") %></th>
+                  <th><%= t('headers.variable_maximum', "Max") %></th>
+                  <th><%= t('headers.variable_precision', "Decimal Places") %></th>
                 </tr>
               </thead>
               <tbody>
-                <% hash_get(question, :answers, []).each do |answer| %>
+                <% hash_get(question, :variables, []).each do |variable| %>
                   <tr>
-                    <% hash_get(answer, :variables).each do |variable| %>
-                      <td><%= hash_get(variable, :value) %></td>
-                    <% end %>
-                    <td class='final_answer'><%= hash_get(answer, :answer) || hash_get(answer, :exact) %></td>
+                    <td class='name'><%= hash_get(variable, :name) %></td>
+                    <td class='min'><%= hash_get(variable, :min) %></td>
+                    <td class='max'><%= hash_get(variable, :max) %></td>
+                    <td class='scale'><%= hash_get(variable, :scale) %></td>
                   </tr>
                 <% end %>
               </tbody>
-            <% end %>
-          </table>
+            </table>
+          </div>
         </div>
-      </div>
-      <div class="multiple_answer_sets_holder" style="<%= hidden unless question && ['multiple_dropdowns_question', 'drag_and_drop_question', 'fill_in_multiple_blanks_question'].include?(hash_get(question, :question_type)) %>">
-        <% ot(:show_ansers_for_variable, "Show Answers for %{variable}", :variable => capture{ %>
-        <select class="blank_id_select">
-          <% hash_get(question, :answers, []).map{|a| hash_get(a, :blank_id) }.uniq.compact.each do |variable| %>
-            <option value="<%= variable %>"><%= variable %></option>
-          <% end %>
-        </select>
-        <% }) %>
-      </div>
+        <div class="formulas_holder calculated_question_answers" style="<%= hidden unless question && hash_get(question, :question_type) == 'calculated_question' %>">
+          <div class="calculated_question_answers_header"><%= t('headers.formulas', "Formulas") %></div>
+          <div class="calculated_question_answers_content">
+            <div class="formulas_list">
+              <% hash_get(question, :formulas, []).each do |formula| %>
+                <div><%= h(hash_get(formula, :formula)) %></div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <div class="equation_combinations_holder_holder calculated_question_answers" style="<%= hidden unless question && hash_get(question, :question_type) == 'calculated_question' %>">
+          <div style="display: none;" class="answer_tolerance"><%= hash_get(question, :answer_tolerance, 0) %></div>
+          <div style="display: none;" class="formula_decimal_places"><%= hash_get(question, :formula_decimal_places, 0) %></div>
+          <div class="calculated_question_answers_header"><%= t('headers.possible_solutions', "Possible Solutions") %></div>
+          <div class="calculated_question_answers_content equation_combinations_holder">
+            <table class="equation_combinations">
+              <% if question && hash_get(question, :question_type) == "calculated_question" && editing %>
+                <thead>
+                  <tr>
+                    <% hash_get(question, :variables, []).each do |variable| %>
+                      <th><%= hash_get(variable, :name) %></th>
+                    <% end %>
+                    <th><%= t('headers.solution_answer', "Answer") %></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% hash_get(question, :answers, []).each do |answer| %>
+                    <tr>
+                      <% hash_get(answer, :variables).each do |variable| %>
+                        <td><%= hash_get(variable, :value) %></td>
+                      <% end %>
+                      <td class='final_answer'><%= hash_get(answer, :answer) || hash_get(answer, :exact) %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              <% end %>
+            </table>
+          </div>
+        </div>
+        <div class="multiple_answer_sets_holder" style="<%= hidden unless question && ['multiple_dropdowns_question', 'drag_and_drop_question', 'fill_in_multiple_blanks_question'].include?(hash_get(question, :question_type)) %>">
+          <% ot(:show_ansers_for_variable, "Show Answers for %{variable}", :variable => capture{ %>
+          <select class="blank_id_select">
+            <% hash_get(question, :answers, []).map{|a| hash_get(a, :blank_id) }.uniq.compact.each do |variable| %>
+              <option value="<%= variable %>"><%= variable %></option>
+            <% end %>
+          </select>
+          <% }) %>
+        </div>
       <% end %>
       <div class="answers">
         <% if assessing %>

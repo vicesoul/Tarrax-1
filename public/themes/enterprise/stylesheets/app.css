@@ -7,7 +7,7 @@ body.dashboard #main{min-width: 1000px;}
   background: url(../img/head_bg.jpg) repeat-x top left;
 }
 #enterprise #head{
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   overflow: hidden;
 }
 #enterprise #head #theme_main{
@@ -26,7 +26,7 @@ body.dashboard #main{min-width: 1000px;}
   margin-right:7px;
 }
 #enterprise #head #theme_main #nav{
-  height:50px;
+  height:40px;
   line-height:50px;
   margin-top:50px;
   background: #0669cd;

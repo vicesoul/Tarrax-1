@@ -302,7 +302,7 @@ define([
         $obj.find(":input:first").focus().select();
       })
       .find(".list_question").bind({
-        mouseenter: function(event) {
+        mouseenter: function(event) { 
           var $this = $(this),
               data = $this.data(),
               title = I18n.t('titles.not_answered', "Haven't Answered yet");
@@ -383,11 +383,12 @@ define([
 
         if (tagName == "TEXTAREA") {
           val = $this.editorBox('get_code');
-        } else if ($this.attr('type') == "text" || $this.attr('type') == "number") {        //*** 2012-12-07 rupert add "|| number"
+        } else if ($this.attr('type') == "text" || $this.attr('type') == "number") {    
           val = $this.val();
         } else if (tagName == "SELECT") {
           var $selects = $this.parents(".question").find("select.question_input");
-          val = !$selects.filter(function() { return !$(this).val() }).length;
+          var func = function() { return !$(this).val() }
+          val = !$selects.filter(func).length;
         } else {
           $this.parents(".question").find(".question_input").each(function() {
             if($(this).attr('checked') || $(this).attr('selected')) {

@@ -65,58 +65,8 @@ define([
     $flickrLink.click(flickrLinkClickHandler);
     $box.append($flickrLink).find('#instructure_embed_prompt_form').submit(embedURLImage);
     var accountId = ENV.current_user_id;
-    var upload = "<form id='background_image_uploader' action='/accounts/" + accountId + "/files' method='POST' enctype='multipart/form-data' >" +
-        "<table>" +
-        "<tr>" +
-        "<td>" +
-        I18n.t('choose_a_picture', 'choose a picture:') +
-        "</td>" +
-        "<td>" +
-        "<input id='background_bg_image' name='attachment[uploaded_data]' type='file'>" +
-        "</td>" +
-        "</tr>" +
-        "<tr>" +
-        "<td>" +
-        "</td>" +
-        "<td>" +
-        "<input type='submit' value=" + I18n.t('#accounts.homepage.upload', 'Upload') + " class='btn confirm'>" +
-        "</td>" +
-        "</tr>" +
-        "</table>" +
-        "</form>";
-    
-    $upload = $(upload);
-    $box.append($upload);
     
     $('body').append($box);
-
-    var $textUploading = $("<span>上传中...</span>");
-    var $inputFile = $upload.find("#background_bg_image");
-    var $confirm = $upload.find(".confirm");
-
-    $upload.on('submit', function(e) {
-      e.preventDefault();
-      $(this).ajaxSubmit({
-        clearForm: true,
-        dataType: 'json',
-        beforeSubmit: function() {
-          var imageValidated = validateUploadedImage( $inputFile.val() );
-          if(imageValidated) $confirm.hide().after($textUploading);
-          return imageValidated;
-        },
-        success: function(data) {
-          var img = "<img src=" + data.url + " />";
-          $editor.editorBox('insert_code', img);
-          $confirm.show();
-          $textUploading.remove();
-        },
-        complete: function(){
-          afterUploadedImageSuccess();
-        }
-      });
-
-
-    });
 
     $box.dialog({
       autoOpen: false,

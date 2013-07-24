@@ -14,6 +14,7 @@ instrPlugins = [
   'tinymce/jscripts/tiny_mce/plugins/instructure_external_tools/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_links/editor_plugin'
   'tinymce/jscripts/tiny_mce/plugins/instructure_add_rackets/editor_plugin'
+  'tinymce/jscripts/tiny_mce/plugins/instructure_upload_image/editor_plugin'
 ]
 
 isCanvasSupported = ->
