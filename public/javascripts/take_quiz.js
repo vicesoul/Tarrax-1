@@ -899,50 +899,73 @@ define([
     (function DragAndDop(){
       $("#submit_quiz_form .question.drag_and_drop_question").each(function(){
         var $blueText = $(this).find(".blueText");
-        var $select = $blueText.find(".ui-selectmenu");
+        var $uiSelect = $blueText.find(".ui-selectmenu");
         var $receive = $("<div class='receive'></div>");
         var $ball = $(this).find(".dragging li span");
         
         //fix bug
         var $firstLi = $(this).find(".dragging li:first");
         if($firstLi.text().trim() === "") $firstLi.remove();
-        //
-
+        
+        // init draggable
         $ball.draggable({
           revert: true
         });
 
-        $select.each(function(){
+        // hide uiSelect & insert blanket
+        $uiSelect.each(function(){
           $(this).hide()
             .parent("span")
             .after($receive.clone());
         });
 
+        var initDraggable = function( ball, select, receive) {
+          var $ballClone = ball.clone()
+            .removeAttr('style')
+            .draggable({
+              stop: function( event, ui ) {
+                $(this).remove();
+                select.empty().val('').trigger("change")
+                ball.show();
+              }
+            })
+
+          receive.html($ballClone)
+          ball.hide()
+        }
+
         $(this).find(".receive").each(function(){
+          var $select = $(this).prev().prev("select");
+          var _this = $(this)
+
+          // droppable
           $(this).droppable({
             accept: $(".text .ui-draggable, .receive"),
             activeClass: "ui-state-highlight",
             drop: function( event, ui ) {
               if($(this).find("span").size() ==1)return false;
-              var text = ui.draggable.text().trim();
-              var $ball = ui.draggable;
-              var answerId = ui.draggable.attr("answerId");
-              var $select = $(this).prev().prev("select");
-              var $span = ui.draggable.clone().removeAttr("style")
-                .draggable({
-                  stop: function( event, ui ) {
-                    $(this).remove();
-                    $select.find("option:gt(0)").remove();
-                    $ball.show();
-                  }
-                });
-              $(this).html($span);
-              ui.draggable.hide();
-              $select.find("option:gt(0)").remove().end().append("<option value=" + answerId + ">" + text + "</option>").val(answerId).trigger("change");
+              var text = ui.draggable.text().trim(),
+                  answerId = ui.draggable.attr("answerId"),
+                  $option = $('<option>').attr('value', answerId).text(text)
+              $select.append($option).val(answerId).trigger("change")
+              initDraggable( ui.draggable, $select, _this)
             }
           })
+          
+          // init answered
+          var selectVal = $select.val()
+          if (selectVal !== ''){
+            $ball.each(function(){
+              if($(this).attr('answerid') == selectVal){
+                initDraggable( $(this), $select, _this)
+                return false
+              }
+            })
+          }
+          
         });
-
+        
+        
 
 
       });
