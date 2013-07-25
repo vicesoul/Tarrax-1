@@ -951,10 +951,10 @@ define([
                   answerId = ui.draggable.attr("answerId"),
                   $option = $('<option>').attr('value', answerId).text(text)
 
-              // from receive to receive
+              // from receive to receive 
               if(ui.draggable.parent().is('.receive')){
                 var $startSelect = ui.draggable.parents('.receive').prev().prev('select')
-                $startSelect.empty().val('').trigger("change")
+                $startSelect.empty().val('')
               }
 
               $select.append($option).val(answerId).trigger("change")
