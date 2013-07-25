@@ -122,6 +122,20 @@
     </div>
     <input type="hidden" name="connecting_on_pic_position" class="connecting_on_pic_position">
     <input type="hidden" name="connecting_on_pic_image" class="connecting_on_pic_image">
+
+
+    <table class="connecting_on_pic_uploader" style='display: none;'>
+      <tr>
+        <td>选择图片：</td>
+        <td><input id="background_bg_image" name="attachment[uploaded_data]" type="file"></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" value="上传" class="btn confirm"></td>
+      </tr>
+    </table>
+
+
     <div style="display: none;">
     <select class="answer_selection_type" name="answer_selection_type">
       <option value="single_answer"><%= t('options.only_one_correct', "Only One Correct Answer") %></option>

@@ -2,7 +2,8 @@
 define([
   'jquery',
   'underscore',
-  'i18n!account_homepage'
+  'i18n!account_homepage',
+  'jquery.form'
 ], function($, _, I18n) {
 var tpl  = window.tpl = {};
 tpl.factory = {};
@@ -79,7 +80,7 @@ Global.quizzes = {
     $toolTip.find("button:last").bind("click", function(){ resetToolTip($toolTip, paper); });
 
     // show uploaded images
-    if( $("#editor_tabs_4").is(":hidden") ){$("#ui-id-5").trigger("click");}
+    // if( $("#editor_tabs_4").is(":hidden") ){$("#ui-id-5").trigger("click");}
 
     // semi radical
     var spanWidth = $factory.find(".menu span:first").css("width");
@@ -92,30 +93,30 @@ Global.quizzes = {
       cursorAt: { left: r, top: r }
     });
 
-    // init images
-    $(".image_list").mouseover(function(){
-      $(this).find("img").draggable({
-        helper: "clone"
-      });
-    });
+    // // init images draggable
+    // $(".image_list").mouseover(function(){
+    //   $(this).find("img").draggable({
+    //     helper: "clone"
+    //   });
+    // });
 
-    // init image container
-    $main.find(".bg")
-      .droppable({
-        accept: ".image_list img",
-        activeClass: "ui-state-highlight",
-        drop: function( event, ui ) {
-          console.log(ui);
-          var imgSrc = ui.helper.attr("data-url") || ui.helper.attr("src");
-          var $img = $("<img>").attr("src",imgSrc);
-          $img.appendTo( $(this).empty())
-            .mousedown(function(){
-              return false;
-            });
+    // // init image container
+    // $main.find(".bg")
+    //   .droppable({
+    //     accept: ".image_list img",
+    //     activeClass: "ui-state-highlight",
+    //     drop: function( event, ui ) {
+    //       console.log(ui);
+    //       var imgSrc = ui.helper.attr("data-url") || ui.helper.attr("src");
+    //       var $img = $("<img>").attr("src",imgSrc);
+    //       $img.appendTo( $(this).empty())
+    //         .mousedown(function(){
+    //           return false;
+    //         });
 
-          $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( imgSrc );
-        }
-      });
+    //       $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( imgSrc );
+    //     }
+    //   });
 
     // init balls container
     $main.droppable({
@@ -439,6 +440,49 @@ Global.quizzes = {
       $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").val( positionData );
       positionData = stringToObject(positionData);
     }
+
+
+    // image uploader
+    var $uploaderTable = $form.find('table.connecting_on_pic_uploader').hide()
+    var $textUploading = $("<span>上传中...</span>");
+    var $inputFile = $uploaderTable.find("#background_bg_image");
+    var $confirm = $uploaderTable.find(".confirm");
+    var courseId = ENV.context_asset_string.split('_')[1]
+    var $uploaderForm = $('<form>').attr({
+      'action': '/courses/' + courseId + '/student_files',
+      'method': 'POST',
+      'enctype': 'multipart/form-data'
+    })
+    .append( $uploaderTable )
+
+    $imageInput.after($uploaderForm);
+
+
+
+    $uploaderForm.on('submit', function(e) {
+      e.preventDefault();
+      $(this).ajaxSubmit({
+        clearForm: true,
+        dataType: 'json',
+        beforeSubmit: function() {
+          var imageValidated = validateUploadedImage( $inputFile.val() );
+          if(imageValidated) $confirm.hide().after($textUploading);
+          return imageValidated;
+        },
+        success: function(data) {
+          var img = "<img src=" + data.url + " />"
+          $main.find(".bg").empty().append($(img))
+          $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( data.url )
+          $confirm.show()
+          $textUploading.remove()
+        },
+        complete: function(){
+
+        }
+      });
+
+
+    });
 
   },
 

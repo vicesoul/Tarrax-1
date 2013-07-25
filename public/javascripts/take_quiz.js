@@ -901,7 +901,8 @@ define([
         var $blueText = $(this).find(".blueText");
         var $uiSelect = $blueText.find(".ui-selectmenu");
         var $receive = $("<div class='receive'></div>");
-        var $ball = $(this).find(".dragging li span");
+        var $dragging = $(this).find(".dragging");
+        var $ball = $(this).find(".dragging span");
         
         //fix bug
         var $firstLi = $(this).find(".dragging li:first");
@@ -919,36 +920,50 @@ define([
             .after($receive.clone());
         });
 
-        var initDraggable = function( ball, select, receive) {
-          var $ballClone = ball.clone()
-            .removeAttr('style')
-            .draggable({
-              stop: function( event, ui ) {
-                $(this).remove();
-                select.empty().val('').trigger("change")
-                ball.show();
-              }
-            })
-
-          receive.html($ballClone)
-          ball.hide()
-        }
+        $dragging.droppable({
+          accept: '.receive span.ui-draggable',
+          activeClass: "ui-state-highlight",
+          hoverClass: 'border-red',
+            drop: function( event, ui ) {
+              var $select = ui.draggable.parents('.receive').prev().prev('select')
+              $select.empty().val('').trigger("change")
+              answerId = ui.draggable.attr('answerId')
+              $counterpartLi = $(this).find('li[answerId=' + answerId +']')
+              ui.draggable.css({
+                left: 0,
+                top: 0
+              }).appendTo( $counterpartLi )
+            }
+        })
 
         $(this).find(".receive").each(function(){
           var $select = $(this).prev().prev("select");
-          var _this = $(this)
+          var _thisReceive = $(this)
 
-          // droppable
+          //  receive droppable
           $(this).droppable({
-            accept: $(".text .ui-draggable, .receive"),
+            accept: ".text .ui-draggable, .receive span.ui-draggable",
             activeClass: "ui-state-highlight",
+            hoverClass: 'border-red',
             drop: function( event, ui ) {
-              if($(this).find("span").size() ==1)return false;
+              if( $(this).find("span.ui-draggable").size() ==1 )return false;
               var text = ui.draggable.text().trim(),
                   answerId = ui.draggable.attr("answerId"),
                   $option = $('<option>').attr('value', answerId).text(text)
+
+              // from receive to receive
+              if(ui.draggable.parent().is('.receive')){
+                var $startSelect = ui.draggable.parents('.receive').prev().prev('select')
+                $startSelect.empty().val('').trigger("change")
+              }
+
               $select.append($option).val(answerId).trigger("change")
-              initDraggable( ui.draggable, $select, _this)
+              
+              ui.draggable.css({
+                left: 0,
+                top: 0
+              }).appendTo(_thisReceive)
+
             }
           })
           
@@ -957,16 +972,13 @@ define([
           if (selectVal !== ''){
             $ball.each(function(){
               if($(this).attr('answerid') == selectVal){
-                initDraggable( $(this), $select, _this)
+                $(this).appendTo(_thisReceive)
                 return false
               }
             })
           }
           
         });
-        
-        
-
 
       });
     }());

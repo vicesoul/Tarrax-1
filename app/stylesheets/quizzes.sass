@@ -919,7 +919,9 @@ form.question_form
     .answer
       display: none
 
-      
+.border-red
+  border: 2px solid red!important
+
 .connecting_on_pic_question
   .connecting_on_pic_position, .connecting_on_pic_image, .connecting_lead, .form_answers, .add_answer, .question_comment, .matching_answer_incorrect_matches_holder
     display: none!important
@@ -942,6 +944,8 @@ form.question_form
       min-height: 50px
       margin: 0 10px -10px 0
       vertical-align: text-bottom
+      span.ui-draggable
+        // position: static!important
 .factory
   display: none
   position: relative
