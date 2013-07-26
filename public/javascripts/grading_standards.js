@@ -11,6 +11,10 @@ define([
 ], function(I18n, $) {
 
   $(document).ready(function() {
+
+    // fix bug
+    if($('#assignment_grading_type').val() == 'not_graded') $('#assignment_submission_type').val('on_paper')
+    
     $(".add_standard_link").click(function(event) {
       event.preventDefault();
       var $standard = $("#grading_standard_blank").clone(true).attr('id', 'grading_standard_new');

@@ -63,7 +63,7 @@ define([
         "<td>" +
         "</td>" +
         "<td>" +
-        "<input type='submit' value=" + I18n.t('#accounts.homepage.upload', 'Upload') + " class='btn confirm'>" +
+        // "<input type='submit' value=" + I18n.t('#accounts.homepage.upload', 'Upload') + " class='btn confirm'>" +
         "</td>" +
         "</tr>" +
         "</table>" +
@@ -75,6 +75,9 @@ define([
     var $inputFile = $box.find("#background_bg_image");
     var $confirm = $box.find(".confirm");
 
+    $('#background_bg_image').on('change', function(){
+      $box.submit()
+    })
     $box.on('submit', function(e) {
       e.preventDefault();
       $(this).ajaxSubmit({

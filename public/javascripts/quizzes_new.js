@@ -443,7 +443,7 @@ Global.quizzes = {
 
 
     // image uploader
-    var $uploaderTable = $form.find('table.connecting_on_pic_uploader').hide()
+    var $uploaderTable = $form.find('table.connecting_on_pic_uploader').show()
     var $textUploading = $("<span>上传中...</span>");
     var $inputFile = $uploaderTable.find("#background_bg_image");
     var $confirm = $uploaderTable.find(".confirm");
