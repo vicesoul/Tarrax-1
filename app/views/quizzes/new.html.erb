@@ -1,7 +1,7 @@
 <%
   jammit_css :quizzes, :tinymce
   js_bundle :quizzes_bundle
-  js_env :QUIZZES => {:QUIZ => true, :upload_url => course_student_files_path(params[:context_id])}
+  js_env :QUIZZES => {:QUIZ => true, :upload_url => course_student_files_path(:course_id => params[:context_id])}
   content_for :page_title, (@quiz.quiz_title || !@quiz.quiz_title.empty? ? @quiz.quiz_title : t(:default_page_title, 'New Quiz'))
 %>
 
