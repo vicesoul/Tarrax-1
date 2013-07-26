@@ -10279,6 +10279,7 @@ zh-CN:
         start_learning: 注册
       labels: 
         join_code: 加入代码
+        locale: 语言
         name: 姓名
         password: 密码
         password_confirmation: 确认密码
@@ -10289,6 +10290,7 @@ zh-CN:
         start_learning: 注册
       labels: 
         email: 电子邮件
+        locale: 语言
         name: 姓名
     teacher_dialog: 
       agree_to_terms_and_pp: "您同意*用户使用条款* 和**隐私政策**."

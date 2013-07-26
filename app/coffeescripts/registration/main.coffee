@@ -2,7 +2,8 @@ define [
   'compiled/fn/preventDefault'
   'compiled/registration/signupDialog'
   'jst/registration/login'
-], (preventDefault, signupDialog, loginForm) ->
+  'jquery'
+], (preventDefault, signupDialog, loginForm, $) ->
   
   $.get('/simple_captcha/render_captcha?object=user')
     .done (data)->
@@ -14,6 +15,13 @@ define [
             src = $(data).find("img").attr("src")
             self.find("img").attr("src", src)
       $('div.simple_captcha').html($innerCaptcha)
+
+  $ ->
+    option_text = for k, v of ENV['available_locales']
+      selected = if k == ENV["infer_locale"] then 'selected' else ''
+      "<option value='#{k}' #{selected}>#{v}</option>"
+    $('.user_locale').html(option_text.join(''))
+
   #$loginForm = null
 
   #$('.signup_link').each (i)->
