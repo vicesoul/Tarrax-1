@@ -256,30 +256,35 @@
 .setLineSize > div,.setBrushSize > div{float: left;width: 100px;margin: 0 0 0 20px;}
 .setLineSize input,.setBrushSize input{width: 30px;margin: 0 0 0 20px;}
 .color_setting {position: absolute; top: 30px; right: 25px; z-index: 0;}
+.color_setting input[type="button"] {position: relative;}
 .color_setting input[type="button"]:focus{outline:none;}
+.color_setting button{display:none;}
 
 .color_setting.toolSet-line {top:30px;}
 .color_setting.toolSet-line input[type="button"]{float: left;width: 30px;height: 200px;background: url("/images/jxb/painter-pen.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
+.color_setting.toolSet-line input[type="button"].active{top: -15px;}
 .color_setting.toolSet-line input.black{background-position: 0 0;}
 .color_setting.toolSet-line input.blue{background-position: -155px 0;}
-.color_setting.toolSet-line input.red{background-position: -39px 0;display:none;}
-.color_setting.toolSet-line input.green{background-position: -193px 0;display:none;}
-.color_setting.toolSet-line input.orange{background-position: -232px 0;display:none;}
-.color_setting.toolSet-line input.purple{background-position: -77px 0;display:none;}
-.color_setting.toolSet-line input.pink{background-position: -116px 0;display:none;}
+.color_setting.toolSet-line input.red{background-position: -39px 0;}
+.color_setting.toolSet-line input.green{background-position: -193px 0;}
+.color_setting.toolSet-line input.orange{background-position: -232px 0;}
+.color_setting.toolSet-line input.purple{background-position: -77px 0;}
+.color_setting.toolSet-line input.pink{background-position: -116px 0;}
 
-.color_setting.toolSet-ink {top:10px;}
-.color_setting.toolSet-ink input[type="button"]{float: left;width: 30px;height: 200px;background: url("/images/jxb/painter-ink.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
+.color_setting.toolSet-ink {top:30px;}
+.color_setting.toolSet-ink input[type="button"]{float: left;width: 34px;height: 200px;background: url("/images/jxb/painter-ink.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
+.color_setting.toolSet-ink input[type="button"].active{top: -15px;}
 .color_setting.toolSet-ink input.black{background-position: 0 0;}
-.color_setting.toolSet-ink input.blue{background-position: -155px 0;}
-.color_setting.toolSet-ink input.red{background-position: -39px 0;display:none;}
-.color_setting.toolSet-ink input.green{background-position: -193px 0;display:none;}
-.color_setting.toolSet-ink input.orange{background-position: -232px 0;display:none;}
-.color_setting.toolSet-ink input.purple{background-position: -77px 0;display:none;}
-.color_setting.toolSet-ink input.pink{background-position: -116px 0;display:none;}
+.color_setting.toolSet-ink input.blue{background-position: -151px 0;}
+.color_setting.toolSet-ink input.red{background-position: -39px 0;}
+.color_setting.toolSet-ink input.green{background-position: -187px 0;}
+.color_setting.toolSet-ink input.orange{background-position: -225px 0;}
+.color_setting.toolSet-ink input.purple{background-position: -77px 0;}
+.color_setting.toolSet-ink input.pink{background-position: -116px 0;}
 
 .color_setting.toolSet-big_brush {top:75px;}
 .color_setting.toolSet-big_brush input[type="button"]{float: left;width: 37px;height: 34px;margin: 0 0 0 2px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;border:none;}
+.color_setting.toolSet-big_brush input[type="button"].active{width: 50px;height: 47px;position: relative;top: -5px;}
 .color_setting.toolSet-big_brush input.black{background: #333;}
 .color_setting.toolSet-big_brush input.blue{background: #0000ff;}
 .color_setting.toolSet-big_brush input.red{background: #ff0000;}
@@ -288,8 +293,9 @@
 .color_setting.toolSet-big_brush input.purple{background: #9932cc;}
 .color_setting.toolSet-big_brush input.pink{background: #ff69b4;}
 
-.color_setting.toolSet-eraser {top:-9999em;}
+
 .color_setting.toolSet-eraser input{display:none;}
+.color_setting.toolSet-eraser button{display:inline-block;}
 
 .ui-dialog.paint .ui-dialog-buttonpane,.ui-dialog.handWrite .ui-dialog-buttonpane{float: right;;background: none;border: none;margin: 30px 10px;}
 

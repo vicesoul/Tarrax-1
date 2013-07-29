@@ -8,11 +8,12 @@ define([
             this.touchSupported = Modernizr.touch;
             this.writingEdge = {leftTop:{x:9999,y:9999},rightBottom:{x:0,y:0}};
             this.lastMousePoint = {x:0, y:0};
-            this.brushSize = {width:15,height:15,step:.3};
+            this.brushSize = {width:10,height:10,step:.3};
             this.writeState = {};
             this.timeOut_mouseUp = {};
             this.lines = [];
             this.App = {};
+            this.eraserRadius = 15;
 
             if (this.touchSupported) {
                 this.mouseDownEvent = "touchstart";
@@ -69,6 +70,8 @@ define([
           canvasHtml += '<input type="button" class="orange" value="orange" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
           canvasHtml += '<input type="button" class="purple" value="purple" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
           canvasHtml += '<input type="button" class="pink" value="pink" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
+          canvasHtml += '<button class="btn btn-big">粗</button>';
+          canvasHtml += '<button class="btn btn-small">细</button>';
           canvasHtml += '</div>';
           canvasHtml += '<div class="container" style="width: '+ this.get("canvasW") + 'px;height:' + this.get("canvasH") +'px;">';
           canvasHtml += '</div>';
@@ -123,6 +126,11 @@ define([
             var string = $(this).attr("data-color");
             eval('self.set("color",' + string + ')');
             self.setTools();
+            $(this).siblings().removeClass('active').end().addClass('active')
+            });
+
+          this.App.find(".color_setting button").click(function(){
+            self.eraserRadius = $(this).is('.btn-big') ? 10 : 5
             });
 
           this.App.find(".tools li:not(:first)").click(function(){
@@ -295,10 +303,11 @@ define([
             var angle = this.angleBetween2Points( start, end );
 
             var x,y;
-            var r = 10;
+            var r = this.eraserRadius;
 
             for ( var z=0; (z<distance ); z= z+this.brushSize.step )
             {
+                
                 x = start.x + (Math.sin(angle) * z) ;
                 y = start.y + (Math.cos(angle) * z) ;
                 this.context.clearRect( x-r,y-r ,2*r, 2*r );

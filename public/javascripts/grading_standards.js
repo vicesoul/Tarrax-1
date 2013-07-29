@@ -13,7 +13,7 @@ define([
   $(document).ready(function() {
 
     // fix bug
-    if($('#assignment_grading_type').val() == 'not_graded') $('#assignment_submission_type').val('on_paper')
+    // if($('#assignment_grading_type').val() == 'not_graded') $('#assignment_submission_type').val('on_paper')
     
     $(".add_standard_link").click(function(event) {
       event.preventDefault();
