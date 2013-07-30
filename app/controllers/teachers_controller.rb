@@ -14,11 +14,13 @@ class TeachersController < ApplicationController
   # GET /teachers
   # GET /teachers.xml
   def index
-    @teachers = @context.teachers.all
+    if authorized_action(@context, @current_user, :read_roster)
+      @teachers = @context.teachers.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @teachers }
+      respond_to do |format|
+        format.html # index.html.erb
+        format.xml  { render :xml => @teachers }
+      end
     end
   end
 
@@ -52,15 +54,17 @@ class TeachersController < ApplicationController
   # POST /teachers
   # POST /teachers.xml
   def create
-    @teacher = @context.teachers.new(params[:teacher])
+    if authorized_action(@context, @current_user, :manage_teacher_bank)
+      @teacher = @context.teachers.new(params[:teacher])
 
-    respond_to do |format|
-      if @teacher.save
-        format.html { redirect_to([@context, @teacher ], :notice => t('created_successfully', 'Teacher was successfully created.')) }
-        format.xml  { render :xml => @teacher, :status => :created, :location => [@context, @teacher ] }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @teacher.errors, :status => :unprocessable_entity }
+      respond_to do |format|
+        if @teacher.save
+          format.html { redirect_to([@context, @teacher ], :notice => t('created_successfully', 'Teacher was successfully created.')) }
+          format.xml  { render :xml => @teacher, :status => :created, :location => [@context, @teacher ] }
+        else
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @teacher.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
@@ -68,15 +72,17 @@ class TeachersController < ApplicationController
   # PUT /teachers/1
   # PUT /teachers/1.xml
   def update
-    @teacher = @context.teachers.find(params[:id])
+    if authorized_action(@context, @current_user, :manage_teacher_bank)
+      @teacher = @context.teachers.find(params[:id])
 
-    respond_to do |format|
-      if @teacher.update_attributes(params[:teacher])
-        format.html { redirect_to([@context, @teacher ], :notice => t('updated_successfully', 'Teacher was successfully updated.')) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @teacher.errors, :status => :unprocessable_entity }
+      respond_to do |format|
+        if @teacher.update_attributes(params[:teacher])
+          format.html { redirect_to([@context, @teacher ], :notice => t('updated_successfully', 'Teacher was successfully updated.')) }
+          format.xml  { head :ok }
+        else
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @teacher.errors, :status => :unprocessable_entity }
+        end
       end
     end
   end
@@ -84,12 +90,14 @@ class TeachersController < ApplicationController
   # DELETE /teachers/1
   # DELETE /teachers/1.xml
   def destroy
-    @teacher = @context.teachers.find(params[:id])
-    @teacher.destroy
+    if authorized_action(@context, @current_user, :manage_teacher_bank)
+      @teacher = @context.teachers.find(params[:id])
+      @teacher.destroy
 
-    respond_to do |format|
-      format.html { redirect_to(account_teachers_url) }
-      format.xml  { head :ok }
+      respond_to do |format|
+        format.html { redirect_to(account_teachers_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 
