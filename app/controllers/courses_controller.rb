@@ -310,7 +310,7 @@ class CoursesController < ApplicationController
     @attachment = Attachment.new(params[:attachment])
     
     student_folder = Folder.find_by_context_id_and_context_type_and_full_name(params[:context_id], params[:context_type], 'system/student')
-    student_folder = @context.folders.build(:name => t('#courses.folder.student_folder', 'Student Folder'), :full_name => 'system/student_folder') unless student_folder
+    student_folder = @context.folders.build(:name => t('#courses.folder.student_folder', 'Student Folder'), :full_name => 'system/student_folder', :custom => true) unless student_folder
     @attachment.folder = student_folder
     @attachment.context = @context
     @attachment.file_state = 'public'

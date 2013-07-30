@@ -24,7 +24,10 @@ class Folder < ActiveRecord::Base
     best_unicode_collation_key(col)
   end
   include Workflow
-  attr_accessible :name, :full_name, :parent_folder, :workflow_state, :lock_at, :unlock_at, :locked, :hidden, :context, :position
+
+  attr_accessor :custom
+
+  attr_accessible :name, :full_name, :parent_folder, :workflow_state, :lock_at, :unlock_at, :locked, :hidden, :context, :position, :custom
 
   ROOT_FOLDER_NAME = "course files"
   PROFILE_PICS_FOLDER_NAME = "profile pictures"
@@ -127,7 +130,7 @@ class Folder < ActiveRecord::Base
   
   def infer_full_name
     # TODO i18n
-    if self.full_name.blank?
+    if self.custom.blank?
       t :default_folder_name, 'folder'
       self.name ||= "folder"
       self.name = self.name.gsub(/\//, "_")
