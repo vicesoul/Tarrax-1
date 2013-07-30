@@ -27,8 +27,10 @@
         </select>
       </div>
       <div>
-        <%= link_to t('pick_up_from_accounts', 'Pick up from accounts'), 'javascript:void(0)', :id => "pick_up_from_accounts" %>
-        <%= link_to t('pick_up_from_teachers_bank', 'Pick up from teachers bank'), 'javascript:void(0)', :id => "pick_up_from_teachers_bank" %>
+        <% if can_do @context.account, @current_user, :read_roster %>
+          <%= link_to t('pick_up_from_accounts', 'Pick up from accounts'), 'javascript:void(0)', :id => "pick_up_from_accounts" %>
+          <%= link_to t('pick_up_from_teachers_bank', 'Pick up from teachers bank'), 'javascript:void(0)', :id => "pick_up_from_teachers_bank" %>
+        <% end %>
       </div>
       <div style="clear:both">
           <span id="limit_privileges_to_course_section_holder" style="padding-left: 10px; white-space: nowrap;">
