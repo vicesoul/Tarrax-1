@@ -10341,6 +10341,7 @@ zh-CN:
       manage_sis: "导入和管理 SIS 数据"
       manage_site_settings: 管理网站范围和插件设置
       manage_students: 添加/删除课程的学生
+      manage_teacher_bank: 管理教师库
       manage_user_logins: 修改用户的登录详细信息
       manage_user_notes: 管理教师日志条目
       manage_wiki: 管理维基（添加/编辑/删除页面）
