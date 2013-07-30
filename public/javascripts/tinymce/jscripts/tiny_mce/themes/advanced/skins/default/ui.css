@@ -260,7 +260,7 @@
 .color_setting input[type="button"]:focus{outline:none;}
 .color_setting button{display:none;}
 
-.color_setting.toolSet-line {top:30px;}
+.color_setting.toolSet-line {top:45px;}
 .color_setting.toolSet-line input[type="button"]{float: left;width: 30px;height: 200px;background: url("/images/jxb/painter-pen.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
 .color_setting.toolSet-line input[type="button"].active{top: -15px;}
 .color_setting.toolSet-line input.black{background-position: 0 0;}
@@ -271,7 +271,7 @@
 .color_setting.toolSet-line input.purple{background-position: -77px 0;}
 .color_setting.toolSet-line input.pink{background-position: -116px 0;}
 
-.color_setting.toolSet-ink {top:30px;}
+.color_setting.toolSet-ink {top:45px;}
 .color_setting.toolSet-ink input[type="button"]{float: left;width: 34px;height: 200px;background: url("/images/jxb/painter-ink.png") no-repeat;border: none;margin: 0 0 0 10px;text-indent: -9999em;cursor: pointer;padding:0;outline:none;}
 .color_setting.toolSet-ink input[type="button"].active{top: -15px;}
 .color_setting.toolSet-ink input.black{background-position: 0 0;}
@@ -289,7 +289,8 @@
 .color_setting.toolSet-big_brush input.blue{background: #0000ff;}
 .color_setting.toolSet-big_brush input.red{background: #ff0000;}
 .color_setting.toolSet-big_brush input.green{background: #7cfc00;}
-.color_setting.toolSet-big_brush input.orange{background: #FF7940;}
+/*.color_setting.toolSet-big_brush input.orange{background: #FF7940;}*/
+.color_setting.toolSet-big_brush input.orange{background: #FFFF00;}
 .color_setting.toolSet-big_brush input.purple{background: #9932cc;}
 .color_setting.toolSet-big_brush input.pink{background: #ff69b4;}
 
