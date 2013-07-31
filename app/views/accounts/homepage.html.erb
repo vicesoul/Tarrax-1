@@ -76,6 +76,7 @@
   <div id="change_background_dialog" title="<%= t(:change_background, 'Change background') %>">
     <%= t :background_color, 'Background color' %>: <input type="text" name="page_background_color" id="page_background_color" value="<%= @backgroud_data[:color] %>" /><br /><br />
     <form id="background_image_uploader" action="<%= account_files_path(@account) %>" method="POST" enctype="multipart/form-data">
+      <div>请上传宽度为1000px的图片</div>
       <span id="background_image_holder"><%=raw @backgroud_data[:image] %></span><%= t :choose_image, "Choose image"%>: <%= file_field_tag "attachment[uploaded_data]", :id => "background_bg_image" %>
       <input type="submit" class="confirm" value="<%= t :upload, 'Upload'%>" /> 
     </form>
