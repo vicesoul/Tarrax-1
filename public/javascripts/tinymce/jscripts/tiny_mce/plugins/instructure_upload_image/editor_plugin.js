@@ -48,8 +48,11 @@ define([
   };
 
   function initShared () {
-    var courseId = ENV.context_asset_string.split('_')[1]
-    $box = $("<form id='background_image_uploader' action='/courses/" + courseId + "/student_files' method='POST' enctype='multipart/form-data' >" +
+    var contextAsset = ENV.context_asset_string.split('_')
+    var kind = contextAsset[0]
+    var id = contextAsset[1]
+    var url = kind == 'course' ? '/courses/' + id + '/student_files' : '/accounts/' + id + '/files'
+    $box = $("<form id='background_image_uploader' action=" + url + " method='POST' enctype='multipart/form-data' >" +
         "<table>" +
         "<tr>" +
         "<td>" +
