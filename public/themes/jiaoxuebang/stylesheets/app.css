@@ -485,6 +485,7 @@ body.dashboard #main{min-width: 1000px;}
 }
 #jiaoxuebang .im_account_announcements_widget .box .box_body{
   height: 203px;
+  overflow: scroll;
 }
 #jiaoxuebang .max_box .box_head{
   background: url(../img/max_box_head_bg.jpg) no-repeat;
