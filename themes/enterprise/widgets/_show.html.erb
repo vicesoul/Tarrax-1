@@ -3,13 +3,15 @@
      <div id="theme_main">
        <div class="left_part">
         <div data-position="logo" class="sortable" id="logo"><%= widgets_at_position("logo") %></div>
-        <div data-position="nav" class="sortable data-link" id="nav" data-link="true">
-          <%= widgets_at_position_as_link("nav") %>
-        </div>
+        
        </div>
        <div class="right_part">
         <div data-position="caption" class="sortable" id="caption"><%= widgets_at_position("caption") %></div>
         <div data-position="phone" class="sortable" id="phone"><%= widgets_at_position("phone") %></div>
+       </div>
+       <div class="clear"></div>
+       <div data-position="nav" class="sortable data-link" id="nav" data-link="true">
+          <%= widgets_at_position_as_link("nav") %>
        </div>
      </div>
   </div>
