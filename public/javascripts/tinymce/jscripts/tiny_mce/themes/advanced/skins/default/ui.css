@@ -268,6 +268,7 @@
 .color_setting.toolSet-line input.red{background-position: -39px 0;}
 .color_setting.toolSet-line input.green{background-position: -193px 0;}
 .color_setting.toolSet-line input.orange{background-position: -232px 0;}
+.color_setting.toolSet-line input.yellow{background-position: -232px 0;display: none;}
 .color_setting.toolSet-line input.purple{background-position: -77px 0;}
 .color_setting.toolSet-line input.pink{background-position: -116px 0;}
 
@@ -279,6 +280,7 @@
 .color_setting.toolSet-ink input.red{background-position: -39px 0;}
 .color_setting.toolSet-ink input.green{background-position: -187px 0;}
 .color_setting.toolSet-ink input.orange{background-position: -225px 0;}
+.color_setting.toolSet-ink input.yellow{background-position: -225px 0;display: none;}
 .color_setting.toolSet-ink input.purple{background-position: -77px 0;}
 .color_setting.toolSet-ink input.pink{background-position: -116px 0;}
 
@@ -289,8 +291,8 @@
 .color_setting.toolSet-big_brush input.blue{background: #0000ff;}
 .color_setting.toolSet-big_brush input.red{background: #ff0000;}
 .color_setting.toolSet-big_brush input.green{background: #7cfc00;}
-/*.color_setting.toolSet-big_brush input.orange{background: #FF7940;}*/
-.color_setting.toolSet-big_brush input.orange{background: #FFFF00;}
+.color_setting.toolSet-big_brush input.orange{background: #FF7940;}
+.color_setting.toolSet-big_brush input.yellow{background: #FFFF00;}
 .color_setting.toolSet-big_brush input.purple{background: #9932cc;}
 .color_setting.toolSet-big_brush input.pink{background: #ff69b4;}
 

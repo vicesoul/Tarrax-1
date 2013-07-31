@@ -67,8 +67,8 @@ define([
           canvasHtml += '<input type="button" class="blue" value="blue" data-color=' + '{hex:"0000ff",rgb:[0,0,255]} ' + '  />';
           canvasHtml += '<input type="button" class="red" value="red" data-color=' + '{hex:"ff0000",rgb:[250,0,0]} ' + '  />';
           canvasHtml += '<input type="button" class="green" value="green" data-color=' + '{hex:"7cfc00",rgb:[124,252,0]} ' + '  />';
-          // canvasHtml += '<input type="button" class="orange" value="orange" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
-          canvasHtml += '<input type="button" class="orange" value="orange" data-color=' + '{hex:"FFFF00",rgb:[255,255,0]} ' + '  />';
+          canvasHtml += '<input type="button" class="orange" value="orange" data-color=' + '{hex:"FF7940",rgb:[255,121,64]} ' + '  />';
+          canvasHtml += '<input type="button" class="yellow" value="yellow" data-color=' + '{hex:"FFFF00",rgb:[255,255,0]} ' + '  />';
           canvasHtml += '<input type="button" class="purple" value="purple" data-color=' + '{hex:"9932cc",rgb:[153,50,204]} ' + '  />';
           canvasHtml += '<input type="button" class="pink" value="pink" data-color=' + '{hex:"ff69b4",rgb:[255,105,180]} ' + '  />';
           canvasHtml += '<button class="btn btn-big">粗</button>';
