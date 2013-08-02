@@ -267,7 +267,7 @@ Global.quizzes = {
         || connected
         ){
         $active.removeClass("active");
-        $(this).addClass("active");
+        $(this).addClass("active").shake()
         return;
       }
 
@@ -282,7 +282,7 @@ Global.quizzes = {
         }
       }else{
         // $active is not found
-        $(this).addClass("active");
+        $(this).addClass("active").shake()
       }
 
     }
@@ -841,7 +841,7 @@ Global.quizzes.commonFunc = {
         || connected
         ){
         $active.removeClass("active");
-        $(this).addClass("active");
+        $(this).addClass("active").shake()
         return;
       }
 
@@ -855,7 +855,7 @@ Global.quizzes.commonFunc = {
         }
       }else{
         // $active is not found
-        $(this).addClass("active");
+        $(this).addClass("active").shake()
       }
     }
   },
@@ -1019,6 +1019,14 @@ $.fn.doVal = function(type, yellowId) {
 
 $.fn.doNone = function() {
   return this;
+};
+
+$.fn.shake = function() {
+  $(this)
+  .animate({ "left": "+=10px" }, 100 )
+  .animate({ "left": "-=10px" }, 100 )
+  .animate({ "left": "+=10px" }, 100 )
+  .animate({ "left": "-=10px" }, 100 )
 };
 
 
