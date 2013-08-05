@@ -69,6 +69,8 @@ Global.quizzes = {
       height: mainHeight
     });
 
+    $main.find(".bg").empty().text('上传图片到此处！')
+
     var deleHandle,
       positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
       positionData = positionStr == "" ? {} : stringToObject( positionStr ),
@@ -448,6 +450,7 @@ Global.quizzes = {
     var $inputFile = $uploaderTable.find("#background_bg_image");
     var $confirm = $uploaderTable.find(".confirm");
     var courseId = ENV.context_asset_string.split('_')[1]
+    var $deleImage = $form.find('.dele-image')
     var $uploaderForm = $('<form>').attr({
       'action': '/courses/' + courseId + '/student_files',
       'method': 'POST',
@@ -455,10 +458,16 @@ Global.quizzes = {
     })
     .append( $uploaderTable )
 
-    $imageInput.after($uploaderForm);
+    $factory.after($uploaderForm);
 
-
-
+    $deleImage.off('.dele')
+    $deleImage.on('click.dele', function(){
+      if(confirm('确定要删除图片？')){
+        $main.find(".bg").empty()
+        $imageInput.val( '' )
+      }
+    })
+    
     $uploaderForm.on('submit', function(e) {
       e.preventDefault();
       $(this).ajaxSubmit({
@@ -472,7 +481,7 @@ Global.quizzes = {
         success: function(data) {
           var img = "<img src=" + data.url + " />"
           $main.find(".bg").empty().append($(img))
-          $formAnswers.closest(".question_holder").find(".connecting_on_pic_image").val( data.url )
+          $imageInput.val( data.url )
           $confirm.show()
           $textUploading.remove()
         },
