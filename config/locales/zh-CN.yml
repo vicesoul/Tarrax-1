@@ -3724,6 +3724,7 @@ zh-CN:
       title: 课程体系
     update_successfully: 课程体系更新成功。
   courses: 
+    student_folder: 学生专用
     add_users: 
       buttons: 
         add_users: "检查通过, 添加这些用户"

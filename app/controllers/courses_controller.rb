@@ -309,8 +309,13 @@ class CoursesController < ApplicationController
   def create_public_file_for_student
     @attachment = Attachment.new(params[:attachment])
     
-    student_folder = Folder.find_by_context_id_and_context_type_and_full_name(params[:context_id], params[:context_type], 'system/student_folder')
-    student_folder = @context.folders.build(:name => t('#courses.folder.student_folder', 'Student Folder'), :full_name => 'system/student_folder', :custom => true) unless student_folder
+    student_folder = Folder.find_by_context_id_and_context_type_and_is_student(params[:context_id], params[:context_type], true)
+    folder_name = t('#courses.student_folder', 'Student Folder')
+    student_folder = @context.folders.build(
+      :name => folder_name,
+      :full_name => "course files/#{folder_name}",
+      :is_student => true,
+      :custom => true) unless student_folder
     @attachment.folder = student_folder
     @attachment.context = @context
     @attachment.file_state = 'public'
