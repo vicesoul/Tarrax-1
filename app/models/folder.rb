@@ -27,7 +27,7 @@ class Folder < ActiveRecord::Base
 
   attr_accessor :custom
 
-  attr_accessible :name, :full_name, :parent_folder, :workflow_state, :lock_at, :unlock_at, :locked, :hidden, :context, :position, :custom
+  attr_accessible :name, :full_name, :parent_folder, :workflow_state, :lock_at, :unlock_at, :locked, :hidden, :context, :position, :custom, :is_student
 
   ROOT_FOLDER_NAME = "course files"
   PROFILE_PICS_FOLDER_NAME = "profile pictures"
