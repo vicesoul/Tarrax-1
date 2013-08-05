@@ -69,7 +69,7 @@ Global.quizzes = {
       height: mainHeight
     });
 
-    $main.find(".bg").empty().text('上传图片到此处！')
+    
 
     var deleHandle,
       positionStr = $formAnswers.closest(".question_holder").find(".connecting_on_pic_position").text(),
@@ -213,7 +213,11 @@ Global.quizzes = {
 
     // reload image
     var bgImage = $("<img>").attr("src", imageSrc);
-    $main.find(".bg").append(bgImage);
+    if(imageSrc != ''){
+      $main.find(".bg").empty().append(bgImage)
+    } else{
+      $main.find(".bg").empty().text('上传图片到此处！')
+    }
 
     // close tooltip when click document
     $(document).click(function(){ resetToolTip($toolTip, paper) });
