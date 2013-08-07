@@ -801,9 +801,32 @@ define([
             modules.addItemToModule($module, data.content_tag);
             $module.find(".context_module_items.ui-sortable").sortable('refresh');
             modules.updateAssignmentData();
+
+            jumpToUrl(data.content_tag)
+
           });
         };
         INST.selectContentDialog(options);
+      }
+    }
+
+    function jumpToUrl( contentTag ){
+      var courseId = contentTag.context_code.split('_')[1]
+        contentId = contentTag.content_id;
+
+      switch (contentTag.type)
+      {
+        case 'quiz':
+        window.location.href = '/courses/' + courseId + '/quizzes/' + contentId + '/edit'
+        break;
+
+        case 'discussion_topic':
+        window.location.href = '/courses/' + courseId + '/discussion_topics/' + contentId
+        break;
+
+        case 'assignment':
+        window.location.href = '/courses/' + courseId + '/assignments/' + contentId + '/edit'
+        break;
       }
     }
 

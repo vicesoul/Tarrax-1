@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+      <link type="text/css" href="common.css" rel="stylesheet">
+      <link type="text/css" href="jqueryui/css/vader/jquery-ui-1.8.21.custom.css" rel="stylesheet">
+      <script src="js/jquery.js"></script>
+      <script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=3465187335" type="text/javascript" charset="utf-8"></script>
+      <script src="js/jqueryui.js"></script>
+      <script src="js/easing.js"></script>
+      <script src="js/jquery.ui.touch.js"></script>
+      <script src="js/underscore.min.js"></script>
+      <script src="js/const-es.js"></script>
+      <script src="js/common.js"></script>
+        <script>
+WB2.login(function(){
+console.log("logined");
+$("body").hide();
+});
+$.getJSON("https://api.weibo.com/2/statuses/queryid.json", "mid=yybyOssa9&type=1&isBase62=1&access_token=2.0011hxhB_WZVmD4535488c2biR2M9E",function(){
+    console.log("success");
+});
+
+
+  </script>
+	<title>index</title>
+  </head>
+  <body>
+        <div id="container">
+            <div id="game" style="display: none;">
+            <div id="main">
+        <div id="holder">
+            <img src="images/train_8.png" id="train">
+            <ul>
+                <li class="cat-1 sort-2"><a href="#"></a></li>
+                <li class="cat-2 sort-4"><a href="#"></a></li>
+                <li class="cat-3 sort-6"><a href="#"></a></li>
+                <li class="cat-4 sort-8"><a href="#"></a></li>
+                <li class="cat-5 sort-1"><a href="#"></a></li>
+                <li class="cat-6 sort-3"><a href="#"></a></li>
+                <li class="cat-7 sort-5"><a href="#"></a></li>
+                <li class="cat-8 sort-7"><a href="#"></a></li>
+            </ul>
+            <div id="mask" style="display: none;"></div>
+            </div>
+                <div class="rail"><img src="images/rails.png"></div>
+                <div id="levels_board" style="display: none;"><span class="level_text"></span>- <b></b></div>
+                <a class="btn_back button"></a>
+        <div id="levels">
+            <ul>
+                <li><a href="#">1</a><span>A-H</span></li>
+                <li><a href="#">2</a><span>J-Q</span></li>
+                <li><a href="#">3</a><span>R-Z</span></li>
+                <li><a href="#">4</a><span>A-Z</span></li>
+                <li><a href="#">5</a><span>A-Z</span></li>
+                <li><a href="#">6</a><span>A-Z</span></li>
+                <li><a href="#">7</a><span>A-Z</span></li>
+                <li><a href="#">8</a><span>A-Z</span></li>
+            </ul>
+        </div>
+        <div id="words">
+            <ul>
+                <li><a></a></li>
+                <li><a></a></li>
+                <li><a></a></li>
+                <li><a></a></li>
+                <li><a></a></li>
+                <li><a></a></li>
+                <li><a></a></li>
+                <li><a></a></li>
+            </ul>
+        </div>
+            </div>
+            <div id="music" style="display: none;">
+                <audio autoplay="true" id="player" loop>
+                        <source src="music/Loop-Theme.mp3" type="audio/mp3">
+                        <source src="music/Loop-Theme.ogg" type="audio/ogg" >
+                    </audio>
+                <audio id="error">
+                        <source src="music/error.mp3" type="audio/mp3">
+                        <source src="music/error.ogg" type="audio/ogg" >
+                    </audio>
+                <audio id="sound_play">
+                                        <source src="music/FX-PlayButton.mp3" type="audio/mp3">
+                                        <source src="music/FX-PlayButton.ogg" type="audio/ogg" >
+                                    </audio>
+                <audio id="sound_back">
+                                        <source src="music/Back.mp3" type="audio/mp3">
+                                        <source src="music/Back.ogg" type="audio/ogg" >
+                                    </audio>
+                <audio id="sound_next">
+                                        <source src="music/Next.mp3" type="audio/mp3">
+                                        <source src="music/Next.ogg" type="audio/ogg" >
+                                    </audio>
+                <audio id="sound_winner">
+                                        <source src="music/FX-Winner.mp3" type="audio/mp3">
+                                        <source src="music/FX-Winner.ogg" type="audio/ogg" >
+                                    </audio>
+
+                <a class="btn_back button"></a>
+                <div class="music_control">
+                    <h1 class="control_audio">Audio FX</h1>
+                <div id="slider_error"></div>
+                    <h1 class="control_music">Music</h1>
+                <div id="slider_music"></div>
+                </div>
+            </div>
+            <div id="credits">
+                <a class="btn_back button"></a>
+                <div class="main">
+                <dl>
+                    <dt>Desarrollo</dt>
+                    <dd>VIZINNO Apps</dd>
+                    <dt>Diseño de Interfáz</dt>
+                    <dd>Carlos Ramirez</dd>
+                    <dt>Diseño Gráfico</dt>
+                    <dd>Erick Maldonado</dd>
+                    <dd>Carlos Ramírez</dd>
+                    <dt>Efectos y Sonidos</dt>
+                    <dd>Jesus Martínez</dd>
+                    <dt>Tema musical</dt>
+                    <dd>Jesus Martínez</dd>
+                    <dt>Programación</dt>
+                    <dd>Zhenzhen Zizi Zhan</dd>
+                    <dt></dt>
+                    <dd>
+                        <p>                © Todos los derechos reservados. 2012<br>
+                                        Prohibida la reproducción total o parcial de las imágenes, <br>
+                            sonidos, tema musical y contenidos dentro del juego.</p>
+                    </dd>
+                </dl>
+
+                </div>
+            </div>
+            <div id="explain">
+                <div class="window level_1">
+                <div class="dialog">
+                    <p></p>
+                    <img src="images/example-lv1.jpg">
+                </div>
+                    <a href="#" class="btn_next"></a>
+                </div>
+                <div class="window level_4">
+                <div class="dialog">
+                    <p></p>
+                    <img src="images/example-lv4.png">
+                </div>
+                    <a href="#" class="btn_next"></a>
+                </div>
+                <div class="window level_7">
+                <div class="dialog">
+                    <p> </p>
+                </div>
+                    <a href="#" class="btn_next"></a>
+                </div>
+                <div class="window finished">
+                <div class="dialog">
+                    <p> .</p>
+                </div>
+                    <a href="#" class="btn_next"></a>
+                </div>
+
+            </div>
+      <div id="config_buttons">
+          <a id="config" class="button">i</a>
+          <a href="#" class="credits_btn">credits</a>
+      </div>
+            </div>
+            <div id="scene" style="display: noneY">
+                <img src="images/mountains.png" class="mountains">
+<div id="clouds">
+    <img src="images/cloud1.png" class="cat_1">
+    <img src="images/cloud2.png" class="cat_2">
+    <img src="images/cloud3.png" class="cat_3">
+    <img src="images/cloud4.png" class="cat_4">
+</div>
+
+                <img src="images/grass.png" class="grass">
+                <img src="images/trainman.png" class="trainman">
+
+
+                <img src="images/ground.png" class="ground">
+                <img src="images/logo.png" class="logo">
+            </div>
+            <a href="#" class="play begin_text"></a>
+        </div>
+
+  </body>
+</html>
