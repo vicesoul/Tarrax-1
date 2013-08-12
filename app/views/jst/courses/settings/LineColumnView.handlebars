@@ -1,0 +1,9 @@
+<td>{{name}}</td>
+<td>
+  <div class="right pull-right">
+    {{#unless slug}}
+      <a href="#" class="btn btn-inverse remove">{{#t "#buttons.delete"}}Delete{{/t}}</a>
+    {{/unless}}
+    <a href="#" class="modify btn">{{#t "edit"}}Edit{{/t}}</a>
+  </div>
+</td>

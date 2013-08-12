@@ -1,274 +1,5 @@
 --- 
 zh-CN: 
-  knowledges:
-    knowledge_setting: 知识库设置
-    discuss_for: "对%{knowledge_subject}进行讨论"
-    model_init:
-      knowledge: 知识
-    state_array:
-      new: 未审核
-      remodified: 重改
-      awaiting_review: 等待审核
-      accepted: 审核通过
-      rejected: 被拒绝
-    source:
-      teacher: 教师
-      student: 学生
-      case_issue: 案例
-    bread_crumb:
-      knowledge: 知识
-    index:
-      new_knowledge: 新建知识
-      selector:
-        subject: 主题
-        author: 作者
-        state: 状态
-        query: 查询
-        source: 来源
-      empty_knowledge: 没有知识
-      headings:
-        subject: 主题
-        state: 状态
-        author: 作者
-        solutions: 解决方案
-        source: 来源
-        updated_at: 更新时间
-        op: 操作
-      links:
-        submit: 提交
-        review: 审核
-        apply: 申领
-        edit: 修改
-        delete: 删除
-      dialogs:
-        your_option: 您的意见是
-        accept: 接受
-        reject: 拒绝
-        group_discuss: 是否小组讨论
-        ya: 是
-        not: 否
-    new:
-      new_knowledge: 新建知识
-    edit:
-      edit_knowledge: 修改知识
-    form:
-      subject: 主题
-      template: 模板
-      select_tpl_first: 请选择一个知识模板
-      please_select: 请选择
-      warn_tpl: 你所在的网校还没有知识模板，所以将使用系统默认的知识模板
-    show:
-      subject: 主题
-      title: 标题
-      content: 正文
-      state: 状态
-      author: 作者
-      updated_at: 更新时间
-      template: 模板
-      current_solutions: 当前的解决方案
-      solution_author: 作者
-      solution_updated_at: 更新时间
-      solution_state: 状态
-
-  knowledge_tpls:
-    bread_crumb:
-      knowledge_tpl: 知识库模板
-    save_successfully: 知识库模板保存成功
-    model_init:
-      default_tpl: 默认知识库模板
-      tpl: 知识库模板
-      subject: 板块主题
-      body: 正文
-      content: 板块说明
-    index:
-      new_tpl: 新建知识库模板
-      headings:
-        name: 模板名
-        author: 作者
-        op: 操作
-        updated_at: 更新时间
-      empty_tpls: 没有知识库模板
-    new:
-      new_tpl: 新建知识库模板
-    form:
-      new_module: 添加新模块
-      tpl_name: 模板名
-      template: 模板
-    shared_case_tpl_form:
-      title: 板块主题
-      desc: 板块说明
-      remove_me: 移除
-    edit:
-      edit_tpl: 编辑知识库模板
-    hidden_element:
-      remove_me: 移除
-      custom_title: 自定义主题
-      custom_content: 自定义正文
-    show:
-      tpl_name: 模板名
-      author: 作者
-      updated_at: 更新时间
-      current_solutions: 当前的解决方案
-
-  case_tpls:
-    bread_crumb:
-      case_tpl: 案例模板
-    save_successfully: 案例模板保存成功
-    model_init:
-      default_tpl: 默认案例模板
-      default_knowledge_tpl: 默认知识模板
-      tpl: 案例模板
-      subject: 板块主题
-      body: 正文
-      content: 板块说明
-    index:
-      new_tpl: 新建案例模板
-      headings:
-        name: 模板名
-        author: 作者
-        op: 操作
-        updated_at: 更新时间
-      empty_tpls: 没有案例模板
-    new:
-      new_tpl: 新建案例模板
-    form:
-      new_module: 添加新模块
-      tpl_name: 模板名
-      template: 模板
-    shared_case_tpl_form:
-      title: 板块主题
-      desc: 板块说明
-      remove_me: 移除
-    edit:
-      edit_tpl: 编辑案例模板
-    hidden_element:
-      remove_me: 移除
-      custom_title: 自定义主题
-      custom_content: 自定义正文
-    show:
-      tpl_name: 模板名
-      author: 作者
-      updated_at: 更新时间
-      current_solutions: 当前的解决方案
-
-  case_issues:
-    discuss_for: "对%{issue_subject}进行讨论"
-    model_init:
-      issue: 案例问题
-    state_array:
-      new: 未审核
-      awaiting_review: 等待审核
-      accepted: 审核通过
-      rejected: 被拒绝
-    bread_crumb:
-      case_issue: 案例问题
-    index:
-      dont_push_to_knowledge_base: 不要同步到知识库
-      push_to_knowledge_base: 推荐入知识库
-      new_issue: 新建案例问题
-      has_solutions: 有解决方案
-      documented_by_knowledge_base: 被知识库收录
-      selector:
-        subject: 主题
-        author: 作者
-        state: 状态
-        query: 查询
-      empty_issue: 没有案例问题
-      headings:
-        subject: 主题
-        state: 状态
-        author: 作者
-        documented_by_knowledge_base: 知识库收录
-        solutions: 解决方案
-        updated_at: 更新时间
-        op: 操作
-      links:
-        submit: 提交
-        review: 审核
-        apply: 申领
-        edit: 修改
-        delete: 删除
-      dialogs:
-        your_option: 您的意见是
-        accept: 接受
-        reject: 拒绝
-        group_discuss: 是否小组讨论
-        ya: 是
-        not: 否
-    new:
-      new_issue: 新建案例问题
-    edit:
-      edit_issue: 修改案例问题
-    form:
-      subject: 主题
-      template: 模板
-      select_tpl_first: 请选择一个案例模板
-      please_select: 请选择
-      warn_tpl: 你所在的网校还没有案例模板，所以使用系统内置的案例模板
-    show:
-      subject: 主题
-      title: 标题
-      content: 正文
-      state: 状态
-      author: 作者
-      updated_at: 更新时间
-      template: 模板
-      current_solutions: 当前的解决方案
-      solution_author: 作者
-      solution_updated_at: 更新时间
-      solution_state: 状态
-  case_solutions:
-    ya: 已建小组讨论
-    not: 未建小组讨论
-    bread_crumb:
-      solutions: 案例解决方案
-    state_array:
-      executing: 编辑中
-      being_reviewed: 被审核中
-      remodified: 重改
-      accepted: 已接受
-      rejected: 已拒绝
-    index:
-      selector:
-        title: 标题
-        author: 作者
-        state: 状态
-        query: 查询
-      empty_solutions: 没有案例解决方案
-      headings:
-        title: 标题
-        state: 状态
-        group_discuss: 小组讨论
-        author: 作者
-        updated_at: 更新时间
-        op: 操作
-      links:
-        submit: 提交
-        review: 审核
-      your_option: 您的意见是？
-      accept: 接受
-      reject: 拒绝
-      remodify: 重改
-      unedited_solution: 未编辑的方案
-    edit:
-      issue: 案例问题主题
-      template: 模板
-      state: 状态
-      group_discuss: 小组讨论
-      author: 作者
-      updated_at: 更新时间
-      title: 标题
-      content: 正文
-    show:
-      issue: 案例问题主题
-      state: 状态
-      group_discuss: 小组讨论
-      author: 作者
-      updated_at: 更新时间
-      title: 标题
-      content: 正文
-      template: 模板
-
   EditAppointmentGroupDetails: 
     affect_reservations: 这对预约有何影响?
     and_n_contexts: "和其他 %{n} 个人"
@@ -304,15 +35,15 @@ zh-CN:
       other: 其他
     sis_id_in_use: "SIS ID \"%{sis_id}\" 已在使用中"
     tab_authentication: 身份验证
+    tab_case_collection_repositories: 案例征集
     tab_course_systems: 课程体系
     tab_courses: 课程
     tab_developer_keys: 开发成员密钥
     tab_faculty_journal: 教师日志
     tab_homepage: 主页
     tab_jobs: 工作队列
+    tab_knowledge_repositories: 知识库
     tab_learning_plans: 学习计划
-    tab_case_collection_repositories: 案例征集
-    tab_knowledge_repositories: 知识库 
     tab_permissions: 权限
     tab_plugins: 插件
     tab_question_banks: 题库
@@ -555,20 +286,19 @@ zh-CN:
     types: 
       account_admin: 网校管理员
   accounts: 
-    knowledges_right_side:
-      knowledge_setting: 知识库管理
-    case_repositories:
-      case_repository: 此网校中的案例库 
-    knowledge_repositories:
-      knowledge_repository: 此网校中的知识库 
     account_user: 
       remove_admin_tooltip: 删除此管理员
+    add_case_button: 添加新案例征集库
+    add_case_dialog_content: 向您的网校添加案例征集库
+    add_case_dialog_title: 添加新案例征集库
+    add_case_failure: 添加案例征集库失败
+    add_case_successfully: 添加案例征集库成功
     add_course_button: 添加新课程
     add_course_dialog_title: 添加新课程
     add_course_or_user: 
+      add_case_link: 添加新案例征集库
       add_course_button: 添加新课程
       add_course_link: 添加新课程
-      add_case_link: 添加新案例征集库
       add_knowledge_link: 添加新知识库
       add_user_button: 添加新用户
       add_user_link: 添加新用户
@@ -598,18 +328,13 @@ zh-CN:
         tags: 标签
       mobile_phone_help: 手机必须为13位
       sortable_name_help: 此名称在检索列表中显示。
-    add_user_button: 添加新用户
-    add_user_dialog_title: 添加新用户
-    add_case_dialog_content: 向您的网校添加案例征集库
-    add_case_dialog_title: 添加新案例征集库
-    add_case_button: 添加新案例征集库
-    add_case_failure: 添加案例征集库失败
-    add_case_successfully: 添加案例征集库成功
+    add_knowledge_button: 添加新知识库
     add_knowledge_dialog_content: 向您的网校添加知识库
     add_knowledge_dialog_title: 添加新知识库
-    add_knowledge_button: 添加新知识库
     add_knowledge_failure: 添加知识库失败
     add_knowledge_successfully: 添加知识库成功
+    add_user_button: 添加新用户
+    add_user_dialog_title: 添加新用户
     adding_course_message: 正在添加课程...
     adding_user_message: 正在添加用户...
     associated: 
@@ -644,6 +369,8 @@ zh-CN:
         zero: 已提交
       title: 头像
       unlock_link: 解锁
+    case_repositories: 
+      case_repository: 此网校中的案例库
     confirm_delete_user: 
       confirm_delete: "确定要从网校 %{account} 删除此用户?将删除该用户在所有课程和组的数据（包括评分）。此过程无法撤销。"
       delete_button: "删除 %{user}"
@@ -695,8 +422,8 @@ zh-CN:
       body: 内容
       cancel: 取消
       change_background: 改变背景
-      choose_image: 选择图片
       choose_acceptable_image: 注意：请上传比例为4：3的图片
+      choose_image: 选择图片
       delete_background_image: 删除上传的背景图片
       dialog: 
         error: 
@@ -729,6 +456,10 @@ zh-CN:
       no_accounts_message: 无网校
       page_title: 网校
       title: 我管理的网校
+    knowledge_repositories: 
+      knowledge_repository: 此网校中的知识库
+    knowledges_right_side: 
+      knowledge_setting: 知识库管理
     new: 
       school: 
         category: 学校分类
@@ -769,6 +500,7 @@ zh-CN:
         add_users: 用户检查通过，确定添加
         continue: 继续...
         modify_users: 返回编辑用户清单
+      case_tpl_management_fieldset: 案例模板管理
       confirm_turnitin_settings_link: "确认 Turnitin 设置"
       create_courses_description: （网校管理员可随时创建课程）
       create_courses_title: 谁可以创建新课程
@@ -798,16 +530,14 @@ zh-CN:
       ip_filter_filter_label: IP限制
       ip_filter_name_label: 名称
       job_position_management_fieldset: 岗位管理
-      case_tpl_management_fieldset: 案例模板管理
       knowledge_tpl_management_fieldset: 知识库模板管理
-      tip:
-        select_account_notification_category: 请选择公告分类
       labels: 
         account_notification_category_id: 公告分类
         account_notification_icon: 图标
         admins_can_change_passwords: 管理员密码设置
         allow_homepage_previews: 允许公开浏览首页
         allow_invitation_previews: 邀请预览
+        allow_pushed_from_cases: 允许优秀案例推荐入知识库
         allow_sending_scores_in_emails: 学生可以选择通过电子邮件接收分数通知
         allow_sis_import: "SIS 导入"
         canvas_authentication: 教学邦身份验证
@@ -843,6 +573,7 @@ zh-CN:
         self_enrollment: 允许自行报名参课
         sis_source_id: "SIS ID"
         start_at: 开始
+        student_can_commit_knowledge: 学员可以向知识库提交知识
         students_can_create_courses: 学生
         sub_account_includes: 允许下级组织定义附加信息
         subject: 主题
@@ -853,8 +584,6 @@ zh-CN:
         turnitin_pledge: "Turnitin 保证"
         turnitin_shared_secret: "Turnitin 共享密钥"
         users_can_edit_name: 用户可以编辑显示名称
-        student_can_commit_knowledge: 学员可以向知识库提交知识
-        allow_pushed_from_cases: 允许优秀案例推荐入知识库
       links: 
         add_admins: 添加管理员
         configure_report: 配置...
@@ -1809,15 +1538,16 @@ zh-CN:
   button: 
     submit_assignment: 提交作业
   buttons: 
+    add: 新建
     add_external_tool: 添加外部工具
     add_item: 添加项目
     apply: 应用
     authorize_google_docs: "授权 Google Docs 访问"
     back: 返回
     back_to_outcomes: 返回结果
-    create: 新建
     cancel: 取消
     confirm: 您确定吗？
+    create: 新建
     delete: 删除
     done: 完成
     edit: 修改
@@ -2300,6 +2030,163 @@ zh-CN:
         fields_required: "这个 \"%{field}\" 字段需要输入"
         login_expiration_minimum: "会话过期必须为 20 分钟或更长时间"
         need_integer: 请输入一个整数的播放列表缓存
+  case_issues: 
+    bread_crumb: 
+      case_issue: 案例问题
+    discuss_for: "对%{issue_subject}进行讨论"
+    edit: 
+      edit_issue: 修改案例问题
+    form: 
+      please_select: 请选择
+      select_tpl_first: 请选择一个案例模板
+      subject: 主题
+      template: 模板
+      warn_tpl: 你所在的网校还没有案例模板，所以使用系统内置的案例模板
+    index: 
+      dialogs: 
+        accept: 接受
+        group_discuss: 是否小组讨论
+        not: 否
+        reject: 拒绝
+        ya: 是
+        your_option: 您的意见是
+      documented_by_knowledge_base: 被知识库收录
+      dont_push_to_knowledge_base: 不要同步到知识库
+      empty_issue: 没有案例问题
+      has_solutions: 有解决方案
+      headings: 
+        author: 作者
+        documented_by_knowledge_base: 知识库收录
+        op: 操作
+        solutions: 解决方案
+        state: 状态
+        subject: 主题
+        updated_at: 更新时间
+      links: 
+        apply: 申领
+        delete: 删除
+        edit: 修改
+        review: 审核
+        submit: 提交
+      new_issue: 新建案例问题
+      push_to_knowledge_base: 推荐入知识库
+      selector: 
+        author: 作者
+        query: 查询
+        state: 状态
+        subject: 主题
+    model_init: 
+      issue: 案例问题
+    new: 
+      new_issue: 新建案例问题
+    show: 
+      author: 作者
+      content: 正文
+      current_solutions: 当前的解决方案
+      solution_author: 作者
+      solution_state: 状态
+      solution_updated_at: 更新时间
+      state: 状态
+      subject: 主题
+      template: 模板
+      title: 标题
+      updated_at: 更新时间
+    state_array: 
+      accepted: 审核通过
+      awaiting_review: 等待审核
+      new: 未审核
+      rejected: 被拒绝
+  case_solutions: 
+    bread_crumb: 
+      solutions: 案例解决方案
+    edit: 
+      author: 作者
+      content: 正文
+      group_discuss: 小组讨论
+      issue: 案例问题主题
+      state: 状态
+      template: 模板
+      title: 标题
+      updated_at: 更新时间
+    index: 
+      accept: 接受
+      empty_solutions: 没有案例解决方案
+      headings: 
+        author: 作者
+        group_discuss: 小组讨论
+        op: 操作
+        state: 状态
+        title: 标题
+        updated_at: 更新时间
+      links: 
+        review: 审核
+        submit: 提交
+      reject: 拒绝
+      remodify: 重改
+      selector: 
+        author: 作者
+        query: 查询
+        state: 状态
+        title: 标题
+      unedited_solution: 未编辑的方案
+      your_option: 您的意见是？
+    not: 未建小组讨论
+    show: 
+      author: 作者
+      content: 正文
+      group_discuss: 小组讨论
+      issue: 案例问题主题
+      state: 状态
+      template: 模板
+      title: 标题
+      updated_at: 更新时间
+    state_array: 
+      accepted: 已接受
+      being_reviewed: 被审核中
+      executing: 编辑中
+      rejected: 已拒绝
+      remodified: 重改
+    ya: 已建小组讨论
+  case_tpls: 
+    bread_crumb: 
+      case_tpl: 案例模板
+    edit: 
+      edit_tpl: 编辑案例模板
+    form: 
+      new_module: 添加新模块
+      template: 模板
+      tpl_name: 模板名
+    hidden_element: 
+      custom_content: 自定义正文
+      custom_title: 自定义主题
+      remove_me: 移除
+    index: 
+      empty_tpls: 没有案例模板
+      headings: 
+        author: 作者
+        name: 模板名
+        op: 操作
+        updated_at: 更新时间
+      new_tpl: 新建案例模板
+    model_init: 
+      body: 正文
+      content: 板块说明
+      default_knowledge_tpl: 默认知识模板
+      default_tpl: 默认案例模板
+      subject: 板块主题
+      tpl: 案例模板
+    new: 
+      new_tpl: 新建案例模板
+    save_successfully: 案例模板保存成功
+    shared_case_tpl_form: 
+      desc: 板块说明
+      remove_me: 移除
+      title: 板块主题
+    show: 
+      author: 作者
+      current_solutions: 当前的解决方案
+      tpl_name: 模板名
+      updated_at: 更新时间
   cc: 
     private: 私密（版权保护）
     public_domain: 公开
@@ -3046,8 +2933,8 @@ zh-CN:
     roster_right_side: 
       links: 
         manage_users: 管理用户
-        view_people: 管理人员
         view_faculty_journals: 查看教师日志
+        view_people: 管理人员
         view_prior_enrollments: 查看之前的注册
         view_services: 查看注册的服务
         view_user_groups: 查看用户组
@@ -3607,6 +3494,20 @@ zh-CN:
     postgraduate_examinations: 考研
     professional_skills: 职业技能
     selfstudy_examination: 自学考试
+  course_column: 
+    are_you_sure: 您确定吗？
+    calendar: 教学日历
+    default_column_name: 栏目名
+    faculty: 教师简介
+    flash: 
+      columns: 课程栏目保存成功。
+      columnsError: 保存课程栏目时发生了一些错误，请稍后重试。
+    guide: 课程导学
+    intro: 课程介绍
+    materials: 教材及参考书目
+    produce_team: 制作团队
+    requirments: 考核要求
+    syllabus: 教学大纲
   course_exports: 
     errors: 
       assignment: "作业 \"%{title}\" 无法导出"
@@ -3759,6 +3660,8 @@ zh-CN:
         one: "1 个需要评分"
         other: "%{count} 个需要评分"
       points_possible: " %{points_possible}"
+    columns_info: 
+      course_columns_info: 课程栏目信息
     confirm_action: 
       buttons: 
         conclude_course: 结束课程
@@ -3788,6 +3691,8 @@ zh-CN:
         start_at: 开始时间
       titles: 
         copy_course: 复制课程
+    course_columns: 
+      name: 栏目名
     course_wizard_box: 
       buttons: 
         publish: 发布课程
@@ -3863,12 +3768,15 @@ zh-CN:
         enrollment_type: 注册类型
     errors: 
       create_failed: 课程创建失败
+      invalid_columns: 无效的课程栏目
       invalid_course_category: 无效课程类型
       invalid_role: 角色类型无效
       role_not_active: "不能为生效的角色添加用户: '%{role}'"
       role_not_found: "没有 '%{role}'角色 ."
       unauthorized: 
         switch_roles: 您没有切换角色的权限
+    folder: 
+      student_folder: "Student Folder"
     group_list: 
       headings: 
         groups: 课程组
@@ -3935,6 +3843,7 @@ zh-CN:
         add_section: 添加班
         move_course: 移动课程
         update_course: 更新课程详细信息
+      columns: 课程栏目
       course_open_enrollment: "本课程已启用开放注册。学生们可以通过您发送的链接 *%{url}* 自行注册课程。学生也可以先在 *%{url2}* 报名，然后再使用 *%{code}* 参加代码加入课程。"
       course_overrides_term: 这将覆盖任何学期可用性设置
       date_restricted: 用户只能参加这些日期之间的课程
@@ -4008,6 +3917,8 @@ zh-CN:
         storage_quota: 文件存储
         turnitin_comments: "Turnitin 提交评注"
       language_overrides_preferences: 这将覆盖所有用户/系统语言首选项。建议只对外语课程使用此操作
+      line_column_view: 
+        edit: 编辑
       link_to_students_view: 
         link_student_action: "要将课程观察员 *%{name}* 链接至某个学生，可从以下列表中选择该学生的姓名。"
         link_student_desc: 观察员在链接至某个学生后，就可访问该学生的评分和课程互动。
@@ -4036,6 +3947,7 @@ zh-CN:
       tab_hidden_if_disabled: 被禁用的页面将不会显示在导航中
       tabs: 
         alerts: 警报
+        columns: 课程栏目
         details: 课程明细
         grade_publishing: 评分发布
         navigation: 导航
@@ -4079,6 +3991,7 @@ zh-CN:
       buttons: 
         update_layout: 更新界面
       coming_up: 新近事项
+      course_columns: 课程栏目
       details: 
         assignments: 此视图显示本课程的**作业列表**，即将到来和近期的作业显示在顶部。
         confirm_unenroll: 确定要取消注册此课程?您将不再能够看到课程清单或与教师沟通，并且您的通信流和通知中再看不到课程活动。
@@ -6372,6 +6285,114 @@ zh-CN:
     discussion_index: 讨论列表
     logo_index: Logo
     news_index: 新闻列表
+  knowledge_tpls: 
+    bread_crumb: 
+      knowledge_tpl: 知识库模板
+    edit: 
+      edit_tpl: 编辑知识库模板
+    form: 
+      new_module: 添加新模块
+      template: 模板
+      tpl_name: 模板名
+    hidden_element: 
+      custom_content: 自定义正文
+      custom_title: 自定义主题
+      remove_me: 移除
+    index: 
+      empty_tpls: 没有知识库模板
+      headings: 
+        author: 作者
+        name: 模板名
+        op: 操作
+        updated_at: 更新时间
+      new_tpl: 新建知识库模板
+    model_init: 
+      body: 正文
+      content: 板块说明
+      default_tpl: 默认知识库模板
+      subject: 板块主题
+      tpl: 知识库模板
+    new: 
+      new_tpl: 新建知识库模板
+    save_successfully: 知识库模板保存成功
+    shared_case_tpl_form: 
+      desc: 板块说明
+      remove_me: 移除
+      title: 板块主题
+    show: 
+      author: 作者
+      current_solutions: 当前的解决方案
+      tpl_name: 模板名
+      updated_at: 更新时间
+  knowledges: 
+    bread_crumb: 
+      knowledge: 知识
+    discuss_for: "对%{knowledge_subject}进行讨论"
+    edit: 
+      edit_knowledge: 修改知识
+    form: 
+      please_select: 请选择
+      select_tpl_first: 请选择一个知识模板
+      subject: 主题
+      template: 模板
+      warn_tpl: 你所在的网校还没有知识模板，所以将使用系统默认的知识模板
+    index: 
+      dialogs: 
+        accept: 接受
+        group_discuss: 是否小组讨论
+        not: 否
+        reject: 拒绝
+        ya: 是
+        your_option: 您的意见是
+      empty_knowledge: 没有知识
+      headings: 
+        author: 作者
+        op: 操作
+        solutions: 解决方案
+        source: 来源
+        state: 状态
+        subject: 主题
+        updated_at: 更新时间
+      links: 
+        apply: 申领
+        delete: 删除
+        edit: 修改
+        review: 审核
+        submit: 提交
+      new_knowledge: 新建知识
+      selector: 
+        author: 作者
+        query: 查询
+        source: 来源
+        state: 状态
+        subject: 主题
+    knowledge_setting: 知识库设置
+    model_init: 
+      knowledge: 知识
+    new: 
+      new_knowledge: 新建知识
+    show: 
+      author: 作者
+      content: 正文
+      current_solutions: 当前的解决方案
+      solution_author: 作者
+      solution_state: 状态
+      solution_updated_at: 更新时间
+      state: 状态
+      subject: 主题
+      template: 模板
+      title: 标题
+      updated_at: 更新时间
+    source: 
+      case_issue: 案例
+      student: 学生
+      teacher: 教师
+    state_array: 
+      accepted: 审核通过
+      awaiting_review: 等待审核
+      new: 未审核
+      rejected: 被拒绝
+      remodified: 重改
   labels: 
     announcements: 公告
     assignments: 作业
@@ -6431,10 +6452,10 @@ zh-CN:
       default_page_title: 教学邦-网校平台(jiaoxuebang.com)-国内真正首家纯教育云平台、国内首创开放网校平台服务、全球首创终身网络教育模式、独家全方位实现听说读写画
     menu: 
       view_all_accounts: 查看所有网校
-      view_all_enrollments: 查看所有课程
       view_all_case_repositories: 查看所有案例
-      view_all_knowledge_repositories: 查看所有知识
+      view_all_enrollments: 查看所有课程
       view_all_groups: 查看所有组
+      view_all_knowledge_repositories: 查看所有知识
       view_courses_to_be_attended: 应该加入的课程
   learning_outcome: 
     no_comment: 无评注
@@ -6640,9 +6661,9 @@ zh-CN:
     titles: 
       media_contribution: 视频语音参加
       play_comment: 播放视频语音评注
+      record_audio: 音频录制
       record_upload_media_comment: 记录/上传视频语音评注
       record_video: 视频录制
-      record_audio: 音频录制
       upload_media: 上传媒体
     track_uploaded_successfully: "上传成功, 请刷新查看."
     upload: 上传
@@ -6653,8 +6674,8 @@ zh-CN:
     current_groups: 当前组
     customize: 自定义
     managed_accounts: 管理的网校
-    my_courses: 我的课程
     my_case_repositories: 我的案例库
+    my_courses: 我的课程
     my_knowledge_repositories: 我的知识库
   message: 
     default_subject: 教学邦警报
@@ -9509,8 +9530,12 @@ zh-CN:
         generate_possible_solutions: 最后，根据您的测试需要建立尽可能多的变量-解组合。
       explanations: 
         calculated: 计算题
+        connecting_lead: "富文本工具栏里做出题目说明，题目在富文本工具栏下方编辑. 可以设置两列或三列连线题，回答问题时，点击要连线的两题的圆形框框即可完成连线，如果要取消连线，点击要取消的连线部位即可按提示删除连线."
+        connecting_on_pic: 富文本工具栏里做出题目说明，把右侧上传的图片拖拽到富文本工具栏下方编辑，鼠标拖动小红球和小黄球放到图片当中要连线题目的两侧.点击要连线的两题的小红球和小黄球，做出正确的答案.回答问题时，点击要连线的小红球和小黄球即可完成连线，如果要取消连线，点击要取消的连线部位即可按提示删除连线.
+        drag_and_drop: 答案可拖动，把答案拖进空格里
         equations: 您可以通过输入括号包围的变量名称来定义变量
         essay: 通过富文本编辑框输入答题信息，该主观题需要教师人工评分
+        fill_in_blanks_subjective: "可通过富文本工具栏中空格标志定义多个空格，然后对每个空格参数给出相应正确答案。 在下面的框中（您要显示答案框的每个位置），输入一个包含在括号内的参考词（无空格。 (即‘玫瑰为 [color1]，紫罗兰为 [color2]’)."
         fill_in_multiple_blanks: 可通过富文本工具栏中空格标志定义多个空格，然后对每个空格参数给出相应正确答案
         formula_definition: 输入题目，建一个公式，然后生成一组正确答案。每个学生题目的公式中变量是随机的，正确的答案也是动态的
         matching: 编辑题目时分别在左右2侧输入匹配项，右侧可以多填几个错误答案，出题时右边顺序显示会打乱
@@ -9520,17 +9545,13 @@ zh-CN:
         multiple_choice: 在富文本框中输入题目，在答案区输入多个答案，然后点击箭头确定其中一个正确答案
         multiple_dropdowns: 多个下拉列表，每个下拉列表可以定义多个答案，点击箭头确定其中一个正确答案。
         numerical: 定义正确数字，可以定义正负误差范围。学生答题时输入数值答案。
+        paint: 上传一张图片，做出题目说明.
         short_answer: |-
             输入题目，然后输入多个正确答案。  
             学生答题时，将在文本框中输入答案。
         text_only: 此"试题"将不会评分，但在引入一组相关试题时非常有用。
         true_false: "输入您的试题文本，然后选择 True 或 False 作为正确答案。"
         variable_definitions: 一旦您输入上述变量后，应看到这些变量在此处列出。您可以指定下面每个变量可能的值范围。
-        connecting_lead: 富文本工具栏里做出题目说明，题目在富文本工具栏下方编辑. 可以设置两列或三列连线题，回答问题时，点击要连线的两题的圆形框框即可完成连线，如果要取消连线，点击要取消的连线部位即可按提示删除连线.
-        connecting_on_pic: 富文本工具栏里做出题目说明，把右侧上传的图片拖拽到富文本工具栏下方编辑，鼠标拖动小红球和小黄球放到图片当中要连线题目的两侧.点击要连线的两题的小红球和小黄球，做出正确的答案.回答问题时，点击要连线的小红球和小黄球即可完成连线，如果要取消连线，点击要取消的连线部位即可按提示删除连线.
-        drag_and_drop: 答案可拖动，把答案拖进空格里
-        fill_in_blanks_subjective: "可通过富文本工具栏中空格标志定义多个空格，然后对每个空格参数给出相应正确答案。 在下面的框中（您要显示答案框的每个位置），输入一个包含在括号内的参考词（无空格。 (即‘玫瑰为 [color1]，紫罗兰为 [color2]’)."
-        paint: 上传一张图片，做出题目说明.
       general_answer_comments: 一般答案评注
       headers: 
         formula_definition: 公式定义
@@ -9553,8 +9574,8 @@ zh-CN:
         points: 分
         question: 试题
         solution: 解析
-        two_rows: 两列
         three_rows: 三列
+        two_rows: 两列
       links: 
         add_another_answer: 添加其他答案
         need_help: 需要帮助?
@@ -9567,7 +9588,11 @@ zh-CN:
       question_blank: 试题空格
       question_type: 
         calculated: 公式题
+        connecting_lead: 连线题
+        connecting_on_pic: 图画连线题
+        drag_and_drop: 拖拽题
         essay: 解答题
+        fill_in_blanks_subjective: 主观填空题
         fill_in_multiple_blanks: 多项填空
         matching: 匹配题
         missing_word: 完型填空
@@ -9578,10 +9603,6 @@ zh-CN:
         short_answer: 填空题
         text_only: 题目说明
         true_false: 是非题
-        connecting_lead: 连线题
-        connecting_on_pic: 图画连线题
-        drag_and_drop: 拖拽题
-        fill_in_blanks_subjective: 主观填空题
       show_possible_answers: "显示 %{question} 正确的答案"
       titles: 
         click_to_enter_correct_answer_comments: 输入正确答案的评注
@@ -10313,12 +10334,12 @@ zh-CN:
       become_user: 成为其他用户
       change_course_state: 更改课程状态
       comment_on_others_submissions: 查看所有学生的提交并对其进行评注
+      create_case_repostory: 创建案例征集库
       create_collaborations: 创建学生协作
       create_conferences: "创建 Web 在线视频课"
-      create_case_repostory: 创建案例征集库
       create_knowledge_repostory: 创建知识库
-      manage_account_notification_category: 管理网校公告分类
       manage_account_memberships: 添加/删除网校的其他管理员
+      manage_account_notification_category: 管理网校公告分类
       manage_account_settings: 管理网校级设置
       manage_admin_users: 添加/删除课程的其他教师、课程课程设计或助教
       manage_alerts: 管理全局警报
@@ -11509,6 +11530,7 @@ zh-CN:
     announcements: 公告
     assignments: 作业
     case_issue: 案例问题
+    case_settings: 案例管理
     chat: 聊天
     collaborations: 协作
     conferences: 在线视频课
@@ -11518,14 +11540,13 @@ zh-CN:
     grades: 成绩
     home: 主页
     knowledge: 知识库
+    knowledge_settings: 知识库管理
     modules: 单元
     pages: 页面
     people: 成员
     profile: 个人资料
     quizzes: 测试
     settings: 课程管理
-    case_settings: 案例管理
-    knowledge_settings: 知识库管理
     syllabus: 纲要
   teacher: 
     female: 女
@@ -11603,6 +11624,8 @@ zh-CN:
     teacher_ranks_management: 讲师等级
     updated_successfully: 成功更新讲师等级
   teachers: 
+    case_issue: 案例问题
+    case_repostory: 案例征集库
     created_successfully: 成功添加讲师
     edit: 
       teacher: 讲师
@@ -11667,8 +11690,6 @@ zh-CN:
       title: 讲师
     teachers_management: 讲师
     updated_successfully: 成功更新讲师
-    case_repostory: 案例征集库
-    case_issue: 案例问题
   terms: 
     index: 
       date: 

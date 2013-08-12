@@ -2,6 +2,19 @@
 @import bootstrap_table.sass
 @import 'utilities/context_search'
 
+$column_view_backcolor: hsl(0, 0, 96%)
+
+.column_view
+  background-color: $column_view_backcolor
+  border: 1px solid darken($column_view_backcolor, 10%)
+  padding: 20px
+  padding-bottom: 40px
+  margin-bottom: 20px
+  border-radius: 5px
+
+  .name, .content
+    width: 100%
+
 #course_form .course_form 
   display: none
 

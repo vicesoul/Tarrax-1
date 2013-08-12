@@ -355,6 +355,7 @@ ActionController::Routing::Routes.draw do |map|
     course.student_view 'student_view', :controller => 'courses', :action => 'student_view', :conditions => {:method => :post}
     course.student_view 'student_view', :controller => 'courses', :action => 'leave_student_view', :conditions => {:method => :delete}
     course.test_student 'test_student', :controller => 'courses', :action => 'reset_test_student', :conditions => {:method => :delete}
+    course.columns_info 'columns_info', :controller => 'courses', :action => 'columns_info', :conditions => {:method => :get}
   end
 
 
@@ -1112,6 +1113,13 @@ ActionController::Routing::Routes.draw do |map|
       quizzes.post "courses/:course_id/quizzes", :action => :create, :path_name => 'course_quiz_create'
       quizzes.get "courses/:course_id/quizzes/:id", :action => :show, :path_name => 'course_quiz'
       quizzes.put "courses/:course_id/quizzes/:id", :action => :update, :path_name => 'course_quiz_update'
+    end
+
+    api.with_options(:controller => :course_columns) do |course_columns|
+      course_columns.get "courses/:course_id/course_columns", :action => :index, :path_name => "course_course_columns"
+      course_columns.post "courses/:course_id/course_columns", :action => :create, :path_name => "course_course_columns"
+      course_columns.delete "courses/:course_id/course_columns/:id", :action => :destroy, :path_name => "course_course_columns"
+      course_columns.put "courses/:course_id/course_columns/:id", :action => :update, :path_name => "course_course_columns"
     end
 
     api.with_options(:controller => :outcome_groups_api) do |outcome_groups|

@@ -1,0 +1,25 @@
+<input type="hidden" name='slug' value='{{ slug }}' class='slug' />
+
+{{#if slug}}
+  <input type="hidden" name='name' value='{{ name }}' class="name" />
+  <input type="text" name='name' value='{{ name }}' class="name" disabled />
+{{else}}
+  <input type="text" name='name' value='{{ name }}' class="name" />
+{{/if}}
+
+<p>
+  <textarea rows='10' name='content' class='content'>{{content}}</textarea>
+</p>
+
+
+<div class="right pull-right">
+  <a href="#" class="btn btn-primary submit">{{#t "#buttons.submit"}}Submit{{/t}}</a>
+
+  {{#unless slug}}
+    {{#if id}}
+      <a href="#" class="btn btn-inverse remove">{{#t "#buttons.delete"}}Delete{{/t}}</a>
+    {{/if}}
+  {{/unless}}
+
+  <a href="#" class="btn list">{{#t "#buttons.go_back"}}Back{{/t}}</a>
+</div>

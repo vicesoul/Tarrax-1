@@ -1,0 +1,31 @@
+<% content_for :page_title do %><%= t('course_columns_info', 'Course Columns Info') %><% end %>
+<%
+  @active_tab = "home"
+%>
+
+<% js_block do %>
+  <script type="text/javascript" charset="utf-8">
+    require(['jquery', 'jqueryui/tabs'], function($){
+      $(
+        $('#tabs').tabs()
+      );
+    })
+  </script>
+<% end %>
+
+<div id="tabs">
+  <ul>
+    <% @context.active_course_columns.each_with_index do |column, index| %>
+      <li>
+        <%= link_to column.name, "#tabs-#{index}" %>
+      </li>
+    <% end %>
+  </ul>
+
+
+  <% @context.active_course_columns.each_with_index do |column, index| %>
+    <div id="tabs-<%= index %>">
+      <%= raw column.content %>
+    </div>
+  <% end %>
+</div>

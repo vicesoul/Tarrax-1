@@ -29,7 +29,7 @@ define [
 
     className: 'user admin-link-hover-area'
 
-    events:
+    even:
       'click .admin-links [data-event]': 'handleMenuEvent'
 
     render: =>

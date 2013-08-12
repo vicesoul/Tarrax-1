@@ -1,0 +1,31 @@
+<% jammit_css :tinymce %>
+<%
+  count = 0
+  columns_list = CourseColumn.columns_for_college.inject([]) do |array, a|
+  array << { :slug => a[0], :name => a[1], :content => "", :position => count+=1 }
+    array
+  end
+  js_env :college_course_columns => columns_list if @context.show_default_columns?
+%>
+
+<div id="course_columns" data-columns='<%= @context.course_columns.to_json(:include_root => false) %>'>
+  <div class="list_view">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th> <%= t('name', 'Name') %></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+    <%= link_to t('#buttons.add', 'Add'), '#', :class => "btn btn-primary add_column" %>
+  </div>
+
+  <div class="edit_view column_view">
+  </div>
+
+</div>
+

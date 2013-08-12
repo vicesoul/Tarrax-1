@@ -63,6 +63,7 @@ class Course < ActiveRecord::Base
                   :hide_distribution_graphs,
                   :lock_all_announcements,
                   :course_category_id,
+                  :course_columns_attributes,
                   :sub_type
 
   serialize :tab_configuration
@@ -178,6 +179,8 @@ class Course < ActiveRecord::Base
   attr_accessor :import_source
   has_many :zip_file_imports, :as => :context
   has_many :content_participation_counts, :as => :context, :dependent => :destroy
+  has_many :course_columns, :dependent => :destroy, :order => :position
+  has_many :active_course_columns, :class_name => 'CourseColumn', :dependent => :destroy, :order => :position, :conditions => [ "show = ?", true ]
 
   include Profile::Association
 
@@ -3128,5 +3131,13 @@ class Course < ActiveRecord::Base
     progress.delayed_job_id = job.id
     progress.save!
     progress
+  end
+
+  def show_default_columns?
+    for_college?
+  end
+
+  def for_college?
+    account.try(:school_category) == 'high_ed'
   end
 end

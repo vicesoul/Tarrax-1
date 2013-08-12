@@ -1531,6 +1531,7 @@ en:
   button: 
     submit_assignment: "Submit Assignment"
   buttons: 
+    add: Add
     add_external_tool: "Add External Tool"
     add_item: "Add Item"
     apply: Apply
@@ -2043,8 +2044,10 @@ en:
         ya: "Yes"
         your_option: "Your option is"
       empty_issue: "Empty case issues"
+      has_solutions: "Has solutions"
       headings: 
         author: Author
+        documented_by_knowledge_base: "Documented by Knowledge Base"
         op: Operation
         solutions: Solutions
         state: State
@@ -2057,6 +2060,7 @@ en:
         review: Review
         submit: Submit
       new_issue: "New case_issue"
+      push_to_knowledge_base: "Push to Knowledge Base"
       selector: 
         author: Author
         query: Query
@@ -2090,7 +2094,7 @@ en:
       title: Title
       updated_at: "Updated At"
     index: 
-      dont_push_to_knowledge_base: "Don't push to Knowledge Base"
+      accept: Accept
       empty_solutions: "Empty case solutions"
       headings: 
         author: Author
@@ -2102,13 +2106,14 @@ en:
       links: 
         review: Review
         submit: Submit
-      recommend: Recommend
-      review: Review
+      reject: Reject
+      remodify: Remodify
       selector: 
         author: Author
         query: Query
         state: State
         title: Title
+      unedited_solution: "Unedited Solution"
       your_option: "Your option is"
     not: "No"
     show: 
@@ -2121,10 +2126,11 @@ en:
       title: Title
       updated_at: "Updated At"
     state_array: 
+      accepted: Accepted
       being_reviewed: "Being reviewed"
       executing: Executing
-      recommended: Recommended
-      reviewed: Reviewed
+      rejected: Rejected
+      remodified: Remodified
     ya: "Yes"
   case_tpls: 
     bread_crumb: 
@@ -2148,6 +2154,7 @@ en:
       new_tpl: "New Case Template"
     model_init: 
       content: Content
+      default_knowledge_tpl: "Default knowledge template"
       default_tpl: "Default case issue template"
       subject: Subject
       tpl: "Case Tpl"
@@ -3479,6 +3486,20 @@ en:
     postgraduate_examinations: "Postgraduate examinations"
     professional_skills: "Professional skills"
     selfstudy_examination: "Self-study examination"
+  course_column: 
+    are_you_sure: "Are your sure?"
+    calendar: Calendar
+    default_column_name: "Course Column Name"
+    faculty: Faculty
+    flash: 
+      columns: "Course Column successfully saved."
+      columnsError: "Something went wrong updating the course's column. Please try again later."
+    guide: Guides
+    intro: Introduction
+    materials: Materials
+    produce_team: "Produce Team"
+    requirments: Requirments
+    syllabus: Syllabus
   course_exports: 
     errors: 
       assignment: "The assignment \"%{title}\" failed to export"
@@ -3630,6 +3651,8 @@ en:
         one: "1 needs grading"
         other: "%{count} need grading"
       points_possible: "out of %{points_possible}"
+    columns_info: 
+      course_columns_info: "Course Columns Info"
     confirm_action: 
       buttons: 
         conclude_course: "Conclude Course"
@@ -3659,6 +3682,8 @@ en:
         start_at: "Start Date"
       titles: 
         copy_course: "Copy Course"
+    course_columns: 
+      name: Name
     course_wizard_box: 
       buttons: 
         publish: "Publish Course"
@@ -3734,12 +3759,15 @@ en:
         enrollment_type: "Enrollment Type"
     errors: 
       create_failed: "Course creation failed"
+      invalid_columns: "Invalid course columns"
       invalid_course_category: "Invalid course category"
       invalid_role: "Invalid role type"
       role_not_active: "Can't add users for non-active role: '%{role}'"
       role_not_found: "No role named '%{role}' exists."
       unauthorized: 
         switch_roles: "You do not have permission to switch roles"
+    folder: 
+      student_folder: "Student Folder"
     group_list: 
       headings: 
         groups: "Course Groups"
@@ -3806,6 +3834,7 @@ en:
         add_section: "Add Section"
         move_course: "Move Course"
         update_course: "Update Course Details"
+      columns: Columns
       course_open_enrollment: "This course has enabled open enrollment. Students can self-enroll in the course once you share with them this URL: *%{url}*. Alternatively, they can sign up at *%{url2}* and use the following join code: *%{code}*"
       course_overrides_term: "This will override any term availability settings."
       date_restricted: "Users can only participate in the course between these dates"
@@ -3879,6 +3908,8 @@ en:
         storage_quota: "File Storage"
         turnitin_comments: "Turnitin Comments"
       language_overrides_preferences: "This will override any user/system language preferences. This is only recommended for foreign language courses"
+      line_column_view: 
+        edit: Edit
       link_to_students_view: 
         link_student_action: "To link the course observer *%{name}* to a student, select the student's name from the list below."
         link_student_desc: "When an observer is linked to a student, they have access to that student's grades and course interactions."
@@ -3907,6 +3938,7 @@ en:
       tab_hidden_if_disabled: "Page disabled, won't appear in navigation"
       tabs: 
         alerts: Alerts
+        columns: "Course Columns"
         details: "Course Details"
         grade_publishing: "Grade Publishing"
         navigation: Navigation
@@ -3950,6 +3982,7 @@ en:
       buttons: 
         update_layout: "Update Layout"
       coming_up: "Coming Up"
+      course_columns: "Course Columns"
       details: 
         assignments: "This view shows the **list of assignments** for this course, with upcoming and recent assignments at the top."
         confirm_unenroll: "Are you sure you want to unenroll in this course? You will no longer be able to see the course roster or communicate directly with the teachers, and you will no longer see course events in your stream and as notifications."
@@ -6303,6 +6336,7 @@ en:
       headings: 
         author: Author
         op: Operation
+        source: Source
         state: State
         subject: Subject
         updated_at: "Update At"
@@ -6315,17 +6349,22 @@ en:
       selector: 
         author: Author
         query: Query
+        source: Source
         state: State
         subject: Subject
-    knowledge_setting: "Knowledge Setting"
     model_init: 
       default_tpl: "Default Knowledge Template"
+      knowledge: Knowledge
     new: 
       new_knowledge: "New Knowledge"
     show: 
       author: Author
       state: State
       updated_at: "Updated At"
+    source: 
+      case_issue: "Case Issue"
+      student: Student
+      teacher: Teacher
     state_array: 
       accepted: Accepted
       awaiting_review: "Awaiting Review"
@@ -10200,6 +10239,7 @@ en:
         start_learning: "Start Learning"
       labels: 
         join_code: "Join Code"
+        locale: Language
         name: "Full Name"
         password: Password
         password_confirmation: "Confirm Password"
@@ -10210,6 +10250,7 @@ en:
         start_learning: "Start Learning"
       labels: 
         email: Email
+        locale: Language
         name: "Full Name"
     teacher_dialog: 
       agree_to_terms_and_pp: "You agree to the *terms of use* and the **privacy policy**."
@@ -10260,6 +10301,7 @@ en:
       manage_sis: "Import and manage SIS data"
       manage_site_settings: "Manage site-wide and plugin settings"
       manage_students: "Add/remove students for the course"
+      manage_teacher_bank: "Manage teacher bank"
       manage_user_logins: "Modify login details for users"
       manage_user_notes: "Manage faculty journal entries"
       manage_wiki: "Manage wiki (add / edit / delete pages)"
@@ -11698,7 +11740,7 @@ en:
       course_full: "This course is full"
       invalid_code: "Invalid Code"
       required: Required
-      terms: "cYou must agree to the terms"
+      terms: "You must agree to the terms"
       too_long: "Can't exceed %{max} characters"
     registration: 
       agree_to_terms: "You agree to the *terms of use*."

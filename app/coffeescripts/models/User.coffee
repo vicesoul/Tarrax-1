@@ -38,7 +38,7 @@ define [
         already_enrolled: I18n.t("errors.already_enrolled", "You are already enrolled in this course")
         full:         I18n.t("errors.course_full", "This course is full")
       terms_of_use:
-        accepted:     I18n.t("errors.terms", "cYou must agree to the terms")
+        accepted:     I18n.t("errors.terms", "You must agree to the terms")
 
     pending: (role) ->
       _.any @get('enrollments'), (e) -> e.role == role && e.enrollment_state in ['creation_pending', 'invited']

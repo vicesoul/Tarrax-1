@@ -233,6 +233,9 @@ This layout is probably best for courses that aren't based on a specific schedul
   <div class="clear"></div>
 </div>
 <div id="course_home_content">
+  <div style="margin-left: 1em; float: right; text-align: left; font-size: 0.9em;" class="floating_links clearfix">
+    <%= link_to t('course_columns', "Course Columns"), course_columns_info_path(:course_id => @context.id) if @context.course_columns.size > 0 %>
+  </div>
   <div style="float: right; text-align: left;" class="floating_links clearfix">
     <% if can_do(@context, @current_user, :manage_content) || @course_home_view != 'feed' %>
       <div style="font-size: 0.9em;">
@@ -260,6 +263,7 @@ This layout is probably best for courses that aren't based on a specific schedul
     <%= render :partial => 'shared/dashboard_messages' %>
     <%= render :partial => 'shared/recent_activity' %>
   <% end %>
+
 </div>
 <% if @context.public_license? %>
   <div style="margin-top: 20px;">

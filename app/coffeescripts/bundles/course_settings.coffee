@@ -4,6 +4,7 @@ require [
   'compiled/collections/UserCollection'
   'compiled/pickup_users'
   'compiled/pickup_teachers'
+  'compiled/views/course_settings/CourseColumnsView'
   'compiled/views/course_settings/tabs/tabUsers'
   'vendor/jquery.cookie'
   'course_settings'

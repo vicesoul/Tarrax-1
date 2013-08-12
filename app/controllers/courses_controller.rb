@@ -84,7 +84,7 @@ class CoursesController < ApplicationController
   include SearchHelper
 
   before_filter :require_user, :only => [:index, :to_be_attended]
-  before_filter :require_context, :only => [:roster, :locks, :switch_role, :create_file, :create_public_file_for_student]
+  before_filter :require_context, :only => [:roster, :locks, :switch_role, :create_file, :create_public_file_for_student, :columns_info]
 
   include Api::V1::Course
   include Api::V1::Progress
@@ -1557,4 +1557,20 @@ class CoursesController < ApplicationController
     @course_systems = @current_user.course_systems
   end
 
+  def update_columns
+    @course = api_find(Course, params[:course_id])
+    return unless authorized_action(@course, @current_user, :update)
+
+    respond_to do |format|
+      if @course.update_attributes params[:course]
+        flash[:notice] = t('notices.updated', 'Course was successfully updated.')
+        format.html { redirect_to :back }
+        format.json { render :json => api_json(@course.course_columns, @current_user, session) }
+      else
+        flash[:error] = t('errors.invalid_columns', "Invalid course columns")
+        format.html { render :action => "edit" }
+        format.json { render :json => @course.errors.to_json, :status => :bad_request }
+      end
+    end
+  end
 end
