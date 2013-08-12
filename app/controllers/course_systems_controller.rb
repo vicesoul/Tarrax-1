@@ -10,13 +10,13 @@ class CourseSystemsController < ApplicationController
       scoped = CourseSystem.of_account(@course_account)
       scoped = scoped.of_job_position(search_params[:job_position_id]) # job_position always be a condition even if it's nil
       scoped = scoped.of_course_category(search_params[:course_category_ids]) unless search_params[:course_category_ids].blank?
-      @rest_courses = @course_account.courses
+      @rest_courses = @course_account.courses.active
       @rest_courses = @rest_courses.of_course_category(search_params[:course_category_ids]) unless search_params[:course_category_ids].blank?
       @rest_courses = @rest_courses - scoped.map(&:course)
     else
       @course_account = @account
       scoped = CourseSystem.of_account(@course_account).of_job_position(nil)
-      @rest_courses = @course_account.courses - scoped.map(&:course)
+      @rest_courses = @course_account.courses.active - scoped.map(&:course)
     end
 
     @grouped_courses = CourseSystem.group_courses_by_rank scoped

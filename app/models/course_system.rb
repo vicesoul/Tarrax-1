@@ -21,6 +21,8 @@ class CourseSystem < ActiveRecord::Base
     { :joins => :course, :conditions => {:courses => {:course_category_id => category}} }
   }
 
+  named_scope :active, {:joins => :course, :conditions => "workflow_state != 'deleted'" }
+
   named_scope :of_account, lambda { |account|
     { :conditions => {:account_id => account} }
   }
