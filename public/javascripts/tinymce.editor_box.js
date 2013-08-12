@@ -115,9 +115,16 @@ define([
     }
 
       // 2012-11-01 rupert
-    var instructure_buttons = ",instructure_embed,instructure_equation,instructure_drawing,instructure_add_rackets,instructure_handWrite,instructure_upload_image";
+    var instructure_buttons = ",instructure_equation,instructure_add_rackets";
       // end
 
+	  if( ENV.rich_content !== false ){
+	    instructure_buttons = instructure_buttons + ",instructure_embed";
+	  	instructure_buttons = instructure_buttons + ",instructure_drawing";
+		instructure_buttons = instructure_buttons + ",instructure_handWrite";
+		instructure_buttons = instructure_buttons + ",instructure_upload_image";
+	  }
+	  
     for(var idx in INST.editorButtons) {
       // maxVisibleEditorButtons should be the max number of external tool buttons
       // that are visible, INCLUDING the catchall "more external tools" button that

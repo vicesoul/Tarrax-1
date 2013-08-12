@@ -4,6 +4,7 @@
   js_bundle :account_settings
   jammit_css :account_settings, :reports, :tinymce
   content_for :page_title, t(:page_title, "Account Settings")
+  js_env :rich_content => false
 %>
 
 <% content_for :right_side do %>
