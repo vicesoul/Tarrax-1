@@ -812,7 +812,8 @@ define([
 
     function jumpToUrl( contentTag ){
       var courseId = contentTag.context_code.split('_')[1]
-        contentId = contentTag.content_id;
+        contentId = contentTag.content_id,
+		contentTitle = contentTag.title;
 
       switch (contentTag.type)
       {
@@ -827,6 +828,11 @@ define([
         case 'assignment':
         window.location.href = '/courses/' + courseId + '/assignments/' + contentId + '/edit'
         break;
+		
+	    case 'wiki_page':
+	    window.location.href = '/courses/' + courseId + '/wiki/' + contentTitle + '?module_item_id=1#edit'
+	    break;
+		
       }
     }
 
